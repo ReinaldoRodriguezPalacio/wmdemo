@@ -26,6 +26,8 @@ class Product : NSManagedObject {
     @NSManaged var pieces: NSNumber
     @NSManaged var department : String
     @NSManaged var equivalenceByPiece : NSNumber
+    @NSManaged var stock : Bool
+    @NSManaged var promoDescription : String
     
     @NSManaged var cart : Cart
     @NSManaged var list: List

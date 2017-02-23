@@ -891,7 +891,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
             listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         } else if let item = self.products![indexPath.row] as? Product {
-            listCell.setValues(item, disabled:!self.selectedItems!.contains(indexPath.row))
+            listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         }
         
         if self.isEdditing {
