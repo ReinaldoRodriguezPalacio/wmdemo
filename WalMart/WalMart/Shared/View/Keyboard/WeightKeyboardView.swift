@@ -34,10 +34,10 @@ class WeightKeyboardView : UIView {
         generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
     }
     
-    func generateButtons(_ normal:UIColor,selected:UIColor) {
+    func generateButtons(_ normal: UIColor, selected: UIColor) {
         
         let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
-        let imageSelected = generateCircleImage(selected, size:CGSize(width: widthButton, height: widthButton))
+        let imageSelected = generateCircleImage(selected, size: CGSize(width: widthButton, height: widthButton))
         let yPosition = (frame.height == 320 && !IS_IPAD) ? (frame.height - 183) / 3 : 20
         
         btngramos = UIButton(frame: CGRect(x: 1, y: yPosition, width: widthButton, height: widthButton))
@@ -169,17 +169,19 @@ class WeightKeyboardView : UIView {
 
     }
     
-    func generateCircleImage (_ colorImage:UIColor,size:CGSize) -> UIImage {
-        var screenShot : UIImage? = nil
+    func generateCircleImage (_ colorImage: UIColor, size: CGSize) -> UIImage {
+        var screenShot: UIImage? = nil
         autoreleasepool {
-            let tempView = UIView(frame: CGRect(x: 0, y: 0, width: (size.width - 2), height: (size.height - 2)))
-            tempView.backgroundColor = colorImage
-            tempView.layer.cornerRadius = (size.width - 2) / 2
             
-            UIGraphicsBeginImageContext(size);
+            let tempView = UIView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            tempView.backgroundColor = colorImage
+            tempView.layer.cornerRadius = size.width / 2
+            
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             tempView.layer.render(in: UIGraphicsGetCurrentContext()!)
-            screenShot = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            screenShot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
         }
         
         return screenShot!
