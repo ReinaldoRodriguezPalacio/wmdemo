@@ -109,24 +109,27 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.titleLabel.isHidden = hideImage
         self.imageIcon.isHidden = hideImage
         
+        if IS_IPHONE_6 || IS_IPHONE_6P {
+            imageBackground.contentMode = .scaleAspectFill
+        }
+        
     }
     
     func setValuesLanding(_ imageBackgroundURL:String) {
         
-        
-        //println("Imagen del header en: \(imageBackgroundURL) ")
         self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
-            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                print(error)
+        }) { (request: URLRequest, response: HTTPURLResponse?, error: Error) -> Void in
+            print(error)
         }
-        
-        //self.titleLabel.text = title
         
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true
+        
+        if IS_IPHONE_6 || IS_IPHONE_6P {
+            imageBackground.contentMode = .scaleAspectFill
+        }
         
     }
     
@@ -145,21 +148,29 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     }
     
     func animateToOpenDepartment(_ widthEnd:CGFloat,endAnumating:(() -> Void)?) {
+        
         self.startFrame = self.frame
         self.addGestureTiImage()
+        
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.frame = CGRect(x: 0, y: 0, width: widthEnd, height: self.frame.height)
-                self.imageBackground.frame = self.bounds
-                self.titleLabel.frame = CGRect(x: (widthEnd / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
-                self.imageIcon.frame = CGRect(x: (widthEnd / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
-                self.buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-                self.buttonClose.alpha = 1
-            }, completion: { (complete:Bool) -> Void in
-                self.titleLabel.frame = CGRect(x: 0, y: self.titleLabel.frame.minY, width: widthEnd, height: self.titleLabel.frame.height)
-                if endAnumating != nil {
-                    endAnumating!()
-                }
-        }) 
+            
+            self.frame = CGRect(x: 0, y: 0, width: widthEnd, height: self.frame.height)
+            self.imageBackground.frame = self.bounds
+            self.titleLabel.frame = CGRect(x: (widthEnd / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
+            self.imageIcon.frame = CGRect(x: (widthEnd / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
+            self.buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            self.buttonClose.alpha = 1
+            
+            if IS_IPHONE_6 || IS_IPHONE_6P {
+                self.imageBackground.contentMode = .scaleAspectFill
+            }
+            
+        }, completion: { (complete:Bool) -> Void in
+            self.titleLabel.frame = CGRect(x: 0, y: self.titleLabel.frame.minY, width: widthEnd, height: self.titleLabel.frame.height)
+            if endAnumating != nil {
+                endAnumating!()
+            }
+        })
     }
   
     func addGestureTiImage(){
