@@ -838,12 +838,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-                    if let listId = listItem["id"] as? String {
-                      self.deleteListInDB(listId)
-                        
-                        self.invokeDeleteListService(listId)
-                       
+                if  UserCurrentSession.hasLoggedUser() {
+                    if let listEntity = self.itemsUserList![indexPath.row] as? List {
+                        let listId = listEntity.idList
+                        self.invokeDeleteListService(listId!)
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
@@ -872,33 +870,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         default:
             print("other pressed")
         }
-    }
-    
-    /**
-     create query to delete list fromid list in db
-     
-     - parameter idList: id list
-     */
-    func deleteListInDB(_ idList:String){
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
-        fetchRequest.predicate = NSPredicate(format: "idList == %@", idList)
-        
-        let result: [List] = (try! context.fetch(fetchRequest)) as! [List]
-        if result.count > 0 {
-            for listDetail in result {
-                context.delete(listDetail)
-            }
-            do {
-                try context.save()
-            } catch {
-                abort()
-            }
-        }
-        
     }
     
     func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
@@ -1356,6 +1327,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             service.buildParams(listId)
             service.callService(nil,
                 successBlock:{ (result:[String:Any]) -> Void in
+                    service.deleteListInDB(listId)
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteListDone", comment:""))
