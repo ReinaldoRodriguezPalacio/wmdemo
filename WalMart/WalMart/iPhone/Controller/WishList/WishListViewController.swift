@@ -822,7 +822,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func invokeWishlistService() {
         let service = UserWishlistService()
-        service.callService(
+        service.callCoreDataService(
             { (wishlist:[String:Any]) -> Void in
                 self.items = wishlist["items"] as! [[String:Any]]
             

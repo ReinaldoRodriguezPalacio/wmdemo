@@ -295,6 +295,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
             })
             
+            self.invokeWishListService()
+            
             self.tableuserlist?.reloadData()
             self.checkEditBtn()
             if !self.newListEnabled && !self.isEditingUserList {
@@ -1702,6 +1704,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }, errorBlock: { (error:NSError) -> Void in
             print("Call DefaultListService error \(error)")
             self.updateNumberOfDefaultList()
+        })
+    }
+    
+    
+    func invokeWishListService() {
+        let service = UserWishlistService()
+        service.callCoreDataService({(result:[String:Any]) -> Void in
+            print("Call WishList Service sucess")
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Call WishList Service error \(error)")
         })
     }
     
