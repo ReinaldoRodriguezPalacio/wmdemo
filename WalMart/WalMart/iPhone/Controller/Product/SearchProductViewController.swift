@@ -445,7 +445,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPoint.zero
-        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint - 44)
+        let spaceHeight : CGFloat = IS_IPAD ? 0.0 : 44.0
+        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint - spaceHeight)
         self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
@@ -453,7 +454,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
             startPoint = 46
-            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint - 44))
+            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint - spaceHeight))
         }
 
         //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
