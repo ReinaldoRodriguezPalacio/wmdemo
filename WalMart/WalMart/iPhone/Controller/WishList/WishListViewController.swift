@@ -289,11 +289,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
+            
+            self.invokeWishlistService()
 
-            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                self.invokeWishlistService()
-
-            })
+//            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+//                self.invokeWishlistService()
+//
+//            })
         }
         
     }

@@ -276,8 +276,9 @@ class UserCurrentSession : NSObject {
         }
 
         self.loadShoppingCarts { () -> Void in
-          self.invokeGroceriesUserListService()
+          
         }
+        self.invokeGroceriesUserListService()
         
     }
     
@@ -552,14 +553,21 @@ class UserCurrentSession : NSObject {
     func invokeGroceriesUserListService() {
         //Update users lists on core data
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
-            let userListsService = GRUserListService()
-            userListsService.callService([:],
-                successBlock: { (result:[String:Any]) -> Void in
+        let userListsService = GRUserListService()
+        userListsService.callService([:],
+            successBlock: { (result:[String:Any]) -> Void in
 
-                },
-                errorBlock: { (error:NSError) -> Void in
+            },
+            errorBlock: { (error:NSError) -> Void in
                     
-            })
+        })
+        
+        let userWishListsService = UserWishlistService()
+        userWishListsService.callService({(result:[String:Any]) -> Void in
+                                        
+            },errorBlock: { (error:NSError) -> Void in
+                                        
+        })
             
         //})
     }
