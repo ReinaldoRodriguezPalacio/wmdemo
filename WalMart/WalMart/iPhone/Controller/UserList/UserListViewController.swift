@@ -637,8 +637,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.newListEnabled = true
                             self.cancelNewList()
 
-                            for itemList in self.itemsUserList! as! [[String:Any]] {
-                                if (itemList["name"] as! String) == value {
+                            for itemList in self.itemsUserList! as! [List] {
+                                if itemList.name == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
                                     return
                                 }
