@@ -276,8 +276,9 @@ class UserCurrentSession : NSObject {
         }
 
         self.loadShoppingCarts { () -> Void in
-          self.invokeGroceriesUserListService()
         }
+        self.invokeGroceriesUserListService()
+        
         self.invokeWishListService()
         
     }
