@@ -252,10 +252,12 @@ class GRSaveUserListService : GRBaseService {
     }
     
     func saveContext(_ context:NSManagedObjectContext) {
-        do {
-            try context.save()
-        } catch{
-            print("error at delete details: saveContext")
+        if self.managedContext!.hasChanges {
+            do {
+                try context.save()
+            } catch{
+                print("error at delete details: saveContext")
+            }
         }
     }
 }

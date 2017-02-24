@@ -149,8 +149,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 
                 if self.emptyOrder == nil {
                     self.emptyOrder = IPOSearchResultEmptyView(frame:CGRect(x: 0, y: maxY, width: width, height: height - maxY))
-                    self.emptyOrder.iconImageView.contentMode = .scaleAspectFill
-                    self.emptyOrder.iconImageView.image = UIImage(named:"bg_pedidos_empty")
+                    self.emptyOrder.bgImageView.contentMode = .scaleAspectFill
+                    self.emptyOrder.bgImageView.image = UIImage(named:"bg_pedidos_empty")
                     self.emptyOrder.returnButton.removeFromSuperview()
                 }
                 

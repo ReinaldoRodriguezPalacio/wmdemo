@@ -347,13 +347,15 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
      */
     func saveContext() {
         var error: NSError? = nil
-        do {
-            try self.managedContext!.save()
-        } catch let error1 as NSError {
-            error = error1
-        }
-        if error != nil {
-            print("error at save context on UserListViewController: \(error!.localizedDescription)")
+        if self.managedContext!.hasChanges {
+            do {
+                try self.managedContext!.save()
+            } catch let error1 as NSError {
+                error = error1
+            }
+            if error != nil {
+                print("error at save context on UserListViewController: \(error!.localizedDescription)")
+            }
         }
     }
 

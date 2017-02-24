@@ -94,9 +94,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         view.addSubview(tableShoppingCart)
         view.addSubview(viewHeader)
         
-        viewFooter = UIView(frame: CGRect(x: 0, y: self.view.bounds.height - 72 - 44 , width: self.view.bounds.width, height: 72))
+        viewFooter = UIView(frame: CGRect(x: 0, y: self.view.bounds.height, width: self.view.bounds.width - 72 - 44, height: 72))
         viewFooter.backgroundColor = UIColor.white
         viewFooter.alpha = 0
+        
+        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 1))
+        viewBorderTop.backgroundColor = WMColor.light_light_gray
         
         addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: viewFooter.frame.height))
         addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
@@ -116,6 +119,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         viewFooter.addSubview(self.addToListButton!)
         viewFooter.addSubview(buttonShare)
         viewFooter.addSubview(buttonShop)
+        viewFooter.addSubview(viewBorderTop)
         view.addSubview(viewFooter)
         
         //Edit 
@@ -174,15 +178,25 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHeader.frame.height - 72 - 44)
-        self.viewFooter.frame = CGRect(x: 0, y:self.view.bounds.height - 72 - 44 , width: self.view.bounds.width, height: 72)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.viewFooter.alpha = 1
-        })
+        
+        if viewFooter.alpha == 0 {
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.viewFooter.alpha = 1
+            })
+            
+            viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 - 59 , width: self.view.bounds.width, height: 72)
+        }
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -200,7 +214,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         view.addSubview(emptyView)
         
-        emptyView.iconImageView.image = UIImage(named:"empty_cart")
+        emptyView.bgImageView.image = UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {

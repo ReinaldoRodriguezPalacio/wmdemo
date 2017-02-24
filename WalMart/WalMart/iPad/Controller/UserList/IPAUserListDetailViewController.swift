@@ -367,9 +367,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             return
         }
         
-        if let item = self.products![indexPath!.row] as? [String:Any] {
-            // TODO: cast values from response
-        } else if let item = self.products![indexPath!.row] as? Product {
+        if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
        
@@ -379,9 +377,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 
                 self.sharePopover?.dismiss(animated: false)
                 
-                if let item = self.products![indexPath!.row] as? [String:Any] {
-                    let upc = item["upc"] as? String
-                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd: self.quantitySelector!.orderByPiece ? "EA" : "GM")
+                if UserCurrentSession.hasLoggedUser() {
+                    if let product = self.products![indexPath!.row] as? Product {
+                        self.invokeUpdateProductFromListService(product, quantity: Int(quantity)!,baseUomcd: self.quantitySelector!.orderByPiece ? "EA" : "GM")
+                    }
                 } else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
@@ -462,8 +461,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(_ upc: String, succesDelete: @escaping (() -> Void)) {
-        super.invokeDeleteProductFromListService(upc) { () -> Void in
+    override func invokeDeleteProductFromListService(_ product:Product, succesDelete: @escaping (() -> Void)) {
+        super.invokeDeleteProductFromListService(product) { () -> Void in
             self.delegate!.reloadTableListUser()
         }
         

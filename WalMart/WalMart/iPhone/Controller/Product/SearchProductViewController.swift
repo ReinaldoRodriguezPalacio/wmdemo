@@ -445,8 +445,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPoint.zero
-        let spaceHeight : CGFloat = IS_IPAD ? 0.0 : 44.0
-        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:self.view.bounds.height - startPoint - spaceHeight)
+        var heightCollection = self.view.bounds.height - startPoint
+        if !IS_IPAD {
+            heightCollection -= 44
+        }
+        print("heigth collection \(heightCollection)")
+        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
         self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
@@ -454,7 +458,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
             startPoint = 46
-            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height:(self.view.bounds.height - startPoint - spaceHeight))
+            self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
+
         }
 
         //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
@@ -896,6 +901,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                 }
             })
+            
         }
         else {
             print("No existe contexto de busqueda. Es necesario indicar el contexto")
@@ -1622,13 +1628,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.loading?.stopAnnimating()
       
+        var heightEmpty = self.view.bounds.height - maxY
+        if !IS_IPAD && !IS_IPHONE_4_OR_LESS && !IS_IPHONE_6P {
+            heightEmpty -= 44
+        }
+        
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY - 44))
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty))
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY - 44)
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
         if btnSuper.isSelected {
@@ -1636,7 +1647,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
         }
-         self.view.addSubview(self.emptyMGGR)
+        self.view.addSubview(self.emptyMGGR)
        
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
     }

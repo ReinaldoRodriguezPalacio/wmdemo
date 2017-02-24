@@ -16,7 +16,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
             self.navigationController!.setNavigationBarHidden(true, animated: true)
         }
          super.viewDidLoad()
-        self.emptyView.iconImageView.image = UIImage(named:"empty_recent")
+        self.emptyView.bgImageView.image = UIImage(named:"empty_recent")
         self.emptyView.returnButton.isHidden = true
     }
     
