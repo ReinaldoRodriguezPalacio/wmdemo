@@ -248,6 +248,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.productShortDescriptionLabel!.text = description
         self.orderByPieces = product.orderByPiece.boolValue
         self.pieces = Int(product.pieces)
+        self.promoDescription!.text = product.promoDescription
         
         let quantity = product.quantity
         let price = product.price.doubleValue
@@ -293,6 +294,16 @@ class DetailListViewCell: ProductTableViewCell {
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)" as NSString)
         self.total = formatedPrice
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+        
+        if product.stock {
+            self.quantityIndicator!.isEnabled = true
+            self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.hasStock = true
+        } else {
+            self.quantityIndicator!.isEnabled = false
+            self.quantityIndicator!.backgroundColor = WMColor.light_gray
+            self.hasStock = false
+        }
         
         checkDisabled(disabled)
     }

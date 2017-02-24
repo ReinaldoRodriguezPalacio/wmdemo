@@ -637,14 +637,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isDeleting = true
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
         if let indexPath = self.tableView!.indexPath(for: cell) {
-            if let item = self.products![indexPath.row] as? [String:Any] {
-                if let upc = item["upc"] as? String {
+            if UserCurrentSession.hasLoggedUser() {
+                    if let item = self.products![indexPath.row] as? Product {
                     //Event
                     if self.selectedItems!.contains(indexPath.row) {
                         self.selectedItems?.remove(indexPath.row)
                     }
                     self.fromDelete =  true
-                    self.invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+                    self.invokeDeleteProductFromListService(item, succesDelete: { () -> Void in
                         self.isDeleting = false
                         print("succesDelete")
                     })
@@ -652,7 +652,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             else if let item = self.products![indexPath.row] as? Product {
                 self.managedContext!.delete(item)
-                self.saveContext()
                 let count:Int = self.listEntity!.products.count
                 self.listEntity!.countItem = NSNumber(value: count as Int)
                 self.saveContext()
@@ -675,9 +674,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 54))
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 64))
         }else{
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 44 - 54))
+            let heightempty = self.view!.superview == nil ? height - self.footerSection!.frame.height - 9 : self.view.frame.height - 64
+            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
         }
         self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
@@ -891,7 +891,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
             listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         } else if let item = self.products![indexPath.row] as? Product {
-            listCell.setValues(item, disabled:!self.selectedItems!.contains(indexPath.row))
+            listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         }
         
         if self.isEdditing {
@@ -1040,9 +1040,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                if let item = self.products![indexPath!.row] as? [String:Any] {
-                    let upc = item["upc"] as? String
-                    self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
+                if UserCurrentSession.hasLoggedUser() {
+                    if let item = self.products![indexPath!.row] as? Product {
+                        self.invokeUpdateProductFromListService(item, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
+                    }
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
@@ -1149,7 +1150,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
     
-    func invokeDeleteProductFromListService(_ upc:String,succesDelete:@escaping (()->Void)) {
+    func invokeDeleteProductFromListService(_ product:Product,succesDelete:@escaping (()->Void)) {
         if !self.deleteProductServiceInvoked {
             
             let detailService = GRUserListDetailService()
@@ -1159,12 +1160,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
                 let service = GRDeleteItemListService()
-                service.callService(service.buildParams(upc),
+                service.callService(service.buildParams(product.upc),
                     successBlock:{ (result:[String:Any]) -> Void in
+                        
+                        self.managedContext!.delete(product)
+                        let count:Int = self.listEntity!.products.count
+                        self.listEntity!.countItem = NSNumber(value: count as Int)
+                        self.saveContext()
+                        
                         self.invokeDetailListService({ () -> Void in
-                            
-                            
-                            
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                             self.alertView!.showDoneIcon()
                             self.deleteProductServiceInvoked = false
@@ -1227,9 +1231,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
     
-    func invokeUpdateProductFromListService(_ upc:String, quantity:Int,baseUomcd:String) {
+    func invokeUpdateProductFromListService(_ product: Product, quantity:Int,baseUomcd:String) {
         if quantity == 0 {
-            invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+            invokeDeleteProductFromListService(product, succesDelete: { () -> Void in
                 print("succesDelete")
             })
             return
@@ -1243,8 +1247,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
         
         let service = GRUpdateItemListService()
-        service.callService(service.buildParams(upc: upc, quantity: quantity,baseUomcd:baseUomcd),
+        service.callService(service.buildParams(upc: product.upc, quantity: quantity,baseUomcd:baseUomcd),
             successBlock: { (result:[String:Any]) -> Void in
+                
+                product.quantity = NSNumber(value: Int(quantity) as Int)
+                product.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
+                product.pieces =  NSNumber(value:Int(quantity)) 
+                self.saveContext()
+                
                 self.invokeDetailListService({ () -> Void in
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
@@ -1350,67 +1360,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     
     func saveContext() {
-        do {
-            try self.managedContext!.save()
-        } catch {
-            print("error at save context on UserListViewController")
+        if self.managedContext!.hasChanges {
+            do {
+                try self.managedContext!.save()
+            } catch {
+                print("error at save context on UserListViewController")
+            }
         }
     }
     
-    //TODO: Delete
-//    //MARK: - IPOBaseController scrollViewDelegate
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        self.addProductsView?.textFindProduct?.resignFirstResponder()
-//        
-//        if !self.enableScrollUpdateByTabBar {
-//            return
-//        }
-//        
-//        let currentOffset: CGFloat = scrollView.contentOffset.y
-//        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-//        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
-//        lastContentOffset = currentOffset
-//        
-//        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-//            TabBarHidden.isTabBarHidden = true
-//            self.isVisibleTab = false
-//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
-//
-//                //self.willHideTabbar()
-//                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-//            }
-//        }
-//        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
-//            TabBarHidden.isTabBarHidden = false
-//            self.isVisibleTab = true
-//            if(scrollView.isTracking && (abs(differenceFromLast)>0.20)) {
-//                let bottom : CGFloat = self.footerSection!.frame.height + 45.0
-//                self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-//                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
-//                
-//                self.willShowTabbar()
-//                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
-//            }
-//        }
-//    }
-
-    //TODO: Delete
-//    override func willShowTabbar() {
-//        self.footerConstraint!.constant = 45.0
-//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-//    
-//    override func willHideTabbar() {
-//        self.footerConstraint!.constant = 0.0
-//        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-    
+        
     func reloadTableListUser(){
         
     }
@@ -1500,6 +1459,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                                 service.callService(self.nameField!.text!,
                                                                     successBlock: { (result:[String:Any]) -> Void in
                                                                         self.titleLabel?.text = self.nameField?.text
+                                                                        service.updateListNameDB(self.listId!, listName: self.nameField!.text!)
                                                                         self.reminderService!.updateListName(self.nameField!.text!)
                                                                         self.loadServiceItems({ () -> Void in
                                                                             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
@@ -1587,12 +1547,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func backEmpty() {
         super.back()
-         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
 
     override func back() {
         super.back()
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
     //MARK: - Reminder

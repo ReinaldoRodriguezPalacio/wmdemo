@@ -87,5 +87,4 @@ class GRBaseService : BaseService {
     static func getUseSignalServices() ->Bool{
         return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
-    
 }

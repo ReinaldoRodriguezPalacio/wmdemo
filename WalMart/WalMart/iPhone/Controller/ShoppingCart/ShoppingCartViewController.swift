@@ -145,6 +145,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         viewHerader.addSubview(titleView)
         
         viewFooter = UIView()
+        viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 - 59 , width: self.view.bounds.width, height: 72)
         viewFooter.backgroundColor = UIColor.white
 
         showDiscountAsociate()
@@ -211,19 +212,25 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
             
+            loadCrossSell()
+            
             UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
                 self.loadShoppingCartService()
+                self.removeLoadingView()
             }
+            
         } else {
-            self.loadShoppingCartService()
+            loadShoppingCartService()
         }
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        self.showDiscountAsociate()
+        showDiscountAsociate()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -234,12 +241,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        
-        
-       // self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
-        
         self.viewContent.frame = self.view.bounds
-        self.viewFooter.frame = CGRect(x: 0, y: viewContent.frame.height - 72 - 44 , width: self.viewContent.frame.width, height: 72)
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 72)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 75)
 
         if !self.isEdditing {
         self.titleView.frame = CGRect(x: (self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
@@ -247,18 +250,19 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
 
         self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
         self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
+        
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                     self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
             }
         }
-            
         
     }
     
     func showDiscountAsociate() {
-        var x:CGFloat = 16
-        // self.loadShoppingCartService()
+
+        var x: CGFloat = 16
+
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 
@@ -275,14 +279,17 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 x =  buttonAsociate.frame.maxX + 16
             }
         }
+        
         if buttonWishlist ==  nil {
             buttonWishlist = UIButton(frame: CGRect(x: x, y: 16, width: 34, height: 34))
-        }else{
+        } else {
             buttonWishlist.frame = CGRect(x: x, y: 16, width: 34, height: 34)
         }
+        
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), for: UIControlState())
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonWishlist)
+        
         var wShop: CGFloat =  341 - 82
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
@@ -295,6 +302,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 wShop = 341 - 135
             }
         }
+        wShop = wShop +  (IS_IPAD ? 0.0 : 32.0)
         if buttonShop == nil {
             buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop + 32.0, height: 34))
         }else {
@@ -358,11 +366,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
         
-        
-        self.loadCrossSell()
-        
-        self.removeLoadingView()
-
     }
     
     /**
@@ -832,14 +835,15 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      - parameter indexPath: selected row
      */
     func deleteRowAtIndexPath(_ indexPath: IndexPath) {
+        
         let itemWishlist = itemsInShoppingCart[indexPath.row]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        //let descriptions =  itemWishlist["description"] as! String
-        ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
+        
         if !UserCurrentSession.hasLoggedUser() {
-         BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
         }
+        
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
             self.itemsInShoppingCart.remove(at: indexPath.row)
             
@@ -848,11 +852,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             if self.itemsInShoppingCart.count == 0 {
                 self.navigationController!.popToRootViewController(animated: true)
+            } else {
+                self.loadCrossSell()
             }
             
-            }, errorBlock: { (error:NSError) -> Void in
-                print("delete pressed Errro \(error)")
+        }, errorBlock: { (error:NSError) -> Void in
+            print("delete pressed Errro \(error)")
         })
+        
     }
     
     /**
@@ -1329,44 +1336,51 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      Invoke cross Selling service, present related products in car
      */
     func loadCrossSell() {
+        
         if self.itemsInShoppingCart.count >  0 {
+            
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
+            
             crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
+                
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
+                    
                     if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
                         isShowingBeforeLeave = true
                     }
                     
                     self.itemsUPC = result!
+                    
                     if self.itemsUPC.count > 3 {
+                        
                         var arrayUPCS = self.itemsUPC
+                        
                         arrayUPCS.sort(by: { (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
                         })
+                        
                         var resultArray: [[String:Any]] = []
                         for item in arrayUPCS[0...2] {
                             resultArray.append(item)
                         }
                         self.itemsUPC = resultArray
-                        
-                        
-                        
                     }
+                    
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
                             self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
-                        }else{
+                        } else {
                             self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
                         }
                     }
-                    //self.collection.reloadData()
                     
                     if !self.beforeShopTag {
+                        
                         var position = 0
                         var positionArray: [Int] = []
                         
@@ -1378,15 +1392,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                         let listName = "Antes de irte"
                         let subCategory = ""
                         let subSubCategory = ""
+                        
                         BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
                         self.beforeShopTag = true
                     }
                     
-                }else {
-                    
                 }
-                }, errorBlock: { (error:NSError) -> Void in
-                    print("Termina sevicio app")
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Termina sevicio app")
             })
         }
     }
@@ -1420,6 +1433,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      Call delete itmes in sopping car,
      */
     func deleteAll() {
+        
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs: [String] = []
         

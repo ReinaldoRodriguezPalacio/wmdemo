@@ -73,6 +73,12 @@ class BaseService : NSObject {
     var urlForSession = false
     var useSignalsServices = false
     
+    lazy var managedContext: NSManagedObjectContext? = {
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        return context
+    }()
+    
     override init() {
         super.init()
         _ = BaseService.__once
@@ -598,6 +604,20 @@ class BaseService : NSObject {
         })
     }
 
-    
+    // CoreData SaveContext
+    func saveContext() {
+        var error: NSError? = nil
+        if self.managedContext!.hasChanges {
+            do {
+                try self.managedContext!.save()
+            } catch let error1 as NSError {
+                error = error1
+            }
+            if error != nil {
+                print("error at save context: \(error!.localizedDescription)")
+            }
+        }
+    }
+
 }
 

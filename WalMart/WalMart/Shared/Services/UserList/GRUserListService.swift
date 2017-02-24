@@ -13,12 +13,6 @@ class GRUserListService : GRBaseService {
 
     var isLoadingLists = false
     
-    lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        return context
-    }()
-
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
@@ -217,14 +211,7 @@ class GRUserListService : GRBaseService {
             }
             
             var error: NSError? = nil
-            do {
-                try self.managedContext!.save()
-            } catch let error1 as NSError {
-                error = error1
-            }
-            if error != nil {
-                print("error at save list: \(error!.localizedDescription)")
-            }
+            self.saveContext()
             
             if(updateDetailList) {
                 
@@ -238,15 +225,7 @@ class GRUserListService : GRBaseService {
                         self.managedContext!.delete(listDetail)
                     }
                     
-                    var error: NSError? = nil
-                    do {
-                        try self.managedContext!.save()
-                    } catch let error1 as NSError {
-                        error = error1
-                    }
-                    if error != nil {
-                        print("error at delete details: \(error!.localizedDescription)")
-                    }
+                    self.saveContext()
                 }
                 
                 let detailService = GRUserListDetailService()
@@ -274,11 +253,15 @@ class GRUserListService : GRBaseService {
                                     detail!.price = price as NSString
                                 }
                                 
-                                if let price = item["price"] as? NSNumber {
-                                    detail!.baseprice = "\(price)" as String
+                                if let stock = item["stock"] as? Bool {
+                                    detail!.stock = stock
                                 }
-                                else if let price = item["price"] as? String {
-                                    detail!.baseprice = price
+                                else if let stock = item["stock"] as? String {
+                                    detail!.stock = stock != "0"
+                                }
+                                
+                                if let promoDescription = item["promoDescription"] as? String {
+                                    detail!.promoDescription = promoDescription
                                 }
                                 
                                 if let quantity = item["quantity"] as? NSNumber {
@@ -296,17 +279,7 @@ class GRUserListService : GRBaseService {
                                 //
                                 detail!.list = parentList!
                                 
-                                var error: NSError? = nil
-                                do {
-                                    try self.managedContext!.save()
-                                } catch let error1 as NSError {
-                                    error = error1
-                                } catch {
-                                    fatalError()
-                                }
-                                if error != nil {
-                                    print("error at delete details: \(error!.localizedDescription)")
-                                }
+                                self.saveContext()
                             }
                         }
                     },
@@ -336,15 +309,7 @@ class GRUserListService : GRBaseService {
                 //println("Delete product list \(listDetail.upc)")
                 self.managedContext!.delete(listDetail)
             }
-            var error: NSError? = nil
-            do {
-                try self.managedContext!.save()
-            } catch let error1 as NSError {
-                error = error1
-            }
-            if error != nil {
-                print("error at delete details: \(error!.localizedDescription)")
-            }
+            self.saveContext()
         }
     }
     
@@ -386,18 +351,6 @@ class GRUserListService : GRBaseService {
             print("Error retrieveUserList")
         }
         return result
-    }
-
-    func saveContext() {
-        var error: NSError? = nil
-        do {
-            try self.managedContext!.save()
-        } catch let error1 as NSError {
-            error = error1
-        }
-        if error != nil {
-            print("error at save context on UserListViewController: \(error!.localizedDescription)")
-        }
     }
 
 }

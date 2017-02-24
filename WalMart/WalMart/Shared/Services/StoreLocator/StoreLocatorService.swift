@@ -11,8 +11,6 @@ import CoreData
 
 class StoreLocatorService: BaseService {
 
-    var managedObjectContext: NSManagedObjectContext?
-
     func callService(_ successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let params: [String:Any] = [:]
         self.callGETService(params,
@@ -27,7 +25,7 @@ class StoreLocatorService: BaseService {
                             
                             var store = self.findStoreById(storeID)
                             if store == nil {
-                                store = NSEntityDescription.insertNewObject(forEntityName: "Store", into: self.managedObjectContext!) as? Store
+                                store = NSEntityDescription.insertNewObject(forEntityName: "Store", into: self.managedContext!) as? Store
                                 store!.storeID = storeID
                             }
                             
@@ -69,11 +67,10 @@ class StoreLocatorService: BaseService {
     func findStoreById(_ storeId:String?) -> Store? {
         var store: Store? = nil
         if storeId != nil {
-            self.loadContext()
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: self.managedObjectContext!)
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Store", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "storeID == %@", storeId!)
-            var result: [Store] = (try! self.managedObjectContext!.fetch(fetchRequest)) as! [Store]
+            var result: [Store] = (try! self.managedContext!.fetch(fetchRequest)) as! [Store]
             if result.count > 0 {
                 store = result[0]
             }
@@ -83,24 +80,4 @@ class StoreLocatorService: BaseService {
 
     // MARK: - NSManagedObjectContext
     
-    func loadContext() {
-        if self.managedObjectContext == nil {
-            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-            self.managedObjectContext = context
-        }
-    }
-    
-    func saveContext() {
-        var error: NSError? = nil
-        do {
-            try self.managedObjectContext!.save()
-        } catch let error1 as NSError {
-            error = error1
-        }
-        if error != nil {
-            print("")
-        }
-    }
-
 }

@@ -10,13 +10,7 @@ import UIKit
 import CoreData
 
 class GRUserListDetailService: GRBaseService {
-
     var listId: String?
-    lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        return context
-    }()
     
     func buildParams(_ listId:String?) {
         self.listId = listId
