@@ -449,7 +449,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
     
-    override func reloadTableListUserSelectedRow(){
+    func reloadTableListUserSelectedRow(){
         if delegate != nil {
             self.delegate!.reloadTableListUserSelectedRow()
         }

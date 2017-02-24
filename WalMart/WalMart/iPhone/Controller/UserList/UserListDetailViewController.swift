@@ -578,18 +578,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             var upcs: [String] = []
             var entities: [Product] = []
             for idx in 0 ..< self.products!.count {
-                if let item = self.products![idx] as? [String:Any] {
-                    if let upc = item["upc"] as? String {
-                        upcs.append(upc)
-                    }
-                }
-                else if let item = self.products![idx] as? Product {
+                if let item = self.products![idx] as? Product {
                     entities.append(item)
+                    upcs.append(item.upc)
                 }
             }
             
             if upcs.count > 0 {
-                self.invokeDeleteAllProductsFromListService(upcs)
+                self.invokeDeleteAllProductsFromListService(upcs,products:entities)
             }
             if entities.count > 0 {
                 for product in entities {
@@ -1124,9 +1120,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 
                 //self.layoutTitleLabel()
                 self.tableView!.reloadData()
-                if reloadList {
-                    self.reloadTableListUserSelectedRow()
-                }
+                
                 self.updateTotalLabel()
                 if self.products == nil || self.products!.count == 0 {
                     self.editBtn!.isHidden = true
@@ -1207,12 +1201,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    func invokeDeleteAllProductsFromListService(_ upcs:[String]) {
+    func invokeDeleteAllProductsFromListService(_ upcs:[String],products: [Product]) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInList", comment:""))
         let service = GRDeleteItemListService()
         service.callService(service.buildParamsArray(upcs),
             successBlock: { (result:[String:Any]) -> Void in
+                
+                for product in products {
+                    self.managedContext!.delete(product)
+                }
+                self.listEntity!.countItem = NSNumber(value: 0 as Int)
+                self.saveContext()
+                
                 self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInListDone", comment:""))
                 self.alertView!.showDoneIcon()
                
@@ -1304,10 +1305,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.titleLabel?.text = self.listEntity?.name
             //self.layoutTitleLabel()
             self.tableView!.reloadData()
-            if reloadList {
-                self.reloadTableListUserSelectedRow()
-                //self.reloadTableListUser()
-            }
             
         //if self.selectedItems ==  nil  {
             if fromDelete {
@@ -1351,10 +1348,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
       
-        
-    }
-    
-    func reloadTableListUserSelectedRow(){
         
     }
 

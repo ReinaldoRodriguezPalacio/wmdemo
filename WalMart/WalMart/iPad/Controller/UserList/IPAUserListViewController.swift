@@ -473,11 +473,10 @@ class IPAUserListViewController: UserListViewController {
             }
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-                    if let listId = listItem["id"] as? String {
-                        self.deleteListInDB(listId)
+                if  UserCurrentSession.hasLoggedUser() {
+                    if let listEntity = self.itemsUserList![indexPath.row] as? List {
                         
-                        self.invokeDeleteListService(listId)
+                        self.invokeDeleteListService(listEntity.idList!)
                         self.selectedItem = IndexPath(row: 0, section: 0)
                         self.rowSelected = IndexPath(row: 0, section: 0)
                         self.selectRowIfNeeded()

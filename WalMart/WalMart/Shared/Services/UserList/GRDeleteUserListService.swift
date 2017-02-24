@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class GRDeleteUserListService: GRBaseService {
 
@@ -26,6 +27,26 @@ class GRDeleteUserListService: GRBaseService {
                 return
             }
         )
+    }
+    
+    /**
+     create query to delete list fromid list in db
+     
+     - parameter idList: id list
+     */
+    func deleteListInDB(_ idList:String){
+
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
+        fetchRequest.predicate = NSPredicate(format: "idList == %@", idList)
+        
+        let result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
+        if result.count > 0 {
+            for listDetail in result {
+                self.managedContext!.delete(listDetail)
+            }
+        }
+        self.saveContext()
     }
 
     override func serviceUrl() -> String {
