@@ -279,62 +279,47 @@ class IPAUserListViewController: UserListViewController {
         //Solo en caso de existir una sesion se consulta al backend por las listas del usuario
         if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
-            userListsService.callService([:],
-                successBlock: { (result:[String:Any]) -> Void in
-                    self.itemsUserList = result["responseArray"] as? [Any]
-                    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
-                        
-                        let dicFirst = first as! [String:Any]
-                        let dicSecond = second as! [String:Any]
-                        let stringFirst  =  dicFirst["name"] as! String
-                        let stringSecond  =  dicSecond["name"] as! String
-                        
-                        return stringFirst < stringSecond
-                        
-                    })
-                    
-                    self.isShowingWishList = false
-                    self.isShowingSuperlists = !self.isEditingUserList
-                    self.checkEditBtn()
-                    self.tableuserlist!.reloadData()
-                    if !self.newListEnabled && !self.isEditingUserList {
-                        self.showSearchField({ () -> Void in
-                            }, atFinished: { () -> Void in
-                            }, animated:false)
-                    }
-                    if !self.isEditingUserList {
-                        self.changeFrameEditBtn(true, side: "left")
-                        if self.itemsUserList!.count == 0{
-                            self.changeVisibilityBtn(self.editBtn!, visibility: 0)
-                        }
-                        else{
-                            self.changeVisibilityBtn(self.editBtn!, visibility: 1)
-                        }
-                    }
-                    
-                    if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                        if !self.isEditingUserList {
-                            if self.selectedItem != nil {
-                                self.tableView(self.tableuserlist!, didSelectRowAt: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
-                            }
-                        }
-                        
-                    }
-                    else {
-                        self.delegate?.showPractilistViewController()
-                        self.selectedItem = IndexPath(row: 0, section: 0)
-                    }
-               
-                    success?()
-                    return
-                },
-                errorBlock: { (error:NSError) -> Void in
+            self.itemsUserList = userListsService.retrieveUserList()
+            self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
+                let firstString = first as! List
+                let secondString = second as! List
+                return firstString.name < secondString.name
+            })
+            
+            self.isShowingWishList = false
+            self.isShowingSuperlists = !self.isEditingUserList
+            self.checkEditBtn()
+            self.tableuserlist!.reloadData()
+            if !self.newListEnabled && !self.isEditingUserList {
+                self.showSearchField({ () -> Void in
+                }, atFinished: { () -> Void in
+                }, animated:false)
+            }
+            if !self.isEditingUserList {
+                self.changeFrameEditBtn(true, side: "left")
+                if self.itemsUserList!.count == 0{
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
-                    self.changeFrameEditBtn(true, side: "left")
-                    failure?(error)
-                    return
                 }
-            )
+                else{
+                    self.changeVisibilityBtn(self.editBtn!, visibility: 1)
+                }
+            }
+            
+            if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
+                if !self.isEditingUserList {
+                    if self.selectedItem != nil {
+                        self.tableView(self.tableuserlist!, didSelectRowAt: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
+                    }
+                }
+                
+            }
+            else {
+                self.delegate?.showPractilistViewController()
+                self.selectedItem = IndexPath(row: 0, section: 0)
+            }
+            
+            success?()
+            return
         }
         else {
             

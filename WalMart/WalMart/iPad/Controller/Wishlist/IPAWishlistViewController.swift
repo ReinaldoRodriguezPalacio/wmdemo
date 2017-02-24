@@ -203,7 +203,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
         let serviceWish = UserWishlistService()
         
-        serviceWish.callService({ (wishlist:[String:Any]) -> Void in
+        serviceWish.callCoreDataService({ (wishlist:[String:Any]) -> Void in
             self.items = wishlist["items"] as! [[String:Any]]
             
             var positionArray: [Int] = []
