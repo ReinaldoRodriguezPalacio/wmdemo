@@ -1162,10 +1162,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 let service = GRDeleteItemListService()
                 service.callService(service.buildParams(product.upc),
                     successBlock:{ (result:[String:Any]) -> Void in
+                        
                         self.managedContext!.delete(product)
                         let count:Int = self.listEntity!.products.count
                         self.listEntity!.countItem = NSNumber(value: count as Int)
                         self.saveContext()
+                        
                         self.invokeDetailListService({ () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                             self.alertView!.showDoneIcon()
@@ -1247,10 +1249,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let service = GRUpdateItemListService()
         service.callService(service.buildParams(upc: product.upc, quantity: quantity,baseUomcd:baseUomcd),
             successBlock: { (result:[String:Any]) -> Void in
+                
                 product.quantity = NSNumber(value: Int(quantity) as Int)
                 product.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
                 product.pieces =  NSNumber(value:Int(quantity)) 
                 self.saveContext()
+                
                 self.invokeDetailListService({ () -> Void in
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
