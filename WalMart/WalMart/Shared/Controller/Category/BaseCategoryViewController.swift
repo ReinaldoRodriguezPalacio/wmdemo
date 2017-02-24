@@ -9,25 +9,23 @@
 import Foundation
 
 protocol BaseCategoryViewControllerDataSource {
-    func loadDepartments() ->  [Any]?
+    func loadDepartments() -> [Any]?
 }
 
 protocol BaseCategoryViewControllerDelegate {
     func getServiceURLIcon() -> String
     func getServiceURLHeader() -> String
-    
     func didSelectDeparmentAtIndex(_ indexPath: IndexPath)
 }
 
-class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UICollectionViewDataSource {
+class BaseCategoryViewController : IPOBaseController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet var categories: UICollectionView?
     var delegate : BaseCategoryViewControllerDelegate?
     var datasource : BaseCategoryViewControllerDataSource?
     var currentIndexSelected : IndexPath?
     var items : [Any]? = []
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +37,9 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     
     }
    
-     //MARK: CollectionViewDelegate
+    
+    //MARK: CollectionViewDelegate
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items!.count
     }
@@ -66,6 +66,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         if indexPath.row == 0 {
             self.delegate?.didSelectDeparmentAtIndex(indexPath)
             return
@@ -85,24 +86,19 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         }) 
     }
     
-    
-    
     func closeSelectedDepartment() {
+    
     }
     
-    /**
-     Animation at close category 
-     */
     func closeDepartment() {
         self.currentIndexSelected = nil
-        self.categories!.reloadData()
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.categories!.contentInset = UIEdgeInsets.zero
-            }, completion: { (end:Bool) -> Void in
-                self.categories!.isScrollEnabled = true
-                self.categories!.isUserInteractionEnabled = true
-        }) 
+        }, completion: { (end:Bool) -> Void in
+            self.categories!.isScrollEnabled = true
+            self.categories!.isUserInteractionEnabled = true
+            self.categories!.reloadData()
+        })
     }
-    
     
 }

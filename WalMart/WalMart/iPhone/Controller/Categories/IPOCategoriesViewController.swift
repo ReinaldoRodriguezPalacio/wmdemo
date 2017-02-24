@@ -70,7 +70,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         return "WalmartMG.CategoryIcon"
     }
     
-    
     func getServiceURLHeader() -> String {
         return "WalmartMG.HeaderCategory"
     }
@@ -110,14 +109,15 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
         selectedView.isOpen = true
         selectedView.setValuesFromCell(categoryCell!)
+        selectedView.backgroundView?.contentMode = .scaleAspectFill
         self.view.addSubview(selectedView)
         
         selectedView.onclose = {() in
             print("Close")
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 0
-                },completion: {(complete) -> Void in
-                    self.closeDepartment()
+            },completion: {(complete) -> Void in
+                self.closeDepartment()
             })
             
         }
@@ -140,6 +140,45 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let grController = self.storyboard?.instantiateViewController(withIdentifier: "GrCaregory")
         self.navigationController?.pushViewController(grController!, animated: true)
         return
+    }
+    
+    func handleLandingEvent(_ strAction:String) {
+        var components = strAction.components(separatedBy: "_")
+        if(components.count > 1){
+            let window = UIApplication.shared.keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                let cmpStr  = components[0] as String
+                let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
+                var strAction = ""
+                switch components[0] {
+                case "f":
+                    strAction =  "FAM"
+                case "c":
+                    strAction =  "CAT"
+                case "l":
+                    strAction =  "LIN"
+                case "UPC":
+                    strAction =  "UPC"
+                default:
+                    return
+                }
+                let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
+            }
+        }
+    }
+    
+    // MARK: - CollectionView
+    
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
+        if landingItem != nil {
+            switch (indexPath.section,indexPath.row) {
+            case (0,0):
+                return CGSize(width: (self.view.frame.width - (4*2)), height: 98)
+            default:
+                return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
+            }
+        }
+        return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -176,19 +215,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         return categoryCell
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
-        if landingItem != nil {
-            switch (indexPath.section,indexPath.row) {
-            case (0,0):
-                return CGSize(width: self.view.frame.width , height: 98)
-            default:
-                return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
-            }
-        }
-        return CGSize(width: (self.view.frame.width - (4*3)) / 2, height: 98)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if landingItem == nil {
             return items!.count
@@ -201,32 +227,5 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             selectedView.closeDepartment()
         }
     }
-    
-    
-    func handleLandingEvent(_ strAction:String) {
-        var components = strAction.components(separatedBy: "_")
-        if(components.count > 1){
-            let window = UIApplication.shared.keyWindow
-            if let customBar = window!.rootViewController as? CustomBarViewController {
-                let cmpStr  = components[0] as String
-                let strValue = strAction.replacingOccurrences(of: "\(cmpStr)_", with: "")
-                var strAction = ""
-                switch components[0] {
-                case "f":
-                    strAction =  "FAM"
-                case "c":
-                    strAction =  "CAT"
-                case "l":
-                    strAction =  "LIN"
-                case "UPC":
-                    strAction =  "UPC"
-                default:
-                    return
-                }
-                let _ = customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
-            }
-        }
-    }
-    
    
 }
