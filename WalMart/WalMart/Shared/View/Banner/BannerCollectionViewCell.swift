@@ -306,10 +306,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             stopTimmer()
             //getCurrentTerms()
             
-            
-            //if self.isUrl(getCurrentTerms()) {
-            //  delegate.termsSelect(getCurrentTerms())
-            //}else{
+
                 viewTerms = BannerTermsView(frame:self.bounds)
                 viewTerms.setup(getCurrentTerms())
                 viewTerms.generateBlurImage(self, frame: self.bounds)
@@ -323,18 +320,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 
                 viewTerms.onClose = {() in
                     self.termsclick()
-                }
-                
-                let dictTerms = dataSource![self.visibleItem!]
-                if let type = dictTerms["type"] {
-                    if type == ResultObjectType.Mg.rawValue  {
-                        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue , label: "")
-                    } else {
-                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue , label: "")
-                    }
-                }
-            //}
-            
+                }            
             
         }
         buttonTerms.isSelected  = !buttonTerms.isSelected

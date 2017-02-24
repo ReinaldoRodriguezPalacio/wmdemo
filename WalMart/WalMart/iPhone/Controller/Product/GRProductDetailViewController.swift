@@ -620,6 +620,22 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
         
+         let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+        
+        if self.quantitySelected != 0 && self.isPesable && !exist {
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
+            if let imageURL = self.productDetailButton?.image {
+                if let urlObject = URL(string:imageURL) {
+                    self.alertView?.imageIcon.setImageWith(urlObject)
+                }
+            }
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            
+            self.addItemsToList(quantity:"\(self.quantitySelected)",listId:listId)
+            return
+        }
+        
         if self.isPesable ||  included {
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR.isFromList = true
@@ -694,7 +710,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
-        let orderByPiece = self.selectQuantityGR?.orderByPiece ?? true
+        let orderByPiece = self.itemOrderbyPices //self.selectQuantityGR?.orderByPiece ?? true
         let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in

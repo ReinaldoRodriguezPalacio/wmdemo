@@ -86,7 +86,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.emptyView!.isHidden = true
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.viewLoad.stopAnnimating()
+                self.viewLoad?.stopAnnimating()
                 self.viewLoad = nil
         })
 
@@ -94,10 +94,16 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if  recentProductItems.count == 0{
+            self.viewLoad?.stopAnnimating()
+            self.viewLoad = nil
+        }
         return self.recentProductItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+      
+        
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         let objProduct = recentProductItems[indexPath.row] 
         let img = objProduct["imageUrl"] as! String
