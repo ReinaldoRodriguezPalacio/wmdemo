@@ -126,6 +126,18 @@ class GRAddItemListService: GRBaseService {
                     detail!.quantity = item["quantity"] as! NSNumber
                     detail!.orderByPiece = orderByPiece ? 1 : 0
                     detail!.pieces = orderByPiece ? item["quantity"] as! NSNumber : 0
+                    
+                    if let stock = item["stock"] as? Bool {
+                        detail!.stock = stock
+                    }
+                    else if let stock = item["stock"] as? String {
+                        detail!.stock = stock != "0"
+                    }
+                    
+                    if let promoDescription = item["promoDescription"] as? String {
+                        detail!.promoDescription = promoDescription
+                    }
+                    
                     if let active = item["isActive"] as? Bool {
                         detail!.isActive = active ? "true" : "false"
                     }

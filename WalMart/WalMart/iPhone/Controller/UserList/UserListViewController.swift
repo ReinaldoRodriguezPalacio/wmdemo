@@ -749,6 +749,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             detail!.desc = item.desc
                             detail!.price = item.price
                             detail!.quantity = item.quantity
+                            detail!.stock = item.stock
+                            detail!.promoDescription = item.promoDescription
                             detail!.list = clist!
                             
                             // 360 Event
