@@ -276,9 +276,9 @@ class UserCurrentSession : NSObject {
         }
 
         self.loadShoppingCarts { () -> Void in
-          
+          self.invokeGroceriesUserListService()
         }
-        self.invokeGroceriesUserListService()
+        self.invokeWishListService()
         
     }
     
@@ -561,17 +561,17 @@ class UserCurrentSession : NSObject {
             errorBlock: { (error:NSError) -> Void in
                     
         })
-        
-        let userWishListsService = UserWishlistService()
-        userWishListsService.callService({(result:[String:Any]) -> Void in
-                                        
-            },errorBlock: { (error:NSError) -> Void in
-                                        
-        })
-            
         //})
     }
     
+    func invokeWishListService(){
+        let userWishListsService = UserWishlistService()
+        userWishListsService.callService({(result:[String:Any]) -> Void in
+            
+        },errorBlock: { (error:NSError) -> Void in
+            
+        })
+    }
     
     //MARK: Shopping cart user
     
