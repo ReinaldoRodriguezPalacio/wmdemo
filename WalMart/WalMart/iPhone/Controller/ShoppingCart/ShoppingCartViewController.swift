@@ -317,7 +317,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
         self.view.addSubview(emptyView)
         
-        self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
+        self.emptyView.bgImageView.image =  UIImage(named:"empty_cart")
         
     }
     

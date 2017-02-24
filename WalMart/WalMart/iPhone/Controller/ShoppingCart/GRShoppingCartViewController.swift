@@ -200,7 +200,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         view.addSubview(emptyView)
         
-        emptyView.iconImageView.image = UIImage(named:"empty_cart")
+        emptyView.bgImageView.image = UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {

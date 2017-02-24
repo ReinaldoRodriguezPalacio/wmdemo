@@ -11,22 +11,20 @@ import Foundation
 class IPOWishlistEmptyView : IPOEmptyView {
     
     
-    var imageEmptyView = UIImageView()
+    //var imageEmptyView = UIImageView()
     var imageEmptyViewIconBtn = UIImageView()
     var textLabel: UILabel?
     
     override func setup() {
-        super.setup()
+       super.setup()
         
-        //iconImageView.image = UIImage(named:"empty_list")
-        iconImageView.isHidden = true
+        //imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
+        //imageEmptyView.frame = CGRect(x: 0.0, y: 0.0,  width: self.frame.width, height: self.frame.height)
+
+        //self.addSubview(imageEmptyView)
         
-        imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
- //       imageEmptyView.frame = CGRect(x: 0.0, y: 0.0,  width: self.frame.width, height:self.frame.height - 54)
-        self.insertSubview(imageEmptyView, at: 0)
- //       self.addSubview(imageEmptyView)
- //       self.backgroundColor = UIColor.red
         
+        bgImageView.image =  UIImage(named: "empty_wishlist")
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))
         self.addSubview(imageEmptyViewIconBtn)
         
