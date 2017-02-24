@@ -90,10 +90,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let item = items![currentItem] as! [String:Any]
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
-        
-//        let label = item["description"] as! String
-//        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
-        //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
       
         familyController.departmentId = item["idDepto"] as! String
         familyController.families = itemsFam
@@ -101,10 +97,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         familyController.familyTable.reloadData()
         
         var categoryCell = self.categories!.cellForItem(at: indexPath) as? DepartmentCollectionViewCell
+        
         if categoryCell == nil {
             self.categories!.reloadItems(at: [indexPath])
             categoryCell = self.categories!.cellForItem(at: indexPath) as? DepartmentCollectionViewCell
         }
+        
         let frameOriginal = self.categories!.convert(categoryCell!.frame, to:  self.view)
         selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
         selectedView.isOpen = true
@@ -113,24 +111,22 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         self.view.addSubview(selectedView)
         
         selectedView.onclose = {() in
-            print("Close")
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 0
             },completion: {(complete) -> Void in
                 self.closeDepartment()
             })
-            
         }
         
         selectedView.animateToOpenDepartment(self.view.frame.width, endAnumating: { () -> Void in
+            
             self.viewFamily.alpha = 0
             self.familyController.familyTable.reloadData()
             self.view.addSubview(self.viewFamily)
+            
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 1
             })
-            
-            print("End")
 
         })
 

@@ -223,6 +223,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
@@ -238,15 +239,17 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let tableMinHeight = self.view.frame.height - self.deliveryDate!.frame.maxY - 145
         let tableMaxHeight: CGFloat = CGFloat(self.slotsItems!.count) * 46
-        let tableHeight: CGFloat =  max(tableMinHeight, tableMaxHeight)
+        let tableHeight: CGFloat = max(tableMinHeight, tableMaxHeight)
         self.timeSlotsTable!.frame = CGRect(x: margin, y: self.deliveryDate!.frame.maxY, width: width, height: tableHeight)
         
         self.toolTipLabel!.frame =  CGRect(x: margin,y: self.timeSlotsTable!.frame.maxY,width: width,height: 34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
-        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 110)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 154)
+        
         self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
         self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.content!.frame.maxY + 16, width: 140, height: 34)
         self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: 140, height: 34)
+        
         self.lblInfo!.frame = CGRect (x: 8 , y: 8, width: self.toolTipLabel.frame.width - 16, height: 108)
         self.imageView!.frame = CGRect(x: 16 , y: self.toolTipLabel.frame.minY - 124, width: self.toolTipLabel.frame.width, height: 124)
         self.viewContents!.frame = imageView!.bounds
