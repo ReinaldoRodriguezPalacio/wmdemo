@@ -285,7 +285,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let teaserUrlPhone = values["teaserUrlPhone"]
         let bannerUrlTablet = values["teaserUrlIpad"]
         
-        delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone, bannerName: values["eventCode"]!)
+        delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone, bannerName: values["eventCode"] != nil ? values["eventCode"]! : "")
     }
     
     func isUrl(_ temrs:String)-> Bool{

@@ -63,6 +63,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     var idFamily: String = ""
     var idLine : String =  ""
     var idDepartment: String = ""
+    var quantitySelected = 0
+    var itemOrderbyPices =  true
     
     override func loadDataFromService() {
         
@@ -290,18 +292,86 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.closeContainer(
                 { () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-                    self.isShowShoppingCart = false
-                    self.selectQuantityGR = nil
-                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
-                }
+            }, completeClose: { () -> Void in
+                self.isShowShoppingCart = false
+                self.selectQuantityGR = nil
+                //  self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
+            }
             )
             return
         }
         
-        //Event
-//        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
-
+        let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
+      
+        if self.isPesable && !exist {
+            
+            let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
+            let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
+            selectQuantityGR = selectQuantityGRW
+            
+            self.selectQuantityGR.isFromList = false
+            selectQuantityGR?.closeAction = { () in
+                self.closeContainer({ () -> Void in
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }, completeClose: { () -> Void in
+                    self.isShowShoppingCart = false
+                    self.selectQuantityGR = nil
+                })
+            }
+            
+            
+            
+            self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+                
+                self.selectQuantityGR?.closeSelectQuantity()
+                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+                
+                if Int(quantity)! > 20000 {
+                    
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                
+                self.presentListSelector(quantity: Int(quantity)!)
+                
+                
+            }
+            self.view.addSubview(self.selectQuantityGR!)
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+            }, completion: { (finished:Bool) -> Void in
+                
+            }
+            )
+            
+            self.opencloseContainer(true, viewShow:selectQuantityGR!,
+                                    additionalAnimationOpen: { () -> Void in
+                                        self.productDetailButton?.setOpenQuantitySelector()
+                                        self.productDetailButton?.addToShoppingCartButton.isSelected = true
+            },
+                                    additionalAnimationClose:{ () -> Void in
+                                        
+                                        self.productDetailButton?.addToShoppingCartButton.isSelected = true
+            }
+            )
+        }else {
+            
+            //
+            self.presentListSelector(quantity: 1)
+            
+        }
+        
+        
+    }
+    
+    
+    func presentListSelector(quantity:Int){
+        
         if self.listSelectorController == nil {
             self.listSelectorContainer = UIView(frame: CGRect(x: 0, y: 360.0, width: 320.0, height: 0.0))
             self.listSelectorContainer!.clipsToBounds = true
@@ -316,37 +386,31 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
+           quantitySelected =  quantity
             
             
             self.detailCollectionView.isScrollEnabled = false
             UIView.animate(withDuration: 0.3,
-                animations: { () -> Void in
-                    self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
-                },
-                completion: { (complete:Bool) -> Void in
-                    if complete {
-                        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                            self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
-                            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
-                        })
-                    }
+                           animations: { () -> Void in
+                            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
+            },
+                           completion: { (complete:Bool) -> Void in
+                            if complete {
+                                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                                    self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
+                                    self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+                                })
+                            }
             })
         }
         else {
             self.removeListSelector(action: nil)
         }
-
+    
     }
     
-    override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String )
-    {
-        
-//        let sb = UIStoryboard(name: "WeightPiceKeyboard", bundle: nil)
-//        let vc = sb.instantiateInitialViewController() as UIViewController
-//        
-//        vc.view.frame = CGRectMake(0, 0, self.view.frame.width, 360)
-//        self.addChildViewController(vc)
-//        self.view.addSubview(vc.view)
+    
+    override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
         
         if isShowProductDetail == true {
             self.closeProductDetail()
@@ -699,7 +763,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return product.upc == self.upc as String
         }
         
-        if self.isPesable || exist  {
+        if  exist  {
             let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
@@ -721,7 +785,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             )
         } else {
-            self.addToListLocally(quantity:"1",list:list)
+            
+            self.addToListLocally(quantity:"\(self.quantitySelected)",list:list)
         }
     }
     
@@ -733,7 +798,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detail!.upc = self.upc as String
         detail!.desc = self.name as String
         detail!.price = self.price
-        detail!.orderByPiece = self.selectQuantityGR?.orderByPiece as? NSNumber ?? 0
+        detail!.orderByPiece = self.itemOrderbyPices as NSNumber //self.selectQuantityGR?.orderByPiece as? NSNumber ?? 0
         detail!.pieces =  NSNumber(value: Int(quantity)!)
         detail!.quantity = NSNumber(value: Int(quantity)! as Int)
         detail!.type = NSNumber(value: self.isPesable as Bool)
