@@ -113,7 +113,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.footerSection!.backgroundColor = UIColor.white
         
         
-        let y = (self.footerSection!.frame.height - 34.0)/2
+        let y = (72 - 34.0)/2
+
         self.duplicateButton = UIButton(frame: CGRect(x: 16.0, y: y, width: 34.0, height: 34.0))
         self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), for: UIControlState())
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), for: .selected)
@@ -121,7 +122,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.duplicateButton!.addTarget(self, action: #selector(UserListDetailViewController.duplicate), for: .touchUpInside)
         self.footerSection!.addSubview(self.duplicateButton!)
         
-        var x = self.duplicateButton!.frame.maxX + 16.0
+        var x = Double(self.duplicateButton!.frame.maxX + 16.0)
         self.shareButton = UIButton(frame: CGRect(x: x, y: y, width: 34.0, height: 34.0))
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
         self.shareButton!.setImage(UIImage(named: "detail_share"), for: .selected)
@@ -129,8 +130,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.shareButton!.addTarget(self, action: #selector(UserListDetailViewController.shareList), for: .touchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
-        x = self.shareButton!.frame.maxX + 16.0
-        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: self.view.bounds.width - (x + 16.0), height: 34.0))
+        x = Double(self.shareButton!.frame.maxX + 16.0)
+        self.addToCartButton = UIButton(frame: CGRect(x: x, y: y, width: Double(self.view.bounds.width) - (x + 16.0), height: 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), for: .touchUpInside)
@@ -670,6 +671,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func showEmptyView() {
         self.openEmpty = true
+        var emptyHeight = 44
+        if IS_IPHONE_4_OR_LESS {
+            emptyHeight = 0
+        }
+        self.footerSection!.frame = CGRect(x: 0, y: Int(self.view.frame.height), width: Int(self.view.frame.width), height: emptyHeight)
         let bounds = self.view.bounds
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
@@ -705,11 +711,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .custom)
+        
+        var buttonY = self.emptyView!.frame.height - 100
         if UserCurrentSession.hasLoggedUser() {
-            button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
-        }else{
-            button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 160, width: 160 , height: 40)
+            buttonY -= 60
         }
+        if IS_IPHONE_4_OR_LESS {
+            buttonY = self.emptyView!.frame.height - 90
+        }
+        
+        
+        button.frame = CGRect(x: (bounds.width - 160.0)/2, y: buttonY, width: 160 , height: 40)
+        
         /*if IS_IPHONE_4_OR_LESS{
          button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
         }*/

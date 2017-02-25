@@ -449,7 +449,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if !IS_IPAD {
             heightCollection -= 44
         }
-        print("heigth collection \(heightCollection)")
+        
         self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
         self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
@@ -1629,7 +1629,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading?.stopAnnimating()
       
         var heightEmpty = self.view.bounds.height - maxY
-        if !IS_IPAD && !IS_IPHONE_4_OR_LESS && !IS_IPHONE_6P {
+        if IS_IPHONE_6 {
             heightEmpty -= 44
         }
         
