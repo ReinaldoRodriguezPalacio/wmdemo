@@ -20,7 +20,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         super.setup()
         
         iconDiscount = UIImageView(image:UIImage(named:"saving_icon"))
-        iconDiscount.frame = CGRect(x: 8,y: 8,width: 19,height: 19)
+        iconDiscount.frame = CGRect(x: 6, y: 6, width: 18, height: 18)
         self.addSubview(iconDiscount)
         
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
@@ -29,7 +29,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
 
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 12, width: 75, height: 75)
         
         self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  , width: self.frame.width - 8 , height: 14)
         
@@ -37,10 +37,9 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
+        let widthAndHeightSeparator: CGFloat = 1
         
-        let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-        
-        let borderView = UIView(frame: CGRect(x: self.frame.width, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
+        let borderView = UIView(frame: CGRect(x: self.frame.width - widthAndHeightSeparator, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
         borderView.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderView)
         
@@ -52,9 +51,11 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
     
     func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool ) {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
+        
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.isHidden = !preorderable
         productPriceLabel!.label2?.isHidden = false
+        
         if  saving != "" && saving != "null"  {
             productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.green, interLine: false)
             productPriceLabel?.label1?.lineBreakMode = .byTruncatingTail
