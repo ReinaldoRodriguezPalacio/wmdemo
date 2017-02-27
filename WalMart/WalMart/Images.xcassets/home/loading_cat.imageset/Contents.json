@@ -17,12 +17,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "loading-1.png",
+      "filename" : "cat_loading_mg.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "loading@2x-1.png",
+      "filename" : "cat_loading_mg@2x.png",
       "scale" : "2x"
     }
   ],
