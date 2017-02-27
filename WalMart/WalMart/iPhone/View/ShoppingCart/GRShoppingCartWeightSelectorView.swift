@@ -94,7 +94,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         self.backgroundView!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         
         if equivalenceByPiece.intValue > 0 {
-            btnChankePices = UIButton(frame:CGRect(x: (self.frame.width / 2) - 60, y: startH + 17, width: 120, height: 18 ))
+            btnChankePices = UIButton(frame:CGRect(x: (self.frame.width / 2) - 60, y: startH + (startH != 0 && isFullView ? 48 : 18), width: 120, height: 18))
             btnChankePices.titleLabel?.font = WMFont.fontMyriadProSemiboldSize(12)
             btnChankePices.setTitleColor(UIColor.white, for: UIControlState())
             btnChankePices.backgroundColor = WMColor.blue
@@ -104,7 +104,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             btnChankePices.setTitle(NSLocalizedString("shoppingcart.selectgrkg",comment:""), for: UIControlState.selected)
             containerWeightView.addSubview(btnChankePices)
         } else {
-            let lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
+            let lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 18, width: 230, height: startH != 0 && isFullView ? 48 : 14))
             lblTitle.font = WMFont.fontMyriadProSemiboldSize(12)
             lblTitle.adjustsFontSizeToFitWidth = true
             lblTitle.textColor = UIColor.white
@@ -113,13 +113,15 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             containerWeightView.addSubview(lblTitle)
         }
         
-        let xPosition = (frame.width - 224) / 2
+        let xPosition = isFullView ? ((frame.width - 232) / 2) : ((frame.width - 222) / 2)
+        let yPositionForTitles = isFullView && startH != 0 ? 112 : (startH + 51)
+        let buttonSize: CGFloat = isFullView ? 40 : 32
         
-        btnLess = UIButton(frame: CGRect(x: xPosition, y: startH + 51 , width: 32, height: 32))
+        btnLess = UIButton(frame: CGRect(x: xPosition, y: yPositionForTitles, width: buttonSize, height: buttonSize))
         btnLess.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnLessAction), for: UIControlEvents.touchUpInside)
         btnLess.setImage(UIImage(named: "addProduct_Less"), for: UIControlState())
         
-        lblQuantityW = UILabel(frame:CGRect(x: btnLess.frame.maxX + 4, y: startH + 52 , width: 152, height: 40))
+        lblQuantityW = UILabel(frame:CGRect(x: btnLess.frame.maxX + 4, y: yPositionForTitles, width: 152, height: 40))
         lblQuantityW.font = WMFont.fontMyriadProRegularOfSize(40)
         lblQuantityW.textColor = UIColor.white
         lblQuantityW.text = " \(Int(currentValGr))g"
@@ -127,7 +129,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityW.minimumScaleFactor =  35 / 40
         lblQuantityW.adjustsFontSizeToFitWidth = true
         
-        btnMore = UIButton(frame: CGRect(x: lblQuantityW.frame.maxX + 4,  y: startH + 51 , width: 32, height: 32))
+        btnMore = UIButton(frame: CGRect(x: lblQuantityW.frame.maxX + 4,  y: yPositionForTitles, width: buttonSize, height: buttonSize))
         btnMore.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnMoreAction), for: UIControlEvents.touchUpInside)
         btnMore.setImage(UIImage(named: "addProduct_Add"), for: UIControlState())
         
@@ -147,13 +149,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         let adjustWeightY: CGFloat = frame.height > 380 ? 14 : 0
         let separationWeightY: CGFloat = 12 + adjustWeightY
-        let keyboardWeightHeight: CGFloat = isFullView ? 320 : 190
-        let keyboardWeightYPosition: CGFloat = isFullView ? ((frame.height - keyboardWeightHeight) / 2.6) : lblQuantityW.frame.maxY + separationWeightY
+        let keyboardWeightHeight: CGFloat = isFullView ? 196 : 190
+        let keyboardWeightYPosition: CGFloat = isFullView ? lblQuantityW.frame.maxY + 74 : lblQuantityW.frame.maxY + separationWeightY
         
         keyboard = WeightKeyboardView(frame: CGRect(x: (self.frame.width / 2) - (289/2), y: keyboardWeightYPosition, width: 289, height: keyboardWeightHeight))
         keyboard.delegate = self
         
-        let botomWeightMargin: CGFloat = isFullView ? 35 : separationWeightY
+        let botomWeightMargin: CGFloat = isFullView ? 74 : separationWeightY
         btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboard.frame.maxY + botomWeightMargin, width: 142, height: 36))
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
@@ -240,17 +242,18 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         let adjustY: CGFloat = frame.height > 380 ? 14 : 0
         let separationY: CGFloat = 12 + adjustY
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        let keyboardHeight: CGFloat = isFullView ? 320 : 200
-        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantityN.frame.maxY + separationY
+        let margin: CGFloat = isFullView ? ((self.frame.width - 220) / 2) : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 288 : 200
+        let keyboardWidth: CGFloat = isFullView ? 220 : (frame.width - (margin * 2))
+        let keyboardYPosition: CGFloat = isFullView ? lblQuantityN.frame.maxY + 28 : lblQuantityN.frame.maxY + separationY
         
-        keyboardN = NumericKeyboardView(frame: CGRect (x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardN.widthButton = isFullView ? 70 : 40
+        keyboardN = NumericKeyboardView(frame: CGRect (x: margin, y: keyboardYPosition, width: keyboardWidth, height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
+        keyboardN.widthButton = isFullView ? 60 : 40
         keyboardN.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardN.delegate = self
         keyboardN.showDeleteBtn()
         
-        let botomMargin: CGFloat = isFullView ? 35 : separationY
+        let botomMargin: CGFloat = isFullView ? 28 : separationY
         btnOkAddN = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboardN.frame.maxY + botomMargin, width: 142, height: 36))
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
@@ -625,12 +628,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         let adjustY: CGFloat = frame.height > 380 ? 16 : 0
         let separationY: CGFloat = 8 + adjustY
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        let keyboardHeight: CGFloat = isFullView ? 320 : 200
-        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantityP.frame.maxY + separationY
+        let margin: CGFloat = isFullView ? ((self.frame.width - 220) / 2) : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 288 : 200
+        let keyboardWidth: CGFloat = isFullView ? 220 : (frame.width - (margin * 2))
+        let keyboardYPosition: CGFloat = isFullView ? lblQuantityP.frame.maxY + 28 : lblQuantityP.frame.maxY + separationY
         
-        keyboardP = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
-        keyboardP.widthButton = isFullView ? 70 : 40
+        keyboardP = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: keyboardWidth, height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
+        keyboardP.widthButton = isFullView ? 60 : 40
         keyboardP.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         keyboardP.delegate = self
         keyboardP.showDeleteBtn()
