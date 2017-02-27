@@ -67,7 +67,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         super.init(coder: aDecoder)
     }
 
-    
     func setup() {
         
         if !loaded {

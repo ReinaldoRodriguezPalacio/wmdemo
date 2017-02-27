@@ -20,7 +20,6 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     var startFrame : CGRect!
     var customCloseDep = false
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -59,8 +58,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
     }
     
-    
-    func setValues(_ title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
+    func setValues(_ title: String, imageBackgroundURL: String, keyBgUrl: String,imageIconURL:String,keyIconUrl:String, hideImage: Bool) {
+        
         let scale = UIScreen.main.scale
         let svcUrl = serviceUrl(keyIconUrl)
         var imgURLName = "\(svcUrl)\(imageIconURL)"
@@ -69,7 +68,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
             loadImagefromUrl = loadImage
-        }//self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
+        }
+        
         if loadImagefromUrl {
             self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIcon, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageIcon.image = image
@@ -77,7 +77,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                 }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
-        }else{
+        } else {
             self.imageIcon.image = imageIcon
         }
         
@@ -90,16 +90,18 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
             loadImagefromUrl = loadImage
-        }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
+        }
       
         if loadImagefromUrl {
+            
             self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
                 }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
-        }else{
+            
+        } else {
             self.imageBackground.image = imageHeader
         }
         
@@ -115,9 +117,9 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
     }
     
-    func setValuesLanding(_ imageBackgroundURL:String) {
+    func setValuesLanding(_ imageBackgroundURL: String) {
         
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url: URL(string: imageBackgroundURL)!), placeholderImage: UIImage(named: "loading_cat"), success: { (request:URLRequest, response: HTTPURLResponse?, image: UIImage) -> Void in
             self.imageBackground.image = image
         }) { (request: URLRequest, response: HTTPURLResponse?, error: Error) -> Void in
             print(error)
@@ -262,7 +264,6 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             }
         })
     }
-    
 
     func getImagePath(_ fileName:String) -> String {
         let fileManager = FileManager.default
@@ -288,7 +289,5 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let getImagePath = paths.appendingPathComponent(fileName)
         return getImagePath
     }
-    
-    
-    
+ 
 }
