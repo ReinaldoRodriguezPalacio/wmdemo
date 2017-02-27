@@ -178,8 +178,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let categoryCell = categories!.dequeueReusableCell(withReuseIdentifier: "DepartmentCell", for: indexPath) as! DepartmentCollectionViewCell
         
+        let categoryCell = categories!.dequeueReusableCell(withReuseIdentifier: "DepartmentCell", for: indexPath) as! DepartmentCollectionViewCell
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()
         
@@ -187,6 +187,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         if self.currentIndexSelected != nil {
             hideView = self.currentIndexSelected?.row != indexPath.row
         }
+        
         var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
             let scale = UIScreen.main.scale
@@ -196,7 +197,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
             return categoryCell
             
-        }// if indexPath.item == 0 {
+        }
         
         if landingItem != nil {
             currentItem = currentItem - 1
