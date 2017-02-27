@@ -866,7 +866,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen, additionalAnimationFinish: additionalAnimationFinish)
         }
-        
     }
     
     func openContainer(_ viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationFinish:@escaping (() -> Void)) {
@@ -888,10 +887,15 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
         })
         
-        self.tabledetail.beginUpdates()
-        self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
-        self.tabledetail.endUpdates()
-        self.pagerController!.enabledGesture(false)
+        if self.tabledetail.numberOfRows(inSection: 0) <= 5 {
+            self.tabledetail.beginUpdates()
+            self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
+            self.tabledetail.endUpdates()
+            
+            self.pagerController!.enabledGesture(false)
+        }
+        
+        self.tabledetail.reloadData()
         
         CATransaction.commit()
     }
