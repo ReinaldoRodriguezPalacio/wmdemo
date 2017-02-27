@@ -36,11 +36,20 @@ class WeightKeyboardView : UIView {
     
     func generateButtons(_ normal: UIColor, selected: UIColor) {
         
+        var isFullView = false
+        var fontSize: CGFloat = 18
+        
+        if frame.height == 196 && !IS_IPAD {
+            isFullView = true
+            widthButton = 90
+            fontSize = 20
+        }
+        
         let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
         let imageSelected = generateCircleImage(selected, size: CGSize(width: widthButton, height: widthButton))
-        let yPosition = (frame.height == 320 && !IS_IPAD) ? (frame.height - 183) / 3 : 20
+        let yPosition: CGFloat = isFullView ? 0 : 20
         
-        btngramos = UIButton(frame: CGRect(x: 1, y: yPosition, width: widthButton, height: widthButton))
+        btngramos = UIButton(frame: CGRect(x: 0, y: yPosition, width: widthButton, height: widthButton))
         btngramos.setTitle(strTitles[0], for: UIControlState())
         btngramos.setImage(imageNotSelected, for: UIControlState())
         btngramos.setImage(imageSelected, for: UIControlState.selected)
@@ -50,7 +59,7 @@ class WeightKeyboardView : UIView {
         btngramos.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), for: UIControlEvents.touchUpInside)
         btngramos.titleLabel?.numberOfLines = 2
         btngramos.titleLabel?.textAlignment = .center
-        btngramos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
+        btngramos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(fontSize)
         btngramos.tag = 100
         
         let insetTitle : CGFloat = btngramos.frame.width * -1
@@ -65,7 +74,7 @@ class WeightKeyboardView : UIView {
         btncuarto.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), for: UIControlEvents.touchUpInside)
         btncuarto.titleLabel?.numberOfLines = 2
         btncuarto.titleLabel?.textAlignment = .center
-        btncuarto.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
+        btncuarto.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(fontSize)
         btncuarto.tag = 250
         
         let insetTitleC : CGFloat = btncuarto.frame.width * -1
@@ -80,7 +89,7 @@ class WeightKeyboardView : UIView {
         btmediokilo.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), for: UIControlEvents.touchUpInside)
         btmediokilo.titleLabel?.numberOfLines = 2
         btmediokilo.titleLabel?.textAlignment = .center
-        btmediokilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
+        btmediokilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(fontSize)
         btmediokilo.tag = 500
         maxButtonX = btmediokilo.frame.maxX
         
@@ -96,7 +105,7 @@ class WeightKeyboardView : UIView {
         bttrescuartos.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), for: UIControlEvents.touchUpInside)
         bttrescuartos.titleLabel?.numberOfLines = 2
         bttrescuartos.titleLabel?.textAlignment = .center
-        bttrescuartos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
+        bttrescuartos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(fontSize)
         bttrescuartos.tag = 750
         
         let insetTitle3 : CGFloat = bttrescuartos.frame.width * -1
@@ -111,7 +120,7 @@ class WeightKeyboardView : UIView {
         btunkilo.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), for: UIControlEvents.touchUpInside)
         btunkilo.titleLabel?.numberOfLines = 2
         btunkilo.titleLabel?.textAlignment = .center
-        btunkilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
+        btunkilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(fontSize)
         btunkilo.tag = 1000
         
         let insetTitle1 : CGFloat = btunkilo.frame.width * -1

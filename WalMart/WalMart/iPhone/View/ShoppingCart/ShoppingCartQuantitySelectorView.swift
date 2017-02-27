@@ -56,7 +56,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height))
         bgView.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         
-        let lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
+        let lblTitle = UILabel(frame: CGRect(x: (self.frame.width / 2) - 115, y: isFullView && startH != 0 ? 64 : (startH + 18), width: 230, height: isFullView && startH != 0 ? 48 : 14))
         lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
         lblTitle.textColor = UIColor.white
         if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(self.upcProduct){
@@ -66,7 +66,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         }
         lblTitle.textAlignment = NSTextAlignment.center
         
-        lblQuantity = UILabel(frame:CGRect(x: (self.frame.width / 2) - (200 / 2), y: lblTitle.frame.maxY + 20 , width: 200, height: 40))
+        lblQuantity = UILabel(frame:CGRect(x: (self.frame.width / 2) - (200 / 2), y: isFullView && startH != 0 ? lblTitle.frame.maxY : (lblTitle.frame.maxY + 20), width: 200, height: 40))
         lblQuantity.font = WMFont.fontMyriadProRegularOfSize(40)
         lblQuantity.textColor = UIColor.white
         lblQuantity.text = "01"
@@ -80,16 +80,17 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         
         let adjustY: CGFloat = frame.height > 380 ? 14 : 0
         let separationY: CGFloat = 12 + adjustY
-        let margin: CGFloat = isFullView ? 30 : ((self.frame.width / 2) - 80)
-        let keyboardHeight: CGFloat = isFullView ? 320 : 200
-        let keyboardYPosition: CGFloat = isFullView ? ((frame.height - keyboardHeight) / 2.6) : lblQuantity.frame.maxY + separationY
+        let margin: CGFloat = isFullView ? ((self.frame.width - 220) / 2) : ((self.frame.width / 2) - 80)
+        let keyboardHeight: CGFloat = isFullView ? 288 : 200
+        let keyboardWidth: CGFloat = isFullView ? 220 : (frame.width - (margin * 2))
+        let keyboardYPosition: CGFloat = isFullView ? lblQuantity.frame.maxY + 28 : lblQuantity.frame.maxY + separationY
         
-        self.keyboardView = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: frame.width - (margin * 2), height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
-        keyboardView.widthButton = isFullView ? 70 : 40
-        self.keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
-        self.keyboardView.delegate = self
+        keyboardView = NumericKeyboardView(frame: CGRect(x: margin, y: keyboardYPosition, width: keyboardWidth, height: keyboardHeight), typeKeyboard: NumericKeyboardViewType.Integer)
+        keyboardView.widthButton = isFullView ? 60 : 40
+        keyboardView.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
+        keyboardView.delegate = self
         
-        let botomMargin: CGFloat = isFullView ? 35 : separationY
+        let botomMargin: CGFloat = isFullView ? 28 : separationY
         btnOkAdd = UIButton(frame: CGRect(x: (frame.width - 142) / 2, y: keyboardView.frame.maxY + botomMargin, width: 142, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")

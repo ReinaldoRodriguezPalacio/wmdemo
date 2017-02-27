@@ -20,13 +20,11 @@ enum NumericKeyboardViewType : String {
 
 class NumericKeyboardView : UIView {
 
-    var widthButton : CGFloat = 40.0
-    var delegate : KeyboardViewDelegate!
-    var typeKeyboard : NumericKeyboardViewType! = NumericKeyboardViewType.Integer
-    
-    var normal : UIColor!
-    var selected : UIColor!
-    
+    var widthButton: CGFloat = 40.0
+    var delegate: KeyboardViewDelegate!
+    var typeKeyboard: NumericKeyboardViewType! = NumericKeyboardViewType.Integer
+    var normal: UIColor!
+    var selected: UIColor!
     var btnDelete = UIButton()
     
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +55,7 @@ class NumericKeyboardView : UIView {
         self.normal = normal
         self.selected = selected
         
-        var initialX: CGFloat = 0
+        var ySeparation: CGFloat = 12
         var currentX: CGFloat = 0
         var currentY: CGFloat = 0
         var widthBetweenButtons: CGFloat = 0
@@ -69,10 +67,9 @@ class NumericKeyboardView : UIView {
         let buttonsViewHeight = widthButton * 4 + 36
         currentY = (frame.height - buttonsViewHeight) / 2
         
-        if widthButton > 40 && frame.width > 310 && !IS_IPAD {
-            widthBetweenButtons = (self.frame.width - (widthButton * 3)) / 4
-            currentX = (frame.width - ((widthButton * 3) + (widthBetweenButtons * 2))) / 2
-            initialX = currentX
+        if widthButton > 40 && frame.width == 220 && !IS_IPAD {
+            currentY = 0
+            ySeparation = 16
         }
         
         let imageNotSelected = generateCircleImage(normal, size: CGSize(width: widthButton, height: widthButton))
@@ -121,8 +118,8 @@ class NumericKeyboardView : UIView {
             currentX = btnNumber.frame.maxX + widthBetweenButtons
             
             if index % 3 == 0 {
-                currentX = initialX
-                currentY += 12 + widthButton
+                currentX = 0
+                currentY += ySeparation + widthButton
             }
             
         }
