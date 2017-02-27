@@ -81,7 +81,7 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
         viewMG.frame = CGRect(x: 16, y: viewSuper.frame.maxY + 16, width: self.view.frame.width - 32, height: (self.view.frame.height - 48 - 44) / 2)
     }
     
-    func openShoppingCart(){
+    func openShoppingCart() {
         
         UserCurrentSession.sharedInstance.validateUserAssociate(true)
         

@@ -808,7 +808,8 @@ class UserCurrentSession : NSObject {
     }
     
     
-    func setMustUpdatePhoneProfile(_ home:String,work:String,cellPhone:String) {
+    func setMustUpdatePhoneProfile(_ home: String, work: String,cellPhone: String) {
+        
         self.mustUpdatePhone = true
         self.phoneNumber = home
         self.workNumber = work

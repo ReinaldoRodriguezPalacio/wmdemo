@@ -188,15 +188,14 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     }
     
     
-    func setValuesLanding(_ imageBackgroundURL:String) {
+    func setValuesLanding(_ imageBackgroundURL: String) {
         
-        //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url: URL(string: imageBackgroundURL)!), placeholderImage: UIImage(named: "loading_cat"), success: { (request: URLRequest, response: HTTPURLResponse?, image: UIImage) -> Void in
             self.imageBackground.image = image
-            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                 print(error)
         }
+        
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true
