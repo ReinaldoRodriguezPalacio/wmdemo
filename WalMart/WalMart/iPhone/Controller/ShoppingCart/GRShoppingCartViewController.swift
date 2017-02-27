@@ -414,6 +414,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
+                if quantity ==  "00"{
+                    self.selectQuantityGR?.closeAction()
+                    self.deleteRowAtIndexPath(self.tableShoppingCart.indexPath(for: cell)!)
+                    return
+                }
+
+                
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
                     

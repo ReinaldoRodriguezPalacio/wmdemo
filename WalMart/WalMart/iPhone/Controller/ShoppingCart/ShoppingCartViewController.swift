@@ -763,6 +763,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 self.selectQuantity!.removeFromSuperview()
             }
             selectQuantity!.addToCartAction = { (quantity:String) in
+                                
+                if quantity == "00" {
+                    self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
+                    self.reloadShoppingCart()
+                    self.selectQuantity!.closeAction()
+                    return
+                }
+
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     
