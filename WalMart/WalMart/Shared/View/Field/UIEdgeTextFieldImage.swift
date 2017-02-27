@@ -40,13 +40,12 @@ class UIEdgeTextFieldImage : UITextField {
         self.addSubview(imageIcon!)
     }
     
-    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: 45, dy: 11);
+        return CGRect(x: 45, y: 0, width: bounds.width - 42, height: bounds.height)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: 45 , dy: 11);
+        return CGRect(x: 45, y: 0, width: bounds.width - 42, height: bounds.height)
     }
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {

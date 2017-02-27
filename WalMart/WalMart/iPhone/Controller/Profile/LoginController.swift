@@ -167,8 +167,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }*/
     }
     
-    
-    
     override func viewWillLayoutSubviews() {
         if !viewAnimated {
             super.viewWillLayoutSubviews()
