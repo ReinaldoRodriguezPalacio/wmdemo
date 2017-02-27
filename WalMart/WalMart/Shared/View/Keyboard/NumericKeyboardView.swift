@@ -140,15 +140,15 @@ class NumericKeyboardView : UIView {
     func generateCircleImage (_ colorImage:UIColor,size:CGSize) -> UIImage {
         var screenShot : UIImage? = nil
         autoreleasepool {
+            
             let tempView = UIView(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             tempView.backgroundColor = colorImage
             tempView.layer.cornerRadius = size.width / 2
             
-            //UIGraphicsBeginImageContext(size);
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             tempView.layer.render(in: UIGraphicsGetCurrentContext()!)
-            screenShot = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            screenShot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
         }
         
         return screenShot!

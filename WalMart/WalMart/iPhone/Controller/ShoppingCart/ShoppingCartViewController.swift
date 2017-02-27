@@ -290,7 +290,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonWishlist)
         
-        var wShop: CGFloat =  341 - 82
+        var wShop: CGFloat =  self.viewFooter.frame.width - buttonWishlist.frame.maxX //341 - 82
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
@@ -299,14 +299,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
                 }
                 x = buttonAsociate.frame.maxX + 16
-                wShop = 341 - 135
+                wShop = self.viewFooter.frame.width - buttonAsociate.frame.maxX //341 - 135
             }
         }
-        wShop = wShop +  (IS_IPAD ? 0.0 : 32.0)
+        wShop = wShop -  (IS_IPAD ? 0.0 : 32.0)
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop + 32.0, height: 34))
+            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop, height: 34))
         }else {
-            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop + 32.0, height: 34)
+            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop, height: 34)
         }
 
     

@@ -147,6 +147,17 @@ class GRSaveUserListService : GRBaseService {
                     detail!.type = type
                 }
                 
+                if let stock = item["stock"] as? Bool {
+                    detail!.stock = stock
+                }
+                else if let stock = item["stock"] as? String {
+                    detail!.stock = stock != "0"
+                }
+                
+                if let promoDescription = item["promoDescription"] as? String {
+                    detail!.promoDescription = promoDescription
+                }
+                
                 detail!.list = entity!
             }
         }

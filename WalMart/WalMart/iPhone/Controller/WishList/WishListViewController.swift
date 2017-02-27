@@ -289,11 +289,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
+            
+            self.invokeWishlistService()
 
-            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                self.invokeWishlistService()
-
-            })
+//            UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+//                self.invokeWishlistService()
+//
+//            })
         }
         
     }
@@ -822,7 +824,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func invokeWishlistService() {
         let service = UserWishlistService()
-        service.callService(
+        service.callCoreDataService(
             { (wishlist:[String:Any]) -> Void in
                 self.items = wishlist["items"] as! [[String:Any]]
             

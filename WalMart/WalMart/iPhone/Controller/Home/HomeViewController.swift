@@ -382,11 +382,34 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch  (indexPath.section,indexPath.row) {
         case (0,0):
-            return CGSize(width: self.view.frame.width, height: 217)
+            
+            var headerHeight: CGFloat = 0.0
+            
+            if IS_IPHONE_4_OR_LESS || IS_IPHONE_5 {
+                headerHeight = 217
+            } else if IS_IPHONE_6 {
+                headerHeight = 254
+            } else if IS_IPHONE_6P {
+                headerHeight = 280
+            } else {
+                headerHeight = 217
+            }
+            
+            return CGSize(width: self.view.frame.width, height: headerHeight)
         case (0,1):
             return CGSize(width: self.view.frame.width, height: 44)
         default:
-            return CGSize(width: 106.66, height: 146)
+            
+            let rowWidth: CGFloat = view.frame.width / 3
+            var headerHeight: CGFloat = 0.0
+            
+            if IS_IPHONE_6P {
+                headerHeight = 138
+            } else {
+                headerHeight = 146
+            }
+            
+            return CGSize(width: rowWidth, height: headerHeight)
         }
     }
     

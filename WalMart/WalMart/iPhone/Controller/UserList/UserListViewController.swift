@@ -295,6 +295,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
             })
             
+            self.invokeWishListService()
+            
             self.tableuserlist?.reloadData()
             self.checkEditBtn()
             if !self.newListEnabled && !self.isEditingUserList {
@@ -637,8 +639,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.newListEnabled = true
                             self.cancelNewList()
 
-                            for itemList in self.itemsUserList! as! [[String:Any]] {
-                                if (itemList["name"] as! String) == value {
+                            for itemList in self.itemsUserList! as! [List] {
+                                if itemList.name == value {
                                     self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
                                     return
                                 }
@@ -749,6 +751,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             detail!.desc = item.desc
                             detail!.price = item.price
                             detail!.quantity = item.quantity
+                            detail!.stock = item.stock
+                            detail!.promoDescription = item.promoDescription
                             detail!.list = clist!
                             
                             // 360 Event
@@ -836,12 +840,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-                    if let listId = listItem["id"] as? String {
-                      self.deleteListInDB(listId)
-                        
-                        self.invokeDeleteListService(listId)
-                       
+                if  UserCurrentSession.hasLoggedUser() {
+                    if let listEntity = self.itemsUserList![indexPath.row] as? List {
+                        let listId = listEntity.idList
+                        self.invokeDeleteListService(listId!)
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
@@ -870,33 +872,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         default:
             print("other pressed")
         }
-    }
-    
-    /**
-     create query to delete list fromid list in db
-     
-     - parameter idList: id list
-     */
-    func deleteListInDB(_ idList:String){
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: context)
-        fetchRequest.predicate = NSPredicate(format: "idList == %@", idList)
-        
-        let result: [List] = (try! context.fetch(fetchRequest)) as! [List]
-        if result.count > 0 {
-            for listDetail in result {
-                context.delete(listDetail)
-            }
-            do {
-                try context.save()
-            } catch {
-                abort()
-            }
-        }
-        
     }
     
     func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
@@ -1354,6 +1329,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             service.buildParams(listId)
             service.callService(nil,
                 successBlock:{ (result:[String:Any]) -> Void in
+                    service.deleteListInDB(listId)
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteListDone", comment:""))
@@ -1728,6 +1704,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }, errorBlock: { (error:NSError) -> Void in
             print("Call DefaultListService error \(error)")
             self.updateNumberOfDefaultList()
+        })
+    }
+    
+    
+    func invokeWishListService() {
+        let service = UserWishlistService()
+        service.callCoreDataService({(result:[String:Any]) -> Void in
+            print("Call WishList Service sucess")
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Call WishList Service error \(error)")
         })
     }
     

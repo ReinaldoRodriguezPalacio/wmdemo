@@ -278,6 +278,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                    newView.customCloseDep = true
                     
                     newView.imageBackground.alpha = 0
+                    newView.imageBackground.contentMode = .scaleAspectFill
                     newView.buttonClose.alpha = 0
                     newView.imageIcon.alpha = 0
                     self.view.addSubview(newView)
