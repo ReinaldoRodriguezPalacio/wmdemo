@@ -692,6 +692,9 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
             
         } else {
+            if result == 0.0 || result == 0 {
+                return 
+            }
             btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
