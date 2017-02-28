@@ -893,9 +893,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.tabledetail.endUpdates()
             
             self.pagerController!.enabledGesture(false)
+            self.tabledetail.reloadData()
         }
         
-        self.tabledetail.reloadData()
         
         CATransaction.commit()
     }
@@ -933,9 +933,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.tabledetail.endUpdates()
                     
                     self.pagerController!.enabledGesture(true)
+                    self.tabledetail.reloadData()
                 }
                 
-                self.tabledetail.reloadData()
+               
                 
                 CATransaction.commit()
             }) 
@@ -950,6 +951,22 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
         
         self.isWishListProcess = true
+        
+        if !isContainerHide {
+            closeContainer({ () -> Void in
+            }, completeClose: { () -> Void in
+                
+                self.tabledetail.isScrollEnabled = false
+                //gestureCloseDetail.enabled = true
+                if  self.tabledetail.contentOffset.y != 0.0 {
+                    self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
+                }
+                if self.addOrRemoveToWishListBlock != nil {
+                    self.addOrRemoveToWishListBlock!()
+                }
+                self.tabledetail?.reloadData()
+            }, closeRow:true)
+        }
         
         self.addOrRemoveToWishListBlock = {() in
             if addItem {
@@ -987,23 +1004,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
             //}
         }
-        
-        if !isContainerHide {
-         closeContainer({ () -> Void in
-         }, completeClose: { () -> Void in
-         }, closeRow:true)
-        }
-        
-        
-        self.tabledetail.isScrollEnabled = false
-        //gestureCloseDetail.enabled = true
-        if  self.tabledetail.contentOffset.y != 0.0 {
-            self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
-        }
-        if addOrRemoveToWishListBlock != nil {
-            addOrRemoveToWishListBlock!()
-        }
-        
         
     }
     
