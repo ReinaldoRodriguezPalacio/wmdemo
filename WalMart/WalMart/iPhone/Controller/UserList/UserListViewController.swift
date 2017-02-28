@@ -71,7 +71,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(UserListViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Actualizando listas")
+        refreshControl.tintColor = WMColor.yellow
         return refreshControl
     }()
     
