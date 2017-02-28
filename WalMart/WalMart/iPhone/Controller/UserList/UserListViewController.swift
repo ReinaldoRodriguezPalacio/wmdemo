@@ -68,6 +68,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         return context
         }()
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(UserListViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Actualizando listas")
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         self.hiddenBack = true
         super.viewDidLoad()
@@ -125,6 +132,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .none
         BaseController.setOpenScreenTagManager(titleScreen: "Listas", screenName: self.getScreenGAIName())
+        
+        self.tableuserlist?.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1723,4 +1732,17 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.reloadData()
     }
     
+    //MARK: RefreshControl
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        let user = UserCurrentSession.sharedInstance
+        user.invokeWishListService()
+        user.invokeGroceriesUserListService({ () -> Void in
+            print("Refresh")
+            self.reloadList(success: nil, failure: nil)
+            refreshControl.endRefreshing()
+        })
+    }
+    
 }
+

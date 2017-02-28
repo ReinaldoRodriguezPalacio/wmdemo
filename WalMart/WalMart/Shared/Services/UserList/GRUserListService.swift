@@ -12,6 +12,7 @@ import CoreData
 class GRUserListService : GRBaseService {
 
     var isLoadingLists = false
+    var manageListDataSuccess: ((Void) -> Void)? = nil
     
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
@@ -173,10 +174,7 @@ class GRUserListService : GRBaseService {
                 }
             }
         }
-      
-        
-        
-
+        var listCount = 0
         for serviceList in list as! [[String:Any]]{
             let listId = serviceList["id"] as! String
             
@@ -233,7 +231,7 @@ class GRUserListService : GRBaseService {
                 detailService.callService([:],
                     successBlock: { (result:[String:Any]) -> Void in
                         if let items = result["items"] as? [Any] {
-                            
+                             listCount += 1
                             let parentList = self.findListById(listId)
                             if parentList == nil {
                                 print("User list not founded \(listId)")
@@ -278,19 +276,34 @@ class GRUserListService : GRBaseService {
                                 }
                                 //
                                 detail!.list = parentList!
-                                
+                            }
+                            if list.count == listCount {
                                 self.saveContext()
+                                self.manageListDataSuccess?()
+                                self.manageListDataSuccess = nil
                             }
                         }
                     },
                     errorBlock: { (error:NSError) -> Void in
                         print("Error at retrieve list detail")
-                    }
-                )
+                        listCount += 1
+                        if list.count == listCount {
+                            self.saveContext()
+                            self.manageListDataSuccess?()
+                            self.manageListDataSuccess = nil
+                            
+                        }
+                    })
+            }else{
+                listCount += 1
+                if list.count == listCount {
+                    self.saveContext()
+                    self.manageListDataSuccess?()
+                    self.manageListDataSuccess = nil
+                    
+                }
             }
-            
         }
-        
     }
     
     /**
