@@ -587,6 +587,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
     func showProductDetail(_ upcProduct:String,type:String){
         let controller = ProductDetailPageViewController()
+        controller.detailOf = "Banner"
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type]]
         
         self.navigationController!.pushViewController(controller, animated: true)

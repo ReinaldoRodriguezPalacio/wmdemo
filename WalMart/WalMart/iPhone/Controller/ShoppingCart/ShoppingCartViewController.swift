@@ -229,8 +229,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         super.viewDidAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        showDiscountAsociate()
-        
+        self.reloadShoppingCart()
+        self.showDiscountAsociate()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -746,15 +746,15 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 self.selectQuantity!.removeFromSuperview()
             }
             selectQuantity!.addToCartAction = { (quantity:String) in
+                
                 if quantity == "00" {
-                    
                     self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
                     self.reloadShoppingCart()
                     self.selectQuantity!.closeAction()
                     return
                 }
-                
-                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue: 5
+
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     
                     let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))

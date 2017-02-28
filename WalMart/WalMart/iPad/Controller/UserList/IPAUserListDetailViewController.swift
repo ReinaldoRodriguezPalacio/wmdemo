@@ -260,7 +260,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         self.titleLabel?.text = self.listName
         if self.emptyView == nil {
-            self.emptyView = UIView()
+            self.emptyView = IPOUserListEmptyView()
         }
         
         if UserCurrentSession.hasLoggedUser() {
