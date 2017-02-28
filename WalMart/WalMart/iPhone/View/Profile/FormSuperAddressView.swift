@@ -209,7 +209,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneWorkNumber!.typeField = TypeField.number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
-        self.phoneWorkNumber!.maxLength = 5
+        self.phoneWorkNumber!.maxLength = 10
         self.phoneWorkNumber!.disablePaste = true
         self.phoneWorkNumber!.delegate = self
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.numberPad
@@ -377,7 +377,10 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         if self.errorView == nil{
                             self.errorView = FormFieldErrorView()
                         }
-                        let stringToShow : NSString = error.localizedDescription as NSString
+                        var stringToShow : NSString = error.localizedDescription as NSString
+                        if error.code != -1 {
+                            stringToShow = "Intenta nuevamente."
+                        }
                         let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
                         SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
                         
@@ -790,7 +793,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         
         if textField == self.phoneWorkNumber {
-            if fieldString.characters.count == 6 {
+            if fieldString.characters.count == 10 {
                 return false
             }
         }
