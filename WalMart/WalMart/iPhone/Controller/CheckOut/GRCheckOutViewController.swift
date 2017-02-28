@@ -1776,9 +1776,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let total = subtotal.adding(shipping).adding(tax)
         
         let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .authorize)
-        
-        payment.items = payPalItems
-        payment.paymentDetails = paymentDetails
+        //payment.custom =
+       // payment.items = payPalItems
+        //payment.paymentDetails = paymentDetails
         
         if (payment.processable) {
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
