@@ -229,6 +229,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), for: UIControlState.selected)
         self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
         
+        self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0,0 , 0)
+        
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
         
     }
@@ -314,8 +316,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             if detailProductCart!.type == ResultObjectType.Groceries.rawValue {
                 if detailProductCart!.note != nil && detailProductCart!.note != "" {
                     self.comments = detailProductCart!.note
-                    self.addToShoppingCartButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
+                    self.addToShoppingCartButton!.imageEdgeInsets = UIEdgeInsetsMake(0, self.addToShoppingCartButton!.frame.width - 31, 0.0, 0.0)
                     self.addToShoppingCartButton!.setImage(UIImage(named:"notes_cart"), for: UIControlState())
+                    self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, (self.addToShoppingCartButton!.imageView!.image!.size.width + 10))
+                }else{
+                    self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
                 }
             }
         } else {

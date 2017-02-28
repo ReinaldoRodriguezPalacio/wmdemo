@@ -107,9 +107,19 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     comments = comment
                 }
                 
-                if let orderByPiece  = itemSvc["orderByPieces"] as? Bool {
-                    orderByPieces = orderByPiece
+                var baseUmd = ""
+                if let baseUomcd  = itemSvc["baseUomcd"] as? String {
+                    baseUmd = baseUomcd
+                    orderByPieces = baseUomcd == "EA"
                 }
+                if baseUmd == "" {
+                    if let orderByPiece  = itemSvc["orderByPieces"] as? Bool {
+                        orderByPieces = orderByPiece
+                    }
+                }
+                
+                
+
 
                
                 
