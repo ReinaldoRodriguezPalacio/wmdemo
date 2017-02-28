@@ -171,7 +171,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.phoneWorkNumber!.typeField = TypeField.number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 0
-        self.phoneWorkNumber!.maxLength = 5
+        self.phoneWorkNumber!.maxLength = 10
         self.phoneWorkNumber!.delegate = self
         self.phoneWorkNumber!.disablePaste = true
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.numberPad
@@ -458,7 +458,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         }
         
         if textField == self.phoneWorkNumber {
-            if fieldString.characters.count == 6 {
+            if fieldString.characters.count == 10 {
                 return false
             }
         }
