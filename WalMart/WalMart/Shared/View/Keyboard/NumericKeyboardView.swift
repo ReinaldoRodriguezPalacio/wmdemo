@@ -27,7 +27,7 @@ class NumericKeyboardView : UIView {
     var normal : UIColor!
     var selected : UIColor!
     
-    var btnDelete = UIButton()
+    //var btnDelete = UIButton()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -119,14 +119,14 @@ class NumericKeyboardView : UIView {
             
         }
         
-        btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
-        btnDelete.setTitle("Borrar", for: UIControlState())
-        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
-        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
-        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), for: UIControlEvents.touchUpInside)
-        btnDelete.tag = 999
-        hideDeleteBtn()
-        self.addSubview(btnDelete)
+//        btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
+//        btnDelete.setTitle("Borrar", for: UIControlState())
+//        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
+//        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
+//        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), for: UIControlEvents.touchUpInside)
+//        btnDelete.tag = 999
+//        hideDeleteBtn()
+//        self.addSubview(btnDelete)
     
     }
     
@@ -156,13 +156,13 @@ class NumericKeyboardView : UIView {
     }
     
     func hideDeleteBtn() {
-        btnDelete.isEnabled = false
-        btnDelete.isHidden = true
+//        btnDelete.isEnabled = false
+//        btnDelete.isHidden = true
     }
     
     func showDeleteBtn() {
-        btnDelete.isEnabled = true
-        btnDelete.isHidden = false
+//        btnDelete.isEnabled = true
+//        btnDelete.isHidden = false
     }
     
     func chngequantity(_ sender:UIButton) {
