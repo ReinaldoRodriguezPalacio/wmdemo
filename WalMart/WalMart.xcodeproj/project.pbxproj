@@ -56,6 +56,7 @@
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
+		223B1A2D1E64A75B0025CF36 /* IPOUserListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
 		2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
@@ -607,6 +608,7 @@
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
+		223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOUserListEmptyView.swift; path = iPhone/View/EmptyView/IPOUserListEmptyView.swift; sourceTree = "<group>"; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
@@ -2504,6 +2506,7 @@
 				56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */,
 				5681998319E35F1300362D3C /* IPOGenericEmptyView.swift */,
 				56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */,
+				223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */,
 			);
 			name = EmptyView;
 			sourceTree = "<group>";
@@ -3675,6 +3678,7 @@
 				56DA713B1A3F9A9200048539 /* DepartmentCollectionViewCell.swift in Sources */,
 				AC6AAE9919CCB648004081C4 /* MyAddressViewController.swift in Sources */,
 				56E54E5519EC8D480004161C /* IPAProductDetailViewController.swift in Sources */,
+				223B1A2D1E64A75B0025CF36 /* IPOUserListEmptyView.swift in Sources */,
 				568B8E151B0A88ED007A8596 /* TutorialHelpView.swift in Sources */,
 				AC37F6B219B9042C000BB80D /* ZipCodeService.swift in Sources */,
 				04203FE11A6F2B2800008366 /* GRDeleteItemListService.swift in Sources */,
