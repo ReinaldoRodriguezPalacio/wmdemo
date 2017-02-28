@@ -31,7 +31,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var nameField: FormFieldView?
     
     var loading: WMLoadingView?
-    var emptyView: UIView?
+    var emptyView: IPOUserListEmptyView?
     var quantitySelector: GRShoppingCartQuantitySelectorView?
     //var alertView: IPOWMAlertViewController?
     
@@ -250,13 +250,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.reminderButton?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: 23.0)
                 self.reminderImage?.frame = CGRect(x: self.view.frame.width - 27, y: self.header!.frame.maxY + 6, width: 11.0, height: 11.0)
              
-                self.addProductsView!.frame = CGRect(x: 0,y: openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
+                self.addProductsView!.frame = CGRect(x: 0, y: openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
                 
                 self.tableView?.frame = CGRect(x: 0, y: self.addProductsView!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.addProductsView!.frame.maxY)
 
             }else{
                 self.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
             }
+        }
+        
+        if UserCurrentSession.hasLoggedUser() {
+            self.addProductsView!.frame = CGRect(x: 0, y: openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
         }
         
         
@@ -676,60 +680,27 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let height = bounds.size.height - self.header!.frame.height
         self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 64))
+            self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height - 44 - 64))
+            
+            self.emptyView?.showReturnButton = false
         }else{
-            let heightempty = self.view!.superview == nil ? height - self.footerSection!.frame.height - 9 : self.view.frame.height - 64
-            self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
+            var heightempty = self.view!.superview == nil ? height - self.footerSection!.frame.height : self.view.frame.height - 64
+            
+            if IS_IPHONE_6 || IS_IPHONE_6P{
+                heightempty -= 24
+            }
+            self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
         }
-        self.emptyView!.backgroundColor = UIColor.white
+        
+        if UserCurrentSession.hasLoggedUser() {
+            self.view.addSubview(self.addProductsView!)
+        }
         self.view.addSubview(self.emptyView!)
         
-        let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height:self.emptyView!.frame.height)
-        self.emptyView!.addSubview(bg)
-        
-        let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
-        labelOne.textAlignment = .center
-        labelOne.textColor = WMColor.light_blue
-        labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
-        labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
-        self.emptyView!.addSubview(labelOne)
-        
-        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: bounds.width, height: 16))
-        labelTwo.textAlignment = .center
-        labelTwo.textColor = WMColor.light_blue
-        labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
-        labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
-        self.emptyView!.addSubview(labelTwo)
-        
-        let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRect(x: labelTwo.frame.midX - 63, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
-        self.emptyView!.addSubview(icon)
-        
-        let button = UIButton(type: .custom)
-        
-        var buttonY = self.emptyView!.frame.height - 100
-        if UserCurrentSession.hasLoggedUser() {
-            buttonY -= 60
-        }
-        if IS_IPHONE_4_OR_LESS {
-            buttonY = self.emptyView!.frame.height - 90
+        self.emptyView?.returnAction = {() in
+            self.back()
         }
         
-        
-        button.frame = CGRect(x: (bounds.width - 160.0)/2, y: buttonY, width: 160 , height: 40)
-        
-        /*if IS_IPHONE_4_OR_LESS{
-         button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
-        }*/
-        button.backgroundColor = WMColor.light_blue
-        button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), for: UIControlState())
-        button.setTitleColor(UIColor.white, for: UIControlState())
-        button.addTarget(self, action: #selector(UserListDetailViewController.backEmpty), for: .touchUpInside)
-        button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        button.layer.cornerRadius = 20.0
-        button.isHidden = UserCurrentSession.hasLoggedUser()
-        self.emptyView!.addSubview(button)
     }
     
     /**
@@ -1128,7 +1099,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         }
                     }
                     self.openEmpty =  false
-                     self.removeEmpyView()
+                    self.removeEmpyView()
                 }
                 
                 //self.layoutTitleLabel()
