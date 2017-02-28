@@ -23,6 +23,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
     var keyboardView: NumericKeyboardView!
     var isUpcInShoppingCart: Bool = false
     var startY: CGFloat! = 0
+    var btnDelete : UIButton!
     var isFullView = false
     
     init(frame: CGRect, priceProduct: NSNumber!,upcProduct:String,startY: CGFloat = 0 ) {
@@ -101,6 +102,10 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
+        btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
+        btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
+        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        btnDelete.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
         
         var rectSize = CGRect.zero
         
@@ -127,13 +132,14 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         self.addSubview(keyboardView)
         self.addSubview(btnOkAdd)
         self.addSubview(closeButton)
+        self.addSubview(btnDelete)
 
         if isUpcInShoppingCart {
-            let btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
+            /*let btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
             btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
             btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             btnDelete.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
-            self.addSubview(btnDelete)
+            */
         }
         
         

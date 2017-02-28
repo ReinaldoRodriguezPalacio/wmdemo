@@ -272,7 +272,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonDelet = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
         buttonDelet.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
         buttonDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
+        buttonDelet.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.userSelectDelete), for: .touchUpInside)
         buttonDelet.alpha = 1
         
         self.updateShoppButtonN()
