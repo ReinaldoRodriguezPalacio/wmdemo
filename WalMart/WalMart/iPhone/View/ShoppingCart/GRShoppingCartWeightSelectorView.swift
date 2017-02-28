@@ -29,7 +29,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     var lblQuantityW : UILabel!
     var keyboardP : NumericKeyboardView!
     var lblQuantityP : UILabel!
-    var btnDelete : UIButton!
     var quantityWAnimate : UIView!
     
     var originalValGr: Double! = 50.0
