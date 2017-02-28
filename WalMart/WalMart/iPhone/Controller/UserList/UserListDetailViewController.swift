@@ -686,7 +686,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }else{
             var heightempty = self.view!.superview == nil ? height - self.footerSection!.frame.height : self.view.frame.height - 64
             
-            if IS_IPHONE_6 || IS_IPHONE_6P{
+            if IS_IPHONE_5 || IS_IPHONE_6 || IS_IPHONE_6P {
                 heightempty -= 24
             }
             self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
