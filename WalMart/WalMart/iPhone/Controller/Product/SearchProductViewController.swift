@@ -2073,7 +2073,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
         }
-        selectQuantityGR?.validateOrderByPiece(orderByPiece: selectQuantityGR!.orderByPiece, quantity: 1.1, pieces: 1)
+        
+        selectQuantityGR?.validateOrderByPiece(orderByPiece: quantity == 0 ? false: selectQuantityGR!.orderByPiece, quantity: 1.1, pieces: 1)
         
         selectQuantityGR?.addUpdateNote = { () in
             var pieces = 0
