@@ -254,9 +254,9 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
         let btnDelet = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
-        btnDelet.setTitle(NSLocalizedString("shoppingcart.delete5", comment: ""), for: .normal)
+        btnDelet.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
         btnDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        btnDelet.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.userSelectDelete), for: .touchUpInside)
+        btnDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
         
         self.updateShoppButtonN()
         
@@ -780,6 +780,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         
         if lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING  {
+            self.currentValCstmGr = 0.0
             self.btnOkAddN.backgroundColor = WMColor.red
             if isFromList {
                 self.btnOkAddN.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
@@ -802,7 +803,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             self.btnOkAddN.backgroundColor = WMColor.green
             self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
