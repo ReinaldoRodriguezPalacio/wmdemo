@@ -441,6 +441,47 @@ class UserCurrentSession : NSObject {
         
     }
     
+    func userHasQuantityUPCShoppingCart(_ upc:String) -> NSNumber {
+        var  predicate  : NSPredicate? = nil
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@",userSigned!, upc,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
+            //let setItems = userSigned?.productsInCart.filteredSetUsingPredicate(predicate!)
+            //return setItems?.count != 0
+        }else{
+            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
+            
+        }
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart" as String)
+        request.predicate = predicate
+        
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.fetch(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
+        if error != nil {
+            print("errore: \(error)")
+        }
+        
+        
+        let  hasQuantity = fetchedResult?.count != 0
+        var quantity : NSNumber =  0
+        if hasQuantity {
+            if let resultProduct = fetchedResult?[0] as? Cart {
+                quantity = resultProduct.quantity
+            }
+        }
+        
+        return quantity
+    }
+    
     func userHasNoteUPCShoppingCart(_ upc:String) -> Bool {
         var  predicate  : NSPredicate? = nil
         if userSigned != nil {
@@ -480,6 +521,7 @@ class UserCurrentSession : NSObject {
         
         return hasNote
     }
+    
     
     
     
