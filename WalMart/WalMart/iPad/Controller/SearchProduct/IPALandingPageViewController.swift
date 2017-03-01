@@ -698,7 +698,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
         }
     }
     
-    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber) {
+    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
         
         let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
         self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
@@ -753,7 +753,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
         selectQuantityPopover!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.9)
         selectQuantityPopover!.present(from: cell.addProductToShopingCart!.bounds, in: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
     }
-    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber) {
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
 
     }
     

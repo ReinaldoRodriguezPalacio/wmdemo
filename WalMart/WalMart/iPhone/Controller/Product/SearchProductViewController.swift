@@ -2007,7 +2007,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: SearchProductCollectionViewCellDelegate
     
-    func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect,quantity:NSNumber){
+    func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect,quantity:NSNumber,noteProduct:String){
         
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
@@ -2088,12 +2088,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let addShopping = ShoppingCartUpdateController()
             let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(Int(quantity))",position:cell.positionSelected,orderByPiece:self.selectQuantityGR.orderByPiece,pieces: pieces)
             addShopping.params = paramsToSC
-            vc!.addChildViewController(addShopping)
+            //vc!.addChildViewController(addShopping)
             addShopping.view.frame = frame
-            vc!.view.addSubview(addShopping.view)
+            //vc!.view.addSubview(addShopping.view)
+            self.view.window?.addSubview(addShopping.view)
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = ""//cell.comments
+            addShopping.comments = noteProduct
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
@@ -2164,11 +2165,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
-    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber) {
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
         if !selectQuantityOpen {
             if let frameTo = self.view.window?.frame  {
                 let frameDetail = CGRect(x: 0,y: 0, width: frameTo.width,height: frameTo.height)
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail,quantity: quantity)
+                let quantity = productInCart ==  nil ?  0 :  productInCart!.quantity
+                let note  = productInCart ==  nil ?  "" :  productInCart!.note
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail,quantity: quantity,noteProduct: note!)
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)
                 UIView.animate(withDuration: 0.2, animations: {
@@ -2232,7 +2235,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber) {
+    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
         if !selectQuantityOpen {
             if let frameTo = self.view.window?.frame  {
                 let frameDetail = CGRect(x: 0,y: 0, width: frameTo.width,height: frameTo.height)

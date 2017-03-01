@@ -441,7 +441,7 @@ class UserCurrentSession : NSObject {
         
     }
     
-    func userHasQuantityUPCShoppingCart(_ upc:String) -> NSNumber {
+    func userHasQuantityUPCShoppingCart(_ upc:String) -> Cart? {
         var  predicate  : NSPredicate? = nil
         if userSigned != nil {
             predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@",userSigned!, upc,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
@@ -472,14 +472,14 @@ class UserCurrentSession : NSObject {
         
         
         let  hasQuantity = fetchedResult?.count != 0
-        var quantity : NSNumber =  0
+        var productIncar : Cart? =  nil
         if hasQuantity {
             if let resultProduct = fetchedResult?[0] as? Cart {
-                quantity = resultProduct.quantity
+                productIncar = resultProduct
             }
         }
         
-        return quantity
+        return productIncar
     }
     
     func userHasNoteUPCShoppingCart(_ upc:String) -> Bool {
