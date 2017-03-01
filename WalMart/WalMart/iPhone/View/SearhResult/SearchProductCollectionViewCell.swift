@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SearchProductCollectionViewCellDelegate{
-    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell)
-    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell)
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber)
+    func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,quantity:NSNumber)
 }
 
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
@@ -178,7 +178,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             }
             if !hasUPC {
                 if self.pesable ?? false {
-                    self.delegate?.selectGRQuantityForItem(self)
+                    self.delegate?.selectGRQuantityForItem(self,quantity: 0)
                 } else {
                     let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: self.type,isPreorderable:self.isPreorderable)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
@@ -190,11 +190,13 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 //                    }
                 }
             }else{
+                let quantity = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(upc)
+                print(quantity)
                 if self.type == ResultObjectType.Groceries.rawValue {
-                    self.delegate?.selectGRQuantityForItem(self)
+                    self.delegate?.selectGRQuantityForItem(self,quantity: quantity)
                 }
                 else {
-                    self.delegate?.selectMGQuantityForItem(self)
+                    self.delegate?.selectMGQuantityForItem(self,quantity: quantity)
                 }
             }
             
