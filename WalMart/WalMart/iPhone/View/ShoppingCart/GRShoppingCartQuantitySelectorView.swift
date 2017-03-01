@@ -329,7 +329,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart &&  !isFromList {
                 let tmpResult : NSString = "00" as NSString
                 lblQuantity.text = tmpResult as String
                 btnOkAdd.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
