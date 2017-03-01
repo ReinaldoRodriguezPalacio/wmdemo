@@ -113,6 +113,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     var indexRowSelected : String = ""
     var detailOf : String = ""
+    var isInWishList: Bool = false
     let heightDetail : CGFloat = 388
     
     override func viewDidLoad() {
@@ -181,6 +182,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
+        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -552,7 +554,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return (msi.count == 0 ? 302.0 : 222.0)
+            return 302.0
         case (0,6) :
             return 222.0
         case (1,0) :
@@ -611,7 +613,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.isPreorderable = self.strisPreorderable as String
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton!.reloadButton()
-            productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.isSelected = self.isInWishList
             productDetailButton!.listButton.isEnabled = !self.isGift
             productDetailButton!.productDepartment = self.productDeparment
             var imageUrl = ""
@@ -893,7 +895,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.tabledetail.endUpdates()
             
             self.pagerController!.enabledGesture(false)
-            self.tabledetail.reloadData()
+            //self.tabledetail.reloadData()
         }
         
         
@@ -913,10 +915,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.isShowProductDetail = false
                     self.productDetailButton!.deltailButton.isSelected = false
                     self.tabledetail.isScrollEnabled = true
-                    self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                    self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                    self.productDetailButton!.listButton.isSelected = self.isInWishList
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
-                    
                     completeClose()
                     for viewInCont in self.containerinfo.subviews {
                         viewInCont.removeFromSuperview()
@@ -933,7 +935,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.tabledetail.endUpdates()
                     
                     self.pagerController!.enabledGesture(true)
-                    self.tabledetail.reloadData()
+                    //self.tabledetail.reloadData()
                 }
                 
                
@@ -952,22 +954,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         self.isWishListProcess = true
         
-        if !isContainerHide {
-            closeContainer({ () -> Void in
-            }, completeClose: { () -> Void in
-                
-                self.tabledetail.isScrollEnabled = false
-                //gestureCloseDetail.enabled = true
-                if  self.tabledetail.contentOffset.y != 0.0 {
-                    self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
-                }
-                if self.addOrRemoveToWishListBlock != nil {
-                    self.addOrRemoveToWishListBlock!()
-                }
-                self.tabledetail?.reloadData()
-            }, closeRow:true)
-        }
-        
         self.addOrRemoveToWishListBlock = {() in
             if addItem {
                 let serviceWishList = AddItemWishlistService()
@@ -976,14 +962,17 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     
                     //Event
                     ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
-                    
                     self.showMessageWishList(NSLocalizedString("wishlist.ready",comment:""))
-                    }) { (error:NSError) -> Void in
-                        self.isWishListProcess = false
-                        if error.code != -100 {
-                            added(false)
-                            self.showMessageWishList(error.localizedDescription)
-                        }
+                    self.tabledetail!.reloadData()
+                    self.isInWishList = true
+                }) { (error:NSError) -> Void in
+                    self.isWishListProcess = false
+                    if error.code != -100 {
+                        added(false)
+                        self.showMessageWishList(error.localizedDescription)
+                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                        self.productDetailButton!.listButton.isSelected = self.isInWishList
+                    }
                 }
             } else {
                 let serviceWishListDelete = DeleteItemWishlistService()
@@ -992,19 +981,37 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     
                     //Event
                     ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
-                    
                     self.showMessageWishList(NSLocalizedString("wishlist.deleted",comment:""))
-                    }, errorBlock: { (error:NSError) -> Void in
-                        self.isWishListProcess = false
-                        added(false)
-                        if error.code != -100 {
-                            self.showMessageWishList(error.localizedDescription)
-                        }
+                    self.tabledetail!.reloadData()
+                    self.isInWishList = false
+                }, errorBlock: { (error:NSError) -> Void in
+                    self.isWishListProcess = false
+                    added(false)
+                    if error.code != -100 {
+                        self.showMessageWishList(error.localizedDescription)
+                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                        self.productDetailButton!.listButton.isSelected = self.isInWishList
+                    }
                 })
             }
-            //}
         }
         
+        if !isContainerHide {
+            closeContainer({ () -> Void in
+            }, completeClose: { () -> Void in
+                
+                self.tabledetail.isScrollEnabled = false
+                //gestureCloseDetail.enabled = true
+//                if  self.tabledetail.contentOffset.y != 0.0 {
+//                    self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
+//                }
+
+                self.addOrRemoveToWishListBlock!()
+
+            }, closeRow:true)
+        }else{
+            self.addOrRemoveToWishListBlock!()
+        }
     }
     
     func showMessageWishList(_ message:String) {
