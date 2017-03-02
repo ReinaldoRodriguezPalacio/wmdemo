@@ -12,6 +12,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
     
     let ZERO_QUANTITY_STRING = "00"
     
+
     var lblQuantity: UILabel!
     var imageBlurView: UIVisualEffectView!
     var first: Bool = true
@@ -131,6 +132,7 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         self.addSubview(lblQuantity)
         self.addSubview(keyboardView)
         self.addSubview(btnOkAdd)
+        self.addSubview(btnDelete)
         self.addSubview(closeButton)
         self.addSubview(btnDelete)
 
@@ -139,7 +141,9 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
             btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
             btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             btnDelete.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
-            */
+
+            self.addSubview(btnDelete)*/
+
         }
         
         
@@ -269,6 +273,17 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
             self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
             self.btnOkAdd.removeTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            
+            if !isUpcInShoppingCart {
+                self.btnOkAdd.backgroundColor = WMColor.green
+                let tmpResult : NSString = "00" as NSString
+                lblQuantity.text = tmpResult as String
+                btnOkAdd.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
+                let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            }
+            
         } else {
             self.btnOkAdd.backgroundColor = WMColor.green
             self.btnOkAdd.removeTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
