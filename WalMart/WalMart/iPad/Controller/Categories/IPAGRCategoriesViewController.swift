@@ -267,6 +267,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controller.idFamily  = family
         controller.idDepartment = department
         controller.idLine = line
+        let urlLineFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.urlFamily = urlLineFamily
+        controller.textToSearch = ""
         controller.titleHeader = name
         controller.searchFromContextType = SearchServiceFromContext.FromLineSearch
         self.navigationController?.pushViewController(controller, animated: true)

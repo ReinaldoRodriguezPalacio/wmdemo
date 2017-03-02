@@ -923,12 +923,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func reloadViewWithData(_ result:[String:Any]){
         let sku = result["sku"] as! [String:Any]
-        let parentProducts = sku["parentProducts"] as! [[String:Any]]
-        let parentProduct = parentProducts.first
         
-        self.name = parentProduct!["displayName"] as! NSString
+        self.name = sku["displayName"] as! NSString
         
-        if let resultPrice = result["price"] as? NSString {
+        if let resultPrice = result["basePrice"] as? NSString {
             self.price = resultPrice
         }else {
             self.price = "0.0"
@@ -942,7 +940,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.saving = ""
         self.detail = self.detail.replacingOccurrences(of: "^", with: "\n") as NSString
-        self.upc = parentProduct!["id"] as! NSString
+        self.upc = sku["id"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }
@@ -987,18 +985,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         self.characteristics = allCharacteristics
         
-        if let msiResult =  result["msi"] as? NSString {
-            if msiResult != "" {
-                self.msi = msiResult.components(separatedBy: ",")
-            }else{
-                self.msi = []
-            }
+        if let msiResult =  result["paymentPlans"] as? [String] {
+            self.msi = msiResult
         }
         
-        if let images = parentProduct!["largeImageUrl"] as? [String] {
+        if let images = sku["largeImageUrl"] as? [String] {
             self.imageUrl = images
         }else{
-            self.imageUrl = [(parentProduct!["largeImageUrl"] as! String)]
+            self.imageUrl = [(sku["largeImageUrl"] as! String)]
         }
         
         let freeShippingStr  = result["freeShippingItem"] as? NSString ?? ""

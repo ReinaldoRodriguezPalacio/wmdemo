@@ -501,7 +501,7 @@
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/51qbjdrddxfcxub/searchbytext3.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/Walmart/searchByText.txt?dl=0</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>https://dl.dropboxusercontent.com/s/b2pv1fc74042thm/getTicketList.txt?dl=0</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
@@ -626,7 +626,7 @@
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/51qbjdrddxfcxub/searchbytext3.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/Walmart/searchByText.txt?dl=0</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 		</dict>

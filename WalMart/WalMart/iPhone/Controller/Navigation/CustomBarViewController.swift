@@ -1048,6 +1048,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
+            controller.urlFamily = ""
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
