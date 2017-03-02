@@ -20,12 +20,15 @@ enum NumericKeyboardViewType : String {
 
 class NumericKeyboardView : UIView {
 
-    var widthButton: CGFloat = 40.0
-    var delegate: KeyboardViewDelegate!
-    var typeKeyboard: NumericKeyboardViewType! = NumericKeyboardViewType.Integer
-    var normal: UIColor!
-    var selected: UIColor!
-    var btnDelete = UIButton()
+
+    var widthButton : CGFloat = 40.0
+    var delegate : KeyboardViewDelegate!
+    var typeKeyboard : NumericKeyboardViewType! = NumericKeyboardViewType.Integer
+    var normal : UIColor!
+    var selected : UIColor!
+    
+    //var btnDelete = UIButton()
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -124,7 +127,6 @@ class NumericKeyboardView : UIView {
             
         }
         
-
 //        btnDelete = UIButton(frame: CGRect(x: currentX, y: currentY, width: self.widthButton, height: self.widthButton))
 //        btnDelete.setTitle("Borrar", for: UIControlState())
 //        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
@@ -163,13 +165,13 @@ class NumericKeyboardView : UIView {
     }
     
     func hideDeleteBtn() {
-        btnDelete.isEnabled = false
-        btnDelete.isHidden = true
+//        btnDelete.isEnabled = false
+//        btnDelete.isHidden = true
     }
     
     func showDeleteBtn() {
-        btnDelete.isEnabled = true
-        btnDelete.isHidden = false
+//        btnDelete.isEnabled = true
+//        btnDelete.isHidden = false
     }
     
     func chngequantity(_ sender:UIButton) {

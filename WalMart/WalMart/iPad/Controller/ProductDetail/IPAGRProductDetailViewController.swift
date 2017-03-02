@@ -565,10 +565,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             
-            /*if quantity.toInt() == 0 {
+            if quantity.toIntNoDecimals() == 0 {
                 self.listSelectorDidDeleteProduct(inList: listId)
             }
-            else {*/
+            else {
             
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
@@ -596,7 +596,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                             self.removeListSelector(action: nil, closeRow:true)
                     }
                 })
-            //}
+            }
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         UIView.animate(withDuration: 0.5,

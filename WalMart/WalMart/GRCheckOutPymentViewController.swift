@@ -574,6 +574,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let tax = NSDecimalNumber(string: (responsePaypal["tax"] as! String))
         let currency = responsePaypal["currency"] as! String
         let cartId = responsePaypal["cartId"] as! String
+        confirmOrderDictionary["cartId"] = cartId
         
         //Address
         let responseAddress = responsePaypal["address"] as! [String:Any]
@@ -598,7 +599,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
  
         let payment = PayPalPayment(amount: total, currencyCode: currency, shortDescription: "Walmart", intent: .authorize)
         
-       let shippingAddress =  PayPalShippingAddress(recipientName: "\(firstName) \(middleName) \(lastName)", withLine1: addressLine1, withLine2: addressLine2, withCity: city, withState: state, withPostalCode: postalCode, withCountryCode: country)
+       let shippingAddress =  PayPalShippingAddress(recipientName: "\(firstName) \(middleName) \(lastName)", withLine1: addressLine1, withLine2: addressLine2, withCity: city, withState    : state, withPostalCode: postalCode, withCountryCode: country)
         
         //payment.items = payPalItems
         payment.paymentDetails = paymentDetails
@@ -1294,7 +1295,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         print("PayPal Payment Success !")
         print(completedPayment.description)
         if let completeDict = completedPayment.confirmation["response"] as? [String:Any] {
-            if let idPayPal = completeDict["id"] as? String {
+            if let idPayPal = completeDict["authorization_id"] as? String {
                 var autorization = ""
                 if let idAuthorization = completeDict["authorization_id"] as? String {
                     autorization = idAuthorization
