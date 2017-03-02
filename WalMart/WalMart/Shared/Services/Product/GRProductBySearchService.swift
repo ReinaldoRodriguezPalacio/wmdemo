@@ -24,7 +24,7 @@ class GRProductBySearchService: BaseService {
     }
     
     
-    func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:Any]! {
+    /*func buildParamsForSearch(text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:Any]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
@@ -53,9 +53,13 @@ class GRProductBySearchService: BaseService {
             JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
             ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
         ] as [String:Any]
+    }*/
+    
+    func buildParamsForSearch(url:String?, text:String?, sort:String?, startOffSet:String?, maxResult:String?)  -> [String:String] {
+        return  ["url":url!, "text":text!, "maxResults":maxResult!, "sort":sort!, "startOffSet":startOffSet!]
     }
 
-    func callService(_ params:[String:Any], successBlock:(([[String:Any]],_ facet:[[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:(([[String:Any]],_ facet:[[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
@@ -71,7 +75,7 @@ class GRProductBySearchService: BaseService {
                 var newItemsArray = Array<[String:Any]>()
                 var facets = Array<[String:Any]>()
                 
-                if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? [[String:Any]] {
+                /*if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? [[String:Any]] {
                     self.saveKeywords(items) //Creating keywords
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
@@ -110,7 +114,39 @@ class GRProductBySearchService: BaseService {
                     }
                     
                     successBlock?(newItemsArray, facets)
+                }*/
+                        
+                //facets
+                if let itemsFacets = resultJSON["leftArea"] as? [[String:Any]] {
+                    if let leftArea = itemsFacets[0] as? [String:Any] {
+                        facets = leftArea["navigation"] as! Array<[String : Any]>
+                    }
                 }
+                if let responseMainArea = resultJSON["mainArea"] as? NSArray {
+                    
+                    let mainArea = responseMainArea[0] as! [String:Any]
+                    
+                    //Array items
+                    if let items = mainArea["records"] as? [[String:Any]] {
+                        for idx in 0 ..< items.count {
+                            let item = items[idx]
+                            var attributes = item["attributes"] as? [String:Any]
+                            if let promodesc = attributes?["promoDescription"] as? String{
+                                if promodesc != "null" {
+                                    attributes?["saving"] = promodesc as AnyObject?
+                                }
+                            }
+                            if let totalNumRec = mainArea["totalNumRecs"] as? String{
+                                if totalNumRec != "null" {
+                                    attributes?["totalResults"] = totalNumRec as AnyObject?
+                                }
+                            }
+                            newItemsArray.append(attributes!)
+                        }
+                    }
+                    successBlock?(newItemsArray, facets)
+                }
+                                
             },
             errorBlock: { (error:NSError) -> Void in
                 print("Error at search products in groceries \(error)")

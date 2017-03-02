@@ -69,6 +69,7 @@
     var searchContextType: SearchServiceContextType?
     var searchFromContextType: SearchServiceFromContext?
     var textToSearch:String?
+    var urlFamily:String?
     var idDepartment:String?
     var idFamily :String?
     var idLine:String?
@@ -403,8 +404,8 @@
                 return count
             }
             
-            size = (count  >= commonTotal) ? commonTotal : count// + 1
-            self.results!.resultsInResponse = size
+            size = (count  >= commonTotal) ? commonTotal : count + 1
+            self.results!.resultsInResponse = (count  >= commonTotal) ? commonTotal : count
             
         }
         return size
@@ -439,16 +440,26 @@
         //        }
         //
         item = self.allProducts![indexPath.item]
-        let upc = item["upc"] as! String
-        let skuid = item["skuId"] as? String ?? ""
-        let description = item["description"] as? String
+        var upc = ""
+        if let upcValue = item["productRepositoryId"] as? NSArray {
+            upc = upcValue[0] as! String
+        }
+        
+        var skuid = ""
+        if let skuIdValue = item["skuRepositoryId"] as? NSArray {
+            skuid = skuIdValue[0] as! String
+        }
+        var description = ""
+        if let productDispValue = item["productDisplayText"] as? NSArray {
+            description = productDispValue[0] as! String
+        }
         
         var price: NSString? = "0"
         var through: NSString! = ""
-        if let priceTxt = item["specialPrice"] as? NSString {
-            price = priceTxt
+        if let priceTxt = item["skuFinalPrice"] as? NSArray {
+            price = priceTxt[0] as? NSString
         }
-        else if let pricenum = item["specialPrice"] as? NSNumber {
+        else if let pricenum = item["skuFinalPrice"] as? NSNumber {
             let txt = pricenum.stringValue
             price = txt as NSString?
         }
@@ -458,16 +469,16 @@
         }
         
         var imageUrl: String? = ""
-        if let imageArray = item["imageUrl"] as? [[String:Any]] {
+        if let imageArray = item["productSmallImageUrl"] as? NSArray{
             if imageArray.count > 0 {
                 imageUrl = imageArray[0] as? String
             }
-        } else if let imageUrlTxt = item["imageUrl"] as? String {
+        } else if let imageUrlTxt = item["productSmallImageUrl"] as? String {
             imageUrl = imageUrlTxt
         }
         
         var isActive = true
-        if let activeTxt = item["isActive"] as? String {
+        if let activeTxt = item["isActive"] as? String {//isActive
             isActive = "true" == activeTxt
         }
         
@@ -477,34 +488,34 @@
         }
         
         var isPreorderable = false
-        if let preordeable = item["isPreorderable"] as? String {
+        if let preordeable = item["isPreorderable"] as? String {//
             isPreorderable = "true" == preordeable
         }
         
         var onHandDefault = 99
-        if let onHandInventory = item["onHandInventory"] as? NSString {
+        if let onHandInventory = item["onHandInventory"] as? NSString {//
             onHandDefault = onHandInventory.integerValue
         }
         
         //let type = item["type"] as! NSString
         
         var isPesable = false
-        if let pesable = item["pesable"] as?  NSString {
+        if let pesable = item["pesable"] as?  NSString {//skuWeighable or skuUnitOfMeasure
             isPesable = pesable.boolValue//pesable.intValue == 1
         }
         
         var isLowStock = false
-        if let lowStock = item["lowStock"] as?  Bool {
+        if let lowStock = item["lowStock"] as?  Bool {//
             isLowStock = lowStock
         }
         
         var productDeparment = ""
-        if let category = item["lowStock"] as? String{
+        if let category = item["lowStock"] as? String{//
             productDeparment = category
         }
         
         var equivalenceByPiece = "0"
-        if let equivalence = item["equivalenceByPiece"] as? String{
+        if let equivalence = item["equivalenceByPiece"] as? String{//skuWeighable
             equivalenceByPiece = equivalence
         }
         
@@ -516,7 +527,7 @@
         cell.setValues(upc,
                        skuId: skuid,
                        productImageURL: imageUrl!,
-                       productShortDescription: description!,
+                       productShortDescription: description,
                        productPrice: price! as String,
                        productPriceThrough: through! as String,
                        isMoreArts: plpArray["isMore"] as! Bool,//isMore
@@ -632,6 +643,7 @@
         let errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
         
         if self.searchContextType != nil {
+            
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
                 
                 self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
@@ -661,20 +673,25 @@
     
     //Solo ocupar este servicio para busqueda
     func invokeSearchUPCGroceries(actionSuccess:(() -> Void)?) {
-        if (self.upcsToShow?.count)! > 0 {
-            let serviceUPC = GRProductsByUPCService()
-            serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!) as AnyObject, successBlock: { (result:[String:Any]) -> Void in
-                if result["items"] != nil {
-                    self.itemsUPC = result["items"] as? [[String : Any]]
-                }else {
-                    self.itemsUPC = []
-                }
-                
+        if self.upcsToShow != nil {
+            if (self.upcsToShow?.count)! > 0 {
+                let serviceUPC = GRProductsByUPCService()
+                serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!) as AnyObject, successBlock: { (result:[String:Any]) -> Void in
+                    if result["items"] != nil {
+                        self.itemsUPC = result["items"] as? [[String : Any]]
+                    }else {
+                        self.itemsUPC = []
+                    }
+                    
+                    actionSuccess?()
+                }, errorBlock: { (error:NSError) -> Void in
+                    actionSuccess?()
+                })
+            } else {
                 actionSuccess?()
-            }, errorBlock: { (error:NSError) -> Void in
-                actionSuccess?()
-            })
-        } else {
+            }
+        }
+         else {
             actionSuccess?()
         }
     }
@@ -693,27 +710,27 @@
         }
         
         print("Invoking Groceries Search")
-        var startOffSet = self.results!.resultsInResponse
-        if startOffSet > 0 {
-            startOffSet += 1
+        var startOffSets = self.results!.resultsInResponse
+        if startOffSets > 0 {
+            startOffSets += 1
         }
         //TODO: Signals
         let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
         // self.brandText = self.idSort != "" ? "" : self.brandText
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
-        service.callService(params!,
+        //let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        let params = service.buildParamsForSearch(url: self.urlFamily, text: self.textToSearch, sort: "0", startOffSet: String(startOffSets), maxResult:"20")
+        service.callService(params as AnyObject,
                             successBlock: { (arrayProduct:[[String : Any]]?, facet:[[String : Any]]?) -> Void in
                                 
                                 self.facet = facet!
-                                
                                 if arrayProduct != nil && arrayProduct!.count > 0 {
                                     
                                     //All array items
-                                    self.results!.addResults(otherProducts: arrayProduct!)
-                                    self.results!.resultsInResponse = arrayProduct!.count
-                                    self.results!.totalResults = arrayProduct!.count
+                                    self.results!.addResults(otherProducts: arrayProduct!)//result
+                                    self.results!.resultsInResponse = arrayProduct!.count //NumRes
+                                    self.results!.totalResults = arrayProduct!.count //TotalRes
                                     
                                      let item = arrayProduct![0]
                                         //println(item)
