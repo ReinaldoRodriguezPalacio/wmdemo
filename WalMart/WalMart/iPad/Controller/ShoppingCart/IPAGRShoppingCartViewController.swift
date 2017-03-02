@@ -125,6 +125,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         let _ = self.navigationController?.popViewController(animated: true)
         
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewSeparator.isHidden = !self.emptyView!.isHidden
+    }
     
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
         
