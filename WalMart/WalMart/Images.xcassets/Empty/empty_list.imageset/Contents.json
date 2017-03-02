@@ -17,12 +17,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "addtolist_empty.png",
+      "filename" : "list_empty_new.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "addtolist_empty@2x.png",
+      "filename" : "list_empty_new@2x.png",
       "scale" : "2x"
     }
   ],

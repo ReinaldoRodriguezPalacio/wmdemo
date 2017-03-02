@@ -42,6 +42,10 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         var heigthEmptyView = self.view.bounds.height
         if !IS_IPAD {
             heigthEmptyView -= 109
+            
+            if IS_IPHONE_6P {
+                heigthEmptyView -= 20
+            }
         }
         
         emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heigthEmptyView))
@@ -78,6 +82,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 heightEmptyView -= 46
             }else{
                 heightEmptyView -= 109
+            }
+            if IS_IPHONE_6P {
+                heightEmptyView -= 20
             }
         }
         

@@ -61,7 +61,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         super.viewWillLayoutSubviews()
         var heightEmptyView = self.view.bounds.height - 46
         if IS_IPHONE_6P {
-            heightEmptyView -= 44
+            heightEmptyView -= 14
         }
         
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
