@@ -770,6 +770,34 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             })
     }
     
+    func deleteFromCart() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        self.selectQuantity!.closeAction()
+        self.selectQuantity = nil
+        
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
+            }
+        }) { (error) in
+            print("delete pressed Errro \(error)")
+        }
+    }
+    
     func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
         
         let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
@@ -793,6 +821,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         //selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
+            if quantity == "00" {
+                self.deleteFromCart()
+            }
+            
             let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
             if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
@@ -800,7 +832,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 }, completeClose: { () -> Void in
                     self.tabledetail.reloadData()
                     self.isShowShoppingCart = false
-                    var params  =  self.buildParamsUpdateShoppingCart(quantity)
+                    var params  =  self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!,equivalenceByPiece:0 )//equivalenceByPiece
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
@@ -842,13 +874,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
      - returns: [String:Any]
      */
     
-    func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
+    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
     }
     
     func opencloseContainer(_ open:Bool,viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationClose:(() -> Void)) {
