@@ -226,6 +226,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             IPOSplashViewController.updateUserData(true)
         }
         
+        if self.alertNoInternet != nil {
+            self.alertNoInternet?.close()
+            self.alertNoInternet = nil
+        }
         //Tune.framework
         //Tune.measureSession()
     }
