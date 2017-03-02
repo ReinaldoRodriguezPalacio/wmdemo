@@ -180,6 +180,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 if self.pesable ?? false {
                     self.delegate?.selectGRQuantityForItem(self,productInCart: nil)
                 } else {
+                    
+                    if serachFromList   {
+                        self.delegate?.selectGRQuantityForItem(self,productInCart: nil)
+                        return
+                    }
                     let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: self.type,isPreorderable:self.isPreorderable)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
 //                    if self.type == ResultObjectType.Groceries.rawValue {
