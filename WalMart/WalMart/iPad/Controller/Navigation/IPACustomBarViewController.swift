@@ -234,6 +234,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
+            controller.urlFamily = ""
             let controllernav = self.currentController as? UINavigationController
             if (controllernav?.topViewController as? IPASearchProductViewController != nil){
                 controllernav?.popViewController(animated: false)

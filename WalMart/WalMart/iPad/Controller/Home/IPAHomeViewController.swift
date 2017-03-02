@@ -162,6 +162,8 @@ class IPAHomeViewController : HomeViewController {
             controller.searchContextType = .WithCategoryForGR
         }
         controller.findUpcsMg = upcs as? [String]
+        controller.urlFamily = ""
+        controller.textToSearch = ""
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         
