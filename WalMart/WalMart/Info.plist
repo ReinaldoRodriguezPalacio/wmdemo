@@ -366,7 +366,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getSkuSummaryDetails</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/getPushNotifications</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -547,7 +547,7 @@
 			<key>WalmartMG.LogoutService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/auth/profile/logout</string>
 			<key>WalmartMG.NotificationService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/saveToken</string>
+			<string>https://dl.dropboxusercontent.com/s/lss6889ubxmdzbv/saveToken.txt?dl=0</string>
 			<key>WalmartMG.OccupationsService</key>
 			<string>https://dl.dropboxusercontent.com/s/0mvkcjycc5pn1bs/getOccupations.txt</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
@@ -557,7 +557,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/9cqa0ywl4z51vhp/getProductDEtail.txt?dl=0</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/mustang/getPushNotifications</string>
+			<string>https://dl.dropboxusercontent.com/s/ah9swbo2mflnai2/getPushNotification.txt?dl=0</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
