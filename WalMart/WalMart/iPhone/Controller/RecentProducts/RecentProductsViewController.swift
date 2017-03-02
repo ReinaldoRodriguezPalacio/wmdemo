@@ -38,7 +38,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109))
+        
+        var heigthEmptyView = self.view.bounds.height
+        if !IS_IPAD {
+            heigthEmptyView -= 109
+        }
+        
+        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heigthEmptyView))
         emptyView.returnAction = {() in
             self.back()
         }
@@ -65,11 +71,17 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.viewLoad.stopAnnimating()
         }
         
-        if IS_IOS8_OR_LESS {
-            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
-        }else{
-            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109)
+        var heightEmptyView = self.view.bounds.height
+        
+        if !IS_IPAD {
+            if IS_IOS8_OR_LESS {
+                heightEmptyView -= 46
+            }else{
+                heightEmptyView -= 109
+            }
         }
+        
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
     }
 
    

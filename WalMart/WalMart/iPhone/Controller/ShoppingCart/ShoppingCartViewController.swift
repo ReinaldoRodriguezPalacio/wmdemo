@@ -200,6 +200,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
             
+  //          self.emptyView!.isHidden = false
+    //        self.editButton!.isHidden = true
+            
             if !showCloseButton {
                 self.closeButton.isHidden = true
             } else {
@@ -318,9 +321,18 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      - returns: na
      */
     func initEmptyView() {
-        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
-        emptyView.returnAction = {() in
+        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
+      
+        if !IS_IPAD && !IS_IPAD_MINI{
+            heightEmptyView -= 60
+        }
+        else {
+            heightEmptyView -= 20
+        }
+        
+        self.emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
+        self.emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
+        self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
         self.view.addSubview(emptyView)

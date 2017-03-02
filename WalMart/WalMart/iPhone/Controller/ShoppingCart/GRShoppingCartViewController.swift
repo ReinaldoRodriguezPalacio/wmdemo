@@ -167,6 +167,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.emptyView!.isHidden = self.itemsInCart.count > 0
         self.editButton.isHidden = self.itemsInCart.count == 0
         
+ //       self.emptyView!.isHidden = false
+   //     self.editButton!.isHidden = true
         if !showCloseButton {
             self.closeButton.isHidden = true
         } else {
@@ -205,16 +207,23 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func initEmptyView(){
+        var heightEmptyView = self.view.frame.maxY - viewHeader.frame.height
+        if !IS_IPAD && !IS_IPAD_MINI{
+            heightEmptyView -= 60
+        }
+        else {
+            heightEmptyView -= 25
+        }
         
-        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHeader.frame.height)
-        emptyView.returnAction = {() in
+        self.emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
+        self.emptyView.frame = CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
+        self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
         
         view.addSubview(emptyView)
         
-        emptyView.bgImageView.image = UIImage(named:"empty_cart")
+        self.emptyView.bgImageView.image = UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {

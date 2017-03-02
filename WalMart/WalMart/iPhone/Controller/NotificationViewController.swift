@@ -95,7 +95,13 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         receiveNotificationButton?.frame = CGRect(x: self.view.bounds.width - 70, y: 6, width: 54, height: 34)
         self.layerLine?.frame = CGRect(x: 0, y: 45, width: self.view.frame.width, height: 1)
         
-        emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
+        var heightEmptyView = self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY
+        if IS_IPHONE_6P || IS_IPHONE_6 {
+            heightEmptyView -= 50
+        }
+        
+        
+        emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
         
         notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
                                          width: self.view.bounds.width,
