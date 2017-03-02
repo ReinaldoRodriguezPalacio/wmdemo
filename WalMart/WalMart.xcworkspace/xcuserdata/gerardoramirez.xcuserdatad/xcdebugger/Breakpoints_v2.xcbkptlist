@@ -90,12 +90,12 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "508870610.434017"
+                  timestampString = "509994310.357718"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "786"
                   endingLineNumber = "786"
-                  offsetFromSymbolStart = "1524">
+                  offsetFromSymbolStart = "1475">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -105,12 +105,12 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "508870610.435407"
+                  timestampString = "509994310.360153"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "787"
                   endingLineNumber = "787"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "19">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -182,7 +182,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/Shared/Services/ShoppingCart/GRShoppingCartProductsService.swift"
@@ -191,22 +191,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "297"
             endingLineNumber = "297"
-            landmarkName = "synchronizeAddedWebShoppingCartFromCoreData(_:errorBlock:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/Shared/Services/ShoppingCart/GRShoppingCartProductsService.swift"
-            timestampString = "508718286.362192"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
             landmarkName = "synchronizeAddedWebShoppingCartFromCoreData(_:errorBlock:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,75 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508781303.451837"
+            timestampString = "509934135.432947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "999"
-            endingLineNumber = "999"
-            landmarkName = "invokePayPalCancelService(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WalmartMG.GRCheckOutPymentViewController.(invokePayPalCancelService (Swift.String) -&gt; ()).(closure #1)"
-                  moduleName = "WalmartMG"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
-                  timestampString = "508870610.458649"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1000"
-                  endingLineNumber = "1000"
-                  offsetFromSymbolStart = "272">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WalmartMG.GRCheckOutPymentViewController.(invokePayPalCancelService (Swift.String) -&gt; ()).(closure #2)"
-                  moduleName = "WalmartMG"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
-                  timestampString = "508870610.460009"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1001"
-                  endingLineNumber = "1001"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508784946.561519"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1268"
-            endingLineNumber = "1268"
-            landmarkName = "didDeSelectOption(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508781303.451837"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "993"
-            endingLineNumber = "993"
+            startingLineNumber = "1000"
+            endingLineNumber = "1000"
             landmarkName = "invokePayPalCancelService(_:)"
             landmarkType = "7">
             <Locations>
@@ -346,12 +266,12 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
-                  timestampString = "508870610.464966"
+                  timestampString = "509994310.387668"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "997"
-                  endingLineNumber = "997"
-                  offsetFromSymbolStart = "992">
+                  startingLineNumber = "1001"
+                  endingLineNumber = "1001"
+                  offsetFromSymbolStart = "1077">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -361,12 +281,12 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
-                  timestampString = "508870610.466261"
+                  timestampString = "509994310.388978"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "998"
-                  endingLineNumber = "998"
-                  offsetFromSymbolStart = "36">
+                  startingLineNumber = "1002"
+                  endingLineNumber = "1002"
+                  offsetFromSymbolStart = "38">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -378,13 +298,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508781672.842721"
+            timestampString = "509934135.432947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1021"
-            endingLineNumber = "1021"
-            landmarkName = "invokePaypalUpdateOrderService(_:paymentType:idAuthorization:status:)"
+            startingLineNumber = "1269"
+            endingLineNumber = "1269"
+            landmarkName = "didDeSelectOption(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRCheckOutPymentViewController.didDeSelectOption (WalmartMG.AlertPickerView) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
+                  timestampString = "509994310.391512"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1269"
+                  endingLineNumber = "1269"
+                  offsetFromSymbolStart = "26">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRCheckOutPymentViewController.didDeSelectOption (WalmartMG.AlertPickerView) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
+                  timestampString = "509994310.392768"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1269"
+                  endingLineNumber = "1269"
+                  offsetFromSymbolStart = "164">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -394,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508781719.903743"
+            timestampString = "509934135.432947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "998"
-            endingLineNumber = "998"
+            startingLineNumber = "994"
+            endingLineNumber = "994"
             landmarkName = "invokePayPalCancelService(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +362,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/GRCheckOutPymentViewController.swift"
-            timestampString = "508870673.925424"
+            timestampString = "509934135.432947"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1001"
-            endingLineNumber = "1001"
+            startingLineNumber = "999"
+            endingLineNumber = "999"
+            landmarkName = "invokePayPalCancelService(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRCheckOutPymentViewController.invokePayPalCancelService (Swift.String) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
+                  timestampString = "509994310.39778"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1001"
+                  endingLineNumber = "1001"
+                  offsetFromSymbolStart = "1077">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRCheckOutPymentViewController.(invokePayPalCancelService (Swift.String) -&gt; ()).(closure #1)"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/GRCheckOutPymentViewController.swift"
+                  timestampString = "509994310.399116"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1002"
+                  endingLineNumber = "1002"
+                  offsetFromSymbolStart = "38">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/GRCheckOutPymentViewController.swift"
+            timestampString = "509934135.432947"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1002"
+            endingLineNumber = "1002"
             landmarkName = "invokePayPalCancelService(_:)"
             landmarkType = "7">
          </BreakpointContent>
