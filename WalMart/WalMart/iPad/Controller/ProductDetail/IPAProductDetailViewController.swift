@@ -887,11 +887,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             })
             
         })
+        if self.tabledetail.numberOfRows(inSection: 0) <= 5 {
+            self.tabledetail.beginUpdates()
+            self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
+            self.tabledetail.endUpdates()
+            self.pagerController!.enabledGesture(false)
+        }
         
-        self.tabledetail.beginUpdates()
-        self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
-        self.tabledetail.endUpdates()
-        self.pagerController!.enabledGesture(false)
         
         CATransaction.commit()
     }
