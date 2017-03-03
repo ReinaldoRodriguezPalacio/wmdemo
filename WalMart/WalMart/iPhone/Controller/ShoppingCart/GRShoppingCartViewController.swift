@@ -993,7 +993,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))

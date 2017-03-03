@@ -29,7 +29,7 @@ protocol ListSelectorDelegate {
     func listSelectorDidDeleteProduct(inList listId:String)
     
     func listSelectorDidShowListLocally(_ list: List)
-    func listSelectorDidAddProductLocally(inList list:List)
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool)
     func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List)
     
     func listSelectorDidClose()
@@ -333,7 +333,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             }
             //Actualizacion local a DB
             else {
-                self.delegate?.listSelectorDidAddProductLocally(inList: entity)
+                self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
                 //TODO: Delete action
 //                if product != nil {
 //                    self.delegate?.listSelectorDidDeleteProductLocally(product!, inList: entity)

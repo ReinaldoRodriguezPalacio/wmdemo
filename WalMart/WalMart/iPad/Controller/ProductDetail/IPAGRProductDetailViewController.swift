@@ -35,6 +35,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSelectorDelegate , IPAUserListDetailDelegate{
+
    
     var idFamily : String =  ""
     var idLine : String =  ""
@@ -551,12 +552,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
         print("Lista de id de listas")
     }
-    
+    var closeContainer =  false
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
         print("Listas selecionadas")
         if listsSelected.count > 0 {
+            var countList =  1
             for list in listsSelected {
-                self.listSelectorDidAddProductLocally(inList: list)
+                self.listSelectorDidAddProductLocally(inList: list,finishAdd: countList == listsSelected.count )
+                countList =  countList + 1
             }
         }
     }
@@ -657,7 +660,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
         
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
@@ -667,7 +670,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if  exist  {
         
         }else{//agrega dircto
-            self.addToListLocally(quantity: "1", list: list)
+            self.addToListLocally(quantity: "1", list: list,removeSelector: finishAdd)
         }
         
         
@@ -680,57 +683,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             
-            self.addToListLocally(quantity:quantity , list: list)
+            self.addToListLocally(quantity:quantity , list: list,removeSelector: true)
             
-//            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-//            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
-//            
-//            detail!.upc = self.upc as String
-//            detail!.desc = self.name as String
-//            detail!.price = self.price
-//            detail!.quantity = NSNumber(value: Int(quantity)! as Int)
-//            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
-//            detail!.pieces = NSNumber(value:Int(quantity)!)
-//            detail!.type = NSNumber(value: self.isPesable as Bool)
-//            detail!.list = list
-//            detail!.equivalenceByPiece = self.selectQuantityGR!.equivalenceByPiece as NSNumber
-//            
-//            if self.imageUrl.count > 0 {
-//                detail!.img = self.imageUrl[0] as! NSString as String
-//            }
-//            
-//            var error: NSError? = nil
-//            do {
-//                try context.save()
-//            } catch let error1 as NSError {
-//                error = error1
-//            } catch {
-//                fatalError()
-//            }
-//            
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//            
-//            let count:Int = list.products.count
-//            list.countItem = NSNumber(value: count as Int)
-//            error = nil
-//            do {
-//                try context.save()
-//            } catch let error1 as NSError {
-//                error = error1
-//            } catch {
-//                fatalError()
-//            }
-//            if error != nil {
-//                print(error!.localizedDescription)
-//            }
-//            self.removeListSelector(action: nil, closeRow:true)
-//            self.productDetailButtonGR!.listButton.isSelected = true
-//            
-//            // 360 Event
-//            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         UIView.animate(withDuration: 0.5,
@@ -744,7 +698,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     //
-    func addToListLocally(quantity:String,list:List){
+    func addToListLocally(quantity:String,list:List,removeSelector:Bool){
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -790,7 +744,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if error != nil {
             print(error!.localizedDescription)
         }
-        self.removeListSelector(action: nil, closeRow:true)
+        
+        if removeSelector {
+            self.removeListSelector(action: nil, closeRow:true)
+        }
+        
         self.productDetailButtonGR!.listButton.isSelected = true
         
         // 360 Event
@@ -971,11 +929,12 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 
             })
             
-            
+            print("close continer")
             if self.tabledetail.numberOfRows(inSection: 0) >= 5 && closeRow {
                 self.tabledetail.beginUpdates()
                 self.tabledetail.deleteRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.top)
                 self.tabledetail.endUpdates()
+                
                 
                 self.pagerController!.enabledGesture(true)
             }

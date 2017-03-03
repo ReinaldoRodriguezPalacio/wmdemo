@@ -818,7 +818,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
     }
     
     func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
