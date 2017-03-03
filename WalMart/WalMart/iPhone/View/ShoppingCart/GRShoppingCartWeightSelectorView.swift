@@ -537,7 +537,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     override func validateOrderByPiece(orderByPiece: Bool, quantity: Double, pieces: Int) {
         super.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity, pieces: pieces)
         currentValGr = quantity
-        if equivalenceByPiece.intValue > 0 && orderByPiece && pieces != 0{
+        if equivalenceByPiece.intValue > 0 && orderByPiece && pieces != 0 {
             originalValPzs = Double(pieces)
             currentValPzs = Double(pieces)
             originalValGr = 100
