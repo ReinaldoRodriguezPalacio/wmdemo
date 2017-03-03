@@ -404,7 +404,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
                     self.productDetailButton!.addToShoppingCartButton.isSelected = true
                 },additionalAnimationFinish: { () -> Void in
-                    self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+                    //self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
                 })
                 
             
