@@ -29,7 +29,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
 
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 12, width: 75, height: 75)
         
         self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  , width: self.frame.width - 8 , height: 14)
         
@@ -37,10 +37,9 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         self.productShortDescriptionLabel!.textAlignment = .center
         self.productShortDescriptionLabel!.numberOfLines = 3
         
+        let widthAndHeightSeparator: CGFloat = 1
         
-        let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-        
-        let borderView = UIView(frame: CGRect(x: self.frame.width, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
+        let borderView = UIView(frame: CGRect(x: self.frame.width - widthAndHeightSeparator, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
         borderView.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderView)
         

@@ -25,8 +25,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
-                                        <rect key="frame" x="15" y="30" width="46" height="43"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
+                                        <rect key="frame" x="15" y="30" width="20" height="22"/>
                                         <state key="normal" image="navBar_search">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -37,8 +37,8 @@
                                             <constraint firstAttribute="width" constant="183" id="WD5-VJ-0Ws"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
-                                        <rect key="frame" x="298" y="21" width="67" height="44"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
+                                        <rect key="frame" x="330" y="24" width="35" height="35"/>
                                         <state key="normal" image="navBar_cart">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -52,7 +52,7 @@
                                     <constraint firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="5yE-l4-tRa"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="EDX-b4-aqh"/>
                                     <constraint firstAttribute="height" constant="64" id="PJn-M6-sLn"/>
-                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="21" id="eGm-Kf-kTg"/>
+                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="24" id="eGm-Kf-kTg"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="eqe-T0-br8"/>
                                     <constraint firstItem="PBg-Qu-tY2" firstAttribute="leading" secondItem="rL3-3R-LDa" secondAttribute="leading" constant="15" id="kc9-ZS-bfh"/>
                                     <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="10" id="mtl-eE-APE"/>
@@ -60,7 +60,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
-                                <rect key="frame" x="0.0" y="63" width="375" height="558"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <segue destination="V74-Hq-4gN" kind="embed" identifier="homeEmbedSegue" id="X0a-aJ-NBY"/>
@@ -69,12 +69,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="BE3-jZ-yHI" firstAttribute="top" secondItem="bwT-nf-vKG" secondAttribute="bottom" constant="46" id="3rd-3o-JeI"/>
+                            <constraint firstItem="BE3-jZ-yHI" firstAttribute="top" secondItem="bwT-nf-vKG" secondAttribute="bottom" constant="44" id="3rd-3o-JeI"/>
                             <constraint firstItem="rL3-3R-LDa" firstAttribute="top" secondItem="VMm-1L-o4v" secondAttribute="top" id="77e-cE-yKu"/>
                             <constraint firstItem="rL3-3R-LDa" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="CXO-Aa-RRs"/>
                             <constraint firstAttribute="trailing" secondItem="bwT-nf-vKG" secondAttribute="trailing" id="OJt-YE-yPt"/>
                             <constraint firstAttribute="trailing" secondItem="rL3-3R-LDa" secondAttribute="trailing" id="SAp-r3-9h2"/>
-                            <constraint firstItem="bwT-nf-vKG" firstAttribute="top" secondItem="oAl-dF-abv" secondAttribute="bottom" constant="43" id="cCy-qa-xMD"/>
+                            <constraint firstItem="bwT-nf-vKG" firstAttribute="top" secondItem="oAl-dF-abv" secondAttribute="bottom" constant="44" id="cCy-qa-xMD"/>
                             <constraint firstItem="bwT-nf-vKG" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="xZ2-89-kUs"/>
                         </constraints>
                     </view>
@@ -207,7 +207,7 @@
         <scene sceneID="2Xy-ed-Oja">
             <objects>
                 <navigationController navigationBarHidden="YES" id="V74-Hq-4gN" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yS4-NV-OuD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yS4-NV-OuD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -228,11 +228,11 @@
                         <viewControllerLayoutGuide type="bottom" id="8DJ-lB-xEZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dF5-zr-zVJ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZAK-7z-RFS">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="gcx-uI-Pcb">
                                     <size key="itemSize" width="0.0" height="0.0"/>

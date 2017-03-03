@@ -237,6 +237,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 //TODO: quitar
                //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }
+        }else{
+        NSLog("CMSwitchViewDelegate : deviceToken vacio", "CMSwitchViewDelegate")
         }
     }
     

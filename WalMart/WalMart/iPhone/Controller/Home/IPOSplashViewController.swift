@@ -63,7 +63,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         splashDefault = UIImageView(frame: self.view.bounds)
         splashDefault.image = UIImage(named: "spash_iphone")
-        //splashDefault = UIImageView(image: UIImage(named: "spash_iphone"))
+        splashDefault.contentMode = .scaleAspectFill
         
         
         webViewSplash = UIWebView(frame:self.view.bounds)

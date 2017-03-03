@@ -660,7 +660,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if UserCurrentSession.hasLoggedUser() {
             self.emptyView = UIImageView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
         }else{
-            self.emptyView = UIImageView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height - 64))
+            self.emptyView = UIImageView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
         }
 
         
