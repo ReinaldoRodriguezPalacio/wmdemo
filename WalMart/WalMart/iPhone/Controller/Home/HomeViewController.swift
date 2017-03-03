@@ -25,7 +25,8 @@ enum UpdateNotification : String {
 }
 
 
-class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate,BannerCollectionViewCellDelegate,CategoryCollectionViewCellDelegate ,UICollectionViewDelegateFlowLayout{
+class HomeViewController : IPOBaseController, UICollectionViewDataSource, UICollectionViewDelegate, BannerCollectionViewCellDelegate, CategoryCollectionViewCellDelegate, UICollectionViewDelegateFlowLayout {
+    
     @IBOutlet weak var collection: UICollectionView!
     
     var bannerItems :  [[String:String]]? = nil
@@ -46,7 +47,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     //var carouselItems : [[String:String]]
     var timmerPleca : Timer!
     var itntervalPleca : TimeInterval = 5.0
-    
     var valueTerms = ""
     var typeAction =  ""
     var bussinesTerms = ""
@@ -54,7 +54,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +83,32 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.recommendItems = servicecarousel.getCarouselContent()
     }
     
-    func removePleca(){
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.bannerCell?.startTimmer()
+        self.showPleca()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.bannerCell?.stopTimmer()
+        self.removePleca()
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        
+        
+    }
+    
+    func removePleca() {
         
         UIView.animate(withDuration: 0.2 , animations: {
             self.titleView?.alpha = 0
@@ -113,7 +137,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func showPleca (){
+    func showPleca() {
         if plecaItems !=  nil && plecaItems!.count > 0 {
             if alertBank == nil {
                 alertBank = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0))
@@ -171,13 +195,13 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func openUrl (){
+    func openUrl() {
      self.termsSelect (plecaItems?["eventUrl"] as! String)
      self.alertBank!.alpha = 0
     
     }
     
-    func openDetailPleca(){
+    func openDetailPleca() {
         if let type  = plecaItems?["type"] as? String{
          self.typeAction = type
         }
@@ -196,30 +220,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.bannerCell?.startTimmer()
-        self.showPleca()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.bannerCell?.stopTimmer()
-        self.removePleca()
-        
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-
-        
-    }
     // MARK: - UICollectionViewDataSource
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -313,18 +313,39 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch  ((indexPath as NSIndexPath).section,(indexPath as NSIndexPath).row) {
+        switch  (indexPath.section,indexPath.row) {
         case (0,0):
-            return CGSize(width: self.view.frame.width, height: 217)
+            
+            var headerHeight: CGFloat = 0.0
+            
+            if IS_IPHONE_4_OR_LESS || IS_IPHONE_5 {
+                headerHeight = 217
+            } else if IS_IPHONE_6 {
+                headerHeight = 254
+            } else if IS_IPHONE_6P {
+                headerHeight = 280
+            } else {
+                headerHeight = 217
+            }
+            
+            return CGSize(width: self.view.frame.width, height: headerHeight)
         case (0,1):
             return CGSize(width: self.view.frame.width, height: 44)
         default:
-            return CGSize(width: 106.66, height: 146)
+            
+            let rowWidth: CGFloat = view.frame.width / 3
+            var headerHeight: CGFloat = 0.0
+            
+            if IS_IPHONE_6P {
+                headerHeight = 138
+            } else {
+                headerHeight = 146
+            }
+            
+            return CGSize(width: rowWidth, height: headerHeight)
         }
     }
-       
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (indexPath as NSIndexPath).section == 1 {
@@ -363,16 +384,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    
-    func bannerDidSelect(_ queryBanner:String,type:String,urlTteaser:String?) {
+    func bannerDidSelect(_ queryBanner: String, type: String, urlTteaser: String?) {
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
@@ -435,7 +455,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     /**
      Open BackToSchoolCategory
      */
-    func openBackToSchoolCategory(_ urlTicer:String,idFamily:String){
+    func openBackToSchoolCategory(_ urlTicer: String, idFamily: String) {
         let controller = BackToSchoolCategoryViewController()
         controller.urlTicer = urlTicer
         controller.departmentId = idFamily
@@ -448,7 +468,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      - parameter urlTicer: url of image
      - parameter idFamily: family search
      */
-    func openLandinCampaign(_ urlTicer:String,idFamily:String){
+    func openLandinCampaign(_ urlTicer: String, idFamily: String) {
         
         let controller = IPOLinesViewController()
         controller.urlTicer = urlTicer
@@ -463,7 +483,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      - parameter urlTicer:   image use in next controller
      - parameter idCategory: idCategory Search
      */
-    func opnenLandingCategory(_ urlTicer:String,idCategory:String){
+    func openLandingCategory(_ urlTicer: String, idCategory: String) {
 
         print("Abrir categorias de escuelas")
         print(urlTicer)
@@ -471,11 +491,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         print("::::::::")
         
     }
-    
-    
-    
-    
-    func showFindUpc(_ upcs:[String],type:String){
+
+    func showFindUpc(_ upcs: [String], type: String) {
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
@@ -489,7 +506,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     }
     
-    func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){
+    func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, type: String) {
         let controller = SearchProductViewController()
         if type == "mg" {
             controller.searchContextType = .WithCategoryForMG
@@ -502,16 +519,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
     }
-
     
-    func showProductDetail(_ upcProduct:String,type:String){
+    func showProductDetail(_ upcProduct: String, type: String) {
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type,"sku":upcProduct]]//sku
         
         self.navigationController!.pushViewController(controller, animated: true)
     }
    
-    func getCategories() -> [String]{
+    func getCategories() -> [String] {
         
         //let specialsCat : [Any] = RecommendedCategory.cagtegories as [Any]
         self.categoryType = [:]
@@ -563,7 +579,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     
-    func updatecontent(_ sender:AnyObject) {
+    func updatecontent(_ sender: AnyObject) {
         //Read a banner list
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
@@ -574,9 +590,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         collection.reloadData()
     }
     
-    
-    
-    
     func bannerCellIdentifier() -> String {
         return "bannerHome"
     }
@@ -585,7 +598,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return "productHome"
     }
     
-    func didSelectCategory(_ index:Int) {
+    func didSelectCategory(_ index: Int) {
         
         if self.selectedIndexCategory != index {
             var indexesPathsUpdate : [IndexPath] = []
@@ -655,7 +668,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 1 {
             if let layoutFlow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -670,7 +682,5 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         ctrlWeb.openURL(url)
         self.present(ctrlWeb, animated: true, completion: nil)
     }
-    
-    
-    
+
 }
