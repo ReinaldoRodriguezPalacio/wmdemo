@@ -802,6 +802,17 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
         
+        let isInCart = self.productDetailButton?.detailProductCart != nil 
+        if !isInCart {
+            self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            return
+        }
+        
         let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
         
         self.tabledetail.reloadData()
@@ -823,6 +834,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         //selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
+            
             if quantity == "00" {
                 self.deleteFromCart()
                 return
@@ -861,7 +873,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
         },additionalAnimationFinish: { () -> Void in
-            self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+            //self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
         })
         
         self.productDetailButton?.reloadButton()
