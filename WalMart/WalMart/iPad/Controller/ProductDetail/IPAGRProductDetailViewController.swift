@@ -517,7 +517,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                 let frame = vc!.view.frame
                 
-                
+                self.productDetailButton!.detailProductCart  = self.productDetailButton!.retrieveProductInCar()
                 let addShopping = ShoppingCartUpdateController()
                 let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:Any]
                 addShopping.params = paramsToSC
@@ -526,7 +526,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 vc!.view.addSubview(addShopping.view)
                 addShopping.didMove(toParentViewController: vc!)
                 addShopping.typeProduct = ResultObjectType.Groceries
-                addShopping.comments = self.productDetailButton!.detailProductCart!.note!
+                addShopping.comments = self.productDetailButton!.detailProductCart!.note ?? ""
                 addShopping.goToShoppingCart = {() in }
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
