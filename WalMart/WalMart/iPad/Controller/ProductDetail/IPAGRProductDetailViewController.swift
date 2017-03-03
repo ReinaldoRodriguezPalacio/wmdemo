@@ -52,6 +52,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
     var productDetailButtonGR: GRProductDetailButtonBarCollectionViewCell?
     
+     var itemOrderbyPices =  true
+    
     override func viewDidLoad() {
         NSLog("viewDidLoad")
         super.viewDidLoad()
@@ -544,6 +546,20 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
     }
     
+    //Mark: ListSelectorDelegate
+    
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("Lista de id de listas")
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas selecionadas")
+        if listsSelected.count > 0 {
+            for list in listsSelected {
+                self.listSelectorDidAddProductLocally(inList: list)
+            }
+        }
+    }
     
     func listSelectorDidClose() {
         self.removeListSelector(action: nil, closeRow:true)
@@ -642,6 +658,19 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
+        
+        
+        let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
+            return product.upc == self.upc as String
+        }
+        
+        if  exist  {
+        
+        }else{//agrega dircto
+            self.addToListLocally(quantity: "1", list: list)
+        }
+        
+        
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR.isFromList = true
@@ -649,56 +678,59 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.removeListSelector(action: nil, closeRow:true)
         }
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             
-            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+            self.addToListLocally(quantity:quantity , list: list)
             
-            detail!.upc = self.upc as String
-            detail!.desc = self.name as String
-            detail!.price = self.price
-            detail!.quantity = NSNumber(value: Int(quantity)! as Int)
-            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
-            detail!.pieces = NSNumber(value:Int(quantity)!)
-            detail!.type = NSNumber(value: self.isPesable as Bool)
-            detail!.list = list
-            detail!.equivalenceByPiece = self.selectQuantityGR!.equivalenceByPiece as NSNumber
-            
-            if self.imageUrl.count > 0 {
-                detail!.img = self.imageUrl[0] as! NSString as String
-            }
-            
-            var error: NSError? = nil
-            do {
-                try context.save()
-            } catch let error1 as NSError {
-                error = error1
-            } catch {
-                fatalError()
-            }
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            
-            let count:Int = list.products.count
-            list.countItem = NSNumber(value: count as Int)
-            error = nil
-            do {
-                try context.save()
-            } catch let error1 as NSError {
-                error = error1
-            } catch {
-                fatalError()
-            }
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            self.removeListSelector(action: nil, closeRow:true)
-            self.productDetailButtonGR!.listButton.isSelected = true
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
+//            let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+//            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+//            
+//            detail!.upc = self.upc as String
+//            detail!.desc = self.name as String
+//            detail!.price = self.price
+//            detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+//            detail!.orderByPiece = self.selectQuantityGR!.orderByPiece as NSNumber
+//            detail!.pieces = NSNumber(value:Int(quantity)!)
+//            detail!.type = NSNumber(value: self.isPesable as Bool)
+//            detail!.list = list
+//            detail!.equivalenceByPiece = self.selectQuantityGR!.equivalenceByPiece as NSNumber
+//            
+//            if self.imageUrl.count > 0 {
+//                detail!.img = self.imageUrl[0] as! NSString as String
+//            }
+//            
+//            var error: NSError? = nil
+//            do {
+//                try context.save()
+//            } catch let error1 as NSError {
+//                error = error1
+//            } catch {
+//                fatalError()
+//            }
+//            
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//            
+//            let count:Int = list.products.count
+//            list.countItem = NSNumber(value: count as Int)
+//            error = nil
+//            do {
+//                try context.save()
+//            } catch let error1 as NSError {
+//                error = error1
+//            } catch {
+//                fatalError()
+//            }
+//            if error != nil {
+//                print(error!.localizedDescription)
+//            }
+//            self.removeListSelector(action: nil, closeRow:true)
+//            self.productDetailButtonGR!.listButton.isSelected = true
+//            
+//            // 360 Event
+//            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         UIView.animate(withDuration: 0.5,
@@ -710,6 +742,62 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
         )
     }
+    
+    //
+    func addToListLocally(quantity:String,list:List){
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+        
+        detail!.upc = self.upc as String
+        detail!.desc = self.name as String
+        detail!.price = self.price
+        detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+        detail!.orderByPiece = self.itemOrderbyPices as NSNumber
+        detail!.pieces = NSNumber(value:Int(quantity)!)
+        detail!.type = NSNumber(value: self.isPesable as Bool)
+        detail!.list = list
+        detail!.equivalenceByPiece = self.equivalenceByPiece!//self.selectQuantityGR!.equivalenceByPiece as NSNumber
+        
+        if self.imageUrl.count > 0 {
+            detail!.img = self.imageUrl[0] as! NSString as String
+        }
+        
+        var error: NSError? = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        
+        let count:Int = list.products.count
+        list.countItem = NSNumber(value: count as Int)
+        error = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        self.removeListSelector(action: nil, closeRow:true)
+        self.productDetailButtonGR!.listButton.isSelected = true
+        
+        // 360 Event
+        BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
+    
+    }
+    
     
     
     func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {

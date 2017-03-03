@@ -772,7 +772,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func deleteFromCart() {
         //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
         
         

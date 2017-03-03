@@ -163,6 +163,16 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     //MARK: - ListSelectorDelegate
+    
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("Lista de id de listas")
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas Seleccionadas")
+        
+    }
+    
     /**
      Close list selector
      */

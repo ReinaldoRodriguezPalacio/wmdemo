@@ -919,6 +919,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     //MARK: - ListSelectorDelegate
     
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("lista de id de listas")
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas Seleccionadas")
+    }
+    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }

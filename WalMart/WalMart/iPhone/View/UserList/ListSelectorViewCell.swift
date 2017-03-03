@@ -11,6 +11,7 @@ import UIKit
 protocol ListSelectorCellDelegate {
     func didShowListDetail(_ cell: ListSelectorViewCell)
     func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell)
+    func didSelectedList(_ cell: ListSelectorViewCell)
 }
 
 class ListSelectorViewCell: UITableViewCell {
@@ -41,8 +42,11 @@ class ListSelectorViewCell: UITableViewCell {
         self.indicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(16)
         self.indicator!.isSelected = false
         self.indicator!.backgroundColor = UIColor.clear
-        self.indicator!.isUserInteractionEnabled = false
+        self.indicator?.addTarget(self, action: #selector(ListSelectorViewCell.selectedList), for: UIControlEvents.touchUpInside)
+        //self.indicator!.isUserInteractionEnabled = true
+        
         self.contentView.addSubview(self.indicator!)
+        
         
         self.listName = UILabel()
         self.listName!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -72,6 +76,14 @@ class ListSelectorViewCell: UITableViewCell {
         let selectionColor = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 320, height: 50.0))
         selectionColor.backgroundColor = UIColor.white.withAlphaComponent(0.10)
         self.selectedBackgroundView = selectionColor
+        
+    }
+    
+    func selectedList(){
+        print("selectedList")
+        self.delegate?.didSelectedList(self)
+        
+        self.indicator!.isSelected = !self.indicator!.isSelected
         
     }
     
