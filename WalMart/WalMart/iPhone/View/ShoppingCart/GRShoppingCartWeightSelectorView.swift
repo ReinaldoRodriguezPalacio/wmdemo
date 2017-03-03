@@ -751,6 +751,8 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     override func deleteItems() {
         self.lblQuantityW?.text = ZERO_QUANTITY_STRING
         self.lblQuantityN?.text = ZERO_QUANTITY_STRING
+        self.lblQuantityP?.text = ZERO_QUANTITY_STRING
+        
         if customValue {
             updateShoppButtonN()
         } else {

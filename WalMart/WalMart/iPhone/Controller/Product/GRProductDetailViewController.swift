@@ -412,6 +412,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     
     override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
+        let isInCart = self.productDetailButton?.detailProductCart != nil
+        if !isInCart && !self.isPesable {
+            //self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            return
+        }
         
         if isShowProductDetail == true {
             self.closeProductDetail()
