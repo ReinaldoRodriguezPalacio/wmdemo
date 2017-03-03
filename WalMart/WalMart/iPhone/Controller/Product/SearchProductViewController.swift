@@ -2020,6 +2020,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:startY)
+            if self.idListFromSearch != "" {
+                selectQuantityGR.isFromList = true
+            }
         }
     
         
