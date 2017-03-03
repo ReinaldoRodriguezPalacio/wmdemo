@@ -958,7 +958,6 @@
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
                 controllerFilter.facet = self.facet as? [[String:Any]]
-                controllerFilter.filtersAll = self.facet
                 controllerFilter.textToSearch = self.textToSearch
                 controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
                 controllerFilter.delegate = self
@@ -970,6 +969,7 @@
                 }
             }
             controllerFilter.selectedOrder! =  ""
+            controllerFilter.filtersAll = self.facet
             controllerFilter.filterOrderViewCell?.resetOrderFilter()
             controllerFilter.sliderTableViewCell?.resetSlider()
             controllerFilter.upcPrices =  nil

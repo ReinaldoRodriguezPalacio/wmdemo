@@ -180,6 +180,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 }
             }
             self.filterController?.selectedOrder = ""
+            self.filterController!.filtersAll = self.facet
             self.filterController!.filterOrderViewCell?.resetOrderFilter()
             self.filterController!.sliderTableViewCell?.resetSlider()
             self.filterController!.upcPrices =  nil

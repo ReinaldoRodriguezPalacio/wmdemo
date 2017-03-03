@@ -41,7 +41,7 @@ class FilterCategoryViewCell: UITableViewCell {
         
         self.separator = UIView()
         self.separator!.backgroundColor = WMColor.light_gray
-        self.contentView.addSubview(self.separator!)
+        //self.contentView.addSubview(self.separator!)
     }
     
     override func layoutSubviews() {

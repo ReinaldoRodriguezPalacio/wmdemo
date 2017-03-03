@@ -152,13 +152,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
         if self.originalSearchContext != nil && self.isTextSearch {
-            self.loadLinesForSearch()
+            //self.loadLinesForSearch()
         }
-        else{
+        //else{
             self.tableView!.delegate = self
             self.tableView!.dataSource = self
             self.tableView!.reloadData()
-        }
+        //}
         //validateFacetData()
     }
     
@@ -395,22 +395,61 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
+        
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.ORDERCELL_ID, for: indexPath) as! FilterOrderViewCell
+            /*let cell = tableView.dequeueReusableCell(withIdentifier: self.ORDERCELL_ID, for: indexPath) as! FilterOrderViewCell
             cell.delegate = self
             let itemSorts = self.srtArray![indexPath.row] as? NSDictionary
             cell.setValues(itemSorts!["label"] as! String)
             filterOrderViewCell =  cell
-            return cell
+            return cell*/
+            
+            var item :String = ""
+            var selected = false
+            var navigationState = ""
+            
+            if let itemSorts = self.srtArray![indexPath.row] as? NSDictionary {
+                item = itemSorts["label"] as! String
+                
+                let valSelected =  itemSorts["selected"] as! String
+                if ((valSelected) != nil) {
+                    selected = valSelected == "true"
+                }
+                navigationState = itemSorts["navigationState"] as! String
+            }
+            listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
+            return listCell
         } else {
-            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
+            
+            let navigation = self.navigatArray![indexPath.section - 1] as! NSDictionary
+            if let refinements = navigation["refinements"] as? NSArray {
+                
+                for idx in 0 ..< refinements.count {
+                    let propert = refinements[indexPath.row] as! NSDictionary
+                    
+                    let textLabel = propert["label"] as! String
+                    let urlNavigation = propert["navigationState"] as! String
+                    
+                    var selected = false
+                    let valSelected =  propert["multiselect"] as! String
+                    if ((valSelected) != nil) {
+                        selected = valSelected == "true"
+                    }
+                    
+                    listCell.setValuesFacets(nil,nameBrand:textLabel, selected: selected)
+                    return listCell
+                }
+            }
+            
+            
+            /*let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
             
             let selected = self.selectedElements![(indexPath as NSIndexPath).row]
             let item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:Any]
             listCell.setValues(item, selected:selected)
             //listCell.setValuesSelectAll(selected, isFacet: false)
-            return listCell
-
+            return listCell*/
         }
         
         /*if (indexPath as NSIndexPath).section == 0 {
@@ -572,8 +611,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0 {
-            return 103.0
+        /*if (indexPath as NSIndexPath).section == 0 {
+            return 40.0
         }
         if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG{
             let itemFacet = self.facet![(indexPath as NSIndexPath).section - 1]
@@ -582,7 +621,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     return 73.0
                 }
             }
-        }
+        }*/
 
         return 36.0
     }
@@ -768,9 +807,15 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         title.font = WMFont.fontMyriadProRegularOfSize(11)
         if section == 0 {
             title.text = NSLocalizedString("filter.section.order", comment:"")
-        }
-        else {
-            if self.originalSearchContext != nil && self.isTextSearch {
+        } else {
+            
+            let navigation = self.navigatArray![section - 1] as! NSDictionary
+            let name = navigation["displayName"] as? String != nil ? navigation["displayName"] as? String : ""
+            title.text = name
+            
+            
+            
+            /*if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
             if self.originalSearchContext != nil  && facet != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG {
@@ -781,7 +826,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             if self.facetGr !=  nil {
                 title.text = "Marca"
-            }
+            }*/
             
         }
         header.addSubview(title)
