@@ -552,7 +552,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,2),(0,4) :
             return 15.0
         case (0,5) :
-            return (msi.count == 0 ? 302.0 : 222.0)
+            return 302.0
         case (0,6) :
             return 222.0
         case (1,0) :
@@ -774,8 +774,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         //Add Alert
         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
-        self.selectQuantity!.closeAction()
-        self.selectQuantity = nil
         
         
         let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
@@ -790,7 +788,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
                 alertView?.showDoneIcon()
                 alertView?.afterRemove = {
-                    self.productDetailButton?.reloadShoppinhgButton()
+                    self.closeContainer({ () -> Void in
+                        self.productDetailButton?.reloadShoppinhgButton()
+                    }, completeClose: { () -> Void in
+                        self.tabledetail.reloadData()
+                    }, closeRow:true )
                 }
             }
         }) { (error) in
@@ -823,6 +825,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         selectQuantity?.addToCartAction = { (quantity:String) in
             if quantity == "00" {
                 self.deleteFromCart()
+                return
             }
             
             let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5

@@ -165,7 +165,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
+        
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 0 {
             
             if !(validateText()) {
@@ -188,6 +190,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                     closeSearch()
                     return true
                 }
+                
                 if strFieldValue.substring(to: 1).uppercased() == "B" {
                     let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
@@ -198,25 +201,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                     }
                 }
                 
-                /*let strFieldValue = textField.text as NSString
-                if strFieldValue.integerValue > 0 {
-                var character = textField.text
-                if self.isBarCodeUPC(character) {
-                character = character.substringToIndex(advance(character.startIndex, countElements(character)-1 ))
-                }
-                delegate.selectKeyWord("", upc: character, truncate:true)
-                self.field!.resignFirstResponder()
-                closePopOver()
-                return true
-                }
-                if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                self.field!.resignFirstResponder()
-                closePopOver()
-                return true
-                }*/
             }
-//            self.field!.resignFirstResponder()
+            
             delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:nil)
             closePopOver()
             closeSearch()
@@ -419,11 +405,21 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         }
     }
     
-    func isBarCodeUPC(_ codeUPC:NSString) -> Bool {
+    func isBarCodeUPC(_ codeUPC: NSString) -> Bool {
+        
         var fullBarcode = codeUPC as String
+        
+        if codeUPC.length == 14 {
+            return false
+        }
+        
         if codeUPC.length < 14 {
             let toFill = "".padding(toLength: 14 - codeUPC.length, withPad: "0", startingAt: 0)
             fullBarcode = "\(toFill)\(codeUPC)"
+        }
+        
+        if Int(fullBarcode) == nil {
+            return false
         }
         
         var firstVal = (Int(fullBarcode.substring(0, length: 1))! +
@@ -433,7 +429,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             Int(fullBarcode.substring(8, length: 1))! +
             Int(fullBarcode.substring(10, length: 1))! +
             Int(fullBarcode.substring(12, length: 1))!)
-        firstVal *= 3
+        firstVal = firstVal * 3
         
         let secondVal = Int(fullBarcode.substring(1, length: 1))! +
             Int(fullBarcode.substring(3, length: 1))! +

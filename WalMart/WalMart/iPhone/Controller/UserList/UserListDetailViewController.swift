@@ -680,7 +680,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.view.addSubview(self.emptyView!)
         
         let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: bg.image!.size.height)
+        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: self.emptyView!.frame.height)
         self.emptyView!.addSubview(bg)
         
         let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -1730,6 +1730,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.textToSearch = text
         controller.searchFromContextType = .fromSearchTextList
         controller.idListFromSearch =  self.listId
+        
         self.navigationController?.pushViewController(controller, animated: true)
         
     }

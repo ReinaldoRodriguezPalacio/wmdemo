@@ -23,7 +23,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             if isFromList {
                 self.btnNote.alpha = 0
             }
-            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
+            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.addweighttitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
         }
     }
     var addToCartAction : ((String) -> Void)!
@@ -50,7 +50,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
         self.startY = startY
-        setup()
+        self.setup()
     }
     
     init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,upcProduct:String,startY:CGFloat = 0 ) {
@@ -58,7 +58,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
         self.startY = startY
-        setup()
+        self.setup()
         let text = String(quantity).characters.count < 2 ? "0" : ""
         lblQuantity.text = "\(text)"+"\(quantity!)"
         
@@ -67,8 +67,9 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        self.setup()
     }
+    
     
     func setup() {
         
@@ -83,7 +84,13 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.lblTitle = UILabel(frame:CGRect(x: (self.frame.width / 2) - 115, y: startH + 17, width: 230, height: 14))
         self.lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
         self.lblTitle.textColor = UIColor.white
-        self.lblTitle.text = NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
+        
+        var titleView = "shoppingcart.updatequantitytitle"
+        if self.isFromList {
+            titleView = "shoppingcart.addweighttitle"
+        }
+        
+        self.lblTitle.text = NSLocalizedString(titleView ,comment:"")
         self.lblTitle.textAlignment = NSTextAlignment.center
         
         lblQuantity = UILabel(frame:CGRect(x: (self.frame.width / 2) - (200 / 2), y: lblTitle.frame.maxY + 20 , width: 200, height: 40))
