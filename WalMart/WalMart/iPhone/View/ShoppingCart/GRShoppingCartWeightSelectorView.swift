@@ -279,7 +279,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         btnNoteN.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
         btnNoteN.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         btnNoteN.alpha = 0
-        btnNoteN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.userSelectDelete), for: .touchUpInside)
+        btnNoteN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: .touchUpInside)
         
         containerNumericView.addSubview(buttonGramsKG)
         //containerNumericView.addSubview(buttonKg)
