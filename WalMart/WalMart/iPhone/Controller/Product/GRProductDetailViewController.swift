@@ -46,6 +46,8 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRProductDetailViewController : ProductDetailViewController, ListSelectorDelegate {
+
+
   
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var listSelectorContainer: UIView?
@@ -649,16 +651,17 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
         print("Listas Seleccionadas")
         if listsSelected.count > 0 {
+            var countList  =  1
             for list in listsSelected {
-                self.listSelectorDidAddProductLocally(inList: list)
+                self.listSelectorDidAddProductLocally(inList: list,finishAdd:countList == listsSelected.count )
+                countList =  countList + 1
             }
         }
     }
     
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
+    
     }
 
     internal func listSelectorDidAddProduct(inList listId: String) {
@@ -821,7 +824,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
