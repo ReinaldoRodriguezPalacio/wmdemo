@@ -715,7 +715,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
                 if let weightBtn = keyboard.weightBtnSelected {
                     keyboard.seleccionboton(weightBtn)
                     keyboard.weightBtnSelected = nil
@@ -794,7 +794,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
                 lblQuantityN.text = tmpResult as String
@@ -851,7 +851,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
                 lblQuantityP.text = tmpResult as String

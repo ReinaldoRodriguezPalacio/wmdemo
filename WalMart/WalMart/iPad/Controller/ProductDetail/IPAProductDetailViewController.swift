@@ -864,7 +864,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
             self.productDetailButton?.reloadShoppinhgButton()
@@ -873,7 +872,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
         },additionalAnimationFinish: { () -> Void in
-            //self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+            self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+            self.productDetailButton?.setOpenQuantitySelector()
         })
         
         self.productDetailButton?.reloadButton()
