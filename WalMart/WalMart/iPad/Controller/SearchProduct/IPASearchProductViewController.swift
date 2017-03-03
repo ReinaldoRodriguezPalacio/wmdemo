@@ -322,14 +322,15 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     //MARK: SearchProductCollectionViewCellDelegate
     
-    override func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
+    override func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell, productInCart:Cart?) {
         
         if !selectQuantityOpen {
             
             let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
             let quantity = productInCart ==  nil ? 0 :  productInCart!.quantity
             let note = productInCart ==  nil ? "" :  productInCart!.note
-            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail,quantity: quantity,noteProduct:note!)
+            
+            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
             
             selectQuantityGR?.closeAction = { () in
                 self.selectQuantityPopover!.dismiss(animated: true)

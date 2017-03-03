@@ -307,7 +307,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
     }
     
-    
     override func addtoshoppingcart(_ sender:AnyObject) {
         
         orderByPiece = btnChankePices != nil ? btnChankePices.isSelected : false
@@ -537,7 +536,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     override func validateOrderByPiece(orderByPiece: Bool, quantity: Double, pieces: Int) {
         super.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity, pieces: pieces)
         currentValGr = quantity
-        if equivalenceByPiece.intValue > 0 && orderByPiece && pieces != 0{
+        if equivalenceByPiece.intValue > 0 && orderByPiece && pieces != 0 {
             originalValPzs = Double(pieces)
             currentValPzs = Double(pieces)
             originalValGr = 100
@@ -1006,6 +1005,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         if btnChankePices.isSelected {
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.orderByPiece = false
                 self.currentValGr = self.originalValGr
                 self.updateLabelW()
                 self.updateShoppButton()
@@ -1016,7 +1016,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
                 self.keyboard.alpha = 1
                 self.lblQuantityP.alpha = 0
                 self.keyboardP.alpha = 0
-                self.orderByPiece = false
             }, completion: { (Bool) -> Void in
                 self.btnChankePices.isEnabled = true
                 self.btnChankePices.isSelected = !self.btnChankePices.isSelected
