@@ -77,7 +77,7 @@
     var maxResult: Int = 20
     var brandText: String? = ""
     
-    var facet : [[String:Any]]!
+    var facet : NSDictionary? = [:]
     
     var controllerFilter : FilterProductsViewController!
     
@@ -722,7 +722,7 @@
         //let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         let params = service.buildParamsForSearch(url: self.urlFamily, text: self.textToSearch, sort: "0", startOffSet: String(startOffSets), maxResult:"20")
         service.callService(params as AnyObject,
-                            successBlock: { (arrayProduct:[[String : Any]]?, facet:[[String : Any]]?) -> Void in
+                            successBlock: { (arrayProduct:[[String : Any]]?, facet:NSMutableDictionary?) -> Void in
                                 
                                 self.facet = facet!
                                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -957,7 +957,8 @@
             print("Nuevos filtros")
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
-                controllerFilter.facet = self.facet
+                controllerFilter.facet = self.facet as? [[String:Any]]
+                controllerFilter.filtersAll = self.facet
                 controllerFilter.textToSearch = self.textToSearch
                 controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
                 controllerFilter.delegate = self

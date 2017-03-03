@@ -165,7 +165,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         else{
             if self.filterController == nil {
                 self.filterController = FilterProductsViewController()
-                self.filterController!.facet = self.facet
+                self.filterController!.facet = self.facet as? [[String:Any]]
                 self.filterController!.hiddenBack = true
                 self.filterController!.textToSearch = self.textToSearch
                 self.filterController!.selectedOrder = self.idSort!
@@ -184,7 +184,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.sliderTableViewCell?.resetSlider()
             self.filterController!.upcPrices =  nil
             self.filterController!.selectedElementsFacet = [:]
-            self.filterController!.facet =  self.facet != nil ? self.facet : nil
+            self.filterController!.facet =  self.facet != nil ? self.facet as? [[String:Any]] : nil
             //self.filterController!.facetGr = self.facetGr
             //self.filterController!.isGroceriesSearch = self.btnSuper.selected
             self.filterController!.searchContext = self.searchContextType

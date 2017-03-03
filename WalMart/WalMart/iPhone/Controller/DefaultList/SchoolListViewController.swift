@@ -237,7 +237,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         //let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
         let params = service.buildParamsForSearch(url: "", text: "", sort: "0", startOffSet: "0", maxResult:"100")
         service.callService(params as AnyObject,
-                            successBlock:{ (arrayProduct,facet:[[String:Any]]?) in
+                            successBlock:{ (arrayProduct,facet:NSMutableDictionary?) in
                                 self.detailItems = arrayProduct as? [[String:Any]]
                                 
                                 if self.detailItems?.count == 0 || self.detailItems == nil {

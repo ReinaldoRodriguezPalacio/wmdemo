@@ -59,7 +59,7 @@ class GRProductBySearchService: BaseService {
         return  ["url":url!, "text":text!, "maxResults":maxResult!, "sort":sort!, "startOffSet":startOffSet!]
     }
 
-    func callService(_ params:AnyObject, successBlock:(([[String:Any]],_ facet:[[String:Any]]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(_ params:AnyObject, successBlock:(([[String:Any]],_ facet:NSMutableDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         //print("PARAMS FOR GRProductBySearchService walmartgroceries/login/getItemsBySearching")
         self.jsonFromObject(params as AnyObject!)
         self.callPOSTService(params,
@@ -73,7 +73,7 @@ class GRProductBySearchService: BaseService {
                 }
                 
                 var newItemsArray = Array<[String:Any]>()
-                var facets = Array<[String:Any]>()
+                var facets : NSMutableDictionary =  [:]
                 
                 /*if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? [[String:Any]] {
                     self.saveKeywords(items) //Creating keywords
@@ -115,16 +115,24 @@ class GRProductBySearchService: BaseService {
                     
                     successBlock?(newItemsArray, facets)
                 }*/
-                        
-                //facets
-                if let itemsFacets = resultJSON["leftArea"] as? [[String:Any]] {
-                    if let leftArea = itemsFacets[0] as? [String:Any] {
-                        facets = leftArea["navigation"] as! Array<[String : Any]>
-                    }
-                }
+                                
                 if let responseMainArea = resultJSON["mainArea"] as? NSArray {
-                    
                     let mainArea = responseMainArea[0] as! [String:Any]
+                    
+                    //facets
+                    //left area and Sort Options
+                    let sortOpt = mainArea["sortOptions"] as? NSArray
+                    
+                    if let itemsFacets = resultJSON["leftArea"] as? [[String:Any]] {
+                        let navigation = itemsFacets[0] as? [String:Any]
+                        
+                        if sortOpt != nil && navigation!["navigation"] != nil {
+                            facets = NSMutableDictionary(dictionary: [
+                                "sortOptions":sortOpt!,
+                                "leftArea":navigation!["navigation"] as! NSArray
+                                ])
+                        }
+                    }
                     
                     //Array items
                     if let items = mainArea["records"] as? [[String:Any]] {
