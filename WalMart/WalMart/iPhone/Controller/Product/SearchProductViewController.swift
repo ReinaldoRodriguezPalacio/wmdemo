@@ -979,6 +979,10 @@
         }
     }
     
+    func apply(_urlSort: String) {
+        print("aply filter")
+    }
+    
     
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         

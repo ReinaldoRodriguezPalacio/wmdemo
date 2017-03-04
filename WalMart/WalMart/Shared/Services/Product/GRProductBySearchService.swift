@@ -124,12 +124,34 @@ class GRProductBySearchService: BaseService {
                     let sortOpt = mainArea["sortOptions"] as? NSArray
                     
                     if let itemsFacets = resultJSON["leftArea"] as? [[String:Any]] {
+                        
+                        var navigationArray : [[String:Any]] = []
                         let navigation = itemsFacets[0] as? [String:Any]
+                        let nav = navigation!["navigation"] as! NSArray
+                        
+                        for index in 0 ..< nav.count {
+                            let options = nav[index] as? NSDictionary
+                            if let refinement = options!["displayName"] as? String {
+                                
+                                var flagAdd = false
+                                switch(refinement) {
+                                    case "Price" : flagAdd = true
+                                    case "Marca" : flagAdd = true
+                                    case "categoria" : flagAdd = true
+                                    case "puntuaciones" : flagAdd = true
+                                    default : flagAdd = false
+                                }
+                                
+                                if flagAdd {
+                                    navigationArray.append(nav[index] as! [String:Any])
+                                }
+                            }
+                        }
                         
                         if sortOpt != nil && navigation!["navigation"] != nil {
                             facets = NSMutableDictionary(dictionary: [
                                 "sortOptions":sortOpt!,
-                                "leftArea":navigation!["navigation"] as! NSArray
+                                "leftArea": navigationArray
                                 ])
                         }
                     }

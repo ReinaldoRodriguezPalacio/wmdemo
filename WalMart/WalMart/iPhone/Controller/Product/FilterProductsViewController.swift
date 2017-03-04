@@ -31,6 +31,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 protocol FilterProductsViewControllerDelegate {
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool)
     func apply(_ order:String, upcs: [String])
+    func apply(_urlSort:String)
     func removeFilters()
     func removeSelectedFilters()
     func sendBrandFilter(_ brandFilter:String)
@@ -62,8 +63,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var selectedElements: [Bool]?
     var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
-    var isGroceriesSearch: Bool = false
-    var facetGr: [String]? = nil
+    //var isGroceriesSearch: Bool = false
+    //var facetGr: [String]? = nil
     var selectedFacetGr: [String:Bool]?
 
     var delegate:FilterProductsViewControllerDelegate?
@@ -139,7 +140,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         self.tableView!.register(FilterOrderViewCell.self, forCellReuseIdentifier: self.ORDERCELL_ID)
         self.tableView!.register(FilterCategoryViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        self.tableView!.register(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
+        //self.tableView!.register(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         self.selectedElementsFacet = [:]
         self.selectedFacetGr = [:]
@@ -151,13 +152,15 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         //Solo en el caso de que la busqueda sea con texto o camfind
         self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
-        if self.originalSearchContext != nil && self.isTextSearch {
+        self.tableView!.delegate = self
+        self.tableView!.dataSource = self
+        self.tableView!.reloadData()
+        
+        //if self.originalSearchContext != nil && self.isTextSearch {
             //self.loadLinesForSearch()
-        }
+        //}
         //else{
-            self.tableView!.delegate = self
-            self.tableView!.dataSource = self
-            self.tableView!.reloadData()
+        
         //}
         //validateFacetData()
     }
@@ -202,6 +205,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func applyFilters() {
         
+        
+        self.delegate?.apply(_urlSort: "")
+        
         var lastSelected:Int? = nil
         if self.selectedElements != nil && self.selectedElements!.count > 0 {
             for idx in 0 ..< self.selectedElements!.count {
@@ -212,7 +218,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         
-        if self.facetGr != nil {
+        /*if self.facetGr != nil {
             var filterSelect = false
             for selElement in self.selectedFacetGr!.keys {
                 let valSelected =  self.selectedFacetGr?[selElement]
@@ -224,7 +230,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if !filterSelect {
                 self.delegate?.sendBrandFilter("")
             }
-        }
+        }*/
         
         
         
@@ -425,21 +431,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             let navigation = self.navigatArray![indexPath.section - 1] as! NSDictionary
             if let refinements = navigation["refinements"] as? NSArray {
                 
-                for idx in 0 ..< refinements.count {
-                    let propert = refinements[indexPath.row] as! NSDictionary
-                    
-                    let textLabel = propert["label"] as! String
-                    let urlNavigation = propert["navigationState"] as! String
-                    
-                    var selected = false
-                    let valSelected =  propert["multiselect"] as! String
-                    if ((valSelected) != nil) {
-                        selected = valSelected == "true"
-                    }
-                    
-                    listCell.setValuesFacets(nil,nameBrand:textLabel, selected: selected)
-                    return listCell
+                let propert = refinements[indexPath.row] as! NSDictionary
+                
+                let textLabel = propert["label"] as! String
+                let urlNavigation = propert["navigationState"] as! String
+                
+                var selected = false
+                let valSelected =  propert["multiselect"] as! String
+                if ((valSelected) != nil) {
+                    selected = valSelected == "true"
                 }
+                
+                listCell.setValuesFacets(nil,nameBrand:textLabel, selected: selected)
+                return listCell
             }
             
             
@@ -584,7 +588,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         return UITableViewCell()
     }
     
-    func processPriceFacet(_ fitem:[String:Any]) {
+    /*func processPriceFacet(_ fitem:[String:Any]) {
         if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? [[String:Any]] {
             var array = Array<Double>()
             var mirror = Array<String>()
@@ -608,7 +612,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             self.prices = array
             self.upcPrices = mirror
         }
-    }
+    }*/
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         /*if (indexPath as NSIndexPath).section == 0 {
@@ -627,11 +631,39 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 0 {
+        /*if (indexPath as NSIndexPath).section == 0 {
             return
+        }*/
+        
+        var visibleCells = tableView.visibleCells
+        for idx in 0 ..< visibleCells.count {
+            if let cell = visibleCells[idx] as? FilterCategoryViewCell {
+                cell.check!.isHighlighted = false
+            }
         }
         
-        if self.facetGr != nil {
+        var urlAply = ""
+        if indexPath.section == 0 {
+            if let itemSorts = self.srtArray![indexPath.row] as? NSDictionary {
+                urlAply = itemSorts["navigationState"] as! String
+            }
+        } else {
+            let navigation = self.navigatArray![indexPath.section - 1] as! NSDictionary
+            if let refinements = navigation["refinements"] as? NSArray {
+                
+                let propert = refinements[indexPath.row] as! NSDictionary
+                
+                urlAply = propert["navigationState"] as! String
+            }
+        }
+        print(urlAply)
+        
+        if let cell = tableView.cellForRow(at: IndexPath(row: ((indexPath as NSIndexPath).row), section: (indexPath as NSIndexPath).section)) as? FilterCategoryViewCell {
+            cell.check!.isHighlighted = true
+        }
+        
+        
+        /*if self.facetGr != nil {
             if (indexPath as NSIndexPath).row == 0 {
                 self.selectedFacetGr = [:]
                 self.tableView?.reloadSections(IndexSet(integer: (indexPath as NSIndexPath).section), with: UITableViewRowAnimation.fade)
@@ -790,7 +822,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     cell.check!.isHighlighted = true
                 }
             }
-        }
+        }*/
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -812,8 +844,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             let navigation = self.navigatArray![section - 1] as! NSDictionary
             let name = navigation["displayName"] as? String != nil ? navigation["displayName"] as? String : ""
             title.text = name
-            
-            
             
             /*if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
@@ -912,7 +942,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     //MARK: - Services
     
-    func loadLinesForSearch() {
+    /*func loadLinesForSearch() {
         self.loading = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         self.loading!.startAnnimating(self.isVisibleTab)
         self.view.addSubview(self.loading!)
@@ -956,9 +986,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 //                self.invokeRetrieveLinesForMG(successBlock: success, errorBlock: errorBlock)
 //            }
 //        )
-    }
+    }*/
     
-    func invokeRetrieveLinesForGroceries(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
+    /*func invokeRetrieveLinesForGroceries(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         NSLog("self.categories = categories")
         let service = GRLinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!) as [String:Any],
@@ -982,9 +1012,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 return
             }
         )
-    }
+    }*/
     
-    func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
+    /*func invokeRetrieveLinesForMG(successBlock:(()->Void)?, errorBlock:((NSError)->Void)?) {
         let service = LinesForSearchService()
         service.callService(service.buildParams(self.textToSearch!) as [String:Any],
             successBlock: { (categories:[Any]) -> Void in
@@ -1032,7 +1062,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 return
             }
         )
-    }
+    }*/
     
     //MARK: - FilterOrderViewCellDelegate
     
