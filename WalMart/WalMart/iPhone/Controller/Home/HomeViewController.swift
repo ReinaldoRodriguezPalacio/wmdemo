@@ -501,6 +501,10 @@ class HomeViewController : IPOBaseController, UICollectionViewDataSource, UIColl
         }
         controller.findUpcsMg = upcs
         controller.titleHeader = "Recomendados"
+        controller.textToSearch = ""
+        controller.urlFamily = ""//add url for Search
+        controller.originalUrl = ""//add url for Search
+        controller.originalText = ""
         self.navigationController!.pushViewController(controller, animated: true)
         
     
@@ -516,6 +520,10 @@ class HomeViewController : IPOBaseController, UICollectionViewDataSource, UIColl
         controller.idFamily  = family == nil ? "_" :  family
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line
+        controller.textToSearch = ""
+        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalText = ""
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
     }

@@ -837,6 +837,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.searchContextType = .WithTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
+        controller.urlFamily = ""
+        controller.originalUrl = ""
+        controller.originalText = keyWord
         controllernav?.pushViewController(controller, animated: true)
     }
     /**
@@ -1052,6 +1055,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
+            controller.originalUrl = ""
+            controller.originalText = keyWord
             controllernav?.pushViewController(controller, animated: true)
         }
         

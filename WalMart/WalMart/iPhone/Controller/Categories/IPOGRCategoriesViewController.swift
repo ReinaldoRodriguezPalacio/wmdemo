@@ -398,6 +398,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let urlLineFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
         controller.urlFamily = urlLineFamily
         controller.textToSearch = ""
+        controller.originalUrl = urlLineFamily
+        controller.originalText = ""
         
         
         self.navigationController!.pushViewController(controller, animated: true)

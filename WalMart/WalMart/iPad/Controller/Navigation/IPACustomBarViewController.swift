@@ -127,6 +127,9 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
         controller.upcsToShow = upcs
+        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalText = keyWord
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){
             controllernav?.popViewController(animated: false)
@@ -235,6 +238,8 @@ class IPACustomBarViewController :  CustomBarViewController {
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             controller.urlFamily = ""
+            controller.originalUrl = ""//add url for Search
+            controller.originalText = keyWord
             let controllernav = self.currentController as? UINavigationController
             if (controllernav?.topViewController as? IPASearchProductViewController != nil){
                 controllernav?.popViewController(animated: false)
@@ -259,6 +264,10 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
+        controller.textToSearch = ""
+        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalText = ""
         controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){

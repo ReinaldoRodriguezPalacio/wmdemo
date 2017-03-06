@@ -76,6 +76,8 @@
     var idSort:String?
     var maxResult: Int = 20
     var brandText: String? = ""
+    var originalUrl : String = ""
+    var originalText : String = ""
     
     var facet : NSDictionary? = [:]
     
@@ -647,23 +649,6 @@
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
                 
                 self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
-                /*
-                 switch self.searchContextType! {
-                 case .WithCategoryForMG :
-                 print("Searching products for Category In MG")
-                 //    Sustituir busqueda en MG por Groceries
-                 self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
-                 
-                 case .WithCategoryForGR :
-                 print("Searching products for Category In Groceries")
-                 self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
-                 
-                 default :
-                 print("Searching products for text")
-                 //Only one service
-                 self.invokeSearchProducts(actionSuccess: sucessBlock, actionError: errorBlock)
-                 }
-                 */
             })
         }
         else {
@@ -971,7 +956,6 @@
             controllerFilter.selectedOrder! =  ""
             controllerFilter.filtersAll = self.facet
             controllerFilter.filterOrderViewCell?.resetOrderFilter()
-            controllerFilter.sliderTableViewCell?.resetSlider()
             controllerFilter.upcPrices =  nil
             controllerFilter.selectedElementsFacet = [:]
             controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
@@ -980,151 +964,17 @@
     }
     
     func apply(_urlSort: String) {
-        print("aply filter")
-    }
-    
-    
-    func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
+        self.urlFamily = _urlSort
+        self.textToSearch = ""
         
-        self.isAplyFilter =  true
-        
-        if IS_IPHONE {
-            self.isLoading = true
-        } else {
-            self.showLoadingIfNeeded(hidden: false)
-        }
-        
-        self.filterButton!.alpha = 1
-        if self.originalSort == nil {
-            self.originalSort = self.idSort
-        }
-        if self.originalSearchContextType == nil {
-            self.originalSearchContextType = self.searchContextType
-        }
-        self.idSort = order
-        
-        if filters != nil && self.originalSearchContextType != nil && self.isTextSearch {
-            self.idDepartment = filters![JSON_KEY_IDDEPARTMENT] as? String
-            self.idFamily = filters![JSON_KEY_IDFAMILY] as? String
-            self.idLine = filters![JSON_KEY_IDLINE] as? String
-            self.searchContextType = flag ? .WithCategoryForGR : .WithCategoryForMG
-            
-            if self.upcsToShowApply?.count == 0 {
-                self.upcsToShowApply = self.upcsToShow
-                self.itemsUPCBk = self.itemsUPC
-                self.itemsUPC = []
-                self.upcsToShow = []
-            }
-            
-        } else {
-            self.itemsUPC = self.itemsUPCBk
-            self.upcsToShow = self.upcsToShowApply
-            self.upcsToShowApply = []
-        }
-
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
-        
-        self.allProducts = []
-        //self.mgResults!.resetResult()
         self.results!.resetResult()
         self.getServiceProduct(resetTable: true)
+        
+        self.collection!.reloadData()
+        self.showLoadingIfNeeded(hidden: false)
     }
     
-    func sendBrandFilter(_ brandFilter: String) {
-        self.brandText = brandFilter
-        
-    }
-    
-    func apply(_ order:String, upcs: [String]) {
-        
-        self.isAplyFilter =  true
-        
-        if IS_IPHONE {
-            self.isLoading = true
-        } else {
-            showLoadingIfNeeded(hidden: false)
-        }
-        
-        self.collection?.alpha = 100
-        if upcs.count == 0 {
-            self.allProducts = []
-            self.results?.totalResults = 0
-            self.collection?.reloadData()
-            self.collection?.alpha = 0
-            self.finsihService =  true
-            return
-        } else {
-            if self.emptyMGGR != nil {
-                self.emptyMGGR.removeFromSuperview()
-            }
-        }
-        
-        
-        let svcSearch = SearchItemsByUPCService()
-        svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
-            if self.originalSearchContextType != .WithTextForCamFind {
-                self.allProducts? = []
-            }
-            self.allProducts!.append(array: result.arrayObject! as! [[String : Any]])
-            self.results?.totalResults = self.allProducts!.count
-            self.idSort = order
-            switch (FilterType(rawValue: self.idSort!)!) {
-            case .descriptionAsc :
-                //println("descriptionAsc")
-                self.allProducts!.sort(by: { ($0["description"] as! String) > ($1["description"] as! String) })
-            case .descriptionDesc :
-                //println("descriptionDesc")
-                self.allProducts!.sort(by: { ($0["description"] as! String) < ($1["description"] as! String) })
-            case .priceAsc :
-                //println("priceAsc")
-                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
-                    let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
-                    
-                    if priceOne < priceTwo {
-                        return false
-                    }
-                    else if (priceOne > priceTwo) {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            case .none : print("Not sorted")
-            case .priceDesc :
-                //println("priceDesc")
-                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let priceOne:Double = self.priceValueFrom(dictionary: dictionary1)
-                    let priceTwo:Double = self.priceValueFrom(dictionary: dictionary2)
-                    
-                    if priceOne > priceTwo {
-                        return false
-                    }
-                    else if (priceOne < priceTwo) {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            default :
-                print("default")
-            }
-            
-            
-            self.finsihService =  true
-            self.collection?.reloadData()
-            self.showLoadingIfNeeded(hidden: true)
-        }) { (error:NSError) -> Void in
-            print(error)
-        }
-        
-    }
-    
-    func removeSelectedFilters(){
+    /*func removeSelectedFilters(){
         //Quitamos los filtros despues de la busqueda.
         //self.idSort = self.originalSort
         
@@ -1138,17 +988,12 @@
         self.results!.resetResult()
         self.controllerFilter = nil
         
-    }
+    }*/
     
     func removeFilters() {
         
-        self.idSort = self.originalSort
-        self.searchContextType = self.originalSearchContextType
-        if self.originalSearchContextType != nil && self.isTextSearch {
-            self.idDepartment = nil
-            self.idFamily = nil
-            self.idLine = nil
-        }
+        self.urlFamily = self.originalUrl
+        self.textToSearch = self.originalText
         
         self.allProducts = []
         self.results!.resetResult()

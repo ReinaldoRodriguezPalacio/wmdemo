@@ -93,6 +93,10 @@ class LineViewController : FamilyViewController {
             controller.idDepartment = "_"
             controller.idFamily = "_"
             controller.idLine = selectedSection["subCategoryId"] as? String
+            controller.textToSearch = ""
+            controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+            controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+            controller.originalText = ""
 
             self.navigationController!.pushViewController(controller, animated: true)
         

@@ -1722,6 +1722,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.searchContextType = searchContextType
         controller.titleHeader = text
         controller.textToSearch = text
+        controller.urlFamily = ""
+        controller.originalUrl = ""
+        controller.originalText = text
         controller.searchFromContextType = .FromSearchTextList
         controller.idListFromSearch =  self.listId
         self.navigationController?.pushViewController(controller, animated: true)

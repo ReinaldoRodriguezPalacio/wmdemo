@@ -162,8 +162,10 @@ class IPAHomeViewController : HomeViewController {
             controller.searchContextType = .WithCategoryForGR
         }
         controller.findUpcsMg = upcs as? [String]
-        controller.urlFamily = ""
         controller.textToSearch = ""
+        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalText = ""
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -205,6 +207,10 @@ class IPAHomeViewController : HomeViewController {
         controller.idFamily  = family == nil ? "_" :  family
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line
+        controller.textToSearch = ""
+        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalText = ""
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
     }

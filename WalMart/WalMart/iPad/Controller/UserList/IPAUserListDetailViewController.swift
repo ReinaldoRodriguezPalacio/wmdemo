@@ -547,6 +547,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         controller.searchContextType = searchContextType
         controller.titleHeader = text
         controller.textToSearch = text
+        controller.urlFamily = ""
+        controller.originalUrl = ""
+        controller.originalText = text
         controller.searchFromContextType = searchServiceFromContext
         controller.idListFromSearch = self.listId
         self.retunrFromSearch =  true
