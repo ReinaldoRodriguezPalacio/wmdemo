@@ -23,6 +23,7 @@ class ListSelectorViewCell: UITableViewCell {
     var separator: UIView?
     var hiddenOpenList : Bool = false
     var pesable : Bool = false
+    var productInList =  false
     
     var delegate: ListSelectorCellDelegate?
     let viewBg = UIView(frame: CGRect(x: 0, y: 0, width: 100, height:18))
@@ -81,13 +82,15 @@ class ListSelectorViewCell: UITableViewCell {
     
     func selectedList(){
         print("selectedList")
-        self.delegate?.didSelectedList(self)
-        
-        self.indicator!.isSelected = !self.indicator!.isSelected
+        if !self.productInList {
+            self.delegate?.didSelectedList(self)
+            self.indicator!.isSelected = !self.indicator!.isSelected
+        }
         
     }
     
     func setListObject(_ object:[String:Any], productIncluded:Bool) {
+        self.productInList = productIncluded
         self.indicator!.isSelected = productIncluded
         if let name = object["name"] as? String {
             self.listName!.text = name
@@ -99,6 +102,7 @@ class ListSelectorViewCell: UITableViewCell {
     
     func setListEntity(_ entity:List,_ upc:String, productIncluded:Bool) {
         self.indicator!.isSelected = productIncluded
+        self.productInList = productIncluded
         self.listName!.text = entity.name
         self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), entity.countItem)
         self.setupIcon(title: entity.name, productIncluded: productIncluded)

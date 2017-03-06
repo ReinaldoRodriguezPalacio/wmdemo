@@ -737,10 +737,10 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
             if !isUpcInShoppingCart && !isFromList {
-                if let weightBtn = keyboard.weightBtnSelected {
-                    keyboard.seleccionboton(weightBtn)
-                    keyboard.weightBtnSelected = nil
-                }
+//                if let weightBtn = keyboard.weightBtnSelected {
+//                    keyboard.seleccionboton(weightBtn)
+//                    keyboard.weightBtnSelected = nil
+//                }
                 self.originalValGr = 0.0
                 self.currentValGr = self.originalValGr
                 self.currentValCstmGr = 0.0
