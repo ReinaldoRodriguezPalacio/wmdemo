@@ -788,6 +788,40 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     }
     
+    func updateItemToList(quantity:String,listId:String,finishAdd:Bool){
+        
+        //let service = GRAddItemListService()
+       let orderByPiece = self.itemOrderbyPices
+       let service = GRUpdateItemListService()
+        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                
+                                if finishAdd {
+                                    self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
+                                    self.alertView?.showDoneIcon()
+                                    self.alertView?.afterRemove = {
+                                        self.removeListSelector(action: nil)
+                                    }
+                                }
+                                
+                                
+           BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView?.setMessage(error.localizedDescription)
+            self.alertView?.showErrorIcon("Ok")
+            self.alertView?.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+        }
+        )
+    
+    
+    }
+    
+    
+    
     func listSelectorDidDeleteProduct(inList listId:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
@@ -839,7 +873,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-                self.addToListLocally(quantity:quantity,list:list)
+                //self.addToListLocally(quantity:quantity,list:list)
+                    self.updateToListLocally(quantity: quantity, list: list)
             }
             self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
             
@@ -876,8 +911,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             detail!.img = self.imageUrl[0] as! NSString as String
         }
         
-        //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
-        
+       
         
         var error: NSError? = nil
         do {
@@ -915,6 +949,57 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         // 360 Event
         BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+    }
+    
+    func updateToListLocally(quantity:String,list:List) {
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+      
+        for  product in  list.products  {
+            let productSelect =  product as? Product
+            if productSelect!.upc ==  self.upc as String {
+                if quantity == "00"{
+                   context.delete(productSelect!)
+                 
+                }else{
+                    productSelect?.quantity = NSNumber(value:Int(quantity)!)
+                }
+            }
+        }
+        //savecontex from add or remove
+        var error: NSError? = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        
+        let count:Int = list.products.count
+        list.countItem = NSNumber(value: count as Int)
+        
+        //save contex from new count items
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
+        }
+        if error != nil {
+            print(error!.localizedDescription)
+        }
+        
+        self.removeListSelector(action: nil)
+        //TODO: Add message
+        self.showMessageWishList("Se agregó a la lista")
+        
+    
     }
     
     func showMessageWishList(_ message:String) {

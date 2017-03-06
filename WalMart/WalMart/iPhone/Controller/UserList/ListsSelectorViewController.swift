@@ -313,8 +313,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                     self.delegate!.listSelectorDidShowListLocally(entity)
                 }
                 else {
-                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
-                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                    //Abrir lista con sesion
+                    if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                        self.didShowListDetail(celldetail)
+                    }
                 }
             }
         
@@ -438,14 +440,15 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                         }
                     }
                     else if let entity = self.list![idx] as? List {
+                        //Abrir teclado con sesion
+                        
                         let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
                         //Actualizacion a servicio a traves del delegate
+                        
                         if entity.idList != nil {
-                            if product != nil {
-                                //self.delegate?.listSelectorDidDeleteProduct(inList: entity.idList!)
-                                if let celldetail = tableView?.cellForRow(at: indexPath) as? ListSelectorViewCell {
-                                    self.didShowListDetail(celldetail)
-                                }
+                            if product != nil {                                
+                                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
+                                self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
                             }
                             else {
                                 self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
