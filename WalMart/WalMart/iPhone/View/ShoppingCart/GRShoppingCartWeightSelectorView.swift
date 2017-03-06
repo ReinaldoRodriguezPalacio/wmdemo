@@ -735,7 +735,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             lblQuantityW.text = tmpResult as String
             btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
+            self.btnDelete?.alpha = 0.0
             if !isUpcInShoppingCart && !isFromList {
 //                if let weightBtn = keyboard.weightBtnSelected {
 //                    keyboard.seleccionboton(weightBtn)
@@ -756,6 +756,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd.backgroundColor = WMColor.green
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnDelete?.alpha = 1.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
@@ -794,7 +795,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             }
             self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
+            self.btnDelete?.alpha = 0.0
             if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
@@ -808,6 +809,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAddN.backgroundColor = WMColor.green
             self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnDelete?.alpha = 1.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
@@ -851,7 +853,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             }
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
+            self.btnDelete?.alpha = 0.0
             if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
@@ -865,6 +867,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd.backgroundColor = WMColor.green
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnDelete?.alpha = 1.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
