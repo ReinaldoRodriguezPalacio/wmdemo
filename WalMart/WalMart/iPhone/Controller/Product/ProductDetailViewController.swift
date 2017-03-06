@@ -560,6 +560,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     {
+        let isInCart = self.productDetailButton?.detailProductCart != nil
+        if !isInCart {
+            //self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            return
+        }
+        
         if selectQuantity == nil {
             if isShowProductDetail == true {
                 self.closeProductDetail()
@@ -674,7 +685,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func deleteFromCart() {
         
         //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
         self.selectQuantity!.closeAction()
         self.selectQuantity = nil

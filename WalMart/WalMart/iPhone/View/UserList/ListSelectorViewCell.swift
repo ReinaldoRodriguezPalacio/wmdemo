@@ -11,6 +11,7 @@ import UIKit
 protocol ListSelectorCellDelegate {
     func didShowListDetail(_ cell: ListSelectorViewCell)
     func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell)
+    func didSelectedList(_ cell: ListSelectorViewCell)
 }
 
 class ListSelectorViewCell: UITableViewCell {
@@ -22,6 +23,7 @@ class ListSelectorViewCell: UITableViewCell {
     var separator: UIView?
     var hiddenOpenList : Bool = false
     var pesable : Bool = false
+    var productInList =  false
     
     var delegate: ListSelectorCellDelegate?
     let viewBg = UIView(frame: CGRect(x: 0, y: 0, width: 100, height:18))
@@ -41,8 +43,11 @@ class ListSelectorViewCell: UITableViewCell {
         self.indicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(16)
         self.indicator!.isSelected = false
         self.indicator!.backgroundColor = UIColor.clear
-        self.indicator!.isUserInteractionEnabled = false
+        self.indicator?.addTarget(self, action: #selector(ListSelectorViewCell.selectedList), for: UIControlEvents.touchUpInside)
+        //self.indicator!.isUserInteractionEnabled = true
+        
         self.contentView.addSubview(self.indicator!)
+        
         
         self.listName = UILabel()
         self.listName!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -75,7 +80,17 @@ class ListSelectorViewCell: UITableViewCell {
         
     }
     
+    func selectedList(){
+        print("selectedList")
+        if !self.productInList {
+            self.delegate?.didSelectedList(self)
+            self.indicator!.isSelected = !self.indicator!.isSelected
+        }
+        
+    }
+    
     func setListObject(_ object:[String:Any], productIncluded:Bool) {
+        self.productInList = productIncluded
         self.indicator!.isSelected = productIncluded
         if let name = object["name"] as? String {
             self.listName!.text = name
@@ -87,6 +102,7 @@ class ListSelectorViewCell: UITableViewCell {
     
     func setListEntity(_ entity:List,_ upc:String, productIncluded:Bool) {
         self.indicator!.isSelected = productIncluded
+        self.productInList = productIncluded
         self.listName!.text = entity.name
         self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), entity.countItem)
         self.setupIcon(title: entity.name, productIncluded: productIncluded)

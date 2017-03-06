@@ -954,6 +954,14 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     //MARK: - ListSelectorDelegate
     
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("lista de id de listas")
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas Seleccionadas")
+    }
+    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -1020,7 +1028,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
@@ -1078,6 +1086,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail!.type = NSNumber(value: typeProdVal as Int)
                 detail!.list = list
                 detail!.img = item["imageUrl"] as! String
+                var equivalenceByPiece : NSNumber = 0
+                if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                    equivalenceByPiece =  equiva
+                }else if let equiva = item["equivalenceByPiece"] as? Int {
+                    equivalenceByPiece =  NSNumber(value: equiva)
+                }else if let equiva = item["equivalenceByPiece"] as? String {
+                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                }
+                
+                detail?.equivalenceByPiece =  equivalenceByPiece
                 
                 // 360 Event
                 BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")

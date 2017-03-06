@@ -23,7 +23,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             if isFromList {
                 self.btnNote.alpha = 0
             }
-            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
+            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.addweighttitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
         }
     }
     var addToCartAction : ((String) -> Void)!
@@ -51,7 +51,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
         self.startY = startY
-        setup()
+        self.setup()
     }
     
     init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,upcProduct:String,startY:CGFloat = 0 ) {
@@ -59,7 +59,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.priceProduct = priceProduct
         self.upcProduct = upcProduct
         self.startY = startY
-        setup()
+        self.setup()
         let text = String(quantity).characters.count < 2 ? "0" : ""
         lblQuantity.text = "\(text)"+"\(quantity!)"
         
@@ -68,8 +68,9 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        self.setup()
     }
+    
     
     func setup() {
         
@@ -82,11 +83,17 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         backgroundView = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: self.bounds.height))
         backgroundView!.backgroundColor = WMColor.light_blue.withAlphaComponent(0.93)
         
-        lblTitle = UILabel(frame: CGRect(x: (self.frame.width / 2) - 115, y: startH + 18, width: 230, height: isFullView && startH != 0 ? 48 : 14))
-        lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
-        lblTitle.textColor = UIColor.white
-        lblTitle.text = NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
-        lblTitle.textAlignment = NSTextAlignment.center
+        self.lblTitle = UILabel(frame: CGRect(x: (self.frame.width / 2) - 115, y: startH + 18, width: 230, height: isFullView && startH != 0 ? 48 : 14))
+        self.lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
+        self.lblTitle.textColor = UIColor.white
+        
+        var titleView = "shoppingcart.updatequantitytitle"
+        if self.isFromList {
+            titleView = "shoppingcart.addweighttitle"
+        }
+        
+        self.lblTitle.text = NSLocalizedString(titleView ,comment:"")
+        self.lblTitle.textAlignment = NSTextAlignment.center
         
         lblQuantity = UILabel(frame: CGRect(x: (self.frame.width / 2) - (200 / 2), y: isFullView && startH != 0 ? lblTitle.frame.maxY : (lblTitle.frame.maxY + 20), width: 200, height: 40))
         lblQuantity.font = WMFont.fontMyriadProRegularOfSize(40)
@@ -331,7 +338,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnDelete?.alpha = 0.0
-            
+
             if !isUpcInShoppingCart &&  !isFromList {
                 let tmpResult : NSString = "00" as NSString
                 lblQuantity.text = tmpResult as String

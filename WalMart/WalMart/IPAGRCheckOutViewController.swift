@@ -163,6 +163,16 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     //MARK: - ListSelectorDelegate
+    
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("Lista de id de listas")
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas Seleccionadas")
+        
+    }
+    
     /**
      Close list selector
      */
@@ -245,7 +255,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter list: list object to add product
      */
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         

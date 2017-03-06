@@ -772,7 +772,48 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             })
     }
     
+    func deleteFromCart() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.closeContainer({ () -> Void in
+                        self.productDetailButton?.reloadShoppinhgButton()
+                    }, completeClose: { () -> Void in
+                        self.tabledetail.reloadData()
+                    }, closeRow:true )
+                }
+            }
+        }) { (error) in
+            print("delete pressed Errro \(error)")
+        }
+    }
+    
     func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
+        
+        let isInCart = self.productDetailButton?.detailProductCart != nil 
+        if !isInCart {
+            self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            return
+        }
         
         let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
         
@@ -807,6 +848,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 }, completeClose: { () -> Void in
                     self.tabledetail.reloadData()
                     self.isShowShoppingCart = false
+
                     var params  =  self.buildParamsUpdateShoppingCart(quantity,orderByPiece: false,pieces: Int(quantity)!,equivalenceByPiece:0)
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
@@ -824,7 +866,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
             self.productDetailButton?.reloadShoppinhgButton()
@@ -834,40 +875,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.productDetailButton!.addToShoppingCartButton.isSelected = true
         },additionalAnimationFinish: { () -> Void in
             self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+            self.productDetailButton?.setOpenQuantitySelector()
         })
         
         self.productDetailButton?.reloadButton()
-    }
-    
-    func deleteFromCart() {
-        
-        //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
-        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
-        self.selectQuantity!.closeAction()
-        self.selectQuantity = nil
-        
-        
-        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
-        if !UserCurrentSession.hasLoggedUser() {
-            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
-        }
-        let upc = itemToDelete["upc"] as! String
-        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
-            UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                print("delete pressed OK")
-                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
-                alertView?.showDoneIcon()
-                alertView?.afterRemove = {
-                    self.productDetailButton?.reloadShoppinhgButton()
-                }
-            }
-        }) { (error) in
-            print("delete pressed Errro \(error)")
-        }
-        
-        
     }
 
     
@@ -879,6 +890,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
      
      - returns: [String:Any]
      */
+
     func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {

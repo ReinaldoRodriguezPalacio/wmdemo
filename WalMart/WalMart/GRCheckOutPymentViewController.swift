@@ -206,7 +206,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.payPalPaymentField!.addSubview(titleLabelPayPal)
         self.payPalPaymentField!.isSelected = false
         self.payPalPaymentField!.tag = -1
-        self.payPalPaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0, 0,width - 20)
         self.content.addSubview(payPalPaymentField!)
         
         let titleLabelPayPalFuture = UILabel(frame:CGRect(x: 22, y: 0, width: width - 38,height: 22))
@@ -217,6 +216,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         titleLabelPayPalFuture.textColor = WMColor.dark_gray
         titleLabelPayPal.tag = -3
         
+        
         self.payPalFuturePaymentField = UIButton()
         self.payPalFuturePaymentField!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
         self.payPalFuturePaymentField!.setImage(UIImage(named:"checkAddressOn"), for: UIControlState.selected)
@@ -224,9 +224,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.payPalFuturePaymentField!.addSubview(titleLabelPayPalFuture)
         self.payPalFuturePaymentField!.isSelected = false
         self.payPalFuturePaymentField!.tag = -3
-        self.payPalFuturePaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,width - 36)
+        
         self.payPalFuturePaymentField!.isSelected = false
-
         self.content.addSubview(payPalFuturePaymentField!)
         
         //Services
@@ -1173,16 +1172,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 1
                 self.payPalPaymentField!.frame = CGRect(x: margin, y: self.sectionPaypalTitle!.frame.maxY + 10.0, width: widthField, height: 22)
+                self.payPalPaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0, 0, self.payPalPaymentField!.frame.width - 22 )
                 //posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
             }else{
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 0
                 self.payPalPaymentField!.frame = CGRect(x: margin, y: self.sectionPaypalTitle!.frame.maxY + 10.0, width: widthField, height: 22)
+                self.payPalPaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0, 0, self.payPalPaymentField!.frame.width - 22 )
             }
         }
         if showPayPalFuturePayment{
             self.payPalFuturePaymentField!.frame = CGRect(x: margin + 16, y: self.payPalPaymentField!.frame.maxY + 10 , width: widthField - 16, height: 22)
+            self.payPalFuturePaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,self.payPalFuturePaymentField!.frame.width - 22)
         }
         self.content.contentSize = CGSize(width: self.view.frame.width, height: posY + 10.0)
     }

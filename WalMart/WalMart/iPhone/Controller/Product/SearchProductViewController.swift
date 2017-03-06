@@ -2059,7 +2059,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: SearchProductCollectionViewCellDelegate
     
-    func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect,quantity:NSNumber,noteProduct:String){
+    func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect, quantity: NSNumber, noteProduct:String, product: Product?){
         
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
@@ -2071,9 +2071,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:startY)
+            if self.idListFromSearch != "" {
+                selectQuantityGR.isFromList = true
+            }
         }
     
-        
         selectQuantityGR?.closeAction = { () in
             self.selectQuantityGR.removeFromSuperview()
             self.selectQuantityOpen = false
@@ -2125,7 +2127,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        selectQuantityGR?.validateOrderByPiece(orderByPiece: quantity == 0 ? false: selectQuantityGR!.orderByPiece, quantity: 1.1, pieces: 1)
+        let orderByPiece = product != nil ? product!.orderByPiece.boolValue : false
+        selectQuantityGR?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity.doubleValue, pieces: 1)
         
         selectQuantityGR?.addUpdateNote = { () in
             var pieces = 0
@@ -2160,7 +2163,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func deleteFromCartGR(cell:SearchProductCollectionViewCell,position:String) {
         //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
         self.selectQuantityGR?.closeAction()
         self.selectQuantityGR = nil
@@ -2189,7 +2192,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func deleteFromCart(cell:SearchProductCollectionViewCell,position:String) {
         
         //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
         self.selectQuantity!.closeAction()
         self.selectQuantity = nil
@@ -2217,18 +2220,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
-    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?) {
+    func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell, productInCart: Cart?) {
         if !selectQuantityOpen {
             if let frameTo = self.view.window?.frame  {
-                let frameDetail = CGRect(x: 0,y: 0, width: frameTo.width,height: frameTo.height)
-                let quantity = productInCart ==  nil ?  0 :  productInCart!.quantity
-                let note  = productInCart ==  nil ?  "" :  productInCart!.note
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail,quantity: quantity,noteProduct: note!)
+                
+                let frameDetail = CGRect(x: 0, y: 0, width: frameTo.width, height: frameTo.height)
+                let quantity = productInCart == nil ?  0 : productInCart!.quantity
+                let note = productInCart ==  nil ? "" : productInCart!.note
+
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)
+                
                 UIView.animate(withDuration: 0.2, animations: {
                     self.selectQuantityGR.alpha = 1
                 })
+                
                 selectQuantityOpen = true
             }
         }

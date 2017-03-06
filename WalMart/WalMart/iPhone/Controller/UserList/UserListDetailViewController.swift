@@ -523,7 +523,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             params["onHandInventory"] = "20000"
                         }
                     }
-                    params["baseUomcd"] = item["baseUomcd"] as? NSString
+                    params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
                 }
                 else if let item = self.products![idx] as? Product {
                     params["upc"] = item.upc
@@ -548,7 +548,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     if let productPrice = checkedPrice {
                         totalPrice += Int(productPrice)
                     }
-                    params["baseUomcd"] = item.orderByPiece.boolValue ? "EA" : "GM"
+                    params["orderByPiece"] = item.orderByPiece.boolValue
                     
                 }
                 upcs.append(params as AnyObject)
@@ -694,6 +694,30 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
         }
         
+
+        let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
+        bg.frame = CGRect(x: 0.0, y: 0.0,  width: bounds.width,  height: self.emptyView!.frame.height)
+        self.emptyView!.addSubview(bg)
+        
+        let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
+        labelOne.textAlignment = .center
+        labelOne.textColor = WMColor.light_blue
+        labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
+        labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
+        self.emptyView!.addSubview(labelOne)
+        
+        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: bounds.width, height: 16))
+        labelTwo.textAlignment = .center
+        labelTwo.textColor = WMColor.light_blue
+        labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
+        labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
+        self.emptyView!.addSubview(labelTwo)
+        
+        let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
+        icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+        self.emptyView!.addSubview(icon)
+        
+        let button = UIButton(type: .custom)
         if UserCurrentSession.hasLoggedUser() {
             self.view.addSubview(self.addProductsView!)
         }
@@ -1676,6 +1700,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.textToSearch = text
         controller.searchFromContextType = .fromSearchTextList
         controller.idListFromSearch =  self.listId
+        
         self.navigationController?.pushViewController(controller, animated: true)
         
     }

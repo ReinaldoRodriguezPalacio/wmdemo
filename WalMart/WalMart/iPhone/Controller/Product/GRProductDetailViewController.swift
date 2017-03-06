@@ -46,6 +46,8 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRProductDetailViewController : ProductDetailViewController, ListSelectorDelegate {
+
+
   
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var listSelectorContainer: UIView?
@@ -387,6 +389,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorController!.pesable = self.isPesable
             self.addChildViewController(self.listSelectorController!)
             self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
+            self.listSelectorController?.showListView =  true
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
@@ -415,6 +418,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     
     override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
+        let isInCart = self.productDetailButton?.detailProductCart != nil
+        if !isInCart && !self.isPesable {
+            //self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            return
+        }
         
         if isShowProductDetail == true {
             self.closeProductDetail()
@@ -547,7 +560,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func deleteFromCartGR() {
         //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
         alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
         self.selectQuantityGR?.closeAction()
         self.selectQuantityGR = nil
@@ -611,10 +624,48 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     //MARK: - ListSelectorDelegate
     
+    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
+        print("Lista de id de listas")
+        
+        if idListsSelected.count > 0 {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
+            if let imageURL = self.productDetailButton?.image {
+                if let urlObject = URL(string:imageURL) {
+                    self.alertView?.imageIcon.setImageWith(urlObject)
+                }
+            }
+            
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            var count = 1
+            for idList in idListsSelected {
+                //self.listSelectorDidAddProduct(inList: idList)
+                
+                let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+                
+                if self.quantitySelected != 0 && self.isPesable && !exist {
+                    self.addItemsToList(quantity:"\(self.quantitySelected)",listId:idList,finishAdd: count == idListsSelected.count )
+                }else{
+                    self.addItemsToList(quantity:"1",listId:idList,finishAdd: count == idListsSelected.count )
+                }
+                count = count + 1
+            }
+        }
+    }
+    
+    func listSelectedListsLocally(listSelected listsSelected: [List]) {
+        print("Listas Seleccionadas")
+        if listsSelected.count > 0 {
+            var countList  =  1
+            for list in listsSelected {
+                self.listSelectorDidAddProductLocally(inList: list,finishAdd:countList == listsSelected.count )
+                countList =  countList + 1
+            }
+        }
+    }
+    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
+    
     }
 
     internal func listSelectorDidAddProduct(inList listId: String) {
@@ -637,7 +688,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
             
-            self.addItemsToList(quantity:"\(self.quantitySelected)",listId:listId)
+            self.addItemsToList(quantity:"\(self.quantitySelected)",listId:listId,finishAdd: true)
             return
         }
         
@@ -665,7 +716,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     }
                     self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
                     
-                    self.addItemsToList(quantity:quantity,listId:listId)
+                    self.addItemsToList(quantity:quantity,listId:listId,finishAdd: true)
                     
                 }else{
                     
@@ -703,7 +754,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
             
-             addItemsToList(quantity:"1",listId:listId)
+             addItemsToList(quantity:"1",listId:listId,finishAdd: true)
         }
         
         
@@ -711,7 +762,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     
-    func addItemsToList(quantity:String,listId:String) {
+    func addItemsToList(quantity:String,listId:String,finishAdd:Bool) {
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
@@ -719,12 +770,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in
-                                self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
-                                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label:"\(self.name) \(self.upc) ")
-                                
-                                self.alertView?.showDoneIcon()
-                                self.alertView?.afterRemove = {
-                                    self.removeListSelector(action: nil)
+                                if finishAdd {
+                                    self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                                    self.alertView?.showDoneIcon()
+                                    self.alertView?.afterRemove = {
+                                        self.removeListSelector(action: nil)
+                                    }
                                 }
                                 
                                 // 360 Event
@@ -732,9 +783,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 
         }, errorBlock: { (error:NSError) -> Void in
             print("Error at add product to list: \(error.localizedDescription)")
-            self.alertView!.setMessage(error.localizedDescription)
-            self.alertView!.showErrorIcon("Ok")
-            self.alertView!.afterRemove = {
+            self.alertView?.setMessage(error.localizedDescription)
+            self.alertView?.showErrorIcon("Ok")
+            self.alertView?.afterRemove = {
                 self.removeListSelector(action: nil)
             }
         }
@@ -778,7 +829,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List) {
+    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
@@ -933,12 +984,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.listSelectorContainer!.frame = CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0)
                         }, completion: { (complete:Bool) -> Void in
                             if complete {
-                                self.listSelectorController!.willMove(toParentViewController: nil)
-                                self.listSelectorController!.view.removeFromSuperview()
-                                self.listSelectorController!.removeFromParentViewController()
+                                self.listSelectorController?.willMove(toParentViewController: nil)
+                                self.listSelectorController?.view.removeFromSuperview()
+                                self.listSelectorController?.removeFromParentViewController()
                                 self.listSelectorController = nil
                                 
-                                self.listSelectorContainer!.removeFromSuperview()
+                                self.listSelectorContainer?.removeFromSuperview()
                                 self.listSelectorContainer = nil
                                 
                                 //self.productDetailButton!.listButton.selected = false

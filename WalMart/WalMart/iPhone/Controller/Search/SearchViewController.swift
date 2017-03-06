@@ -423,14 +423,19 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
+        
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            
             let toValidate : NSString = textField.text! as NSString
             let trimValidate = toValidate.trimmingCharacters(in: CharacterSet.whitespaces)
+            
             if trimValidate.lengthOfBytes(using: String.Encoding.utf16) < 4 {
                 showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
                 return true
             }
+            
             if !validateSearch(textField.text!)  {
                 showMessageValidation("Texto no permitido")
                 return true
@@ -438,8 +443,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             
             self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
             self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
-            //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
-            
             self.errorView?.removeFromSuperview()
             
             if textField.text!.lengthOfBytes(using: String.Encoding.utf8) >= 12 && textField.text!.lengthOfBytes(using: String.Encoding.utf8) <= 16 {
@@ -454,6 +457,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     return true
                 }
+                
                 if strFieldValue.substring(to: 1).uppercased() == "B" {
                     let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
@@ -462,11 +466,12 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                         return true
                     }
                 }
+                
             }
+            
             delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
-        }
-        else{
+            
+        } else {
             UIView.animate(withDuration: 1.0, animations: {
                 self.camButton!.alpha = 1;
                 self.scanButton!.alpha = 1;
@@ -474,6 +479,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.scanLabel!.alpha = 1;
             })
         }
+        
         return false
     }
     
@@ -725,15 +731,23 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.view.endEditing(true)
     }
     
-    func isBarCodeUPC(_ codeUPC:NSString) -> Bool {
+    func isBarCodeUPC(_ codeUPC: NSString) -> Bool {
+        
         var fullBarcode = codeUPC as String
+        
+        if codeUPC.length == 14 {
+            return false
+        }
+        
         if codeUPC.length < 14 {
             let toFill = "".padding(toLength: 14 - codeUPC.length, withPad: "0", startingAt: 0)
             fullBarcode = "\(toFill)\(codeUPC)"
         }
+        
         if Int(fullBarcode) == nil {
             return false
         }
+        
         var firstVal = (Int(fullBarcode.substring(0, length: 1))! +
             Int(fullBarcode.substring(2, length: 1))! +
             Int(fullBarcode.substring(4, length: 1))! +
@@ -758,6 +772,5 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return verificationInt == resultVerInt
         
     }
-    
     
 }
