@@ -992,6 +992,10 @@
     
     func removeFilters() {
         
+        if self.urlFamily == self.originalUrl && self.textToSearch == self.originalText {
+            return
+        }
+        
         self.urlFamily = self.originalUrl
         self.textToSearch = self.originalText
         
