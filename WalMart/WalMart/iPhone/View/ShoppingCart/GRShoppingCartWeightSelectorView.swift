@@ -736,7 +736,16 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
+                if let weightBtn = keyboard.weightBtnSelected {
+                    keyboard.seleccionboton(weightBtn)
+                    keyboard.weightBtnSelected = nil
+                }
+                self.originalValGr = 0.0
+                self.currentValGr = self.originalValGr
+                self.currentValCstmGr = 0.0
+                let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
+                lblQuantityW.text = tmpResult as String
                 btnOkAdd.setTitle("\(strAdddToSC) \("0")", for: UIControlState())
                 let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
                 rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
@@ -786,7 +795,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
                 lblQuantityN.text = tmpResult as String
@@ -843,7 +852,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
-            if !isUpcInShoppingCart {
+            if !isUpcInShoppingCart && !isFromList {
                 btnOkAddN.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
                 lblQuantityP.text = tmpResult as String
