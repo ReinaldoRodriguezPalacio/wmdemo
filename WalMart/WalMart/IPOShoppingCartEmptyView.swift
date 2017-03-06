@@ -12,7 +12,7 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
     
     override func setup() {
         super.setup()
-        iconImageView.image = UIImage(named:"empty_cart")
+        bgImageView.image = UIImage(named:"empty_cart")
         descLabel.text = NSLocalizedString("empty.shoppingcart",comment:"")
         
         if IS_IPHONE_4_OR_LESS == true {

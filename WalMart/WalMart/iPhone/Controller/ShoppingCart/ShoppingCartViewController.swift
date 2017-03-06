@@ -200,8 +200,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         self.view.addSubview(emptyView)
         
-        self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -216,6 +214,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
             
+    //        self.emptyView!.isHidden = false
+      //      self.editButton!.isHidden = true
+
             if !showCloseButton {
                 self.closeButton.isHidden = true
             } else {

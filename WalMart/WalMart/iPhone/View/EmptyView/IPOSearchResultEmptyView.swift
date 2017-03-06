@@ -15,7 +15,7 @@ class IPOSearchResultEmptyView : IPOEmptyView {
     override func setup() {
         super.setup()
         
-        iconImageView.image = UIImage(named:"not_found_bg")
+        bgImageView.image = UIImage(named:"not_found_bg")
         descLabel.numberOfLines = 3
         
     }

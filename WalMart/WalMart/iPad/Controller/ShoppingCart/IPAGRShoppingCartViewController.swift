@@ -125,6 +125,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewSeparator.isHidden = !self.emptyView!.isHidden
+    }
+
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
         let itemGRSC = itemsInCart[indexPath.row] 
         let upc = itemGRSC["upc"] as! String

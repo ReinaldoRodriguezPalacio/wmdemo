@@ -1,33 +1,29 @@
 //
-//  IPOWishlistEmptyView.swift
+//  IPOUserListEmptyView.swift
 //  WalMart
 //
-//  Created by Gerardo Ramirez on 10/2/14.
-//  Copyright (c) 2014 BCG Inc. All rights reserved.
+//  Created by Dania Brito on 2/27/17.
+//  Copyright © 2017 BCG Inc. All rights reserved.
 //
 
 import Foundation
 
-class IPOWishlistEmptyView : IPOEmptyView {
+class IPOUserListEmptyView : IPOEmptyView {
     
     
-    var imageEmptyView = UIImageView()
+    //var imageEmptyView = UIImageView()
     var imageEmptyViewIconBtn = UIImageView()
     var textLabel: UILabel?
     
     override func setup() {
         super.setup()
         
-        //iconImageView.image = UIImage(named:"empty_list")
-        bgImageView.isHidden = true
-        
-        imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
-        self.insertSubview(imageEmptyView, at: 0)
-        
-        imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))
+        self.backgroundColor = UIColor.white
+        bgImageView.image = UIImage(named: UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no")
+        imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_list_icon"))
         self.addSubview(imageEmptyViewIconBtn)
         
-        self.descLabel.text = NSLocalizedString("empty.wishlist.title",comment:"")
+        self.descLabel.text = NSLocalizedString("list.detail.empty.header",comment:"")
         self.descLabel.numberOfLines = 0
         self.descLabel.textColor = WMColor.light_blue
         self.descLabel.font = WMFont.fontMyriadProLightOfSize(14.0)
@@ -36,7 +32,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
         self.textLabel!.textAlignment = .center
         self.textLabel!.textColor = WMColor.light_blue
         self.textLabel!.font = WMFont.fontMyriadProRegularOfSize(14.0)
-        self.textLabel!.text = NSLocalizedString("empty.wishlist.text", comment:"")
+        self.textLabel!.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.addSubview(self.textLabel!)
         
     }
@@ -45,7 +41,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
         super.layoutSubviews()
         self.textLabel!.frame = CGRect(x: 0.0, y: self.descLabel.frame.maxY + 12.0, width: self.frame.width, height: 16.0)
         //var size = self.imageEmptyViewIconBtn.image!.size
-        self.imageEmptyViewIconBtn.frame = CGRect(x: 98.0, y: self.descLabel!.frame.maxY + 12.0, width: 16.0, height: 16.0)
+        self.imageEmptyViewIconBtn.frame = CGRect(x: self.descLabel.frame.midX - 63, y: self.descLabel!.frame.maxY + 12.0, width: 16.0, height: 16.0)
     }
     
     override func returnActionSel() {
@@ -54,3 +50,4 @@ class IPOWishlistEmptyView : IPOEmptyView {
     }
     
 }
+

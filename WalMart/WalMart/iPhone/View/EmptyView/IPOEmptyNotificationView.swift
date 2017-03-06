@@ -16,7 +16,7 @@ class IPOEmptyNotificationView : IPOEmptyView {
         
         self.descLabel.text =  NSLocalizedString("notificationEmptyscreen.title",comment:"")
         
-        iconImageView.image = UIImage(named:"notification_emptyscreen")
+        bgImageView.image = UIImage(named:"notification_emptyscreen")
         self.returnButton.alpha = 0
         
     }

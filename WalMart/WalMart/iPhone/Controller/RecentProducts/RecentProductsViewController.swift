@@ -37,8 +37,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(recentProducts)
         
+        var heightEmptyView = self.view.bounds.height - 109
+        if IS_IPHONE_6P {
+            heightEmptyView -= 44
+        }
+        
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109))
+        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView))
         emptyView.returnAction = {() in
             self.back()
         }
@@ -65,11 +70,18 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.viewLoad.stopAnnimating()
         }
         
-        if IS_IOS8_OR_LESS {
-            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
-        }else{
-            self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109)
+        var heightEmptyView = self.view.bounds.height - 46
+        
+        if !IS_IOS8_OR_LESS {
+            heightEmptyView -= 109
         }
+        else {
+            if IS_IPHONE_6P {
+                heightEmptyView -= 104
+            }
+        }
+       
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
     }
 
    
@@ -84,10 +96,10 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.invokeStop = true
             self.viewLoad = nil
             self.emptyView!.isHidden = true
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error")
-                self.viewLoad?.stopAnnimating()
-                self.viewLoad = nil
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error")
+            self.viewLoad?.stopAnnimating()
+            self.viewLoad = nil
         })
 
     

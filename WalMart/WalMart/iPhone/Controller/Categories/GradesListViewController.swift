@@ -138,7 +138,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         }
         
         if IS_IPAD {
-            self.emptyView.iconImageView.image = UIImage(named:"oh-oh_bts")
+            self.emptyView.bgImageView.image = UIImage(named:"oh-oh_bts")
             self.emptyView.returnButton.isHidden =  true
         }
         
