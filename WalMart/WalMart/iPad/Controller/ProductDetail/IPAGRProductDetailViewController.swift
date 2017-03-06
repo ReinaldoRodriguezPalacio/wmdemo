@@ -477,6 +477,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             
+            if quantity == "00" {
+                self.deleteFromCartGR()
+                return
+            }
+            
             if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -560,7 +565,34 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
     }
     //close new
-    
+    func deleteFromCartGR() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = GRShoppingCartDeleteProductsService()
+        
+        deleteShoppingCartService.callService([upc], successBlock: { (result:[String:Any]) -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
+            })
+        }) { (error) in
+            alertView?.showDoneIcon()
+            print("delete pressed Errro \(error)")
+        }
+    }
     
     func listSelectorDidShowList(_ listId: String, andName name:String) {
         if visibleDetailList {

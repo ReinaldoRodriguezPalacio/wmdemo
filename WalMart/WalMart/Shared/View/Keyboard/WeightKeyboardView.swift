@@ -13,7 +13,6 @@ class WeightKeyboardView : UIView {
     var widthButton : CGFloat = 80.0
     var separatorR : CGFloat = 23.0
     
-    var weightBtnSelected: UIButton?
     var btngramos : UIButton!
     var btncuarto : UIButton!
     var btmediokilo : UIButton!
@@ -133,7 +132,7 @@ class WeightKeyboardView : UIView {
         bttrescuartos.isSelected = false
         btunkilo.isSelected = false
         
-        sender.isSelected = sender != weightBtnSelected ? true : false
+        sender.isSelected = true
         
         switch(sender)
         {
@@ -162,7 +161,6 @@ class WeightKeyboardView : UIView {
         }
         
         if delegate != nil {
-            weightBtnSelected = sender
             delegate.userSelectValue(String(sender.tag))
         }
 

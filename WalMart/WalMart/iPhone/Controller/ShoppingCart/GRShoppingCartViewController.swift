@@ -1051,6 +1051,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail!.type = NSNumber(value: typeProdVal as Int)
                 detail!.list = list
                 detail!.img = item["imageUrl"] as! String
+                var equivalenceByPiece : NSNumber = 0
+                if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                    equivalenceByPiece =  equiva
+                }else if let equiva = item["equivalenceByPiece"] as? Int {
+                    equivalenceByPiece =  NSNumber(value: equiva)
+                }else if let equiva = item["equivalenceByPiece"] as? String {
+                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                }
+                
+                detail?.equivalenceByPiece =  equivalenceByPiece
                 
                 // 360 Event
                 BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
