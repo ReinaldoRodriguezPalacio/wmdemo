@@ -413,6 +413,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             
+            if quantity == "00" {
+                self.deleteFromCartGR()
+                return
+            }
+            
             if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -455,7 +460,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 
                 
                 let addShopping = ShoppingCartUpdateController()
-                let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:Any]
+                let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue,orderByPiece: self.selectQuantityGR!.orderByPiece,pieces: self.productDetailButton!.detailProductCart!.quantity.intValue,equivalenceByPiece:Int(self.selectQuantityGR!.equivalenceByPiece)) as! [String:Any]
                 addShopping.params = paramsToSC
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
@@ -925,13 +930,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
 
-override func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
+    //MARK: -
+    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable : Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": orderByPiece, "pieces": pieces,"equivalenceByPiece":equivalenceByPiece]
     }
     
     
@@ -1029,6 +1035,33 @@ override func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: 
         
     }
 
-    
+    func deleteFromCartGR() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"preCart_mg_icon"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = GRShoppingCartDeleteProductsService()
+        
+        deleteShoppingCartService.callService([upc], successBlock: { (result:[String:Any]) -> Void in
+            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                print("delete pressed OK")
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
+            })
+        }) { (error) in
+            alertView?.showDoneIcon()
+            print("delete pressed Errro \(error)")
+        }
+    }
    
 }
