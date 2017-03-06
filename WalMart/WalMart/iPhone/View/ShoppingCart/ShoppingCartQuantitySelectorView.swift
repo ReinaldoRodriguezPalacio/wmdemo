@@ -265,7 +265,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
             self.btnOkAdd.removeTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
+            self.btnDelete?.alpha = 0.0
             if !isUpcInShoppingCart {
                 self.btnOkAdd.backgroundColor = WMColor.green
                 let tmpResult : NSString = "00" as NSString
@@ -280,7 +280,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.backgroundColor = WMColor.green
             self.btnOkAdd.removeTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            
+            self.btnDelete?.alpha = 0.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
