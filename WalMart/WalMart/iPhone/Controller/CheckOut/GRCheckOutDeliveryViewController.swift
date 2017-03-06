@@ -208,16 +208,18 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         self.picker = AlertPickerView.initPickerWithDefault()
         self.addViewLoad()
-        self.reloadUserAddresses()
+        if UserCurrentSession.hasLoggedUser() {
+            self.reloadUserAddresses()
         
-        self.deliveryDate!.onBecomeFirstResponder = {() in
-            self.picker!.selected = self.selectedDateTypeIx
-            self.picker!.sender = self.deliveryDate!
-            self.picker!.delegate = self
-            self.picker!.setValues(NSLocalizedString("checkout.title.deliverySchedule", comment:""), values: self.datesToShow!)
-            self.picker!.hiddenRigthActionButton(true)
-            self.picker!.cellType = TypeField.check
-            self.picker!.showPicker()
+            self.deliveryDate!.onBecomeFirstResponder = {() in
+                self.picker!.selected = self.selectedDateTypeIx
+                self.picker!.sender = self.deliveryDate!
+                self.picker!.delegate = self
+                self.picker!.setValues(NSLocalizedString("checkout.title.deliverySchedule", comment:""), values: self.datesToShow!)
+                self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.check
+                self.picker!.showPicker()
+            }
         }
     }
     
