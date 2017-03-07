@@ -36,8 +36,9 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.clipsToBounds = true
         
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.left
+        imageBackground.contentMode = UIViewContentMode.scaleAspectFill
         imageBackground.clipsToBounds = true
+        
         
         imageIcon = UIImageView()
         
@@ -61,8 +62,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     
     func setValues(_ title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
-        let scale = UIScreen.main.scale
+        let model =  UIDevice.current.modelName
+        let scale = model.contains("Plus") ? 3 : UIScreen.main.scale
         let svcUrl = serviceUrl(keyIconUrl)
+        
         var imgURLName = "\(svcUrl)\(imageIconURL)"
         imgURLName = imgURLName.replacingOccurrences(of: ".png", with: "@\(Int(scale))x.png" )
         var loadImagefromUrl =  true
@@ -92,14 +95,19 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             loadImagefromUrl = loadImage
         }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
       
+        print(imgURLNamehead)
+        
         if loadImagefromUrl {
             self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                print("into :: loadImagefromUrl")
+                print("Encontro :\(imgURLNamehead)")
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
                 }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
         }else{
+            print("esles loadImagefromUrl")
             self.imageBackground.image = imageHeader
         }
         
@@ -115,6 +123,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         
         //println("Imagen del header en: \(imageBackgroundURL) ")
+        
         self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
