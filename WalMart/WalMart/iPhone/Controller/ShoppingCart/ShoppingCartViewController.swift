@@ -209,9 +209,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
             
-  //          self.emptyView!.isHidden = false
-    //        self.editButton!.isHidden = true
-            
+    //        self.emptyView!.isHidden = false
+      //      self.editButton!.isHidden = true
+
             if !showCloseButton {
                 self.closeButton.isHidden = true
             } else {

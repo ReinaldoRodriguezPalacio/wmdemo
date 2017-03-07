@@ -19,7 +19,7 @@ class IPOUserListEmptyView : IPOEmptyView {
         super.setup()
         
         self.backgroundColor = UIColor.white
-        bgImageView.image =  UIImage(named: UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no")
+        bgImageView.image = UIImage(named: UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no")
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_list_icon"))
         self.addSubview(imageEmptyViewIconBtn)
         

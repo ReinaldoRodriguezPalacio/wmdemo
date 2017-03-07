@@ -2085,7 +2085,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //let quantity : Int = quantity.toInt()!
             
             if quantity == "00" {
-                self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                if self.idListFromSearch !=  ""{
+                    self.deleteItemFromList(cell: cell)
+                }else{
+                    self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                }
+                
                 return
             }
             
@@ -2137,6 +2142,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else {
                 pieces = (Int(quantity))
             }
+            let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(self.selectQuantityGR!.upcProduct)
             
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
@@ -2149,7 +2155,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.window?.addSubview(addShopping.view)
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = noteProduct
+            addShopping.comments = productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!)
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
@@ -2188,6 +2194,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             print("delete pressed Errro \(error)")
         }
     }
+    //Delete Item from List
+    func deleteItemFromList(cell:SearchProductCollectionViewCell){
+        
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+          alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
+        
+
+        let detailService = GRUserListDetailService()
+        detailService.buildParams(self.idListFromSearch!)
+        detailService.callService([:], successBlock: { (result:[String:Any]) -> Void in
+          
+            let service = GRDeleteItemListService()
+            service.callService(service.buildParams(cell.upc),
+                                successBlock:{ (result:[String:Any]) -> Void in
+                                    alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
+                                    alertView!.showDoneIcon()
+                                    let indexPath = self.collection?.indexPath(for: cell)
+                                    self.collection?.reloadItems(at:[indexPath!] )
+            },
+                                errorBlock:{ (error:NSError) -> Void in
+                                    print("Error at delete product from user")
+                                alertView!.setMessage(error.localizedDescription)
+                                    alertView!.showErrorIcon("Ok")
+            })
+        }, errorBlock: { (error:NSError) -> Void in
+            alertView!.setMessage(error.localizedDescription)
+            alertView!.showErrorIcon("Ok")
+        })
+    
+    }
     
     func deleteFromCart(cell:SearchProductCollectionViewCell,position:String) {
         
@@ -2214,6 +2252,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
         }) { (error) in
+            alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+            alertView?.showDoneIcon()
             print("delete pressed Errro \(error)")
         }
        
@@ -2228,7 +2268,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let quantity = productInCart == nil ?  0 : productInCart!.quantity
                 let note = productInCart ==  nil ? "" : productInCart!.note
 
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" :note!, product: productInCart?.product)
 
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)

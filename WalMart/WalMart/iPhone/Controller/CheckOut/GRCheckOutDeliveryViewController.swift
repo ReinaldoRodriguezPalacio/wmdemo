@@ -210,7 +210,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.addViewLoad()
         if UserCurrentSession.hasLoggedUser() {
             self.reloadUserAddresses()
-            
+        
             self.deliveryDate!.onBecomeFirstResponder = {() in
                 self.picker!.selected = self.selectedDateTypeIx
                 self.picker!.sender = self.deliveryDate!

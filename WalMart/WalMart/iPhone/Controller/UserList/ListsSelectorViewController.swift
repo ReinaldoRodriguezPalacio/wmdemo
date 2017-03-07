@@ -303,55 +303,25 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             return
         }
 
-        let idx = indexPath.row - 1
-        if let item = self.list![idx] as? [String:Any] {
-            let listId = item["id"] as? String
-            let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
-            if product != nil {
-                //self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
-                if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
-                    self.didShowListDetail(celldetail)
+            let idx = indexPath.row - 1
+            if let item = self.list![idx] as? [String:Any] {
+                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
+            }
+            else if let entity = self.list![idx] as? List {
+                if entity.idList == nil {
+                    self.delegate!.listSelectorDidShowListLocally(entity)
                 }
-            }
-            else {
-                self.delegate?.listSelectorDidAddProduct(inList: listId!)
-            }
-        }
-        else if let entity = self.list![idx] as? List {
-            let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
-            //Actualizacion a servicio a traves del delegate
-            if entity.idList != nil {
-                if product != nil {
-                    //self.delegate?.listSelectorDidDeleteProduct(inList: entity.idList!)
+                else {
+                    //Abrir lista con sesion
                     if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
                         self.didShowListDetail(celldetail)
                     }
                 }
-                else {
-                    self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
-                }
             }
-            //Actualizacion local a DB
-            else {
-                self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
-                //TODO: Delete action
-//                if product != nil {
-//                    self.delegate?.listSelectorDidDeleteProductLocally(product!, inList: entity)
-//                }
-//                else {
-//
-//                }
-            }
-        }
         
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if let newCell = cell as? NewListSelectorViewCell {
-//            newCell.inputNameList!.becomeFirstResponder()
-//        }
-//    }
-    
+
     // MARK: - DB
     
     func retrieveItems(forUser user:User) -> [List]? {
@@ -456,20 +426,43 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     internal func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell) {
         
         if let indexPath = self.tableView!.indexPath(for: cell) {
-            let idx = indexPath.row - 1
-            if let item = self.list![idx] as? [String:Any] {
-                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
-                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
-            }
-            else if let entity = self.list![idx] as? List {
-                if entity.idList == nil {
-                    self.delegate!.listSelectorDidShowListLocally(entity)
-                }
-                else {
-                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
-                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
-                }
-            }
+            
+                    let idx = indexPath.row - 1
+                    if let item = self.list![idx] as? [String:Any] {
+                        let listId = item["id"] as? String
+                        let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
+                        if product != nil {
+                            //self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
+                            if let celldetail = tableView?.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                                self.didShowListDetail(celldetail)
+                            }
+                        }
+                        else {
+                            self.delegate?.listSelectorDidAddProduct(inList: listId!)
+                        }
+                    }
+                    else if let entity = self.list![idx] as? List {
+                        //Abrir teclado con sesion
+                        
+                        let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
+                        //Actualizacion a servicio a traves del delegate
+                        
+                        if entity.idList != nil {
+                            if product != nil {                                
+                                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
+                                self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                            }
+                            else {
+                                self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
+                            }
+                        }
+                        //Actualizacion local a DB
+                        else {
+                            self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
+            
+                        }
+                    }
+            
         }
         
     }

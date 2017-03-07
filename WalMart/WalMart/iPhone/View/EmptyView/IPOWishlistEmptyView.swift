@@ -18,10 +18,8 @@ class IPOWishlistEmptyView : IPOEmptyView {
     override func setup() {
        super.setup()
         
-        //imageEmptyView = UIImageView(image: UIImage(named: "empty_wishlist"))
-        //imageEmptyView.frame = CGRect(x: 0.0, y: 0.0,  width: self.frame.width, height: self.frame.height)
-
-        //self.addSubview(imageEmptyView)
+        //iconImageView.image = UIImage(named:"empty_list")
+        bgImageView.isHidden = true
         
         
         bgImageView.image =  UIImage(named: "empty_wishlist")

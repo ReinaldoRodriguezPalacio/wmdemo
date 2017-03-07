@@ -56,7 +56,7 @@
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
-		223B1A2D1E64A75B0025CF36 /* IPOUserListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */; };
+		22E5DC311E6A453C00F4C9E0 /* IPOUserListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
 		2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
@@ -608,7 +608,7 @@
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
-		223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOUserListEmptyView.swift; path = iPhone/View/EmptyView/IPOUserListEmptyView.swift; sourceTree = "<group>"; };
+		22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOUserListEmptyView.swift; path = WalMart/iPhone/View/EmptyView/IPOUserListEmptyView.swift; sourceTree = "<group>"; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
@@ -1517,6 +1517,7 @@
 		5645788D19AE2E00006A7152 = {
 			isa = PBXGroup;
 			children = (
+				22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */,
 				6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */,
 				ACBA55C519BF583700393E02 /* Frameworks */,
 				5645789819AE2E00006A7152 /* WalMart */,
@@ -3319,6 +3320,7 @@
 				5673D13F1A9D500400DCD20B /* RSFocusMarkLayer.swift in Sources */,
 				5614A6661A688CDC0048B71A /* GRUpdateUserProfileService.swift in Sources */,
 				4A5A9D511C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m in Sources */,
+				22E5DC311E6A453C00F4C9E0 /* IPOUserListEmptyView.swift in Sources */,
 				04D88CAD1A4B27CD00DB836B /* GRProductBySearchService.swift in Sources */,
 				5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */,
 				5696079D19B4F4CA005D20DC /* ProductDetailLabelCollectionView.swift in Sources */,

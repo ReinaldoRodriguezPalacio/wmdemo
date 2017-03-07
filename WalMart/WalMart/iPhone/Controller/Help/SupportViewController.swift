@@ -178,7 +178,8 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         self.imgConfirm.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: bounds.maxX, height: heightImg)
         self.labelQuestion1.frame = CGRect(x: 0,  y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
-        self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY  , width: bounds.width, height: 15 )
+        self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY , width: bounds.width, height: 15 )
+        
         
         
         if IS_IPHONE {

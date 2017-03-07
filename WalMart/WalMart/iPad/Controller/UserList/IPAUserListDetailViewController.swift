@@ -256,7 +256,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
 
     override func showEmptyView() {
-         self.openEmpty = true
+        self.openEmpty = true
         
         self.titleLabel?.text = self.listName
         if self.emptyView == nil {
@@ -264,39 +264,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
         
         if UserCurrentSession.hasLoggedUser() {
-           self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: self.view.bounds.width, height: 612 - 64 )
+            self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: self.view.bounds.width, height: self.view.bounds.height - 64 )
         }else{
-            self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: 612)
+            self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 44 )
         }
+        super.emptyView?.showReturnButton = false
         
-        self.emptyView!.backgroundColor = UIColor.white
-       
-        
-        
-        self.emptyView!.backgroundColor = UIColor.white
         self.view.addSubview(self.emptyView!)
-        
-        let bg = UIImageView(image: UIImage(named:UserCurrentSession.hasLoggedUser() ? "empty_list" : "list_empty_no"))
-        bg.frame = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: UserCurrentSession.hasLoggedUser() ?  612 - 64 : 612)
-        self.emptyView!.addSubview(bg)
-        
-        let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: self.view.bounds.width, height: 16.0))
-        labelOne.textAlignment = .center
-        labelOne.textColor = WMColor.light_blue
-        labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
-        labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
-        self.emptyView!.addSubview(labelOne)
-        
-        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: self.view.bounds.width, height: 16))
-        labelTwo.textAlignment = .center
-        labelTwo.textColor = WMColor.light_blue
-        labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
-        labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
-        self.emptyView!.addSubview(labelTwo)
-        
-        let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRect(x: 280.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
-        self.emptyView!.addSubview(icon)
     }
 
     override func showLoadingView() {
@@ -370,7 +344,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
-       
+        self.quantitySelector!.isFromList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             
             if Int(quantity) <= 20000 {

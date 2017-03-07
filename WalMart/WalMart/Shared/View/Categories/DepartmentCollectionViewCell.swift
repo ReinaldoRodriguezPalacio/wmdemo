@@ -58,10 +58,12 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
     }
     
-    func setValues(_ title: String, imageBackgroundURL: String, keyBgUrl: String,imageIconURL:String,keyIconUrl:String, hideImage: Bool) {
-        
-        let scale = UIScreen.main.scale
+    
+    func setValues(_ title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
+        let model =  UIDevice.current.modelName
+        let scale = model.contains("Plus") ? 3 : UIScreen.main.scale
         let svcUrl = serviceUrl(keyIconUrl)
+        
         var imgURLName = "\(svcUrl)\(imageIconURL)"
         imgURLName = imgURLName.replacingOccurrences(of: ".png", with: "@\(Int(scale))x.png" )
         var loadImagefromUrl =  true
@@ -92,16 +94,20 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             loadImagefromUrl = loadImage
         }
       
+        print(imgURLNamehead)
+        
         if loadImagefromUrl {
             
             self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                print("into :: loadImagefromUrl")
+                print("Encontro :\(imgURLNamehead)")
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
                 }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
                     
             }
-            
-        } else {
+        }else{
+            print("esles loadImagefromUrl")
             self.imageBackground.image = imageHeader
         }
         
@@ -119,7 +125,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     func setValuesLanding(_ imageBackgroundURL: String) {
         
-        self.imageBackground.setImageWith(URLRequest(url: URL(string: imageBackgroundURL)!), placeholderImage: UIImage(named: "loading_cat"), success: { (request:URLRequest, response: HTTPURLResponse?, image: UIImage) -> Void in
+        
+        //println("Imagen del header en: \(imageBackgroundURL) ")
+        
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
         }) { (request: URLRequest, response: HTTPURLResponse?, error: Error) -> Void in
             print(error)
