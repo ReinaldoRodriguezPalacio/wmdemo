@@ -37,15 +37,22 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(recentProducts)
         
-        var heightEmptyView = self.view.bounds.height - 109
+        var heightEmptyView = self.view.bounds.height
+        if !IS_IPAD && !IS_IPAD_MINI {
+            heightEmptyView -= 109
+        }
+        
         if IS_IPHONE_6P {
             heightEmptyView -= 44
         }
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView))
-        emptyView.returnAction = {() in
+        self.emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView))
+        self.emptyView.returnAction = {() in
             self.back()
+        }
+        if IS_IPAD_MINI || IS_IPAD {
+            self.emptyView.showReturnButton = false
         }
         self.view.addSubview(emptyView)
         invokeRecentProducts()
@@ -60,7 +67,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX,y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX, y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
             viewLoad.backgroundColor = UIColor.white
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
@@ -70,17 +77,18 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.viewLoad.stopAnnimating()
         }
         
-        var heightEmptyView = self.view.bounds.height - 46
-        
-        if !IS_IOS8_OR_LESS {
-            heightEmptyView -= 109
-        }
-        else {
+        var heightEmptyView = self.view.bounds.height
+        if !IS_IPAD {
+            if !IS_IOS8_OR_LESS {
+                heightEmptyView -= 46
+            }else{
+                heightEmptyView -= 109
+            }
             if IS_IPHONE_6P {
-                heightEmptyView -= 104
+                heightEmptyView -= 20
             }
         }
-       
+    
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
     }
 
