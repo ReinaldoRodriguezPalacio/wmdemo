@@ -58,6 +58,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var totalShop: Double = 0.0
     var preview: PreviewModalView? = nil
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(GRShoppingCartViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = WMColor.yellow
+        return refreshControl
+    }()
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
     }
@@ -155,7 +162,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }else if !IS_IPAD{
             addLongTouch(view:tableShoppingCart!)
         }
- 
+        
+       self.tableShoppingCart?.addSubview(self.refreshControl)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -1218,8 +1226,19 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.viewLoad = nil
         }
     }
-
-
+    
+    //MARK: RefreshControl
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
+            self.loadGRShoppingCart()
+            print("Refresh")
+            refreshControl.endRefreshing()
+            
+            if self.itemsInCart.count == 0 {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
 }
 
 extension GRShoppingCartViewController: UIViewControllerPreviewingDelegate {

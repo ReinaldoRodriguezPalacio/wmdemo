@@ -86,6 +86,13 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     var lblError: UILabel?
     var imageIco: UIImageView?
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ShoppingCartViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = WMColor.yellow
+        return refreshControl
+    }()
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
     }
@@ -185,6 +192,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }else if !IS_IPAD{
             addLongTouch(view:viewShoppingCart!)
         }
+        
+        self.viewShoppingCart?.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1669,6 +1678,20 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }
+    }
+    
+    //MARK: RefreshControl
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+            self.loadShoppingCartService()
+            print("Refresh")
+            refreshControl.endRefreshing()
+            self.viewShoppingCart?.reloadData()
+            
+            if self.itemsInShoppingCart.count == 0 {
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
     }
     
 }
