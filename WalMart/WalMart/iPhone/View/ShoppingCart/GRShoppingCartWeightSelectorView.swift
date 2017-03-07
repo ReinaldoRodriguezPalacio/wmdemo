@@ -229,11 +229,11 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
-        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: 0, width: 44, height: 44))
+        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: closePossitionY, width: 44, height: 44))
         closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
         closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
-        let backToW = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        let backToW = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         backToW.setImage(UIImage(named:"search_back"), for: UIControlState())
         backToW.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.backToWeight), for: UIControlEvents.touchUpInside)
         
@@ -850,7 +850,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue, label:"" )
         customValue = true
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.containerView.frame = CGRect(x: -self.containerWeightView.frame.maxX, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)
+            self.containerView.frame = CGRect(x:-self.containerWeightView.frame.maxX, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)
             }, completion: { (complete:Bool) -> Void in
             
         }) 
