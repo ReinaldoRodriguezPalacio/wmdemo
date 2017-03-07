@@ -311,7 +311,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
             selectQuantityGR = selectQuantityGRW
             
-            self.selectQuantityGR.isFromList = false
+                self.selectQuantityGR.isFromList = true
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -320,7 +320,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.selectQuantityGR = nil
                 })
             }
-            
             
             
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
@@ -624,6 +623,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         print("Lista de id de listas")
         
         if idListsSelected.count > 0 {
+           
+            let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+            
+            if exist && self.isPesable {
+                self.addMultipleListSelected(idLists: idListsSelected)
+                return
+            }
+            
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
             if let imageURL = self.productDetailButton?.image {
                 if let urlObject = URL(string:imageURL) {
@@ -632,11 +639,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            
             var count = 1
             for idList in idListsSelected {
                 //self.listSelectorDidAddProduct(inList: idList)
-                
-                let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                 
                 if self.quantitySelected != 0 && self.isPesable && !exist {
                     self.addItemsToList(quantity:"\(self.quantitySelected)",listId:idList,finishAdd: count == idListsSelected.count )
@@ -646,6 +652,61 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 count = count + 1
             }
         }
+    }
+    
+    func addMultipleListSelected (idLists listSelected:[String]){
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR.isFromList = true
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+        self.selectQuantityGR!.closeAction = { () in
+            self.removeListSelector(action: nil)
+        }
+        
+        self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+          
+            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+            if Int(quantity) <= 20000 {
+                
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
+                if let imageURL = self.productDetailButton?.image {
+                    if let urlObject = URL(string:imageURL) {
+                        self.alertView?.imageIcon.setImageWith(urlObject)
+                    }
+                }
+                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+                var countId =  1
+                
+                for idListSel in  listSelected {
+                    self.addItemsToList(quantity:quantity,listId:idListSel,finishAdd: countId == listSelected.count )
+                    countId  =  countId + 1
+                }
+                
+            }else{
+                
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
+                alert!.setMessage(msgInventory)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            }
+            
+        }
+        
+
+        self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: { () -> Void in
+                        self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
+                        self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+        }, completion: { (finished:Bool) -> Void in
+            
+        }
+        )
+
+    
     }
     
     func listSelectedListsLocally(listSelected listsSelected: [List]) {

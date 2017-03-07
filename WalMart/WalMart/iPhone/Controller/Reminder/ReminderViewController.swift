@@ -214,7 +214,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let lineHeight: CGFloat = TabBarHidden.isTabBarHidden ? 67 : 113
+        let lineHeight: CGFloat =  113
         self.deleteButton!.frame = CGRect(x: self.header!.frame.width - 80, y: 12, width: 65, height: 22)
         self.frequencyLabel!.frame = CGRect(x: 16, y: 16,  width: self.view.frame.width - 32, height: 20)
         self.frequencyField!.frame = CGRect(x: 16, y: self.frequencyLabel!.frame.maxY + 8,  width: self.view.frame.width - 32, height: 40)

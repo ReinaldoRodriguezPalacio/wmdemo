@@ -346,7 +346,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         } else if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
-       
+        self.quantitySelector!.isFromList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             
             if Int(quantity) <= 20000 {

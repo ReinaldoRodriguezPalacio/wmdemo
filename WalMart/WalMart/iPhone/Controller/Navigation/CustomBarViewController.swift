@@ -637,7 +637,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let showBadgeNotification = (badgeNumber > 0) && !hidden
         
         self.isTabBarHidden = false
-        TabBarHidden.isTabBarHidden = false
+       
         
         self.badgeNotification.isHidden = !showBadgeNotification
         self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY - self.buttonContainer!.frame.height,width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)

@@ -317,9 +317,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             
             let width:CGFloat = self.view.frame.width
             var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
-            if TabBarHidden.isTabBarHidden {
-                height += 45.0
-            }
+           
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             self.quantitySelectorMg = ShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: NSNumber(value: Double(price!)! as Double),upcProduct:cell.upcVal!)

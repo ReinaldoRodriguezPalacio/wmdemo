@@ -782,7 +782,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if selectedItems != nil {
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
-                if !(self.products!.count >= idx) {
+                if !(idx == self.products!.count) {
                 if let item = self.products![idx] as? [String:Any] {
                     if let typeProd = item["type"] as? NSString {
                         let quantity = item["quantity"] as! NSNumber
@@ -803,8 +803,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             }
                         }
                     }
-                }
-                else if let item = self.products![idx] as? Product {
+                }else if let item = self.products![idx] as? Product {
                     let quantity = item.quantity
                     let price:Double = item.price.doubleValue
                     if item.type.intValue == 0 {
@@ -820,6 +819,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
             }
+            
             }
         }
         return total
@@ -1015,10 +1015,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
 
             let width:CGFloat = self.view.frame.width
-            var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
-            if TabBarHidden.isTabBarHidden {
-                height += 45.0
-            }
+            let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 46.0
+       
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             if isPesable {
@@ -1039,7 +1037,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             } else if let item = self.products![indexPath!.row] as? Product {
                 quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
             }
-            
+            self.quantitySelector!.isFromList =  true
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![indexPath!.row] as? [String:Any] {
                     let upc = item["upc"] as? String
