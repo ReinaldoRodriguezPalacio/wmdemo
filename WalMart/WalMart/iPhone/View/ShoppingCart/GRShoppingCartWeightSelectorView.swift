@@ -293,7 +293,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
 //        
         
         
-        self.updateShoppButtonN()
+        self.updateShoppButton()
         
         btnNoteN = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
         btnNoteN.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
