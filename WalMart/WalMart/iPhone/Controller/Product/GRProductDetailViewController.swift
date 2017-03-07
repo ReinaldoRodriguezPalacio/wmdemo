@@ -303,6 +303,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return
         }
         
+        
         let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
       
         if self.isPesable && !exist {
@@ -316,6 +317,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
+                    self.productDetailButton?.listButton.isSelected = false
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
                 })
@@ -352,14 +354,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.opencloseContainer(true, viewShow:selectQuantityGR!,
                                     additionalAnimationOpen: { () -> Void in
-                                        self.productDetailButton?.setOpenQuantitySelector()
-                                        self.productDetailButton?.addToShoppingCartButton.isSelected = true
+                                        self.productDetailButton?.listButton.isSelected = true
             },
                                     additionalAnimationClose:{ () -> Void in
-                                        
-                                        self.productDetailButton?.addToShoppingCartButton.isSelected = true
-            }
-            )
+                                        self.productDetailButton?.listButton.isSelected = false
+            })
         }else {
             
             //
@@ -399,6 +398,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                            completion: { (complete:Bool) -> Void in
                             if complete {
                                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                                    self.productDetailButton?.listButton.isSelected = true
                                     self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
                                     self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
                                 })
@@ -1138,6 +1138,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 
                                 action?()
                                 self.detailCollectionView.isScrollEnabled = true
+                                 self.productDetailButton?.listButton.isSelected = false
                             }
                         }
                     )
