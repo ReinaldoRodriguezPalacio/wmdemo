@@ -254,7 +254,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         btnDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         btnDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
         
-        self.updateShoppButtonN()
+        self.updateShoppButton()
         
 //        btnNoteN = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: keyboard.frame.maxY + 15  , width: 40, height: 40))
 //        btnNoteN.setImage(UIImage(named:"notes_k  eyboard"), for: UIControlState())
@@ -380,7 +380,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                     currentValPzs = tmpResult
                     originalValPzs = currentValPzs
                     self.updateLabelP()
-                    self.updateShoppButtonP()
+                    self.updateShoppButton()
                 }
             } else {
                 let maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
@@ -457,7 +457,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                 
                 self.updateLabelN(currentValKg!)
             }
-            updateShoppButtonN()
+            updateShoppButton()
         } else {
             self.orderByPiece =  false
             let resultText : NSString = "\(value!)" as NSString
@@ -484,7 +484,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             originalValPzs = currentValPzs
             
             self.updateLabelP()
-            self.updateShoppButtonP()
+            self.updateShoppButton()
             
         } else {
             if customValue {
@@ -496,7 +496,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                     }
                     currentValCstmGr = resultText.doubleValue
                     self.updateLabelN()
-                    self.updateShoppButtonN()
+                    self.updateShoppButton()
                 } else {
                     let valInKgString = currentValKg! as NSString
                     if valInKgString.length > 0 {
@@ -555,13 +555,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         self.lblQuantityN?.text = ZERO_QUANTITY_STRING
         self.lblQuantityP?.text = ZERO_QUANTITY_STRING
         
-        if customValue {
-            updateShoppButtonN()
-        } else if self.orderByPiece {
-            updateShoppButtonP()
-        } else {
-            updateShoppButton()
-        }
+        self.updateShoppButton()
+        
+        
         
     }
     
@@ -693,8 +689,13 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     }
     
     func updateShoppButton() {
-        
-        let result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        var result: Double = 0.0
+        if customValue || self.orderByPiece {
+            result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
+        } else {
+             result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        }
+
         let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -702,7 +703,8 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         var rectSize = CGRect.zero
         
         if isUpcInShoppingCart {
-            btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            btnOkAdd?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            btnOkAddN?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         } else {
@@ -711,175 +713,82 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                 return 
             }
             
-            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
+            btnOkAdd?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
+            btnOkAddN?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         }
-        
-        if lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0 {
-            
-            originalValGr = 0.0
-            currentValGr = originalValGr
-            currentValCstmGr = 0.0
-            
-            turnOffSelectedWeightBtn()
-            btnOkAdd.backgroundColor = WMColor.red
-            
-            if isFromList {
-                btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
-            } else {
-                btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
-            }
-            
-            let tmpResult: NSString = "\(Int(currentValGr))g" as NSString
-            lblQuantityW.text = tmpResult as String
-            btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 0.0
-            if !isUpcInShoppingCart && !isFromList {
-//                if let weightBtn = keyboard.weightBtnSelected {
-//                    keyboard.seleccionboton(weightBtn)
-//                    keyboard.weightBtnSelected = nil
-//                }
-                self.originalValGr = 0.0
-                self.currentValGr = self.originalValGr
-                self.currentValCstmGr = 0.0
-                let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
-                lblQuantityW.text = tmpResult as String
-                btnOkAdd.setTitle("\(strAdddToSC) \("0")", for: UIControlState())
-                let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-                self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            }
-            
-        } else {
-            self.btnOkAdd.backgroundColor = WMColor.green
-            self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 1.0
-        }
-        
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.btnOkAdd.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAdd.frame.minY , width: rectSize.width + 32, height: 36)
-        })
-        
-    }
-    
-    func updateShoppButtonN() {
-        
-        let result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
-        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
-        
-        var rectSize = CGRect.zero
-        if isUpcInShoppingCart {
-            btnOkAddN.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-            
-        } else {
-            btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        }
-        
-        
-        if lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING  {
-            self.currentValCstmGr = 0.0
-            self.btnOkAddN.backgroundColor = WMColor.red
-            if isFromList {
-                self.btnOkAddN.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
-            } else {
-                self.btnOkAddN.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
-            }
-            self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 0.0
-            if !isUpcInShoppingCart && !isFromList {
-                btnOkAddN.backgroundColor = WMColor.green
-                let tmpResult : NSString = "00" as NSString
-                lblQuantityN.text = tmpResult as String
-                btnOkAddN.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
-                let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-                btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            }
-        } else {
-            self.btnOkAddN.backgroundColor = WMColor.green
-            self.btnOkAddN.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 1.0
-        }
-        
-        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.btnOkAddN.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAddN.frame.minY , width: rectSize.width + 32, height: 36)
-        })
 
         
-//        var result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
-//        let strPrice = CurrencyCustomLabel.formatString("\(result)")
-//        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-//        btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
-    }
-    
-    func updateShoppButtonP() {
-        
-        let result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
-        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
-        
-        var rectSize = CGRect.zero
-        if isUpcInShoppingCart {
-            btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? "" == ZERO_QUANTITY_STRING) {
+            
+            self.originalValGr = 0.0
+            self.currentValGr = self.originalValGr
+            self.currentValCstmGr = 0.0
+            self.currentValPzs = 0.0
+            
+            turnOffSelectedWeightBtn()
+            self.btnOkAdd?.backgroundColor = WMColor.red
+            self.btnOkAddN?.backgroundColor = WMColor.red
+            
+            if isFromList {
+                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
+                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
+            } else {
+                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
+                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
+            }
+            
+            let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
+            lblQuantityW?.text = tmpResult as String
+            
+            self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            
+            self.btnOkAddN?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnOkAddN?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            
+            self.btnDelete?.alpha = 0.0
+            
+            if !isUpcInShoppingCart && !isFromList {
+                let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
+                lblQuantityW?.text = tmpResult as String
+                
+                let tmpResultN : NSString = "00" as NSString
+                lblQuantityN?.text = tmpResult as String
+                lblQuantityP?.text = tmpResultN as String
+                
+                btnOkAdd?.backgroundColor = WMColor.green
+                btnOkAdd?.setTitle("\(strAdddToSC) \("0")", for: UIControlState())
+                var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+                
+                btnOkAddN?.backgroundColor = WMColor.green
+                btnOkAddN?.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
+                attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                btnOkAddN?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            }
             
         } else {
-            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        }
-        
-        
-        if lblQuantityP?.text ?? "" == ZERO_QUANTITY_STRING  {
-            self.currentValPzs = 0.0
-            self.btnOkAddN.backgroundColor = WMColor.red
-            if isFromList {
-                self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
-            } else {
-                self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
-            }
-            self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 0.0
-            if !isUpcInShoppingCart && !isFromList {
-                btnOkAddN.backgroundColor = WMColor.green
-                let tmpResult : NSString = "00" as NSString
-                lblQuantityP.text = tmpResult as String
-                btnOkAdd.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
-                let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-                rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-                btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            }
-        } else {
-            self.btnOkAdd.backgroundColor = WMColor.green
-            self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnOkAdd?.backgroundColor = WMColor.green
+            self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            
+            self.btnOkAddN?.backgroundColor = WMColor.green
+            self.btnOkAddN?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            self.btnOkAddN?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
+            
             self.btnDelete?.alpha = 1.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.btnOkAdd.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAddN.frame.minY , width: rectSize.width + 32, height: 36)
+            self.btnOkAdd?.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAdd.frame.minY , width: rectSize.width + 32, height: 36)
+            self.btnOkAddN?.frame =  CGRect(x: (self.frame.width / 2) - ((rectSize.width + 32) / 2),y: self.btnOkAddN.frame.minY , width: rectSize.width + 32, height: 36)
         })
-        
-        
-        //        var result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
-        //        let strPrice = CurrencyCustomLabel.formatString("\(result)")
-        //        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        //        btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
     }
+
     
     func updateLabelW() {
         
@@ -1034,7 +943,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                 self.btnChankePices.isSelected =  true
                 self.currentValPzs = self.originalValPzs
                 self.updateLabelP()
-                self.updateShoppButtonP()
+                self.updateShoppButton()
                 self.lblQuantityW.alpha = 0
                 self.btnLess.alpha = 0
                 self.btnMore.alpha = 0

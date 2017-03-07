@@ -1134,12 +1134,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer?.removeFromSuperview()
                                 self.listSelectorContainer = nil
                                 
-                                //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-                                
                                 action?()
                                 self.detailCollectionView.isScrollEnabled = true
-                                 self.productDetailButton?.listButton.isSelected = false
+                                 self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                             }
                         }
                     )
