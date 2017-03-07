@@ -542,17 +542,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height - 64)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
+            self.listSelectorController!.showListView =  true
             
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -564,8 +564,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             )
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
             })
         }
         else {
@@ -686,7 +685,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 animations: { () -> Void in
                     let frame = self.view.frame
                     self.listSelectorController!.view.frame = CGRect(x: 0, y: frame.height, width: frame.width, height: 0.0)
-                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
+                    //self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
                 }, completion: { (complete:Bool) -> Void in
                     if complete {
                         if self.listSelectorController != nil {
@@ -736,6 +735,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
         print("listas de id de listas")
+        var count =  1
+        for idList in idListsSelected {
+            self.addItemsToList(inList: idList, included: false, finishAdd:count == idListsSelected.count )
+            count = count + 1
+        }
     }
     
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
@@ -751,80 +755,21 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
-        
-        let service = GRAddItemListService()
-        var products: [Any] = []
-        for idx in 0 ..< self.itemDetailProducts.count {
-            
-            let item = self.itemDetailProducts[idx] 
-            
-            let upc = item["upc"] as! String
-            let desc = item["description"] as! String
-            
-            var price = ""
-            
-            if let priceDouble = item["price"] as? Double {
-                price = "\(priceDouble)"
-            }
-            
-            if let priceString = item["price"] as? String {
-                price = priceString
-            }
-            
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? Int {
-                quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            var pesable = "0"
-            if  let pesableP = item["type"] as? String {
-                pesable = pesableP
-            }
-            var active = true
-            if let stock = item["stock"] as? Bool {
-                active = stock
-            }
-            
-            var baseUomcd = "EA"
-            if  let baseUomcdItem = item["baseUomcd"] as? String {
-                baseUomcd = baseUomcdItem
-            }
-            
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
-        }
-        
-        service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:[String:Any]) -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error at add product to list: \(error.localizedDescription)")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }
-        )
+        self.addItemsToList(inList:listId , included:included , finishAdd:true )
+       
     }
     
+    
     func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+        print("listSelectorDidAddProductLocally")
     }
     
     func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+        print("listSelectorDidDeleteProductLocally")
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {
+        print("listSelectorDidDeleteProduct")
     }
     
     func listSelectorDidShowList(_ listId: String, andName name:String) {
@@ -899,6 +844,82 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.alertView!.showErrorIcon("Ok")
             }
         )
+    }
+    
+    func addItemsToList(inList listId:String, included: Bool,finishAdd:Bool){
+        if self.alertView == nil {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        }
+        
+        
+        let service = GRAddItemListService()
+        var products: [Any] = []
+        for idx in 0 ..< self.itemDetailProducts.count {
+            
+            let item = self.itemDetailProducts[idx]
+            
+            let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            
+            var price = ""
+            
+            if let priceDouble = item["price"] as? Double {
+                price = "\(priceDouble)"
+            }
+            
+            if let priceString = item["price"] as? String {
+                price = priceString
+            }
+            
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? Int {
+                quantity = qIntProd
+            }
+            if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            var pesable = "0"
+            if  let pesableP = item["type"] as? String {
+                pesable = pesableP
+            }
+            var active = true
+            if let stock = item["stock"] as? Bool {
+                active = stock
+            }
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdItem = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdItem
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
+        }
+        
+        service.callService(service.buildParams(idList: listId, upcs: products),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                if finishAdd {
+                                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                                self.alertView!.afterRemove = {
+                                    self.removeListSelector(action: nil)
+                                }
+                            }
+                                
+                                
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.alertView!.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+        })
+
+    
     }
     
     override func back() {
