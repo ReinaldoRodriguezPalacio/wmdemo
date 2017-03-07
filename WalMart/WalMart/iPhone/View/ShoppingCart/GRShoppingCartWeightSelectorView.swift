@@ -720,7 +720,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }
 
         
-        if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? "" == ZERO_QUANTITY_STRING) {
+        if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? ZERO_QUANTITY_STRING == ZERO_QUANTITY_STRING) {
             
             self.originalValGr = 0.0
             self.currentValGr = self.originalValGr
