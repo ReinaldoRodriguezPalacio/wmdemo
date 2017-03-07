@@ -2091,6 +2091,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else {
                 pieces = (Int(quantity))
             }
+            let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(self.selectQuantityGR!.upcProduct)
             
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
@@ -2103,7 +2104,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.window?.addSubview(addShopping.view)
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = noteProduct
+            addShopping.comments = productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!)
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
