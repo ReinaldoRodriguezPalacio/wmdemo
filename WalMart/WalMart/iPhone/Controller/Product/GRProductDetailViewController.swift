@@ -766,7 +766,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
-        let orderByPiece = self.itemOrderbyPices //self.selectQuantityGR?.orderByPiece ?? true
+        let orderByPiece = self.selectQuantityGR?.orderByPiece ?? true
         let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
         service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                             successBlock: { (result:[String:Any]) -> Void in

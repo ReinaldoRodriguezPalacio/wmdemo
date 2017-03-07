@@ -153,7 +153,7 @@ class GRUserListService : GRBaseService {
                     }else{
                         print("NO EXISTE")
                         //self.removeNotificationsFromList(list.idList)
-                        self.deleteItemInDB(entity.idList!)
+                        self.deleteItemInDB(entity)
                         self.managedContext!.delete(entity)
                     }
                 }
@@ -311,7 +311,7 @@ class GRUserListService : GRBaseService {
      
      - parameter toUseList: list id
      */
-    func deleteItemInDB(_ toUseList:String){
+    func deleteItemInDB(_ toUseList:List){
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
@@ -365,6 +365,67 @@ class GRUserListService : GRBaseService {
         }
         return result
     }
-
+    
+    func syncListData(listId:String, successBlock: ((Void) -> Void)?) {
+        let detailService = GRUserListDetailService()
+        detailService.buildParams(listId)
+        detailService.callService([:],
+                                  successBlock: { (result:[String:Any]) -> Void in
+                                    if let items = result["items"] as? [Any] {
+                                        let parentList = self.findListById(listId)
+                                        if parentList == nil {
+                                            print("User list not founded \(listId)")
+                                            return
+                                        }
+                                        self.deleteItemInDB(parentList!)
+                                        for idx in 0 ..< items.count {
+                                            var item = items[idx] as! [String:Any]
+                                            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
+                                            detail!.upc = item["upc"] as! String
+                                            detail!.img = item["imageUrl"] as! String
+                                            detail!.desc = item["description"] as! String
+                                            if let price = item["price"] as? NSNumber {
+                                                detail!.price = "\(price)" as NSString
+                                            }
+                                            else if let price = item["price"] as? String {
+                                                detail!.price = price as NSString
+                                            }
+                                            
+                                            if let stock = item["stock"] as? Bool {
+                                                detail!.stock = stock
+                                            }
+                                            else if let stock = item["stock"] as? String {
+                                                detail!.stock = stock != "0"
+                                            }
+                                            
+                                            if let promoDescription = item["promoDescription"] as? String {
+                                                detail!.promoDescription = promoDescription
+                                            }
+                                            
+                                            if let quantity = item["quantity"] as? NSNumber {
+                                                detail!.quantity = quantity
+                                            }
+                                            else if let quantity = item["quantity"] as? String {
+                                                detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+                                            }
+                                            if let type = item["type"] as? String {
+                                                detail!.type = NSNumber(value: Int(type)! as Int)
+                                            }
+                                            else if let type = item["type"] as? NSNumber {
+                                                detail!.type = type
+                                            }
+                                            //
+                                            detail!.list = parentList!
+                                        }
+                                        parentList!.countItem = NSNumber(value: items.count)
+                                        self.saveContext()
+                                        successBlock?()
+                                    }
+        },errorBlock: { (error:NSError) -> Void in
+            print("Error at retrieve list detail")
+            self.saveContext()
+            successBlock?()
+        })
+    }
+    
 }
-

@@ -32,8 +32,8 @@ class GRUserListDetailService: GRBaseService {
     override func serviceUrl() -> String {
         return super.serviceUrl() + "/"  + (self.listId == nil ? "" : self.listId!)
     }
-
     
+
     func callCoreDataService(listId:String, successBlock:((List?,[Product]?) -> Void)?, errorBlock:((NSError) -> Void)?) {
         
         let list = findListById(listId)

@@ -71,6 +71,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(UserListDetailViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = WMColor.yellow
+        return refreshControl
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -191,6 +198,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }else if !IS_IPAD{
             addLongTouch(view:tableView!)
         }
+        
+        self.tableView?.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1825,7 +1834,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
    
-    
+    //MARK: RefreshControl
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        let listService = GRUserListService()
+        listService.syncListData(listId: self.listId!, successBlock: { () -> Void in
+            print("Refresh")
+            self.fromDelete = true
+            self.loadServiceItems(nil)
+            refreshControl.endRefreshing()
+        })
+    }
 }
 
 extension UserListDetailViewController: UIViewControllerPreviewingDelegate {
