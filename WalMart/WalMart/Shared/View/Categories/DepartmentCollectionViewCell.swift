@@ -36,9 +36,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.clipsToBounds = true
         
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.scaleAspectFill
+        imageBackground.contentMode = UIViewContentMode.left
         imageBackground.clipsToBounds = true
-        
         
         imageIcon = UIImageView()
         
