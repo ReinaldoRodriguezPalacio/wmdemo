@@ -78,7 +78,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRect.zero)
+        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+        
         emptyView.returnAction = {() in
             self.back()
         }
@@ -940,8 +941,5 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
         }
     }
-    
-
- 
     
 }
