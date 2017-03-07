@@ -366,7 +366,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
        
         if self.listSelectorController == nil {
-            if self.isPesable {
+             let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
+            if self.isPesable && !exist{
                 
                 let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
                 
@@ -647,6 +648,16 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
         print("Lista de id de listas")
         if idListsSelected.count > 0 {
+            
+            
+            let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+            
+            if exist && self.isPesable {
+                self.addMultipleListSelected(idLists: idListsSelected)
+                return
+            }
+            
+            
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
             if let imageURL = self.productDetailButton?.image {
                 if let urlObject = URL(string:imageURL) {
@@ -669,6 +680,40 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
         }
     }
+    func addMultipleListSelected (idLists listSelected:[String]){
+        
+        let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
+        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR.isFromList = true
+        self.selectQuantityGR!.closeAction = { () in
+            self.removeListSelector(action: nil, closeRow:true)
+        }
+        
+        self.selectQuantityGR!.addToCartAction = { (quantity:String) in
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))                
+                
+                var countId =  1
+                
+                for idListSel in  listSelected {
+                    self.addItemsToList(quantity:quantity , listId: idListSel, finishAdd: countId == listSelected.count ,orderByPiece: self.selectQuantityGR!.orderByPiece)
+                    countId  =  countId + 1
+                }
+            
+        }
+        self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
+        UIView.animate(withDuration: 0.5,
+                       animations: { () -> Void in
+                        self.listSelectorController!.view.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                        self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+        }, completion: { (finished:Bool) -> Void in
+            
+        }
+        )
+    
+    }
+    
     var closeContainer =  false
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
         print("Listas selecionadas")
@@ -708,8 +753,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-            // new addItemsToList
-                self.addItemsToList(quantity:quantity , listId: listId, finishAdd: true,orderByPiece: self.selectQuantityGR!.orderByPiece)
+            // new addItemsToList addd or update
+                self.updateItemToList(quantity: quantity, listId: listId, finishAdd: true, orderByPiece: self.selectQuantityGR!.orderByPiece)
             }
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
@@ -725,8 +770,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     //new
     func addItemsToList(quantity:String,listId:String,finishAdd:Bool,orderByPiece:Bool) {
-        
-      
         
         let service = GRAddItemListService()
         let pesable =  self.isPesable ? "1" : "0"
@@ -754,6 +797,35 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
         })
         
+    }
+    
+    func updateItemToList(quantity:String,listId:String,finishAdd:Bool,orderByPiece:Bool) {
+        
+        let orderByPiece = self.itemOrderbyPices
+        let service = GRUpdateItemListService()
+        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                
+                                if finishAdd {
+                                    self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
+                                    self.alertView?.showDoneIcon()
+                                    self.alertView?.afterRemove = {
+                                        self.removeListSelector(action: nil, closeRow:true)
+                                    }
+                                }
+                                
+                                
+                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+                                
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at update product to list: \(error.localizedDescription)")
+            self.alertView?.setMessage(error.localizedDescription)
+            self.alertView?.showErrorIcon("Ok")
+            self.alertView?.afterRemove = {
+                self.removeListSelector(action: nil, closeRow:true)
+            }
+        }
+        )
         
         
     }

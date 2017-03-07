@@ -771,8 +771,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         }
                     }
                     self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-                    
-                    self.addItemsToList(quantity:quantity,listId:listId,finishAdd: true)
+                    //update 
+                    print("Update Item in List")
+                    self.updateItemToList(quantity:quantity,listId:listId,finishAdd: true)
                     
                 }else{
                     
