@@ -330,7 +330,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             let quantity = productInCart ==  nil ? 0 :  productInCart!.quantity
             let note = productInCart ==  nil ? "" :  productInCart!.note
             
-            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" : note!, product: productInCart?.product)
             
             selectQuantityGR?.closeAction = { () in
                 self.selectQuantityPopover!.dismiss(animated: true)

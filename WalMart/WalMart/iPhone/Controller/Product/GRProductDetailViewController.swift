@@ -419,7 +419,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.isShowShoppingCart = false
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
-            params.updateValue(self.type, forKey: "type")
+            params.updateValue(ResultObjectType.Groceries.rawValue, forKey: "type")
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
             return
         }

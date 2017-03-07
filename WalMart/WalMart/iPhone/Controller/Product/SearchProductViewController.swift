@@ -2200,6 +2200,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
         }) { (error) in
+            alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+            alertView?.showDoneIcon()
             print("delete pressed Errro \(error)")
         }
        
@@ -2214,7 +2216,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let quantity = productInCart == nil ?  0 : productInCart!.quantity
                 let note = productInCart ==  nil ? "" : productInCart!.note
 
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" :note!, product: productInCart?.product)
 
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)
