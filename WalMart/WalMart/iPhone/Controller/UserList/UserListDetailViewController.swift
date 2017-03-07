@@ -782,7 +782,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if selectedItems != nil {
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
-                if !(idx == self.products!.count) {
+                if !(idx >= self.products!.count) {
                 if let item = self.products![idx] as? [String:Any] {
                     if let typeProd = item["type"] as? NSString {
                         let quantity = item["quantity"] as! NSNumber

@@ -2034,7 +2034,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //let quantity : Int = quantity.toInt()!
             
             if quantity == "00" {
-                self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                if self.idListFromSearch !=  ""{
+                    self.deleteItemFromList(cell: cell)
+                }else{
+                    self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                }
+                
                 return
             }
             
@@ -2136,6 +2141,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }) { (error) in
             print("delete pressed Errro \(error)")
         }
+    }
+    //Delete Item from List
+    func deleteItemFromList(cell:SearchProductCollectionViewCell){
+        
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+          alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
+        
+
+        let detailService = GRUserListDetailService()
+        detailService.buildParams(self.idListFromSearch!)
+        detailService.callService([:], successBlock: { (result:[String:Any]) -> Void in
+          
+            let service = GRDeleteItemListService()
+            service.callService(service.buildParams(cell.upc),
+                                successBlock:{ (result:[String:Any]) -> Void in
+                                    alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
+                                    alertView!.showDoneIcon()
+                                    let indexPath = self.collection?.indexPath(for: cell)
+                                    self.collection?.reloadItems(at:[indexPath!] )
+            },
+                                errorBlock:{ (error:NSError) -> Void in
+                                    print("Error at delete product from user")
+                                alertView!.setMessage(error.localizedDescription)
+                                    alertView!.showErrorIcon("Ok")
+            })
+        }, errorBlock: { (error:NSError) -> Void in
+            alertView!.setMessage(error.localizedDescription)
+            alertView!.showErrorIcon("Ok")
+        })
+    
     }
     
     func deleteFromCart(cell:SearchProductCollectionViewCell,position:String) {
