@@ -723,9 +723,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         if customValue || self.orderByPiece {
             result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
         } else {
-             result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValGr
+            result = self.orderByPiece ? (priceProduct.doubleValue / 1000.0 ) * Double(self.equivalenceByPiece.intValue * Int(currentValPzs)) : (priceProduct.doubleValue / 1000.0 ) * currentValGr
         }
-
+        
         let strPrice = CurrencyCustomLabel.formatString("\(result)" as NSString)
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -740,7 +740,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         } else {
             
             if result == 0.0 || result == 0 {
-                return 
+                return
             }
             
             btnOkAdd?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
@@ -748,7 +748,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         }
-
+        
         
         if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? "" == ZERO_QUANTITY_STRING) {
             

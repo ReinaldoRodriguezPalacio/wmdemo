@@ -1138,7 +1138,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
        // self.brandText = self.idSort != "" ? "" : self.brandText
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        let params = service.buildParamsForSearch(text: self.textToSearch ?? "", family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params!, successBlock: { (arrayProduct:[[String:Any]]?, resultDic:[String:Any]) -> Void in
             self.priority = resultDic["priority"] as? String ?? ""
             self.landingPageGR = resultDic["landingPage"] as? [String:Any]
