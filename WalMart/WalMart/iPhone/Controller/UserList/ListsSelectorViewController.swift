@@ -147,7 +147,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         self.loading!.frame = CGRect(x: 0,y: 0, width: frame.size.width, height: frame.size.height)
         self.viewAddToLists!.frame = CGRect(x: 0.0, y: tableView!.frame.maxY, width: frame.size.width, height: 68.0)
-        
         self.addTolistsBtn?.frame = CGRect(x: self.view.frame.midX - 73, y: 16.0, width: 146, height: 36)
     }
  
