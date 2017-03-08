@@ -392,6 +392,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                             
                         }, completeClose: { () -> Void in
                             self.quantitySelect = Int(quantity)!
+                            self.orderByPieceSelect = self.selectQuantityGR!.orderByPiece
+                            
                            self.addToList()
                         }, closeRow:true )
                     
@@ -428,6 +430,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     var quantitySelect =  0
+    var orderByPieceSelect  =  false
     func addToList() {
         
         
@@ -803,6 +806,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         let orderByPiece = self.itemOrderbyPices
         let service = GRUpdateItemListService()
+        service.listId = listId
         service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
                             successBlock: { (result:[String:Any]) -> Void in
                                 
@@ -914,7 +918,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         detail!.desc = self.name as String
         detail!.price = self.price
         detail!.quantity = NSNumber(value: Int(quantity)! as Int)
-        detail!.orderByPiece = self.itemOrderbyPices as NSNumber
+        detail!.orderByPiece = self.orderByPieceSelect as NSNumber //self.itemOrderbyPices as NSNumber
         detail!.pieces = NSNumber(value:Int(quantity)!)
         detail!.type = NSNumber(value: self.isPesable as Bool)
         detail!.list = list

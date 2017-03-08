@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class GRUpdateItemListService: GRBaseService {
+    
+    var listId: String = ""
 
     //[{"upc": "0750105530007", "quantity": 3.0, "comments": "", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""}]
     
@@ -23,8 +26,7 @@ class GRUpdateItemListService: GRBaseService {
     func callService(_ params:[Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
-                //self.jsonFromObject(resultCall)
-                //self.manageList(resultCall)
+                self.syncProductInList(product: params.first as! [String:Any])
                 successBlock?(resultCall)
                 return
             },
@@ -33,6 +35,47 @@ class GRUpdateItemListService: GRBaseService {
                 return
             }
         )
+    }
+    
+    func syncProductInList(product: [String:Any]) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as String, in: self.managedContext!)
+        fetchRequest.predicate = NSPredicate(format: "idList == %@", self.listId)
+        var result: [List] = (try! self.managedContext!.fetch(fetchRequest)) as! [List]
+        var list: List? = nil
+        if result.count > 0 {
+            list = result[0]
+        }
+        
+        if list != nil {
+            let upc = product["upc"] as! String
+            let fetchRequestProduct = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequestProduct.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
+            fetchRequestProduct.predicate = NSPredicate(format: "list == %@ && upc == %@", list!,upc)
+            let resultProduct: [Product] = (try! self.managedContext!.fetch(fetchRequestProduct)) as! [Product]
+            if resultProduct.count > 0 {
+                for detail in resultProduct {
+                    detail.upc = upc
+
+                    if let quantity = product["quantity"] as? NSNumber {
+                        detail.quantity = quantity
+                    }
+                    else if let quantity = product["quantity"] as? String {
+                        detail.quantity = NSNumber(value: Int(quantity)! as Int)
+                    }
+                    detail.list = list!
+                }
+                var error: NSError? = nil
+                do {
+                    try self.managedContext!.save()
+                } catch let error1 as NSError {
+                    error = error1
+                }
+                if error != nil {
+                    print("error at update details: \(error!.localizedDescription)")
+                }
+            }
+        }
     }
 
 }

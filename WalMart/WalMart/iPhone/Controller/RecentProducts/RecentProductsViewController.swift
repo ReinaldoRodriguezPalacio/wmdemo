@@ -125,6 +125,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
       
         
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
+        cellRecentProducts.selectionStyle = .none
         let objProduct = recentProductItems[indexPath.row] 
         let img = objProduct["imageUrl"] as! String
         let description = objProduct["description"] as! String
