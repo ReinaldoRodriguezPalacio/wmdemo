@@ -1001,17 +1001,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 return
             }
             var isPesable = false
+            
             var price: NSNumber? = nil
+            var equivalence : NSNumber = 0
+            
             if let item = self.products![indexPath!.row] as? [String:Any] {
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
                 price = item["price"] as? NSNumber
+                
             }
             else if let item = self.products![indexPath!.row] as? Product {
                 isPesable = item.type.boolValue
                 price = NSNumber(value: item.price.doubleValue as Double)
+                equivalence = item.equivalenceByPiece
             }
+            
             
 
             let width:CGFloat = self.view.frame.width
@@ -1020,7 +1026,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
             if isPesable {
-                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
+                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!)
             }
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)

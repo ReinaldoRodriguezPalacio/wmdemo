@@ -192,6 +192,8 @@ class GRSaveUserListService : GRBaseService {
                 }
                 if let quantity = item["quantity"] as? NSNumber {
                     detail!.quantity = quantity
+                    detail!.pieces = quantity
+                    
                 }
                 else if let quantity = item["quantity"] as? String {
                     detail!.quantity = NSNumber(value: Int(quantity)! as Int)
@@ -207,12 +209,11 @@ class GRSaveUserListService : GRBaseService {
                 }
                 
                 if let baseUomcd = item["baseUomcd"] as? String {
-                    let bUd = (baseUomcd == "EA" || baseUomcd == "pieces")//TODO: quitar pieces
+                    let bUd = baseUomcd == "EA" //TODO: quitar pieces
                     detail!.orderByPiece = bUd  as NSNumber
                     detail!.pieces =  detail!.quantity
                 }
-                print(item["description"])
-                print(item["equivalenceByPiece"])
+   
                 if let equivalenceByPiece = item["equivalenceByPiece"] as? String {
                     detail!.equivalenceByPiece = NSNumber(value: Int(equivalenceByPiece)!)
                 }
