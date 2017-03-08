@@ -143,10 +143,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell : UITableViewCell
-        
+                let model =  UIDevice.current.modelName
         if indexPath.section == 0 && landingItem != nil  {
             let cellDept = tableView.dequeueReusableCell(withIdentifier: "celldepartment", for: indexPath) as! GRDepartmentTableViewCell
-            let scale = UIScreen.main.scale
+            let scale =  model.contains("Plus") ? 3 : UIScreen.main.scale
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: "@2x.jpg", with: ".jpg" )
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: ".jpg", with: "@\(Int(scale))x.jpg" )
@@ -164,7 +164,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let item = items![rowforsearch] as! [String:Any]
             let descDepartment = item["description"] as! String
             let bgDepartment = (item["idDepto"] as! String).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            let scale = UIScreen.main.scale
+            let scale =  model.contains("Plus") ? 3 : UIScreen.main.scale
             
             cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + "@\(Int(scale))x.jpg",imageIconURL:"i_" + bgDepartment + ".@\(Int(scale))x.png")
             cell = cellDept

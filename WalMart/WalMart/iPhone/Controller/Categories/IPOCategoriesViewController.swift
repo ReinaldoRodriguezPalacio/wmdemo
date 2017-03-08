@@ -157,7 +157,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
         var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
-            let scale = UIScreen.main.scale
+            let model =  UIDevice.current.modelName
+            let scale = model.contains("Plus") ? 3 : UIScreen.main.scale
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: "@2x.jpg", with: ".jpg" )
             itemBannerPhone = itemBannerPhone!.replacingOccurrences(of: ".jpg", with: "@\(Int(scale))x.jpg" )

@@ -61,7 +61,9 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     
     func setValues(_ title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
-        let scale = UIScreen.main.scale
+        let model =  UIDevice.current.modelName
+        let scale = model.contains("Plus") ? 3 : UIScreen.main.scale
+
         let svcUrl = serviceUrl(keyIconUrl)
         var imgURLName = "\(svcUrl)\(imageIconURL)"
         imgURLName = imgURLName.replacingOccurrences(of: ".png", with: "@\(Int(scale))x.png" )
