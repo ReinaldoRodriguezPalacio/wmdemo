@@ -437,6 +437,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                         if gr.characters.count > 2 {
                             currentValKg = valOrigin
                             currentValCstmGr =  valcurrentOrigin
+                            self.showError("Solo dos decimales")
                             return
                         }
                     
