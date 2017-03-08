@@ -376,6 +376,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func presentListSelector(quantity:Int){
         
         if self.listSelectorController == nil {
+            
             self.listSelectorContainer = UIView(frame: CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0))
             self.listSelectorContainer!.clipsToBounds = true
             self.view.addSubview(self.listSelectorContainer!)
@@ -390,30 +391,28 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
-           quantitySelected =  quantity
-            
+            quantitySelected =  quantity
             
             self.detailCollectionView.isScrollEnabled = false
-            UIView.animate(withDuration: 0.3,
-                           animations: { () -> Void in
-                            self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
-            },
-                           completion: { (complete:Bool) -> Void in
-                            if complete {
-                                UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                                    self.productDetailButton?.listButton.isSelected = true
-                                    self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: 320, height: 360)
-                                    self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
-                                })
-                            }
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height), animated: false)
+            }, completion: { (complete:Bool) -> Void in
+                
+                if complete {
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.productDetailButton?.listButton.isSelected = true
+                        self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 360)
+                        self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
+                    })
+                }
+                
             })
-        }
-        else {
+            
+        } else {
             self.removeListSelector(action: nil)
         }
     
     }
-    
     
     override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
         let isInCart = self.productDetailButton?.detailProductCart != nil
