@@ -987,7 +987,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["paypalAuthorizationNumber"] = ""
         self.confirmOrderDictionary["payPalPaymentStatus"] = "2"
-        
+        self.confirmOrderDictionary["amount"] = UserCurrentSession.sharedInstance.estimateTotalGR()
         //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         //self.confirmOrderDictionary["paymentType"] = paymentType
         //self.confirmOrderDictionary["authorization"] = idAuthorization
@@ -1019,7 +1019,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["paypalAuthorizationNumber"] = authorizationId
         self.confirmOrderDictionary["payPalPaymentStatus"] = "1"
-        
+        self.confirmOrderDictionary["amount"] = UserCurrentSession.sharedInstance.estimateTotalGR()
         //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         //self.confirmOrderDictionary["paymentType"] = paymentType
         //self.confirmOrderDictionary["authorization"] = idAuthorization
