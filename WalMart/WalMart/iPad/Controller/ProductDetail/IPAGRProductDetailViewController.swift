@@ -806,6 +806,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         let orderByPiece = self.itemOrderbyPices
         let service = GRUpdateItemListService()
+        service.listId = listId
         service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
                             successBlock: { (result:[String:Any]) -> Void in
                                 

@@ -53,31 +53,33 @@ class GRUpdateItemListService: GRBaseService {
             list = result[0]
         }
         
-        let upc = product["upc"] as! String
-        let fetchRequestProduct = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequestProduct.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
-        fetchRequestProduct.predicate = NSPredicate(format: "list == %@ && upc == %@", list!,upc)
-        let resultProduct: [Product] = (try! self.managedContext!.fetch(fetchRequestProduct)) as! [Product]
-        if resultProduct.count > 0 {
-            for detail in resultProduct {
-                detail.upc = upc
+        if list != nil {
+            let upc = product["upc"] as! String
+            let fetchRequestProduct = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequestProduct.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
+            fetchRequestProduct.predicate = NSPredicate(format: "list == %@ && upc == %@", list!,upc)
+            let resultProduct: [Product] = (try! self.managedContext!.fetch(fetchRequestProduct)) as! [Product]
+            if resultProduct.count > 0 {
+                for detail in resultProduct {
+                    detail.upc = upc
 
-                if let quantity = product["quantity"] as? NSNumber {
-                    detail.quantity = quantity
+                    if let quantity = product["quantity"] as? NSNumber {
+                        detail.quantity = quantity
+                    }
+                    else if let quantity = product["quantity"] as? String {
+                        detail.quantity = NSNumber(value: Int(quantity)! as Int)
+                    }
+                    detail.list = list!
                 }
-                else if let quantity = product["quantity"] as? String {
-                    detail.quantity = NSNumber(value: Int(quantity)! as Int)
+                var error: NSError? = nil
+                do {
+                    try self.managedContext!.save()
+                } catch let error1 as NSError {
+                    error = error1
                 }
-                detail.list = list!
-            }
-            var error: NSError? = nil
-            do {
-                try self.managedContext!.save()
-            } catch let error1 as NSError {
-                error = error1
-            }
-            if error != nil {
-                print("error at update details: \(error!.localizedDescription)")
+                if error != nil {
+                    print("error at update details: \(error!.localizedDescription)")
+                }
             }
         }
     }
