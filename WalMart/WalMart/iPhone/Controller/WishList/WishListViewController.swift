@@ -32,6 +32,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var customlabel : CurrencyCustomLabel!
     var preview: PreviewModalView? = nil
    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(WishListViewController.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = WMColor.yellow
+        return refreshControl
+    }()
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_WISHLISTEMPTY.rawValue
     }
@@ -94,6 +101,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }else if !IS_IPAD{
             addLongTouch(view:wishlist!)
         }
+        
+        self.wishlist?.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -920,6 +929,21 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 }) { (error:NSError) -> Void in
             }
         }
+    }
+    
+    //MARK: RefreshControl
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        
+        let userWishListsService = UserWishlistService()
+        userWishListsService.callService({(result:[String:Any]) -> Void in
+            print("Refresh")
+            self.invokeWishlistService()
+            refreshControl.endRefreshing()
+        },errorBlock: { (error:NSError) -> Void in
+            print("Refresh Error")
+            self.invokeWishlistService()
+            refreshControl.endRefreshing()
+        })
     }
 }
 
