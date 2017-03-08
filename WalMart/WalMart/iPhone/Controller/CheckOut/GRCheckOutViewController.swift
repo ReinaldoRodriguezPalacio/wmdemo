@@ -1826,7 +1826,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         self.confirmOrderDictionary["paymentType"] = paymentType
         self.confirmOrderDictionary["authorization"] = idAuthorization
-        self.confirmOrderDictionary["amount"] = UserCurrentSession.sharedInstance.estimateTotalGR()
+        self.confirmOrderDictionary["amount"] = (UserCurrentSession.sharedInstance.estimateTotalGR() + Double(self.completeOrderDictionary["deliveryAmount"] as! String)!)
         print("idAuthorization::::\(idAuthorization)::::")
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
