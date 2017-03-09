@@ -473,6 +473,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR.isFromList = false
         selectQuantityGR?.closeAction = { () in
+            self.productDetailButton!.isOpenQuantitySelector = false
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in

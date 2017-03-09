@@ -202,6 +202,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         } else {
             delegate.showMessageProductNotAviable()
         }
+        self.isOpenQuantitySelector = false
+        self.reloadShoppinhgButton()
     }
     
     func shareProduct() {
@@ -239,6 +241,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     func reloadShoppinhgButton() {
+        if isOpenQuantitySelector {
+            return
+        }
+        
         if isAviableToShoppingCart  {
             reloadButton()
         }else {
@@ -250,9 +256,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             
             self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
             
-        }
-        if isOpenQuantitySelector {
-            self.setOpenQuantitySelector()
         }
     }
   

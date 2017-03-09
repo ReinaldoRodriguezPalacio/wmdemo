@@ -825,6 +825,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         selectQuantity?.closeAction = { () in
+            self.productDetailButton!.isOpenQuantitySelector = false
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
