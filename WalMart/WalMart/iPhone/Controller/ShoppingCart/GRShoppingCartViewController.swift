@@ -156,6 +156,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         loadGRShoppingCart()
         
+//        self.emptyView!.isHidden = false
+//        self.editButton!.isHidden = true
+        
         self.emptyView!.isHidden = self.itemsInCart.count > 0
         self.editButton.isHidden = self.itemsInCart.count == 0
         
@@ -187,14 +190,28 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func initEmptyView(){
+        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
+        
+        let model =  UIDevice.current.modelName
+        if model.contains("iPhone") {
+            if !model.contains("4") {
+                heightEmptyView -= 55
+            } else {
+                heightEmptyView -= 5
+            }
+        }
+        else {
+            heightEmptyView -= 25
+        }
+        
         emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
+        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
+
         emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
         self.view.addSubview(emptyView)
         
-        self.emptyView.bgImageView.image =  UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {

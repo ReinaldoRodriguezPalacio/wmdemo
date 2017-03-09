@@ -37,24 +37,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(recentProducts)
         
-        var heightEmptyView = self.view.bounds.height
-        if !IS_IPAD && !IS_IPAD_MINI {
-            heightEmptyView -= 109
-        }
-        
-        if IS_IPHONE_6P {
-            heightEmptyView -= 44
-        }
-        
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        self.emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView))
-        self.emptyView.returnAction = {() in
-            self.back()
-        }
-        if IS_IPAD_MINI || IS_IPAD {
-            self.emptyView.showReturnButton = false
-        }
-        self.view.addSubview(emptyView)
+        self.emptyView = IPOGenericEmptyView(frame: CGRect.zero)
         invokeRecentProducts()
         BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.misarticulos",comment: ""), screenName: self.getScreenGAIName())
     }
@@ -62,13 +46,38 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        
+        let model =  UIDevice.current.modelName
+        let heightEmptyView = self.view.bounds.height
+//        if !IS_IPAD && !IS_IPAD_MINI {
+//            heightEmptyView -= 109
+//        }
+        
+//        if model.contains("Plus") {
+//            heightEmptyView -= 44
+//        }
+        
+
+        self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
+        
+        self.emptyView.paddingBottomReturnButton = 57
+   //     if model.contains("4"){
+            self.emptyView.paddingBottomReturnButton += 88
+     //   }
+        self.emptyView.returnAction = {() in
+            self.back()
+        }
+        if IS_IPAD_MINI || IS_IPAD {
+            self.emptyView.showReturnButton = false
+        }
+        self.view.addSubview(self.emptyView)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX, y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
-            viewLoad.backgroundColor = UIColor.white
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX, y: 46, width: self.view.bounds.width, height: self.view.frame.height -  self.header!.frame.maxY))
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
             recentProducts.reloadData()
@@ -84,9 +93,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }else{
                 heightEmptyView -= 109
             }
-            if IS_IPHONE_6P {
-                heightEmptyView -= 20
+            let model = UIDevice.current.modelName
+            if model.contains("Plus") {
+                heightEmptyView -= 44
             }
+            
         }
     
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)

@@ -1581,13 +1581,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.loading?.stopAnnimating()
       
+        let model =  UIDevice.current.modelName
+        print(model)
+        var heightEmpty = self.view.bounds.height - 64
+        if !model.contains("Plus"){
+            heightEmpty -= 44
+        }
+        
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY))
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty))
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
         if btnSuper.isSelected {

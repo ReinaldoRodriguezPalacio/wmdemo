@@ -29,7 +29,6 @@ class IPOGenericEmptyView : IPOEmptyView {
         
         descLabel.text = NSLocalizedString(IPOGenericEmptyViewSelected.Selected,comment:"")
         descLabel.numberOfLines = 3
-     
     }
     
     override func layoutSubviews() {

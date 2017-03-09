@@ -95,8 +95,21 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         receiveNotificationButton?.frame = CGRect(x: self.view.bounds.width - 70, y: 6, width: 54, height: 34)
         self.layerLine?.frame = CGRect(x: 0, y: 45, width: self.view.frame.width, height: 1)
         
-        emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
+        var heightEmptyView = self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY
+        let model = UIDevice.current.modelName
+//        if IS_IPHONE_6P || IS_IPHONE_6 {
+//            heightEmptyView -= 50
+//        }
+        if model.contains("4") {
+            heightEmptyView -= 44
+        }
+    
+        self.emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
         
+        if model.contains("iPhone 5") {
+            emptyView!.paddingBottomReturnButton = 54
+        }
+    
         notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
                                          width: self.view.bounds.width,
                                          height: self.view.bounds.height - (self.headerNotification!.frame.height))
@@ -110,11 +123,28 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.allNotifications = self.getNotificationsForDevice(dict)
             
             if self.allNotifications.count == 0 {
-                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+                var heightEmptyView = self.view.bounds.height
+                let model = UIDevice.current.modelName
+
+                if !model.contains("iPhone 5")  {
+                    heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
+                }
+//
+                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
+            
+                if model.contains("iPhone 5") {
+                    self.emptyView!.paddingBottomReturnButton = 54
+                } else if model.contains("4") {
+                    self.emptyView!.showReturnButton = false
+                }
+                self.emptyView!.returnAction = {() in
+                    self.back()
+                }
                 self.view.addSubview(self.emptyView!)
             } else {
                 self.notification.reloadData()
             }
+            
             self.removeLoadingView()
             }, errorBlock: {
                 (error) -> Void in print("Error pushNotificationService")

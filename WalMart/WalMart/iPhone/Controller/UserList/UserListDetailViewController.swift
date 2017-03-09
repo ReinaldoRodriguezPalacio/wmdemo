@@ -674,11 +674,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.openEmpty = true
         self.emptyView?.removeFromSuperview()
         
-        var emptyHeight = 44
+        var footerEmptyHeight = 44
         if IS_IPHONE_4_OR_LESS {
-            emptyHeight = 0
+            footerEmptyHeight = 0
         }
-        self.footerSection!.frame = CGRect(x: 0, y: Int(self.view.frame.height), width: Int(self.view.frame.width), height: emptyHeight)
+        self.footerSection!.frame = CGRect(x: 0, y: Int(self.view.frame.height), width: Int(self.view.frame.width), height: footerEmptyHeight)
         let bounds = self.view.bounds
         var height = bounds.size.height
         
@@ -690,23 +690,25 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             self.emptyView?.showReturnButton = false
         }else{
-            height -= self.header!.frame.height
+    //        height -= self.header!.frame.height
             var heightempty = self.view.frame.height
-            
+            let model = UIDevice.current.modelName
+            print(model)
             if self.view!.superview == nil {
                 heightempty = height - self.footerSection!.frame.height
                 
-                if IS_IPHONE_6P {
-                    heightempty -= 26
-                } else if IS_IPHONE_5 || IS_IPHONE_6 {
-                    heightempty -= 60
+                if IS_IPHONE_6P || IS_IPHONE_6 || model.contains("iPhone 6") {
+                    heightempty -= (self.header!.frame.height + 62)
+                } else if IS_IPHONE_5 || IS_IPHONE_6 { //para el verdadero, es 2
+                    heightempty -= 2
                 }
                 if IS_IPHONE_4_OR_LESS {
                    heightempty -= 84
                 }
+                print("heightEmpty \(heightempty)")
             }
             else {
-                if IS_IPHONE_6P {
+                if IS_IPHONE_6P || model.contains("Plus") {
                     heightempty -= 10
                 } else if IS_IPHONE_5 || IS_IPHONE_6 {
                     heightempty -= 44
