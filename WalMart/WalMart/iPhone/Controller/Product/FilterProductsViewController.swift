@@ -77,7 +77,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var brandFacets: [String] = []
     var isTextSearch: Bool = false
     var needsToValidateData = true
-    var facet: [[String:Any]]? = nil
+    //var facet: [[String:Any]]? = nil
     var urlAply = ""
     
     
@@ -203,10 +203,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             // return 1
-            self.srtArray = self.filtersAll!["sortOptions"] as! NSArray
+            self.srtArray = self.filtersAll!["sortOptions"] as? NSArray
             return self.srtArray!.count
         } else {
-            self.navigatArray = self.filtersAll!["leftArea"] as! NSArray
+            self.navigatArray = self.filtersAll!["leftArea"] as? NSArray
             let options = self.navigatArray![section - 1] as? NSDictionary
             if let refinement = options!["refinements"] as? NSArray {
                 return refinement.count
@@ -228,7 +228,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             var item :String = ""
             var selected = false
-            var navigationState = ""
+            //var navigationState = ""
             
             if let itemSorts = self.srtArray![indexPath.row] as? NSDictionary {
                 item = itemSorts["label"] as! String
@@ -237,7 +237,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 if ((valSelected) != nil) {
                     selected = valSelected == "true"
                 }
-                navigationState = itemSorts["navigationState"] as! String
+                //navigationState = itemSorts["navigationState"] as! String
             }
             listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
             return listCell
@@ -249,7 +249,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 let propert = refinements[indexPath.row] as! NSDictionary
                 
                 let textLabel = propert["label"] as! String
-                let urlNavigation = propert["navigationState"] as! String
+                //let urlNavigation = propert["navigationState"] as! String
                 
                 var selected = false
                 let valSelected =  propert["multiselect"] as! String
@@ -302,11 +302,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         self.delegate?.apply(_urlSort: urlAply)
         
-        if successCallBack != nil {
+        /*if successCallBack != nil {
             self.successCallBack!()
         }else {
             self.navigationController!.popViewController(animated: true)
-        }
+        }*/
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

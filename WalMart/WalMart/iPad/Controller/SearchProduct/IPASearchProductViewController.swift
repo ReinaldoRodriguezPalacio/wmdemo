@@ -165,7 +165,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         else{
             if self.filterController == nil {
                 self.filterController = FilterProductsViewController()
-                self.filterController!.facet = self.facet as? [[String:Any]]
+                //self.filterController!.facet = self.facet as? [[String:Any]]
                 self.filterController!.hiddenBack = true
                 self.filterController!.textToSearch = self.textToSearch
                 self.filterController!.selectedOrder = self.idSort!
@@ -183,7 +183,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.filterOrderViewCell?.resetOrderFilter()
             self.filterController!.upcPrices =  nil
             self.filterController!.selectedElementsFacet = [:]
-            self.filterController!.facet =  self.facet != nil ? self.facet as? [[String:Any]] : nil
+            //self.filterController!.facet =  self.facet != nil ? self.facet as? [[String:Any]] : nil
             //self.filterController!.isGroceriesSearch = self.btnSuper.selected
             self.filterController!.searchContext = self.searchContextType
             let pointPop =  self.filterButton!.convert(CGPoint(x: self.filterButton!.frame.minX,  y: self.filterButton!.frame.maxY / 2  ), to:self.view)

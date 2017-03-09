@@ -942,7 +942,7 @@
             print("Nuevos filtros")
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
-                controllerFilter.facet = self.facet as? [[String:Any]]
+                //controllerFilter.facet = self.facet as? [[String:Any]]
                 controllerFilter.textToSearch = self.textToSearch
                 controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
                 controllerFilter.delegate = self
