@@ -47,13 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         FBSDKAppEvents.activateApp()
        
         //Session --
-        let authorizationService =  AuthorizationService()
+       /* let authorizationService =  AuthorizationService()
         authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
             UserCurrentSession.sharedInstance.searchForCurrentUser()
             },errorBlock:{ (error:NSError) in
                 print(error.localizedDescription)
                 
-        })
+        })*/
         
 //        // Optional: automatically send uncaught exceptions to Google Analytics.
 //        GAI.sharedInstance().trackUncaughtExceptions = true
@@ -170,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        
+        /*
         //TAGManager
         let GTM = TAGManager.instance()
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
@@ -181,7 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
-        
+        */
         
         
       

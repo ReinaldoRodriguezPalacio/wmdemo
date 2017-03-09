@@ -65,7 +65,7 @@ class GRBaseService : BaseService {
             AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             //session --
             print("URL:: \(self.serviceUrl())")
-            print("send::sessionID -- \(UserCurrentSession.sharedInstance.JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance.JSESSIONATG)")
+            print("send::sessionID -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend)")
             AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
             AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
