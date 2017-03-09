@@ -166,6 +166,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
         print("Lista de id de listas")
+        var countId = 1
+        for listId in idListsSelected{
+         self.addItemsFromCarToList(inList: listId, included: false, finishAdd: countId == idListsSelected.count)
+            countId =  countId + 1
+        }
     }
     
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
@@ -191,67 +196,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
-        
-        let service = GRAddItemListService()
-        var products: [Any] = []
-        let itemsCart =  UserCurrentSession.sharedInstance.itemsGR!["items"] as! [Any]
-        for idx in 0 ..< itemsCart.count {
-            
-            let item = itemsCart[idx] as! [String:Any]
-            
-            let upc = item["upc"] as! String
-            let desc = item["description"] as! String
-            let price = item["price"] as! Int
-            
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? Int {
-                quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            var pesable = "0"
-            if  let pesableP = item["type"] as? String {
-                pesable = pesableP
-            }
-            var active = true
-            if let stock = item["stock"] as? Bool {
-                active = stock
-            }
-            
-            var baseUomcd = "EA"
-            if  let baseUomcdP = item["baseUomcd"] as? String {
-                baseUomcd = baseUomcdP
-            }
-            
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
-        }
-        
-        service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:[String:Any]) -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error at add product to list: \(error.localizedDescription)")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }
-        )
+        self.addItemsFromCarToList(inList: listId, included: included, finishAdd: true)
     }
     
     /**
-     Add items to list selected, and call service Add Item List Service
+     Add items to list selected, into DB
      
      - parameter list: list object to add product
      */
@@ -325,6 +274,76 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
     }
     
+    
+    //Add items to n list selected in services
+    func addItemsFromCarToList(inList listId:String, included: Bool,finishAdd:Bool){
+      
+        if self.alertView ==  nil {
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        }
+        
+        let service = GRAddItemListService()
+        var products: [Any] = []
+        let itemsCart =  UserCurrentSession.sharedInstance.itemsGR!["items"] as! [Any]
+        for idx in 0 ..< itemsCart.count {
+            
+            let item = itemsCart[idx] as! [String:Any]
+            
+            let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            let price = item["price"] as! Int
+            
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? Int {
+                quantity = qIntProd
+            }
+            if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            var pesable = "0"
+            if  let pesableP = item["type"] as? String {
+                pesable = pesableP
+            }
+            var active = true
+            if let stock = item["stock"] as? Bool {
+                active = stock
+            }
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdP = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdP
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
+        }
+        
+        service.callService(service.buildParams(idList: listId, upcs: products),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                if finishAdd {
+                                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                                self.alertView!.afterRemove = {
+                                    self.removeListSelector(action: nil)
+                                }
+                                self.alertView = nil
+                                }
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.alertView!.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+        }
+        )
+        
+    
+    }
+    
     /**
      Delete product Locally
      
@@ -349,12 +368,14 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter name:   List Name
      */
     func listSelectorDidShowList(_ listId: String, andName name:String) {
-        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listId = listId
-            vc.listName = name
-            vc.enableScrollUpdateByTabBar = false
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
+        //No se presentaba lista en carrito
+        print("tap listSelectorDidShowList")
+//        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
+//            vc.listId = listId
+//            vc.listName = name
+//            vc.enableScrollUpdateByTabBar = false
+//            self.navigationController!.pushViewController(vc, animated: true)
+//        }
     }
     
     /**

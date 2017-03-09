@@ -2101,6 +2101,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else {
                 pieces = (Int(quantity))
             }
+            let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(self.selectQuantityGR!.upcProduct)
             
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
@@ -2113,7 +2114,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.window?.addSubview(addShopping.view)
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = noteProduct
+            addShopping.comments = productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!)
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
@@ -2210,6 +2211,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
         }) { (error) in
+            alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+            alertView?.showDoneIcon()
             print("delete pressed Errro \(error)")
         }
        
@@ -2224,7 +2227,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let quantity = productInCart == nil ?  0 : productInCart!.quantity
                 let note = productInCart ==  nil ? "" : productInCart!.note
 
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" :note!, product: productInCart?.product)
 
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)

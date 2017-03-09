@@ -280,7 +280,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.backgroundColor = WMColor.green
             self.btnOkAdd.removeTarget(self, action: #selector(ShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
-            self.btnDelete?.alpha = 0.0
+            self.btnDelete?.alpha = 1.0
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in

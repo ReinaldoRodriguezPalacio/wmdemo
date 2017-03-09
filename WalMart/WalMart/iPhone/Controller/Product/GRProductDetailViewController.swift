@@ -419,7 +419,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.isShowShoppingCart = false
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
-            params.updateValue(self.type, forKey: "type")
+            params.updateValue(ResultObjectType.Groceries.rawValue, forKey: "type")
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
             return
         }
@@ -855,6 +855,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         //let service = GRAddItemListService()
        let orderByPiece = self.itemOrderbyPices
        let service = GRUpdateItemListService()
+        service.listId = listId
         service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
                             successBlock: { (result:[String:Any]) -> Void in
                                 
@@ -1134,12 +1135,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer?.removeFromSuperview()
                                 self.listSelectorContainer = nil
                                 
-                                //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton!.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-                                
                                 action?()
                                 self.detailCollectionView.isScrollEnabled = true
-                                 self.productDetailButton?.listButton.isSelected = false
+                                 self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                             }
                         }
                     )

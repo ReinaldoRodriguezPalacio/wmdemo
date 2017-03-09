@@ -86,6 +86,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var generateOrderSubtotal = ""
     var generateOrderDiscounts = ""
     var generateOrderPaymentType = ""
+    var deliveryAmountSend = 0.0
     
     var viewLoad : WMLoadingView!
     
@@ -404,7 +405,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 //            let userName = UserCurrentSession.sharedInstance.userSigned!.profile.name as String
 //            let idUser = UserCurrentSession.sharedInstance.userSigned!.profile.user.idUser as String
 //            let items :[[String:Any]] = UserCurrentSession.sharedInstance.itemsGR!["items"]! as! [[String:Any]]
+           
             
+           
+            if let shipmentAmount = self.paramsToOrder!["shipmentAmount"] as? Double {
+                self.deliveryAmountSend = shipmentAmount
+            }
             
             //PayPal
             if self.paymentId == "-3"{
@@ -414,9 +420,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 return
             }
             
+           
             let purchaseOrderArray = resultCall["purchaseOrder"] as! [Any]
             let purchaseOrder = purchaseOrderArray[0] as! [String:Any]
-            
             let trakingNumber = purchaseOrder["trackingNumber"] as! String
             let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
             let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
@@ -452,6 +458,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if self.idFreeShepping != 0 || self.idReferido != 0{
                 deliveryAmount =  0.0
             }
+            
+            
             let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue as NSString)
             let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue as NSString)
             let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)" as NSString)
@@ -987,7 +995,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["paypalAuthorizationNumber"] = ""
         self.confirmOrderDictionary["payPalPaymentStatus"] = "2"
-        
+        self.confirmOrderDictionary["amount"] = UserCurrentSession.sharedInstance.estimateTotalGR() + self.deliveryAmountSend
         //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         //self.confirmOrderDictionary["paymentType"] = paymentType
         //self.confirmOrderDictionary["authorization"] = idAuthorization
@@ -1019,7 +1027,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["paypalAuthorizationNumber"] = authorizationId
         self.confirmOrderDictionary["payPalPaymentStatus"] = "1"
-        
+        self.confirmOrderDictionary["amount"] = UserCurrentSession.sharedInstance.estimateTotalGR() + self.deliveryAmountSend
         //self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         //self.confirmOrderDictionary["paymentType"] = paymentType
         //self.confirmOrderDictionary["authorization"] = idAuthorization

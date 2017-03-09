@@ -316,6 +316,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         var isPesable = false
         var price: NSNumber? = nil
+        var equivalence : NSNumber = 0
         if let item = self.products![indexPath!.row] as? [String:Any] {
             
             if let pesable = item["type"] as?  NSString {
@@ -327,10 +328,11 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         } else if let item = self.products![indexPath!.row] as? Product {
             isPesable = item.type.boolValue
             price = NSNumber(value: item.price.doubleValue as Double)
+            equivalence = item.equivalenceByPiece
         }
         
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalenceByPiece,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalence == 0 ? cell.equivalenceByPiece! : equivalence,upcProduct:cell.upcVal!)
             
         } else {
             self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)

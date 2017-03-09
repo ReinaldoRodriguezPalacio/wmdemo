@@ -38,6 +38,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
+    var isOpenQuantitySelector: Bool = false
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -166,7 +167,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        
+      self.isOpenQuantitySelector = false
     if !isAddingOrRemovingWishlist {
         isAddingOrRemovingWishlist = true
         let animation = UIImageView(frame: CGRect(x: 0, y: 0,width: 36, height: 36));
@@ -204,10 +205,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     func shareProduct() {
+        
         delegate.shareProduct()
     }
     
     func detailProduct() {
+        self.isOpenQuantitySelector = false
         delegate.showProductDetail()
     }
     
@@ -232,7 +235,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0,0 , 0)
         
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
-        
+        self.isOpenQuantitySelector = true
     }
     
     func reloadShoppinhgButton() {
@@ -247,6 +250,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             
             self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
             
+        }
+        if isOpenQuantitySelector {
+            self.setOpenQuantitySelector()
         }
     }
   
