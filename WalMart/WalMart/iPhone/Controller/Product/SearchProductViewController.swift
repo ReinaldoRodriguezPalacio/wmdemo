@@ -323,7 +323,7 @@
         
         self.loading!.frame = CGRect(x:0, y: 46,width: self.view.bounds.width,height: self.view.bounds.height - 46)
         if self.isAplyFilter {
-            self.filterButton!.setTitle(NSLocalizedString("restaurar", comment:"" ) , for: .normal)
+            self.filterButton!.setTitle(NSLocalizedString("filter.edit", comment:"" ) , for: .normal)
             self.filterButton!.frame = CGRect(x:self.view.bounds.maxX - 90 , y: (self.header!.frame.size.height - 22)/2 ,width: 70, height:22)
         }else{
             self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: .normal)
@@ -931,7 +931,7 @@
     //MARK: - Filters
     
     func filter(_ sender:UIButton){
-        if self.isAplyFilter {
+        /*if self.isAplyFilter {
             print("Resetea filtros")
             self.isAplyFilter =  false
             self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: .normal)
@@ -939,7 +939,7 @@
             self.results!.resetResult()
             self.getServiceProduct(resetTable: true)
         }else{
-            print("Nuevos filtros")
+            print("Nuevos filtros")*/
             if controllerFilter == nil {
                 controllerFilter = FilterProductsViewController()
                 //controllerFilter.facet = self.facet as? [[String:Any]]
@@ -960,10 +960,11 @@
             controllerFilter.selectedElementsFacet = [:]
             controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
             self.navigationController?.pushViewController(controllerFilter, animated: true)
-        }
+        //}
     }
     
     func apply(_urlSort: String) {
+        self.isAplyFilter = true
         self.urlFamily = _urlSort
         self.textToSearch = ""
         
@@ -972,6 +973,14 @@
         
         self.collection!.reloadData()
         self.showLoadingIfNeeded(hidden: false)
+        if controllerFilter != nil {
+            controllerFilter.selectedOrder! =  ""
+            controllerFilter.filtersAll = self.facet
+            controllerFilter.filterOrderViewCell?.resetOrderFilter()
+            controllerFilter.upcPrices =  nil
+            controllerFilter.selectedElementsFacet = [:]
+            controllerFilter.showLoadingIfNeeded(hidden: true)
+        }
     }
     
     /*func removeSelectedFilters(){
@@ -995,6 +1004,7 @@
         if self.urlFamily == self.originalUrl && self.textToSearch == self.originalText {
             return
         }
+        self.isAplyFilter = false
         
         self.urlFamily = self.originalUrl
         self.textToSearch = self.originalText

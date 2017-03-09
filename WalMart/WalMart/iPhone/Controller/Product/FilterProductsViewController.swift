@@ -53,6 +53,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var removeButton: UIButton?
     var tableView: UITableView?
     var loading: WMLoadingView?
+    var isLoading  = false
     
     var textToSearch: String?
     var originalSearchContext: SearchServiceContextType?
@@ -106,6 +107,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.titleLabel!.textAlignment =  .center
         
         let iconImage = UIImage(color: WMColor.green, size: CGSize(width: 55, height: 22), radius: 11) // UIImage(named:"button_bg")
+        let iconImageRest = UIImage(color: WMColor.blue, size: CGSize(width: 55, height: 22), radius: 11) // UIImage(named:"button_bg")
         let iconSelected = UIImage(color: WMColor.green, size: CGSize(width: 55, height: 22), radius: 11)
         
         self.applyButton = UIButton(type: .custom)
@@ -114,13 +116,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.applyButton!.setTitle(NSLocalizedString("filter.apply", comment:""), for: UIControlState())
         self.applyButton!.setTitleColor(WMColor.light_light_gray, for: UIControlState())
         self.applyButton!.addTarget(self, action: #selector(FilterProductsViewController.applyFilters), for: .touchUpInside)
-        self.applyButton!.isHidden = true
+        //self.applyButton!.isHidden = true
         self.applyButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         
         self.header!.addSubview(self.applyButton!)
 
         self.removeButton = UIButton(type: .custom)
-        self.removeButton!.setBackgroundImage(iconImage, for: UIControlState())
+        self.removeButton!.setBackgroundImage(iconImageRest, for: UIControlState())
         self.removeButton!.setBackgroundImage(iconSelected, for: .selected)
         self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), for: UIControlState())
         self.removeButton!.setTitleColor(UIColor.white, for: UIControlState())
@@ -152,6 +154,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
         self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
+        self.showLoadingIfNeeded(hidden: true)
         
         self.tableView!.delegate = self
         self.tableView!.dataSource = self
@@ -164,8 +167,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let headerBounds = self.header!.frame.size
         let buttonWidth: CGFloat = 55.0
         let buttonHeight: CGFloat = 22.0
-        self.removeButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
-        //self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        self.applyButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 8.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
         if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             //self.titleLabel!.frame = CGRectMake(46.0, 0, self.header!.frame.width - (46.0 + (buttonWidth*2) + 32.0), self.header!.frame.maxY)
         }
@@ -181,7 +184,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }else {
             self.navigationController!.popViewController(animated: true)
         }
-       //self.delegate?.removeSelectedFilters()
     }
     
     func removeFilters() {
@@ -239,7 +241,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
                 //navigationState = itemSorts["navigationState"] as! String
             }
-            listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
+            listCell.setValuesFacets(nil,nameBrand:item, selected: selected, isOrder: true)
             return listCell
         } else {
             
@@ -257,7 +259,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     selected = valSelected == "true"
                 }
                 
-                listCell.setValuesFacets(nil,nameBrand:textLabel, selected: selected)
+                listCell.setValuesFacets(nil,nameBrand:textLabel, selected: selected, isOrder: false)
                 return listCell
             }
             
@@ -279,6 +281,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.loading = WMLoadingView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.view.addSubview(self.loading!)
+        self.loading!.startAnnimating(true)
         
         if indexPath.section == 0 {
             if let itemSorts = self.srtArray![indexPath.row] as? NSDictionary {
@@ -293,7 +298,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 urlAply = propert["navigationState"] as! String
             }
         }
-        print(urlAply)
+        //print(urlAply)
+        self.showLoadingIfNeeded(hidden: false)
         
         if let cell = tableView.cellForRow(at: IndexPath(row: ((indexPath as NSIndexPath).row), section: (indexPath as NSIndexPath).section)) as? FilterCategoryViewCell {
             
@@ -430,6 +436,24 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         super.back()
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
         self.backFilter?()
+    }
+    
+    func showLoadingIfNeeded(hidden: Bool ) {
+        
+        if loading == nil {
+            self.loading = WMLoadingView(frame: CGRect(x:11, y:0, width:self.view.bounds.width, height:self.view.bounds.height))
+            self.loading!.backgroundColor = UIColor.white
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(false)
+        }
+        
+        if hidden {
+            self.loading!.stopAnnimating()
+        } else {
+            //self.loading = WMLoadingView(frame: CGRect(x: 0, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 11))
+            //self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(true)
+        }
     }
     
 }

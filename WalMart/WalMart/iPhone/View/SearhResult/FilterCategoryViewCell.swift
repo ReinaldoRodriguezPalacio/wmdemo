@@ -100,12 +100,12 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.isHighlighted = selected
     }
     
-    func setValuesFacets(_ item:[String:Any]?,nameBrand:String, selected:Bool){
+    func setValuesFacets(_ item:[String:Any]?,nameBrand:String, selected:Bool, isOrder:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
-        self.check!.highlightedImage = UIImage(named: "filter_check_select_blue")
+        self.check!.highlightedImage = isOrder ? UIImage(named: "radio_full") : UIImage(named: "filter_check_select_blue")
         //self.separator!.hidden = false
         
         if item?["itemName"] as? String == ""{

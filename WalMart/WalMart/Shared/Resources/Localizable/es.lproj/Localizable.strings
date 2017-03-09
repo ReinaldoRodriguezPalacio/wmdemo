@@ -63,9 +63,10 @@
 
 //filter
 "filter.title" = "Filtrar";
-"filter.apply" = "aplicar";
+"filter.apply" = "ok";
 "filter.button.title" = "filtrar";
-"filter.button.clean" = "Sin filtros";
+"filter.edit" = "editar";
+"filter.button.clean" = "restaurar";
 "filter.section.order" = "Ordenar";
 "filter.section.categories" = "Por Departamento";
 "descriptionASC" = "A - Z";
