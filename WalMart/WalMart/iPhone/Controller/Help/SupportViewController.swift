@@ -172,7 +172,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         let bounds = self.view.bounds
         var heightImg = bounds.maxY
-        if !IS_IPHONE_4_OR_LESS {
+        if !IS_IPHONE_4_OR_LESS && !UIDevice.current.modelName.contains("Plus") && !UIDevice.current.modelName.contains("5c"){
             heightImg -= 44
         }
         

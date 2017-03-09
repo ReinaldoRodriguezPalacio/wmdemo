@@ -697,7 +697,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if self.view!.superview == nil {
                 heightempty = height - self.footerSection!.frame.height
                 
-                if IS_IPHONE_6P || IS_IPHONE_6 || model.contains("iPhone 6") {
+                if IS_IPHONE_6P || IS_IPHONE_6 || model.contains("iPhone 6") || model.contains("iPhone 5c"){
                     heightempty -= (self.header!.frame.height + 62)
                 } else if IS_IPHONE_5 || IS_IPHONE_6 { //para el verdadero, es 2
                     heightempty -= 2

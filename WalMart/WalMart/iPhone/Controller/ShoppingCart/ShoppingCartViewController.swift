@@ -212,6 +212,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
+        
+        if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
+            self.emptyView.showReturnButton = false
+        }
         self.view.addSubview(self.emptyView)
         
     }
