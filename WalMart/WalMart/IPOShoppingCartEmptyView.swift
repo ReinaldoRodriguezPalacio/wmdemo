@@ -15,9 +15,9 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
         bgImageView.image = UIImage(named:"empty_cart")
         descLabel.text = NSLocalizedString("empty.shoppingcart",comment:"")
         
-        if IS_IPHONE_4_OR_LESS == true {
-            self.addSubview(returnButton)
-        }
+//        if IS_IPHONE_4_OR_LESS == true {
+//            self.addSubview(returnButton)
+//        }
 
     }
     

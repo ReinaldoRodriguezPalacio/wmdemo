@@ -37,6 +37,8 @@ class IPOEmptyView : UIView {
     var returnAction : (() -> Void)?
     
     var showReturnButton: Bool = true
+    var paddingBottomReturnButton = 10.0
+    let heightReturnButton = 40.0
 
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -49,6 +51,8 @@ class IPOEmptyView : UIView {
     
     func setup() {
         self.backgroundColor = WMColor.light_gray
+        
+      //  print
         bgImageView = UIImageView()
         
         descLabel = UILabel()
@@ -66,10 +70,9 @@ class IPOEmptyView : UIView {
             returnButton.setTitle(NSLocalizedString("empty.return",comment:""), for: UIControlState())
             returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), for: UIControlEvents.touchUpInside)
         
-        //if IS_IPHONE_4_OR_LESS == false {
+            //if IS_IPHONE_4_OR_LESS == false {
             self.addSubview(returnButton)
-        //}
-            
+            //}
         }
         self.addSubview(bgImageView)
         self.addSubview(descLabel)
@@ -79,12 +82,14 @@ class IPOEmptyView : UIView {
     
     override func layoutSubviews() {
         if bgImageView != nil && bgImageView.image != nil {
-         bgImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: self.bounds.height)
+            bgImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: self.bounds.height)
         }
         self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
         
         if self.showReturnButton {
-            self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.frame.height - 50, width: 160 , height: 40)
+            let yButton = Double(self.frame.height) - self.heightReturnButton - self.paddingBottomReturnButton
+            
+            self.returnButton.frame = CGRect(x: Double((self.bounds.width - 160 ) / 2), y: yButton, width: 160.0 , height: self.heightReturnButton)
         }
     }
 
@@ -130,5 +135,5 @@ public extension UIDevice {
         case "i386", "x86_64":                          return "Simulator"
         default:                                        return identifier
         }
-}
+    }
 }
