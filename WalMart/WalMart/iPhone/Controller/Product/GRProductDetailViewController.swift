@@ -298,9 +298,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.isShowShoppingCart = false
                 self.selectQuantityGR = nil
                 //  self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
-            }
-            )
-            return
+            })
         }
         
         
@@ -1200,6 +1198,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         self.gestureCloseDetail.isEnabled = false
                     }
             })
+        }
+        
+        if self.listSelectorController != nil {
+            self.removeListSelector(action: nil)
         }
         
         self.detailCollectionView.scrollsToTop = true
