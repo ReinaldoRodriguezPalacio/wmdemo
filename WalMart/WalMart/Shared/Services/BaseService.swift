@@ -218,9 +218,12 @@ class BaseService : NSObject {
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
                     for cookie in cookies {
                         print("Response JSESSIONID:: \(cookie.value)")
-                        UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
-                        CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                        print("name: \(cookie.name) value: \(cookie.value)")
+                        if cookie.name == "JSESSIONID"{
+                            print("cookie.name == JSESSIONID")
+                            UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
+                            CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
+                            print("name: \(cookie.name) value: \(cookie.value)")
+                        }
                     }
                 }
               
@@ -308,9 +311,12 @@ class BaseService : NSObject {
                     
                     if stringOfClassType != "WalmartMG.ConfigService" {
                         for cookie in cookies {
-                            UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
-                            CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-                            print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
+                            if cookie.name == "JSESSIONID"{
+                                print("cookie.name == JSESSIONID")
+                                UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
+                                CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
+                                print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
+                            }
                         }
                     }
                 }
