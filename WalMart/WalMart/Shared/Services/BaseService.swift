@@ -137,6 +137,7 @@ class BaseService : NSObject {
                 //Session --
                 
                 print("URL:: \(self.serviceUrl())")
+                print("send::sessionID -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend)")
                 AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
@@ -224,6 +225,10 @@ class BaseService : NSObject {
                 }
               
             }
+            let stringOfClassType: String = self.nameOfClass(type(of: self))
+            
+
+             print("PostClassName \(stringOfClassType)")
             print("Response JSESSIONATG:: \(atgSession)")
             print("UserCurrentSession.sharedInstance().JSESSIONATG::  \(UserCurrentSession.sharedInstance.JSESSIONATG)")
             UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
@@ -292,29 +297,36 @@ class BaseService : NSObject {
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+            let stringOfClassType: String = self.nameOfClass(type(of: self))
+
             if cookie != "" {
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
-                    for cookie in cookies {
-                        UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
-                        CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-                        print("name: \(cookie.name) value: \(cookie.value)")
+                    
+                    if stringOfClassType != "WalmartMG.ConfigService" {
+                        for cookie in cookies {
+                            UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
+                            CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
+                            print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
+                        }
                     }
                 }
                 
                 
             }
-            print("serviceUrl() \(self.serviceUrl())")
-            print("Regresa JSESSIONATG \(atgSession)")
-             print("UserCurrentSession.sharedInstance().JSESSIONATG \(UserCurrentSession.sharedInstance.JSESSIONATG)")
-            UserCurrentSession.sharedInstance.JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance.JSESSIONATG
-            if UserCurrentSession.sharedInstance.JSESSIONATG != ""{
-                CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
-            }
             
+            if stringOfClassType != "WalmartMG.ConfigService" {
+                print("GetClassName \(stringOfClassType)")
+                print("Regresa JSESSIONATG \(atgSession)")
+                print("UserCurrentSession.sharedInstance().JSESSIONATG \(UserCurrentSession.sharedInstance.JSESSIONATG)")
+                UserCurrentSession.sharedInstance.JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance.JSESSIONATG
+                if UserCurrentSession.sharedInstance.JSESSIONATG != ""{
+                CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
+                }
+            }
            
             
             

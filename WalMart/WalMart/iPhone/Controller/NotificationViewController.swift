@@ -101,18 +101,11 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
         }
         
-//        if IS_IPHONE_6P || IS_IPHONE_6 {
-//            heightEmptyView -= 50
-//        }
         if model.contains("4") {
             heightEmptyView -= 44
         }
     
         self.emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
-        
-//        if model.contains("iPhone 5") || model.contains("iPhone 6") {
-//            self.emptyView!.paddingBottomReturnButton += 44
-//        }
     
         notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
                                          width: self.view.bounds.width,
