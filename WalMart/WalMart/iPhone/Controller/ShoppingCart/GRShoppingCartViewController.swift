@@ -951,6 +951,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
         print("Listas Seleccionadas")
+        var count  =  1
+        for listId  in listsSelected {
+            self.listSelectorDidAddProductLocally(inList: listId, finishAdd:  count == listsSelected.count )
+            count = count + 1
+        }
+
     }
     
     func listSelectorDidClose() {
