@@ -1007,19 +1007,34 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let typeProd = item["type"] as? NSString {
                 typeProdVal = typeProd.integerValue
             }
+            var equivalenceByPiece : NSNumber = 0
+            if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece =  equiva
+            }else if let equiva = item["equivalenceByPiece"] as? Int {
+                equivalenceByPiece =  NSNumber(value: equiva)
+            }else if let equiva = item["equivalenceByPiece"] as? String {
+                equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+            }
            
-            
-            
             var addInList = true
             for prod  in list.products {
                 let myprod = prod as! Product
-                
+                let orderByPiece = item["orderByPieces"] as! NSNumber
                 if  myprod.upc == item["upc"] as! String {
                     addInList =  false
-                     var quantitySum = myprod.quantity.intValue + quantity
-                    quantitySum = quantitySum > 20000 ? 20000 : quantitySum
-                    myprod.quantity = NSNumber(value: quantitySum)
-                    break
+                    if myprod.orderByPiece ==  orderByPiece {
+                        var quantitySum = myprod.quantity.intValue + quantity
+                        quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        myprod.quantity = NSNumber(value: quantitySum)
+                        myprod.orderByPiece = orderByPiece
+                        break
+                    }else{
+                        myprod.quantity = NSNumber(value: quantity)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.equivalenceByPiece =  equivalenceByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }
                 }
             }
             
@@ -1033,14 +1048,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail!.type = NSNumber(value: typeProdVal as Int)
                 detail!.list = list
                 detail!.img = item["imageUrl"] as! String
-                var equivalenceByPiece : NSNumber = 0
-                if let equiva = item["equivalenceByPiece"] as? NSNumber {
-                    equivalenceByPiece =  equiva
-                }else if let equiva = item["equivalenceByPiece"] as? Int {
-                    equivalenceByPiece =  NSNumber(value: equiva)
-                }else if let equiva = item["equivalenceByPiece"] as? String {
-                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
-                }
                 detail?.orderByPiece = item["orderByPieces"] as! NSNumber
                 detail?.equivalenceByPiece =  equivalenceByPiece
                 detail!.pieces = NSNumber(value: quantity as Int)
