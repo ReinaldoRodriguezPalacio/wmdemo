@@ -991,8 +991,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
+            }else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
             
@@ -1017,7 +1016,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 
                 if  myprod.upc == item["upc"] as! String {
                     addInList =  false
-                    myprod.quantity =  NSNumber(value:Int(myprod.quantity) + quantity)
+                     var quantitySum = myprod.quantity.intValue + quantity
+                    quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                    myprod.quantity = NSNumber(value: quantitySum)
                     break
                 }
             }
