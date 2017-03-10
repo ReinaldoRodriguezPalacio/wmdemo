@@ -49,21 +49,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         let model =  UIDevice.current.modelName
         let heightEmptyView = self.view.bounds.height
-//        if !IS_IPAD && !IS_IPAD_MINI {
-//            heightEmptyView -= 109
-//        }
-        
-//        if model.contains("Plus") {
-//            heightEmptyView -= 44
-//        }
-        
 
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
         
         self.emptyView.paddingBottomReturnButton = 57
-   //     if model.contains("4"){
+        if model.contains("4"){
             self.emptyView.paddingBottomReturnButton += 88
-     //   }
+        }
         self.emptyView.returnAction = {() in
             self.back()
         }

@@ -102,7 +102,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
         
         if model.contains("4") {
-            heightEmptyView -= 44
+            heightEmptyView -= 26
         }
     
         self.emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
@@ -130,16 +130,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
 //
                 self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
             
-                if model.contains("iPhone 5") || model.contains("Plus") {
-                    self.emptyView!.paddingBottomReturnButton += 87
-                } else if model.contains("6"){
-                    self.emptyView!.paddingBottomReturnButton += 44
-                } else if model.contains("4") || model.contains("iPad") || IS_IPAD {
-                    self.emptyView!.showReturnButton = false
-                }
-                self.emptyView!.returnAction = {() in
-                    self.back()
-                }
+                self.emptyView!.showReturnButton = false
                 self.view.addSubview(self.emptyView!)
             } else {
                 self.notification.reloadData()
@@ -150,17 +141,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             (error) -> Void in print("Error pushNotificationService")
             self.removeLoadingView()
             self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
-            if model.contains("iPhone 5") || model.contains("Plus") {
-                self.emptyView!.paddingBottomReturnButton += 87
-            } else if model.contains("6"){
-                self.emptyView!.paddingBottomReturnButton += 44
-            }
-            if model.contains("4") || model.contains("iPad") || IS_IPAD {
-                self.emptyView!.showReturnButton = false
-            }
-            self.emptyView!.returnAction = {() in
-                self.back()
-            }
+            
+            self.emptyView!.showReturnButton = false
             self.view.addSubview(self.emptyView!)
         })
         
