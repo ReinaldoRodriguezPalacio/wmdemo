@@ -968,11 +968,12 @@
         self.urlFamily = _urlSort
         self.textToSearch = ""
         
+        self.allProducts = []
         self.results!.resetResult()
-        self.getServiceProduct(resetTable: true)
-        
         self.collection!.reloadData()
         self.showLoadingIfNeeded(hidden: false)
+        self.getServiceProduct(resetTable: true)
+        
         if controllerFilter != nil {
             controllerFilter.selectedOrder! =  ""
             controllerFilter.filtersAll = self.facet
@@ -1004,6 +1005,7 @@
         if self.urlFamily == self.originalUrl && self.textToSearch == self.originalText {
             return
         }
+        self.collection!.reloadData()
         self.isAplyFilter = false
         
         self.urlFamily = self.originalUrl

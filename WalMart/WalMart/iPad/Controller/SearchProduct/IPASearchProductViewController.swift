@@ -155,14 +155,14 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }*/
     
     override func filter(_ sender:UIButton){
-        if self.isAplyFilter {
+        /*if self.isAplyFilter {
             print("Resetea filtros")
             self.isAplyFilter =  false
             self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: UIControlState())
             self.results!.resetResult()
             self.getServiceProduct(resetTable: true)
         }
-        else{
+        else{*/
             if self.filterController == nil {
                 self.filterController = FilterProductsViewController()
                 //self.filterController!.facet = self.facet as? [[String:Any]]
@@ -201,7 +201,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
             
             self.sharePopover!.present(from: CGRect(x: self.filterButton!.frame.minX , y: pointPop.y , width: 0, height: 0), in: self.view.superview!, permittedArrowDirections: .any, animated: true)
-        }
+        //}
     }
 
     
@@ -455,12 +455,21 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         print("aply filter")
         self.urlFamily = _urlSort
         self.textToSearch = ""
-        self.results!.resultsInResponse = 0
+        //self.results!.resultsInResponse = 0
         self.collection!.reloadData()
         self.showLoadingIfNeeded(hidden: false)
         
         //reset table
         self.getServiceProduct(resetTable: false)
+        
+        if self.filterController != nil {
+            self.filterController!.selectedOrder! =  ""
+            self.filterController!.filtersAll = self.facet
+            self.filterController!.filterOrderViewCell?.resetOrderFilter()
+            self.filterController!.upcPrices =  nil
+            self.filterController!.selectedElementsFacet = [:]
+            self.filterController!.showLoadingIfNeeded(hidden: true)
+        }
         
     }
     
