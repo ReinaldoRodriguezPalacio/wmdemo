@@ -1550,6 +1550,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.removeEmptyView()
             self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
+        if UIDevice.current.modelName.contains("4") {
+            self.empty.paddingBottomReturnButton += 44
+        }
         
         if self.searchFromContextType == .fromSearchTextList {
             self.empty.descLabel.text = "No existe ese artículo en Súper"
@@ -1600,6 +1603,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
+        if UIDevice.current.modelName.contains("4"){
+            self.emptyMGGR.paddingBottomReturnButton += 44
+        }
+        
         if btnSuper.isSelected {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
         } else {

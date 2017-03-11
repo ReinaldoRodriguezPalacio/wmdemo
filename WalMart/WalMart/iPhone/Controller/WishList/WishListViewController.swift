@@ -112,6 +112,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
         if UIDevice.current.modelName.contains("iPhone"){
             self.emptyView.paddingBottomReturnButton = 54
+            if UIDevice.current.modelName.contains("4") {
+                self.emptyView.paddingBottomReturnButton += 84
+            }
         }
         
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)

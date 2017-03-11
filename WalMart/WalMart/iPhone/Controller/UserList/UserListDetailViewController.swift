@@ -719,6 +719,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             
             self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
+            
+            if UIDevice.current.modelName.contains("4") {
+                self.emptyView!.paddingBottomReturnButton += 44
+            }
         }
         
         if UserCurrentSession.hasLoggedUser() {
