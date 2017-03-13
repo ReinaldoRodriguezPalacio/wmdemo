@@ -33,7 +33,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 //import Tune
 
-class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate,UITableViewDataSource, UITableViewDelegate {
+class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITableViewDataSource, UITableViewDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -470,151 +470,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.animationClose()
     }
-     //MARK: AlertPickerViewDelegate
-    func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {
-        if let formFieldObj = picker.sender as? FormFieldView {
-            if formFieldObj ==  self.address! {
-                self.addViewLoad()
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
-                self.address!.text = selectedStr
-                var option = self.addressItems![indexPath.row] 
-                if let addressId = option["id"] as? String {
-                    print("Asigned AddresID :::\(addressId) ---")
-                    self.selectedAddress = addressId
-                    self.getAddressDescription(addressId)
-                }
-                self.selectedAddressIx = indexPath
-                self.buildAndConfigureDeliveryType()
- 
-            }
-            if formFieldObj ==  self.shipmentType! {
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
-                self.shipmentType!.text = selectedStr
-                self.selectedShipmentTypeIx = indexPath
-                let shipment = self.shipmentItems![indexPath.row]
-                self.shipmentAmount = shipment["cost"] as! Double
-            }
-            if formFieldObj ==  self.deliveryDate! {
-                self.addViewLoad()
-                self.selectedDateTypeIx = indexPath
-                let selectedItem = self.datesItems![indexPath.row] 
-                self.selectedDate = selectedItem["date"] as! Date
-                self.buildSlotsPicker(self.selectedDate)
-            }
-        }
-    }
-    
-    func didDeSelectOption(_ picker:AlertPickerView) {
-        //self.removeViewLoad()
-        if let formFieldObj = picker.sender as? FormFieldView {
-            if formFieldObj ==  self.address! {
-                self.address!.text = ""
-                self.selectedAddress = ""
-                buildAndConfigureDeliveryType()
-            }
-            if formFieldObj ==  self.shipmentType! {
-                self.shipmentType!.text = ""
-            }
-            if formFieldObj ==  self.deliveryDate! {
-                self.deliveryDate!.text = ""
-            }
-        }
-    }
-    
-    func buttomViewSelected(_ sender: UIButton) {
-        
-    }
-    /**
-     Returns the view to replace in popup
-     
-     - parameter frame: view frame
-     
-     - returns:UIView
-     */
-    func viewReplaceContent(_ frame:CGRect) -> UIView! {
-        scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
-        self.scrollForm.scrollDelegate = self
-        scrollForm.contentSize = CGSize(width: frame.width, height: 720)
-        if sAddredssForm == nil {
-            sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
-        }
-        sAddredssForm.allAddress = self.addressItems as [Any]!
-        sAddredssForm.idAddress = ""
-        self.picker!.closeButton!.isHidden =  true
-        if !self.selectedAddressHasStore{
-            self.picker!.closeButton!.isHidden =  false
-            let serviceAddress = GRAddressesByIDService()
-            serviceAddress.addressId = self.selectedAddress!
-            serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                self.sAddredssForm.addressName.text = result["name"] as! String!
-                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
-                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
-                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
-                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
-                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
-                self.sAddredssForm.street.text = result["street"] as! String!
-                let neighborhoodID = result["neighborhoodID"] as! String!
-                let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
-                self.sAddredssForm.idAddress = result["addressID"] as! String!
-                }) { (error:NSError) -> Void in
-            }
-        }
-        
-        scrollForm.addSubview(sAddredssForm)
-        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        return scrollForm
-    }
-    /**
-     Saves action of new view
-     */
-    func saveReplaceViewSelected() {
-        self.picker!.onClosePicker = nil
-        let service = GRAddressAddService()
-        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
-        if dictSend != nil {
-            
-            self.scrollForm.resignFirstResponder()
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            if self.addressItems?.count < 12 {
-                service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
-                    //--self.addViewLoad()
-                    print("Se realizao la direccion")
-                    self.picker!.closeNew()
-                    self.picker!.closePicker()
-                    let addresId  = resultCall["addressID"] as! String!
-                    if addresId != "" {
-                        self.selectedAddress = resultCall["addressID"] as! String!
-                        print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
-                    } else{
-                        print("error:: no regresan id se queda Address ID \(self.selectedAddress)---")
-                    }
-                    if let message = resultCall["message"] as? String {
-                        self.alertView!.setMessage("\(message)")
-                    }
-                    self.alertView!.showDoneIcon()
-                    
-                    self.picker!.titleLabel.textAlignment = .center
-                    self.picker!.titleLabel.frame =  CGRect(x: 40, y: self.picker!.titleLabel.frame.origin.y, width: self.picker!.titleLabel.frame.width, height: self.picker!.titleLabel.frame.height)
-                    self.picker!.isNewAddres =  false
-                    self.reloadUserAddresses()
-                    
-                    }) { (error:NSError) -> Void in
-                        self.removeViewLoad()
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        self.alertView!.close()
-                }
-            }
-            else{
-                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
-                self.alertView!.showErrorIcon("Ok")
-            }
-        }
-    }
-
     //MARK: Services
     /**
      Gets the user addresses
@@ -656,7 +511,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                                         if let idDir = dictDir["id"] as? String {
                                             print("invokeAddressUserService idAdress \(idDir)")
                                             self.selectedAddress = idDir
-                                            
                                         }
                                         if let isAddressOK = dictDir["isAddressOk"] as? String {
                                             self.selectedAddressHasStore = !(isAddressOK == "False")
@@ -717,9 +571,27 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 }
                 self.selectedDate = Date()
                 self.buildSlotsPicker(self.selectedDate)
+                self.invokeSetDeliveryTypeService()
             })
         }
     }
+    
+    /**
+     Sets delivery types from an address
+     */
+    func invokeSetDeliveryTypeService() {
+        var shipmentType = "1"
+        if self.shipmentItems != nil {
+            let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row]
+            shipmentType = shipmentTypeSel["key"] as! String
+        }
+        
+        let carId = UserCurrentSession.sharedInstance.userSigned!.cartIdGR
+        let service = SetDeliveryTypeService()
+        let params = service.buildParams(shipmentType, addressID: self.selectedAddress!, idList: carId as String)
+        service.callService(requestParams: params, successBlock: nil, errorBlock: nil)
+    }
+    
     /**
      Gets delivery types from an address
      
@@ -943,5 +815,154 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return  46.0
+    }
+}
+
+extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
+    
+    //MARK: AlertPickerViewDelegate
+    func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String) {
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj ==  self.address! {
+                self.addViewLoad()
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                self.address!.text = selectedStr
+                var option = self.addressItems![indexPath.row]
+                if let addressId = option["id"] as? String {
+                    print("Asigned AddresID :::\(addressId) ---")
+                    self.selectedAddress = addressId
+                    self.getAddressDescription(addressId)
+                }
+                self.selectedAddressIx = indexPath
+                self.buildAndConfigureDeliveryType()
+                
+            }
+            if formFieldObj ==  self.shipmentType! {
+                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
+                self.shipmentType!.text = selectedStr
+                self.selectedShipmentTypeIx = indexPath
+                let shipment = self.shipmentItems![indexPath.row]
+                self.shipmentAmount = shipment["cost"] as! Double
+                self.invokeSetDeliveryTypeService()
+            }
+            if formFieldObj ==  self.deliveryDate! {
+                self.addViewLoad()
+                self.selectedDateTypeIx = indexPath
+                let selectedItem = self.datesItems![indexPath.row]
+                self.selectedDate = selectedItem["date"] as! Date
+                self.buildSlotsPicker(self.selectedDate)
+            }
+        }
+    }
+    
+    func didDeSelectOption(_ picker:AlertPickerView) {
+        //self.removeViewLoad()
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj ==  self.address! {
+                self.address!.text = ""
+                self.selectedAddress = ""
+                buildAndConfigureDeliveryType()
+            }
+            if formFieldObj ==  self.shipmentType! {
+                self.shipmentType!.text = ""
+            }
+            if formFieldObj ==  self.deliveryDate! {
+                self.deliveryDate!.text = ""
+            }
+        }
+    }
+    
+    func buttomViewSelected(_ sender: UIButton) {
+        
+    }
+    /**
+     Returns the view to replace in popup
+     
+     - parameter frame: view frame
+     
+     - returns:UIView
+     */
+    func viewReplaceContent(_ frame:CGRect) -> UIView! {
+        scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
+        self.scrollForm.scrollDelegate = self
+        scrollForm.contentSize = CGSize(width: frame.width, height: 720)
+        if sAddredssForm == nil {
+            sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
+        }
+        sAddredssForm.allAddress = self.addressItems as [Any]!
+        sAddredssForm.idAddress = ""
+        self.picker!.closeButton!.isHidden =  true
+        if !self.selectedAddressHasStore{
+            self.picker!.closeButton!.isHidden =  false
+            let serviceAddress = GRAddressesByIDService()
+            serviceAddress.addressId = self.selectedAddress!
+            serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                self.sAddredssForm.addressName.text = result["name"] as! String!
+                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
+                self.sAddredssForm.street.text = result["street"] as! String!
+                let neighborhoodID = result["neighborhoodID"] as! String!
+                let storeID = result["storeID"] as! String!
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
+                self.sAddredssForm.idAddress = result["addressID"] as! String!
+            }) { (error:NSError) -> Void in
+            }
+        }
+        
+        scrollForm.addSubview(sAddredssForm)
+        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+        return scrollForm
+    }
+    /**
+     Saves action of new view
+     */
+    func saveReplaceViewSelected() {
+        self.picker!.onClosePicker = nil
+        let service = GRAddressAddService()
+        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
+        if dictSend != nil {
+            
+            self.scrollForm.resignFirstResponder()
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+            if self.addressItems?.count < 12 {
+                service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
+                    //--self.addViewLoad()
+                    print("Se realizao la direccion")
+                    self.picker!.closeNew()
+                    self.picker!.closePicker()
+                    let addresId  = resultCall["addressID"] as! String!
+                    if addresId != "" {
+                        self.selectedAddress = resultCall["addressID"] as! String!
+                        print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
+                    } else{
+                        print("error:: no regresan id se queda Address ID \(self.selectedAddress)---")
+                    }
+                    if let message = resultCall["message"] as? String {
+                        self.alertView!.setMessage("\(message)")
+                    }
+                    self.alertView!.showDoneIcon()
+                    
+                    self.picker!.titleLabel.textAlignment = .center
+                    self.picker!.titleLabel.frame =  CGRect(x: 40, y: self.picker!.titleLabel.frame.origin.y, width: self.picker!.titleLabel.frame.width, height: self.picker!.titleLabel.frame.height)
+                    self.picker!.isNewAddres =  false
+                    self.reloadUserAddresses()
+                    
+                }) { (error:NSError) -> Void in
+                    self.removeViewLoad()
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.close()
+                }
+            }
+            else{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }
+        }
     }
 }
