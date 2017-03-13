@@ -571,7 +571,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 }
                 self.selectedDate = Date()
                 self.buildSlotsPicker(self.selectedDate)
-                self.invokeSetDeliveryTypeService()
+                //self.invokeSetDeliveryTypeService()
             })
         }
     }
@@ -843,7 +843,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
                 self.selectedShipmentTypeIx = indexPath
                 let shipment = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
-                self.invokeSetDeliveryTypeService()
+                //self.invokeSetDeliveryTypeService()
             }
             if formFieldObj ==  self.deliveryDate! {
                 self.addViewLoad()
