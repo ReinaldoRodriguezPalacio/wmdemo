@@ -1023,7 +1023,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     addInList =  false
                     if myprod.orderByPiece ==  orderByPiece {
                         var quantitySum = myprod.quantity.intValue + quantity
-                        quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        
+                        if orderByPiece == 0 {
+                            quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        }else{
+                             quantitySum = quantitySum > 99 ? 99 : quantitySum
+                        }
+                        
                         myprod.quantity = NSNumber(value: quantitySum)
                         myprod.orderByPiece = orderByPiece
                         break
