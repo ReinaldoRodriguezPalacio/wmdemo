@@ -53,9 +53,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
         
         self.emptyView.paddingBottomReturnButton = 57
-        if model.contains("4"){
-            self.emptyView.paddingBottomReturnButton += 80
-        }
+//        if model.contains("4"){
+//            self.emptyView.paddingBottomReturnButton += 80
+//        }
         self.emptyView.returnAction = {() in
             self.back()
         }

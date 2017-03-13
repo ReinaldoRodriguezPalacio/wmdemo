@@ -78,7 +78,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
         
         emptyView.returnAction = {() in
             self.back()
@@ -110,11 +110,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         let heightEmptyView = self.view.bounds.height
 
-        if UIDevice.current.modelName.contains("iPhone"){
+        if UIDevice.current.modelName.contains("iPhone") || UIDevice.current.modelName.contains("iPod"){
             self.emptyView.paddingBottomReturnButton = 54
-            if UIDevice.current.modelName.contains("4") {
-                self.emptyView.paddingBottomReturnButton += 84
-            }
         }
         
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)

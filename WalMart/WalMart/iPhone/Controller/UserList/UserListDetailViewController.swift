@@ -683,9 +683,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         var height = bounds.size.height
         
         if UserCurrentSession.hasLoggedUser() {
-            if IS_IPHONE_4_OR_LESS {
-                height -= 64
-            }
+//            if IS_IPHONE_4_OR_LESS {
+//                height -= 64
+//            }
             self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
             
             self.emptyView?.showReturnButton = false
@@ -702,9 +702,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 } else if IS_IPHONE_5 || IS_IPHONE_6 { //para el verdadero, es 2
                     heightempty -= 2
                 }
-                if IS_IPHONE_4_OR_LESS {
-                   heightempty -= 84
-                }
+//                if IS_IPHONE_4_OR_LESS {
+//                   heightempty -= 84
+//                }
                 print("heightEmpty \(heightempty)")
             }
             else {
@@ -713,9 +713,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 } else if IS_IPHONE_5 || IS_IPHONE_6 {
                     heightempty -= 44
                 }
-                if IS_IPHONE_4_OR_LESS {
-                    heightempty -= 130
-                }
+//                if IS_IPHONE_4_OR_LESS {
+//                    heightempty -= 130
+//                }
             }
             
             self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))

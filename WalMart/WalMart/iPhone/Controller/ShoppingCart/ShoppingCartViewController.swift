@@ -196,7 +196,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
         
         let model =  UIDevice.current.modelName
-        if model.contains("iPhone") {
+        if model.contains("iPhone") || model.contains("iPod") {
             if !model.contains("4") {
                 heightEmptyView -= 55
             } else {

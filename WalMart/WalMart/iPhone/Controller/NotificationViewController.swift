@@ -127,7 +127,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 if !model.contains("iPhone 5") && !model.contains("Plus") {
                     heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
                 }
-//
+
                 self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
             
                 self.emptyView!.showReturnButton = false

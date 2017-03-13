@@ -70,9 +70,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         }
         
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
-        if model.contains("4") {
-            self.emptyView!.paddingBottomReturnButton += 64
-        } else if model.contains("5"){
+        if model.contains("5") || model.contains("4") {
             self.emptyView!.paddingBottomReturnButton += 24
         }
         self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)

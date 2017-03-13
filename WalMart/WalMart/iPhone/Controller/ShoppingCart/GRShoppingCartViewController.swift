@@ -193,7 +193,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
         
         let model =  UIDevice.current.modelName
-        if model.contains("iPhone") {
+        if model.contains("iPhone") || model.contains("iPod"){
             if !model.contains("4") {
                 heightEmptyView -= 55
             } else {
@@ -204,8 +204,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             heightEmptyView -= 25
         }
         
-        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
+        emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
 
         emptyView.returnAction = {() in
             self.closeShoppingCart()

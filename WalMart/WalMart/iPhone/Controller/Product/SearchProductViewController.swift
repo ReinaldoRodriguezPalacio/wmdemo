@@ -1587,10 +1587,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let model =  UIDevice.current.modelName
         print(model)
         var heightEmpty = self.view.bounds.height
-        if !model.contains("iPad"){
+        if !model.contains("iPad") && !model.contains("4") {
             heightEmpty -= 64
         }
-        if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") {
+        if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
             heightEmpty -= 44
         }
         
@@ -1603,8 +1603,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
-        if UIDevice.current.modelName.contains("4"){
-            self.emptyMGGR.paddingBottomReturnButton += 44
+        if model.contains("4") {
+            self.emptyMGGR.paddingBottomReturnButton += 56
+        } else if  model.contains("iPod") || model.contains("Plus") {
+            self.emptyMGGR.paddingBottomReturnButton += 24
         }
         
         if btnSuper.isSelected {

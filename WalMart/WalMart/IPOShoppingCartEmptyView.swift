@@ -27,7 +27,6 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
         if IS_IPHONE_4_OR_LESS == true {
               self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.height - 100, width: 160 , height: 40)
         }
-        
     }
     
 }
