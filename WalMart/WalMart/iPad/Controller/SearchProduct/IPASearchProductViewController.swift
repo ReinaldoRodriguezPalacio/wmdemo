@@ -155,53 +155,41 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }*/
     
     override func filter(_ sender:UIButton){
-        /*if self.isAplyFilter {
-            print("Resetea filtros")
-            self.isAplyFilter =  false
-            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: UIControlState())
-            self.results!.resetResult()
-            self.getServiceProduct(resetTable: true)
-        }
-        else{*/
-            if self.filterController == nil {
-                self.filterController = FilterProductsViewController()
-                //self.filterController!.facet = self.facet as? [[String:Any]]
-                self.filterController!.hiddenBack = true
-                self.filterController!.textToSearch = self.textToSearch
-                self.filterController!.selectedOrder = self.idSort!
-                self.filterController!.delegate = self
-                self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-                self.filterController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
-                self.filterController!.view.backgroundColor = UIColor.clear
-                self.filterController!.successCallBack  = { () in
-                    self.sharePopover?.dismiss(animated: true)
-                    return
-                }
+        if self.filterController == nil {
+            self.filterController = FilterProductsViewController()
+            self.filterController!.hiddenBack = true
+            self.filterController!.textToSearch = self.textToSearch
+            self.filterController!.selectedOrder = self.idSort!
+            self.filterController!.delegate = self
+            self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+            self.filterController!.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
+            self.filterController!.view.backgroundColor = UIColor.clear
+            self.filterController!.successCallBack  = { () in
+                self.sharePopover?.dismiss(animated: true)
+                return
             }
-            self.filterController?.selectedOrder = ""
-            self.filterController!.filtersAll = self.facet
-            self.filterController!.filterOrderViewCell?.resetOrderFilter()
-            self.filterController!.upcPrices =  nil
-            self.filterController!.selectedElementsFacet = [:]
-            //self.filterController!.facet =  self.facet != nil ? self.facet as? [[String:Any]] : nil
-            //self.filterController!.isGroceriesSearch = self.btnSuper.selected
-            self.filterController!.searchContext = self.searchContextType
-            let pointPop =  self.filterButton!.convert(CGPoint(x: self.filterButton!.frame.minX,  y: self.filterButton!.frame.maxY / 2  ), to:self.view)
-            
-            //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
-            let controller = UIViewController()
-            controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
-            controller.view.addSubview(self.filterController!.view)
-            controller.view.backgroundColor = UIColor.clear
-            
-            self.sharePopover = UIPopoverController(contentViewController: controller)
-            self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 390.0)
-            self.sharePopover!.delegate = self
-            self.sharePopover!.backgroundColor = UIColor.white
-            //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
-            
-            self.sharePopover!.present(from: CGRect(x: self.filterButton!.frame.minX , y: pointPop.y , width: 0, height: 0), in: self.view.superview!, permittedArrowDirections: .any, animated: true)
-        //}
+        }
+        self.filterController?.selectedOrder = ""
+        self.filterController!.filtersAll = self.facet
+        self.filterController!.filterOrderViewCell?.resetOrderFilter()
+        self.filterController!.upcPrices =  nil
+        self.filterController!.selectedElementsFacet = [:]
+        self.filterController!.searchContext = self.searchContextType
+        let pointPop =  self.filterButton!.convert(CGPoint(x: self.filterButton!.frame.minX,  y: self.filterButton!.frame.maxY / 2  ), to:self.view)
+        
+        //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
+        let controller = UIViewController()
+        controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
+        controller.view.addSubview(self.filterController!.view)
+        controller.view.backgroundColor = UIColor.clear
+        
+        self.sharePopover = UIPopoverController(contentViewController: controller)
+        self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 390.0)
+        self.sharePopover!.delegate = self
+        self.sharePopover!.backgroundColor = UIColor.white
+        //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
+        
+        self.sharePopover!.present(from: CGRect(x: self.filterButton!.frame.minX , y: pointPop.y , width: 0, height: 0), in: self.view.superview!, permittedArrowDirections: .any, animated: true)
     }
 
     
@@ -313,8 +301,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         
     }
     */
-    
-    
     
     override func productCellIdentifier() -> String {
         return "iPAProductSearch"
@@ -441,21 +427,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         selectQuantityPopover!.present(from: cell.addProductToShopingCart!.bounds, in: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
     }
     
-    /*override func apply(_ order:String, upcs: [String]) {
-        super.apply(order, upcs: upcs)
-        self.filterButton?.setTitle(NSLocalizedString("restaurar", comment:"" ) , for: UIControlState())
-        self.filterButton?.frame = CGRect(x: self.view.bounds.maxX - 90 , y: (self.header!.frame.size.height - 22)/2 , width: 70, height: 22)
-        if upcs.count == 0 {
-         self.showEmptyView()
-        }
-        
-    }*/
-    
     override func apply(_urlSort: String) {
         print("aply filter")
+        self.isAplyFilter = true
         self.urlFamily = _urlSort
         self.textToSearch = ""
-        //self.results!.resultsInResponse = 0
         self.collection!.reloadData()
         self.showLoadingIfNeeded(hidden: false)
         
@@ -470,7 +446,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.selectedElementsFacet = [:]
             self.filterController!.showLoadingIfNeeded(hidden: true)
         }
-        
     }
     
     override func showEmptyView(){

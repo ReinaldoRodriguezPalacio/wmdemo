@@ -64,8 +64,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var selectedElements: [Bool]?
     var selectedElementsFacet: [IndexPath:Bool]?
     var selectedOrder: String?
-    //var isGroceriesSearch: Bool = false
-    //var facetGr: [String]? = nil
     var selectedFacetGr: [String:Bool]?
 
     var delegate:FilterProductsViewControllerDelegate?
@@ -76,11 +74,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var upcPrices: [String]?
     var upcByPrice: [String]?
     var brandFacets: [String] = []
-    var isTextSearch: Bool = false
     var needsToValidateData = true
-    //var facet: [[String:Any]]? = nil
     var urlAply = ""
-    
     
     var filtersAll: NSDictionary? {
         didSet {
@@ -92,7 +87,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var srtArray: NSArray?
     var navigatArray: NSArray?
     
-    //var sliderTableViewCell : SliderTableViewCell?
     var filterOrderViewCell : FilterOrderViewCell?
     
     override func getScreenGAIName() -> String {
@@ -143,24 +137,20 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         self.tableView!.register(FilterOrderViewCell.self, forCellReuseIdentifier: self.ORDERCELL_ID)
         self.tableView!.register(FilterCategoryViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-        //self.tableView!.register(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         self.selectedElementsFacet = [:]
         self.selectedFacetGr = [:]
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Solo en el caso de que la busqueda sea con texto o camfind
-        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         self.showLoadingIfNeeded(hidden: true)
         
         self.tableView!.delegate = self
         self.tableView!.dataSource = self
         self.tableView!.reloadData()
     }
-    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -169,9 +159,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let buttonHeight: CGFloat = 22.0
         self.applyButton!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
         self.removeButton!.frame = CGRect(x: self.applyButton!.frame.minX - (buttonWidth + 8.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
+        /*if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             //self.titleLabel!.frame = CGRectMake(46.0, 0, self.header!.frame.width - (46.0 + (buttonWidth*2) + 32.0), self.header!.frame.maxY)
-        }
+        }*/
 
         let bounds = self.view.frame
         self.tableView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - self.header!.frame.height)
@@ -263,9 +253,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 return listCell
             }
             
-            
             /*let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
-            
             let selected = self.selectedElements![(indexPath as NSIndexPath).row]
             let item = self.tableElements![(indexPath as NSIndexPath).row - 1] as! [String:Any]
             listCell.setValues(item, selected:selected)
@@ -450,8 +438,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if hidden {
             self.loading!.stopAnnimating()
         } else {
-            //self.loading = WMLoadingView(frame: CGRect(x: 0, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 11))
-            //self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(true)
         }
     }

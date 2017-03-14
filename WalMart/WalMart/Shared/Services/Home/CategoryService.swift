@@ -32,10 +32,13 @@ class CategoryService : BaseService {
                 
                 self.jsonFromObject(resultCall as AnyObject!)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
+                
                 successBlock?(resultCall)
                 
-                self.loadKeyFieldCategories(resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:Any]] as AnyObject!, type: ResultObjectType.Mg.rawValue);
+                let items = resultCall["contents"] as! [[String:Any]]
+                let DepG = items[0] as? NSDictionary
                 
+                self.loadKeyFieldCategories(items: DepG, type: ResultObjectType.Mg.rawValue); //resultCall["contents"] as! [[String:Any]] as AnyObject!
                 return
             },
             errorBlock: { (error:NSError) -> Void in
@@ -51,7 +54,9 @@ class CategoryService : BaseService {
         var filterResponse : [[String:Any]] = []
         let values = self.getDataFromFile(fileName as NSString)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:Any]]
+            let items = values!["contents"] as! [[String:Any]]
+            let DepG = items[0] as? NSDictionary
+            response = DepG!["departmentGroup"] as! [[String:Any]]
             for category in response {
                 if category["business"]  != nil {
                 if category["business"] as! String == type{

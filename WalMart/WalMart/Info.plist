@@ -252,7 +252,7 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getCategories</string>
+			<string>https://dl.dropboxusercontent.com/s/4cgrsz6k357584s/displayTaxonomia.txt?dl=0</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
@@ -443,7 +443,7 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://dl.dropboxusercontent.com/s/zbu724mz15nxku4/allCategoriesNew.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/4cgrsz6k357584s/displayTaxonomia.txt?dl=0</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>

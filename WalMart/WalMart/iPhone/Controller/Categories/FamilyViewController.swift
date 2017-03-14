@@ -69,10 +69,10 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             let cellFamily = familyTable.dequeueReusableCell(withIdentifier: familyReuseIdentifier(), for: indexPath) as! IPOFamilyTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
             var nameFamily = ""
-            if let valueFamily = selectedSection["familyName"] as? String{
+            if let valueFamily = selectedSection["displayName"] as? String{
                 nameFamily = valueFamily
             }
-            if let valueSubCat = selectedSection["subCategoryName"] as? String{
+            if let valueSubCat = selectedSection["displayName"] as? String{
                 nameFamily = valueSubCat
             }
             cellFamily.setTitle(nameFamily)
@@ -80,9 +80,9 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         } else {
             let cellLine = familyTable.dequeueReusableCell(withIdentifier: lineReuseIdentifier(), for: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["fineContent"] as! [[String:Any]]
+            let linesArr = selectedSection["families"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
-            let selectedItem = itemLine["id"] as! String
+            let selectedItem = itemLine["categoryId"] as! String
             cellLine.setTitle(itemLine["displayName"] as! String)
             cellLine.showSeparator =  linesArr.count == (indexPath as NSIndexPath).row 
             cell = cellLine
@@ -123,7 +123,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
         }
         else {
             let selectedSection = families[(indexPath as NSIndexPath).section]
-            let linesArr = selectedSection["fineContent"] as! [[String:Any]]
+            let linesArr = selectedSection["families"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
 
             let controller = SearchProductViewController()
@@ -138,11 +138,12 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             }
             controller.titleHeader = itemLine["displayName"] as? String
             controller.idDepartment = departmentId
-            controller.idFamily = selectedSection["id"] as? String
-            controller.idLine = itemLine["id"] as? String
+            controller.idFamily = selectedSection["categoryId"] as? String
+            controller.idLine = itemLine["categoryId"] as? String
             controller.textToSearch = ""
-            controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
-            controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+            let urlSearch = itemLine["url"] as? String == nil ? "" : itemLine["url"] as? String
+            controller.urlFamily = urlSearch//"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+            controller.originalUrl = urlSearch!//"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
             controller.originalText = ""
 
             self.navigationController!.pushViewController(controller, animated: true)
@@ -155,7 +156,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     func numberOfRowsInSection(_ section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
-            let nameLine = selectedSection["fineContent"] as! [[String:Any]]
+            let nameLine = selectedSection["families"] as! [[String:Any]]
             return nameLine.count
         }
         return 1

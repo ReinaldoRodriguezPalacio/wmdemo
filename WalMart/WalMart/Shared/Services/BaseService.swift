@@ -560,31 +560,74 @@ class BaseService : NSObject {
     }
     
 
-    func loadKeyFieldCategories( _ items:AnyObject!, type:String ) {
+    func loadKeyFieldCategories(items:NSDictionary!, type:String ) {
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async(execute: { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase?) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in items as! [[String:Any]] {
-                    let name = item["DepartmentName"] as? String ?? ""
-                    let idDepto = item["idDept"] as! String
-                    let dicItem = item 
-                    let items :[[String:Any]]? =  dicItem["familyContent"] as! [[String : Any]]?
-                    if  items !=  nil {
-                        let famArray : [[String:Any]] = item["familyContent"] as! [[String:Any]]!
-                        let bussines = item["bussines"] as? String ?? ""
+                for departmGroup in items["departmentGroup"] as! [[String:Any]] {
+                    let nameDeptoG = departmGroup["displayName"] as? String ?? "" //displayName
+                    let idDeptoG = departmGroup["categoryId"] as! String
+                    let items :[[String:Any]]? =  departmGroup["departments"] as! [[String : Any]]?
+                    
+                    let deptos : [[String:Any]] = departmGroup["departments"] as! [[String:Any]]!
+                    let bussines = departmGroup["business"] as? String ?? ""
+                    
+                    for itemDepartments in deptos {
+                        let idDepto = itemDepartments["categoryId"] as? String ?? ""
+                        let nameDepto = itemDepartments["displayName"] as! String
                         
+                        let families = itemDepartments["families"]
+                        for itemsFamilies in families as! [[String:Any]] {
+                            let idFamily = itemsFamilies["categoryId"] as? String ?? ""
+                            let nameFamily = itemsFamilies["displayName"] as! String
+                            
+                            let lines = itemsFamilies["finelines"]
+                            
+                            for itemsLines in lines as! [[String:Any]] {
+                                let idLine =  itemsLines["categoryId"] as! String
+                                let nameLine =  itemsLines["displayName"] as! String
+                                let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(nameDepto) > \(nameFamily)", type:bussines, idLine:idLine)
+                                if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
+                                    var exist = false
+                                    while rs.next() {
+                                        exist = true
+                                    }
+                                    rs.close()
+                                    rs.setParentDB(nil)
+                                    
+                                    if exist {
+                                        continue
+                                    }
+                                }
+                                
+                                let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: nameDepto, andType:bussines, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:nameFamily,line:nameLine)
+                                db?.executeUpdate(query, withArgumentsIn: nil)
+                            }
+                        }
+                    }
+                }
+                
+                
+                /*for item in items["departmentGroup"] as! [[String:Any]] {
+                    let name = item["displayName"] as? String ?? "" //displayName
+                    let idDepto = item["categoryId"] as! String
+                    let dicItem = item 
+                    let items :[[String:Any]]? =  dicItem["departments"] as! [[String : Any]]?
+                    if  items !=  nil {
+                        let famArray : [[String:Any]] = item["departments"] as! [[String:Any]]!
+                        let bussines = item["business"] as? String ?? ""
                         
                         for itemFamily in famArray {
-                            let idFamily = itemFamily["id"] as? String ?? ""
+                            let idFamily = itemFamily["categoryId"] as? String ?? ""
                             if itemFamily.count > 1 {
                                 
                                 let itemdic = itemFamily 
-                                let itemsContent :Any? =  itemdic["fineContent"]
+                                let itemsContent :Any? =  itemdic["families"]
                                 if  itemsContent !=  nil {
-                                    let lineArray : Any = itemFamily["fineContent"] as Any!
-                                    let namefamily = itemFamily["familyName"] as! String
+                                    let lineArray = itemFamily["families"]// as Any!
+                                    let namefamily = itemFamily["displayName"] as! String
                                     for itemLine in lineArray as! [[String:Any]] {
-                                        let idLine =  itemLine["id"] as! String
+                                        let idLine =  itemLine["categoryId"] as! String
                                         let nameLine =  itemLine["displayName"] as! String
                                         let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
                                         if let rs = db?.executeQuery(select, withArgumentsIn:nil) {
@@ -607,7 +650,7 @@ class BaseService : NSObject {
                             }//Close count
                         }//for
                     }//Close if
-                }
+                }*/
             }
         })
     }

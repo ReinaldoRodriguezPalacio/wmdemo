@@ -27,6 +27,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     var families : [[String:Any]]!
     var line : String!
     var name : String!
+    var url : String!
     
     var imgIcon : UIImage!
     var titleStr : String!
@@ -87,8 +88,10 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.idDepartment = department
         searchProduct.idLine = line
         searchProduct.titleHeader = name
+        searchProduct.urlFamily = url
         searchProduct.hiddenBack = true
         searchProduct.delegateHeader = self
+        searchProduct.textToSearch = ""
         searchProduct.view.alpha = 0
         //searchProduct.showHeader = true
         self.view.addSubview(viewImageContent)

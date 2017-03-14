@@ -92,10 +92,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
     
         let item = items![currentItem] as! [String:Any]
-        let famArray : AnyObject = item["familyContent"] as AnyObject!
+        let famArray : AnyObject = item["departments"] as AnyObject!
         let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
       
-        familyController.departmentId = item["idDept"] as! String
+        familyController.departmentId = item["categoryId"] as! String
         familyController.families = itemsFam
         familyController.selectedFamily = nil
         familyController.familyTable.reloadData()
@@ -169,8 +169,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
         
         let item = items![currentItem] as! [String:Any]
-        let descDepartment = item["DepartmentName"] as? String ?? ""
-        let bgDepartment = item["idDept"] as! String
+        let descDepartment = item["displayName"] as? String ?? ""
+        let bgDepartment = item["categoryId"] as! String
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
         categoryCell.imageBackground.contentMode = UIViewContentMode.left

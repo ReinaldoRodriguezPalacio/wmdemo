@@ -703,8 +703,6 @@
         let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
-        // self.brandText = self.idSort != "" ? "" : self.brandText
-        //let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         let params = service.buildParamsForSearch(url: self.urlFamily, text: self.textToSearch, sort: "0", startOffSet: String(startOffSets), maxResult:"20")
         service.callService(params as AnyObject,
                             successBlock: { (arrayProduct:[[String : Any]]?, facet:NSMutableDictionary?) -> Void in
@@ -931,36 +929,26 @@
     //MARK: - Filters
     
     func filter(_ sender:UIButton){
-        /*if self.isAplyFilter {
-            print("Resetea filtros")
-            self.isAplyFilter =  false
-            self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , for: .normal)
-            self.filterButton!.frame = CGRect(x:self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 , width:55, height:22)
-            self.results!.resetResult()
-            self.getServiceProduct(resetTable: true)
-        }else{
-            print("Nuevos filtros")*/
-            if controllerFilter == nil {
-                controllerFilter = FilterProductsViewController()
-                //controllerFilter.facet = self.facet as? [[String:Any]]
-                controllerFilter.textToSearch = self.textToSearch
-                controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
-                controllerFilter.delegate = self
-                //controllerFilter.isTextSearch = false //para no llamar los servicios de facets
-                controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-                controllerFilter?.backFilter = {() in
-                    self.loading?.stopAnnimating()
-                    self.loading?.removeFromSuperview()
-                }
+        if controllerFilter == nil {
+            controllerFilter = FilterProductsViewController()
+            //controllerFilter.facet = self.facet as? [[String:Any]]
+            controllerFilter.textToSearch = self.textToSearch
+            controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
+            controllerFilter.delegate = self
+            //controllerFilter.isTextSearch = false //para no llamar los servicios de facets
+            controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+            controllerFilter?.backFilter = {() in
+                self.loading?.stopAnnimating()
+                self.loading?.removeFromSuperview()
             }
-            controllerFilter.selectedOrder! =  ""
-            controllerFilter.filtersAll = self.facet
-            controllerFilter.filterOrderViewCell?.resetOrderFilter()
-            controllerFilter.upcPrices =  nil
-            controllerFilter.selectedElementsFacet = [:]
-            controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
-            self.navigationController?.pushViewController(controllerFilter, animated: true)
-        //}
+        }
+        controllerFilter.selectedOrder! =  ""
+        controllerFilter.filtersAll = self.facet
+        controllerFilter.filterOrderViewCell?.resetOrderFilter()
+        controllerFilter.upcPrices =  nil
+        controllerFilter.selectedElementsFacet = [:]
+        controllerFilter.searchContext = SearchServiceContextType.WithCategoryForMG //
+        self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
     func apply(_urlSort: String) {
@@ -983,22 +971,6 @@
             controllerFilter.showLoadingIfNeeded(hidden: true)
         }
     }
-    
-    /*func removeSelectedFilters(){
-        //Quitamos los filtros despues de la busqueda.
-        //self.idSort = self.originalSort
-        
-        self.searchContextType = self.originalSearchContextType
-        if self.originalSearchContextType != nil && self.isTextSearch {
-            self.idDepartment = nil
-            self.idFamily = nil
-            self.idLine = nil
-        }
-        self.allProducts = []
-        self.results!.resetResult()
-        self.controllerFilter = nil
-        
-    }*/
     
     func removeFilters() {
         

@@ -71,8 +71,8 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         }// if indexPath.item == 0 {
         
         let item = items[currentItem] as! [String:Any]
-        let descDepartment = item["DepartmentName"] as! String
-        let bgDepartment = item["idDept"] as! String
+        let descDepartment = item["displayName"] as! String
+        let bgDepartment = item["categoryId"] as! String
         /*var selected = false
         if selectedIndex != nil {
         selected = indexPath.row == selectedIndex.row
@@ -126,32 +126,34 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             self.selectedIndex = indexPath
             
             let item = items[(indexPath as NSIndexPath).row] as! [String:Any]
-            let idDepartment = item["idDept"] as! String
-            let famArray : AnyObject = item["familyContent"] as AnyObject!
+            let idDepartment = item["categoryId"] as! String
+            let famArray : AnyObject = item["departments"] as AnyObject!
             let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
             var famSelected = itemsFam[0]
-            var idFamDefault = famSelected["familyId"] as! String
+            var idFamDefault = famSelected["categoryId"] as! String
+            var urlSearch = famSelected["url"] as? String == nil ? "" : famSelected["url"] as? String
             
-            var lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
+            var lineArray : AnyObject = famSelected["families"] as AnyObject!
             var itemsLine : [[String:Any]] = lineArray as! [[String:Any]]
             
             if itemsLine.count == 0 {
                 famSelected = itemsFam[1]
-                idFamDefault = famSelected["id"] as! String
-                lineArray = famSelected["fineContent"] as AnyObject!
+                idFamDefault = famSelected["categoryId"] as! String
+                lineArray = famSelected["families"] as AnyObject!
                 itemsLine = lineArray as! [[String:Any]]
             }
             
             if itemsLine.count == 0{
                 self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
                 let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
-                self.didSelectLine("", family: "", line: "", name: "", imageDepartment: cellSelected.imageBackground.image, imageIcon: cellSelected.imageIcon.image)
+                self.didSelectLine("", family: "", line: "", name: "", imageDepartment: cellSelected.imageBackground.image, imageIcon: cellSelected.imageIcon.image, url: urlSearch!)
                 return
             }
             
                 let lineSelected =  itemsLine[0]
-                let idLineDefault = lineSelected["id"] as! String
+                let idLineDefault = lineSelected["categoryId"] as! String
                 let nameLineDefault = lineSelected["displayName"] as! String
+                urlSearch = lineSelected["url"] as? String == nil ? "" : lineSelected["url"] as? String
                 
                 selIdDepartment = idDepartment
                 selIdFamily = idFamDefault
@@ -164,7 +166,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                     self.categories.scrollToItem(at: self.selectedIndex, at: UICollectionViewScrollPosition.top, animated: false)
                     }, completion: { (complete:Bool) -> Void in
                         if complete {
-                            self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
+                            self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image, url: urlSearch!)
                         }
                 }) 
         //}
@@ -180,13 +182,13 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         
     }
     
-    func didSelectLine(_ department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?, url:String) {
         if selectedIndex != nil &&  self.selectedLine == false {
             selectedLine = true
             let cellSelected = categories.cellForItem(at: selectedIndex) as! IPACategoryCollectionViewClass
             
             let item = items[selectedIndex.row] as! [String:Any]
-            let famArray : AnyObject = item["familyContent"] as AnyObject!
+            let famArray : AnyObject = item["departments"] as AnyObject!
             let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
             
             categories.isScrollEnabled = false
@@ -201,6 +203,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             controllerAnimateView.titleStr = cellSelected.titleLabel.text
             controllerAnimateView.families = itemsFam
             controllerAnimateView.name = name
+            controllerAnimateView.url = url
             controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForMG
             controllerAnimateView.actionClose = {() in
                 self.categories.isScrollEnabled = true
