@@ -281,13 +281,13 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                let quantity = detailProductCart!.quantity
+                let quantity = detailProductCart!.quantity.int32Value
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
                 //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
-                    if quantity.intValue == 1 {
+                    if quantity == 1 {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                     }
                     else {
