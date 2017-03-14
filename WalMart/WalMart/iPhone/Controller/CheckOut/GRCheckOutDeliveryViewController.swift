@@ -43,7 +43,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var scrollForm : TPKeyboardAvoidingScrollView!
     var viewLoad : WMLoadingView!
     var picker : AlertPickerView!
-    var sAddredssForm : FormSuperAddressView!
+    var sAddredssForm : GRFormSuperAddressView!
     var alertView : IPOWMAlertViewController? = nil
     var errorView : FormFieldErrorView? = nil
     var address: FormFieldView?
@@ -887,7 +887,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSize(width: frame.width, height: 720)
         if sAddredssForm == nil {
-            sAddredssForm = FormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
+            sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
         sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
