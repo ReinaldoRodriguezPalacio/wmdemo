@@ -281,7 +281,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                let quantity = detailProductCart!.quantity.int32Value
+                let quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
                 //var total: Double = 0.0
