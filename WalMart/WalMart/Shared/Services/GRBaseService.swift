@@ -88,7 +88,6 @@ class GRBaseService : BaseService {
             let strKey = key as NSString!
             let strVal = headers[key] as NSString!
             print(" GR____\(strKey) --- \(strVal)")
-            AFStatic.managerGR.requestSerializer.setValue(strVal as! String, forHTTPHeaderField:strKey as! String)
         }
         
         return AFStatic.managerGR

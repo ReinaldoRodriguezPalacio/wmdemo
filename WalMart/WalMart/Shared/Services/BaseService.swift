@@ -137,7 +137,7 @@ class BaseService : NSObject {
                 //Session --
                 
                 //print("URL:: \(self.serviceUrl())")
-                print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) ")
+                print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 
                
                 AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
@@ -149,8 +149,7 @@ class BaseService : NSObject {
             } else{
                 //Session --
                 //print("URL:: \(self.serviceUrl())")
-                print("SEND mg JSESSIONID::" + jsessionIdSend)
-                print("SEND mg JSESSIONATG::" + jSessionAtgIdSend)
+                 print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
                     AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
                     AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
@@ -260,7 +259,7 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
-                        self.clearCokkie()
+                        
                         //NSLog("Base Service : LoginWithEmailService", "\(self.serviceUrl())")
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
@@ -337,6 +336,7 @@ class BaseService : NSObject {
                                 print("cookie.name == JSESSIONID")
                                jsessionId_array.append(cookie.value)
                                 if cookie.value != "" {
+                                    print("SAVE  JSESSIONID ame: \(cookie.name) value: \(cookie.value)")
                                     CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
                                 }else{
                                     print("JSESSIONID vacio DE: : \(stringOfClassType)")
@@ -375,6 +375,7 @@ class BaseService : NSObject {
                 
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
+                        self.clearCokkie()
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -417,7 +418,7 @@ class BaseService : NSObject {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
             if codeMessage.intValue != 0  {
-                print("error : Response with error \(message)")
+                print("error : Response with error \(message) \(self.serviceUrl())")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }
@@ -549,10 +550,14 @@ class BaseService : NSObject {
     }
     
     func clearCokkie(){
+        print("****************** ****************** ****************** ****************** ")
+        print("clearCokkie clearCokkie clearCokkie")
+         CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
         let coockieStorege  = HTTPCookieStorage.shared
         for cookie in coockieStorege.cookies! {
             coockieStorege.deleteCookie(cookie)
         }
+        
     }
     
     func needsSaveSeion(cassType:String) -> Bool {
@@ -560,7 +565,7 @@ class BaseService : NSObject {
             print("needsSaveSeion::: \(cassType)")
             return true
         }else {
-            if self.serviceUrl().lowercased().contains("/walmartmg/login/"){
+            if self.serviceUrl().lowercased().contains("/walmartmg/login/") || cassType == "WalmartMG.GRZipCodeService"{
                  print("nooo:: needsSaveSeion::: \(cassType)")
                 return false
             }
@@ -637,7 +642,7 @@ class BaseService : NSObject {
                     
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
-                            self.clearCokkie()
+                           
                             let loginService = LoginWithEmailService()
                             loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                             let emailUser = UserCurrentSession.sharedInstance.userSigned!.email

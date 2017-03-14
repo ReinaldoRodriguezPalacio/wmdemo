@@ -80,8 +80,12 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                 if let baseUomcd  = shoppingCartProduct["baseUomcd"] as? NSString {
                                     carProductItem.orderByPiece = (baseUomcd == "EA" ? 1 : 0)
+                                    if carProductItem.orderByPiece.boolValue {
+                                          carProductItem.pieces = NSNumber(value:quantity)
+                                    }else{
+                                        carProductItem.pieces = 0
+                                    }
                                 }
-                                carProductItem.pieces = NSNumber(value:quantity)
                                 
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
                                     carProductItem.type = NSNumber(value: pesable.integerValue as Int)
