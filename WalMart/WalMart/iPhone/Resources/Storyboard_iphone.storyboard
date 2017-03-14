@@ -233,7 +233,7 @@
         <scene sceneID="2Xy-ed-Oja">
             <objects>
                 <navigationController navigationBarHidden="YES" id="V74-Hq-4gN" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yS4-NV-OuD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yS4-NV-OuD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -913,9 +913,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
+                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewLayout key="collectionViewLayout" id="x5F-0N-HoN" customClass="CSStickyHeaderFlowLayout"/>
                                 <cells/>
@@ -926,6 +925,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="GAb-US-jct"/>
+                            <constraint firstAttribute="trailing" secondItem="gAa-Bu-aYo" secondAttribute="trailing" id="RoN-0V-qgH"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="rQu-he-H3Z"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="leading" secondItem="IBt-Kr-i66" secondAttribute="leading" id="zOV-s9-SfT"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -969,9 +974,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
+                                <rect key="frame" x="0.0" y="46" width="375" height="621"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zoi-Hb-PDp" customClass="CSStickyHeaderFlowLayout">
                                     <size key="itemSize" width="50" height="50"/>
@@ -987,6 +991,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZTg-Af-AOZ" secondAttribute="trailing" id="26E-U8-cbA"/>
+                            <constraint firstItem="N1T-IX-YRP" firstAttribute="top" secondItem="ZTg-Af-AOZ" secondAttribute="bottom" id="H5Z-b6-Fn9"/>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="top" secondItem="5O4-f5-eNr" secondAttribute="bottom" constant="46" id="qJ3-Eg-zky"/>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="leading" secondItem="2oy-zj-fzv" secondAttribute="leading" id="qni-bw-CAF"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>

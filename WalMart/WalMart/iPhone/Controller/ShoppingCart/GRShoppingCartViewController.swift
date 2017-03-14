@@ -204,9 +204,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             heightEmptyView -= 25
         }
         
-        emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
-
-        emptyView.returnAction = {() in
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("Plus") || model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 5
+        }
+        self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
         if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
