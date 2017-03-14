@@ -96,9 +96,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         cell.index = IndexPath(row: (indexPath as NSIndexPath).row, section: (indexPath as NSIndexPath).section)
         
         let item = items![(indexPath as NSIndexPath).row] as! [String:Any]
-        let descDepartment = item["DepartmentName"] as! String
-        var bgDepartment = item["idDept"] as! String
-        let families = JSON(item["familyContent"] as! [[String:Any]])
+        let descDepartment = item["displayName"] as! String
+        var bgDepartment = item["categoryId"] as! String
+        let families = JSON(item["departments"] as! [[String:Any]])
         cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
         bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
         
@@ -132,17 +132,18 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         pontInViewNuew = pontInView!
 
         let item = self.items![(indexPath as NSIndexPath).row] as! [String:Any]
-        let idDepartment = item["idDept"] as! String
-        let famArray : AnyObject = item["familyContent"] as AnyObject!
+        let idDepartment = item["categoryId"] as! String
+        let famArray : AnyObject = item["departments"] as AnyObject!
         let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
         let famSelected = itemsFam[0]
-        let idFamDefault = famSelected["familyId"] as! String
+        let idFamDefault = famSelected["categoryId"] as! String
         
-        let lineArray : AnyObject = famSelected["fineContent"] as AnyObject!
+        let lineArray : AnyObject = famSelected["families"] as AnyObject!
         let itemsLine : [[String:Any]] = lineArray as! [[String:Any]]
         let lineSelected = itemsLine[0]
-        let idLineDefault = lineSelected["id"] as! String
+        let idLineDefault = lineSelected["categoryId"] as! String
         let nameLineDefault = lineSelected["displayName"] as! String
+        let urlSearch = lineSelected["url"] as? String == nil ? "" : lineSelected["url"] as? String
         
         CategoryShouldShowFamily.shouldshowfamily = true
         controllerAnimateView = IPACategoriesResultViewController()
@@ -155,6 +156,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView.titleStr = cellSelected?.buttonDepartment.titleLabel!.text
         controllerAnimateView.families = itemsFam
         controllerAnimateView.name = nameLineDefault
+        controllerAnimateView.url = urlSearch
         controllerAnimateView.searchContextType = SearchServiceContextType.WithCategoryForGR
         controllerAnimateView.closeAnimated = false
         

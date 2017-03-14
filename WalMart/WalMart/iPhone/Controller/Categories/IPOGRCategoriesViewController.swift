@@ -161,8 +161,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             }
             
             let item = items![rowforsearch] as! [String:Any]
-            let descDepartment = item["DepartmentName"] as? String ?? ""
-            let bgDepartment = (item["idDept"] as! String).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let descDepartment = item["displayName"] as? String ?? ""
+            let bgDepartment = (item["categoryId"] as! String).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let scale = UIScreen.main.scale
             
             cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + "@\(Int(scale))x.jpg",imageIconURL:"i_" + bgDepartment + ".@\(Int(scale))x.png")
@@ -174,9 +174,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
             let rowforsearch = Int((indexPath as NSIndexPath).row / 2)
             let item = items![rowforsearch] as! [String:Any]
-            var bgDepartment = item["idDept"] as! String
-            let families = JSON(item["familyContent"] as! [[String:Any]])
-            let descDepartment = item["DepartmentName"] as? String ?? ""
+            var bgDepartment = item["categoryId"] as! String
+            let families = JSON(item["departments"] as! [[String:Any]])
+            let descDepartment = item["displayName"] as? String ?? ""
             bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
             
             
@@ -259,11 +259,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     }
                     
                     let item = self.items![rowforsearch] as! [String:Any]
-                    let famArray : AnyObject = item["familyContent"] as AnyObject!
+                    let famArray : AnyObject = item["departments"] as AnyObject!
                     let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
-                    let descDepartment = item["description"] as? String ?? ""
+                    let descDepartment = item["displayName"] as? String ?? ""
                    
-                    self.familyController.departmentId = item["idDept"] as! String
+                    self.familyController.departmentId = item["categoryId"] as! String
                     self.familyController.families = itemsFam
                     self.familyController.selectedFamily = nil
                     self.familyController.familyTable.reloadData()
@@ -421,15 +421,15 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
-                    for line in family["fineContent"].arrayValue {
-                        let lineOne = line["id"].stringValue
+                    for line in family["families"].arrayValue {
+                        let lineOne = line["categoryId"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                             == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
                             let itemToShow = ["fineLineName": line["displayName"].stringValue,
                                             "imageUrl": lineDest["imageUrl"].stringValue,
                                             "line": lineTwo ,
-                                            "family": family["familyId"].stringValue ,
+                                            "family": family["categoryId"].stringValue ,
                                             "department":depto]
                             resultDict.append(itemToShow)
                             
