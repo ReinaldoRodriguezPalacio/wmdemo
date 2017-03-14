@@ -1032,6 +1032,7 @@
 		6C905A3E1D9F183200746B2D /* SearchAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchAlertView.swift; path = iPhone/View/SearhResult/SearchAlertView.swift; sourceTree = "<group>"; };
 		6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "WalMart/Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
+		6CA591A21E78A44300216A38 /* WalMart3.31. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 5.xcdatamodel"; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -4013,6 +4014,7 @@
 		4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6CA591A21E78A44300216A38 /* WalMart3.31. 5.xcdatamodel */,
 				16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */,
 				4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */,
 				4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */,
@@ -4020,7 +4022,7 @@
 				4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */,
 				4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */,
 			);
-			currentVersion = 16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */;
+			currentVersion = 6CA591A21E78A44300216A38 /* WalMart3.31. 5.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
