@@ -60,6 +60,21 @@ class LoginWithEmailService : BaseService {
         }
         
     }
+    
+    
+    func callWithEmailService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                    if codeMessage.intValue == 0 {
+                          successBlock!(resultCall)
+                    }
+                }
+            }) { (error:NSError) -> Void in
+                errorBlock!(error)
+            }
+        
+    }
+
 
     
     func callServiceForFacebook(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

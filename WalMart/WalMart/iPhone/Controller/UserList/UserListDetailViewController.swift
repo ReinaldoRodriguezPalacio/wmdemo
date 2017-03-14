@@ -520,6 +520,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         }
                     }
                     params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
+                 
                 }
                 else if let item = self.products![idx] as? Product {
                     params["upc"] = item.upc
@@ -545,6 +546,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         totalPrice += Int(productPrice)
                     }
                     params["orderByPiece"] = item.orderByPiece.boolValue
+                    if item.orderByPiece.boolValue {
+                         params["pieces"] = item.pieces
+                    }else{
+                        params["pieces"] = 0
+                    }
+                   
                     
                 }
                 upcs.append(params as AnyObject)

@@ -13,7 +13,12 @@ class LogoutService : BaseService {
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
                             successBlock: { (resultCall:[String:Any]) -> Void in
-                                self.jsonFromObject(resultCall as AnyObject!)
+                               
+                                let coockieStorege  = HTTPCookieStorage.shared
+                                for cookie in coockieStorege.cookies! {
+                                    coockieStorege.deleteCookie(cookie)
+                                }
+                                
                                 successBlock?(resultCall)
                                 return
             },
