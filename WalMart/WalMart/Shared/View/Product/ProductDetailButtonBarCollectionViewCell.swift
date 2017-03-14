@@ -273,17 +273,15 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
-                    if quantity.intValue == 1 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
+                    if quantity.int32Value == 1 {
+                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity.int32Value)
                     }
                     else {
-                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity.int32Value)
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
                 } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
-                    
                     let pieces = detailProductCart!.product.pieces
-                    
                     if pieces == 1 {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
                     } else {
@@ -292,14 +290,13 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                     
                     
                 } else { //Gramos
-
                     let q = quantity.doubleValue
                     if q < 1000.0 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
+                        text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity.int32Value)
                     }
                     else {
-                        let kg = q/1000.0
-                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg as Double))
+                        let kg: Double = q/1000.0
+                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg))
                     }
                     //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
