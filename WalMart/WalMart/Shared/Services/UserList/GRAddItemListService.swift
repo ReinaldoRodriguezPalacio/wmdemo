@@ -123,9 +123,6 @@ class GRAddItemListService: GRBaseService {
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
                     detail!.desc = item["description"] as! String
-                    detail!.quantity = item["quantity"] as! NSNumber
-                    detail!.orderByPiece = orderByPiece ? 1 : 0
-                    detail!.pieces = orderByPiece ? item["quantity"] as! NSNumber : 0
                     if let active = item["isActive"] as? Bool {
                         detail!.isActive = active ? "true" : "false"
                     }
@@ -159,11 +156,6 @@ class GRAddItemListService: GRBaseService {
                         }
                     }
                     
-                    var baseUomcd = "EA"
-                    if  let baseUomcdP = item["baseUomcd"] as? String {
-                        baseUomcd = baseUomcdP
-                    }
-                    
                     if quantity > 20000 && baseUomcd == "GM" {
                         quantity = 20000
                     }else if quantity > 99 && baseUomcd == "EA"{
@@ -172,8 +164,8 @@ class GRAddItemListService: GRBaseService {
                     
                     detail!.quantity = NSNumber(value: quantity as Int)
                     detail!.type = NSNumber(value: typeProdVal as Int)
-                    detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
-                    detail?.equivalenceByPiece =  equivalenceByPiece
+                    detail!.orderByPiece = orderByPiece ? 1 : 0
+                    detail!.equivalenceByPiece =  equivalenceByPiece
                     detail!.pieces = NSNumber(value: quantity as Int)
                     
                     detail!.list = entity!
