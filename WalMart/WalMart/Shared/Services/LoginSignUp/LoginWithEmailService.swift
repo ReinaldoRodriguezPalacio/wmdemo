@@ -28,25 +28,19 @@ class LoginWithEmailService : BaseService {
                         let resultCallMG = resultCall
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
-                            let serviceGr = GRLoginService()
-                             delay(1, completion: {
-                                print("After delay")
+                            let serviceGr = GRLoginWithEmailService()
+                             //delay(1, completion: {
+                                print("After delay GRLoginWithEmailService::::::")
                                 
-                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                
-                               
-                                    UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
-                                    successBlock!(resultCall!)
+                                serviceGr.callService(params, successBlock: { (resultCall:[String : Any]) in
+                                    UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall)
+                                    successBlock!(resultCall)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
-                               
-                                
-                                
-                                }
-                                , errorBlock: {(error: NSError) in
+                                    
+                                }, errorBlock: { (error:NSError) in
                                     errorBlock!(error)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
-                            })
-                                 })
+                                })
                             
                             
                         }else {
