@@ -41,6 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
+        print("****************** ****************** ****************** ****************** ")
+        print("clearCokkie clearCokkie clearCokkie")
+        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
+        let coockieStorege  = HTTPCookieStorage.shared
+        for cookie in coockieStorege.cookies! {
+            coockieStorege.deleteCookie(cookie)
+        }
+        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -170,7 +178,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        
         //TAGManager
         let GTM = TAGManager.instance()
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
@@ -181,6 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
+ 
         
         
         

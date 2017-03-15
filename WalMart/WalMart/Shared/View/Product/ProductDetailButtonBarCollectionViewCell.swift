@@ -274,10 +274,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 //Piezas
                 if self.isPesable == false {
                     if quantity.int32Value == 1 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity.int32Value)
+                        
+                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                     }
                     else {
-                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity.int32Value)
+                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
                 } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
@@ -292,7 +293,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 } else { //Gramos
                     let q = quantity.doubleValue
                     if q < 1000.0 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity.int32Value)
+                        text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
                     }
                     else {
                         let kg: Double = q/1000.0

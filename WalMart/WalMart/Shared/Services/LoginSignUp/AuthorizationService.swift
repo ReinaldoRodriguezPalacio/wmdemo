@@ -57,7 +57,7 @@ class AuthorizationService : GRBaseService {
             print(":::::::AuthorizationService:::::::")
             print(jsessionIdSend)
              print(":::::::AuthorizationService:::::::")
-            AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
+            //AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
             AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
@@ -65,7 +65,7 @@ class AuthorizationService : GRBaseService {
             print(jsessionIdSend)
             print(":::::::AuthorizationService:::::::")
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
+            //AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
             AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         }
         

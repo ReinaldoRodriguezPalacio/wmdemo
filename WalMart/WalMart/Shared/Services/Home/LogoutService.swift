@@ -18,7 +18,7 @@ class LogoutService : BaseService {
                                 for cookie in coockieStorege.cookies! {
                                     coockieStorege.deleteCookie(cookie)
                                 }
-                                 CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: "")
+//                                 CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: "")
                                 successBlock?(resultCall)
                                 return
             },

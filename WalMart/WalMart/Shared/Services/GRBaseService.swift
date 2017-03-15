@@ -39,11 +39,11 @@ class GRBaseService : BaseService {
         var jsessionIdSend = ""
         var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
         
-        
-            if let param1 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-                //print("PARAM JSESSIONID ::"+param1.value)
-                jsessionIdSend = param1.value
-            }
+//        
+//            if let param1 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
+//                //print("PARAM JSESSIONID ::"+param1.value)
+//                jsessionIdSend = param1.value
+//            }
             if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
                 //print("PARAM JSESSIONATG ::" + param2.value)
                 jSessionAtgIdSend = param2.value
@@ -69,7 +69,7 @@ class GRBaseService : BaseService {
             
       
             
-            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+            //AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
             AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
@@ -77,8 +77,8 @@ class GRBaseService : BaseService {
             //print("URL:: \(self.serviceUrl())")
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
             print("send::sessionID -- gr \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend)")
-            AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
-            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+//            AFStatic.managerGR.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
+//            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
             AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         }
         
@@ -99,6 +99,20 @@ class GRBaseService : BaseService {
 
     static func getUseSignalServices() ->Bool{
         return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
+    }
+    
+    override func clearCokkie() {
+            print("****************** ****************** ****************** ****************** ")
+            print("clearCokkie clearCokkie clearCokkie GR")
+            // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
+            let coockieStorege  = HTTPCookieStorage.shared
+            for cookie in coockieStorege.cookies! {
+                if cookie.path != "/walmartmg/login" {
+                    coockieStorege.deleteCookie(cookie)
+                }
+            }
+            
+
     }
     
 }

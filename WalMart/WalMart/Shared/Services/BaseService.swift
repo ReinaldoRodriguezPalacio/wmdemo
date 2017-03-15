@@ -115,10 +115,10 @@ class BaseService : NSObject {
             var jsessionIdSend = ""
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
             
-                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-                    //print("PARAM JSESSIONID ::"+param2.value)
-                    jsessionIdSend = param2.value
-                }
+//                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
+//                    //print("PARAM JSESSIONID ::"+param2.value)
+//                    jsessionIdSend = param2.value
+//                }
                 if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
                     //print("PARAM JSESSIONATG ::" + param3.value)
                     jSessionAtgIdSend = param3.value
@@ -140,8 +140,8 @@ class BaseService : NSObject {
                 print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 
                
-                AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
-                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+                //AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
+                //AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
                 
@@ -151,14 +151,15 @@ class BaseService : NSObject {
                 //print("URL:: \(self.serviceUrl())")
                  print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                    AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
-                    AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
+                    //AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
+                    //AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                     AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
             }
         
             
         }
+        URLSessionConfiguration.default.httpMaximumConnectionsPerHost = 1
         return AFStatic.manager
         
     }
@@ -225,17 +226,17 @@ class BaseService : NSObject {
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
                     for cookie in cookies {
                         print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) -- \(self.serviceUrl())")
-                        if cookie.name == "JSESSIONID" &&  self.needsSaveSeion(cassType: stringOfClassType){
-                            print("cookie.name == JSESSIONID")
-                            jsessionId_array.append(cookie.value)
-                            if cookie.value != "" {
-                                
-                                CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                            }else{
-                            print("JSESSIONID VACIO DE  \(stringOfClassType)")
-                            }
-                            print("name: \(cookie.name) value: \(cookie.value)")
-                        }
+//                        if cookie.name == "JSESSIONID" &&  self.needsSaveSeion(cassType: stringOfClassType){
+//                            print("cookie.name == JSESSIONID")
+//                            jsessionId_array.append(cookie.value)
+//                            if cookie.value != "" {
+//                                
+//                                CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
+//                            }else{
+//                            print("JSESSIONID VACIO DE  \(stringOfClassType)")
+//                            }
+//                            print("name: \(cookie.name) value: \(cookie.value)")
+//                        }
                     }
                 }
                 
@@ -332,17 +333,17 @@ class BaseService : NSObject {
                     if stringOfClassType != "WalmartMG.ConfigService" {
                         for cookie in cookies {
                             print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) - \(self.serviceUrl())")
-                            if cookie.name == "JSESSIONID" && self.needsSaveSeion(cassType: stringOfClassType){
-                                print("cookie.name == JSESSIONID")
-                               jsessionId_array.append(cookie.value)
-                                if cookie.value != "" {
-                                    print("SAVE  JSESSIONID ame: \(cookie.name) value: \(cookie.value)")
-                                    CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-                                }else{
-                                    print("JSESSIONID vacio DE: : \(stringOfClassType)")
-                                }
-                                print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
-                            }
+//                            if cookie.name == "JSESSIONID" && self.needsSaveSeion(cassType: stringOfClassType){
+//                                print("cookie.name == JSESSIONID")
+//                               jsessionId_array.append(cookie.value)
+//                                if cookie.value != "" {
+//                                    print("SAVE  JSESSIONID ame: \(cookie.name) value: \(cookie.value)")
+//                                    CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
+//                                }else{
+//                                    print("JSESSIONID vacio DE: : \(stringOfClassType)")
+//                                }
+//                                print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
+//                            }
                         }
                     }
                 }
@@ -552,10 +553,12 @@ class BaseService : NSObject {
     func clearCokkie(){
         print("****************** ****************** ****************** ****************** ")
         print("clearCokkie clearCokkie clearCokkie")
-         CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
+        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
         let coockieStorege  = HTTPCookieStorage.shared
         for cookie in coockieStorege.cookies! {
-            coockieStorege.deleteCookie(cookie)
+            if cookie.path == "/walmartmg/login" {
+                coockieStorege.deleteCookie(cookie)
+            }
         }
         
     }
