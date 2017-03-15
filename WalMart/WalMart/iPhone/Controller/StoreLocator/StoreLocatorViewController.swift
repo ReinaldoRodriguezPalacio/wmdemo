@@ -70,7 +70,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.coreLocationManager.requestWhenInUseAuthorization()
         }
         
-        self.segmentedView = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16,  width: 150.0, height: 22.0))
+        self.segmentedView = UIView(frame: CGRect(x: 16,  y: self.view!.frame.maxY - 147,  width: 150.0, height: 22.0))
         self.segmentedView.layer.borderWidth = 1
         self.segmentedView.layer.cornerRadius = 11
         self.segmentedView.layer.borderColor = WMColor.light_blue.cgColor

@@ -233,7 +233,7 @@
         <scene sceneID="2Xy-ed-Oja">
             <objects>
                 <navigationController navigationBarHidden="YES" id="V74-Hq-4gN" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yS4-NV-OuD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yS4-NV-OuD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -704,9 +704,8 @@
                                     <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
-                                <rect key="frame" x="270" y="410" width="34" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
+                                <rect key="frame" x="270" y="411" width="34" height="34"/>
                                 <state key="normal" image="location"/>
                                 <state key="selected" image="location_selected"/>
                                 <connections>
@@ -716,10 +715,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="sdz-to-nCq" firstAttribute="leading" secondItem="XDH-7a-zhZ" secondAttribute="trailing" constant="-50" id="3RV-Dq-0di"/>
                             <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="leading" secondItem="s8f-vX-XUW" secondAttribute="leading" id="hOU-hM-ce7"/>
                             <constraint firstAttribute="trailing" secondItem="XDH-7a-zhZ" secondAttribute="trailing" id="oS6-t7-Igo"/>
+                            <constraint firstItem="sdz-to-nCq" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" constant="-50" id="ti5-Nf-i1X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
