@@ -236,7 +236,7 @@ class BaseService : NSObject {
                 print("noooooo post cookie \(stringOfClassType)")
             }
             print("ARRAY POST:: JSESSIONID")
-            print(jsessionId_array)
+            //print(jsessionId_array)
             print("....")
             
 
