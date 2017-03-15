@@ -215,7 +215,6 @@ class BaseService : NSObject {
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
              let stringOfClassType: String = self.nameOfClass(type(of: self))
-             var jsessionId_array :[String] = []
             
             if cookie != "" {
                 print("Before : \(headers)")
@@ -223,23 +222,12 @@ class BaseService : NSObject {
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
+                   
                     for cookie in cookies {
                         print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) -- \(self.serviceUrl())")
                         if cookie.name == "JSESSIONID" {
                             UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                         }
-//                        if cookie.name == "JSESSIONID" &&  self.needsSaveSeion(cassType: stringOfClassType){
-//                            print("cookie.name == JSESSIONID")
-//                            jsessionId_array.append(cookie.value)
-//                            if cookie.value != "" {
-//                                
-//                                CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-//                            }else{
-//                            print("JSESSIONID VACIO DE  \(stringOfClassType)")
-//                            }
-//                            print("name: \(cookie.name) value: \(cookie.value)")
-//                        }
                     }
                 }
                 
@@ -330,7 +318,6 @@ class BaseService : NSObject {
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
                     
                     if stringOfClassType != "WalmartMG.ConfigService" {
                         for cookie in cookies {
@@ -338,17 +325,6 @@ class BaseService : NSObject {
                              if cookie.name == "JSESSIONID" {
                                 UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                             }
-//                            if cookie.name == "JSESSIONID" && self.needsSaveSeion(cassType: stringOfClassType){
-//                                print("cookie.name == JSESSIONID")
-//                               jsessionId_array.append(cookie.value)
-//                                if cookie.value != "" {
-//                                    print("SAVE  JSESSIONID ame: \(cookie.name) value: \(cookie.value)")
-//                                    CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-//                                }else{
-//                                    print("JSESSIONID vacio DE: : \(stringOfClassType)")
-//                                }
-//                                print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
-//                            }
                         }
                     }
                 }
