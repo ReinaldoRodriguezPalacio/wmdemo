@@ -13,5 +13,6 @@ target 'WalMart' do
     pod 'FacebookShare'
     #Paypal payments
     pod 'PayPal-iOS-SDK', '2.16.1'
+    pod 'UbuduSDK'
     
 end

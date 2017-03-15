@@ -161,12 +161,8 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProductDetailBannerMediaCollectionViewCell
         let imageURL = items[indexPath.row] as! String
-        
-        cell.imageView!.contentMode = UIViewContentMode.center
-        cell.imageView!.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            cell.imageView!.contentMode = self.contentModeOrig
-            cell.imageView!.image = image
-            }, failure: nil)
+        cell.imageView!.contentMode = self.contentModeOrig
+        cell.imageView!.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named:"img_default_cell"))
         return cell
     }
     

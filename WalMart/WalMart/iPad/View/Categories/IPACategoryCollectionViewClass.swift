@@ -72,24 +72,18 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.imageBackground.image = image
+            self.imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
                 self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
-        }else{
+            }, failure: {})
+        } else {
             self.imageBackground.image = imageHeader
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.imageIcon.image = image
+            self.imageIcon.setImage(with: URL(string: imgURLName)!, and: imageIconDsk, success: { (image) in
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
-        }else{
+            }, failure: {})
+        } else {
             self.imageIcon.image = imageIconDsk
         }
         
@@ -190,12 +184,7 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     
     func setValuesLanding(_ imageBackgroundURL: String) {
         
-        self.imageBackground.setImageWith(URLRequest(url: URL(string: imageBackgroundURL)!), placeholderImage: UIImage(named: "loading_cat"), success: { (request: URLRequest, response: HTTPURLResponse?, image: UIImage) -> Void in
-            self.imageBackground.image = image
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                print(error)
-        }
-        
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: UIImage(named: "loading_cat"))
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true

@@ -73,12 +73,9 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }
         
         if loadImagefromUrl {
-            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIcon, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.imageIcon.image = image
-                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
+            self.imageIcon.setImage(with: URL(string: imgURLName)!, and: imageIcon, success: { (image) in
+                self.saveImageToDisk(imageIconURL, image: image, defaultImage: imageIcon!)
+            }, failure: {})
         } else {
             self.imageIcon.image = imageIcon
         }
@@ -93,20 +90,12 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
             loadImagefromUrl = loadImage
         }
-      
-        print(imgURLNamehead)
         
         if loadImagefromUrl {
-            
-            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                print("into :: loadImagefromUrl")
-                print("Encontro :\(imgURLNamehead)")
-                self.imageBackground.image = image
+            self.imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
-        }else{
+            }, failure: {})
+        } else {
             print("esles loadImagefromUrl")
             self.imageBackground.image = imageHeader
         }
@@ -125,15 +114,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     func setValuesLanding(_ imageBackgroundURL: String) {
         
-        
-        //println("Imagen del header en: \(imageBackgroundURL) ")
-        
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.imageBackground.image = image
-        }) { (request: URLRequest, response: HTTPURLResponse?, error: Error) -> Void in
-            print(error)
-        }
-        
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true

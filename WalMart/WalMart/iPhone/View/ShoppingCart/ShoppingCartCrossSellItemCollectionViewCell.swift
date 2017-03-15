@@ -40,22 +40,17 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         let request = NSMutableURLRequest(url: URL(string: productImageURL)!)
         request.addValue("image/*", forHTTPHeaderField: "Accept")
         
-        self.productImage!.contentMode = UIViewContentMode.center
-        
-        self.productImage!.contentMode = UIViewContentMode.center
-        self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.setImage(with: URL(string: productImageURL)!, and: UIImage(named:"img_default_cell"), success: { (image) in
             if grayScale == true {
                 self.productImage!.image = self.convertImageToGrayScale(image)
             } else {
                 self.productImage!.image = image
             }
-            
-            }, failure: nil)
-        
+        }, failure: {})
+
         productShortDescriptionLabel!.text = productShortDescription
-        
-        
+
         if grayScale {
             productShortDescriptionLabel?.textColor = UIColor.lightGray
             productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: UIColor.lightGray, interLine: false)

@@ -61,12 +61,8 @@ class ProductTableViewCell : SWTableViewCell {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         
-        self.productImage!.contentMode = UIViewContentMode.center
-        self.productImage!.setImageWith(URLRequest(url:URL(string: productImageURL)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.productImage!.contentMode = self.contentModeOrig
-            self.productImage!.image = image
-            }, failure: nil)
-        
+        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.setImageWith(URL(string: productImageURL)!, placeholderImage: UIImage(named:"img_default_table"))        
         productShortDescriptionLabel!.text = productShortDescription
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }

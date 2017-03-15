@@ -102,23 +102,17 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let imageIconURL = "i_\(categoryId.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)).png"
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
-        iconCategory.setImageWith(URLRequest(url: URL(string: imgURLName)!), placeholderImage: imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.iconCategory.image = image
-            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
-            }, failure: { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                
-        })
+        iconCategory.setImage(with: URL(string: imgURLName)!, and: imageIconDsk, success: { (image) in
+            self.saveImageToDisk(imageIconURL, image: image, defaultImage: imageIconDsk!)
+        }, failure: {})
         
         let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategoryIpad")
         let imageBackgroundURL = "\((categoryId as NSString).trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).lowercased()).jpg"
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
-        imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-             self.imageBackground.image = image
+        imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
             self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
-            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                
-        }
+        }, failure: {})
         
         self.titleLabel.text = categoryTitle
         let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.white])
@@ -310,14 +304,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     }
     
     func setValuesLanding(_ imageBackgroundURL:String) {
-        //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.imageBackground.image = image
-            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-            print(error.localizedDescription)
-        }
-        
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.iconCategory.isHidden = true

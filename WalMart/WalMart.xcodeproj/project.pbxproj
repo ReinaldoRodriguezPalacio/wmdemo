@@ -56,6 +56,8 @@
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
+		2262E7291E78B92600114C63 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7271E78B92600114C63 /* Extensions.swift */; };
+		2262E72A1E78B92600114C63 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7281E78B92600114C63 /* ImageLoader.swift */; };
 		22E5DC311E6A453C00F4C9E0 /* IPOUserListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */; };
 		22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */; };
 		2A4746A371E2EE08B10DF3E5 /* Pods_WalMart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */; };
@@ -608,6 +610,8 @@
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
+		2262E7271E78B92600114C63 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		2262E7281E78B92600114C63 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOUserListEmptyView.swift; path = WalMart/iPhone/View/EmptyView/IPOUserListEmptyView.swift; sourceTree = "<group>"; };
 		22FC6B5C1E11E8C00019D375 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
@@ -2507,7 +2511,6 @@
 				56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */,
 				5681998319E35F1300362D3C /* IPOGenericEmptyView.swift */,
 				56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */,
-				223B1A2C1E64A75B0025CF36 /* IPOUserListEmptyView.swift */,
 			);
 			name = EmptyView;
 			sourceTree = "<group>";
@@ -2884,6 +2887,8 @@
 		AC59117019DE0A5700EB095C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				2262E7271E78B92600114C63 /* Extensions.swift */,
+				2262E7281E78B92600114C63 /* ImageLoader.swift */,
 				AC59117119DE0AA700EB095C /* WMGAIUtils.swift */,
 				56895A4F1AA644D900561B12 /* MD5Util.swift */,
 			);
@@ -3349,6 +3354,7 @@
 				564118681B5FD6BA0009C6CD /* PrivacyViewController.swift in Sources */,
 				04312C9B1A6EF4160009A940 /* NewListTableViewCell.swift in Sources */,
 				AC37F6C319B90EC7000BB80D /* AddressByUserService.swift in Sources */,
+				2262E72A1E78B92600114C63 /* ImageLoader.swift in Sources */,
 				AC3B64ED19BE646000564845 /* SearchViewController.swift in Sources */,
 				56DFE4D119D057C9001811F5 /* SWTableViewCell.m in Sources */,
 				04C2342C1A7011E700AEFC09 /* ListsSelectorViewController.swift in Sources */,
@@ -3680,7 +3686,6 @@
 				56DA713B1A3F9A9200048539 /* DepartmentCollectionViewCell.swift in Sources */,
 				AC6AAE9919CCB648004081C4 /* MyAddressViewController.swift in Sources */,
 				56E54E5519EC8D480004161C /* IPAProductDetailViewController.swift in Sources */,
-				223B1A2D1E64A75B0025CF36 /* IPOUserListEmptyView.swift in Sources */,
 				568B8E151B0A88ED007A8596 /* TutorialHelpView.swift in Sources */,
 				AC37F6B219B9042C000BB80D /* ZipCodeService.swift in Sources */,
 				04203FE11A6F2B2800008366 /* GRDeleteItemListService.swift in Sources */,
@@ -3743,6 +3748,7 @@
 				56C5B22319AE877A00BB81DE /* WMColor.swift in Sources */,
 				56DFE4D319D057C9001811F5 /* SWUtilityButtonView.m in Sources */,
 				AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */,
+				2262E7291E78B92600114C63 /* Extensions.swift in Sources */,
 				5673D1431A9D500400DCD20B /* RSUPCEGenerator.swift in Sources */,
 				04203FDB1A6F019400008366 /* GRUserListDetailService.swift in Sources */,
 				56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */,

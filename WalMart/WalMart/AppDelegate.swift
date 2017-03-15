@@ -14,13 +14,10 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import AFNetworking
 import AFNetworkActivityLogger
-//import FBNotifications
-
-
-
+import AdSupport
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier {//TuneDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier, UbuduSDKDelegate {
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -165,9 +162,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             timeout: nil,
             notifier: self)
         
-        
-        
-      
+        let ubuduSDK = UbuduSDK.sharedInstance() as UbuduSDK
+        let namespace: String = ""
+        ubuduSDK.appNamespace = namespace
+        ubuduSDK.delegate = self
+
+        do {
+            try ubuduSDK.start()
+        } catch {
+            print("Error while starting Ubudu SDK")
+        }
         
         return true
     }
@@ -383,13 +387,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
     }
 
-
-    
-    
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
+        UbuduSDK.sharedInstance().executeLocalNotificationActions(notification)
         self.handleLocalNotification(application, localNotification: notification)
     }
     
