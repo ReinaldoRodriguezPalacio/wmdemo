@@ -29,15 +29,26 @@ class LoginWithEmailService : BaseService {
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
                             let serviceGr = GRLoginService()
+                             delay(1, completion: {
+                                print("After delay")
+                                
                             serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
-                                successBlock!(resultCall!)
-                                UserCurrentSession.sharedInstance.userSignedOnService = false
+                                
+                               
+                                    UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                                    successBlock!(resultCall!)
+                                    UserCurrentSession.sharedInstance.userSignedOnService = false
+                               
+                                
+                                
                                 }
                                 , errorBlock: {(error: NSError) in
                                     errorBlock!(error)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
                             })
+                                 })
+                            
+                            
                         }else {
                             UserCurrentSession.sharedInstance.userSigned = nil
                             UserCurrentSession.sharedInstance.deleteAllUsers()
@@ -60,6 +71,21 @@ class LoginWithEmailService : BaseService {
         }
         
     }
+    
+    
+    func callWithEmailService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                    if codeMessage.intValue == 0 {
+                          successBlock!(resultCall)
+                    }
+                }
+            }) { (error:NSError) -> Void in
+                errorBlock!(error)
+            }
+        
+    }
+
 
     
     func callServiceForFacebook(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

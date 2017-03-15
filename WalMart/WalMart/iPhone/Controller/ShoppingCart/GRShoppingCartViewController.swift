@@ -1034,6 +1034,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                         
                         myprod.quantity = NSNumber(value: quantitySum)
                         myprod.orderByPiece = orderByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
                         break
                     }else{
                         myprod.quantity = NSNumber(value: quantity)
@@ -1041,6 +1042,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                         myprod.equivalenceByPiece =  equivalenceByPiece
                         myprod.pieces = NSNumber(value: quantity as Int)
                         break
+                    }
+                    do {
+                        try context.save()
+                    } catch  {
+                        print("Error save context listSelectorDidAddProductLocally")
                     }
                 }
             }

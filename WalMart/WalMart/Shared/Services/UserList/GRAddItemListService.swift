@@ -156,16 +156,21 @@ class GRAddItemListService: GRBaseService {
                         }
                     }
                     
-                    if quantity > 20000 && baseUomcd == "GM" {
-                        quantity = 20000
-                    }else if quantity > 99 && baseUomcd == "EA"{
-                        quantity = 99
+                    var baseUomcd = "EA"
+                    if  let baseUomcdP = item["baseUomcd"] as? String {
+                        baseUomcd = baseUomcdP
                     }
+                    
+//                    if quantity > 20000 && baseUomcd == "GM" {
+//                        quantity = 20000
+//                    }else if quantity > 99 && baseUomcd == "EA"{
+//                        quantity = 99
+//                    }
                     
                     detail!.quantity = NSNumber(value: quantity as Int)
                     detail!.type = NSNumber(value: typeProdVal as Int)
-                    detail!.orderByPiece = orderByPiece ? 1 : 0
-                    detail!.equivalenceByPiece =  equivalenceByPiece
+                    detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
+                    detail?.equivalenceByPiece =  equivalenceByPiece
                     detail!.pieces = NSNumber(value: quantity as Int)
                     
                     detail!.list = entity!
