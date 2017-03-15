@@ -198,7 +198,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             }
             
             let quantityStr = product["quantity"] as! NSString
-            cartProduct.quantity = NSNumber(value: quantityStr.integerValue as Int)
+            cartProduct.quantity = NSNumber(value: quantityStr.intValue)
             
             print("Product in shopping cart: \(product)")
 
