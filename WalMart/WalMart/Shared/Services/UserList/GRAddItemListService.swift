@@ -117,8 +117,6 @@ class GRAddItemListService: GRBaseService {
                 
                 for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:Any]
-                    let baseUomcd = item["baseUomcd"] as? String ?? "GM"
-                    let orderByPiece = baseUomcd == "EA" || baseUomcd == "pieces"
                     let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
