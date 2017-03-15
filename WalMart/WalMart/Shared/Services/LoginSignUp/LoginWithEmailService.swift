@@ -41,8 +41,6 @@ class LoginWithEmailService : BaseService {
                                     errorBlock!(error)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
                                 })
-                            
-                            
                         }else {
                             UserCurrentSession.sharedInstance.userSigned = nil
                             UserCurrentSession.sharedInstance.deleteAllUsers()
