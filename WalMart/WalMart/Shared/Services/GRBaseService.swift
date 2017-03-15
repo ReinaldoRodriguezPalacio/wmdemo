@@ -101,18 +101,6 @@ class GRBaseService : BaseService {
         return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
     
-    override func clearCokkie() {
-            print("****************** ****************** ****************** ****************** ")
-            print("clearCokkie clearCokkie clearCokkie GR")
-            // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-            let coockieStorege  = HTTPCookieStorage.shared
-            for cookie in coockieStorege.cookies! {
-                if cookie.path != "/walmartmg/login" {
-                    coockieStorege.deleteCookie(cookie)
-                }
-            }
-            
-
-    }
+ 
     
 }

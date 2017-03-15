@@ -226,6 +226,9 @@ class BaseService : NSObject {
                     HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
                     for cookie in cookies {
                         print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) -- \(self.serviceUrl())")
+                        if cookie.name == "JSESSIONID" {
+                            UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
+                        }
 //                        if cookie.name == "JSESSIONID" &&  self.needsSaveSeion(cassType: stringOfClassType){
 //                            print("cookie.name == JSESSIONID")
 //                            jsessionId_array.append(cookie.value)
@@ -321,7 +324,6 @@ class BaseService : NSObject {
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
             let stringOfClassType: String = self.nameOfClass(type(of: self))
-            var jsessionId_array :[String] = []
 
             if cookie != "" {
                 let httpResponse = response
@@ -333,6 +335,9 @@ class BaseService : NSObject {
                     if stringOfClassType != "WalmartMG.ConfigService" {
                         for cookie in cookies {
                             print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) - \(self.serviceUrl())")
+                             if cookie.name == "JSESSIONID" {
+                                UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
+                            }
 //                            if cookie.name == "JSESSIONID" && self.needsSaveSeion(cassType: stringOfClassType){
 //                                print("cookie.name == JSESSIONID")
 //                               jsessionId_array.append(cookie.value)
@@ -352,9 +357,7 @@ class BaseService : NSObject {
             }else{
                 print("nooooooo :: cookie \(stringOfClassType)")
             }
-            print("ARRAY GET:: JSESSIONID")
-            print(jsessionId_array)
-            print("....")
+     
             
             if stringOfClassType != "WalmartMG.ConfigService" {
                 print("GetClassName \(stringOfClassType)")
@@ -419,7 +422,8 @@ class BaseService : NSObject {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
             if codeMessage.intValue != 0  {
-                print("error : Response with error \(message) \(self.serviceUrl())")
+                print("error : Response with error  \(codeMessage) \(message) \(self.serviceUrl())")
+                print(UserCurrentSession.sharedInstance.jsessionIdArray)
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }
@@ -556,9 +560,10 @@ class BaseService : NSObject {
         // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
         let coockieStorege  = HTTPCookieStorage.shared
         for cookie in coockieStorege.cookies! {
-            if cookie.path == "/walmartmg/login" {
-                coockieStorege.deleteCookie(cookie)
-            }
+          
+                if cookie.name == "JSESSIONID" {
+                    coockieStorege.deleteCookie(cookie)
+                }
         }
         
     }

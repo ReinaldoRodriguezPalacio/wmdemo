@@ -29,13 +29,16 @@ class LoginWithEmailService : BaseService {
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
                             let serviceGr = GRLoginService()
+                             delay(1, completion: {
+                                print("After delay")
+                                
                             serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
                                 
-                                delay(2, completion: { 
+                               
                                     UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                                     successBlock!(resultCall!)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
-                                })
+                               
                                 
                                 
                                 }
@@ -43,6 +46,9 @@ class LoginWithEmailService : BaseService {
                                     errorBlock!(error)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
                             })
+                                 })
+                            
+                            
                         }else {
                             UserCurrentSession.sharedInstance.userSigned = nil
                             UserCurrentSession.sharedInstance.deleteAllUsers()

@@ -75,7 +75,7 @@ class UserCurrentSession : NSObject {
     var nameListToTag =  ""
     
     var JSESSIONATG = ""
-
+    var jsessionIdArray : [String]! = []
 
     
     //Singleton init
