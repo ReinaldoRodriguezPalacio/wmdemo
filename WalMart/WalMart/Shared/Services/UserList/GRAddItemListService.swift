@@ -132,11 +132,11 @@ class GRAddItemListService: GRBaseService {
                         detail!.price = price as NSString
                     }
                     
-                    var quantity: Int = 0
-                    if  let qIntProd = item["quantity"] as? Int {
+                    var quantity: Int32 = 0
+                    if  let qIntProd = item["quantity"] as? Int32 {
                         quantity = qIntProd
                     }else if  let qIntProd = item["quantity"] as? NSString {
-                        quantity = qIntProd.integerValue
+                        quantity = qIntProd.intValue
                     }
                     
                     var typeProdVal: Int = 0
@@ -165,11 +165,11 @@ class GRAddItemListService: GRBaseService {
 //                        quantity = 99
 //                    }
                     
-                    detail!.quantity = NSNumber(value: quantity as Int)
+                    detail!.quantity = NSNumber(value: quantity as Int32)
                     detail!.type = NSNumber(value: typeProdVal as Int)
                     detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
                     detail?.equivalenceByPiece =  equivalenceByPiece
-                    detail!.pieces = NSNumber(value: quantity as Int)
+                    detail!.pieces = NSNumber(value: quantity as Int32)
                     
                     detail!.list = entity!
                 }

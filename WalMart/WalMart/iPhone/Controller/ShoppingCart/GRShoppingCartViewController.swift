@@ -1024,7 +1024,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 if  myprod.upc == item["upc"] as! String {
                     addInList =  false
                     if myprod.orderByPiece ==  orderByPiece {
-                        var quantitySum = myprod.quantity.intValue + quantity
+                        var quantitySum = myprod.quantity.int64Value + quantity
                         
                         if orderByPiece == 0 {
                             quantitySum = quantitySum > 20000 ? 20000 : quantitySum
