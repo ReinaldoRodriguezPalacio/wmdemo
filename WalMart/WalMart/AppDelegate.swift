@@ -14,13 +14,10 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import AFNetworking
 import AFNetworkActivityLogger
-//import FBNotifications
-
-
-
+import AdSupport
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier {//TuneDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier, UbuduSDKDelegate {
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -181,10 +178,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             timeout: nil,
             notifier: self)
  
+        // Ubudu
+        let ubuduEnvironment = Bundle.main.object(forInfoDictionaryKey: "WMUbuduEnvironment") as! [String:Any]
+        let ubuduNamespace = ubuduEnvironment["UbuduDevelopment"] as! String
         
-        
-        
-      
+        let ubuduSDK = UbuduSDK.sharedInstance() as UbuduSDK
+        ubuduSDK.appNamespace = ubuduNamespace
+        ubuduSDK.delegate = self
+
+        do {
+            try ubuduSDK.start()
+        } catch {
+            print("Error while starting Ubudu SDK")
+        }
         
         return true
     }
@@ -396,21 +402,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
     }
 
-
-    
-    
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
-        self.handleLocalNotification(application, localNotification: notification)
+        
+        UbuduSDK.sharedInstance().executeLocalNotificationActions(notification)
+        handleLocalNotification(application, localNotification: notification)
     }
     
-    func handleLocalNotification(_ application: UIApplication, localNotification notification: UILocalNotification){
-        let name = notification.userInfo!["name"] as! String
-        let value = notification.userInfo!["value"] as! String
-        let bussines = notification.userInfo!["business"] as! String
-        let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as! String
+    func handleLocalNotification(_ application: UIApplication, localNotification notification: UILocalNotification) {
+        
+        guard let name = notification.userInfo!["name"] as? String,
+            let value = notification.userInfo!["value"] as? String,
+            let bussines = notification.userInfo!["business"] as? String,
+            let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as? String else {
+                return
+        }
         
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)

@@ -126,12 +126,9 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.familyController!.delegate = self
         
         self.imageBackground = UIImageView()
-        self.imageBackground!.setImageWith(URLRequest(url:URL(string: "\(self.urlImage!)")!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.imageBackground!.image = image
+        self.imageBackground!.setImage(with: URL(string: "\(self.urlImage!)")!, and: UIImage(named:"header_default"), success: { (image) in
             self.collection?.reloadData()
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-            print("Error al presentar imagen")
-        }
+        }, failure: {})
         
         self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))
         

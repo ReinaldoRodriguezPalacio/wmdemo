@@ -109,6 +109,8 @@
 	<string>Localización de tiendas</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Localización de tiendas</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MyriadPro-SemiboldIt.otf</string>
@@ -464,6 +466,13 @@
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
+	</dict>
+	<key>WMUbuduEnvironment</key>
+	<dict>
+		<key>UbuduProduction</key>
+		<string></string>
+		<key>UbuduDevelopment</key>
+		<string>c3b51e179cf1a2dcd28db5f1a518698bb8980e44</string>
 	</dict>
 	<key>WMPayPalEnvironment</key>
 	<dict>

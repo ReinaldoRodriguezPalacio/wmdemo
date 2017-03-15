@@ -82,7 +82,7 @@
 //Dynatrace
 //#import "CompuwareUEM.h"
 #import "DynatraceUEM.h"
-
+#import <UbuduSDK/UbuduSDK.h>
 
 #ifndef BridgingHeader_h
 #define BridgingHeader_h

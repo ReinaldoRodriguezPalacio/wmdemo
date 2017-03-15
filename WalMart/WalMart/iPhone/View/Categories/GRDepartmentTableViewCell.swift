@@ -60,8 +60,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
         
         let svcUrl = serviceUrl("WalmartMG.GRCategoryIcon")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
-        //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
-        var loadImageIcon =  true
+        var loadImageIcon = true
         let imageIconDsk = self.loadImageFromDisk(imageIconURL, defaultStr: "categories_default") { (loadImage:Bool) -> Void in
             loadImageIcon = loadImage
         }
@@ -74,24 +73,18 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         if loadHeader {
-            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.imageBackground.image = image
+            self.imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
                 self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
-        }else{
+            }, failure: {})
+        } else {
             self.imageBackground.image = imageHeader
         }
         
         if loadImageIcon {
-            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIconDsk, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-                self.imageIcon.image = image
+            self.imageIcon.setImage(with: URL(string: imgURLName)!, and: imageIconDsk, success: { (image) in
                 self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk!)
-                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-                    
-            }
-        }else{
+            }, failure: {})
+        } else {
             self.imageIcon.image = imageIconDsk
         }
         
@@ -103,14 +96,8 @@ class GRDepartmentTableViewCell : UITableViewCell {
     }
     
     func setValuesLanding(_ imageBackgroundURL:String) {
-        //println("Imagen del header en: \(imageBackgroundURL) ")
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
-            self.imageBackground.image = image
-            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
-            print(error)
-        }
-        //self.titleLabel.text = title
+        
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true
