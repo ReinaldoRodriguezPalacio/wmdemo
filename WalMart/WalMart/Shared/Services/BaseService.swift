@@ -235,9 +235,6 @@ class BaseService : NSObject {
                 print(headers)
                 print("noooooo post cookie \(stringOfClassType)")
             }
-            print("ARRAY POST:: JSESSIONID")
-            print(jsessionId_array)
-            print("....")
             
 
              print("PostClassName \(stringOfClassType)")
@@ -399,7 +396,7 @@ class BaseService : NSObject {
             let message = response["message"] as! NSString
             if codeMessage.intValue != 0  {
                 print("error : Response with error  \(codeMessage) \(message) \(self.serviceUrl())")
-                print(UserCurrentSession.sharedInstance.jsessionIdArray)
+                //print(UserCurrentSession.sharedInstance.jsessionIdArray)
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }

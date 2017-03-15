@@ -520,6 +520,7 @@
 "gr.order.status.21" = "Completado";
 "gr.order.status.22" = "Finalizado";
 "gr.order.status.23" = "Asignado a embarque";
+"gr.order.status.-2" = "No identificado";
 
 "gr.shoppingcart.login" = "Para realizar tus compras\ningresa a tu cuenta o crea una nueva";
 "gr.list.samename" = "Ya existe una lista con el mismo nombre";
