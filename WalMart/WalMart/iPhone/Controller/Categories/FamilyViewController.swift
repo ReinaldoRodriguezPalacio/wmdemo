@@ -142,8 +142,8 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             controller.idLine = itemLine["categoryId"] as? String
             controller.textToSearch = ""
             let urlSearch = itemLine["url"] as? String == nil ? "" : itemLine["url"] as? String
-            controller.urlFamily = urlSearch//"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
-            controller.originalUrl = urlSearch!//"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+            controller.urlFamily = urlSearch
+            controller.originalUrl = urlSearch!
             controller.originalText = ""
 
             self.navigationController!.pushViewController(controller, animated: true)

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol IPAFamilyViewControllerDelegate {
-    func didSelectLine(_ department:String,family:String,line:String, name:String)
+    func didSelectLine(_ department:String,family:String,line:String, name:String, url:String)
 }
 
 class IPAFamilyViewController : FamilyViewController {
@@ -31,7 +31,8 @@ class IPAFamilyViewController : FamilyViewController {
             let linesArr = selectedSection["families"] as! [[String:Any]]
             let itemLine = linesArr[(indexPath as NSIndexPath).row - 1] as! [String:Any]
             let nameLine = itemLine["displayName"] as! String
-            delegate.didSelectLine(departmentId,family: selectedSection["categoryId"] as! String,line: itemLine["categoryId"] as! String, name: nameLine)
+            let urlSearch = itemLine["url"] as? String == nil ? "" : itemLine["url"] as? String 
+            delegate.didSelectLine(departmentId,family: selectedSection["categoryId"] as! String,line: itemLine["categoryId"] as! String, name: nameLine, url:urlSearch!)
         }
     }
     

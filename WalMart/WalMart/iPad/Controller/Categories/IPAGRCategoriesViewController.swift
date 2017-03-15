@@ -242,18 +242,19 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
-                    for line in family["fineContent"].arrayValue {
-                        let lineOne = line["id"].stringValue
+                    for line in family["families"].arrayValue {
+                        let lineOne = line["categoryId"].stringValue
                         let lineTwo = lineDest["line"].stringValue
                         if lineOne.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                             == lineTwo.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) {
-                                let itemToShow = ["fineLineName": line["displayName"].stringValue,
-                                    "imageUrl": lineDest["imageUrl"].stringValue,
-                                    "line": lineTwo ,
-                                    "family": family["familyId"].stringValue ,
-                                    "department":depto]
-                                resultDict.append(itemToShow)
-                                
+                            let itemToShow = ["fineLineName": line["displayName"].stringValue,
+                                              "imageUrl": lineDest["imageUrl"].stringValue,
+                                              "line": lineTwo ,
+                                              "family": family["categoryId"].stringValue ,
+                                              "department":depto,
+                                               "url" : family["url"].stringValue]
+                            resultDict.append(itemToShow)
+                            
                         }
                     }
                 }
@@ -263,16 +264,15 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         return resultDict as? [[String:Any]]
     }
     
-    func didTapLine(_ name:String,department:String,family:String,line:String) {
+    func didTapLine(_ name:String,department:String,family:String,line:String, url:String) {
         let controller = IPASearchProductViewController()
         controller.searchContextType = SearchServiceContextType.WithCategoryForGR
         controller.idFamily  = family
         controller.idDepartment = department
         controller.idLine = line
-        let urlLineFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
-        controller.urlFamily = urlLineFamily
+        controller.urlFamily = url//add url for Search
         controller.textToSearch = ""
-        controller.originalUrl = urlLineFamily
+        controller.originalUrl = url
         controller.originalText = ""
         controller.titleHeader = name
         controller.searchFromContextType = SearchServiceFromContext.FromLineSearch

@@ -178,7 +178,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     }
     
 
-    func didSelectLine(_ department:String,family:String,line:String, name:String) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String,url:String) {
         
     }
     

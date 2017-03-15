@@ -386,7 +386,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK: Delegate
     
-    func didTapLine(_ name:String,department:String,family:String,line:String) {
+    func didTapLine(_ name:String,department:String,family:String,line:String, url:String) {
         
         let controller = SearchProductViewController()
         controller.searchContextType = .WithCategoryForGR
@@ -395,10 +395,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         controller.idDepartment = department
         controller.idFamily = family
         controller.idLine = line
-        let urlLineFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
-        controller.urlFamily = urlLineFamily
+        let urlLineFamily =
+        controller.urlFamily = url//add url for Search
         controller.textToSearch = ""
-        controller.originalUrl = urlLineFamily
+        controller.originalUrl = url//add url for Search
         controller.originalText = ""
         
         
@@ -430,7 +430,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                                             "imageUrl": lineDest["imageUrl"].stringValue,
                                             "line": lineTwo ,
                                             "family": family["categoryId"].stringValue ,
-                                            "department":depto]
+                                            "department":depto,
+                                            "url" : family["url"].stringValue]
                             resultDict.append(itemToShow)
                             
                         }

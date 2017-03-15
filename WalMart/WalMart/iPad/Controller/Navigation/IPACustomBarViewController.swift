@@ -127,8 +127,8 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
         controller.upcsToShow = upcs
-        controller.urlFamily = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
-        controller.originalUrl = "/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.urlFamily = "" //"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
+        controller.originalUrl = "" //"/Despensa/Aceites-de-cocina/Aceite-de-ma%C3%ADz/_/N-829"//add url for Search
         controller.originalText = keyWord
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.topViewController as? IPASearchProductViewController != nil){

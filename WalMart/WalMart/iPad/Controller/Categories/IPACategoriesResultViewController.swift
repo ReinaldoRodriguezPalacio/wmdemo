@@ -89,9 +89,11 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.idLine = line
         searchProduct.titleHeader = name
         searchProduct.urlFamily = url
+        searchProduct.textToSearch = ""
+        searchProduct.originalUrl = url
+        searchProduct.originalText = ""
         searchProduct.hiddenBack = true
         searchProduct.delegateHeader = self
-        searchProduct.textToSearch = ""
         searchProduct.view.alpha = 0
         //searchProduct.showHeader = true
         self.view.addSubview(viewImageContent)
@@ -170,7 +172,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         
     }
         
-    func didSelectLine(_ department:String,family:String,line:String, name:String) {
+    func didSelectLine(_ department:String,family:String,line:String, name:String, url:String) {
         
         familyController.departmentId = line
         let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height - 40 ), to:self.view)
@@ -183,6 +185,8 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.idDepartment = department
         searchProduct.idLine = line
         searchProduct.titleHeader = name
+        searchProduct.urlFamily = url
+        searchProduct.originalUrl = url
 
         searchProduct.collection?.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.frameEnd.height), animated: false)
         searchProduct.showLoadingIfNeeded(hidden: false)
@@ -192,8 +196,6 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
 
         searchProduct.dismissCategory()
         popover!.dismiss(animated: false)
-      
-        
     }
 
  

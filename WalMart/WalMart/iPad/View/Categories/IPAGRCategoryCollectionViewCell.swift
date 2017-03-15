@@ -10,7 +10,7 @@ import Foundation
 
 protocol IPAGRCategoryCollectionViewCellDelegate {
     func didTapProduct(_ upcProduct:String,descProduct:String,imageProduct :UIImageView)
-    func didTapLine(_ name:String,department:String,family:String,line:String)
+    func didTapLine(_ name:String,department:String,family:String,line:String,url:String)
     func didTapMore(_ index:IndexPath)
 }
 
@@ -171,6 +171,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             let product = GRProductSpecialCollectionViewCell(frame: CGRect(x: currentX, y: 151, width: width, height: 123))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["fineLineName"].stringValue
+            let urlToSearh = lineToShow["url"].stringValue//""
             product.jsonItemSelected = lineToShow
             product.setValues(imageProd,
                 productShortDescription: descProd,
@@ -216,8 +217,8 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     func productTap(_ sender:UITapGestureRecognizer) {
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
-
-        delegate.didTapLine(viewC.jsonItemSelected["fineLineName"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
+        print(viewC.jsonItemSelected["url"].stringValue)
+        delegate.didTapLine(viewC.jsonItemSelected["fineLineName"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue, url:viewC.jsonItemSelected["url"].stringValue)
         //delegate.didTapLine(name: String, department: String, family: String, line: String)
         
         
