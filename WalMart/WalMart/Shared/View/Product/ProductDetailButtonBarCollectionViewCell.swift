@@ -267,7 +267,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                let quantity = detailProductCart!.quantity
+                var quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
                 //var total: Double = 0.0
@@ -279,6 +279,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                     }
                     else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
                 } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
@@ -287,13 +288,16 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
                     } else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
+                    } 
+                } else { //Gramos
+                    if quantity < 0 {
+                        quantity = 20000
                     }
                     
-                    
-                } else { //Gramos
                     let q = quantity.doubleValue
                     if q < 1000.0 {
                         text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
+
                     }
                     else {
                         let kg: Double = q/1000.0
