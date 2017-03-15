@@ -92,11 +92,11 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
     
         let item = items![currentItem] as! [String:Any]
-        let famArray : AnyObject = item["departments"] as AnyObject!
-        let itemsFam : [[String:Any]] = famArray as! [[String:Any]]
+        let depArray : AnyObject = item["departments"] as AnyObject!
+        let itemsDept : [[String:Any]] = depArray as! [[String:Any]]
       
         familyController.departmentId = item["categoryId"] as! String
-        familyController.families = itemsFam
+        familyController.families = itemsDept
         familyController.selectedFamily = nil
         familyController.familyTable.reloadData()
         
