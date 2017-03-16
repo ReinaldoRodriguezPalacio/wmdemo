@@ -889,10 +889,11 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         if sAddredssForm == nil {
             sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
+        sAddredssForm.clearView()
         sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.isHidden =  true
-        if !self.selectedAddressHasStore{
+        if !self.selectedAddressHasStore && !self.picker!.isNewAddres{
             self.picker!.closeButton!.isHidden =  false
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = self.selectedAddress!
@@ -911,7 +912,6 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
             }) { (error:NSError) -> Void in
             }
         }
-        
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
         return scrollForm
