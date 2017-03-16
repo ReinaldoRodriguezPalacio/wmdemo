@@ -115,16 +115,10 @@ class BaseService : NSObject {
             var jsessionIdSend = ""
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
             
-//                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-//                    //print("PARAM JSESSIONID ::"+param2.value)
-//                    jsessionIdSend = param2.value
-//                }
                 if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
                     //print("PARAM JSESSIONATG ::" + param3.value)
                     jSessionAtgIdSend = param3.value
                 }
-           
-            
             
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = Date().timeIntervalSince1970
@@ -138,21 +132,13 @@ class BaseService : NSObject {
                 
                 //print("URL:: \(self.serviceUrl())")
                 print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
-                
-               
-                //AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
-                //AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
-                
-                
                 
             } else{
                 //Session --
                 //print("URL:: \(self.serviceUrl())")
                  print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                    //AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
-                    //AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                     AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
             }
@@ -248,8 +234,7 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
-                        
-                        //NSLog("Base Service : LoginWithEmailService", "\(self.serviceUrl())")
+                        print("****************** ****************** ****************** ****************** POST")
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -352,7 +337,7 @@ class BaseService : NSObject {
                 
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
-                        self.clearCokkie()
+                        print("****************** ****************** ****************** ****************** GET")
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -526,36 +511,6 @@ class BaseService : NSObject {
     func needsToLoginCode() -> Int {
         return -100
     }
-    
-    func clearCokkie(){
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-          
-                if cookie.name == "JSESSIONID" {
-                    coockieStorege.deleteCookie(cookie)
-                }
-        }
-        
-    }
-    
-    func needsSaveSeion(cassType:String) -> Bool {
-        if cassType == "WalmartMG.LoginService" || cassType == "WalmartMG.LoginWithEmailService" {
-            print("needsSaveSeion::: \(cassType)")
-            return true
-        }else {
-            if self.serviceUrl().lowercased().contains("/walmartmg/login/") || cassType == "WalmartMG.GRZipCodeService"{
-                 print("nooo:: needsSaveSeion::: \(cassType)")
-                return false
-            }
-            print("needsSaveSeion::: \(cassType)")
-            return true
-        }
-    }
-    
-    
     
 
     func loadKeyFieldCategories( _ items:Any!, type:String ) {

@@ -592,6 +592,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 }
             }
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            delay(0.5, completion: {
+                self.showLoadingView()
+                self.reloadPreviousOrderDetail()
+                
+            })
         }
     
     }

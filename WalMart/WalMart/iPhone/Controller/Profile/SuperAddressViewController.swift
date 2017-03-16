@@ -112,14 +112,14 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             super.back()
             return
         }
-        
-        let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
-        if dictSend != nil {
+
+        if addressId != "" {
             if self.flagToSave {
                 super.back()
             } else {
+                 self.resignFirstResponder()
                 //print("Mensaje de Guardar")
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"tabBar_storeLocator_active"),imageDone:UIImage(named:"tabBar_storeLocator_active"),imageError:UIImage(named:"noAvaliable"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"address_waiting"),imageError:UIImage(named:"address_error"))
                 self.alertView!.spinImage.isHidden =  true
                 self.alertView!.setMessage(NSLocalizedString("profile.address.alert.exit", comment: ""))
                 
@@ -132,7 +132,10 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     
                     self.save(self.saveButton!)
                 }, isNewFrame: false)
+               
             }
+        }else{
+         super.back()
         }
     }
     

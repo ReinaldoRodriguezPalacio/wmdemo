@@ -103,7 +103,10 @@ class ShoppingCartAddProductsService : BaseService {
 
                         for itemWishlistUPC in itemsWishList {
                             serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:[String:Any]) -> Void in
+                                //Notification
+                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
                                 }) { (error:NSError) -> Void in
+                                    print("error : \(error)")
                             }
                         }
                         

@@ -120,7 +120,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content.scrollDelegate = self
         self.view.addSubview(self.content)
         
-        sectionPaypalTitle = self.buildSectionTitle(NSLocalizedString("Pago en linea", comment:""), frame: CGRect(x: 16,y: 16.0, width: self.view.frame.width, height: lheight))
+        sectionPaypalTitle = self.buildSectionTitle(NSLocalizedString("Pago en línea", comment:""), frame: CGRect(x: 16,y: 16.0, width: self.view.frame.width, height: lheight))
         sectionPaypalTitle.isHidden =  true
         
         self.content.addSubview(sectionPaypalTitle)
