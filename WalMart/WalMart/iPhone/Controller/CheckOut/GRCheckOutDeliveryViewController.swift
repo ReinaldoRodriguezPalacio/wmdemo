@@ -889,6 +889,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         if sAddredssForm == nil {
             sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
+        sAddredssForm.clearView()
         sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.isHidden =  true

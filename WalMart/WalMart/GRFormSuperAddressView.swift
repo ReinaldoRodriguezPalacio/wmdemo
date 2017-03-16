@@ -465,4 +465,19 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         return true
     }
+    
+    func clearView() {
+        self.addressName?.text = ""
+        self.street?.text = ""
+        self.outdoornumber?.text = ""
+        self.indoornumber?.text = ""
+        self.zipcode?.text = ""
+        self.store?.text = ""
+        self.suburb?.text = ""
+        self.betweenFisrt?.text = ""
+        self.betweenSecond?.text = ""
+        self.phoneHomeNumber?.text = ""
+        self.phoneWorkNumber?.text = ""
+        self.cellPhone?.text = ""
+    }
 }
