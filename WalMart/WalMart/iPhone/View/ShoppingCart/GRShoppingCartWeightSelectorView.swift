@@ -732,14 +732,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd?.backgroundColor = WMColor.red
             self.btnOkAddN?.backgroundColor = WMColor.red
             
-            if isFromList {
-                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
-                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
-            } else {
-                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
-                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
-            }
-            
             let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
             lblQuantityW?.text = tmpResult as String
             
@@ -751,7 +743,15 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             
             self.btnDelete?.alpha = 0.0
             
-            if !isUpcInShoppingCart && !isFromList {
+            if isFromList {
+                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
+                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
+            } else {
+                self.btnOkAdd?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
+                self.btnOkAddN?.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
+            }
+            
+            if (!isUpcInShoppingCart && !isFromList ) || (isFromList && !isUpcInList) {
                 let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
                 lblQuantityW?.text = tmpResult as String
                 

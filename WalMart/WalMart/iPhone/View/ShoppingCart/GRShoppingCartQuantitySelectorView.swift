@@ -26,6 +26,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.addweighttitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
         }
     }
+    var isUpcInList: Bool = false
     var addToCartAction : ((String) -> Void)!
     var addUpdateNote : (() -> Void)!
     var closeAction : (() -> Void)!
