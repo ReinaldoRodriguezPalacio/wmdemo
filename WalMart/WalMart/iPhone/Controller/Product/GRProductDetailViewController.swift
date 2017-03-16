@@ -311,6 +311,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             selectQuantityGR = selectQuantityGRW
             
                 self.selectQuantityGR.isFromList = true
+                self.selectQuantityGR.isUpcInList = false
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -656,6 +657,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR.isFromList = true
+        self.selectQuantityGR.isUpcInList = false
         self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
@@ -749,6 +751,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.isPesable ||  included {
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR.isFromList = true
+            self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
             self.selectQuantityGR!.closeAction = { () in
                 self.removeListSelector(action: nil)
@@ -933,6 +936,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.removeListSelector(action: nil)
             }
             self.selectQuantityGR.isFromList = true
+            self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.idList!)
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
                 //self.addToListLocally(quantity:quantity,list:list)
                     self.updateToListLocally(quantity: quantity, list: list)
