@@ -314,7 +314,7 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func errorOrder(_ descError:String) {
+    func errorOrder(_ descError:String,_ popToRoot:Bool=true) {
         
         viewLoadingDoneAnimate.layer.removeAllAnimations()
         viewLoadingDoneAnimateAux.layer.removeAllAnimations()
@@ -326,7 +326,12 @@ class OrderConfirmDetailView : UIView {
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonNOk.setTitle("Ok", for: UIControlState())
-        buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), for: UIControlEvents.touchUpInside)
+        if popToRoot {
+             buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), for: UIControlEvents.touchUpInside)
+        } else {
+            buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkActionWOPop), for: UIControlEvents.touchUpInside)
+        }
+       
         
         self.viewContent.addSubview(buttonNOk)
         
@@ -423,8 +428,14 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func noOkAction() {
-        self.delegate.didErrorConfirm()
+    func noOkActionWOPop() {
+        noOkAction(hasToPop: false)
+    }
+    
+    func noOkAction(hasToPop:Bool = true) {
+        if hasToPop {
+            self.delegate.didErrorConfirm()
+        }
         self.removeFromSuperview()
     }
     
