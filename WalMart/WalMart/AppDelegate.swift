@@ -38,19 +38,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
+        print("****************** ****************** ****************** ****************** ")
+        print("clearCokkie clearCokkie clearCokkie")
+        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
+        let coockieStorege  = HTTPCookieStorage.shared
+        for cookie in coockieStorege.cookies! {
+            coockieStorege.deleteCookie(cookie)
+        }
+        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
        
         //Session --
-        let authorizationService =  AuthorizationService()
-        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-            UserCurrentSession.sharedInstance.searchForCurrentUser()
-            },errorBlock:{ (error:NSError) in
-                print(error.localizedDescription)
-                
-        })
+//        let authorizationService =  AuthorizationService()
+//        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+//            UserCurrentSession.sharedInstance.searchForCurrentUser()
+//            },errorBlock:{ (error:NSError) in
+//                print(error.localizedDescription)
+//                
+//        })
         
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
@@ -150,7 +158,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        
         //TAGManager
         let GTM = TAGManager.instance()
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
@@ -161,6 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
+ 
         
         let ubuduSDK = UbuduSDK.sharedInstance() as UbuduSDK
         let namespace: String = ""

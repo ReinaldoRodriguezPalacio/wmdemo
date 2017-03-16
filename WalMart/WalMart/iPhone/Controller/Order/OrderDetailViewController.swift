@@ -623,9 +623,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         else if let quantity = item["quantity"] as? NSString {
             params["quantity"] = "\(quantity.integerValue)"
         }
-        params["baseUomcd"] = item["baseUomcd"] as! String
         
-        let baseUomcd = params["baseUomcd"] as! String
+        var baseUomcd = "EA"
+        if let baseUomcdItem = item["baseUomcd"] as? String {
+            baseUomcd = baseUomcdItem
+        }
+        params["baseUomcd"] = baseUomcd
+        
         params["orderByPiece"] = baseUomcd == "EA"
         params["wishlist"] = false
         params["type"] = type.rawValue

@@ -257,23 +257,50 @@ class GRUserListService : GRBaseService {
                                 else if let stock = item["stock"] as? String {
                                     detail!.stock = stock != "0"
                                 }
-                                
                                 if let promoDescription = item["promoDescription"] as? String {
                                     detail!.promoDescription = promoDescription
                                 }
+                                var quantity: Int32 = 0
+                                if  let qIntProd = item["quantity"] as? Int32 {
+                                    quantity = qIntProd
+                                }else if  let qIntProd = item["quantity"] as? NSString {
+                                    quantity = qIntProd.intValue
+                                }
                                 
-                                if let quantity = item["quantity"] as? NSNumber {
-                                    detail!.quantity = quantity
+                                var typeProdVal: Int = 0
+                                if let typeProd = item["type"] as? NSString {
+                                    typeProdVal = typeProd.integerValue
                                 }
-                                else if let quantity = item["quantity"] as? String {
-                                    detail!.quantity = NSNumber(value: Int(quantity)! as Int)
+                                
+                                
+                                var equivalenceByPiece : NSNumber = 0
+                                if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                                    equivalenceByPiece =  equiva
+                                }else if let equiva = item["equivalenceByPiece"] as? Int {
+                                    equivalenceByPiece =  NSNumber(value: equiva)
+                                }else if let equiva = item["equivalenceByPiece"] as? String {
+                                    if equiva != "" {
+                                        equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                                    }
                                 }
-                                if let type = item["type"] as? String {
-                                    detail!.type = NSNumber(value: Int(type)! as Int)
+                                
+                                var baseUomcd = "EA"
+                                if  let baseUomcdP = item["baseUomcd"] as? String {
+                                    baseUomcd = baseUomcdP
                                 }
-                                else if let type = item["type"] as? NSNumber {
-                                    detail!.type = type
-                                }
+                                
+//                                if quantity > 20000 && baseUomcd == "GM" {
+//                                    quantity = 20000
+//                                }else if quantity > 99 && baseUomcd == "EA"{
+//                                    quantity = 99
+//                                }
+                                
+                                detail!.quantity = NSNumber(value: quantity as Int32)
+                                detail!.type = NSNumber(value: typeProdVal as Int)
+                                detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
+                                detail?.equivalenceByPiece =  equivalenceByPiece
+                                detail!.pieces = NSNumber(value: quantity as Int32)
+                                
                                 //
                                 detail!.list = parentList!
                             }

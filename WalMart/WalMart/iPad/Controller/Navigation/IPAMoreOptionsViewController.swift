@@ -220,7 +220,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func openLoginOrProfile() {
         if UserCurrentSession.sharedInstance.userSigned == nil{
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
-            let cont = LoginController.showLogin()
+            let cont = IPALoginController.showLogin()
             cont!.successCallBack = {() in
                 if cont?.alertView != nil {
                     cont!.closeAlert(true, messageSucesss: true)

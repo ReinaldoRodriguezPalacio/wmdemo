@@ -20,8 +20,7 @@ class GRLoginWithEmailService : GRBaseService {
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            let newResultCall =  resultCall
-            successBlock!(newResultCall)
+            successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
         }

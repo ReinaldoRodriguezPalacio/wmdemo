@@ -334,6 +334,7 @@
 "field.validate.confirmpassword.equal" = " La contraseña no coincide con la confirmación";
 "field.validate.text.Email" = "Formato del correo no válido";
 "field.validate.text" = "Texto no permitido";
+"field.validate.gender" = "Selecciona tu genero";
 
 
 //help
@@ -512,6 +513,7 @@
 "gr.order.status.21" = "Completado";
 "gr.order.status.22" = "Finalizado";
 "gr.order.status.23" = "Asignado a embarque";
+"gr.order.status.-2" = "No identificado";
 
 "gr.shoppingcart.login" = "Para realizar tus compras\ningresa a tu cuenta o crea una nueva";
 "gr.list.samename" = "Ya existe una lista con el mismo nombre";

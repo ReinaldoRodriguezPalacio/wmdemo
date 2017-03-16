@@ -309,7 +309,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let strController = components[0] as String
             let vc = storyboard!.instantiateViewController(withIdentifier: strController)
                 if let navVC = vc as? UINavigationController {
-                    if let loginVC = navVC.viewControllers.first as? LoginController {
+                    if let loginVC = navVC.viewControllers.first as? IPALoginController {
                         if components.count > 1 {
                             loginVC.controllerTo = components[1] as String
                         }

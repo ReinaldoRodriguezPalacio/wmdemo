@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>55</string>
+	<string>56</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -195,6 +195,8 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -240,7 +242,7 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPaymentType</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
@@ -288,6 +290,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.AuthorizationService</key>
@@ -335,7 +339,7 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPaymentType</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
@@ -704,6 +708,8 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -749,7 +755,7 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPaymentType</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
@@ -799,6 +805,8 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -844,7 +852,7 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPaymentType</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
@@ -964,6 +972,8 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1071,6 +1081,8 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>

@@ -8,16 +8,14 @@
 
 import Foundation
 
-
 class IPOEmptyNotificationView : IPOEmptyView {
     
     override func setup() {
         super.setup()
-        
+        self.bgImageView.image = UIImage(named:"notification_emptyscreen")
         self.descLabel.text =  NSLocalizedString("notificationEmptyscreen.title",comment:"")
         
-        bgImageView.image = UIImage(named:"notification_emptyscreen")
-        self.returnButton.alpha = 0
+       // self.returnButton.alpha = 0
         
     }
     

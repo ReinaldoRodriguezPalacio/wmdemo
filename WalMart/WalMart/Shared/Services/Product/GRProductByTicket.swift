@@ -38,7 +38,7 @@ class GRProductByTicket: GRBaseService {
                 return nil
             }
             if codeMessage.intValue != 0 {
-                print("ERROR : Response with error \(message)")
+                print("ERROR : Response with error \(message) \(self.serviceUrl())")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }

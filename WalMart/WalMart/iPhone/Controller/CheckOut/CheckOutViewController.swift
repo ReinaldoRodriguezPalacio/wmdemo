@@ -255,7 +255,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             
             
             let loginService = LoginWithEmailService()
-            loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
             let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
             loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
                 print(response)

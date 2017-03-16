@@ -38,6 +38,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
+    var isOpenQuantitySelector: Bool = false
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -166,7 +167,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        
+      self.isOpenQuantitySelector = false
     if !isAddingOrRemovingWishlist {
         isAddingOrRemovingWishlist = true
         let animation = UIImageView(frame: CGRect(x: 0, y: 0,width: 36, height: 36));
@@ -201,13 +202,17 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         } else {
             delegate.showMessageProductNotAviable()
         }
+        self.isOpenQuantitySelector = false
+        self.reloadShoppinhgButton()
     }
     
     func shareProduct() {
+        
         delegate.shareProduct()
     }
     
     func detailProduct() {
+        self.isOpenQuantitySelector = false
         delegate.showProductDetail()
     }
     
@@ -232,10 +237,14 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0,0 , 0)
         
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
-        
+        self.isOpenQuantitySelector = true
     }
     
     func reloadShoppinhgButton() {
+        if isOpenQuantitySelector {
+            return
+        }
+        
         if isAviableToShoppingCart  {
             reloadButton()
         }else {
@@ -272,39 +281,41 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                let quantity = detailProductCart!.quantity
+                var quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
                 //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
-                    if quantity.intValue == 1 {
+                    if quantity.int32Value == 1 {
+                        
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                     }
                     else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
                 } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
-                    
                     let pieces = detailProductCart!.product.pieces
-                    
                     if pieces == 1 {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
                     } else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
+                    } 
+                } else { //Gramos
+                    if quantity < 0 {
+                        quantity = 20000
                     }
                     
-                    
-                } else { //Gramos
-
                     let q = quantity.doubleValue
                     if q < 1000.0 {
                         text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
+
                     }
                     else {
-                        let kg = q/1000.0
-                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg as Double))
+                        let kg: Double = q/1000.0
+                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg))
                     }
                     //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)

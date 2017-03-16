@@ -86,7 +86,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
         
         emptyView.returnAction = {() in
             self.back()
@@ -123,10 +123,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        //self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 108 - self.header!.frame.height - 44)
-        self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 108 , width: self.view.frame.width, height: 64)
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+
+        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY, width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
+        self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
+        let heightEmptyView = self.view.bounds.height
+
+        if UIDevice.current.modelName.contains("iPhone") || UIDevice.current.modelName.contains("iPod"){
+            self.emptyView.paddingBottomReturnButton = 54
+        }
         
+        self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -107,7 +107,7 @@ class ShoppingCartProductsService : BaseService {
                             carProductItem.isPreorderable = preorderable
                         }
 
-                        carProduct.quantity = NSNumber(value: quantity.integerValue as Int)
+                        carProduct.quantity = NSNumber(value: quantity.intValue)
                         carProduct.product = carProductItem
                         carProduct.type = ResultObjectType.Mg.rawValue
                         carProduct.user = user!

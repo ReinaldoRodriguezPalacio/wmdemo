@@ -584,6 +584,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
             selectQuantity!.closeAction =
                 { () in
+                    self.productDetailButton?.isOpenQuantitySelector = false
                     UIView.animate(withDuration: 0.5,
                         animations: { () -> Void in
                             self.productDetailButton?.reloadShoppinhgButton()
@@ -1329,6 +1330,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter completeClose:            complete block
      */
     func closeContainer(_ additionalAnimationClose: @escaping (() -> Void),completeClose: @escaping (() -> Void)) {
+        self.productDetailButton!.isOpenQuantitySelector = false
         let finalFrameOfQuantity = CGRect(x: self.detailCollectionView.frame.minX,  y: heightDetail, width: self.detailCollectionView.frame.width, height: 0)
         UIView.animate(withDuration: 0.5,
             animations: { () -> Void in

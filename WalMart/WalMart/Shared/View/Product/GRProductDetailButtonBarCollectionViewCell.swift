@@ -37,6 +37,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
      Send product to wishList
      */
     override func addProductToWishlist() {
+        self.isOpenQuantitySelector = false
         self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
         //event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label: "\(desc) - \(upc)")

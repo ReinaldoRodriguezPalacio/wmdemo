@@ -267,7 +267,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     for dic in  self.storesDic {
                         let name = dic["name"] as! String!
                         let cost = dic["cost"] as! String!
-                        self.stores.append("\(name) - \(cost)")
+                        self.stores.append("\(name!) - \(cost!)")
                     }
                     if self.stores.count == 0 && !self.store.isRequired
                     {

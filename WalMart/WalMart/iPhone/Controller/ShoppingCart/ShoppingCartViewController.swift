@@ -185,14 +185,48 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
-        
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable() {
             registerForPreviewing(with: self, sourceView: viewShoppingCart!)
         }else if !IS_IPAD{
             addLongTouch(view:viewShoppingCart!)
         }
+
+    }
+    
+    /**
+         Present empty view after load items in car
+     
+     - returns: na
+     */
+    func initEmptyView(){
+        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
         
+        let model =  UIDevice.current.modelName
+        if model.contains("iPhone") || model.contains("iPod") {
+            if !model.contains("4") {
+                heightEmptyView -= 55
+            } else {
+            heightEmptyView -= 5
+            }
+        }
+        else {
+            heightEmptyView -= 20
+        }
+        
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("Plus") || model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 5
+        }
+        self.emptyView.returnAction = {() in
+            self.closeShoppingCart()
+        }
+        
+        if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
+            self.emptyView.showReturnButton = false
+        }
+        self.view.addSubview(self.emptyView)
+
         self.viewShoppingCart?.addSubview(self.refreshControl)
     }
     
@@ -208,9 +242,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
-            
-    //        self.emptyView!.isHidden = false
-      //      self.editButton!.isHidden = true
+//            
+//            self.emptyView!.isHidden = false
+//            self.editButton!.isHidden = true
 
             if !showCloseButton {
                 self.closeButton.isHidden = true
@@ -324,31 +358,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     
     }
     
-    /**
-     Present empty view after load items in car
-     
-     - returns: na
-     */
-    func initEmptyView() {
-        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
-      
-        if !IS_IPAD && !IS_IPAD_MINI{
-            heightEmptyView -= 60
-        }
-        else {
-            heightEmptyView -= 20
-        }
-        
-        self.emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        self.emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
-        self.emptyView.returnAction = {() in
-            self.closeShoppingCart()
-        }
-        self.view.addSubview(emptyView)
-        
-        self.emptyView.bgImageView.image =  UIImage(named:"empty_cart")
-        
-    }
     
     /**
      Load items in shopping cart, anda create cell width totals, 

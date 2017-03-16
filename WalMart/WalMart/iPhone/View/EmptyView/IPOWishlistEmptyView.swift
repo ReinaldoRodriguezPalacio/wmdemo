@@ -11,7 +11,6 @@ import Foundation
 class IPOWishlistEmptyView : IPOEmptyView {
     
     
-    //var imageEmptyView = UIImageView()
     var imageEmptyViewIconBtn = UIImageView()
     var textLabel: UILabel?
     
@@ -19,8 +18,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
        super.setup()
         
         //iconImageView.image = UIImage(named:"empty_list")
-        bgImageView.isHidden = true
-        
+        self.bgImageView.isHidden = true
         
         bgImageView.image =  UIImage(named: "empty_wishlist")
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))

@@ -172,6 +172,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         loadGRShoppingCart()
         
+//        self.emptyView!.isHidden = false
+//        self.editButton!.isHidden = true
+        
         self.emptyView!.isHidden = self.itemsInCart.count > 0
         self.editButton.isHidden = self.itemsInCart.count == 0
         
@@ -216,20 +219,34 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func initEmptyView(){
         var heightEmptyView = self.view.frame.maxY - viewHeader.frame.height
-        if !IS_IPAD && !IS_IPAD_MINI{
-            heightEmptyView -= 60
+        
+        let model =  UIDevice.current.modelName
+        if model.contains("iPhone") || model.contains("iPod"){
+            if !model.contains("4") {
+                heightEmptyView -= 55
+            } else {
+                heightEmptyView -= 5
+                
+            }
+
         }
         else {
             heightEmptyView -= 25
         }
         
-        self.emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        self.emptyView.frame = CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView)
+
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("Plus") || model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 5
+        }
         self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
+        if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
+            self.emptyView.showReturnButton = false
+        }
+        self.view.addSubview(emptyView)
         
-        self.emptyView.bgImageView.image =  UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {
@@ -972,6 +989,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func listSelectedListsLocally(listSelected listsSelected: [List]) {
         print("Listas Seleccionadas")
+        var count  =  1
+        for listId  in listsSelected {
+            self.listSelectorDidAddProductLocally(inList: listId, finishAdd:  count == listsSelected.count )
+            count = count + 1
+        }
+
     }
     
     func listSelectorDidClose() {
@@ -1006,8 +1029,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
+            }else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
             
@@ -1023,17 +1045,46 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let typeProd = item["type"] as? NSString {
                 typeProdVal = typeProd.integerValue
             }
+            var equivalenceByPiece : NSNumber = 0
+            if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece =  equiva
+            }else if let equiva = item["equivalenceByPiece"] as? Int {
+                equivalenceByPiece =  NSNumber(value: equiva)
+            }else if let equiva = item["equivalenceByPiece"] as? String {
+                equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+            }
            
-            
-            
             var addInList = true
             for prod  in list.products {
                 let myprod = prod as! Product
-                
+                let orderByPiece = item["orderByPieces"] as! NSNumber
                 if  myprod.upc == item["upc"] as! String {
                     addInList =  false
-                    myprod.quantity =  NSNumber(value:Int(myprod.quantity) + quantity)
-                    break
+                    if myprod.orderByPiece ==  orderByPiece {
+                        var quantitySum = myprod.quantity.int64Value + quantity
+                        
+                        if orderByPiece == 0 {
+                            quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        }else{
+                             quantitySum = quantitySum > 99 ? 99 : quantitySum
+                        }
+                        
+                        myprod.quantity = NSNumber(value: quantitySum)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }else{
+                        myprod.quantity = NSNumber(value: quantity)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.equivalenceByPiece =  equivalenceByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }
+                    do {
+                        try context.save()
+                    } catch  {
+                        print("Error save context listSelectorDidAddProductLocally")
+                    }
                 }
             }
             
@@ -1047,14 +1098,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail!.type = NSNumber(value: typeProdVal as Int)
                 detail!.list = list
                 detail!.img = item["imageUrl"] as! String
-                var equivalenceByPiece : NSNumber = 0
-                if let equiva = item["equivalenceByPiece"] as? NSNumber {
-                    equivalenceByPiece =  equiva
-                }else if let equiva = item["equivalenceByPiece"] as? Int {
-                    equivalenceByPiece =  NSNumber(value: equiva)
-                }else if let equiva = item["equivalenceByPiece"] as? String {
-                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
-                }
                 detail?.orderByPiece = item["orderByPieces"] as! NSNumber
                 detail?.equivalenceByPiece =  equivalenceByPiece
                 detail!.pieces = NSNumber(value: quantity as Int)

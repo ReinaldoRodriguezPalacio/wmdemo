@@ -112,6 +112,7 @@ class GRAddItemListService: GRBaseService {
                 }
             }
             
+            
             if let items = list["items"] as? [Any] {
                 entity!.countItem = NSNumber(value: items.count as Int)
                 
@@ -148,6 +149,42 @@ class GRAddItemListService: GRBaseService {
                     else if let price = item["price"] as? String {
                         detail!.price = price as NSString
                     }
+                    
+                    var quantity: Int32 = 0
+                    if  let qIntProd = item["quantity"] as? Int32 {
+                        quantity = qIntProd
+                    }else if  let qIntProd = item["quantity"] as? NSString {
+                        quantity = qIntProd.intValue
+                    }
+                    
+                    var typeProdVal: Int = 0
+                    if let typeProd = item["type"] as? NSString {
+                        typeProdVal = typeProd.integerValue
+                    }
+                    var equivalenceByPiece : NSNumber = 0
+                    if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                        equivalenceByPiece =  equiva
+                    }else if let equiva = item["equivalenceByPiece"] as? Int {
+                        equivalenceByPiece =  NSNumber(value: equiva)
+                    }else if let equiva = item["equivalenceByPiece"] as? String {
+                        if equiva != "" {
+                            equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                        }
+                    }
+                   
+                    
+//                    if quantity > 20000 && baseUomcd == "GM" {
+//                        quantity = 20000
+//                    }else if quantity > 99 && baseUomcd == "EA"{
+//                        quantity = 99
+//                    }
+                    
+                    detail!.quantity = NSNumber(value: quantity as Int32)
+                    detail!.type = NSNumber(value: typeProdVal as Int)
+                    detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
+                    detail?.equivalenceByPiece =  equivalenceByPiece
+                    detail!.pieces = NSNumber(value: quantity as Int32)
+                    
                     detail!.list = entity!
                 }
                 

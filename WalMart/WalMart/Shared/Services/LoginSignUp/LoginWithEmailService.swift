@@ -11,9 +11,6 @@ import CoreData
 
 class LoginWithEmailService : BaseService {
     
-    var loginIdGR = ""
-    
-    
     func buildParams(_ email:String,password: String) -> [String:Any] {
         let lowCaseUser = email.lowercased()
         return ["email":lowCaseUser]
@@ -28,16 +25,19 @@ class LoginWithEmailService : BaseService {
                         let resultCallMG = resultCall
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
-                            let serviceGr = GRLoginService()
-                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
-                                successBlock!(resultCall!)
-                                UserCurrentSession.sharedInstance.userSignedOnService = false
-                                }
-                                , errorBlock: {(error: NSError) in
+                            let serviceGr = GRLoginWithEmailService()
+                             //delay(1, completion: {
+                                print("After delay GRLoginWithEmailService::::::")
+                                
+                                serviceGr.callService(params, successBlock: { (resultCall:[String : Any]) in
+                                    UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall)
+                                    successBlock!(resultCall)
+                                    UserCurrentSession.sharedInstance.userSignedOnService = false
+                                    
+                                }, errorBlock: { (error:NSError) in
                                     errorBlock!(error)
                                     UserCurrentSession.sharedInstance.userSignedOnService = false
-                            })
+                                })
                         }else {
                             UserCurrentSession.sharedInstance.userSigned = nil
                             UserCurrentSession.sharedInstance.deleteAllUsers()
@@ -61,11 +61,10 @@ class LoginWithEmailService : BaseService {
         
     }
     
-    
     func callWithEmailService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-             let grLoginService = GRLoginService()
-            grLoginService.callService(grLoginService.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
+             let grLoginService = GRLoginWithEmailService()
+            grLoginService.callService(params, successBlock:{ (resultCall:[String:Any]?) in
                  successBlock!(resultCall!)
             },errorBlock: {(error: NSError) in
                 errorBlock!(error)
