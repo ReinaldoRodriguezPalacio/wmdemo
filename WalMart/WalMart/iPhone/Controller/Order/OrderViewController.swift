@@ -60,6 +60,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         var heightEmptyView = self.view.bounds.height
+        var widthEmptyView = self.view.bounds.width
         let model =  UIDevice.current.modelName
         
         if !model.contains("Plus") && !model.contains("4") && !model.contains("5") {
@@ -68,11 +69,17 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         if IS_IPHONE_6P {
             heightEmptyView -= 14
         }
+        if IS_IPAD || model.contains("iPad") {
+            widthEmptyView = 681.5
+        }
         
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: widthEmptyView, height: heightEmptyView)
         if model.contains("5") || model.contains("4") {
             self.emptyView!.paddingBottomReturnButton += 24
+        } else if IS_IPAD || model.contains("iPad") {
+            self.emptyView!.showReturnButton = false
         }
+        
         self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
