@@ -120,7 +120,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content.scrollDelegate = self
         self.view.addSubview(self.content)
         
-        sectionPaypalTitle = self.buildSectionTitle(NSLocalizedString("Pago en linea", comment:""), frame: CGRect(x: 16,y: 16.0, width: self.view.frame.width, height: lheight))
+        sectionPaypalTitle = self.buildSectionTitle(NSLocalizedString("Pago en línea", comment:""), frame: CGRect(x: 16,y: 16.0, width: self.view.frame.width, height: lheight))
         sectionPaypalTitle.isHidden =  true
         
         self.content.addSubview(sectionPaypalTitle)
@@ -269,6 +269,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "INVOKE_RELOAD_PROMOTION"), object: nil)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -595,7 +596,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //Name
         let firstName = responseAddress["firstName"] as! String
         let middleName = responseAddress["middleName"] as! String
-        let lastName = responseAddress["lastName"] as! String
+        let lastName = responseAddress["lastName"] as? String ?? ""
         
         
         //let subtotal = PayPalItem.totalPrice(forItems: payPalItems)
@@ -618,8 +619,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             PayPalMobile.preconnect(withEnvironment: self.getPayPalEnvironment())
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
             paymentViewController!.modalPresentationStyle = UIModalPresentationStyle.formSheet
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(GRCheckOutPymentViewController.cancelFromBg), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+            
             self.present(paymentViewController!, animated: true, completion: nil)
+            
+        } else {
+            let message = "Tu pago ha sido cancelado"
+            self.invokePayPalCancelService(message)
         }
+    }
+    
+    func cancelFromBg() {
+            self.invokePayPalCancelService("Se canceló el pago intenta nuevamente")
     }
     
     /**
@@ -1001,10 +1013,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //self.confirmOrderDictionary["authorization"] = idAuthorization
         //print("idAuthorization::::\(idAuthorization)::::")
         
+        
+        
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in
             self.serviceDetail?.errorOrder(message)
-            
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         }, errorBlock: { (error:NSError) -> Void in
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
             if error.code == -400 {
                 self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
             }
@@ -1051,9 +1066,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
             
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+            
             }, errorBlock: { (error:NSError) -> Void in
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
                 if error.code == -400 {
                     self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                } else if error.code == -20 {
+                    self.serviceDetail?.errorOrder(error.localizedDescription,false)
                 }
                 else {
                     self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")

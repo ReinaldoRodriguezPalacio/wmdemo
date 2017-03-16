@@ -893,7 +893,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.isHidden =  true
-        if !self.selectedAddressHasStore{
+        if !self.selectedAddressHasStore && !self.picker!.isNewAddres{
             self.picker!.closeButton!.isHidden =  false
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = self.selectedAddress!
@@ -911,6 +911,23 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
             }) { (error:NSError) -> Void in
             }
+        }else{
+            self.sAddredssForm.addressName.text = ""
+            self.sAddredssForm.outdoornumber.text = ""
+            self.sAddredssForm.indoornumber.text = ""
+            self.sAddredssForm.betweenFisrt.text = ""
+            self.sAddredssForm.betweenSecond.text = ""
+            self.sAddredssForm.zipcode.text = ""
+            self.sAddredssForm.street.text = ""
+            self.sAddredssForm.idAddress = ""
+            self.sAddredssForm.suburb!.text = ""
+            self.sAddredssForm.zipcode.text! = ""
+            self.sAddredssForm.store!.text = ""
+            self.sAddredssForm.phoneHomeNumber.text = ""
+            self.sAddredssForm.phoneWorkNumber.text = ""
+            self.sAddredssForm.cellPhone.text = ""
+            
+        
         }
         
         scrollForm.addSubview(sAddredssForm)
