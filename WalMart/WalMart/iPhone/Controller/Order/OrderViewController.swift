@@ -73,7 +73,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             widthEmptyView = 681.5
         }
         
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: widthEmptyView, height: heightEmptyView)
+        self.emptyView!.frame = CGRect(x: 0, y: self.header!.bounds.maxY, width: widthEmptyView, height: heightEmptyView)
         if model.contains("5") || model.contains("4") {
             self.emptyView!.paddingBottomReturnButton += 24
         } else if IS_IPAD || model.contains("iPad") {
