@@ -476,8 +476,5 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.suburb?.text = ""
         self.betweenFisrt?.text = ""
         self.betweenSecond?.text = ""
-        self.phoneHomeNumber?.text = ""
-        self.phoneWorkNumber?.text = ""
-        self.cellPhone?.text = ""
     }
 }

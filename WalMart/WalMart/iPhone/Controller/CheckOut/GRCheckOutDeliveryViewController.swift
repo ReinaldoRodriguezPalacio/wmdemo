@@ -911,25 +911,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
             }) { (error:NSError) -> Void in
             }
-        }else{
-            self.sAddredssForm.addressName.text = ""
-            self.sAddredssForm.outdoornumber.text = ""
-            self.sAddredssForm.indoornumber.text = ""
-            self.sAddredssForm.betweenFisrt.text = ""
-            self.sAddredssForm.betweenSecond.text = ""
-            self.sAddredssForm.zipcode.text = ""
-            self.sAddredssForm.street.text = ""
-            self.sAddredssForm.idAddress = ""
-            self.sAddredssForm.suburb!.text = ""
-            self.sAddredssForm.zipcode.text! = ""
-            self.sAddredssForm.store!.text = ""
-            self.sAddredssForm.phoneHomeNumber.text = ""
-            self.sAddredssForm.phoneWorkNumber.text = ""
-            self.sAddredssForm.cellPhone.text = ""
-            
-        
         }
-        
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
         return scrollForm
