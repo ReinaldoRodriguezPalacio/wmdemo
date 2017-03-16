@@ -484,9 +484,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.navigationController != nil {
             self.navigationController!.popViewController(animated: true)
         }
-//        if self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind {
-//            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: "")
-//        }
     }
     
     //MARK: - UICollectionViewDataSource

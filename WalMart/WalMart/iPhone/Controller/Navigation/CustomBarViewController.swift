@@ -1035,9 +1035,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.searchContextType = .withText
                 controller.titleHeader = keyWord
                 controller.textToSearch = keyWord
-                controllernav?.pushViewController(controller, animated: true) }
+                controllernav?.pushViewController(controller, animated: true)
+            }
+            self.onCloseSearch?()
+            self.onCloseSearch = nil
         }
-        
         self.btnSearch!.isSelected = true
         self.closeSearch(false, sender: nil)
     }
