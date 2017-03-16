@@ -100,15 +100,17 @@ class ShoppingCartAddProductsService : BaseService {
                     if self.updateShoppingCart() {
                         
                         let serviceWishDelete = DeleteItemWishlistService()
-
-                        for itemWishlistUPC in itemsWishList {
-                            serviceWishDelete.callCoreDataService(itemWishlistUPC, successBlock: { (result:[String:Any]) -> Void in
-                                //Notification
-                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
-                                }) { (error:NSError) -> Void in
-                                    print("error : \(error)")
-                            }
-                        }
+                        serviceWishDelete.callServiceWithParams(serviceWishDelete.buildParamsMultipe(itemsWishList), successBlock: { (result:[String : Any]) in
+                              NotificationCenter.default.post(name: Notification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
+                        }, errorBlock: { (error:NSError) in
+                              print("error : \(error)")
+                        })
+//                        serviceWishDelete.callServiceWithParams(itemsWishList, successBlock: { (result:[String:Any]) -> Void in
+//                            //Notification
+//                            NotificationCenter.default.post(name: Notification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
+//                        }) { (error:NSError) -> Void in
+//                            print("error : \(error)")
+//                        }
                         
                         UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()

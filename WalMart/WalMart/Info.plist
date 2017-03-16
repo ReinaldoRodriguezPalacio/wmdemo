@@ -193,8 +193,6 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -283,13 +281,13 @@
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.AuthorizationService</key>
@@ -380,6 +378,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -706,8 +706,6 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -796,6 +794,8 @@
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -803,8 +803,6 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -893,6 +891,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -970,8 +970,6 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/addFiscalAddress</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1048,6 +1046,8 @@
 			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -1079,8 +1079,6 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1157,6 +1155,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
