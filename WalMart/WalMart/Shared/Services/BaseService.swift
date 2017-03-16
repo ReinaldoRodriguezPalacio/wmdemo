@@ -229,17 +229,6 @@ class BaseService : NSObject {
                         if cookie.name == "JSESSIONID" {
                             UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                         }
-//                        if cookie.name == "JSESSIONID" &&  self.needsSaveSeion(cassType: stringOfClassType){
-//                            print("cookie.name == JSESSIONID")
-//                            jsessionId_array.append(cookie.value)
-//                            if cookie.value != "" {
-//                                
-//                                CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-//                            }else{
-//                            print("JSESSIONID VACIO DE  \(stringOfClassType)")
-//                            }
-//                            print("name: \(cookie.name) value: \(cookie.value)")
-//                        }
                     }
                 }
                 
@@ -263,7 +252,7 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
-                        
+                         print("****************** ****************** ****************** ****************** POST")
                         //NSLog("Base Service : LoginWithEmailService", "\(self.serviceUrl())")
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
@@ -338,17 +327,7 @@ class BaseService : NSObject {
                              if cookie.name == "JSESSIONID" {
                                 UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                             }
-//                            if cookie.name == "JSESSIONID" && self.needsSaveSeion(cassType: stringOfClassType){
-//                                print("cookie.name == JSESSIONID")
-//                               jsessionId_array.append(cookie.value)
-//                                if cookie.value != "" {
-//                                    print("SAVE  JSESSIONID ame: \(cookie.name) value: \(cookie.value)")
-//                                    CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-//                                }else{
-//                                    print("JSESSIONID vacio DE: : \(stringOfClassType)")
-//                                }
-//                                print("classname:\(stringOfClassType) name: \(cookie.name) value: \(cookie.value)")
-//                            }
+
                         }
                     }
                 }
@@ -379,7 +358,7 @@ class BaseService : NSObject {
                 
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
-                        self.clearCokkie()
+                         print("****************** ****************** ****************** ****************** GET")
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -552,20 +531,6 @@ class BaseService : NSObject {
     
     func needsToLoginCode() -> Int {
         return -100
-    }
-    
-    func clearCokkie(){
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-          
-                if cookie.name == "JSESSIONID" {
-                    coockieStorege.deleteCookie(cookie)
-                }
-        }
-        
     }
     
     func needsSaveSeion(cassType:String) -> Bool {
