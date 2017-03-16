@@ -20,7 +20,7 @@ class IPAOrderViewController: OrderViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.bounds.height - 46)
         self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
         self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 46)
        // self.tableOrders.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
