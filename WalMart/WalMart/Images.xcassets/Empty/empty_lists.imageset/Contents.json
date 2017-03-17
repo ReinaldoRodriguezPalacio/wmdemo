@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "empty_lists~ipad.png"
+      "filename" : "list_empty_new.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "empty_lists@2x~ipad.png"
+      "filename" : "list_empty_new@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

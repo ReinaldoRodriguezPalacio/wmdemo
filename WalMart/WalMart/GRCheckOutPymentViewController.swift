@@ -285,6 +285,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let width = self.view.frame.width - (2 * margin)
         let bounds = self.view.frame.size
         let footerHeight : CGFloat = 60.0
+        let widthButton = (bounds.width / 2) - (margin * 1.5)
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
         
@@ -306,8 +307,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         sectionTitleDiscount.frame = CGRect(x: 16, y: self.contenPayments!.frame.maxY, width: width, height: lheight)
         self.discountAssociate!.frame = CGRect(x: margin,y: sectionTitleDiscount.frame.maxY,width: width,height: fheight)
         self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
-        self.cancelShop!.frame = CGRect(x: (self.view.frame.width/2) - 148, y: self.content!.frame.maxY + 16, width: 140, height: 34)
-        self.confirmShop!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: 140, height: 34)
+        self.cancelShop!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton), y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
+        self.confirmShop!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
         let _ = self.buildPromotionButtons()
     }
     

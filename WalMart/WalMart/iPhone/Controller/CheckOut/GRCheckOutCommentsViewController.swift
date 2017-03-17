@@ -236,6 +236,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let lheight: CGFloat = 15.0
         let checkImageBottom: CGFloat = 14//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
         let checkButtonHeight: CGFloat = 30//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
+        let widthButton = (self.view.bounds.width / 2) - (margin * 1.5)
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
         self.sectionTitle!.frame = CGRect(x: margin, y: margin, width: width, height: lheight)
@@ -253,10 +254,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.sectionTitleWine!.frame = CGRect(x: margin,y: self.comments!.frame.maxY + margin,width: width,height: 50)
 
         self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 154)
-        self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 10)
+        self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 88)
         self.layerLine.frame = CGRect(x: 0, y: self.content.frame.maxY,  width: self.view.frame.width, height: 1)
-        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.content!.frame.maxY + 16, width: 140, height: 34)
-        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: 140, height: 34)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton), y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8, y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
