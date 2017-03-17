@@ -412,7 +412,7 @@ class UserCurrentSession : NSObject {
         if userSigned != nil {
             predicate = NSPredicate(format: "user == %@ && idList == %@ && ANY products.upc == %@ ", userSigned!,listId,upc)
         }else {
-            predicate = NSPredicate(format: "user == nil && idList == %@ && ANY products.upc == %@ ",listId, upc)
+            predicate = NSPredicate(format: "user == nil && name == %@ && ANY products.upc == %@ ",listId, upc)
         }
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

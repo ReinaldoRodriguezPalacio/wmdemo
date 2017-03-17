@@ -936,7 +936,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.removeListSelector(action: nil)
             }
             self.selectQuantityGR.isFromList = true
-            self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.idList!)
+            self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
                 //self.addToListLocally(quantity:quantity,list:list)
                     self.updateToListLocally(quantity: quantity, list: list)
