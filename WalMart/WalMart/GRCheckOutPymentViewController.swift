@@ -529,7 +529,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
              let notificationCenter = NotificationCenter.default
             notificationCenter.post(name: Notification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
         }else{
-            let _ = self.navigationController?.popToRootViewController(animated: true)
+            UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            }
         }
 
     }
