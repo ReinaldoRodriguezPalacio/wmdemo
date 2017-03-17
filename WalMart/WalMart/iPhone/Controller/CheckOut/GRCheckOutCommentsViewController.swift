@@ -9,7 +9,7 @@
 import Foundation
 //import Tune
 
-class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate {
+class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITextViewDelegate, UITextFieldDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -217,6 +217,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
+        
         self.content?.contentOffset = CGPoint.zero
     }
     
@@ -251,11 +252,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.frame = CGRect(x: margin,y: self.sectionTitleComments!.frame.maxY + margin,width: width,height: 65)
         self.sectionTitleWine!.frame = CGRect(x: margin,y: self.comments!.frame.maxY + margin,width: width,height: 50)
 
-        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 111)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 154)
         self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 10)
-        self.layerLine.frame = CGRect(x: 0, y: self.view.bounds.height - 65,  width: self.view.frame.width, height: 1)
-        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
-        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: 140, height: 34)
+        self.layerLine.frame = CGRect(x: 0, y: self.content.frame.maxY,  width: self.view.frame.width, height: 1)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.content!.frame.maxY + 16, width: 140, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: 140, height: 34)
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
