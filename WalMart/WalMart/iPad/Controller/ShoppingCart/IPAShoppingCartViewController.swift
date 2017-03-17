@@ -225,7 +225,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
        
         
         self.loadCrossSell()
-        self.removeLoadingView()
+        
         
     }
     
@@ -385,8 +385,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 }else {
                     
                 }
+                self.removeLoadingView()
                 }, errorBlock: { (error:NSError) -> Void in
                     print("Termina sevicio app")
+                    self.removeLoadingView()
             })
         }
     }
