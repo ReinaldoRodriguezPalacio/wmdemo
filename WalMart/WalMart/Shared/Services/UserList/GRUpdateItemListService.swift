@@ -26,7 +26,11 @@ class GRUpdateItemListService: GRBaseService {
     func callService(_ params:[Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params,
             successBlock: { (resultCall:[String:Any]) -> Void in
-                self.syncProductInList(product: params.first as! [String:Any])
+                let product = params.first  as! [String:Any]
+                let upc = product["upc"] as! String
+                let items = resultCall["items"] as! [Any]
+                let resultProduct = self.getResultProduct(items: items, productupc: upc)
+                self.syncProductInList(product: resultProduct)
                 successBlock?(resultCall)
                 return
             },
@@ -37,7 +41,23 @@ class GRUpdateItemListService: GRBaseService {
         )
     }
     
+    func getResultProduct(items: [Any], productupc: String) ->   [String:Any]{
+        var resultProduct: [String:Any] = [:]
+        for item in items as! [[String:Any]]{
+            let itemUpc = item["upc"] as! String
+            if itemUpc == productupc {
+                resultProduct = item
+                break
+            }
+        }
+        return resultProduct
+    }
+    
     func syncProductInList(product: [String:Any]) {
+        if product.count == 0 {
+            return
+        }
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List" as String, in: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", self.listId)
@@ -57,12 +77,31 @@ class GRUpdateItemListService: GRBaseService {
                 for detail in resultProduct {
                     detail.upc = upc
 
-                    if let quantity = product["quantity"] as? NSNumber {
-                        detail.quantity = quantity
+                    var quantity: Int32 = 0
+                    if let quantityNumber = product["quantity"] as? NSNumber {
+                        quantity = Int32(quantityNumber.intValue)
                     }
-                    else if let quantity = product["quantity"] as? String {
-                        detail.quantity = NSNumber(value: Int(quantity)! as Int)
+                    else if let quantityString = product["quantity"] as? String {
+                         quantity = Int32(quantityString)!
                     }
+                
+                    var equivalenceByPiece : NSNumber = 0
+                    if let equiva = product["equivalenceByPiece"] as? NSNumber {
+                        equivalenceByPiece =  equiva
+                    }else if let equiva = product["equivalenceByPiece"] as? Int {
+                        equivalenceByPiece =  NSNumber(value: equiva)
+                    }else if let equiva = product["equivalenceByPiece"] as? String {
+                        if equiva != "" { equivalenceByPiece =   NSNumber(value:Int(equiva)!) }
+                    }
+                    
+                    if let baseUomcd = product["baseUomcd"] as? String {
+                      detail.orderByPiece = (baseUomcd == "EA" ? 1 : 0)
+                    }
+                    
+                    detail.equivalenceByPiece =  equivalenceByPiece
+                    detail.pieces = NSNumber(value: quantity)
+                    detail.quantity = NSNumber(value: quantity)
+                    
                     detail.list = list!
                 }
                 var error: NSError? = nil

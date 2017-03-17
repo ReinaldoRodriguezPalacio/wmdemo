@@ -121,10 +121,11 @@ class BaseService : NSObject {
             
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
             
-            if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
-                jSessionAtgIdSend = param3.value
-            }
-           
+                if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
+                    //print("PARAM JSESSIONATG ::" + param3.value)
+                    jSessionAtgIdSend = param3.value
+                }
+            
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = Date().timeIntervalSince1970
                 let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
@@ -133,7 +134,6 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
-                print("send::ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
             } else{
@@ -223,6 +223,7 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
+                        print("****************** ****************** ****************** ****************** POST")
                         let loginService = LoginWithEmailService()
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
@@ -315,7 +316,7 @@ class BaseService : NSObject {
                 
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
-                        self.clearCokkie()
+                        print("****************** ****************** ****************** ****************** GET")
                         let loginService = LoginWithEmailService()
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
@@ -487,18 +488,6 @@ class BaseService : NSObject {
     
     func needsToLoginCode() -> Int {
         return -100
-    }
-    
-    func clearCokkie(){
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-            if cookie.name == "JSESSIONID" {
-                coockieStorege.deleteCookie(cookie)
-            }
-        }
-        
     }
 
     func loadKeyFieldCategories( _ items:Any!, type:String ) {

@@ -138,11 +138,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if itemDetailProducts.count == 0 {
                 
                 var maxY = self.tableDetailOrder!.frame.maxY
-                let height = IS_IPAD ? self.view.frame.height : self.view.bounds.height
-                let width = IS_IPAD ? self.view.frame.width : self.view.bounds.width
+                let height = self.view.bounds.height
+                var width = self.view.bounds.width
                 
                 if IS_IPAD {
                     maxY = maxY + 140
+                    width -= 342.5
                 } else {
                     maxY = maxY + 120
                 }
@@ -591,6 +592,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 }
             }
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            delay(0.5, completion: {
+                self.showLoadingView()
+                self.reloadPreviousOrderDetail()
+                
+            })
         }
     
     }

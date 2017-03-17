@@ -529,8 +529,15 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ] as [String : Any]
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
+            NotificationCenter.default.addObserver(self, selector: #selector(IPAWishlistViewController.reloadDataWishlist), name: NSNotification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
         }
+        
 //       //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
+    }
+    
+    
+    func reloadDataWishlist(){
+        self.reloadWishlist()
     }
     
     func reloadSelectedCell() {
