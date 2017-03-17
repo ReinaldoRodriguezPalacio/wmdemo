@@ -64,6 +64,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         
         
+        
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
                                                attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
                                                 NSForegroundColorAttributeName:WMColor.light_blue])
@@ -172,12 +173,8 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         let model = UIDevice.current.modelName
         let bounds = self.view.bounds
-        var heightImg = bounds.maxY
-        if !model.contains("4") && !model.contains("Plus") && !model.contains("5c") && !model.contains("iPod") {
-            heightImg -= 44
-        }
         
-        self.imgConfirm.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: heightImg)
+        self.imgConfirm.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: bounds.height)
         self.labelQuestion1.frame = CGRect(x: 0, y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
         self.labelQuestion2.frame = CGRect(x: 0, y: self.labelQuestion1.frame.maxY , width: bounds.width, height: 15 )
         

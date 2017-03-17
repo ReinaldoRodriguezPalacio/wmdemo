@@ -40,6 +40,7 @@ class IPOEmptyView : UIView {
     var paddingBottomReturnButton = 10.0
     let heightReturnButton = 40.0
 
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -89,7 +90,7 @@ class IPOEmptyView : UIView {
         if self.showReturnButton {
             let yButton = Double(self.frame.height) - self.heightReturnButton - self.paddingBottomReturnButton
             
-            self.returnButton.frame = CGRect(x: Double((self.bounds.width - 160 ) / 2), y: yButton, width: 160.0 , height: self.heightReturnButton)
+             self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 100, width: 160 , height: 40)
         }
     }
 

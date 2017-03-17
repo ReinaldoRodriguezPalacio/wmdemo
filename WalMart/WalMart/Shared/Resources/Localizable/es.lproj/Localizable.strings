@@ -524,6 +524,7 @@
 "productdetail.infonut.title" = "Información nutrimental";
 
 //Product Detail help
+"help.walmart.nowPolis" = "Ahora agrega artículos al carrito en un sólo paso";
 "help.walmart.nowallWM" = "Ahora todo Walmart en una sola app";
 "help.walmart.search" = "Busca por Código de Barras";
 "help.walmart.backup" = "Utiliza las herramientas de tu aplicación";

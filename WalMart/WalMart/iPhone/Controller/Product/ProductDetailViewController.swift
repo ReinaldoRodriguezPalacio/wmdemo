@@ -924,23 +924,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 
                 }) { (error:NSError) -> Void in
                     NSLog("ProductDetailService error : \(error.localizedDescription) ", "ProductDetailViewController")
- 
-                    //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-        
-                    let model = UIDevice.current.modelName
-                    var heightEmpty = self.view.bounds.height
-                    if !model.contains("4") {
-                        heightEmpty -= 46
-                        if model.contains("6") {
-                            heightEmpty -= 45
-                        }
-                    } else { heightEmpty -= 15 }
 
+                    let heightEmpty = self.view.bounds.height
                     let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmpty))
                     
                     self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                     empty.returnAction = { () in
-                        print("")
                         self.navigationController!.popViewController(animated: true)
                     }
                     self.view.addSubview(empty)

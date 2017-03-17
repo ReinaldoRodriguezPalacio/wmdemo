@@ -31,7 +31,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var nameField: FormFieldView?
     
     var loading: WMLoadingView?
-    var emptyView: IPOUserListEmptyView?
+    //var emptyView: IPOUserListEmptyView?
     var quantitySelector: GRShoppingCartQuantitySelectorView?
     //var alertView: IPOWMAlertViewController?
     
@@ -60,6 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     var isDeleting = false
     var analyticsSent = false
+     var emptyView: UIView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -246,8 +247,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
              
                 if UserCurrentSession.hasLoggedUser() {
                     self.addProductsView!.frame = CGRect(x: 0, y: openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
-                    
-                    self.emptyView?.showReturnButton = false
+                   
 
                 }
                 self.tableView?.frame = CGRect(x: 0, y: self.addProductsView!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.addProductsView!.frame.maxY)
@@ -678,67 +678,58 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      Show Empty View
      */
     func showEmptyView() {
-        self.openEmpty = true
-        self.emptyView?.removeFromSuperview()
-        
-        var footerEmptyHeight = 44
-        if IS_IPHONE_4_OR_LESS {
-            footerEmptyHeight = 0
-        }
-        self.footerSection!.frame = CGRect(x: 0, y: Int(self.view.frame.height), width: Int(self.view.frame.width), height: footerEmptyHeight)
-        let bounds = self.view.bounds
-        var height = bounds.size.height
-        
-        if UserCurrentSession.hasLoggedUser() {
-//            if IS_IPHONE_4_OR_LESS {
-//                height -= 64
-//            }
-            self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+        if self.emptyView ==  nil {
+            self.openEmpty = true
+            let bounds = self.view.bounds
+            let height = bounds.size.height - 44
             
-            self.emptyView?.showReturnButton = false
-        }else{
-    //        height -= self.header!.frame.height
-            var heightempty = self.view.frame.height
-            let model = UIDevice.current.modelName
-            print(model)
-            if self.view!.superview == nil {
-                heightempty = height - self.footerSection!.frame.height
-                
-                if IS_IPHONE_6P || IS_IPHONE_6 || model.contains("iPhone 6") || model.contains("iPhone 5c"){
-                    heightempty -= (self.header!.frame.height + 62)
-                } else if IS_IPHONE_5 || IS_IPHONE_6 { //para el verdadero, es 2
-                    heightempty -= 2
-                }
-//                if IS_IPHONE_4_OR_LESS {
-//                   heightempty -= 84
-//                }
-                print("heightEmpty \(heightempty)")
+            if UserCurrentSession.hasLoggedUser() {
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+            }else{
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
             }
-            else {
-                if IS_IPHONE_6P || model.contains("Plus") {
-                    heightempty -= 10
-                } else if IS_IPHONE_5 || IS_IPHONE_6 {
-                    heightempty -= 44
-                }
-//                if IS_IPHONE_4_OR_LESS {
-//                    heightempty -= 130
-//                }
-            }
+            self.emptyView!.backgroundColor = UIColor.red
+            self.view.addSubview(self.emptyView!)
             
-            self.emptyView = IPOUserListEmptyView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightempty ))
+            let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
+            //bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - 108)
+            self.emptyView!.addSubview(bg)
             
-            if UIDevice.current.modelName.contains("4") {
-                self.emptyView!.paddingBottomReturnButton += 44
+            let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
+            labelOne.textAlignment = .center
+            labelOne.textColor = WMColor.light_blue
+            labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
+            labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
+            self.emptyView!.addSubview(labelOne)
+            
+            let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: bounds.width, height: 16))
+            labelTwo.textAlignment = .center
+            labelTwo.textColor = WMColor.light_blue
+            labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
+            labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
+            self.emptyView!.addSubview(labelTwo)
+            
+            let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
+            icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+            self.emptyView!.addSubview(icon)
+            
+            let button = UIButton(type: .custom)
+            if UserCurrentSession.hasLoggedUser() {
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
+            }else{
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.view.bounds.height - 208, width: 160 , height: 40)
             }
-        }
-        
-        if UserCurrentSession.hasLoggedUser() {
-            self.view.addSubview(self.addProductsView!)
-        }
-        self.view.addSubview(self.emptyView!)
-        
-        self.emptyView?.returnAction = {() in
-            self.back()
+            /*if IS_IPHONE_4_OR_LESS{
+             button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
+             }*/
+            button.backgroundColor = WMColor.light_blue
+            button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), for: UIControlState())
+            button.setTitleColor(UIColor.white, for: UIControlState())
+            button.addTarget(self, action: #selector(UserListDetailViewController.backEmpty), for: .touchUpInside)
+            button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+            button.layer.cornerRadius = 20.0
+            button.isHidden = UserCurrentSession.hasLoggedUser()
+            self.emptyView!.addSubview(button)
         }
     }
     
@@ -748,17 +739,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func removeEmpyView() {
         if self.emptyView != nil {
             UIView.animate(withDuration: 0.5,
-                animations: { () -> Void in
-                    self.emptyView!.alpha = 0.0
-                }, completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.emptyView?.isHidden = true
-                        self.emptyView?.removeFromSuperview()
-                        self.emptyView = nil
-                    }
+                           animations: { () -> Void in
+                            self.emptyView!.alpha = 0.0
+            }, completion: { (finished:Bool) -> Void in
+                if finished {
+                    self.emptyView?.isHidden = true
+                    self.emptyView?.removeFromSuperview()
+                    self.emptyView = nil
                 }
+            }
             )
         }
+
     }
     
     /**

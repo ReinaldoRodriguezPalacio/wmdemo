@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>56</string>
+	<string>57</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -454,7 +454,7 @@
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
-		<string>PRODUCTION</string>
+		<string>SANDBOX</string>
 		<key>ProductionClientID</key>
 		<string>AfIfBdT9fO2xDd-PKl5dOY0pPmVvwaaAYcndl18JByzSZY04OJ5dm9Mw9UbMXY3lYER-TOYLQiNKsHwH</string>
 		<key>SandboxClientID</key>

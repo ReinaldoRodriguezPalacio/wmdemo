@@ -1590,7 +1590,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.view.addSubview(self.helpView!)
             
             
-            let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
+            let imageArray = [["image":"1_tutohelp","details":NSLocalizedString("help.walmart.nowPolis",comment:"")],["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
             totuView!.onClose = {() in
                 self.removeHelpForSearchView()
