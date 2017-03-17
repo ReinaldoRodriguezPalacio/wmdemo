@@ -1036,7 +1036,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
-            
+            self.quantitySelector?.isUpcInList = true
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
@@ -1050,6 +1050,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             self.quantitySelector!.isFromList =  true
             self.quantitySelector!.addToCartAction = { (quantity:String) in
+                
+                if quantity == "00" {
+                    self.deleteFromCellUtilityButton(cell)
+                    return
+                }
+                
                 if let item = self.products![indexPath!.row] as? [String:Any] {
                     let upc = item["upc"] as? String
                     self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
