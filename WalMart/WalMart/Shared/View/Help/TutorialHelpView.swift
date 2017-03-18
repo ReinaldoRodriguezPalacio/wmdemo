@@ -118,7 +118,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             labelDesc.font = WMFont.fontMyriadProLightOfSize(16)
             labelDesc.textAlignment = .center
             labelDesc.textColor = UIColor.white
-            labelDesc.text = "Puedes consultar este Tutorial\ndesde Ayuda"
+            labelDesc.text = "Consulta este tutorial en cualquier \nmomento desde el menú de Ayuda."
             labelDesc.numberOfLines = 2
             viewFinish.addSubview(labelDesc)
             
