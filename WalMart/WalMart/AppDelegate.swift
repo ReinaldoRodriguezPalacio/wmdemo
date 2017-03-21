@@ -41,6 +41,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
+        print("****************** ****************** ****************** ****************** ")
+        print("clearCokkie clearCokkie clearCokkie")
+        let coockieStorege  = HTTPCookieStorage.shared
+        for cookie in coockieStorege.cookies! {
+            coockieStorege.deleteCookie(cookie)
+        }
+        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -169,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             NSLog("Stack Trace: \(exception.callStackSymbols)")
         }
         
-        
+    
         //TAGManager
         let GTM = TAGManager.instance()
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
@@ -182,7 +189,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             notifier: self)
  
         
-        
+ 
         
       
         

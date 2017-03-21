@@ -131,13 +131,13 @@ class BaseService : NSObject {
                 //Session --
                 
                 //print("URL:: \(self.serviceUrl())")
-                print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
+                print("send::sessionID mg -- \(jsessionIdSend)  \(self.serviceUrl())")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
             } else{
                 //Session --
                 //print("URL:: \(self.serviceUrl())")
-                 print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
+                 print("send::sessionID mg -- \(jsessionIdSend)\(self.serviceUrl())")
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
                     AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
@@ -145,7 +145,6 @@ class BaseService : NSObject {
         
             
         }
-        URLSessionConfiguration.default.httpMaximumConnectionsPerHost = 1
         return AFStatic.manager
         
     }
@@ -206,46 +205,61 @@ class BaseService : NSObject {
                 print("Before : \(headers)")
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
-                    
                     let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                   
                     for cookie in cookies {
-                        print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) -- \(self.serviceUrl())")
                         if cookie.name == "JSESSIONID" {
+                             print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) -- \(self.serviceUrl())")
                             UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                         }
                     }
                 }
-                
-            }else{
-                print(headers)
-                print("noooooo post cookie \(stringOfClassType)")
             }
-            
 
              print("PostClassName \(stringOfClassType)")
-            print("Response JSESSIONATG:: \(atgSession) -- \(self.serviceUrl())")
+            //print("Response JSESSIONATG:: \(atgSession) -- \(self.serviceUrl())")
             UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
             CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
             
             
             let resultJSON = json as! [String:Any]
-              //print("callPOSTService resultJSON ::\(resultJSON)")
+            print("callPOSTService resultJSON ::\(resultJSON)")
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         print("****************** ****************** ****************** ****************** POST")
-                        let loginService = LoginWithEmailService()
-                        loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
-                        let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
-                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                        
+                        if self.serviceUrl().contains("/walmartgroceries/") {//Relogin gr
+                             print("****************** ****************** walmartgroceries ****************** ****************** ")
+                            let serviceGr = GRLoginWithEmailService()
+                            let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                            serviceGr.callService(["email":emailUser], successBlock: { (resultCall:[String : Any]) in
+                           
+                                self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                
+                            }, errorBlock: { (error:NSError) in
+                                UserCurrentSession.sharedInstance.userSigned = nil
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                errorBlock!(errorResult)
+                            })
+                            
+                        }else{//relogin mg
+                            print("****************** ****************** MG ****************** ****************** ")
+                            let loginService = LoginWithEmailService()
+                           
+                            let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                            loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                                self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                        })
+                                errorBlock!(errorResult)
+                            })
+                        }
+                        
+                        
+                      
                     }
-                    errorBlock!(errorResult)
+                    //errorBlock!(errorResult)
                     return
                 }
                 //TAG Manager
@@ -303,8 +317,8 @@ class BaseService : NSObject {
                     
                     if stringOfClassType != "WalmartMG.ConfigService" {
                         for cookie in cookies {
-                            print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) - \(self.serviceUrl())")
                              if cookie.name == "JSESSIONID" {
+                                print("Response JSESSIONID::  \(cookie.name)  -- \(cookie.value) - \(self.serviceUrl())")
                                 UserCurrentSession.sharedInstance.jsessionIdArray.append("\(cookie.name) -- \(cookie.value) -- \(stringOfClassType)")
                             }
                         }
@@ -312,14 +326,11 @@ class BaseService : NSObject {
                 }
                 
                 
-            }else{
-                print("nooooooo :: cookie \(stringOfClassType)")
             }
      
             
             if stringOfClassType != "WalmartMG.ConfigService" {
                 print("GetClassName \(stringOfClassType)")
-                print("Regresa JSESSIONATG \(atgSession)  -- \(self.serviceUrl()) ")
                 
                 UserCurrentSession.sharedInstance.JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance.JSESSIONATG
                 if UserCurrentSession.sharedInstance.JSESSIONATG != ""{
@@ -328,9 +339,8 @@ class BaseService : NSObject {
             }
            
             
-            
             let resultJSON = json as! [String:Any]
-             //print("callPOSTService resultJSON ::\(resultJSON)")
+            print("callGETService resultJSON :: \(self.serviceUrl() )\n \(resultJSON)")
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
@@ -338,20 +348,42 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
                         print("****************** ****************** ****************** ****************** GET")
-                        let loginService = LoginWithEmailService()
-                        //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
-                        let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
-                            self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                        
+                        if self.serviceUrl().contains("/walmartgroceries/") {//Relogin grç
+                             print("****************** ****************** walmartgroceries ****************** ****************** ")
+                            let serviceGr = GRLoginWithEmailService()
+                            let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                            serviceGr.callService(["email":emailUser], successBlock: { (resultCall:[String : Any]) in
+                                
+                                  self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                              
+                                
+                            }, errorBlock: { (error:NSError) in
+                                UserCurrentSession.sharedInstance.userSigned = nil
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                errorBlock!(errorResult)
+                            })
+                        }else{
+                             print("****************** ****************** MG ****************** ****************** ")
+                            let loginService = LoginWithEmailService()
+                            //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
+                            let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                            loginService.callWithEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                                self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                        })
+                                errorBlock!(errorResult)
+                            })
+                            
+                            
+                        }
+                        
                         return
                     }
                 }
                 
-                errorBlock!(errorResult)
+                //errorBlock!(errorResult)
                 return
             }
             successBlock!(resultJSON)
@@ -500,7 +532,7 @@ class BaseService : NSObject {
     func jsonFromObject(_ object:AnyObject!) {
         let data : Data = try! JSONSerialization.data(withJSONObject: object, options: .prettyPrinted)
         let jsonTxt = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        //print(jsonTxt!)
+        print(jsonTxt!)
     }
     
     func needsLogin() -> Bool {
