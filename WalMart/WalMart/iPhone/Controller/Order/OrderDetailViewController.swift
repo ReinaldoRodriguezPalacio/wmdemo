@@ -104,6 +104,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -162,6 +166,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }
         }
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil)
+        self.tableDetailOrder.reloadData()
     }
  
     
@@ -593,9 +604,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
             delay(0.5, completion: {
-                self.showLoadingView()
-                self.reloadPreviousOrderDetail()
-                
+//                self.showLoadingView()
+//                self.reloadPreviousOrderDetail()
+                self.reloadViewDetail()
             })
         }
     
@@ -930,6 +941,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         })
 
     
+    }
+    
+    func reloadViewDetail() {
+        self.tableDetailOrder.reloadData()
     }
     
     override func back() {

@@ -272,7 +272,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true) //360 multiple add
                     
                     self.finishCall = true
-                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     if self.timmer == nil {
                         self.showDoneIcon()
                         WishlistService.shouldupdate = true
@@ -312,6 +312,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if self.timmer == nil {
                         self.showDoneIcon()
                     }
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     
                     if wishlistDelete.count > 0 {
                         let deleteService = DeleteItemWishlistService()

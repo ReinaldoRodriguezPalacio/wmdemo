@@ -38,6 +38,7 @@ enum CustomBarNotification : String {
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
+    case SuccessDeleteItemsToShopingCart = "kSuccessDeleteItemsToShopingCart"
     case ReloadWishList = "kReloadWishList"
     case UpdateBadge = "kUpdateBadge"
     case UserLogOut = "kUserLogOut"
