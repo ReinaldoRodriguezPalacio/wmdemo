@@ -724,7 +724,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? ZERO_QUANTITY_STRING == ZERO_QUANTITY_STRING) {
             
             self.originalValGr = 0.0
-            self.currentValGr = self.originalValGr
+            self.currentValGr = 0.0
             self.currentValCstmGr = 0.0
             self.currentValPzs = 0.0
             
@@ -883,7 +883,12 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.keyboardN.changeType(NumericKeyboardViewType.Decimal)
             
             var formatedString = ""
-            let valInKg = currentValCstmGr / 1000.0
+            var valInKg = currentValCstmGr / 1000.0
+            
+            if valInKg < 0.01 {
+                currentValCstmGr = 0.0
+                valInKg = 0.0
+            }
             
             if (currentValCstmGr.truncatingRemainder(dividingBy: 1000)) == 0 {
                 formatedString = String(format:"%.f",valInKg)

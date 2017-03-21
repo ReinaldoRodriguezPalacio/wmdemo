@@ -156,6 +156,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelPhone!.textColor = WMColor.light_blue
         
         self.phoneHomeNumber = FormFieldView()
+        self.phoneHomeNumber!.isRequired = true
         self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
         self.phoneHomeNumber!.typeField = TypeField.phone
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
@@ -476,5 +477,8 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.suburb?.text = ""
         self.betweenFisrt?.text = ""
         self.betweenSecond?.text = ""
+        
+        self.errorView?.removeFromSuperview()
+        self.errorView = nil
     }
 }
