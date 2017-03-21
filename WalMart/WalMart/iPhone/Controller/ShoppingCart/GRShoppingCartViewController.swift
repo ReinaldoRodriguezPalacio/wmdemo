@@ -1043,11 +1043,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                         myprod.pieces = NSNumber(value: quantity as Int)
                         break
                     }
-                    do {
-                        try context.save()
-                    } catch  {
-                        print("Error save context listSelectorDidAddProductLocally")
-                    }
                 }
             }
             

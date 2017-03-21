@@ -324,9 +324,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-                
+                if self.selectQuantityGR != nil {
+                    self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+                }
                 self.selectQuantityGR?.closeSelectQuantity()
-                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 
                 if Int(quantity)! > 20000 {
                     
@@ -504,7 +505,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
                         }, completeClose: { () -> Void in
-                            
+                            self.selectQuantityGR = nil
                             self.isShowShoppingCart = false
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
             
@@ -1026,9 +1027,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             if productSelect!.upc ==  self.upc as String {
                 if quantity == "00"{
                    context.delete(productSelect!)
-                 
                 }else{
-                    productSelect?.quantity = NSNumber(value:Int(quantity)!)
+                    self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+                    productSelect?.quantity = NSNumber(value:Int32(quantity)!)
+                    productSelect?.orderByPiece =  self.itemOrderbyPices as NSNumber
+                    productSelect?.equivalenceByPiece =  self.equivalenceByPiece
+                    productSelect?.pieces = NSNumber(value:Int32(quantity)!)
                 }
             }
         }
@@ -1062,7 +1066,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         self.removeListSelector(action: nil)
         //TODO: Add message
-        self.showMessageWishList("Se agregó a la lista")
+        if quantity == "00" {
+            self.showMessageWishList("Se eliminó de la lista")
+        }else{
+            self.showMessageWishList("Se agregó a la lista")
+        }
         
     
     }
