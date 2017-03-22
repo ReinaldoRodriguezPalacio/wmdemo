@@ -668,6 +668,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     }
     
     func validateWeightSelectedBtn(gr: Double) {
+        turnOffSelectedWeightBtn()
         if gr == 100.0 {
             keyboard?.btngramos?.isSelected = true
         } else if gr == 250.0 {
