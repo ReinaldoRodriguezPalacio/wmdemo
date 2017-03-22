@@ -376,7 +376,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 if self.isPesable {
                    selectQuantityGR  = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
                 }
-             
+                self.selectQuantityGR?.isFromList = true
+                self.selectQuantityGR?.isUpcInList = false
                 selectQuantityGR?.closeAction = { () in
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
@@ -689,6 +690,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR.isFromList = true
+        self.selectQuantityGR.isUpcInList = false
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil, closeRow:true)
         }
@@ -744,6 +746,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR.isFromList = true
+        self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil, closeRow:true)
         }
@@ -881,6 +884,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR.isFromList = true
+            self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
             self.selectQuantityGR!.closeAction = { () in
                 self.removeListSelector(action: nil, closeRow:true)
             }
