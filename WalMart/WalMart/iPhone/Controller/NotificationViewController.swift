@@ -97,12 +97,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.layerLine?.frame = CGRect(x: 0, y: 45, width: self.view.frame.width, height: 1)
         
         var heightEmptyView = self.view.bounds.height
-        if !model.contains("iPhone 5") && !model.contains("Plus") {
+        if !model.contains("iPhone 5") && !model.contains("Plus") && !model.contains("4") {
             heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
-        }
-        
-        if model.contains("4") {
-            heightEmptyView -= 26
         }
     
         self.emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
@@ -117,17 +113,16 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         let model = UIDevice.current.modelName
         print(model)
         
+        var heightEmptyView = self.view.bounds.height
+        if !model.contains("iPhone 5") && !model.contains("Plus") && !model.contains("4") {
+            heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
+        }
+
         let pushNotificationService = PushNotificationService()
         pushNotificationService.callService({ (dict) -> Void in
             self.allNotifications = self.getNotificationsForDevice(dict)
             
             if self.allNotifications.count == 0 {
-                var heightEmptyView = self.view.bounds.height
-                
-                if !model.contains("iPhone 5") && !model.contains("Plus") {
-                    heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
-                }
-
                 self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
             
                 self.emptyView!.showReturnButton = false
@@ -140,7 +135,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }, errorBlock: {
             (error) -> Void in print("Error pushNotificationService")
             self.removeLoadingView()
-            self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+            self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
             
             self.emptyView!.showReturnButton = false
             self.view.addSubview(self.emptyView!)

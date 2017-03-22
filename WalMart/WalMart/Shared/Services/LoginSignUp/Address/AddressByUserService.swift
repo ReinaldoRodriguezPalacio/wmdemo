@@ -18,6 +18,7 @@ class AddressByUserService : BaseService {
         self.setManagerTempHeader()
         self.callGETService(afManager,serviceURL:self.serviceUrl(),params:[:], successBlock: { (resultCall:[String:Any]) -> Void in
             successBlock!(resultCall)
+//            successBlock!([:])
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
         }
