@@ -14,6 +14,8 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import AFNetworking
 import AFNetworkActivityLogger
+import Fabric
+import Crashlytics
 //import FBNotifications
 
 
@@ -31,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
+        Fabric.with([Crashlytics.self])
         
         //Push notifications
         if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
