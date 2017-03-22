@@ -11,6 +11,7 @@ target 'WalMart' do
     pod 'FacebookCore'
     pod 'FacebookLogin'
     pod 'FacebookShare'
+    pod 'PayPal-iOS-SDK','2.16.3'
     
     #Fabric comment to commit walmart app
     pod 'Fabric'
