@@ -2030,7 +2030,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
-            prodQuantity =  quantity == 0 ? "50" : "\(quantity)"
+            prodQuantity =  quantity == 0 ? "100" : "\(quantity)"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY)
