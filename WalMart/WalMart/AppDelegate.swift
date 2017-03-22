@@ -41,14 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-//        print("****************** ****************** ****************** ****************** ")
-//        print("clearCokkie clearCokkie clearCokkie")
-//        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-//        let coockieStorege  = HTTPCookieStorage.shared
-//        for cookie in coockieStorege.cookies! {
-//            coockieStorege.deleteCookie(cookie)
-//        }
-        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -99,9 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //Log request
         AFNetworkActivityLogger.shared().startLogging()
-        //AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
-
-        
         AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
             switch (status) {
             case AFNetworkReachabilityStatus.notReachable:

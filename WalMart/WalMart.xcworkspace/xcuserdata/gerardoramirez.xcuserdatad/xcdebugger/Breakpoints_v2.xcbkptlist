@@ -90,7 +90,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "511841421.237556"
+                  timestampString = "511852475.702462"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "786"
@@ -105,7 +105,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "511841421.239093"
+                  timestampString = "511852475.703754"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "787"
@@ -160,38 +160,6 @@
             startingLineNumber = "278"
             endingLineNumber = "278"
             landmarkName = "startAddingToShoppingCart()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/Shared/Services/BaseService.swift"
-            timestampString = "511837898.822403"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658"
-            landmarkName = "callPOSTServiceCam(_:params:successBlock:errorBlock:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/Shared/Services/BaseService.swift"
-            timestampString = "511837898.822403"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "657"
-            endingLineNumber = "657"
-            landmarkName = "callPOSTServiceCam(_:params:successBlock:errorBlock:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
