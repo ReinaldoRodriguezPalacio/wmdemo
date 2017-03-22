@@ -1544,12 +1544,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
 
-        if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
-        }else{
+        if self.empty != nil {
             self.removeEmptyView()
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
+        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height))
+        
         if UIDevice.current.modelName.contains("4") {
             self.empty.paddingBottomReturnButton += 44
         }
@@ -1588,7 +1587,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         print(model)
         var heightEmpty = self.view.bounds.height
         if !model.contains("iPad") && !model.contains("4") {
-            heightEmpty -= 64
+            heightEmpty -= 44
         }
         if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
             heightEmpty -= 44
@@ -1606,7 +1605,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if model.contains("4") {
             self.emptyMGGR.paddingBottomReturnButton += 56
         } else if  model.contains("iPod") || model.contains("Plus") {
-            self.emptyMGGR.paddingBottomReturnButton += 24
+   //         self.emptyMGGR.paddingBottomReturnButton += 24
         }
         
         if btnSuper.isSelected {
