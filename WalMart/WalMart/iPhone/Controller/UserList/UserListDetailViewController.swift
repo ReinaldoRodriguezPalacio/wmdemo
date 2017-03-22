@@ -60,7 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var retunrFromSearch =  false
     var isDeleting = false
     var analyticsSent = false
-     var emptyView: UIView?
+    var emptyView: UIView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -683,14 +683,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.bounds
-            let height = bounds.size.height - 44
+            var height = self.view.frame.height
             
             if UserCurrentSession.hasLoggedUser() {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
-            }else{
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
+            } else {
+                if UIDevice.current.modelName.contains("4") {
+    //                height -= self.header!.frame.maxY
+                }
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height ))
             }
-            self.emptyView!.backgroundColor = UIColor.red
+            self.emptyView!.backgroundColor = UIColor.white
             self.view.addSubview(self.emptyView!)
             
             let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
@@ -715,6 +718,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
             self.emptyView!.addSubview(icon)
             
+            var yButton = self.emptyView!.frame.height - 54
+            if !UIDevice.current.modelName.contains("4") {
+                yButton -= 46
+            }
             let button = UIButton(type: .custom)
             if UserCurrentSession.hasLoggedUser() {
                 button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
@@ -724,6 +731,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     ybtn = self.view.bounds.height - 100
                 }
                 button.frame = CGRect(x: (bounds.width - 160.0)/2,y:ybtn , width: 160 , height: 40)
+
             }
             /*if IS_IPHONE_4_OR_LESS{
              button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
@@ -753,8 +761,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.emptyView?.removeFromSuperview()
                     self.emptyView = nil
                 }
-            }
-            )
+            } )
         }
 
     }

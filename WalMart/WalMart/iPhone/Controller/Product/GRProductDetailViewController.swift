@@ -304,8 +304,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
       
-        if self.isPesable && !exist {
-            
+        if self.isPesable && !exist{
+            self.selectQuantityGR = nil
             let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
             let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
             selectQuantityGR = selectQuantityGRW
@@ -929,7 +929,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return product.upc == self.upc as String
         }
         
-        if  exist  {
+        if  exist || list.products.count == 0 {
             let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
@@ -939,8 +939,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-                //self.addToListLocally(quantity:quantity,list:list)
+                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+                if  list.products.count == 0 {
+                    self.addToListLocally(quantity:quantity,list:list)
+                }else{
                     self.updateToListLocally(quantity: quantity, list: list)
+                }
             }
             self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
             

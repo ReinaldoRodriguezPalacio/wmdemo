@@ -15,7 +15,7 @@ class AuthorizationService : GRBaseService {
     
     override func callGETService(_ params: Any, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         super.callGETService(params, successBlock: { (response:[String:Any]) in
-            print("ok AuthorizationService Service")
+            print("ok Response Service")
             successBlock!(response)
         }, errorBlock: { (error:NSError) in
             print("ERROR:: \(error.localizedDescription)")
@@ -23,5 +23,35 @@ class AuthorizationService : GRBaseService {
         })
         
     }
+    
+    
+    override func getManager() -> AFHTTPSessionManager {
+        
+        var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
+        if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
+            jSessionAtgIdSend = param2.value
+        }
+        if UserCurrentSession.hasLoggedUser() && shouldIncludeHeaders() {
+            
+            let timeInterval = NSDate().timeIntervalSince1970
+            let timeStamp  = String(NSNumber(value:(timeInterval * 1000)).intValue) // Time in milis "1400705132881"//
+            let uuid  = NSUUID().uuidString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
+            let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
+            
+            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            AFStatic.managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+            AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+            AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
+            AFStatic.managerGR.requestSerializer.httpShouldHandleCookies = true
+            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+        } else{
+            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            AFStatic.managerGR.requestSerializer.httpShouldHandleCookies = true
+            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+        }
+        
+        return AFStatic.managerGR
+    }
+    
 
 }
