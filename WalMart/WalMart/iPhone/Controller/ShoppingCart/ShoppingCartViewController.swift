@@ -902,6 +902,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
         })
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
     }
     
     /**
@@ -1496,7 +1497,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
               
                 
                 print("done")
-                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
                 //EVENT
                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
                 

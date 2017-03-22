@@ -642,6 +642,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         
+        self.quantitySelector?.closeSelectQuantity()
+        
         self.isDeleting = true
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
         if let indexPath = self.tableView!.indexPath(for: cell) {

@@ -762,6 +762,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.tableShoppingCart.reloadData()
                     self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
                 }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
             })
             }, errorBlock: { (error:NSError) -> Void in
                  self.removeViewLoad()
@@ -829,7 +830,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 //self.loadGRShoppingCart()
                 
                 self.removeViewLoad()
-                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
                 print("done")
                 if self.onClose != nil {
                     self.onClose?(true)
@@ -1042,11 +1043,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                         myprod.equivalenceByPiece =  equivalenceByPiece
                         myprod.pieces = NSNumber(value: quantity as Int)
                         break
-                    }
-                    do {
-                        try context.save()
-                    } catch  {
-                        print("Error save context listSelectorDidAddProductLocally")
                     }
                 }
             }
