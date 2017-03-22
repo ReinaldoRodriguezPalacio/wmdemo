@@ -131,11 +131,12 @@ class BaseService : NSObject {
                 let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
                 let uuid  = UUID().uuidString
                 let strUsr  = "ff24423eefbca345" + timeStamp + uuid
+                
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
                 //Session --
-                
+                AFStatic.manager.requestSerializer.httpShouldHandleCookies = true
                 //print("URL:: \(self.serviceUrl())")
                 print("send::sessionID mg -- \(jsessionIdSend) ATGID -- \(jSessionAtgIdSend) \(self.serviceUrl())")
                 
@@ -154,6 +155,7 @@ class BaseService : NSObject {
                     //AFStatic.manager.requestSerializer.setValue("JSESSIONID=\(jsessionIdSend)", forHTTPHeaderField:"Cookie")
                     //AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                     AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+                AFStatic.manager.requestSerializer.httpShouldHandleCookies = true
             
             }
         
@@ -218,6 +220,7 @@ class BaseService : NSObject {
              var jsessionId_array :[String] = []
             
             if cookie != "" {
+                print("Cookie : \(cookie) from service \(url)")
                 print("Before : \(headers)")
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
@@ -318,6 +321,7 @@ class BaseService : NSObject {
         print("callGETService params ::\(params)")
         manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             
+            
             //session --
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
@@ -326,6 +330,8 @@ class BaseService : NSObject {
             let stringOfClassType: String = self.nameOfClass(type(of: self))
 
             if cookie != "" {
+                
+                print("Cookie : \(cookie) from service \(serviceURL)")
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
                     
@@ -376,10 +382,10 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
-                
                 if errorResult.code == self.needsToLoginCode()   {
+                    print("-100 headers \(request.originalRequest?.allHTTPHeaderFields)")
                     if UserCurrentSession.hasLoggedUser() {
-                        self.clearCokkie()
+                       // self.clearCokkie()
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -554,19 +560,19 @@ class BaseService : NSObject {
         return -100
     }
     
-    func clearCokkie(){
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-          
-                if cookie.name == "JSESSIONID" {
-                    coockieStorege.deleteCookie(cookie)
-                }
-        }
-        
-    }
+//    func clearCokkie(){
+//        print("****************** ****************** ****************** ****************** ")
+//        print("clearCokkie clearCokkie clearCokkie")
+//        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
+//        let coockieStorege  = HTTPCookieStorage.shared
+//        for cookie in coockieStorege.cookies! {
+//          
+//                if cookie.name == "JSESSIONID" {
+//                    coockieStorege.deleteCookie(cookie)
+//                }
+//        }
+//        
+//    }
     
     func needsSaveSeion(cassType:String) -> Bool {
         if cassType == "WalmartMG.LoginService" || cassType == "WalmartMG.LoginWithEmailService" {
@@ -647,7 +653,7 @@ class BaseService : NSObject {
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     //TAG manager
                     BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
-                    
+                    print(request.currentRequest?.allHTTPHeaderFields)
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                            
