@@ -14,6 +14,8 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import AFNetworking
 import AFNetworkActivityLogger
+import Fabric
+import Crashlytics
 //import FBNotifications
 
 
@@ -31,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
+        Fabric.with([Crashlytics.self])
         
         //Push notifications
         if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
@@ -41,26 +44,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-            coockieStorege.deleteCookie(cookie)
-        }
-        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
        
         //Session --
-//        let authorizationService =  AuthorizationService()
-//        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-//            UserCurrentSession.sharedInstance.searchForCurrentUser()
-//            },errorBlock:{ (error:NSError) in
-//                print(error.localizedDescription)
-//                
-//        })
+       /* let authorizationService =  AuthorizationService()
+        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+            UserCurrentSession.sharedInstance.searchForCurrentUser()
+            },errorBlock:{ (error:NSError) in
+                print(error.localizedDescription)
+                
+        })*/
         
 //        // Optional: automatically send uncaught exceptions to Google Analytics.
 //        GAI.sharedInstance().trackUncaughtExceptions = true
@@ -98,9 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //Log request
         AFNetworkActivityLogger.shared().startLogging()
-        //AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
-
-        
         AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
             switch (status) {
             case AFNetworkReachabilityStatus.notReachable:
@@ -176,20 +169,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             NSLog("Stack Trace: \(exception.callStackSymbols)")
         }
         
-    
+        
         //TAGManager
         let GTM = TAGManager.instance()
-        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        //GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
     
         //TODO Cambiar a produccion 
-        //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
-        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
+       TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+       // TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
  
         
- 
+        
         
       
         
@@ -233,10 +226,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             IPOSplashViewController.updateUserData(true)
         }
         
-        if self.alertNoInternet != nil {
-            self.alertNoInternet?.close()
-            self.alertNoInternet = nil
-        }
         //Tune.framework
         //Tune.measureSession()
     }

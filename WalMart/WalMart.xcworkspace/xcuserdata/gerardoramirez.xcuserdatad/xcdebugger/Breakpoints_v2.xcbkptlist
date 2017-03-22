@@ -86,6 +86,7 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+<<<<<<< HEAD
                   symbolName = "WalmartMG.IPAProductDetailViewController.deleteFromCart () -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
@@ -96,11 +97,24 @@
                   startingLineNumber = "785"
                   endingLineNumber = "785"
                   offsetFromSymbolStart = "1496">
+=======
+                  symbolName = "WalmartMG.IPAProductDetailViewController.addToShoppingCart (Swift.String, desc : Swift.String, price : Swift.String, imageURL : Swift.String, comments : Swift.String) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
+                  timestampString = "511887876.272006"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "786"
+                  endingLineNumber = "786"
+                  offsetFromSymbolStart = "1524">
+>>>>>>> ver3.52B5
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+<<<<<<< HEAD
                   symbolName = "WalmartMG.IPAProductDetailViewController.(deleteFromCart () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
@@ -111,6 +125,18 @@
                   startingLineNumber = "786"
                   endingLineNumber = "786"
                   offsetFromSymbolStart = "24">
+=======
+                  symbolName = "WalmartMG.IPAProductDetailViewController.(addToShoppingCart (Swift.String, desc : Swift.String, price : Swift.String, imageURL : Swift.String, comments : Swift.String) -&gt; ()).(closure #1)"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
+                  timestampString = "511887876.27332"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "787"
+                  endingLineNumber = "787"
+                  offsetFromSymbolStart = "32">
+>>>>>>> ver3.52B5
                </Location>
             </Locations>
          </BreakpointContent>
@@ -134,6 +160,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< HEAD
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -166,6 +193,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+=======
+>>>>>>> ver3.52B5
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -186,6 +215,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/ShoppingCart/ShoppingCartUpdateController.swift"
+<<<<<<< HEAD
             timestampString = "508718302.336712"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -202,6 +232,8 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/ShoppingCart/ShoppingCartUpdateController.swift"
+=======
+>>>>>>> ver3.52B5
             timestampString = "508718304.373015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -217,6 +249,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< HEAD
             filePath = "WalMart/GRCheckOutPymentViewController.swift"
             timestampString = "511326099.553042"
             startingColumnNumber = "9223372036854775807"
@@ -224,6 +257,15 @@
             startingLineNumber = "1289"
             endingLineNumber = "1289"
             landmarkName = "didSelectOption(_:indexPath:selectedStr:)"
+=======
+            filePath = "Pods/AFNetworking/AFNetworking/AFURLRequestSerialization.m"
+            timestampString = "511837626.989673"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
+            landmarkName = "+automaticallyNotifiesObserversForKey:"
+>>>>>>> ver3.52B5
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
