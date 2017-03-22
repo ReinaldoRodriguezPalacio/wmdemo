@@ -444,7 +444,6 @@
 		6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */; };
 		6CFDD8A81BC8275000124667 /* PushNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDD8A71BC8275000124667 /* PushNotificationService.swift */; };
 		851EF5F01CF7AD2F00C37BD5 /* WMTCopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */; };
-		85214BD51E82C9A500323C28 /* CreateUserSignOutAndLoginCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85214BD41E82C9A500323C28 /* CreateUserSignOutAndLoginCase.swift */; };
 		8B19FD541AB0F207005A6D9E /* IPAHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */; };
 		8B19FD561AB0F367005A6D9E /* IPATermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */; };
 		8B19FD581AB0F3AC005A6D9E /* IPASupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */; };
@@ -1048,7 +1047,6 @@
 		7ACAE930821CC056AD2ECA89 /* Pods-WalMart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.debug.xcconfig"; sourceTree = "<group>"; };
 		7F266958F1908AB29ACC0D47 /* Pods-WalMart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WalMart.release.xcconfig"; path = "Pods/Target Support Files/Pods-WalMart/Pods-WalMart.release.xcconfig"; sourceTree = "<group>"; };
 		851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WMTCopyLabel.swift; sourceTree = "<group>"; };
-		85214BD41E82C9A500323C28 /* CreateUserSignOutAndLoginCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateUserSignOutAndLoginCase.swift; sourceTree = "<group>"; };
 		8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpViewController.swift; path = iPad/Controller/Help/IPAHelpViewController.swift; sourceTree = "<group>"; };
 		8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPATermViewController.swift; path = iPad/Controller/Help/IPATermViewController.swift; sourceTree = "<group>"; };
 		8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASupportViewController.swift; path = iPad/Controller/Help/IPASupportViewController.swift; sourceTree = "<group>"; };
@@ -1567,7 +1565,6 @@
 			children = (
 				564578B119AE2E00006A7152 /* WalMartTests.swift */,
 				564578AF19AE2E00006A7152 /* Supporting Files */,
-				85214BD41E82C9A500323C28 /* CreateUserSignOutAndLoginCase.swift */,
 			);
 			path = WalMartTests;
 			sourceTree = "<group>";
@@ -3703,7 +3700,6 @@
 				04D15BC91A96474400860919 /* FilterProductsViewController.swift in Sources */,
 				565F1D4F1A1D73D100120953 /* IPASearchView.swift in Sources */,
 				8B19FD561AB0F367005A6D9E /* IPATermViewController.swift in Sources */,
-				85214BD51E82C9A500323C28 /* CreateUserSignOutAndLoginCase.swift in Sources */,
 				5614A64D1A6830D50048B71A /* GRShoppingCartProductsService.swift in Sources */,
 				5673D13E1A9D500400DCD20B /* RSExtendedCode39Generator.swift in Sources */,
 				56C94C3E1B877F26006E2443 /* UIButton+Walmart.swift in Sources */,
