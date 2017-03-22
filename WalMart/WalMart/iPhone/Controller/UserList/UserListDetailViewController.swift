@@ -719,7 +719,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if UserCurrentSession.hasLoggedUser() {
                 button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
             }else{
-                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.view.bounds.height - 208, width: 160 , height: 40)
+                var ybtn = self.view.bounds.height - 208
+                if self.view.bounds.height < 500 {
+                    ybtn = self.view.bounds.height - 100
+                }
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y:ybtn , width: 160 , height: 40)
             }
             /*if IS_IPHONE_4_OR_LESS{
              button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
