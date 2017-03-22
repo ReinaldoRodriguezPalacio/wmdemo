@@ -669,24 +669,26 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     
     func validateWeightSelectedBtn(gr: Double) {
         if gr == 100.0 {
-            keyboard.btngramos.isSelected = true
+            keyboard?.btngramos?.isSelected = true
         } else if gr == 250.0 {
-            keyboard.btncuarto.isSelected = true
+            keyboard?.btncuarto?.isSelected = true
         } else if gr == 500.0 {
-            keyboard.btmediokilo.isSelected = true
+            keyboard?.btmediokilo?.isSelected = true
         } else if gr == 750.0 {
-            keyboard.bttrescuartos.isSelected = true
+            keyboard?.bttrescuartos?.isSelected = true
         } else if gr == 1000.0 {
-            keyboard.btunkilo.isSelected = true
+            keyboard?.btunkilo?.isSelected = true
+        }else {
+            turnOffSelectedWeightBtn()
         }
     }
     
     func turnOffSelectedWeightBtn() {
-        keyboard.btngramos.isSelected = false
-        keyboard.btncuarto.isSelected = false
-        keyboard.btmediokilo.isSelected = false
-        keyboard.bttrescuartos.isSelected = false
-        keyboard.btunkilo.isSelected = false
+        keyboard?.btngramos?.isSelected = false
+        keyboard?.btncuarto?.isSelected = false
+        keyboard?.btmediokilo?.isSelected = false
+        keyboard?.bttrescuartos?.isSelected = false
+        keyboard?.btunkilo?.isSelected = false
     }
     
     func updateShoppButton() {
@@ -812,7 +814,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         let rectSize =  lblQuantityW.attributedText!.boundingRect(with: CGSize(width: lblQuantityW.frame.width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRect(x: (lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, y: 0, width: 1, height: lblQuantityW.frame.height)
-        
+        self.validateWeightSelectedBtn(gr: currentValGr)
     }
     
     func updateLabelN(_ value: String) {

@@ -224,7 +224,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
            
             }) { (error:NSError) -> Void in
               //  var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 95))
+                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
                
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
