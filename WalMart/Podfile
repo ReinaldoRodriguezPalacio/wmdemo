@@ -11,9 +11,6 @@ target 'WalMart' do
     pod 'FacebookCore'
     pod 'FacebookLogin'
     pod 'FacebookShare'
-    
-    #Fabric comment to commit walmart app
-    pod 'Fabric'
-    pod 'Crashlytics'
+   
     
 end

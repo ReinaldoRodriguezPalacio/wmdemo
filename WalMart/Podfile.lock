@@ -22,9 +22,6 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Crashlytics (3.8.4):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
   - FacebookCore (0.2.0):
     - Bolts (~> 1.8)
     - FBSDKCoreKit (~> 4.15)
@@ -39,11 +36,11 @@ PODS:
     - FBSDKCoreKit (~> 4.15)
     - FBSDKShareKit (~> 4.15)
   - FBNotifications (1.0.1)
-  - FBSDKCoreKit (4.18.0):
+  - FBSDKCoreKit (4.20.2):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.18.0):
+  - FBSDKLoginKit (4.20.2):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.18.0):
+  - FBSDKShareKit (4.20.2):
     - FBSDKCoreKit
   - GoogleAnalytics (3.17.0)
   - GoogleTagManager (3.15.2):
@@ -52,8 +49,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworkActivityLogger (from `https://github.com/AFNetworking/AFNetworkActivityLogger.git`, branch `3_0_0`)
   - AFNetworking (~> 3.0)
-  - Crashlytics
-  - Fabric
   - FacebookCore
   - FacebookLogin
   - FacebookShare
@@ -74,18 +69,16 @@ SPEC CHECKSUMS:
   AFNetworkActivityLogger: e77f68d014becb33c4306a23f56a64906ff72670
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
   FacebookShare: 8e9ee8ea06505e6a1d3d719b0cc63e840fb8aaeb
   FBNotifications: 3f1a9e43ffa2979a685eec29c960ca6a15c70be9
-  FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
-  FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
-  FBSDKShareKit: 0b8d6cc3f103c75297eb3c62caec284a2ccf1b9e
+  FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
+  FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
+  FBSDKShareKit: ca9b22264ea49a896dafb2467c1a4f72aa41996f
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleTagManager: 43b61f634e42e4b9566ab41e9fd6aa0f6adf47a5
 
-PODFILE CHECKSUM: f034f9c2e48f10d996447475d5328f7ae4b43071
+PODFILE CHECKSUM: 6d8ac2026a0c8a731e83e1ca31758d1e77a94bce
 
-COCOAPODS: 1.2.0.rc.1
+COCOAPODS: 1.1.1
