@@ -99,7 +99,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(ShoppingCartUpdateController.closeAlert), for: UIControlEvents.touchUpInside)
-        closeButton.frame = CGRect(x: 0, y: 5, width: 44, height: 44)
+
+        closeButton.frame = CGRect(x: 0, y: 20, width: 44, height: 44)
         
         viewBgImage = UIView(frame: CGRect(x: (self.view.frame.width / 2) - 40, y: 100, width: 80, height: 80))
         viewBgImage.layer.cornerRadius = viewBgImage.frame.width / 2
@@ -167,7 +168,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.imageBlurView.frame = self.view.bounds
         content.frame =  CGRect(x: 0, y: minContentY, width: self.view.frame.width, height: 340)
         
-        closeButton.frame = CGRect(x: 0, y: 5, width: 44, height: 44)
+        closeButton.frame = CGRect(x: 0, y: 20, width: 44, height: 44)
         viewBgImage.frame = CGRect(x: (self.view.frame.width / 2) - 40, y: 100, width: 80, height: 80)
         spinImage.frame = CGRect(x: (self.view.frame.width / 2) - 42, y: 98, width: 84, height: 84)
         titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - (titleLabel.frame.width / 2), y: titleLabel.frame.minY, width: titleLabel.frame.width, height: titleLabel.frame.height)
@@ -534,6 +535,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func showDoneIcon(){
+        self.closeButton.isHidden = true
         if finishCall ==  false {
             if self.timmer != nil {
             timmer.invalidate()
