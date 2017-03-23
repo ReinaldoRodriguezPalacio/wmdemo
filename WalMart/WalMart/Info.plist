@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -951,9 +951,9 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
 	</dict>
 	<key>clusterWMURLServices</key>
