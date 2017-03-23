@@ -316,7 +316,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
-                    self.productDetailButton?.listButton.isSelected = false
+                    //self.productDetailButton?.listButton.isSelected = false
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
                 })
