@@ -260,7 +260,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         confServ.callService([:], successBlock: { (result:[String:Any]) -> Void in
 
 //            Meter validacion
-            if UserCurrentSession.sharedInstance.JSESSIONATG != "" {
+            if UserCurrentSession.sharedInstance.JSESSIONID != "" {
                  self.afterConfigService(result: result)
             }else{
             let authorizationService =  AuthorizationService()

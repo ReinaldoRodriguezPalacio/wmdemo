@@ -43,11 +43,7 @@ class LoginService : BaseService {
     }
     
     func callServiceByEmail(params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-    let serviceEmail = LoginWithEmailService()
-        let emailUser = params["email"] as! String
-        UserCurrentSession.sharedInstance.userSignedOnService = false
-        serviceEmail.callWithEmailService(["email":emailUser], successBlock: { (resultCall:[String : Any]) in
-            
+      let _ = self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.intValue == 0 {
                     let resultCallMG = resultCall
@@ -56,8 +52,8 @@ class LoginService : BaseService {
                     grLoginWithEmailService.callService(["email":params["email"]!], successBlock: { (resultCallGR:[String:Any]) -> Void in
                         UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
                         successBlock!(resultCall)
-                    }, errorBlock: { (errorGR:NSError) -> Void in
-                        errorBlock!(errorGR)
+                        }, errorBlock: { (errorGR:NSError) -> Void in
+                            errorBlock!(errorGR)
                     })
                 }
                 else{
@@ -66,32 +62,9 @@ class LoginService : BaseService {
                 }
             }
             
-        }) { (error:NSError) in
-              errorBlock!(error)
+        }) { (error:NSError) -> Void in
+            errorBlock!(error)
         }
-        
-//      let _ = self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-//            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-//                if codeMessage.intValue == 0 {
-//                    let resultCallMG = resultCall
-//                    
-//                    let grLoginWithEmailService = GRLoginWithEmailService()
-//                    grLoginWithEmailService.callService(["email":params["email"]!], successBlock: { (resultCallGR:[String:Any]) -> Void in
-//                        UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
-//                        successBlock!(resultCall)
-//                        }, errorBlock: { (errorGR:NSError) -> Void in
-//                            errorBlock!(errorGR)
-//                    })
-//                }
-//                else{
-//                    let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-//                    errorBlock!(error)
-//                }
-//            }
-//            
-//        }) { (error:NSError) -> Void in
-//            errorBlock!(error)
-//        }
     }
     
     override func shouldIncludeHeaders() -> Bool {
