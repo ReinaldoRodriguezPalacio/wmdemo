@@ -117,6 +117,8 @@ class GRProductBySearchService: BaseService {
                 }*/
                                 
                 if let responseMainArea = resultJSON["mainArea"] as? NSArray {
+                    if responseMainArea.count != 0 {//responseMainArea[0]
+                        
                     let mainArea = responseMainArea[0] as! [String:Any]
                     
                     //facets
@@ -175,6 +177,11 @@ class GRProductBySearchService: BaseService {
                         }
                     }
                     successBlock?(newItemsArray, facets)
+                    } else {
+                        let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:1, userInfo: [NSLocalizedDescriptionKey:""])
+                        errorBlock?(error)
+                        return
+                    }
                 }
                                 
             },

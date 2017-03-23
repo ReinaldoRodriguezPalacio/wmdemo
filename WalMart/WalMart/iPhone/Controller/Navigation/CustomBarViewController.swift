@@ -1074,6 +1074,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
+        controller.urlFamily = line // url promociones
+        controller.originalUrl = line!// url promociones
+        controller.textToSearch = ""
+        controller.originalText = ""
         let controllernav = self.currentController as? UINavigationController
         let controllersInNavigation = controllernav?.viewControllers.count
         if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){

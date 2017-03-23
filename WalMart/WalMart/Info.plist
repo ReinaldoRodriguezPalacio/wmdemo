@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -252,7 +252,7 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://dl.dropboxusercontent.com/s/4cgrsz6k357584s/displayTaxonomia.txt?dl=0</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/displayTaxonomy/</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
@@ -310,7 +310,7 @@
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getItemsBySearching</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/getProductsPLPBySearch</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductsByUPCService</key>

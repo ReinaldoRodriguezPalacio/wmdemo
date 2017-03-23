@@ -723,6 +723,15 @@
                                     if let total = item["totalResults"] as? NSString {
                                         self.results!.totalResults = total.integerValue
                                     }
+                                    
+                                    if self.controllerFilter != nil {
+                                        self.controllerFilter.selectedOrder! =  ""
+                                        self.controllerFilter.filtersAll = self.facet
+                                        self.controllerFilter.filterOrderViewCell?.resetOrderFilter()
+                                        self.controllerFilter.upcPrices =  nil
+                                        self.controllerFilter.selectedElementsFacet = [:]
+                                        self.controllerFilter.showLoadingIfNeeded(hidden: true)
+                                    }
                                 }
                                 else {
                                     self.results!.resultsInResponse = 0
@@ -963,12 +972,12 @@
         self.getServiceProduct(resetTable: true)
         
         if controllerFilter != nil {
-            controllerFilter.selectedOrder! =  ""
+            /*controllerFilter.selectedOrder! =  ""
             controllerFilter.filtersAll = self.facet
             controllerFilter.filterOrderViewCell?.resetOrderFilter()
             controllerFilter.upcPrices =  nil
-            controllerFilter.selectedElementsFacet = [:]
-            controllerFilter.showLoadingIfNeeded(hidden: true)
+            controllerFilter.selectedElementsFacet = [:]*/
+            controllerFilter.showLoadingIfNeeded(hidden: false)
         }
     }
     
