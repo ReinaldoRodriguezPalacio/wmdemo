@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/ShoppingCart/GRShoppingCartViewController.swift"
-            timestampString = "507605547.236316"
+            filePath = "WalMartTests/CreateUserTestCase.swift"
+            timestampString = "511895757.374447"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "951"
-            endingLineNumber = "951"
-            landmarkName = "listSelectorDidAddProduct(inList:included:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "testExample()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/IPAGRCheckOutViewController.swift"
-            timestampString = "507605547.236316"
+            filePath = "WalMartTests/CreateUserTestCase.swift"
+            timestampString = "511895647.138693"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "listSelectorDidAddProduct(inList:included:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "testExample()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-            timestampString = "507510247.077402"
+            filePath = "WalMartTests/CreateUserTestCase.swift"
+            timestampString = "511895830.544731"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "779"
-            endingLineNumber = "779"
-            landmarkName = "addToShoppingCart(_:desc:price:imageURL:comments:)"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "testExample()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,125 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-            timestampString = "507510248.403451"
+            filePath = "WalMart/Shared/Services/BaseService.swift"
+            timestampString = "511983888.305195"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "783"
-            endingLineNumber = "783"
-            landmarkName = "addToShoppingCart(_:desc:price:imageURL:comments:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-            timestampString = "507510259.417445"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "785"
-            endingLineNumber = "785"
-            landmarkName = "addToShoppingCart(_:desc:price:imageURL:comments:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WalmartMG.IPAProductDetailViewController.addToShoppingCart (Swift.String, desc : Swift.String, price : Swift.String, imageURL : Swift.String, comments : Swift.String) -&gt; ()"
-                  moduleName = "WalmartMG"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "511887876.272006"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "786"
-                  endingLineNumber = "786"
-                  offsetFromSymbolStart = "1524">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WalmartMG.IPAProductDetailViewController.(addToShoppingCart (Swift.String, desc : Swift.String, price : Swift.String, imageURL : Swift.String, comments : Swift.String) -&gt; ()).(closure #1)"
-                  moduleName = "WalmartMG"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardoramirez/Developer/BCG/Projects/WalmartiOS/WalMart/WalMart/iPad/Controller/ProductDetail/IPAProductDetailViewController.swift"
-                  timestampString = "511887876.27332"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "787"
-                  endingLineNumber = "787"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPad/Controller/ProductDetail/IPAGRProductDetailViewController.swift"
-            timestampString = "507660369.932793"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "551"
-            endingLineNumber = "551"
-            landmarkName = "listSelectorDidAddProduct(inList:included:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/Shared/Services/ShoppingCart/GRShoppingCartProductsService.swift"
-            timestampString = "508718284.97801"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "297"
-            endingLineNumber = "297"
-            landmarkName = "synchronizeAddedWebShoppingCartFromCoreData(_:errorBlock:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/ShoppingCart/ShoppingCartUpdateController.swift"
-            timestampString = "508718304.373015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "startAddingToShoppingCart()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/AFNetworking/AFNetworking/AFURLRequestSerialization.m"
-            timestampString = "511837626.989673"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "+automaticallyNotifiesObserversForKey:"
+            startingLineNumber = "565"
+            endingLineNumber = "565"
+            landmarkName = "callPOSTServiceCam(_:params:successBlock:errorBlock:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
