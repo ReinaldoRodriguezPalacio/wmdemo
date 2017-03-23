@@ -229,6 +229,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
+        let widthButton = (self.view.frame.width / 2) - (margin * 1.5)
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
         self.sectionTitle.frame = CGRect(x: margin, y: margin, width: width, height: lheight)
@@ -247,8 +248,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
         self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 110)
         self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
-        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.content!.frame.maxY + 16, width: 140, height: 34)
-        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: 140, height: 34)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton),y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
         self.lblInfo!.frame = CGRect (x: 8 , y: 8, width: self.toolTipLabel.frame.width - 16, height: 108)
         self.imageView!.frame = CGRect(x: 16 , y: self.toolTipLabel.frame.minY - 124, width: self.toolTipLabel.frame.width, height: 124)
         self.viewContents!.frame = imageView!.bounds

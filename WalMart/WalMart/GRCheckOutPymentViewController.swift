@@ -20,6 +20,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var sectionTitlePayments : UILabel!
     
     var sectionPaypalTitle : UILabel!
+    var layerLine: CALayer!
     
     var contenPayments  : UIView!
     var stepLabel: UILabel!
@@ -107,6 +108,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         if IS_IPAD {
             self.backButton?.isHidden = true
         }
+        
+        self.layerLine = CALayer()
+        self.layerLine.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view!.layer.insertSublayer(layerLine, at: 1000)
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -280,6 +285,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let width = self.view.frame.width - (2 * margin)
         let bounds = self.view.frame.size
         let footerHeight : CGFloat = 60.0
+        let widthButton = (self.view.frame.width / 2) - (margin * 1.5)
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
         
@@ -300,8 +306,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.contenPayments.frame = CGRect(x: 16,y: self.sectionTitlePayments.frame.maxY ,width: self.view.frame.width - 32 , height: 320)
         sectionTitleDiscount.frame = CGRect(x: 16, y: self.contenPayments!.frame.maxY, width: width, height: lheight)
         self.discountAssociate!.frame = CGRect(x: margin,y: sectionTitleDiscount.frame.maxY,width: width,height: fheight)
-        self.cancelShop!.frame = CGRect(x: (self.view.frame.width/2) - 148,y: self.view.bounds.height - 65 + 16, width: 140, height: 34)
-        self.confirmShop!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.bounds.height - 65 + 16, width: 140, height: 34)
+        self.layerLine.frame = CGRect(x: 0, y: self.view.bounds.height - 65,  width: self.view.frame.width, height: 1)
+        self.cancelShop!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton),y: self.view.bounds.height - 65 + 16, width: widthButton, height: 34)
+        self.confirmShop!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.view.bounds.height - 65 + 16, width: widthButton, height: 34)
         let _ = self.buildPromotionButtons()
     }
     
