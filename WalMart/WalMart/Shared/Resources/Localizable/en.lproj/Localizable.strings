@@ -161,11 +161,11 @@
 "list.message.listDuplicated" = "Lista Duplicada";
 "list.message.deletingList" = "Eliminando Lista";
 "list.message.deleteListDone" = "Lista Eliminada";
-"list.message.addingProductToList" = "Agregando producto a lista";
-"list.message.addProductToListDone" = "Producto agregado a lista";
+"list.message.addingProductToList" = "Agregando artículo a lista";
+"list.message.addProductToListDone" = "Artículo agregado a lista";
 "list.message.errorProductToList" = "Error al seleccionar la cantidad";
-"list.message.deleteProductToList" = "Eliminando producto de lista";
-"list.message.deleteProductToListDone" = "Producto eliminado de lista";
+"list.message.deleteProductToList" = "Eliminando artículo de lista";
+"list.message.deleteProductToListDone" = "Artículo eliminado de lista";
 "list.message.deletingAllProductsInList" = "Vaciando lista";
 "list.message.deletingAllProductsInListDone" = "Vaciado de lista finalizado";
 "list.message.updatingProductInList" = "Actualizando producto de lista";
@@ -186,7 +186,7 @@
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
 "list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, elimine o actualice las existentes.";
-"list.message.addingProductToList.fromList" = "Agregando producto a tu lista";
+"list.message.addingProductToList.fromList" = "Agregando artículo a tu lista";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";

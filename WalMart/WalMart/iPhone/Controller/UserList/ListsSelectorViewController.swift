@@ -142,7 +142,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     override func viewWillLayoutSubviews() {
         let frame = self.view.bounds
         self.titleLabel!.frame = CGRect(x: 15.0, y: 0.0, width: frame.size.width - 30.0, height: 48.0)
-        self.closeBtn!.frame = CGRect(x: frame.width - 44.0, y: 2.0, width: 44.0, height: 44.0)
+        self.closeBtn!.frame = CGRect(x: 0, y: 2.0, width: 44.0, height: 44.0)
         self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height - 116.0)
         
         self.loading!.frame = CGRect(x: 0,y: 0, width: frame.size.width, height: frame.size.height)

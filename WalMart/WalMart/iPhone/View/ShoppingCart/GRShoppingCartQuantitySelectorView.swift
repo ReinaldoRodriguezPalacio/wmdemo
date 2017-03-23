@@ -114,7 +114,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         numericKeyboard.generateButtons(UIColor.white.withAlphaComponent(0.35), selected: UIColor.white)
         numericKeyboard.delegate = self
         
-        btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 71, y: numericKeyboard.frame.maxY + 15 , width: 142, height: 36))
+        btnOkAdd = UIButton(frame: CGRect(x: (self.frame.width / 2) - 73, y: numericKeyboard.frame.maxY + 15 , width: 146, height: 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         btnOkAdd.setTitle("\(strAdddToSC) $0.00", for: UIControlState())
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
