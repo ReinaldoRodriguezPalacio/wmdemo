@@ -369,18 +369,22 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             typeProduct = ResultObjectType.Mg
             serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
                 
-                let responceObject = result["responseObject"] as! [String: AnyObject]
-                let order = responceObject["order"] as! [String: AnyObject]
-                let commerceItems = order["commerceItems"] as! [[String:Any]]
+                let responceObject = result as! [String: AnyObject]
+                //self.jsonFromObject(result as AnyObject!)
+                //let order = responceObject["order"] as! [String: AnyObject]
+                let commerceItems = responceObject["commerceItems"] as! NSArray
                 
-                for item in commerceItems {
-                    let productId = item["productId"] as! String
-                    let commerceId = item["commerceItemId"] as! String
+                /*for item in commerceItems {
+                    //let productId = item["productId"] as! String
+                    if let commerceId = item["commerceItemId"] as? String {
                     //if productId == self.params["upc"] as! String{ //TODO:quitar
                         self.params["commerceItemId"] = commerceId
                         //break
                    // }
-                }
+                    } else {
+                        self.params["commerceItemId"] = ""
+                    }
+                }*/
                 
                 self.finishCall = true
                 if self.timmer == nil {

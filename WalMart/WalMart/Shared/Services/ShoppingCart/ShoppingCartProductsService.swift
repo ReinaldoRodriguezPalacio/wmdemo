@@ -100,7 +100,9 @@ class ShoppingCartProductsService : BaseService {
             
             totalQuantity += itemSC.quantity.intValue
             
-            order = itemSC.orderId!
+            if let valueOrder = itemSC.orderId {
+                order = itemSC.orderId!
+            }
         }
         
         

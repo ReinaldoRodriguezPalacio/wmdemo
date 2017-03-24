@@ -595,15 +595,23 @@
         if cell! is SearchProductCollectionViewCell {
             let controller = ProductDetailPageViewController()
             var productsToShow : [[String:String]] = []
-            if indexPath.section == 0 && (self.upcsToShow?.count)! > 0 {
+            if indexPath.section == 0 {//&& (self.upcsToShow?.count)! > 0 {
                 if indexPath.row < self.allProducts!.count {
                     for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
-                        let description = strUPC["description"] as! String
-                        //let type = strUPC["type"] as! String
+                        
+                        var upc = ""
+                        if let upcValue = strUPC["skuRepositoryId"] as? NSArray{
+                            upc = upcValue[0] as! String
+                        }
+                        
+                        var description = ""
+                        if let descriptionValue = strUPC["productDisplayText"] as? NSArray{
+                            description = descriptionValue[0] as! String
+                        }
+                        
                         var through = ""
-                        if let priceThr = strUPC["saving"] as? String {
-                            through = priceThr as String
+                        if let throughValue = strUPC["skuFinalPrice"] as? NSArray{
+                            through = throughValue[0] as! String
                         }
                         //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
                         productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue,"saving":through])
@@ -612,12 +620,17 @@
             } else {
                 if indexPath.row < self.allProducts!.count {
                     for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
-                        let description = strUPC["description"] as! String
-                        //let type = strUPC["type"] as! String
+                        var upc = ""
+                        if let upcValue = strUPC["skuRepositoryId"] as? NSArray{
+                            upc = upcValue[0] as! String
+                        }
+                        var description = ""
+                        if let descriptionValue = strUPC["productDisplayText"] as? NSArray {
+                            description = descriptionValue[0] as! String
+                        }
                         var through = ""
-                        if let priceThr = strUPC["saving"] as? String {
-                            through = priceThr as String
+                        if let throughValue = strUPC["skuFinalPrice"] as? NSArray{
+                            through = throughValue[0] as! String
                         }
                         //***Type se le agrega MG por default. esperar para ProductDetailPageViewController
                         productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue ,"saving":through,"sku":upc])//pendiente sku

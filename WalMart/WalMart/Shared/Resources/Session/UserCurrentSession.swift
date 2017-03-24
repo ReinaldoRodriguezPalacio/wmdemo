@@ -182,34 +182,34 @@ class UserCurrentSession : NSObject {
             profile.minimumAmount = NSNumber(value: minimumAmount)
         }
         
-        profile.name = loginProfile["name"] as! String as NSString
+        profile.name = loginProfile["firstName"] as! String as NSString
         profile.lastName = loginProfile["middleName"] as? String as NSString? ?? ""
         
         profile.lastName2 = loginProfile["middleName"] as! String as NSString
         
         profile.allowMarketingEmail = userProfile["receivePromoEmail"] as? String as NSString? ?? ""
         
-        profile.allowTransfer = loginProfile["allowTransfer"] as? String as NSString? ?? "\(false)" as NSString
+        profile.allowTransfer = loginProfile["allowTransfer"] as? String as NSString? ?? "\(false)" as NSString//Falta
         
-        let dateB = userProfile["dateOfBirth"] as? NSDictionary
+        let dateB = userProfile["dateOfBirth"] as? NSDictionary//Falta
         
         profile.birthDate = dateB == nil  ? "01/01/2015" : dateB!["formattedDate"] as! String as NSString? ?? "01/01/2015"
         
-        profile.cellPhone = userProfile["mobileNumber"] as? String as NSString? ?? ""
+        profile.cellPhone = userProfile["mobileNumber"] as? String as NSString? ?? ""//Falta
         
         profile.homeNumberExtension = userProfile["phoneExtension"] as? String as NSString? ?? ""
         
-        profile.phoneHomeNumber = userProfile["phoneNumber"] as? String as NSString? ?? ""
+        profile.phoneHomeNumber = userProfile["phoneNumber"] as? String as NSString? ?? ""//falta
         
-        profile.profession = userProfile["occupation"] as? String as NSString? ?? ""
+        profile.profession = userProfile["occupation"] as? String as NSString? ?? ""//falta
         
-        profile.sex = userProfile["gender"] as? String as NSString? ?? "Femenino"
+        profile.sex = userProfile["gender"] as? String as NSString? ?? "Femenino" //Falta
         
         //Associate
-        profile.associateNumber = userProfile["associateNumber"] as? String as NSString? ?? ""
-        profile.associateStore = userProfile["associateStore"] as? String as NSString? ?? ""
-        profile.joinDate = userProfile["joinDate"] as? String as NSString? ?? ""
-        profile.locale = userProfile["locale"] as? String as NSString? ?? ""
+        profile.associateNumber = userProfile["associateNumber"] as? String as NSString? ?? ""//Falta
+        profile.associateStore = userProfile["associateStore"] as? String as NSString? ?? ""//storeId
+        profile.joinDate = userProfile["joinDate"] as? String as NSString? ?? ""//Falta
+        profile.locale = userProfile["locale"] as? String as NSString? ?? ""//Falta
         
         do {
             try context.save()
