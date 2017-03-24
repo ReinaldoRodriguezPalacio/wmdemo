@@ -1250,7 +1250,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func become(timer:Timer){
       let cell =  timer.userInfo as? NewListTableViewCell
-       cell?.inputNameList?.becomeFirstResponder()
+       if (cell?.inputNameList?.isFirstResponder)! {
+            cell?.inputNameList?.becomeFirstResponder()
+        }
     }
     
     

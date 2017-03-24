@@ -1290,7 +1290,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
-            print("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
@@ -1324,8 +1323,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
           //  }
-            
-            self.updateTotalLabel()
+            let countSelect = selectedItems![selectedItems!.count - 1] as?  Int
+            if countSelect !=  products!.count {
+                self.updateTotalLabel()
+            }
         }else
         {
          self.products =  nil
