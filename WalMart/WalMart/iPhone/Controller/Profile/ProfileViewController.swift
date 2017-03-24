@@ -179,63 +179,66 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         }
     }
     
-    func signOut(_ sender:UIButton?) {
+    func signOut(_ sender: UIButton?) {
         
         if IS_IPAD  {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-        }else{
+        } else {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         }
 
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
 
-        //Event close sesion
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
-
         signOutButton?.isEnabled = false
         
-        delay(0.3) {
-            if  UserCurrentSession.hasLoggedUser() {
-                UserCurrentSession.sharedInstance.userSigned = nil
-                UserCurrentSession.sharedInstance.deleteAllUsers()
-                self.signOutButton?.isEnabled = true
-                let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
+        func deleteData() {
+            
+            delay(0.3) {
+                
+                if UserCurrentSession.hasLoggedUser() {
                     
-                    self.alertView!.setMessage("Ok")
-                    self.alertView!.showDoneIcon()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                    UserCurrentSession.sharedInstance.userSigned = nil
+                    UserCurrentSession.sharedInstance.deleteAllUsers()
                     
-                    }
-                    , errorBlock: { (error:NSError) -> Void in
-                        print("")
+                    let shoppingService = ShoppingCartProductsService()
+                    shoppingService.callCoreDataService([:], successBlock: { (result: [String:Any]) -> Void in
+                        
+                        self.alertView!.setMessage("Ok")
+                        self.alertView!.showDoneIcon()
+                        self.signOutButton?.isEnabled = true
+                        
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                        
+                    }, errorBlock: { (error: NSError) -> Void in
+                        
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.signOutButton?.isEnabled = true
                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                })
+                        
+                    })
+                }
             }
+            
         }
         
         let logoutService = LogoutService()
-        logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:[String:Any]) -> Void in
-                                    
-                                    let authorizationService =  AuthorizationService()
-                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-                                        print("::Call service AuthorizationService in LogoutService ::")
-                                        
-                                        },errorBlock:{ (error:NSError) in
-                                            print(error.localizedDescription)
-                                            
-                                    })
-                                    
-                                    print("Call service LogoutService success")
-            },
-                                  errorBlock: { (error:NSError) -> Void in
-                                    print("Call service LogoutService error \(error)")
-            }
-        )
+        logoutService.callService(Dictionary<String, String>(), successBlock: { (response: [String:Any]) -> Void in
+            
+            let authorizationService = AuthorizationService()
+            authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                deleteData()
+            }, errorBlock:{ (error: NSError) in
+                print(error.localizedDescription)
+                deleteData()
+            })
+            
+        }, errorBlock: { (error: NSError) -> Void in
+            print("Call service LogoutService error \(error)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.signOutButton?.isEnabled = true
+        })
         
         
     }
