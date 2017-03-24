@@ -1323,7 +1323,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
           //  }
-            let countSelect = selectedItems![selectedItems!.count - 1] as?  Int
+            let countSelect = selectedItems!.count > 0 ? selectedItems![selectedItems!.count - 1] as?  Int : 0
             if countSelect !=  products!.count {
                 self.updateTotalLabel()
             }
