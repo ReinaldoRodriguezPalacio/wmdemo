@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SearchProductCollectionViewCellDelegate{
+protocol SearchProductCollectionViewCellDelegate: class{
     func selectGRQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?)
     func selectMGQuantityForItem(_ cell: SearchProductCollectionViewCell,productInCart:Cart?)
 }
@@ -31,7 +31,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var imagePresale : UIImageView!
     var productDeparment:String = ""
     
-    var delegate: SearchProductCollectionViewCellDelegate?
+    weak var delegate: SearchProductCollectionViewCellDelegate?
     
     var positionSelected : String = ""
     

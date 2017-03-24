@@ -68,7 +68,7 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
             pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview))!
         }
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: true)
+        delegate?.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: true)
         
     }
     

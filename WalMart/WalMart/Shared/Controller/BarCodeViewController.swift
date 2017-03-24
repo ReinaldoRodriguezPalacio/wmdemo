@@ -11,7 +11,7 @@ import AVFoundation
 import QuartzCore
 import CoreData
 
-@objc protocol BarCodeViewControllerDelegate{
+@objc protocol BarCodeViewControllerDelegate: class{
     func barcodeCaptured(_ value:String?)
     @objc optional func barcodeCapturedWithType(_ value:String?,isUpcSearch:Bool)
 }
@@ -26,7 +26,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var metadataOutput : AVCaptureMetadataOutput? = nil
     var previewView : UIView = UIView()
     var allowedBarcodeTypes : [String] = []
-    var delegate : BarCodeViewControllerDelegate? = nil
+    weak var delegate : BarCodeViewControllerDelegate? = nil
     var helpLabel : UILabel? = nil
     var bgImage : UIImageView!
     var close : UIButton!

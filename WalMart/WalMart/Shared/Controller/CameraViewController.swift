@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import QuartzCore
 
-protocol CameraViewControllerDelegate{
+protocol CameraViewControllerDelegate: class{
     func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void))
 }
 
@@ -28,7 +28,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var videoInput : AVCaptureDeviceInput? = nil
     var previewLayer : AVCaptureVideoPreviewLayer? = nil
     var running : Bool = false
-    var delegate : CameraViewControllerDelegate? = nil
+    weak var delegate : CameraViewControllerDelegate? = nil
     var popover: UIPopoverController? = nil
     var topBarView: UIView?
     var topBackgroundView: UIView?

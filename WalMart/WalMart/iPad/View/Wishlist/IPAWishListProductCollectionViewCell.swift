@@ -9,14 +9,14 @@
 import Foundation
 
 
-protocol IPAWishListProductCollectionViewCellDelegate {
+protocol IPAWishListProductCollectionViewCellDelegate: class {
     func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell)
 }
 
 class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     
-    var delegate : IPAWishListProductCollectionViewCellDelegate!
+    weak var delegate : IPAWishListProductCollectionViewCellDelegate?
     var addProductToShopingCart : UIButton? = nil
     var deleteProduct : UIButton!
     var productPriceThroughLabel : CurrencyCustomLabel? = nil
@@ -138,7 +138,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     func deleteProductWishList() {
         if delegate != nil {
-            delegate.deleteProductWishList(self)
+            delegate?.deleteProductWishList(self)
         }
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol CategoryCollectionViewCellDelegate {
+protocol CategoryCollectionViewCellDelegate: class {
     func didSelectCategory(_ index:Int)
 }
 
@@ -21,7 +21,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     var selectedCat : CategorySelectorItemView? = nil
     var carousel : iCarousel!
     var selectorIndicator : UIView!
-    var delegate : CategoryCollectionViewCellDelegate!
+    weak var delegate : CategoryCollectionViewCellDelegate?
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -165,7 +165,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
                     //Event
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAROUSEL.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAROUSEL.rawValue, action:  WMGAIUtils.ACTION_CHANGE_ITEM.rawValue, label: self.selectedCat!.title!.text!)
                     
-                    delegate.didSelectCategory(index)
+                    delegate?.didSelectCategory(index)
                     self.carousel.reloadItem(at: index, animated: false)
                     self.carousel.reloadItem(at: index + 1, animated: false)
                 }

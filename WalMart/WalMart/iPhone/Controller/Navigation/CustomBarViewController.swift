@@ -66,7 +66,7 @@ struct TabBarHidden {
 }
 
 
-@objc protocol CustomBarDelegate {
+@objc protocol CustomBarDelegate: class {
     func customBarDidAnimate(_ hide:Bool, offset:CGFloat)
 }
 

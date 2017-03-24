@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol IPAProfileViewControllerDelegate {
+protocol IPAProfileViewControllerDelegate: class {
     func selectedDetail(_ row: Int)
     func closeSession()
 }
@@ -16,7 +16,7 @@ protocol IPAProfileViewControllerDelegate {
 
 class IPAProfileViewController:  ProfileViewController  , EditProfileViewControllerDelegate{
   
-    var delegate:IPAProfileViewControllerDelegate!
+    weak var delegate:IPAProfileViewControllerDelegate?
     var viewLine : UIView!
     var selected : Int! = 0
     
@@ -66,7 +66,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        selected = indexPath.row
-       self.delegate.selectedDetail(indexPath.row)
+       self.delegate?.selectedDetail(indexPath.row)
        self.table.reloadData()
     }
     
@@ -78,7 +78,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
        
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         sender.isSelected = !sender.isSelected
-        self.delegate.selectedDetail(3)
+        self.delegate?.selectedDetail(3)
     }
 
     func finishSave(){
@@ -87,7 +87,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
 
     override func signOut(_ sender:UIButton?) {
         super.signOut(nil)
-        self.delegate.closeSession()
+        self.delegate?.closeSession()
     }
     
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AddProductTolistViewDelegate {
+protocol AddProductTolistViewDelegate: class {
     func scanCode()
     func showCamera()
     func searchByText(_ text:String)
@@ -16,7 +16,7 @@ protocol AddProductTolistViewDelegate {
 
 class AddProductTolistView: UIView,UITextFieldDelegate {
 
-    var delegate : AddProductTolistViewDelegate?
+    weak var delegate : AddProductTolistViewDelegate?
     var scannerButton : UIButton!
     var camButtom :  UIButton!
     var textFindProduct : FormFieldSearch!

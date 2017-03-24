@@ -9,13 +9,13 @@
 import Foundation
 import AVFoundation
 
-protocol GenerateOrderViewDelegate {
+protocol GenerateOrderViewDelegate: class {
     func sendOrderConfirm()
 
 }
 
  class GenerateOrderView : UIView {
-    var delegate : GenerateOrderViewDelegate!
+    weak var delegate : GenerateOrderViewDelegate?
     
     
     var viewContent : UIView!
@@ -291,7 +291,7 @@ protocol GenerateOrderViewDelegate {
     }
     
     func createOrderAction() {
-        self.delegate.sendOrderConfirm()
+        self.delegate?.sendOrderConfirm()
         self.removeFromSuperview()
     }
     

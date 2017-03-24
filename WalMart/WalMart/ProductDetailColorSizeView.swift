@@ -32,7 +32,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ProductDetailColorSizeDelegate {
+protocol ProductDetailColorSizeDelegate: class {
     func selectDetailItem(_ selected:String, itemType: String)
 }
 
@@ -43,7 +43,7 @@ class ProductDetailColorSizeView: UIView {
     var items:[[String : Any]]! = nil
     var viewToInsert: UIView? = nil
     var scrollView: UIScrollView? = nil
-    var delegate: ProductDetailColorSizeDelegate?
+    weak var delegate: ProductDetailColorSizeDelegate?
     var bottomBorder: CALayer!
     var topBorder: CALayer!
     var showTopBorder: Bool = true

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IPOCategoryViewDelegate {
+protocol IPOCategoryViewDelegate: class{
     func closeButtonPressed()
     func closeButtonPressedEndAnimation()
 }
@@ -18,7 +18,7 @@ class IPOCategoryView : CategoryView {
     
     var auxiliarBgView : UIView!
     var closeButton : UIButton!
-    var delegate : IPOCategoryViewDelegate!
+    weak var delegate : IPOCategoryViewDelegate?
     var separator : UIView!
     
     var viewOverCellWhite : UIView!
@@ -90,7 +90,7 @@ class IPOCategoryView : CategoryView {
     
     func closeCategory() {
         self.closeButton.isEnabled = false
-        self.delegate.closeButtonPressed()
+        self.delegate?.closeButtonPressed()
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.titleLabel.frame = CGRect(x: 114, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
             self.auxiliarBgView.frame = CGRect(x: self.frame.height, y: 0, width: self.frame.width - self.frame.height, height: self.frame.height)
@@ -98,7 +98,7 @@ class IPOCategoryView : CategoryView {
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
             self.separator.frame = CGRect(x: self.auxiliarBgView.frame.minX, y: self.frame.height - widthAndHeightSeparator, width: self.frame.width, height: widthAndHeightSeparator)
             }, completion: { (complete:Bool) -> Void in
-            self.delegate.closeButtonPressedEndAnimation()
+            self.delegate?.closeButtonPressedEndAnimation()
         }) 
         
     }

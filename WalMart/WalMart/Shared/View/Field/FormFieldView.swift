@@ -43,7 +43,7 @@ class FormFieldView : UIEdgeTextField {
     var imageCheck : UIImageView? = nil
     var onBecomeFirstResponder : (() -> Void)? = nil
     
-    var delegateCustom : CustomFormFIeldDelegate!
+    weak var delegateCustom : CustomFormFIeldDelegate?
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -315,7 +315,7 @@ class FormFieldView : UIEdgeTextField {
     
     
     func setCustomDelegate(_ delegate:UITextFieldDelegate?){
-        self.delegateCustom.delegateOnChange = delegate
+        self.delegateCustom?.delegateOnChange = delegate
         super.delegate = delegateCustom
     }
     
@@ -332,7 +332,7 @@ class FormFieldView : UIEdgeTextField {
 class CustomFormFIeldDelegate : NSObject, UITextFieldDelegate {
     //MARK Delegate UITextField
     
-    var delegateOnChange : UITextFieldDelegate?
+   weak  var delegateOnChange : UITextFieldDelegate?
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if self.delegateOnChange?.textFieldShouldBeginEditing != nil {

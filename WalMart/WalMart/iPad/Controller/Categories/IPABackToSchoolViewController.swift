@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IPABackToSchoolViewControllerDelegate {
+protocol IPABackToSchoolViewControllerDelegate: class {
     func schoolSelected(_ familyId:String,schoolName:String)
 }
 

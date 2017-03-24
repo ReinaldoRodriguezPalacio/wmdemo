@@ -9,14 +9,14 @@
 import Foundation
 import AVFoundation
 
-protocol OrderConfirmDetailViewDelegate {
+protocol OrderConfirmDetailViewDelegate: class {
     func didFinishConfirm()
     func didErrorConfirm()
 }
 
 class OrderConfirmDetailView : UIView {
     
-    var delegate : OrderConfirmDetailViewDelegate!
+    weak var delegate : OrderConfirmDetailViewDelegate?
     let maxAnimationSize : CGFloat = 30
     
     var viewContent : UIView!
@@ -350,7 +350,7 @@ class OrderConfirmDetailView : UIView {
     
     func finishSopping(){
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
-        self.delegate.didFinishConfirm()
+        self.delegate?.didFinishConfirm()
         self.removeFromSuperview()
     }
     
@@ -434,7 +434,7 @@ class OrderConfirmDetailView : UIView {
     
     func noOkAction(hasToPop:Bool = true) {
         if hasToPop {
-            self.delegate.didErrorConfirm()
+            self.delegate?.didErrorConfirm()
         }
         self.removeFromSuperview()
     }

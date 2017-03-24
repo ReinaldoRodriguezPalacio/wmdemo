@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-protocol ProductDetailButtonBarCollectionViewCellDelegate {
+protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
     func shareProduct()
     func showProductDetail()
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void)
@@ -86,7 +86,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var facebookButton : UIButton!
     var deltailButton : UIButton!
     var listButton : UIButton!
-    var delegate : ProductDetailButtonBarCollectionViewCellDelegate!
+    weak var delegate : ProductDetailButtonBarCollectionViewCellDelegate?
     
     var addToShoppingCartButton : UIButton!
     
@@ -180,7 +180,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         //event
         // //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
-        delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+        delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
             if addedTWL == true {
                 self.listButton.isSelected = !self.listButton.isSelected
                 if self.listButton.isSelected {
@@ -198,9 +198,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     func addProductToShoppingCart() {
         if isAviableToShoppingCart {
-            delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
+            delegate?.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
         } else {
-            delegate.showMessageProductNotAviable()
+            delegate?.showMessageProductNotAviable()
         }
         self.isOpenQuantitySelector = false
         self.reloadShoppinhgButton()
@@ -208,12 +208,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     
     func shareProduct() {
         
-        delegate.shareProduct()
+        delegate?.shareProduct()
     }
     
     func detailProduct() {
         self.isOpenQuantitySelector = false
-        delegate.showProductDetail()
+        delegate?.showProductDetail()
     }
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {

@@ -9,13 +9,13 @@
 import Foundation
 
 
-protocol HelpViewControllerDelegate {
+protocol HelpViewControllerDelegate : class{
     func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
 
-    var delegate:HelpViewControllerDelegate!
+    weak var delegate:HelpViewControllerDelegate?
     var table: UITableView!
     var array : [Any]!
     var selected : Int! = -1

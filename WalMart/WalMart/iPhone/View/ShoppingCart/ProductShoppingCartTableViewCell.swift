@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ProductShoppingCartTableViewCellDelegate {
+protocol ProductShoppingCartTableViewCellDelegate: class {
     func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell)
     func deleteProduct(_ cell:ProductShoppingCartTableViewCell)
     func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell)
@@ -24,7 +24,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var priceProduct : Double!
     var savingProduct : Double!
     var upc : String!
-    var delegateProduct : ProductShoppingCartTableViewCellDelegate!
+    weak var delegateProduct : ProductShoppingCartTableViewCellDelegate?
     var desc : String!
     var price : NSString = ""
     var imageurl : String!
@@ -160,11 +160,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     
                     
                 }
-                self.delegateProduct.endUpdatingShoppingCart(self)
+                self.delegateProduct?.endUpdatingShoppingCart(self)
                 
                 }) { (error:NSError) -> Void in
                     
-                    self.delegateProduct.endUpdatingShoppingCart(self)
+                    self.delegateProduct?.endUpdatingShoppingCart(self)
                     
             }
 
@@ -174,7 +174,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
 
     func deleteProduct() {
-        self.delegateProduct.deleteProduct(self)
+        self.delegateProduct?.deleteProduct(self)
     }
     
     func tapInPrice(_ quantity:Int,total:String) {

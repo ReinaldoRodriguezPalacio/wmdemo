@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol CalendarViewDelegate{
+protocol CalendarViewDelegate: class {
     func selectedDate(_ date:Date?)
 }
 
 class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol{
      var calendar: ABCalendarPicker?
      var alertView:IPOWMAlertViewController?
-     var delegate:CalendarViewDelegate?
+     weak var delegate:CalendarViewDelegate?
      var originalDate: Date?
      var selectedDate: Date?
      var saveButton: UIButton?

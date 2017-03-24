@@ -22,7 +22,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ListSelectorDelegate {
+protocol ListSelectorDelegate: class {
     func listSelectorDidShowList(_ listId: String, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
     func listSelectorDidAddProduct(inList listId:String,included: Bool)
@@ -58,7 +58,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var productUpc: String?
     var pesable: Bool? = false
     var list: [Any]?
-    var delegate: ListSelectorDelegate?
+    weak var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
     var viewAddToLists : UIView?

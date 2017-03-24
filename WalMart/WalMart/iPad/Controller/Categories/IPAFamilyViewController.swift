@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol IPAFamilyViewControllerDelegate {
+protocol IPAFamilyViewControllerDelegate: class {
     func didSelectLine(_ department:String,family:String,line:String, name:String)
 }
 
 class IPAFamilyViewController : FamilyViewController {
 
-    var delegate : IPAFamilyViewControllerDelegate!
+    weak var delegate : IPAFamilyViewControllerDelegate?
     
     override func viewDidLoad() {
       super.viewDidLoad()
@@ -31,7 +31,7 @@ class IPAFamilyViewController : FamilyViewController {
             let linesArr = selectedSection["line"] as! [Any]
             let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
             let name = itemLine["name"] as! String
-            delegate.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
+            delegate?.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
         }
     }
     

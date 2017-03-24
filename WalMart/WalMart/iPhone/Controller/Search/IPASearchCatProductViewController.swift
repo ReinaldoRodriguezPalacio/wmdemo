@@ -13,8 +13,8 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     var imageBgCategory : UIImage?
     var imageIconCategory : UIImage?
     var titleCategory : String?
-    var delegateHeader : IPACategoriesResultViewController!
-    var delegateImgHeader : IPACatHeaderSearchReusableDelegate!
+    weak var delegateHeader : IPACategoriesResultViewController?
+    weak var delegateImgHeader : IPACatHeaderSearchReusableDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,7 +123,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.empty = nil
         }
 
-        self.delegateHeader.closeCategory()
+        self.delegateHeader?.closeCategory()
     }
     
     func setSelectedHeaderCat(){

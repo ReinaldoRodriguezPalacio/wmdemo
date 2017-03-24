@@ -34,7 +34,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ShoppingCartViewControllerDelegate {
+protocol ShoppingCartViewControllerDelegate: class {
     func returnToView()
 }
 
@@ -51,7 +51,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var viewHerader : UIView!
     var viewShoppingCart : UITableView!
     var viewFooter : UIView!
-    var delegate : ShoppingCartViewControllerDelegate!
+    weak var delegate : ShoppingCartViewControllerDelegate?
     var titleView : UILabel!
     var buttonWishlist : UIButton!
     var buttonAsociate : UIButton!

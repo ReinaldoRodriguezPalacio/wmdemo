@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-protocol IPAGRCheckOutViewControllerDelegate {
+protocol IPAGRCheckOutViewControllerDelegate: class {
     func shareShoppingCart()
     func closeIPAGRCheckOutViewController()
     func showViewBackground(_ show:Bool)
@@ -23,7 +23,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     var buttonShare: UIButton!
     var itemsInCart: [Any]!
     var listSelectorController: ListsSelectorViewController?
-    var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
+    weak var delegateCheckOut : IPAGRCheckOutViewControllerDelegate?
     var footer: UIView?
     var buttonShop: UIButton?
     var totalView : IPOCheckOutTotalView!
@@ -490,7 +490,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      Close IPAGRCheckout delegate
      */
     func didFinishConfirm() {
-        self.delegateCheckOut.closeIPAGRCheckOutViewController()
+        self.delegateCheckOut?.closeIPAGRCheckOutViewController()
     }
     
     /**

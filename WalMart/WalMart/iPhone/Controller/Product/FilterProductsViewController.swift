@@ -32,7 +32,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol FilterProductsViewControllerDelegate {
+protocol FilterProductsViewControllerDelegate: class {
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool)
     func apply(_ order:String, upcs: [String])
     func removeFilters()
@@ -69,7 +69,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var facetGr: [Any]? = nil
     var selectedFacetGr: [String:Bool]?
 
-    var delegate:FilterProductsViewControllerDelegate?
+    weak var delegate:FilterProductsViewControllerDelegate?
     var successCallBack : (() -> Void)? = nil
     var backFilter : (() -> Void)? = nil
     

@@ -43,7 +43,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol IPAUserListDetailDelegate {
+protocol IPAUserListDetailDelegate: class {
     func showProductListDetail(fromProducts products:[Any], indexSelected index:Int,listName:String)
     func reloadTableListUser()
     func closeUserListDetail()
@@ -53,7 +53,7 @@ protocol IPAUserListDetailDelegate {
 class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverControllerDelegate {
 
     var sharePopover: UIPopoverController?
-    var delegate: IPAUserListDetailDelegate?
+    weak var delegate: IPAUserListDetailDelegate?
     var widthView : CGFloat = 682
     var addGestureLeft = false
     var isShared =  false

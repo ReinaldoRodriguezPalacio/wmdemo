@@ -19,7 +19,7 @@ class WeightKeyboardView : UIView {
     var bttrescuartos : UIButton!
     var btunkilo : UIButton!
     var maxButtonX : CGFloat! = 0
-    var delegate : KeyboardViewDelegate!
+    weak var delegate : KeyboardViewDelegate?
     var strTitles : [String] = ["100 gramos","un\ncuarto","medio kilo","tres cuartos","un\nkilo"]
     
 
@@ -161,7 +161,7 @@ class WeightKeyboardView : UIView {
         }
         
         if delegate != nil {
-            delegate.userSelectValue(String(sender.tag))
+            delegate?.userSelectValue(String(sender.tag))
         }
 
     }

@@ -17,7 +17,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     var hoursOpenLabel: UILabel!
     var buttonContainer: UIView!
     var distanceLabel: UILabel?
-    var delegate: StoreViewDelegate!
+    weak var delegate: StoreViewDelegate?
     var distanceFmt: NumberFormatter?
     
     required init?(coder aDecoder: NSCoder) {

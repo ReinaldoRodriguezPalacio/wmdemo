@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IPASectionHeaderSearchReusableDelegate {
+protocol IPASectionHeaderSearchReusableDelegate: class {
         func showFamilyController()
 }
 
@@ -17,7 +17,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     var title : UIButton!
     var titleImage : UIImageView!
-    var delegate : IPASectionHeaderSearchReusableDelegate!
+    weak var delegate : IPASectionHeaderSearchReusableDelegate?
     
    
     
@@ -64,7 +64,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
         })
         
         if delegate != nil {
-            delegate.showFamilyController()
+            delegate?.showFamilyController()
         }
     }
     

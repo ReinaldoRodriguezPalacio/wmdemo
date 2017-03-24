@@ -15,7 +15,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
     
     var titleLabel = UILabel()
     var collection: UICollectionView!
-    var delegate: ProductDetailCrossSellViewDelegate!
+    weak var delegate: ProductDetailCrossSellViewDelegate?
     var upc: String = ""
     var idListSelectdFromSearch = ""
     
@@ -127,7 +127,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
             pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview))!
         }
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: false)
+        delegate?.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch, isBundle: false)
         
     }
     

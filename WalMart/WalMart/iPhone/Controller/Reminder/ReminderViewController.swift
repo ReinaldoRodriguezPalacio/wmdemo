@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ReminderViewControllerDelegate {
+protocol ReminderViewControllerDelegate: class {
     /**
      Notify than the reminder is created
      
@@ -30,7 +30,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     var fmtDisplay: DateFormatter?
     var timeDisplay: DateFormatter?
     var alertView: IPOWMAlertViewController?
-    var delegate: ReminderViewControllerDelegate?
+    weak var delegate: ReminderViewControllerDelegate?
     var frequencyLabel:UILabel?
     var dateLabel:UILabel?
     var hourLabel:UILabel?

@@ -23,7 +23,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
     var animator2: UIDynamicAnimator!
     var collision2: UICollisionBehavior!
     
-    var delegate : ShoppingCartViewControllerDelegate!
+    weak var delegate : ShoppingCartViewControllerDelegate?
     
     var loadImage : LoadingIconView!
     
@@ -253,7 +253,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                   let _ = self.navigationController?.popToRootViewController(animated: false)
                 //self.view.removeFromSuperview()
                   //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-                 self.delegate.returnToView()
+                 self.delegate?.returnToView()
         }) 
     }
     

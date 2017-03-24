@@ -21,7 +21,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     var yPointOpen : CGFloat = 0.0
     
     
-    var delegate : ShoppingCartViewControllerDelegate!
+    weak var delegate : ShoppingCartViewControllerDelegate?
     
     var finishAnimation : (() -> Void)? = nil
     
@@ -198,7 +198,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                 self.view.removeFromSuperview()
                 self.navigationController!.popToRootViewController(animated: false)
                 //self.view.frame = CGRectMake(self.view.frame.minX, self.view.frame.minY,self.view.frame.width,originalHeight)
-                self.delegate.returnToView()
+                self.delegate?.returnToView()
 
         }) 
         

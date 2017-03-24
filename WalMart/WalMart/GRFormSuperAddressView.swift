@@ -414,7 +414,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             self.store!.imageList?.image = UIImage(named: "fieldListOpen")
             self.selectedStore = indexPath
             if delegateFormAdd != nil {
-                self.delegateFormAdd.showUpdate()
+                self.delegateFormAdd?.showUpdate()
             }
         }
         
@@ -423,7 +423,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             self.suburb!.imageList?.image = UIImage(named: "fieldListOpen")
             self.selectedNeighborhood = indexPath
             if delegateFormAdd != nil {
-                self.delegateFormAdd.showUpdate()
+                self.delegateFormAdd?.showUpdate()
             }
         }
          self.popupTable!.isHidden = true

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DetailListViewCellDelegate {
+protocol DetailListViewCellDelegate: class {
     func didChangeQuantity(_ cell:DetailListViewCell)
     func didDisable(_ disaable:Bool,cell:DetailListViewCell)
 }

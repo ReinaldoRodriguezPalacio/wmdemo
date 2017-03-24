@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol UITextFieldChangeValueProtocol {
+protocol UITextFieldChangeValueProtocol: class {
     func fieldChangeValue(_ value:String)
 }
 
@@ -42,7 +42,7 @@ class UIEdgeTextField : UITextField {
     override func resignFirstResponder() -> Bool {
         let resign =  super.resignFirstResponder()
         if valueDelegate != nil {
-            valueDelegate!.fieldChangeValue(self.text!)
+            valueDelegate?.fieldChangeValue(self.text!)
         }
         return resign;
     }

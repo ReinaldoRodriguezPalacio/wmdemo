@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol CommentBubbleViewDelegate {
+protocol CommentBubbleViewDelegate: class {
     func showBottonAddNote(_ show : Bool)
 }
 
@@ -17,7 +17,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     var field: UITextView?
     var indicator: UIImageView?
     var showBottonAddNote: UIButton!
-    var delegate : CommentBubbleViewDelegate?
+    weak var delegate : CommentBubbleViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
         

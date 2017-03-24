@@ -47,7 +47,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
             self.addDirectToListId()
         }else{
             
-            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+            self.delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
                 self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
             })
         }

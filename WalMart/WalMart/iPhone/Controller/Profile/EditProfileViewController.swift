@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol EditProfileViewControllerDelegate {
+protocol EditProfileViewControllerDelegate: class {
     func finishSave()
 }
 
@@ -34,7 +34,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     var dateFmt: DateFormatter?
     var parseFmt: DateFormatter?
-    var delegate: EditProfileViewControllerDelegate!
+    weak var delegate: EditProfileViewControllerDelegate?
     
     var maleButton: UIButton?
     var femaleButton: UIButton?
@@ -355,7 +355,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                         self.password!.removeFromSuperview()
                         self.confirmPassword!.removeFromSuperview()
                     }
-                    self.delegate.finishSave()
+                    self.delegate?.finishSave()
                 }
                 }
                 , errorBlock: {(error: NSError) in

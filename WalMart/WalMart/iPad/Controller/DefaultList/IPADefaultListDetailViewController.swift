@@ -8,14 +8,14 @@
 
 import Foundation
 
-protocol IPADefaultListDetailViewControllerDelegate {
+protocol IPADefaultListDetailViewControllerDelegate: class {
     func reloadViewList()
 }
 
 class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPopoverControllerDelegate {
     
     var sharePopover: UIPopoverController?
-    var delegate : IPADefaultListDetailViewControllerDelegate?
+    weak var delegate : IPADefaultListDetailViewControllerDelegate?
     var isShared =  false
     
 

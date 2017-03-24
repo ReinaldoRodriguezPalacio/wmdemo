@@ -9,7 +9,7 @@
 import Foundation
 
 
-@objc protocol AlertPickerViewDelegate {
+@objc protocol AlertPickerViewDelegate: class {
     func didSelectOption(_ picker:AlertPickerView,indexPath: IndexPath,selectedStr:String)
     func didDeSelectOption(_ picker:AlertPickerView)
     
@@ -19,7 +19,7 @@ import Foundation
     @objc optional func closeAlertPk()
 }
 
-protocol AlertPickerSelectOptionDelegate {
+protocol AlertPickerSelectOptionDelegate: class {
     func didSelectOptionAtIndex(_ indexPath: IndexPath)
 }
 
@@ -40,7 +40,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var onClosePicker : (() -> Void)?
     
     var selected : IndexPath!
-    var delegate : AlertPickerViewDelegate? = nil
+    weak var delegate : AlertPickerViewDelegate? = nil
     var selectOptionDelegate: AlertPickerSelectOptionDelegate? = nil
     
     var sender : AnyObject? = nil

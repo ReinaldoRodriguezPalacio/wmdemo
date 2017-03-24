@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol GRProductShoppingCartTableViewCellDelegate {
+protocol GRProductShoppingCartTableViewCellDelegate: class {
     func userShouldChangeQuantity(_ cell:GRProductShoppingCartTableViewCell)
 }
 
@@ -22,13 +22,13 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     var priceProduct : Double!
     var savingProduct : Double!
     var upc : String!
-    var delegateProduct : ProductShoppingCartTableViewCellDelegate!
+    weak var delegateProduct : ProductShoppingCartTableViewCellDelegate?
     var desc : String!
     var price : NSString = ""
     var imageurl : String!
     var onHandInventory : NSString = ""
     var typeProd : Int = 0
-    var delegateQuantity : GRProductShoppingCartTableViewCellDelegate!
+    weak var delegateQuantity : GRProductShoppingCartTableViewCellDelegate?
     var comments : String! = ""
     var separatorView : UIView!
     var pesable : Bool = false
@@ -145,7 +145,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     
     
     func choseQuantity() {
-        self.delegateQuantity.userShouldChangeQuantity(self)
+        self.delegateQuantity?.userShouldChangeQuantity(self)
         
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_QUANTITY_KEYBOARD.rawValue, label: "")
         

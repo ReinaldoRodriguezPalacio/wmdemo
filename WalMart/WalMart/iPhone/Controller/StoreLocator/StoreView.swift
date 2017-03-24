@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol StoreViewDelegate {
+protocol StoreViewDelegate: class {
     func showInstructions(_ store:Store, forCar flag:Bool)
     func makeCallForStore(_ store:Store)
     func shareStore(_ store:Store)
@@ -21,7 +21,7 @@ class StoreView: UIView {
     let sep:CGFloat = 16.0
     
     var store: Store?
-    var delegate: StoreViewDelegate?
+    weak var delegate: StoreViewDelegate?
     
     var titleLabel: UILabel?
     var distanceLabel: UILabel?
