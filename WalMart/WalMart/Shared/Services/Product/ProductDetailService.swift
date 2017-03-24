@@ -38,7 +38,10 @@ class ProductDetailService : BaseService {
     
     func buildMustangParams(_ upc:String,skuId:String) -> [String:Any]{
     
-        return ["upc":upc,"skuId":skuId]
+        return ["storeId":"0000009999", "skuId":upc]
+        //"00070722656082"
+        //"00750100801657"
+        //"00750100801675"
     }
     
     func callService(_ UPC:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
@@ -48,7 +51,6 @@ class ProductDetailService : BaseService {
     
     func callService(requestParams params:AnyObject,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("BEFORE CALLSERVICE::")
-        //self.jsonFromObject(params)
         
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! [String:Any]

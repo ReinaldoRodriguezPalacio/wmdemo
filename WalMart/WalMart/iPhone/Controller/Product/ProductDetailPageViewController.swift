@@ -107,7 +107,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
-            let sku = selected["sku"] as! String
+            let sku = selected["upc"] as! String
             //let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type,sku: sku)
@@ -126,7 +126,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
-            let sku = selected["sku"] as! String
+            let sku = selected["upc"] as! String
             //let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type,sku: sku)

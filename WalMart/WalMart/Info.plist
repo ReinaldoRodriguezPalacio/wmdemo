@@ -364,7 +364,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getSkuSummaryDetails</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/pdp/getSkuSummaryDetails</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>
