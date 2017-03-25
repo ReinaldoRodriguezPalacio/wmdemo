@@ -13,6 +13,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 
     let ZERO_QUANTITY_STRING = "00"
     
+    var isPush = false
     var numericKeyboard = NumericKeyboardView()
     var lblQuantity : UILabel!
     var lblTitle : UILabel!
@@ -35,6 +36,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var btnOkAdd : UIButton!
     var btnNote : UIButton!
     var btnNoteComplete : UIButton!
+    var closeButton : UIButton!
     var btnDelete : UIButton!
     var isUpcInShoppingCart : Bool = false
     var orderByPiece = true
@@ -71,6 +73,11 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.setup()
     }
     
+    override func layoutSubviews() {
+        if isPush {
+            closeButton.setImage(UIImage(named: "search_back"), for: UIControlState())
+        }
+    }
     
     func setup() {
         
@@ -103,7 +110,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
-        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
+        closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         

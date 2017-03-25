@@ -21,7 +21,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
 protocol ListSelectorDelegate: class {
     func listSelectorDidShowList(_ listId: String, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
@@ -166,7 +165,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
          print(" ListselecttorViewController :addToLists Button :")
         if arrListSelected.count != 0 {
             self.delegate?.listSelectedListsLocally(listSelected: arrListSelected)
-        }else{
+        } else {
             self.delegate?.listIdSelectedListsLocally(idListSelected: arrayIdListsSelected)
         }
     
@@ -424,41 +423,40 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         if let indexPath = self.tableView!.indexPath(for: cell) {
             
-                    let idx = indexPath.row - 1
-                    if let item = self.list![idx] as? [String:Any] {
-                        let listId = item["id"] as? String
-                        let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
-                        if product != nil {
-                            //self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
-                            if let celldetail = tableView?.cellForRow(at: indexPath) as? ListSelectorViewCell {
-                                self.didShowListDetail(celldetail)
-                            }
-                        }
-                        else {
-                            self.delegate?.listSelectorDidAddProduct(inList: listId!)
-                        }
-                    }
-                    else if let entity = self.list![idx] as? List {
-                        //Abrir teclado con sesion
-                        
-                        let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
-                        //Actualizacion a servicio a traves del delegate
-                        
-                        if entity.idList != nil {
-                            if product != nil {                                
-                                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
-                                self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
-                            }
-                            else {
-                                self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
-                            }
-                        }
-                        //Actualizacion local a DB
-                        else {
-                            self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
+            let idx = indexPath.row - 1
             
-                        }
+            if let item = self.list![idx] as? [String:Any] {
+                
+                let listId = item["id"] as? String
+                let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
+                
+                if product != nil {
+                    if let celldetail = tableView?.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                        self.didShowListDetail(celldetail)
                     }
+                } else {
+                    self.delegate?.listSelectorDidAddProduct(inList: listId!)
+                }
+                
+            } else if let entity = self.list![idx] as? List {
+                
+                //Abrir teclado con sesion
+                
+                let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
+                
+                //Actualizacion a servicio a traves del delegate
+                
+                if entity.idList != nil {
+                    if product != nil {
+                        let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
+                        self.delegate!.listSelectorDidAddProduct(inList: entity.idList!, included: isIncluded)
+                    } else {
+                        self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
+                    }
+                } else { //Actualizacion local a DB
+                    self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
+                }
+            }
             
         }
         

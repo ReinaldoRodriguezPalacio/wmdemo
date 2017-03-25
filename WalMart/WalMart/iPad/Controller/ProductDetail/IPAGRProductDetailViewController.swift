@@ -737,7 +737,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     internal func listSelectorDidAddProduct(inList listId: String) {
-        listSelectorDidAddProduct(inList:listId,included:false)
+        listSelectorDidAddProduct(inList: listId, included:false)
     }
 
     
@@ -745,18 +745,31 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
         self.selectQuantityGR!.closeAction = { () in
-            self.removeListSelector(action: nil, closeRow:true)
+            
+            if self.selectQuantityGR!.isPush {
+                
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                    self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                }, completion: { (complete: Bool) -> Void in
+                    self.selectQuantityGR!.removeFromSuperview()
+                })
+                
+            } else {
+                self.removeListSelector(action: nil, closeRow:true)
+            }
+            
         }
         
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             
             if quantity.toIntNoDecimals() == 0 {
                 self.listSelectorDidDeleteProduct(inList: listId)
-            }
-            else {
+            } else {
             
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
@@ -764,15 +777,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.updateItemToList(quantity: quantity, listId: listId, finishAdd: true, orderByPiece: self.selectQuantityGR!.orderByPiece)
             }
         }
+        
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
-        UIView.animate(withDuration: 0.5,
-            animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-            }, completion: { (finished:Bool) -> Void in
-                
-            }
-        )
+        
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.listSelectorController!.view.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+            self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+        })
     }
     
     //new
@@ -872,41 +883,49 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
         
-        
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
         }
         
-        
-        if  exist  {
-            
+        if exist {
             
             let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
+            
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+            self.selectQuantityGR!.isPush = true
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
             self.selectQuantityGR!.closeAction = { () in
-                self.removeListSelector(action: nil, closeRow:true)
+                
+                if self.selectQuantityGR!.isPush {
+                    
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                        self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                    }, completion: { (complete: Bool) -> Void in
+                        self.selectQuantityGR!.removeFromSuperview()
+                    })
+                    
+                } else {
+                    self.removeListSelector(action: nil, closeRow:true)
+                }
+
             }
+            
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
                 self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 self.updateToListLocally(quantity: quantity, list: list)
-                //self.addToListLocally(quantity:quantity , list: list,removeSelector: true)
-                
             }
+            
             self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
             UIView.animate(withDuration: 0.5,
                            animations: { () -> Void in
                             self.listSelectorController!.view.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
                             self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-            }, completion: { (finished:Bool) -> Void in
-                
-            }
-            )
+            })
         
-        }else{//agrega dircto
+        } else { // agrega dircto
             self.addToListLocally(quantity: self.quantitySelect != 0 ? "\(self.quantitySelect)" : "1" , list: list,removeSelector: finishAdd)
-            
         }
         
     

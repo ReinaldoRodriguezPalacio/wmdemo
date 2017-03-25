@@ -76,6 +76,12 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         setup()
     }
     
+    override func layoutSubviews() {
+        if isPush {
+            closeButton.setImage(UIImage(named: "search_back"), for: UIControlState())
+        }
+    }
+    
     override func setup() {
         
         containerView = UIView(frame: CGRect(x: self.bounds.minX, y: self.bounds.minY, width: self.bounds.width * 2, height: self.bounds.height))
@@ -135,7 +141,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
-        let closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
+        closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
