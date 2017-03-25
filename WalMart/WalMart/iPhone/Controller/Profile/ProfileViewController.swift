@@ -194,28 +194,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
         signOutButton?.isEnabled = false
         
-        delay(0.3) {
-            if  UserCurrentSession.hasLoggedUser() {
-                UserCurrentSession.sharedInstance.userSigned = nil
-                UserCurrentSession.sharedInstance.deleteAllUsers()
-                self.signOutButton?.isEnabled = true
-                let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
-                    
-                    self.alertView!.setMessage("Ok")
-                    self.alertView!.showDoneIcon()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                    
-                    }
-                    , errorBlock: { (error:NSError) -> Void in
-                        print("")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        self.signOutButton?.isEnabled = true
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                })
-            }
-        }
+  
         
         let logoutService = LogoutService()
         logoutService.callService(Dictionary<String, String>(),
@@ -224,9 +203,11 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                                     let authorizationService =  AuthorizationService()
                                     authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
                                         print("::Call service AuthorizationService in LogoutService ::")
+                                        self.deleteData()
                                         
                                         },errorBlock:{ (error:NSError) in
                                             print(error.localizedDescription)
+                                            self.deleteData()
                                             
                                     })
                                     
@@ -239,6 +220,34 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         
     }
+    
+    func deleteData(){
+        print("deleteData")
+    
+        delay(0.3) {
+            if  UserCurrentSession.hasLoggedUser() {
+                UserCurrentSession.sharedInstance.userSigned = nil
+                UserCurrentSession.sharedInstance.deleteAllUsers()
+                self.signOutButton?.isEnabled = true
+                let shoppingService = ShoppingCartProductsService()
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
+                    
+                    self.alertView!.setMessage("Ok")
+                    self.alertView!.showDoneIcon()
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                    
+                }
+                    , errorBlock: { (error:NSError) -> Void in
+                        print("")
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
+                        self.signOutButton?.isEnabled = true
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                })
+            }
+        }
+    }
+    
     
     func editProfile(_ sender:UIButton) {
                 

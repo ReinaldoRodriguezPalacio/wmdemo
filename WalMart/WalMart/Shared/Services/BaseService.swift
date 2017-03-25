@@ -364,7 +364,7 @@ class BaseService : NSObject {
         if let codeMessage = response["codeMessage"] as? NSNumber {
             let message = response["message"] as! NSString
             if codeMessage.intValue != 0  {
-                print("error : Response with error \(message)")
+                print("error : Response with error \(message)  codeMessage \(codeMessage)")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.intValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }

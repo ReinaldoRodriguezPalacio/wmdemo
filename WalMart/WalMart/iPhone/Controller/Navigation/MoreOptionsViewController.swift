@@ -378,6 +378,31 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
         
         
+        let logoutService = LogoutService()
+        logoutService.callService(Dictionary<String, String>(),
+                                  successBlock: { (response:[String:Any]) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        self.deleteData()
+                                        },errorBlock:{ (error:NSError) in
+                                            print(error.localizedDescription)
+                                             self.deleteData()
+                                            
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+            }
+        )
+        
+    }
+    
+    
+    func deleteData(){
         delay(0.3) {
             
             if  UserCurrentSession.sharedInstance.userSigned != nil {
@@ -393,37 +418,16 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     self.alertView!.showDoneIcon()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                     
-                    } , errorBlock: { (error:NSError) -> Void in
-                        print("")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                } , errorBlock: { (error:NSError) -> Void in
+                    print("")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                 })
                 
             }
             
         }
-        
-        let logoutService = LogoutService()
-        logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:[String:Any]) -> Void in
-                                    
-                                    let authorizationService =  AuthorizationService()
-                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-                                        print("::Call service AuthorizationService in LogoutService ::")
-                                        
-                                        },errorBlock:{ (error:NSError) in
-                                            print(error.localizedDescription)
-                                            
-                                    })
-                                    
-                                    print("Call service LogoutService success")
-            },
-                                  errorBlock: { (error:NSError) -> Void in
-                                    print("Call service LogoutService error \(error)")
-            }
-        )
-        
     }
     
     //MARK CameraViewControllerDelegate

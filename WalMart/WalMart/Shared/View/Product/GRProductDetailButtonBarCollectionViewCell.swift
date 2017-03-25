@@ -60,7 +60,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         let service = GRAddItemListService()
         
         self.isActive =  self.isActive == "" ?  "true" : self.isActive
-        let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false,baseUomcd:"")]//isActive  /baseUomcd
+        let productObject = [service.buildProductObject(upc:self.upc, quantity:self.isPesable ? 50 : 1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false,baseUomcd:self.isPesable ? "GM" : "EA")]//isActive  /baseUomcd
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
             successBlock: { (result:[String:Any]) -> Void in
