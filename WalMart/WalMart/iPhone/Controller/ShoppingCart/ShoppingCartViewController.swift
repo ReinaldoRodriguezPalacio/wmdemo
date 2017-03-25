@@ -208,9 +208,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
-        if model.contains("Plus") || model.contains("4") {
-            self.emptyView.paddingBottomReturnButton += 5
-        }
+//        if model.contains("Plus") || model.contains("4") {
+//            self.emptyView.paddingBottomReturnButton += 5
+//        }
         self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
@@ -233,7 +233,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
-//            
+//
 //            self.emptyView!.isHidden = false
 //            self.editButton!.isHidden = true
 
