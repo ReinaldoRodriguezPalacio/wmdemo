@@ -180,9 +180,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let descDepartment = item["description"] as! String
             bgDepartment = bgDepartment.trimmingCharacters(in: CharacterSet.whitespaces)
             
+            let widthCell = self.view.frame.width / 4
             
             if let resultProducts = fillConfigData(bgDepartment,families:families) {
-                cellSpecials.setLines(resultProducts,width:79,index:indexPath)
+                cellSpecials.setLines(resultProducts, width: widthCell, index:indexPath)
             }else {
                 cellSpecials.withOutProducts()
             }

@@ -90,10 +90,13 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
             
             currentX = currentX + width
         }
+        let midXMoreButton = Int((width / 2) + currentX)
+        let widthMoreButton = 16
+        let widthMoreLabel = 64
         
-        self.moreButton?.frame = CGRect(x: currentX + 24, y: 43, width: 16, height: 16)
+        self.moreButton?.frame = CGRect(x: Int(midXMoreButton - (widthMoreButton / 2)) , y: 43, width: widthMoreButton, height: 16)
         self.moreButton!.isHidden =  true
-        self.moreLabel?.frame = CGRect(x: currentX, y: self.moreButton!.frame.maxY + 36, width: 64, height: 11)
+        self.moreLabel?.frame = CGRect(x: Int(midXMoreButton - (widthMoreLabel / 2)), y: Int(self.moreButton!.frame.maxY + 36), width: widthMoreLabel, height: 11)
         self.moreLabel!.isHidden =  true
         self.descLabel!.isHidden =  true
         
