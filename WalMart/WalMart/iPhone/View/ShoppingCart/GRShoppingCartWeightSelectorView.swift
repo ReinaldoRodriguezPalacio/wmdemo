@@ -338,14 +338,27 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             if Double(equivalence) <= CONS_MAXVAL {
                 if  Double(equivalence) == 0 {
                   showError("Cantidad minima 1 pieza")
-                } else {
+                } else if self.orderByPiece {
+                    if  Int(tmpResult) > 99 {
+                         showError("Cantidad Máxima 99 piezas")
+                    }else{
+                        currentValPzs = tmpResult
+                        originalValPzs = currentValPzs
+                        self.updateLabelP()
+                        self.updateShoppButton()
+                    }
+                    
+                }else {
                     currentValPzs = tmpResult
                     originalValPzs = currentValPzs
                     self.updateLabelP()
                     self.updateShoppButton()
                 }
             } else {
-                let maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
+                var maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
+                if maxPices > 99 {
+                    maxPices =  99
+                }
                 showError("Cantidad Máxima \(maxPices) piezas")
             }
             
