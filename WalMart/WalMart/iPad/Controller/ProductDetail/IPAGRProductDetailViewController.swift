@@ -38,7 +38,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
  
 
 
-   
+    var pushList = false
     var idFamily : String =  ""
     var idLine : String =  ""
     var idDepartment: String = ""
@@ -350,9 +350,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     
     override func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
-        //let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
         
-        if self.isShowShoppingCart || self.isShowProductDetail  {
+        if self.isShowShoppingCart || self.isShowProductDetail {
             self.closeContainer(
                 { () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
@@ -366,39 +365,35 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
        
         if self.listSelectorController == nil {
-             let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
-            if self.isPesable && !exist{
+            
+            let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
+            
+            if self.isPesable && !exist {
                 
                 let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
                 
                 self.tabledetail.reloadData()
                 
-                if self.isPesable {
-                   selectQuantityGR  = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
-                }
+                selectQuantityGR  = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
                 self.selectQuantityGR?.isFromList = true
                 self.selectQuantityGR?.isUpcInList = false
                 selectQuantityGR?.closeAction = { () in
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
+                        self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                         self.isShowShoppingCart = false
+                        self.selectQuantityGR = nil
                         self.tabledetail.reloadData()
                     }, closeRow:true)
                 }
                 
                 selectQuantityGR?.addToCartAction = { (quantity:String) in
                     
-                        self.closeContainer({ () -> Void in
-                            
-                        }, completeClose: { () -> Void in
-                            self.quantitySelect = Int(quantity)!
-                            self.orderByPieceSelect = self.selectQuantityGR!.orderByPiece
-                            
-                           self.addToList()
-                        }, closeRow:true )
+                    self.quantitySelect = Int(quantity)!
+                    self.orderByPieceSelect = self.selectQuantityGR!.orderByPiece
                     
-                    
+                    self.addToList(push: true)
                     
                 }
                 
@@ -406,25 +401,25 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     self.productDetailButton?.setOpenQuantitySelector()
                     self.productDetailButton!.addToShoppingCartButton.isSelected = true
                     self.tabledetail.reloadData()
-                },additionalAnimationClose:{ () -> Void in
+                }, additionalAnimationClose:{ () -> Void in
 
                     self.productDetailButton!.addToShoppingCartButton.isSelected = true
-                },additionalAnimationFinish: { () -> Void in
+                }, additionalAnimationFinish: { () -> Void in
                     //self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
                 })
                 
             
-            }else{
-                addToList()
+            } else {
+                addToList(push: false)
             }
-        }
-        else {
+            
+        } else {
             if visibleDetailList {
                 self.removeDetailListSelector(
                     action: { () -> Void in
                          self.removeListSelector(action: nil, closeRow:true)
                 })
-            }else {
+            } else {
                 self.removeListSelector(action: nil, closeRow:true)
             }
         }
@@ -432,28 +427,51 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     var quantitySelect =  0
     var orderByPieceSelect  =  false
-    func addToList() {
+    
+    func addToList(push: Bool) {
         
+        self.pushList = push
         
-        let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
-        self.listSelectorContainer = UIView(frame: frameDetail)
-        self.listSelectorContainer!.clipsToBounds = true
-        self.listSelectorController = ListsSelectorViewController()
-        self.listSelectorController!.delegate = self
-        self.listSelectorController!.pesable = self.isPesable
-        self.listSelectorController!.productUpc = self.upc as String
-        self.addChildViewController(self.listSelectorController!)
-        self.listSelectorController!.view.frame = frameDetail
-        self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
-        self.listSelectorController!.didMove(toParentViewController: self)
-        self.listSelectorController!.view.clipsToBounds = true
-        let bg = UIView(frame: frameDetail)
-        bg.backgroundColor = WMColor.light_blue
-        opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton?.listButton.isSelected = true
-            },additionalAnimationClose:{ () -> Void in
-            },additionalAnimationFinish: { () -> Void in
-        })
+        if self.listSelectorContainer == nil {
+            
+            let frameDetail = push ? CGRect(x: self.selectQuantityGR!.frame.maxX, y: 0, width: self.selectQuantityGR.frame.width, height: heightDetail) : CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
+            self.listSelectorContainer = UIView(frame: frameDetail)
+            self.listSelectorContainer!.clipsToBounds = true
+            self.listSelectorController = ListsSelectorViewController()
+            self.listSelectorController!.delegate = self
+            self.listSelectorController!.pesable = self.isPesable
+            self.listSelectorController!.productUpc = self.upc as String
+            self.addChildViewController(self.listSelectorController!)
+            self.listSelectorController!.view.frame = push ? CGRect(x: 0, y: 0.0, width: self.selectQuantityGR.frame.width, height: heightDetail) : frameDetail
+            self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
+            self.listSelectorController!.didMove(toParentViewController: self)
+            self.listSelectorController!.view.clipsToBounds = true
+            
+            if push {
+                self.listSelectorController!.closeBtn!.setImage(UIImage(named: "search_back"), for: UIControlState())
+                self.containerinfo!.addSubview(listSelectorContainer!)
+            } else {
+                opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
+                    self.productDetailButton?.listButton.isSelected = true
+                },additionalAnimationClose:{ () -> Void in
+                },additionalAnimationFinish: { () -> Void in
+                })
+            }
+            
+        }
+        
+        if push {
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                
+                self.selectQuantityGR!.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                
+            }, completion: { (complete:Bool) -> Void in
+                self.selectQuantityGR!.isHidden = true
+            })
+        }
+        
     }
     
     //new
@@ -733,7 +751,22 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     func listSelectorDidClose() {
-        self.removeListSelector(action: nil, closeRow:true)
+        
+        if pushList {
+            
+            self.selectQuantityGR!.isHidden = false
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.selectQuantityGR!.frame = CGRect(x: 0, y: 0.0, width: self.selectQuantityGR.frame.width, height: self.heightDetail)
+                self.listSelectorContainer!.frame = CGRect(x: self.selectQuantityGR.frame.width, y: 0.0, width: self.selectQuantityGR.frame.width, height: self.heightDetail)
+            }, completion: { (complete: Bool) -> Void in
+                self.pushList = false
+            })
+            
+        } else {
+            self.removeListSelector(action: nil, closeRow:true)
+        }
+        
     }
     
     internal func listSelectorDidAddProduct(inList listId: String) {
@@ -1168,6 +1201,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     override func removeListSelector(action:(()->Void)?, closeRow:Bool ) {
+        
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
@@ -1181,7 +1215,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
                     self.removeListSelector(action: action, closeRow:true)
                 })
-        }else {
+        } else {
             super.removeListSelector(action: action, closeRow:true)
         }
     }
