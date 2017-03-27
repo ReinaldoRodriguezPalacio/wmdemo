@@ -421,6 +421,7 @@ class BaseService : NSObject {
                 jsonData = nil
             }
             let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
+            jsonData = nil
             return values
         }else {
             if let pathResource = Bundle.main.path(forResource: NSURL(string:fileName.lastPathComponent)!.deletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
@@ -431,6 +432,7 @@ class BaseService : NSObject {
                     jsonData = nil
                 }
                 let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
+                jsonData = nil
                 return values
             }
         }

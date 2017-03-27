@@ -592,7 +592,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
 
         
-        categories.sort { (item, seconditem) -> Bool in
+        categories.sort { [unowned self] (item, seconditem) -> Bool in
             let first = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
             let firstItem = first[0] as [String:Any]
