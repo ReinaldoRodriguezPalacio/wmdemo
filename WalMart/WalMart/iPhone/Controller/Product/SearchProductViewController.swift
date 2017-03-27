@@ -1163,6 +1163,8 @@
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"
+        
+        //return ["catalogRefids":"00841020507906_009537102","productId":"00841020507906","quantity":"1","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
         //Add skuId
         if cell.type == ResultObjectType.Groceries.rawValue {
             if searchText != ""{

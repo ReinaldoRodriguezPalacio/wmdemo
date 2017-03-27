@@ -369,6 +369,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             typeProduct = ResultObjectType.Mg
             serviceAddProduct.callService(params["skuId"] as! NSString as String, upc:params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,pesable:params["pesable"] as! NSString,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
                 
+                //["catalogRefids":"00841020507906_009537102","productId":"00841020507906","quantity":"1","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
+                
                 let responceObject = result as! [String: AnyObject]
                 //self.jsonFromObject(result as AnyObject!)
                 //let order = responceObject["order"] as! [String: AnyObject]
@@ -466,8 +468,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func showDoneIcon(){
         if finishCall ==  false {
-            timmer.invalidate()
-            timmer = nil
+            if timmer != nil {
+                timmer.invalidate()
+                timmer = nil
+            }
+            
             return
         }
         

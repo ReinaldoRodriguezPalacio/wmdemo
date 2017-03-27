@@ -55,6 +55,10 @@ class ShoppingCartAddProductsService : BaseService {
         return ["catalogRefIds": skuId, "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
     
+    func buldParamsMstng(_ catalog:String, productId:String, quantity:String, orderedUOM:String, itemComemnt:String, orderedQTYWeight:String) -> [String:Any] {
+        return ["catalogRefids":"00841020507906_009537102","productId":"00841020507906","quantity":"1","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
+    }
+    
     func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:Any] {
         return ["comments":comments as AnyObject,"quantity":quantity as AnyObject,"upc":upc as AnyObject,"desc":desc as AnyObject,"price":price as AnyObject,"imageURL":imageURL as AnyObject,"onHandInventory":onHandInventory,"wishlist":wishlist as AnyObject]
     }
