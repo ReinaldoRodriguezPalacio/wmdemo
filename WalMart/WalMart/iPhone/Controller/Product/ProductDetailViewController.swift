@@ -922,7 +922,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 // Remove "event": "ecommerce",
                 BaseController.sendAnalyticsPush(["ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
                 
-                }) { (error:NSError) -> Void in
+            }) { (error:NSError) -> Void in
                     NSLog("ProductDetailService error : \(error.localizedDescription) ", "ProductDetailViewController")
 
                     let heightEmpty = self.view.bounds.height
@@ -1649,10 +1649,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let headerView = self.currentHeaderView as! ProductDetailBannerCollectionViewCell
                 for view in headerView.sizesView!.viewToInsert!.subviews {
                     if let button = view.subviews.first! as? UIButton {
-                     button.isEnabled = sizes.contains(button.titleLabel!.text!)
-                    if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
+                        button.isEnabled = sizes.contains(button.titleLabel!.text!)
+                        if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
                             button.sendActions(for: UIControlEvents.touchUpInside)
-                    }
+                        }
                     }
                 }
             }

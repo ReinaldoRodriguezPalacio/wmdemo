@@ -129,7 +129,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: Int(self.view.bounds.width), height: heightEmptyView)
 
-        self.emptyView!.paddingBottomReturnButton = 60
+      //  self.emptyView!.paddingBottomReturnButton = 60
         
         self.viewBgSelectorBtn.frame =  CGRect(x: (self.view.bounds.width - 282) / 2  ,  y: self.header!.frame.maxY + 16, width: 282, height: 28)
     }

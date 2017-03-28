@@ -37,7 +37,7 @@ class IPOEmptyView : UIView {
     var returnAction : (() -> Void)?
     
     var showReturnButton: Bool = true
-    var paddingBottomReturnButton = 10.0
+    var paddingBottomReturnButton = 60.0
     let heightReturnButton = 40.0
 
     
@@ -71,9 +71,8 @@ class IPOEmptyView : UIView {
             returnButton.setTitle(NSLocalizedString("empty.return",comment:""), for: UIControlState())
             returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), for: UIControlEvents.touchUpInside)
         
-            //if IS_IPHONE_4_OR_LESS == false {
             self.addSubview(returnButton)
-            //}
+            
         }
         self.addSubview(bgImageView)
         self.addSubview(descLabel)
@@ -88,9 +87,9 @@ class IPOEmptyView : UIView {
         self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
         
         if self.showReturnButton {
-       //     let yButton = Double(self.frame.height) - self.heightReturnButton - self.paddingBottomReturnButton
+            let yButton = Int(self.bounds.size.height) - Int(self.heightReturnButton) - Int(self.paddingBottomReturnButton)
             
-            self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 100, width: 160 , height: 40)
+            self.returnButton.frame = CGRect(x: Int((self.bounds.width - 160 ) / 2), y: yButton, width: 160 , height: Int(self.heightReturnButton))
         }
     }
 

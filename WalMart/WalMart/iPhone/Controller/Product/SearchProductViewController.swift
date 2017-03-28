@@ -309,7 +309,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewWillAppear(animated)
         self.header?.addSubview(self.filterButton!)
         if IS_IPAD {
-        self.view.addSubview(collection!)
+            self.view.addSubview(collection!)
         }
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind)
         self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.withText || self.originalSearchContextType == SearchServiceContextType.withTextForCamFind
@@ -1549,10 +1549,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height))
         
-        if UIDevice.current.modelName.contains("4") {
-            self.empty.paddingBottomReturnButton += 44
-        }
-        
         if self.searchFromContextType == .fromSearchTextList {
             self.empty.descLabel.text = "No existe ese artículo en Súper"
             self.empty.descLabel.numberOfLines = 1
@@ -1561,8 +1557,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.empty.descLabel.numberOfLines = 3
         }
     
-        self.empty.returnAction = { () in
-            self.returnBack()
+        if UIDevice.current.modelName.contains("iPad") || IS_IPAD {
+            self.empty.showReturnButton = false
+        } else {
+            self.empty.returnAction = { () in
+                self.returnBack()
+            }
         }
         
         self.view.addSubview(self.empty)
@@ -1584,10 +1584,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading?.stopAnnimating()
       
         let model =  UIDevice.current.modelName
-        print(model)
+
         var heightEmpty = self.view.bounds.height
         if !model.contains("iPad") && !model.contains("4") {
-            heightEmpty -= 44
+            heightEmpty -= 68
         }
         if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
             heightEmpty -= 44
@@ -1603,9 +1603,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
 
         if model.contains("4") {
-            self.emptyMGGR.paddingBottomReturnButton += 56
+            self.emptyMGGR.paddingBottomReturnButton += 34
         } else if  model.contains("iPod") || model.contains("Plus") {
    //         self.emptyMGGR.paddingBottomReturnButton += 24
+        } else if model.contains("iPad") || IS_IPAD {
+            self.emptyMGGR.showReturnButton = false
         }
         
         if btnSuper.isSelected {
