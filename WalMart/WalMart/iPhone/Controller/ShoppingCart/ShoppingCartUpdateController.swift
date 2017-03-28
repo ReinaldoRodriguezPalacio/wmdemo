@@ -295,6 +295,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        self.closeButton.isHidden = false
                     }
                     
                 })
@@ -342,6 +343,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        self.closeButton.isHidden = false
                     }
                     
                 })
@@ -435,6 +437,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
                             self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                            self.closeButton.isHidden = false
                         }
 
                     }
@@ -479,9 +482,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.titleLabel.text = error.localizedDescription
                     self.imageProduct.image = UIImage(named:"alert_ups")
                     self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                    self.closeButton.isHidden = false
                 }
                 
-                self.showDoneIcon()
+                //self.showDoneIcon()
             }
             
         }
@@ -732,6 +736,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                         self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
                                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                                        self.closeButton.isHidden = false
                                     }
                                     
                             }

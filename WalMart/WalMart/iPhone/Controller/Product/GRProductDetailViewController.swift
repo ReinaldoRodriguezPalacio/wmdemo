@@ -67,6 +67,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     var idDepartment: String = ""
     var quantitySelected = 0
     var itemOrderbyPices =  true
+    var isSowListQuantity: Bool = false
     
     override func loadDataFromService() {
         
@@ -290,22 +291,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
 
     override func addOrRemoveToWishList(_ upc: String, desc: String, imageurl: String, price: String, addItem: Bool, isActive: String, onHandInventory: String, isPreorderable: String, category: String, added: @escaping (Bool) -> Void) {
         
-        self.closeProductDetail()
+        if isShowProductDetail == true {
+            self.closeProductDetail()
+        }
         
         if self.selectQuantityGR != nil {
-            self.closeContainer({ () -> Void in
-                self.productDetailButton?.reloadShoppinhgButton()
-            }, completeClose: { () -> Void in
-                self.isShowShoppingCart = false
-                self.selectQuantityGR = nil
-            })
+            self.closeContainerDetail()
         }
         
         let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
       
         if self.isPesable && !exist {
             
-            self.selectQuantityGR = nil
+            //self.selectQuantityGR = nil
             
             let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
             let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
@@ -319,6 +317,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
+                    self.isSowListQuantity = false
                 })
             }
             
@@ -341,16 +340,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
             }
             
-            self.view.addSubview(self.selectQuantityGR!)
-            
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
-            })
-            
             self.opencloseContainer(true, viewShow: selectQuantityGR!, additionalAnimationOpen: { () -> Void in
                 self.productDetailButton?.listButton.isSelected = true
+                self.isSowListQuantity = true
             }, additionalAnimationClose:{ () -> Void in
                 self.productDetailButton?.listButton.isSelected = false
+                self.isSowListQuantity = false
             })
             
         } else {
@@ -419,6 +414,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     
     override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
+        
+        if self.selectQuantityGR != nil && self.isSowListQuantity {
+            self.closeContainerDetail()
+        }
+        
         let isInCart = self.productDetailButton?.detailProductCart != nil
         if !isInCart && !self.isPesable {
             //self.tabledetail.reloadData()
@@ -591,19 +591,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
 
     override func closeContainerDetail() {
         if selectQuantityGR != nil {
-            self.closeContainer({ () -> Void in
-                
-                
-                
-                self.productDetailButton?.reloadShoppinhgButton()
-//                UserCurrentSession.sharedInstance.loadGRShoppingCart
-//                    { () -> Void in
-//                        self.productDetailButton.reloadShoppinhgButton()
-//                }
-            }, completeClose: { () -> Void in
-                self.isShowShoppingCart = false
-                self.selectQuantityGR = nil
-            })
+            self.selectQuantityGR?.closeSelectQuantity()
+            self.productDetailButton?.reloadShoppinhgButton()
         }else{
             UserCurrentSession.sharedInstance.loadGRShoppingCart
                 { () -> Void in
@@ -1302,20 +1291,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     override func showProductDetail() {
         
-        if isShowShoppingCart {
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
-                self.selectQuantity!.imageBlurView.frame = CGRect(x: 0, y: -360, width: 320, height: 360)
-                }, completion: { (animated:Bool) -> Void in
-                    if self.selectQuantity != nil {
-                        self.selectQuantity!.removeFromSuperview()
-                        self.selectQuantity = nil
-                        self.detailCollectionView.isScrollEnabled = true
-                        self.gestureCloseDetail.isEnabled = false
-                    }
-            })
+        if self.selectQuantityGR != nil {
+            self.closeContainerDetail()
         }
+            
         
         if self.listSelectorController != nil {
             self.removeListSelector(action: nil)
@@ -1343,14 +1322,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func startAnimatingProductDetail() {
         
         if self.selectQuantityGR != nil {
-            self.closeContainer(
-                { () -> Void in
-                    self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-                    self.selectQuantityGR = nil
-                  self.isShowProductDetail = true
-                }
-            )
+            self.closeContainerDetail()
         }
         
         if self.nutrmentals.count == 0 {
@@ -1417,7 +1389,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }else {
                 super.closeProductDetail()
             }
-            
+          isShowProductDetail = false
         }
     }
     

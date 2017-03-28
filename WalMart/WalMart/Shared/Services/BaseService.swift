@@ -180,7 +180,7 @@ class BaseService : NSObject {
         let stringOfClassType: String = self.nameOfClass(type(of: self))
         let needsToLoginCode = self.needsToLoginCode()
         let needsLogin = self.needsLogin()
-        afManager.post(url, parameters: params, progress: nil, success: { [weak self] (request:URLSessionDataTask, json:Any?) in
+        afManager.post(url, parameters: params, progress: nil, success: {   (request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
@@ -223,7 +223,7 @@ class BaseService : NSObject {
             
             let resultJSON = json as! [String:Any]
               //print("callPOSTService resultJSON ::\(resultJSON)")
-            if let errorResult = self?.validateCodeMessage(resultJSON) {
+            if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == needsToLoginCode &&  needsLogin {
                     if UserCurrentSession.hasLoggedUser() {
                          print("****************** ****************** ****************** ****************** POST")
@@ -232,7 +232,7 @@ class BaseService : NSObject {
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
-                            self?.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
@@ -247,12 +247,12 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: {[weak self] (request:URLSessionDataTask?, error:Error) in
+            }, failure: {  (request:URLSessionDataTask?, error:Error) in
                 //TAG Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
-                    self?.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
@@ -341,8 +341,8 @@ class BaseService : NSObject {
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { [weak self] (response:[String:Any]) -> Void in
-                            self?.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                        loginService.callService(["email":emailUser], successBlock: {   (response:[String:Any]) -> Void in
+                            self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance.userSigned = nil
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
@@ -355,13 +355,13 @@ class BaseService : NSObject {
                 return
             }
             successBlock!(resultJSON)
-            }, failure: { [weak self] (request:URLSessionDataTask?, error:Error) in
+            }, failure: {   (request:URLSessionDataTask?, error:Error) in
                 
                // print("Error en ::" + self.serviceUrl())
                 if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
                     BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
-                    self?.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \((error as NSError))")
@@ -585,7 +585,7 @@ class BaseService : NSObject {
     func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let needsToLoginCode = self.needsToLoginCode()
         let needsLogin = self.needsLogin()
-        manager.post(serviceUrl(), parameters: nil, constructingBodyWith: { [weak self] (formData: AFMultipartFormData!) in
+        manager.post(serviceUrl(), parameters: nil, constructingBodyWith: {   (formData: AFMultipartFormData!) in
             let imgData = params["image_request[image]"] as! Data
             let localeStr = params["image_request[locale]"] as! String
             let langStr = params["image_request[language]"] as! String
@@ -619,12 +619,12 @@ class BaseService : NSObject {
                 }
                 
                 successBlock!(resultJSON)
-            }, failure: {[weak self] (request:URLSessionDataTask?, error:Error) in
+            }, failure: {  (request:URLSessionDataTask?, error:Error) in
                 //TAG manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
                 if (error as NSError).code == -1005 {
                     print("Response Error : \(error) \n Response \(request!.response)")
-                    self?.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
                 print("Response Error : \(error) \n Response \(request!.response)")
