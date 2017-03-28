@@ -1135,8 +1135,12 @@
                     },
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
-                                                //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                if self.idListFromSearch == ""{
+                                                    //CAMBIA IMAGEN CARRO SELECCIONADO
+                                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                } else {
+                                                    self.addItemToList(cell: cell, quantity:quantity)
+                                                }
                     }
                     )
                 }
