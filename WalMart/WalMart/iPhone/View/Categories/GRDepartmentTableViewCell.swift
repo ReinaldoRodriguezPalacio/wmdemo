@@ -151,16 +151,16 @@ class GRDepartmentTableViewCell : UITableViewCell {
     }
     
     func saveImageToDisk(_ fileName:String,image:UIImage,defaultImage:UIImage) {
-        DispatchQueue.global(qos: .default).async(execute: { () -> Void in
+        DispatchQueue.global(qos: .default).async(execute: { [weak self]() -> Void in
             let imageData : Data = UIImagePNGRepresentation(image)!
             let imageDataLast : Data = UIImagePNGRepresentation(defaultImage)!
             
             if imageData.MD5() != imageDataLast.MD5() {
-                let getImagePath = self.getImagePath(fileName)
+                let getImagePath = self?.getImagePath(fileName)
                 _ = FileManager.default
-                try? imageData.write(to: URL(fileURLWithPath: getImagePath), options: [.atomic])
+                try? imageData.write(to: URL(fileURLWithPath: getImagePath!), options: [.atomic])
                 
-                let todeletecloud =  URL(fileURLWithPath: getImagePath)
+                let todeletecloud =  URL(fileURLWithPath: getImagePath!)
                 do {
                     try (todeletecloud as NSURL).setResourceValue(NSNumber(value: true as Bool), forKey: URLResourceKey.isExcludedFromBackupKey)
                 } catch let error1 as NSError {

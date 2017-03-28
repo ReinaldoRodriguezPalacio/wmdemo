@@ -15,9 +15,6 @@ class IPOOrderEmptyView : IPOEmptyView {
         bgImageView.image = UIImage(named:"empty_orders")
         descLabel.text = NSLocalizedString("empty.orders",comment:"")
         
-        if UIDevice.current.modelName.contains("Plus"){
-            paddingBottomReturnButton = 60.0
-        }
     }
     
     

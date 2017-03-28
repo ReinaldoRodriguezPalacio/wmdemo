@@ -198,13 +198,17 @@ class BaseService : NSObject {
         let afManager = getManager()
         let url = serviceUrl()
         print("callPOSTService params ::\(params)")
-        afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
+        let stringOfClassType: String = self.nameOfClass(type(of: self))
+        let needsToLoginCode = self.needsToLoginCode()
+        let needsLogin = self.needsLogin()
+        afManager.post(url, parameters: params, progress: nil, success: { [weak self] (request:URLSessionDataTask, json:Any?) in
             //session --
             //TODO Loginbyemail
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+
             if cookie != "" {
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
@@ -254,6 +258,7 @@ class BaseService : NSObject {
             //TAG Manager
             BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
             if (error as NSError).code == -1005 {
+
                 print("Response Error : \(error) \n Response \(request!.response)")
                 self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                 return
@@ -281,6 +286,7 @@ class BaseService : NSObject {
     
     func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("callPOSTService params ::\(params)")
+
         manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             
             //session --
@@ -409,9 +415,10 @@ class BaseService : NSObject {
             } catch {
                 jsonData = nil
             }
-            let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
+            let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments))
+            let dicValues = values as! [String: Any]
             jsonData = nil
-            return values
+            return dicValues
         }else {
             if let pathResource = Bundle.main.path(forResource: NSURL(string:fileName.lastPathComponent)!.deletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
                 var jsonData: Data?
@@ -420,9 +427,10 @@ class BaseService : NSObject {
                 } catch {
                     jsonData = nil
                 }
-                let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [String:Any]
+                let values = (try! JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.allowFragments))
+                let dicValues = values as! [String: Any]
                 jsonData = nil
-                return values
+                return dicValues
             }
         }
         return nil
@@ -550,7 +558,9 @@ class BaseService : NSObject {
     }
     
     func callPOSTServiceCam(_ manager:AFHTTPSessionManager, params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.post(serviceUrl(), parameters: nil, constructingBodyWith: { (formData: AFMultipartFormData!) in
+        let needsToLoginCode = self.needsToLoginCode()
+        let needsLogin = self.needsLogin()
+        manager.post(serviceUrl(), parameters: nil, constructingBodyWith: { [weak self] (formData: AFMultipartFormData!) in
             let imgData = params["image_request[image]"] as! Data
             let localeStr = params["image_request[locale]"] as! String
             let langStr = params["image_request[language]"] as! String

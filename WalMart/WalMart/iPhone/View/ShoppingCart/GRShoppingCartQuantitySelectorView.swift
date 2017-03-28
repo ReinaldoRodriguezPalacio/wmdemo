@@ -14,6 +14,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     let ZERO_QUANTITY_STRING = "00"
     
     var isPush = false
+    var executeClose = true
     var numericKeyboard = NumericKeyboardView()
     var lblQuantity : UILabel!
     var lblTitle : UILabel!

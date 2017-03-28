@@ -52,10 +52,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
 
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
         
-        self.emptyView.paddingBottomReturnButton = 57
-//        if model.contains("4"){
-//            self.emptyView.paddingBottomReturnButton += 80
-//        }
         self.emptyView.returnAction = {() in
             self.back()
         }
@@ -126,7 +122,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
       
-        
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
         cellRecentProducts.selectionStyle = .none
         let objProduct = recentProductItems[indexPath.row] 
@@ -163,7 +158,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         controller.detailOf = "Recent Products"
         self.navigationController!.pushViewController(controller, animated: true)
         
-        
     }
 
     func getUPCItems() -> [[String:String]] {
@@ -184,6 +178,5 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     override func swipeHandler(swipe: UISwipeGestureRecognizer) {
         self.back()
     }
-    
     
 }

@@ -176,22 +176,23 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         splashVC = IPOSplashViewController()
-        splashVC.didHideSplash = { () in
+        splashVC.didHideSplash = { [weak self] () in
             if !showTutorial {
-                self.showHelpHomeView()
+                self?.showHelpHomeView()
             }
-            if self.waitToSplash {
-                self.openSearchProduct()
+            if self!.waitToSplash {
+                self?.openSearchProduct()
             }
-            self.splashVC = nil
-            self.checkPrivaceNotice()
+            self?.splashVC = nil
+            self?.checkPrivaceNotice()
         }
-        splashVC.validateVersion =  {(force:Bool) in
-            self.updateAviable = UpdateViewController()
-            self.updateAviable.setup()
-            self.updateAviable.forceUpdate = force
-            self.updateAviable.frame = self.view.bounds
-            self.view.addSubview(self.updateAviable)
+        
+        splashVC.validateVersion =  {[weak self] (force:Bool) in
+            self?.updateAviable = UpdateViewController()
+            self?.updateAviable.setup()
+            self?.updateAviable.forceUpdate = force
+            self?.updateAviable.frame = (self?.view.bounds)!
+            self?.view.addSubview((self?.updateAviable)!)
         }
         self.addChildViewController(splashVC)
         self.view.addSubview(splashVC.view)
