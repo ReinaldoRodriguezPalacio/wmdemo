@@ -235,7 +235,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             quantity = item["quantity"] as? NSNumber
             
             let width:CGFloat = self.view.frame.width
-            var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
+            var height:CGFloat = (self.view.frame.height)
            
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
@@ -243,6 +243,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
             } else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
+                self.quantitySelector?.isFromList = true
             }
             
             if let orderByPiece = item["orderByPiece"] as? Bool {
@@ -250,6 +251,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             } else {
                 quantitySelector?.first = true
                 quantitySelector?.userSelectValue(quantity!.stringValue)
+                
             }
             
             self.view.addSubview(self.quantitySelector!)
