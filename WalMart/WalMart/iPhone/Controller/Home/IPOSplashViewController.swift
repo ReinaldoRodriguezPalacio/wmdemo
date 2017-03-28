@@ -163,17 +163,16 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    func configureWebView(_ itemsconfig: [String:Any])-> Bool {
+    func configureWebView(_ itemsconfig: [String:Any]) -> Bool {
         
         
         if let block = itemsconfig["block"] as? Bool {
             blockScreen = block
             if blockScreen {
-                 splashDefault.image = UIImage(named: "splash_ups_4")
+                splashDefault.image = UIImage(named: "splash_ups_4")
                 return blockScreen
             }
-            
-            
+
         }
         if let ttlsplash = itemsconfig["ttl"] as? Double {
             splashTTL = ttlsplash
@@ -261,7 +260,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         confServ.callService([:], successBlock: { (result:[String:Any]) -> Void in
 
 //            Meter validacion
-            if UserCurrentSession.sharedInstance.JSESSIONATG != "" {
+            if UserCurrentSession.sharedInstance.JSESSIONID != "" {
                  self.afterConfigService(result: result)
             }else{
             let authorizationService =  AuthorizationService()
@@ -287,7 +286,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         var error: NSError?
         let isBlock =  self.configureWebView(result)
         if !isBlock {
-            
             IPOSplashViewController.callUpdateServices()
             UserCurrentSession.sharedInstance.finishConfig  = true
             
@@ -373,9 +371,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 self.webViewSplash.loadRequest(NSURLRequest(url: NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL) as URLRequest)
                 UserCurrentSession.sharedInstance.searchForCurrentUser()
             }
-            
-            
         }
+        
+        
     }
     
     func invokeServiceToken(){
