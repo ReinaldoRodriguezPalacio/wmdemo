@@ -112,19 +112,14 @@ class BaseService : NSObject {
         
         let lockQueue = DispatchQueue(label: "com.test.LockQueue", attributes: [])
         lockQueue.sync {
-            var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
+           
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
             
-            if jsessionIdSend == "" {
-                if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-                    print("PARAM JSESSIONID ::"+param2.value)
-                    jsessionIdSend = param2.value
-                }
+           
                 if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
-                    print("PARAM JSESSIONATG ::" + param3.value)
                     jSessionAtgIdSend = param3.value
                 }
-            }
+            
             
             if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = Date().timeIntervalSince1970
@@ -134,21 +129,20 @@ class BaseService : NSObject {
                 AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+                AFStatic.manager.requestSerializer.httpShouldHandleCookies = true
                 //Session --
                 
                 print("URL:: \(self.serviceUrl())")
-                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
                 
             } else{
                 //Session --
                 print("URL:: \(self.serviceUrl())")
-                print("SEND JSESSIONID::" + jsessionIdSend)
                 print("SEND JSESSIONATG::" + jSessionAtgIdSend)
                 AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                AFStatic.manager.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
                 AFStatic.manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+                AFStatic.manager.requestSerializer.httpShouldHandleCookies = true
             }
             
         }
@@ -232,14 +226,14 @@ class BaseService : NSObject {
             
             let resultJSON = json as! [String:Any]
             print("callPOSTService resultJSON ::\(resultJSON)")
-            if let errorResult = self.validateCodeMessage(resultJSON) {
-                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
+            if let errorResult = self?.validateCodeMessage(resultJSON) {
+                if errorResult.code == needsToLoginCode && needsLogin {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
-                            self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                            self?.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                         }, errorBlock: { (error:NSError) -> Void in
                             UserCurrentSession.sharedInstance.userSigned = nil
                             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
@@ -573,7 +567,7 @@ class BaseService : NSObject {
                 //TAG manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                 
-                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
+                if errorResult.code == needsToLoginCode && needsLogin {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
