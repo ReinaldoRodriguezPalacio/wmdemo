@@ -463,9 +463,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if push {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
-                self.selectQuantityGR!.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                self.listSelectorContainer!.frame = CGRect(x: 0, y: 0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                self.listSelectorController!.view.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                self.selectQuantityGR?.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                self.listSelectorContainer?.frame = CGRect(x: 0, y: 0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                self.listSelectorController?.view.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
                 
             }, completion: { (complete:Bool) -> Void in
                 self.selectQuantityGR!.isHidden = true
@@ -707,10 +707,24 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList = false
         self.selectQuantityGR!.closeAction = { () in
-            self.removeListSelector(action: nil, closeRow:true)
+            
+            if self.selectQuantityGR!.isPush {
+                
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                    self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
+                }, completion: { (complete: Bool) -> Void in
+                    self.selectQuantityGR!.removeFromSuperview()
+                })
+                
+            } else {
+                self.removeListSelector(action: nil, closeRow:true)
+            }
+            
         }
         
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
