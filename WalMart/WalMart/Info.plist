@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -475,7 +475,7 @@
 			<key>WalmartMG.GRCategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToList</string>
+			<string>https://dl.dropboxusercontent.com/s/v3bs3deadnk4o0p/deleteItemToList.txt?dl=0</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
@@ -515,7 +515,7 @@
 			<key>WalmartMG.GRTimeBands</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateItemToList</string>
+			<string>https://dl.dropboxusercontent.com/s/5oazlvcuvec17nz/updateItemToList.txt?dl=0</string>
 			<key>WalmartMG.GRUpdateListService</key>
 			<string>https://dl.dropboxusercontent.com/s/ws9jsuccefptr97/updateListByUser.txt?dl=0</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
@@ -597,7 +597,7 @@
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.UserListDetailService</key>
-			<string>https://dl.dropboxusercontent.com/s/3tk0zsbgacuguvb/detalleLista.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/mzfj8bblxx9z1c6/detalleLista.txt?dl=0</string>
 			<key>WalmartMG.UserProfileService</key>
 			<string>https://dl.dropboxusercontent.com/s/4ftdr3i53qc0ov9/responseProfile.txt?dl=0</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>

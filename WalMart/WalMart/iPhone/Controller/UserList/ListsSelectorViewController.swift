@@ -287,7 +287,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let userListsService = GRUserListService()
         userListsService.callService([:],
             successBlock: { (result:[String:Any]) -> Void in
-                self.list = result["responseArray"] as? [Any]
+                self.list = result["myLists"] as? [Any]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
             },

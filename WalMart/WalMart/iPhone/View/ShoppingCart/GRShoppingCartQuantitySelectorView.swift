@@ -217,19 +217,19 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var resultText : NSString = ""
         
         if first {
-            var tmpResult : NSString = value as NSString
-            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" as NSString : "\(value)" as NSString
+            var tmpResult : NSString = value! as NSString
+            tmpResult = tmpResult.integerValue < 10 ? "0\(value!)" as NSString : "\(value!)" as NSString
             if tmpResult != "00"{
             lblQuantity.text = tmpResult as String
                 first = false
             }
         } else {
-            resultText = "\(lblQuantity!.text!)\(value)" as NSString
+            resultText = "\(lblQuantity!.text!)\(value!)" as NSString
             resultText = resultText.substring(from: 1) as NSString
             if resultText.integerValue > 0 && resultText.integerValue <= 99 {
                 lblQuantity.text = resultText as String
             }else {
-                let tmpResult : NSString = "0\(value)" as NSString
+                let tmpResult : NSString = "0\(value!)" as NSString
                 if tmpResult.integerValue > 0 {
                     lblQuantity.text = tmpResult as String
                 }

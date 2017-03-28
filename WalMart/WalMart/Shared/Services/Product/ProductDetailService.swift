@@ -38,7 +38,7 @@ class ProductDetailService : BaseService {
     
     func buildMustangParams(_ upc:String,skuId:String) -> [String:Any]{
     
-        return ["storeId":"0000009999", "skuId":upc]
+        return ["storeId":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!, "skuId":upc]
         //"00070722656082"
         //"00750100801657"
         //"00750100801675"
