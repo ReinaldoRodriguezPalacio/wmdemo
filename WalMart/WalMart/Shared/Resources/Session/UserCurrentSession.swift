@@ -74,7 +74,9 @@ class UserCurrentSession : NSObject {
     var screenViewArray : [String:Any]! = [:]
     var nameListToTag =  ""
     
+    var JSESSIONID = ""
     var JSESSIONATG = ""
+
     var jsessionIdArray : [String]! = []
 
     

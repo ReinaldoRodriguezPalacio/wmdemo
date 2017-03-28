@@ -191,57 +191,59 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
         signOutButton?.isEnabled = false
         
-        func deleteData() {
-            
-            delay(0.3) {
-                
-                if UserCurrentSession.hasLoggedUser() {
+  
+        
+        let logoutService = LogoutService()
+        logoutService.callService(Dictionary<String, String>(),
+                                  successBlock: { (response:[String:Any]) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        self.deleteData()
+                                        
+                                        },errorBlock:{ (error:NSError) in
+                                            print(error.localizedDescription)
+                                            self.deleteData()
+                                            
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+            }
+        )        
+        
+    }
+    
+    func deleteData(){
+        print("deleteData")
+    
+        delay(0.3) {
+            if  UserCurrentSession.hasLoggedUser() {
+                UserCurrentSession.sharedInstance.userSigned = nil
+                UserCurrentSession.sharedInstance.deleteAllUsers()
+                self.signOutButton?.isEnabled = true
+                let shoppingService = ShoppingCartProductsService()
+                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
                     
-                    UserCurrentSession.sharedInstance.userSigned = nil
-                    UserCurrentSession.sharedInstance.deleteAllUsers()
+                    self.alertView!.setMessage("Ok")
+                    self.alertView!.showDoneIcon()
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                     
-                    let shoppingService = ShoppingCartProductsService()
-                    shoppingService.callCoreDataService([:], successBlock: { (result: [String:Any]) -> Void in
-                        
-                        self.alertView!.setMessage("Ok")
-                        self.alertView!.showDoneIcon()
-                        self.signOutButton?.isEnabled = true
-                        
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                        
-                    }, errorBlock: { (error: NSError) -> Void in
-                        
+                }
+                    , errorBlock: { (error:NSError) -> Void in
+                        print("")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.signOutButton?.isEnabled = true
                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                        
-                    })
-                }
+                })
             }
-            
         }
-        
-        let logoutService = LogoutService()
-        logoutService.callService(Dictionary<String, String>(), successBlock: { (response: [String:Any]) -> Void in
-            
-            let authorizationService = AuthorizationService()
-            authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-                deleteData()
-            }, errorBlock:{ (error: NSError) in
-                print(error.localizedDescription)
-                deleteData()
-            })
-            
-        }, errorBlock: { (error: NSError) -> Void in
-            print("Call service LogoutService error \(error)")
-            self.alertView!.setMessage(error.localizedDescription)
-            self.alertView!.showErrorIcon("Ok")
-            self.signOutButton?.isEnabled = true
-        })
-        
-        
     }
+    
     
     func editProfile(_ sender:UIButton) {
                 

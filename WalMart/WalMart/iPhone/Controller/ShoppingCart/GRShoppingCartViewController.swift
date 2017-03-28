@@ -1027,7 +1027,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     if myprod.orderByPiece ==  orderByPiece {
                         var quantitySum = myprod.quantity.int64Value + quantity
                         
-                        if orderByPiece == 0 {
+                        if orderByPiece.intValue == 0 {
                             quantitySum = quantitySum > 20000 ? 20000 : quantitySum
                         }else{
                              quantitySum = quantitySum > 99 ? 99 : quantitySum

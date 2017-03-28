@@ -10,10 +10,9 @@ import Foundation
 
 class CategorySelectorItemView: UIView {
     
-    
-    var title : UILabel!
-    var especiales : UILabel!
-    var sizeEspeciales : CGSize!
+    var title: UILabel!
+    var especiales: UILabel!
+    var sizeEspeciales: CGSize!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -25,12 +24,20 @@ class CategorySelectorItemView: UIView {
         setup()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if self.especiales.alpha == 0 {
+            self.title.sizeToFit()
+            centerText()
+        }
+    }
+    
     func setup() {
+        
         title = UILabel(frame: self.bounds)
         title.font = WMFont.fontMyriadProRegularOfSize(16)
         
-        
-        let maxStrCat =  "Especiales "
+        let maxStrCat = "Especiales "
         sizeEspeciales = maxStrCat.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
         
         especiales = UILabel(frame: CGRect(x: -sizeEspeciales.width, y: self.bounds.minY, width: sizeEspeciales.width, height: self.bounds.height))
@@ -43,43 +50,30 @@ class CategorySelectorItemView: UIView {
         self.addSubview(especiales)
         self.addSubview(title)
     }
-    
-    
-    
+
     func setTextEspeciales() {
-        self.especiales.frame =  CGRect( x: self.title.frame.minX, y: self.bounds.minY, width: 0, height: self.bounds.height)
+        
+        self.especiales.frame = CGRect(x: self.title.frame.minX, y: self.bounds.minY, width: 0, height: self.bounds.height)
         self.especiales.alpha = 1
+       
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             let maxStrCat =  self.title.text!
-            let sizeCategory = maxStrCat.size(attributes: [NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
+            let sizeCategory = maxStrCat.size(attributes: [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(16)])
             let space = self.sizeEspeciales.width + sizeCategory.width
             self.especiales.frame = CGRect(x: (self.bounds.width / 2) - (space / 2) , y: self.bounds.minY, width: self.sizeEspeciales.width, height: self.bounds.height)
             self.title.frame = CGRect(x: self.especiales.frame.maxX, y: self.bounds.minY, width: sizeCategory.width , height: self.bounds.height)
-            }, completion: { (complete:Bool) -> Void in
-                
-        }) 
+        })
     }
     
     func deleteEspeciales() {
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.especiales.alpha = 0
             self.centerText()
-            }, completion: { (complete:Bool) -> Void in
-                
-        }) 
+        })
     }
     
     func centerText() {
         self.title.center = self.center;
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if self.especiales.alpha == 0 {
-            self.title.sizeToFit()
-            centerText()
-        }
-    }
-    
-    
+
 }

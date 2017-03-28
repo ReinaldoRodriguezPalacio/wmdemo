@@ -770,11 +770,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             let item = result![idx]
                             let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
                             detail!.upc = item.upc
+                            detail!.type = item.type
                             detail!.img = item.img
                             detail!.desc = item.desc
                             detail!.price = item.price
                             detail!.quantity = item.quantity
+                            detail!.pieces = item.pieces
+                            detail!.orderByPiece = item.orderByPiece
+                            detail!.equivalenceByPiece = item.equivalenceByPiece
                             detail!.list = clist!
+                            
                             
                             // 360 Event
                             BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
@@ -1250,7 +1255,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func become(timer:Timer){
       let cell =  timer.userInfo as? NewListTableViewCell
-       cell?.inputNameList?.becomeFirstResponder()
+       if (cell?.inputNameList?.isFirstResponder)! {
+            cell?.inputNameList?.becomeFirstResponder()
+        }
     }
     
     

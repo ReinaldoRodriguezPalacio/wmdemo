@@ -3171,7 +3171,6 @@
 				5645789419AE2E00006A7152 /* Resources */,
 				7C66112085360B2D590BA7A9 /* [CP] Embed Pods Frameworks */,
 				B19A8EA9D242361D3167CE05 /* [CP] Copy Pods Resources */,
-				85460CDF1E82C83600BD2C8B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3349,19 +3348,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WalMart/Pods-WalMart-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		85460CDF1E82C83600BD2C8B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" ffff02451bd69d20fe9b2b28f294f5dc2dbcdde4 721ef30fe2d6231fa7a38e673358ac0ad1406932ea70e30b9b004f8cdde8595a";
 		};
 		B19A8EA9D242361D3167CE05 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

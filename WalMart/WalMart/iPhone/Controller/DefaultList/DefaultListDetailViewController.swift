@@ -452,6 +452,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
                         params["onHandInventory"] = "20000"
                     }
                 }
+                params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
+                
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {

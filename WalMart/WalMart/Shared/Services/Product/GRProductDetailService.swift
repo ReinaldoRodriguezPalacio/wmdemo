@@ -50,4 +50,10 @@ class GRProductDetailService: GRBaseService {
         }
     }
     
+    override func needsLogin() -> Bool {
+        return false
+    }
+  
+
+    
 }

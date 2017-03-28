@@ -429,6 +429,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
     }
     
+    
+
+     
+    
     //MARK CameraViewControllerDelegate
     func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void))
     {

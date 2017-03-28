@@ -60,8 +60,13 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             },
             errorBlock: { (error:NSError) -> Void in
                 print("Error at retrieve list detail")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                if error.code != -100 {
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                }else{
+                    self.alertView?.close()
+                }
+               
             }
         )
         
