@@ -31,10 +31,10 @@ class ShoppingCartProductsService : BaseService {
                     //println("Items in shoppingCart: \(resultCall)")
                     //self.saveItemsAndSuccess( resultCall["responseObject"] as! [String:Any])
                     
-                    self.saveItemsAndSuccess([],resultCall: resultCall["responseObject"] as! [String:Any],successBlock: nil)
+                    self.saveItemsAndSuccess([],resultCall: resultCall as! [String:Any],successBlock: nil)
 
-                    let responseObj = resultCall["responseObject"] as! [String:Any]
-                    successBlock!(responseObj["order"] as! [String:Any])
+                    //let responseObj = resultCall["responseObject"] as! [String:Any]
+                    successBlock!(resultCall as! [String:Any])
                     
                     ShoppingCartService.isSynchronizing  = false
                     
@@ -120,7 +120,7 @@ class ShoppingCartProductsService : BaseService {
     
     func saveItemsAndSuccess(_ params:[[String:String]],resultCall:[String:Any], successBlock:(([String:Any]) -> Void)?) {
        
-        let itemsInShoppingCart = resultCall["order"] as! [String:Any]
+        let itemsInShoppingCart = resultCall["priceMap"] as! [String:Any]
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -152,137 +152,152 @@ class ShoppingCartProductsService : BaseService {
         
         let orderId = itemsInShoppingCart["orderId"] as? NSString
         
-        let commerceItems = itemsInShoppingCart["commerceItems"] as! [[String:Any]]
-        
-        if itemsInShoppingCart.count > 1 {
-            for indx in 0 ..< commerceItems.count  {
-            let shoppingCartProduct = commerceItems[indx] as! [String:Any]
+        if let cartDetails = resultCall["cartDetails"] as? [[String:Any]] {
             
-            var carProduct : Cart!
-            var carProductItem : Product!
-            if let upc = shoppingCartProduct["productId"] as? String {
-                
-            if let commerceItemId = shoppingCartProduct["commerceItemId"] as? String {
-
-                    //let quantity = shoppingCartProduct["quantity"] as! NSNumber
-                var quantiValue = 0
-                if let quantity = shoppingCartProduct["quantity"] as? NSNumber {
-                    quantiValue = quantity.intValue
-                }
-            
-                let desc = shoppingCartProduct["productDisplayName"] as! String
-                var price = "" //shoppingCartProduct["price"] as! String
-                if  let priceValue = shoppingCartProduct["price"] as? NSNumber {
-                    price = priceValue.stringValue
-                }
-            
-                var baseprice = ""
-                var iva = ""
-                if let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any] {
-                    if  let base = priceInfo["amount"] as? String {
-                        baseprice = base
+            //let commerceItems = cartDetails
+            if cartDetails.count > 1 {
+                for indx in 0 ..< cartDetails.count  {
+                    let shoppingCartProduct = cartDetails[indx] as? [String:Any]
+                    
+                    var carProduct : Cart!
+                    var carProductItem : Product!
+                    
+                    var desc = ""
+                    var commerceItemId = ""
+                    if let sku = shoppingCartProduct!["sku"] as? [String:Any] {
+                        desc = sku["productDisplayName"] as! String
                     }
-                    if  let base = priceInfo["amount"] as? NSNumber {
-                        baseprice = base.stringValue
+                    if let upc = shoppingCartProduct!["skuId"] as? String {
+                        
+                        
+                        if let commerceItemDetailsM = shoppingCartProduct!["commerceItemDetailsMap"] as? [String:Any] {
+                            
+                            //let quantity = shoppingCartProduct["quantity"] as! NSNumber
+                            var quantiValue = 0
+                            if let quantity = commerceItemDetailsM["quantity"] as? NSNumber {
+                                quantiValue = quantity.intValue
+                            }
+                            
+                            if  let commerceItemIdValue = commerceItemDetailsM["commerceItemId"] as? String {
+                                commerceItemId = commerceItemIdValue
+                            }
+                            
+                            //let desc = shoppingCartProduct["productDisplayName"] as! String
+                            var price = "" //shoppingCartProduct["price"] as! String
+                            if  let priceValue = shoppingCartProduct!["price"] as? NSNumber {
+                                price = priceValue.stringValue
+                            }
+                            
+                            var baseprice = ""
+                            var iva = ""
+                            if let priceInfo = shoppingCartProduct!["priceInfo"] as? [String:Any] {
+                                if  let base = priceInfo["amount"] as? String {
+                                    baseprice = base
+                                }
+                                if  let base = priceInfo["amount"] as? NSNumber {
+                                    baseprice = base.stringValue
+                                }
+                                
+                                if  let ivabase = priceInfo["savingsAmount"] as? String {
+                                    iva = ivabase
+                                }
+                                if  let ivabase = priceInfo["savingsAmount"] as? NSNumber {
+                                    iva = ivabase.stringValue
+                                }
+                            }
+                            
+                            var department = ""
+                            if  let departmentBase = shoppingCartProduct!["department"] as? String {
+                                department = departmentBase
+                            }
+                            var comments = ""
+                            if let commentBase = shoppingCartProduct!["comments"] as? String {
+                                comments = commentBase
+                            }
+                            
+                            var orderedQtyWeight = 0
+                            if let orderedQtyWeightBase = shoppingCartProduct!["orderedQtyWeight"] as? NSNumber {
+                                orderedQtyWeight = orderedQtyWeightBase.intValue
+                            }
+                            
+                            var isWeighable = 0
+                            if let isWeighableBase = shoppingCartProduct!["isWeighable"] as? NSNumber {
+                                isWeighable = isWeighableBase.intValue
+                            }
+                            
+                            var catalogRefId = ""
+                            if let catalogRefIdBase = shoppingCartProduct!["catalogRefId"] as? NSString {
+                                catalogRefId = catalogRefIdBase as String
+                            }
+                            
+                            
+                            let equivalenceByPiece = ""
+                            let promoDescription = ""
+                            let saving = ""
+                            let stock = true
+                            let idLine = ""
+                            var nameLine = ""
+                            /*if let nameLineBase = shoppingCartProduct["fineContent"] as? AnyObject {
+                             nameLine = (nameLineBase["fineLineName"] as? String)!
+                             }*/
+                            
+                            var imageUrl = ""
+                            if let images = shoppingCartProduct!["imageUrl"] as? [[String:Any]] {
+                                imageUrl = images[0] as! String
+                            }
+                            
+                            carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
+                            
+                            carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
+                            
+                            carProduct.orderId = orderId as? String
+                            
+                            carProductItem.upc = upc
+                            carProductItem.commerceItemId = commerceItemId
+                            carProductItem.orderedQtyWeight = NSNumber(value: orderedQtyWeight)
+                            carProductItem.isWeighable = NSNumber(value:isWeighable)
+                            carProductItem.catalogRefId = catalogRefId
+                            carProductItem.desc = desc
+                            carProductItem.price = price as NSString
+                            carProductItem.iva = iva
+                            carProductItem.baseprice = baseprice
+                            carProductItem.img = imageUrl
+                            carProductItem.department = department
+                            //New items
+                            carProductItem.comments = comments
+                            carProductItem.equivalenceByPiece = equivalenceByPiece
+                            carProductItem.promoDescription = promoDescription
+                            carProductItem.saving = saving
+                            carProductItem.stock = stock
+                            //carProductItem.idLine = idLine
+                            carProductItem.nameLine = nameLine
+                            //
+                            
+                            if let active = shoppingCartProduct!["isActive"] as? String {
+                                carProductItem.isActive = active
+                            }
+                            if let inventory = shoppingCartProduct!["onHandInventory"] as? String {
+                                carProductItem.onHandInventory = inventory
+                            }
+                            if let preorderable = shoppingCartProduct!["isPreorderable"] as? String {
+                                carProductItem.isPreorderable = preorderable
+                            }
+                            
+                            carProduct.quantity = NSNumber(value: quantiValue as Int)
+                            carProduct.product = carProductItem
+                            carProduct.type = ResultObjectType.Mg.rawValue
+                            if user != nil {
+                                carProduct.user = user!
+                            }
+                            carProduct.status = NSNumber(value: CartStatus.synchronized.rawValue as Int)
+                            currentQuantity += quantiValue
+                        }
+                        
                     }
-                
-                    if  let ivabase = priceInfo["savingsAmount"] as? String {
-                        iva = ivabase
-                    }
-                    if  let ivabase = priceInfo["savingsAmount"] as? NSNumber {
-                        iva = ivabase.stringValue
-                    }
                 }
-           
-                var department = ""
-                if  let departmentBase = shoppingCartProduct["department"] as? String {
-                    department = departmentBase
-                }
-                var comments = ""
-                if let commentBase = shoppingCartProduct["comments"] as? String {
-                    comments = commentBase
-                }
-                
-                var orderedQtyWeight = 0
-                if let orderedQtyWeightBase = shoppingCartProduct["orderedQtyWeight"] as? NSNumber {
-                    orderedQtyWeight = orderedQtyWeightBase.intValue
-                }
-                
-                var isWeighable = 0
-                if let isWeighableBase = shoppingCartProduct["isWeighable"] as? NSNumber {
-                    isWeighable = isWeighableBase.intValue
-                }
-                
-                var catalogRefId = ""
-                if let catalogRefIdBase = shoppingCartProduct["catalogRefId"] as? NSString {
-                    catalogRefId = catalogRefIdBase as String
-                }
-
-                
-                let equivalenceByPiece = ""
-                let promoDescription = ""
-                let saving = ""
-                let stock = true
-                let idLine = ""
-                var nameLine = ""
-                /*if let nameLineBase = shoppingCartProduct["fineContent"] as? AnyObject {
-                 nameLine = (nameLineBase["fineLineName"] as? String)!
-                 }*/
-            
-                var imageUrl = ""
-                if let images = shoppingCartProduct["imageUrl"] as? [[String:Any]] {
-                    imageUrl = images[0] as! String
-                }
-            
-                carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
-            
-                carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
-            
-                carProduct.orderId = orderId as? String
-                
-                carProductItem.upc = upc
-                carProductItem.commerceItemId = commerceItemId
-                carProductItem.orderedQtyWeight = NSNumber(value: orderedQtyWeight)
-                carProductItem.isWeighable = NSNumber(value:isWeighable)
-                carProductItem.catalogRefId = catalogRefId
-                carProductItem.desc = desc
-                carProductItem.price = price as NSString
-                carProductItem.iva = iva
-                carProductItem.baseprice = baseprice
-                carProductItem.img = imageUrl
-                carProductItem.department = department
-                //New items
-                carProductItem.comments = comments
-                carProductItem.equivalenceByPiece = equivalenceByPiece
-                carProductItem.promoDescription = promoDescription
-                carProductItem.saving = saving
-                carProductItem.stock = stock
-                //carProductItem.idLine = idLine
-                carProductItem.nameLine = nameLine
-                //
-            
-                if let active = shoppingCartProduct["isActive"] as? String {
-                    carProductItem.isActive = active
-                }
-                if let inventory = shoppingCartProduct["onHandInventory"] as? String {
-                    carProductItem.onHandInventory = inventory
-                }
-                if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
-                    carProductItem.isPreorderable = preorderable
-                }
-            
-                carProduct.quantity = NSNumber(value: quantiValue as Int)
-                carProduct.product = carProductItem
-                carProduct.type = ResultObjectType.Mg.rawValue
-                if user != nil {
-                    carProduct.user = user!
-                }
-                carProduct.status = NSNumber(value: CartStatus.synchronized.rawValue as Int)
-                currentQuantity += quantiValue
+            } else {
+                print("")
             }
-                
-            }
-        }
             
         successBlock?(resultServiceCall as [String:Any])
 

@@ -55,8 +55,8 @@ class ShoppingCartAddProductsService : BaseService {
         return ["catalogRefIds": skuId, "productId": upc, "quantity": quantity, "orderedUOM": "EA", "itemComment": "EA","orderedQTYWeight": "6"]
     }
     
-    func buldParamsMstng(_ catalog:String, productId:String, quantity:String, orderedUOM:String, itemComemnt:String, orderedQTYWeight:String) -> [String:Any] {
-        return ["catalogRefids":"00841020507906_009537102","productId":"00841020507906","quantity":"1","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
+    func buldParamsMstng(_ skuId:String, upc:String, quantity:String, quantityWithFraction:String, orderedUOM:String, itemComemnt:String, orderedQTYWeight:String) -> [String:Any] {
+        return ["catalogRefIds":"00841020507906","productId":"00841020507906","quantity":"1","quantityWithFraction":"0","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
     }
     
     func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:Any] {
@@ -89,13 +89,14 @@ class ShoppingCartAddProductsService : BaseService {
            
             var upcSend = ""
             for itemSvc in params as! [[String:Any]] {
-                let upc = itemSvc["productId"] as! String
+                let upc = itemSvc["skuId"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 //itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:"") as! [String : AnyObject])
                 //Add skuId
-                let skuid = itemSvc["productId"] as! String
-                itemsSvc = builParamSvc(skuid,upc:upc,quantity:quantity,comments:"")
+                let skuid = itemSvc["skuId"] as! String
+                itemsSvc = buldParamsMstng(skuid,upc:upc,quantity:quantity, quantityWithFraction:"",orderedUOM:"", itemComemnt:"",orderedQTYWeight:"")
+                //skuId:String, upc:String, quantity:String, quantityWithFraction:String, orderedUOM:String, itemComemnt:String, orderedQTYWeight:String
             }
             
             if itemsSvc!.count > 1 {
