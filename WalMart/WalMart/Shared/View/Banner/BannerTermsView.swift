@@ -60,10 +60,24 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
             let myRange:NSRange  = termsTest.range(of: stringurl)
             test.replacingOccurrences(of: "<\(stringurl)>", with:stringurl)
             
-            let myCustomAttribute = [ "URLTERMS": stringurl]
+            let myCustomAttribute = ["URLTERMS": stringurl]
             myString.addAttributes(myCustomAttribute, range: myRange)
             myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range:NSMakeRange(0,myString.length))
         }
+        
+//        let urls = text.extractURLs()
+//        
+//        if urls.count > 0{
+//            for url in urls {
+//                let termsTest  =  text as NSString
+//                let myRange:NSRange  = termsTest.range(of: (url.absoluteString as String))
+//                
+//                let myCustomAttribute = ["URLTERMS": url.absoluteString]
+//                myString.addAttributes(myCustomAttribute, range: myRange)
+//                myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range:NSMakeRange(0,myString.length))
+//            }
+//        }
+        
         myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range:NSMakeRange(0,myString.length))
 
         viewText.attributedText = myString
@@ -161,4 +175,24 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
         super.removeFromSuperview()
     }
     
+}
+
+extension String {
+    func extractURLs() -> [URL] {
+        var urls : [URL] = []
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+            detector.enumerateMatches(in: self,
+                                      options: [],
+                                      range: NSMakeRange(0, (self as NSString).length),
+                                      using: { (result, _, _) in
+                                                if let match = result, let url = match.url {
+                                                    urls.append(url)
+                                                }
+            })
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        return urls
+    }
 }
