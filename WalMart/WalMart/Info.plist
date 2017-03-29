@@ -321,7 +321,7 @@
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
