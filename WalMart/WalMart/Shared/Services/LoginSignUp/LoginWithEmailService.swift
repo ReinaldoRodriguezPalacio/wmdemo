@@ -28,9 +28,11 @@ class LoginWithEmailService : BaseService {
                         let resultCallMG = resultCall
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
+                            successBlock!(resultCall)
+                            UserCurrentSession.sharedInstance.userSignedOnService = false
                             let serviceGr = GRLoginService()
                             serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
-                                UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                                //UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance.userSignedOnService = false
                                 }

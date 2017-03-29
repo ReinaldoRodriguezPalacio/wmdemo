@@ -417,7 +417,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
         caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-            print("Call service caroService success")
+            //print("Call service caroService success")
         }) { (error:NSError) -> Void in
             print("Call service caroService error \(error)")
         }
@@ -683,7 +683,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             let caroService = CarouselService()
             let caroparams = Dictionary<String, String>()
             caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-                print("Call service caroService success")
+                //print("Call service caroService success")
             }) { (error:NSError) -> Void in
                 print("Call service caroService error \(error)")
             }

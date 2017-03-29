@@ -54,10 +54,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     var didHideSplash: (() -> Void)? = nil
     var validateVersion: ((_ force: Bool) -> Void)? = nil
     
-    deinit{
-        print("Deinit splash")
-    }
-    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SPLASH.rawValue
     }
@@ -292,12 +288,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             self.invokeServiceToken()
             //TODO : Agrer todo lo de abajo a este succes
             if error == nil{
-                print("WalmartMG.Splash")
-                print(NSURL(string:self.serviceUrl("WalmartMG.Splash"))!)
-                print( UIApplication.shared.canOpenURL(NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL))
-                
-                
-                
                 
                 if let privateNot = result["privaceNotice"] as? [[String:Any]] {
                     let dateFormatter = DateFormatter()
@@ -361,7 +351,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                             let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
                             return file!.appendingPathComponent("AvisoPrivacidad.pdf")
                         }, completionHandler: { (response:URLResponse, fileUrl:URL?, error:Error?) -> Void in
-                            print("File Path : \(fileUrl)")
+                            
                         })
                         downloadTask.resume()
                     }
@@ -401,20 +391,24 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 
         let categoryService = CategoryService()
         categoryService.callService(Dictionary<String, String>(),
-            successBlock: { (response:[String:Any]) -> Void in print("Call service CategoryService success") },
+            successBlock: { (response:[String:Any]) -> Void in
+                //print("Call service CategoryService success") 
+        },
             errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
         
         let categoryGRService = GRCategoryService()
         categoryGRService.callService(Dictionary<String, String>(),
-            successBlock: { (response:[String:Any]) -> Void in print("Call service GRCategoryService success") },
+            successBlock: { (response:[String:Any]) -> Void in
+                //print("Call service GRCategoryService success")
+        },
             errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
         
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
         caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-            print("Call service caroService success")
+            //print("Call service caroService success")
             }) { (error:NSError) -> Void in
                 print("Call service caroService error \(error)")
         }
