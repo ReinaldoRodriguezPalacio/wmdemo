@@ -523,7 +523,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     params.updateValue(self.type, forKey: "type")
                     
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
-                    
+                    self.productDetailButton?.isOpenQuantitySelector = false
+                    self.productDetailButton?.reloadShoppinhgButton()
                 }, closeRow:true )
                 
             } else {
