@@ -133,11 +133,15 @@ class DetailListViewCell: ProductTableViewCell {
                 let item =  parentProducts[0]
                 imageUrl = item["largeImageUrl"] as! String
                 descriptionItem = item["description"] as! String
-                upcItem = item["repositoryId"] as! String
+                upcItem = item["id"] as! String
             }
-            weighable = sku["weighable"] as! String
+            if let weighableValues = sku["weighable"] as? String{
+                weighable = weighableValues 
+            }
+            if let weighableValues = sku["weighable"] as? NSNumber{
+                weighable = weighableValues.stringValue
+            }
         }
-        
         
         self.productImage!.contentMode = UIViewContentMode.center
         let url = URL(string: imageUrl)
@@ -194,8 +198,12 @@ class DetailListViewCell: ProductTableViewCell {
         
         if  weighable != "" {
             
-            let quantity =  product["quantityDesired"] as! String
-            let price = product["specialPrice"]  as! String
+            var quantity = "" //  product["quantityDesired"] as! String
+            if let quantituValue = product["quantityDesired"] as? NSNumber {
+                quantity = quantituValue.stringValue
+            }
+            
+            let price = "0" //product["specialPrice"]  as! String //TODO no esta
             var text: String? = ""
             var total: Double = 0.0
             

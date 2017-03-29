@@ -304,8 +304,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         let item =  self.products![i] as? [String:Any]
                         if let sku = item!["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                let item =  parentProducts[0]
-                                self.selectedItems?.add(item["repositoryId"] as! String)
+                                //let item =  parentProducts[0]
+                                self.selectedItems?.add(item!["repositoryId"] as! String)
                             }
                         }
                     }
@@ -770,7 +770,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let sku = lines["sku"] as? [String:Any] {
                             if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                                     let item =  parentProducts[0]
-                                    if  item["repositoryId"] as! String  == upc {
+                                    if  lines["repositoryId"] as! String  == upc {
                                         
                                         if let typeProd = sku["weighable"] as? NSString {
                                             let quantity = lines["quantityDesired"] as! String
@@ -990,8 +990,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 let dicItem = items as! [String:Any]
                 if let sku = dicItem["sku"] as? [String:Any] {
                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                        let item =  parentProducts[0]
-                        upc = item["repositoryId"] as! String
+                        //let item =  parentProducts[0]
+                        upc = dicItem["repositoryId"] as! String
                     }
                 }
                 listCell.setValuesDictionary(items as! [String:Any],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(upc), productPriceThrough: "", isMoreArts: true)
@@ -1144,7 +1144,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 let numberPrice =  NumberFormatter()
                 numberPrice.numberStyle = .decimal
-                price = numberPrice.number(from: item["specialPrice"] as! String)
+                price = numberPrice.number(from: "0")//(from: item["specialPrice"] as! String)
             }
             else if let item = self.products![(indexPath! as NSIndexPath).row] as? Product {
                 isPesable = item.type == 0 ?  false : true //mustang
@@ -1176,7 +1176,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     if let sku = item["sku"] as? [String:Any] {
                         if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
                             let item =  parentProducts[0]
-                            self.invokeUpdateProductFromListService(fromUpc: item["repositoryId"] as! String, skuId: sku["id"] as! String, quantity: Int(quantity)!)
+                            self.invokeUpdateProductFromListService(fromUpc: item["id"] as! String, skuId: sku["id"] as! String, quantity: Int(quantity)!)
                         }
                     }
                     
@@ -1238,7 +1238,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                                 let item =  self.products![i] as! [String:Any]
                                                 if let sku = item["sku"] as? [String:Any] {
                                                     if let parentProducts = sku["parentProducts"] as? [[String:Any]]{
-                                                        let item =  parentProducts[0]
+                                                        //let item =  parentProducts[0]
                                                         self.selectedItems?.add(item["repositoryId"] as! String )
                                                     }
                                                 }
@@ -1364,7 +1364,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
             let service = GRUpdateItemListService()
-            let params = service.buildItemMustangObject(idList: self.listId!, upcs:service.buildItemMustang(upc,sku: skuId, quantity: quantity))
+            let params = service.buildItemMustangObject(profileId: UserCurrentSession.sharedInstance.userSigned!.idUser as String, idList: self.listId!, upcs:service.buildItemMustang(upc,sku: skuId, quantity: quantity, comments:""))
             service.callService(params,
                                 successBlock: { (result:[String:Any]) -> Void in
                                     self.invokeDetailListService({ () -> Void in
@@ -1790,6 +1790,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for idx in 0 ..< items.count {
                         let item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
+                        let comments = ""
                         var quantity: Int = 0
                         
                         if  let qIntProd = item["quantity"] as? Int {
@@ -1806,7 +1807,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let stock = item["stock"] as? Bool {
                             active = stock
                         }
-                        products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity))
+                        products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity, comments:""))
                         //(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
                     }
                    

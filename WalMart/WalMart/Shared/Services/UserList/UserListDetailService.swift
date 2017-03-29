@@ -12,7 +12,7 @@ class UserListDetailService: BaseService {
     
     
     func buildParams(_ idList:String) -> [String:Any] {
-        return ["giftlistId":idList,"idStore":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!]
+        return ["giftlistId":idList,"storeId":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!]
     }
     
     

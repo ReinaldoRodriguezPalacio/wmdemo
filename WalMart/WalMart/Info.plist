@@ -220,7 +220,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMMustangURLServices</key>
 	<dict>
 		<key>DEVWM</key>
@@ -254,7 +254,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/displayTaxonomy/</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getCrossell</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -384,7 +384,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/summary</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/getCartSummary</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>

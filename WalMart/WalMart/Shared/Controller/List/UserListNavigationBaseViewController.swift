@@ -37,7 +37,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                                 if let itemParent =  parentProducts[0] as? [String:Any] {
                                     
                                     //let itemAdd = service.buildProductObject(upc: itemParent["repositoryId"] as! String, quantity: Int(quantity)!, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
-                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku["id"] as! String , quantity: Int(quantity)!)
+                                    let itemAdd = serviceAdd.buildItemMustang(itemParent["repositoryId"] as! String, sku:sku["id"] as! String , quantity: Int(quantity)!, comments:"")
                                     items.append(itemAdd)
                                 }
                             }
@@ -57,8 +57,8 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 service.callService(service.buildParamsMustang(copyName),
                     successBlock: { (result:[String:Any]) -> Void in
                         let idList = result["idList"] as! String
-                        
-                        serviceAdd.callService(serviceAdd.buildItemMustangObject(idList: idList, upcs: items), successBlock: { (result:[String:Any]) in
+                        //profileId
+                        serviceAdd.callService(serviceAdd.buildItemMustangObject(idList: idList, upcs: items, profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String), successBlock: { (result:[String:Any]) in
                             
                             successDuplicateList()
                             

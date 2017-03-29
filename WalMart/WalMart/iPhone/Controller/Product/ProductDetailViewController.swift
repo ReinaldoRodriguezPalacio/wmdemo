@@ -1686,8 +1686,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
                 
                let service = GRAddItemListService()
-               let productObject =  service.buildItemMustang(self.upc as String, sku: self.sku as String, quantity: Int(quantity)!)
-                service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject]),
+                let productObject =  service.buildItemMustang(self.upc as String, sku: self.sku as String, quantity: Int(quantity)!, comments:self.comments as String)
+                service.callService(service.buildItemMustangObject(idList: listId, upcs: [productObject], profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String),
                                     successBlock: { (result:[String:Any]) -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                         

@@ -26,13 +26,13 @@ class GRAddItemListService: BaseService {
         return ["longDescription" : "" as AnyObject, "quantity" : quantity as AnyObject, "upc" : upc as AnyObject, "pesable" : pesable as AnyObject, "equivalenceByPiece" : "" as AnyObject, "promoDescription" : "" as AnyObject, "productIsInStores" : "" as AnyObject]
     }
     
-    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> [String:Any] {
-        return ["upc":upc,"skuId":sku,"quantity":quantity]
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int,comments:String) -> [String:Any] {
+        return ["upc":"00750100801657","skuId":"00750100801657","quantity":quantity, "comments":comments]
     
     }
     
-    func buildItemMustangObject(idList:String, upcs:[Any]?) -> [String:Any] {
-        return ["idList":idList,"items":upcs!]
+    func buildItemMustangObject(idList:String, upcs:[Any]?, profileId:String) -> [String:Any] {
+        return ["profileId":profileId,"idList":idList,"items":upcs!]
     }
     
     

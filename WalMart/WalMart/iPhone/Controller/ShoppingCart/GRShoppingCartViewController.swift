@@ -942,10 +942,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 active = stock
             }
             //products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
-           products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity)) //obtener sku
+            let comments = ""
+            products.append(service.buildItemMustang(upc, sku: "00750226892092_000897302", quantity: quantity,comments:"")) //obtener sku
         }
         
-        service.callService( service.buildItemMustangObject(idList: listId, upcs:products),
+        service.callService( service.buildItemMustangObject(idList: listId, upcs:products, profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String),
             successBlock: { (result:[String:Any]) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()

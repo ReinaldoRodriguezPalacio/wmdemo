@@ -1627,16 +1627,23 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }
                     
                     let saveService = GRSaveUserListService()
+                    let serviceAddList = GRAddItemListService()
                     
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
                     var products:[Any] = []
+                    var productsToList:[Any] = []
                     for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
                         let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue)
                         products.append(param)
+                        
+                        let sku = ""
+                        let comments = ""
+                        let paramList = serviceAddList.buildItemMustang(upc, sku: "", quantity: quantity.intValue, comments: "")
+                        productsToList.append(paramList)
                     }
                     
                     let fmt = DateFormatter()
@@ -1663,7 +1670,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         //Agregar items to list
                         let idList = result["idList"] as! String
                         let service = GRAddItemListService()
-                        service.callService(service.buildItemMustangObject(idList: idList, upcs: products), successBlock: { (result:[String:Any]) in
+                        service.callService(service.buildItemMustangObject(idList: idList, upcs: productsToList, profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String), successBlock: { (result:[String:Any]) in
                            
                             if let cell = self.tableuserlist!.cellForRow(at: IndexPath(row: 0, section: 0)) as? NewListTableViewCell {
                                 cell.scanning = false

@@ -112,11 +112,11 @@ class GRUserListService : BaseService {
                 var params:[Any] = []
                 for product in array {
                     //let param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue,pesable:product.type.stringValue)
-                    let param =  addItemService.buildItemMustang(product.upc, sku: "00750226892092_000897302", quantity: product.quantity.intValue)
+                    let param =  addItemService.buildItemMustang(product.upc, sku: "00750226892092_000897302", quantity: product.quantity.intValue, comments:"")
                     params.append(param)
                 }
                 
-                addItemService.callService(addItemService.buildItemMustangObject(idList: listId, upcs: params),
+                addItemService.callService(addItemService.buildItemMustangObject(idList: listId, upcs: params, profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String),
                     successBlock: { (result:[String:Any]) -> Void in
                         self.managedContext!.delete(list!)
                         self.saveContext()

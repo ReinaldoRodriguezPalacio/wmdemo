@@ -1676,10 +1676,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 sku = skuId
             }
             //products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
-            products.append(service.buildItemMustang(upc, sku: sku, quantity: quantity)) //sku
+            products.append(service.buildItemMustang(upc, sku: sku, quantity: quantity,comments:"")) //sku
         }
         
-        service.callService(service.buildItemMustangObject(idList: listId, upcs: products),
+        service.callService(service.buildItemMustangObject(idList: listId, upcs: products, profileId:UserCurrentSession.sharedInstance.userSigned!.idUser as String),
                             successBlock: { (result:[String:Any]) -> Void in
                                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                                 self.alertView!.showDoneIcon()

@@ -1229,8 +1229,9 @@
         
         let service = GRAddItemListService()
         let pesable = cell.pesable! ? "1" : "0"
-        let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
-        service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]) as [String:Any],
+        let productObject = service.buildItemMustang(cell.upc as String, sku:cell.skuId as String, quantity:Int(quantity)!, comments:"")
+        //(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
+        service.callService(service.buildItemMustangObject(idList: self.idListFromSearch!, upcs: [productObject], profileId: UserCurrentSession.sharedInstance.userSigned!.idUser as String) as [String:Any],
                             successBlock: { (result:[String:Any]) -> Void in
                                 alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                 alertView!.showDoneIcon()

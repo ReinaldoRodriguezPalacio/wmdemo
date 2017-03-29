@@ -18,13 +18,12 @@ class GRUpdateItemListService: BaseService {
         return ["upc":upc as AnyObject, "quantity":quantity as AnyObject, "comments":"" as AnyObject, "longDescription": "" as AnyObject, "pesable": "" as AnyObject, "equivalenceByPiece": "" as AnyObject, "promoDescription": "" as AnyObject, "productIsInStores": ""]
     }
     
-    func buildItemMustang(_ upc:String,sku:String,quantity:Int) -> [String:Any] {
-        return ["upc":upc,"skuId":sku,"quantity":quantity]
-        
+    func buildItemMustang(_ upc:String,sku:String,quantity:Int,comments:String) -> [String:Any] {
+        return ["upc":upc,"skuId":sku,"quantity":quantity, "comments":comments]
     }
     
-    func buildItemMustangObject(idList:String, upcs:[String:Any]) -> [String:Any] {
-        return ["idList":idList,"items":[upcs]]
+    func buildItemMustangObject(profileId:String, idList:String, upcs:[String:Any]) -> [String:Any] {
+        return ["profileId":profileId,"idList":idList,"items":[upcs]]
     }
 
     
