@@ -47,6 +47,9 @@ enum ResultObjectType : String {
 
 class BaseService : NSObject {
     private static var __once: () = {
+        AFStatic.queue  = OperationQueue()
+        AFStatic.queue?.maxConcurrentOperationCount = 1
+        
         AFStatic.manager = AFHTTPSessionManager()
         AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
         AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
@@ -69,6 +72,7 @@ class BaseService : NSObject {
         static var managerGR : AFHTTPSessionManager!
         static var onceToken : Int = 0
         static var countSessionError : Int = 0
+        static var queue : OperationQueue? = nil
     }
     
     var urlForSession = false
@@ -114,48 +118,46 @@ class BaseService : NSObject {
         let manager = AFHTTPSessionManager()
         
             
-            manager.requestSerializer = AFJSONRequestSerializer()
-            manager.responseSerializer = AFJSONResponseSerializer()
-            manager.responseSerializer.acceptableContentTypes = nil
-            manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
-            manager.securityPolicy.allowInvalidCertificates = true
-            manager.securityPolicy.validatesDomainName = false
-            
-            var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
-            var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
-            
-            if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
-                //print("PARAM JSESSIONATG ::" + param3.value)
-                jSessionAtgIdSend = param3.value
-            }
-            
-            if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
-                let timeInterval = Date().timeIntervalSince1970
-                let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
-                let uuid  = UUID().uuidString
-                let strUsr  = "ff24423eefbca345" + timeStamp + uuid
-                manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-                manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
-                manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
-                //Session --
-                
-                if !(self is GRLoginService || self is LoginService
-                    || self is LoginWithEmailService || self is GRLoginWithEmailService) {
-                    manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-                }
-                manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
-                
-            } else{
-                //Session --
-                manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                if !(self is GRLoginService || self is LoginService
-                    || self is LoginWithEmailService || self is GRLoginWithEmailService) {
-                    manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-                }
-                manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
-            }
-            
+        manager.requestSerializer = AFJSONRequestSerializer()
+        manager.responseSerializer = AFJSONResponseSerializer()
+        manager.responseSerializer.acceptableContentTypes = nil
+        manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
+        manager.securityPolicy.allowInvalidCertificates = true
+        manager.securityPolicy.validatesDomainName = false
         
+        var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
+        var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
+        
+        if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
+            //print("PARAM JSESSIONATG ::" + param3.value)
+            jSessionAtgIdSend = param3.value
+        }
+        
+        if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
+            let timeInterval = Date().timeIntervalSince1970
+            let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+            let uuid  = UUID().uuidString
+            let strUsr  = "ff24423eefbca345" + timeStamp + uuid
+            manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+            manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+            manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+//            if !(self is GRLoginService || self is LoginService
+//                || self is LoginWithEmailService || self is GRLoginWithEmailService) {
+//                manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+//            }
+        } else{
+            //Session --
+            manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+//            if !(self is GRLoginService || self is LoginService
+//                || self is LoginWithEmailService || self is GRLoginWithEmailService) {
+//                manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+//            }
+            
+        }
+        if !getCookieFromUserDefaults().isEmpty {
+            manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+        }
+        manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         return manager
         
     }
@@ -199,58 +201,59 @@ class BaseService : NSObject {
     
     
     func callPOSTService(_ params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let afManager = getManager()
-        let url = serviceUrl()
-        afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
-            let response : HTTPURLResponse = request.response as! HTTPURLResponse
-            self.logRequest(request,json)
-            
-            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            let cookie = headers["Set-Cookie"] as? String ?? ""
-            let atgSession = headers["JSESSIONATG"] as? NSString  ?? ""
-            if cookie != "" {
-                let httpResponse = response
-                if let fields = httpResponse.allHeaderFields as? [String : String] {
-                    
-                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
-                    for cookieObj in cookies {
-                        if cookieObj.name == "JSESSIONID" {
-                            //print("Response JSESSIONID:: \(cookie.value)")
+        
+            let afManager = self.getManager()
+            let url = self.serviceUrl()
+            afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
+                let response : HTTPURLResponse = request.response as! HTTPURLResponse
+                self.logRequest(request,json)
+                
+                let headers : [String:Any] = response.allHeaderFields as! [String : Any]
+                let cookie = headers["Set-Cookie"] as? String ?? ""
+                let atgSession = headers["JSESSIONATG"] as? NSString  ?? ""
+                if cookie != "" {
+                    let httpResponse = response
+                    if let fields = httpResponse.allHeaderFields as? [String : String] {
+                        
+                        let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
+                        HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
+                        for cookieObj in cookies {
+                            if cookieObj.name == "JSESSIONID" {
+                                //print("Response JSESSIONID:: \(cookie.value)")
                                 UserCurrentSession.sharedInstance.JSESSIONID = cookieObj.value
-                            //    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                            if self is GRLoginService || self is LoginService
-                                || self is LoginWithEmailService || self is GRLoginWithEmailService {
+                                //    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
+//                                if self is GRLoginService || self is LoginService
+//                                    || self is LoginWithEmailService || self is GRLoginWithEmailService {
                                 self.saveUserDefaults(cookieObj.value)
-                            }
-                            if response.url?.absoluteString.contains("/list/") ?? false {
-                                self.saveUserDefaults(cookieObj.value)
+//                                }
+//                                if response.url?.absoluteString.contains("/list/") ?? false {
+//                                    self.saveUserDefaults(cookieObj.value)
+//                                }
                             }
                         }
                     }
+                    
                 }
+                UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
+                CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
                 
-            }
-            UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
-            CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
-            
-            
-            let resultJSON = json as! [String:Any]
-            if let errorResult = self.validateCodeMessage(resultJSON) {
-                if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
-                    if UserCurrentSession.hasLoggedUser() {
-                        AFStatic.countSessionError += 1
-                        if AFStatic.countSessionError < 6 {
-//                            if self is GRBaseService {
-//                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-//                                let loginService = GRLoginWithEmailService()
-//                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
-//                                    self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                                }, errorBlock: { (error) in
-//                                    UserCurrentSession.sharedInstance.userSigned = nil
-//                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                                })
-//                            } else {
+                
+                let resultJSON = json as! [String:Any]
+                if let errorResult = self.validateCodeMessage(resultJSON) {
+                    if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
+                        if UserCurrentSession.hasLoggedUser() {
+                            AFStatic.countSessionError += 1
+                            if AFStatic.countSessionError < 6 {
+                                //                            if self is GRBaseService {
+                                //                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                                //                                let loginService = GRLoginWithEmailService()
+                                //                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
+                                //                                    self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                //                                }, errorBlock: { (error) in
+                                //                                    UserCurrentSession.sharedInstance.userSigned = nil
+                                //                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                //                                })
+                                //                            } else {
                                 let loginService = LoginWithEmailService()
                                 loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                                 let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -260,39 +263,39 @@ class BaseService : NSObject {
                                     UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                                 })
-//                            }
-                            return
-                        } else {
-                            AFStatic.countSessionError = 0
+                                //                            }
+                                return
+                            } else {
+                                AFStatic.countSessionError = 0
+                            }
                         }
+                        
+                        errorBlock!(errorResult)
+                        return
                     }
-                    
+                    //TAG Manager
+                    BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                     errorBlock!(errorResult)
                     return
                 }
+                successBlock!(resultJSON)
+            }, failure: {(request:URLSessionDataTask?, error:Error) in
                 //TAG Manager
-                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
-                errorBlock!(errorResult)
-                return
-            }
-            successBlock!(resultJSON)
-        }, failure: {(request:URLSessionDataTask?, error:Error) in
-            //TAG Manager
-            BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
-            if (error as NSError).code == -1005 {
+                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: error.localizedDescription)
+                if (error as NSError).code == -1005 {
+                    print("Response Error : \(error) \n Response \(request!.response)")
+                    self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    return
+                }
+                if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
+                    let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
+                    errorBlock!(newError)
+                    return
+                }
+                
                 print("Response Error : \(error) \n Response \(request!.response)")
-                self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
-                return
-            }
-            if (error as NSError).code == -1001 || (error as NSError).code == -1003 || (error as NSError).code == -1009 {
-                let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
-                errorBlock!(newError)
-                return
-            }
-            
-            print("Response Error : \(error) \n Response \(request!.response)")
-            errorBlock!((error as NSError))
-        })
+                errorBlock!((error as NSError))
+            })
         
     }
     
@@ -321,70 +324,71 @@ class BaseService : NSObject {
     
     func callGETService(_ serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
-        callGETService(afManager,serviceURL:serviceURL,params:params,successBlock:successBlock, errorBlock:errorBlock)
+        callGETService(nil,serviceURL:serviceURL,params:params,successBlock:successBlock, errorBlock:errorBlock)
     }
     
-    func callGETService(_ manager:AFHTTPSessionManager,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
-            
-            self.logRequest(request,json)
-            
-            //session --
-            let response : HTTPURLResponse = request.response as! HTTPURLResponse
-            let headers : [String:Any] = response.allHeaderFields as! [String : Any]
-            let cookie = headers["Set-Cookie"] as? NSString ?? ""
-            let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
-            if cookie != "" {
-                let httpResponse = response
-                if let fields = httpResponse.allHeaderFields as? [String : String] {
-                    
-                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
-                    for cookie in cookies {
-                        if cookie.name == "JSESSIONID" {
-                            UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
-                            //CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
-                            //print("name: \(cookie.name) value: \(cookie.value)")
-                            if self is GRLoginService || self is LoginService
-                                || self is LoginWithEmailService || self is GRLoginWithEmailService {
-                                self.saveUserDefaults(cookie.value)
-                            }
-                            if response.url?.absoluteString.contains("/list/") ?? false {
-                                self.saveUserDefaults(cookie.value)
+    func callGETService(_ manager:AFHTTPSessionManager?,serviceURL:String,params:Any,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+//        AFStatic.queue?.addOperation {
+            let manager = manager ?? self.getManager()
+            manager.get(serviceURL, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
+                self.logRequest(request,json)
+                
+                //session --
+                let response : HTTPURLResponse = request.response as! HTTPURLResponse
+                let headers : [String:Any] = response.allHeaderFields as! [String : Any]
+                let cookie = headers["Set-Cookie"] as? NSString ?? ""
+                let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+                if cookie != "" {
+                    let httpResponse = response
+                    if let fields = httpResponse.allHeaderFields as? [String : String] {
+                        
+                        let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: response.url!)
+                        HTTPCookieStorage.shared.setCookies(cookies, for: response.url!, mainDocumentURL: nil)
+                        for cookie in cookies {
+                            if cookie.name == "JSESSIONID" {
+                                UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
+                                //CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
+                                //print("name: \(cookie.name) value: \(cookie.value)")
+//                                if self is GRLoginService || self is LoginService
+//                                    || self is LoginWithEmailService || self is GRLoginWithEmailService {
+                                    self.saveUserDefaults(cookie.value)
+//                                }
+//                                if response.url?.absoluteString.contains("/list/") ?? false {
+//                                    self.saveUserDefaults(cookie.value)
+//                                }
                             }
                         }
                     }
+                    
+                    
+                }
+                UserCurrentSession.sharedInstance.JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance.JSESSIONATG
+                if UserCurrentSession.sharedInstance.JSESSIONATG != ""{
+                    CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
                 }
                 
                 
-            }
-            UserCurrentSession.sharedInstance.JSESSIONATG = atgSession != "" ? atgSession as String  : UserCurrentSession.sharedInstance.JSESSIONATG
-            if UserCurrentSession.sharedInstance.JSESSIONATG != ""{
-                CustomBarViewController.addOrUpdateParam("JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
-            }
-            
-            
-            
-            
-            let resultJSON = json as! [String:Any]
-            if let errorResult = self.validateCodeMessage(resultJSON) {
-                //Tag Manager
-                BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
                 
-                if errorResult.code == self.needsToLoginCode()   {
-                    if UserCurrentSession.hasLoggedUser() {
-                        AFStatic.countSessionError += 1
-                        if AFStatic.countSessionError < 6 {
-//                            if self is GRBaseService {
-//                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-//                                let loginService = GRLoginWithEmailService()
-//                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
-//                                    self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                                }, errorBlock: { (error) in
-//                                    UserCurrentSession.sharedInstance.userSigned = nil
-//                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                                })
-//                            } else {
+                
+                let resultJSON = json as! [String:Any]
+                if let errorResult = self.validateCodeMessage(resultJSON) {
+                    //Tag Manager
+                    BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)
+                    
+                    if errorResult.code == self.needsToLoginCode()   {
+                        if UserCurrentSession.hasLoggedUser() {
+                            AFStatic.countSessionError += 1
+                            if AFStatic.countSessionError < 6 {
+                                //                            if self is GRBaseService {
+                                //                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                                //                                let loginService = GRLoginWithEmailService()
+                                //                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
+                                //                                    self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                //                                }, errorBlock: { (error) in
+                                //                                    UserCurrentSession.sharedInstance.userSigned = nil
+                                //                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                //                                })
+                                //                            } else {
                                 let loginService = LoginWithEmailService()
                                 loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                                 let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
@@ -394,29 +398,31 @@ class BaseService : NSObject {
                                     UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                                 })
-//                            }
-                            return
-                        } else {
-                            AFStatic.countSessionError = 0
+                                //                            }
+                                return
+                            } else {
+                                AFStatic.countSessionError = 0
+                            }
                         }
                     }
+                    
+                    errorBlock!(errorResult)
+                    return
                 }
-                
-                errorBlock!(errorResult)
-                return
-            }
-            successBlock!(resultJSON)
-        }, failure: {(request:URLSessionDataTask?, error:Error) in
-            if (error as NSError).code == -1005 {
-                print("Response Error : \(error) \n Response \(request!.response)")
+                successBlock!(resultJSON)
+            }, failure: {(request:URLSessionDataTask?, error:Error) in
+                if (error as NSError).code == -1005 {
+                    print("Response Error : \(error) \n Response \(request!.response)")
+                    BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
+                    self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    return
+                }
                 BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
-                self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
-                return
-            }
-            BaseController.sendTagManagerErrors("ErrorEvent", detailError: error.localizedDescription)
-            errorBlock!((error as NSError))
-        })
+                errorBlock!((error as NSError))
+            })
+        
     }
+
     
     
     
