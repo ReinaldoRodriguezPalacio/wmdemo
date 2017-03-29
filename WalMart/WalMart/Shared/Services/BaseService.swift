@@ -137,24 +137,14 @@ class BaseService : NSObject {
                 manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
                 manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
                 manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
-                //Session --
-                
-                if !(self is GRLoginService || self is LoginService
-                    || self is LoginWithEmailService || self is GRLoginWithEmailService) {
-                    manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-                }
-                manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
                 
             } else{
-                //Session --
                 manager.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-                if !(self is GRLoginService || self is LoginService
-                    || self is LoginWithEmailService || self is GRLoginWithEmailService) {
-                    manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-                }
-                manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             }
-            
+        if !getCookieFromUserDefaults().isEmpty {
+            manager.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+        }
+        manager.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         
         return manager
         
@@ -219,13 +209,7 @@ class BaseService : NSObject {
                             //print("Response JSESSIONID:: \(cookie.value)")
                                 UserCurrentSession.sharedInstance.JSESSIONID = cookieObj.value
                             //    CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: cookie.value)
-                            if self is GRLoginService || self is LoginService
-                                || self is LoginWithEmailService || self is GRLoginWithEmailService {
-                                self.saveUserDefaults(cookieObj.value)
-                            }
-                            if response.url?.absoluteString.contains("/list/") ?? false {
-                                self.saveUserDefaults(cookieObj.value)
-                            }
+                            self.saveUserDefaults(cookieObj.value)
                         }
                     }
                 }
@@ -353,13 +337,8 @@ class BaseService : NSObject {
                             UserCurrentSession.sharedInstance.JSESSIONID = cookie.value
                             //CustomBarViewController.addOrUpdateParam("JSESSIONID", value: cookie.value)
                             //print("name: \(cookie.name) value: \(cookie.value)")
-                            if self is GRLoginService || self is LoginService
-                                || self is LoginWithEmailService || self is GRLoginWithEmailService {
-                                self.saveUserDefaults(cookie.value)
-                            }
-                            if response.url?.absoluteString.contains("/list/") ?? false {
-                                self.saveUserDefaults(cookie.value)
-                            }
+                            self.saveUserDefaults(cookie.value)
+                            
                         }
                     }
                 }

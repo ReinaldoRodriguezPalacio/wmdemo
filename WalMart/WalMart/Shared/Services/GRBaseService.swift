@@ -68,15 +68,15 @@ class GRBaseService : BaseService {
             managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
             managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
             managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
-            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-            managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
             //session --
             managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-            managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         }
+        if !getCookieFromUserDefaults().isEmpty {
+            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+        }
+        managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         return managerGR
     }
     

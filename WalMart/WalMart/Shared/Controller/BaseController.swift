@@ -67,7 +67,7 @@ class BaseController : UIViewController {
     }
     
     func swipeHandler (swipe:UISwipeGestureRecognizer){
-        NSLog("Swipe received.")
+        //NSLog("Swipe received.")
     }
     
     
