@@ -120,8 +120,8 @@ class BaseService : NSObject {
             manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
             manager.securityPolicy.allowInvalidCertificates = true
             manager.securityPolicy.validatesDomainName = false
+            manager.requestSerializer.httpShouldHandleCookies = true
             
-            var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
             var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
             
             if let param3 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
@@ -204,7 +204,7 @@ class BaseService : NSObject {
         afManager.post(url, parameters: params, progress: nil, success: {(request:URLSessionDataTask, json:Any?) in
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             self.logRequest(request,json)
-            
+            let stringOfClassType: String = self.serviceUrl()
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? String ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString  ?? ""
@@ -241,17 +241,10 @@ class BaseService : NSObject {
                     if UserCurrentSession.hasLoggedUser() {
                         AFStatic.countSessionError += 1
                         if AFStatic.countSessionError < 6 {
-//                            if self is GRBaseService {
-//                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-//                                let loginService = GRLoginWithEmailService()
-//                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
-//                                    self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                                }, errorBlock: { (error) in
-//                                    UserCurrentSession.sharedInstance.userSigned = nil
-//                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                                })
-//                            } else {
-                                let loginService = LoginWithEmailService()
+
+                            if stringOfClassType.contains("/walmartgroceries/list/"){
+                                print("callPOSTService********************logingroceries ")
+                                let loginService = GRLoginWithEmailService()
                                 loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                                 let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                                 loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
@@ -260,6 +253,19 @@ class BaseService : NSObject {
                                     UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                                 })
+                            }else{
+                                  print("callPOSTService********************login mg ")
+                                let loginService = LoginWithEmailService()
+                                loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
+                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                                loginService.callWhitEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                                    self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                }, errorBlock: { (error:NSError) -> Void in
+                                    UserCurrentSession.sharedInstance.userSigned = nil
+                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                })
+                            }
+                            
 //                            }
                             return
                         } else {
@@ -334,6 +340,8 @@ class BaseService : NSObject {
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
             let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+            let stringOfClassType: String = self.serviceUrl()
+            
             if cookie != "" {
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
@@ -375,17 +383,9 @@ class BaseService : NSObject {
                     if UserCurrentSession.hasLoggedUser() {
                         AFStatic.countSessionError += 1
                         if AFStatic.countSessionError < 6 {
-//                            if self is GRBaseService {
-//                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
-//                                let loginService = GRLoginWithEmailService()
-//                                loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) in
-//                                    self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
-//                                }, errorBlock: { (error) in
-//                                    UserCurrentSession.sharedInstance.userSigned = nil
-//                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-//                                })
-//                            } else {
-                                let loginService = LoginWithEmailService()
+                            if stringOfClassType.contains("/walmartgroceries/list/"){
+                                  print("callGETService********************login groceries ")
+                                let loginService = GRLoginWithEmailService()
                                 loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
                                 let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
                                 loginService.callService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
@@ -394,7 +394,22 @@ class BaseService : NSObject {
                                     UserCurrentSession.sharedInstance.userSigned = nil
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                                 })
-//                            }
+                                
+                            }else{
+                                  print("callGETService********************login mg ")
+                                let loginService = LoginWithEmailService()
+                                loginService.loginIdGR = UserCurrentSession.sharedInstance.userSigned!.idUserGR as String
+                                let emailUser = UserCurrentSession.sharedInstance.userSigned!.email
+                                loginService.callWhitEmailService(["email":emailUser], successBlock: { (response:[String:Any]) -> Void in
+                                    self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                }, errorBlock: { (error:NSError) -> Void in
+                                    UserCurrentSession.sharedInstance.userSigned = nil
+                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                })
+                                
+                            
+                            }
+                            
                             return
                         } else {
                             AFStatic.countSessionError = 0
@@ -636,6 +651,9 @@ class BaseService : NSObject {
                             UserCurrentSession.sharedInstance.userSigned = nil
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                         })
+                        
+                        
+                        
                     }
                     return
                 }

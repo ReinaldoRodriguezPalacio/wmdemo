@@ -36,6 +36,16 @@ class GRBaseService : BaseService {
     
     override func getManager() -> AFHTTPSessionManager {
         
+        
+        let managerGR = AFHTTPSessionManager()
+        managerGR.requestSerializer = AFJSONRequestSerializer()
+        managerGR.responseSerializer = AFJSONResponseSerializer()
+        managerGR.responseSerializer.acceptableContentTypes = nil
+        managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
+        managerGR.securityPolicy.allowInvalidCertificates = true
+        managerGR.securityPolicy.validatesDomainName = false
+        managerGR.requestSerializer.httpShouldHandleCookies = true
+        
         var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
         
         if jSessionAtgIdSend == "" {
@@ -53,21 +63,21 @@ class GRBaseService : BaseService {
             let uuid  = NSUUID().uuidString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
             let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
             
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
             
-            AFStatic.managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-            AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
-            AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
-            AFStatic.managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+            managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+            managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+            managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
+            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+            managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
             
         } else{
             //session --
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            AFStatic.managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
-            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+            managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+            managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
         }
-        return AFStatic.managerGR
+        return managerGR
     }
     
     override func needsToLoginCode() -> Int {
