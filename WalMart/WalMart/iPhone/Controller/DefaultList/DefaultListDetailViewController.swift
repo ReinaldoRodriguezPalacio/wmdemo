@@ -235,7 +235,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             quantity = item["quantity"] as? NSNumber
             
             let width:CGFloat = self.view.frame.width
-            var height:CGFloat = (self.view.frame.height)
+            let height:CGFloat = (self.view.frame.height)
            
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
@@ -259,7 +259,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 self.removeSelector()
             }
             
-            self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+         //   self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+           
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 var item = self.detailItems![indexPath!.row]
                 //var upc = item["upc"] as? String
