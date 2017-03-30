@@ -4170,6 +4170,7 @@
 				85F21A331E82E3BC000F7E03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
