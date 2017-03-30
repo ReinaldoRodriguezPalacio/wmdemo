@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         // Override point for customization after application launch.
         
         HTTPCookieStorage.shared.cookieAcceptPolicy = .never
-        URLSessionConfiguration.default.httpMaximumConnectionsPerHost = 1
         
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)

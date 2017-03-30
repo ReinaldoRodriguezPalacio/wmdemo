@@ -87,7 +87,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         }
         
-        
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .always
         self.titleLabel!.text = NSLocalizedString("checkout.title",comment:"")
         webCheckOut = UIWebView(frame:CGRect(x: 0, y: self.header!.frame.maxY , width: self.view.bounds.width , height: self.view.bounds.height - self.header!.frame.height - 66 ))
         
@@ -111,6 +111,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
         super.viewWillDisappear(animated)
         self.removeAllCookies()
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBadge.rawValue), object: nil)
