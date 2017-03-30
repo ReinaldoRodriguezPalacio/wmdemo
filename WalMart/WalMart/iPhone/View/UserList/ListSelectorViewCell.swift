@@ -84,7 +84,7 @@ class ListSelectorViewCell: UITableViewCell {
         print("selectedList")
         if !self.productInList {
             self.delegate?.didSelectedList(self)
-            self.indicator!.isSelected = !self.indicator!.isSelected
+            //self.indicator!.isSelected = !self.indicator!.isSelected
         }
         
     }
