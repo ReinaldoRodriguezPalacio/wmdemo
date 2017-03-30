@@ -668,42 +668,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     //Mark: ListSelectorDelegate
-    
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("Lista de id de listas")
-        if idListsSelected.count > 0 {
-            
-            
-            let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-            
-            if exist && self.isPesable {
-                self.addMultipleListSelected(idLists: idListsSelected)
-                return
-            }
-            
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
-            if let imageURL = self.productDetailButton?.image {
-                if let urlObject = URL(string:imageURL) {
-                    self.alertView?.imageIcon.setImageWith(urlObject)
-                }
-            }
-            
-            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-            var count = 1
-            for idList in idListsSelected {
-                //self.listSelectorDidAddProduct(inList: idList)
-                let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-                
-                if self.quantitySelect != 0 && self.isPesable && !exist {
-                    self.addItemsToList(quantity:"\(self.quantitySelect)",listId:idList,finishAdd: count == idListsSelected.count,orderByPiece: false )
-                }else{
-                    self.addItemsToList(quantity:"1",listId:idList,finishAdd: count == idListsSelected.count,orderByPiece: true )
-                }
-                count = count + 1
-            }
-        }
-    }
     func addMultipleListSelected (idLists listSelected:[String]){
         
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
@@ -754,16 +718,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     var closeContainer =  false
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas selecionadas")
-        if listsSelected.count > 0 {
-            var countList =  1
-            for list in listsSelected {
-                self.listSelectorDidAddProductLocally(inList: list,finishAdd: countList == listsSelected.count )
-                countList =  countList + 1
-            }
-        }
-    }
     
     func listSelectorDidClose() {
         
@@ -929,7 +883,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         )
     }
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
@@ -973,7 +927,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             })
         
         } else { // agrega dircto
-            self.addToListLocally(quantity: self.quantitySelect != 0 ? "\(self.quantitySelect)" : "1" , list: list,removeSelector: finishAdd)
+            self.addToListLocally(quantity: self.quantitySelect != 0 ? "\(self.quantitySelect)" : "1" , list: list,removeSelector: true)
         }
         
     

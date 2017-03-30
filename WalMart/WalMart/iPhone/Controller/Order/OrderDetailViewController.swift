@@ -754,19 +754,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("listas de id de listas")
-        var count =  1
-        for idList in idListsSelected {
-            self.addItemsToList(inList: idList, included: false, finishAdd:count == idListsSelected.count )
-            count = count + 1
-        }
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Selecionadas")
-    }
-    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -781,7 +768,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         print("listSelectorDidAddProductLocally")
     }
     

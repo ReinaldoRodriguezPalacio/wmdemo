@@ -28,7 +28,7 @@ protocol ListSelectorDelegate: class {
     func listSelectorDidDeleteProduct(inList listId:String)
     
     func listSelectorDidShowListLocally(_ list: List)
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool)
+    func listSelectorDidAddProductLocally(inList list:List)
     func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List)
     
     func listSelectorDidClose()
@@ -143,8 +143,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     func didSelectedList(_ cell: ListSelectorViewCell) {
-        
-        print(" ListselecttorViewController :didSelectedList Delegate :")
         if let indexPath = self.tableView!.indexPath(for: cell) {
             let idx = indexPath.row - 1
             if let item = self.list![idx] as? [String:Any] {
@@ -152,8 +150,12 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
             }
             else if let entity = self.list![idx] as? List {
-                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: entity.idList!)
-                self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                if entity.idList != nil {
+                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: entity.idList!)
+                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                }else{
+                    self.delegate!.listSelectorDidAddProductLocally(inList: entity)
+                }
             }
         }
     }
@@ -401,7 +403,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                         self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
                     }
                 } else { //Actualizacion local a DB
-                    self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
+                    self.delegate?.listSelectorDidAddProductLocally(inList: entity)
                 }
             }
             

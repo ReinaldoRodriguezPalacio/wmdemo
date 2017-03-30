@@ -942,25 +942,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("lista de id de listas")
-        var count  =  1
-        for listId  in idListsSelected {
-            self.addItemsfromcarToList(inList: listId, included: false, finishAdd: count == idListsSelected.count )
-            count = count + 1
-        }
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Seleccionadas")
-        var count  =  1
-        for listId  in listsSelected {
-            self.listSelectorDidAddProductLocally(inList: listId, finishAdd:  count == listsSelected.count )
-            count = count + 1
-        }
-
-    }
-    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -976,7 +957,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
      
     }
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
