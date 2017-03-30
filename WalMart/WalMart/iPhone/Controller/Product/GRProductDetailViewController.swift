@@ -302,59 +302,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return
         }
         
-        let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
-      
-        if self.isPesable && !exist {
-            
-            //self.selectQuantityGR = nil
-            
-            let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
-            let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
-            selectQuantityGR = selectQuantityGRW
-            selectQuantityGR.isFromList = true
-            selectQuantityGR.isUpcInList = false
-            selectQuantityGR.closeAction = { () in
-                self.closeContainer({ () -> Void in
-                    self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-                    self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-                    self.isShowShoppingCart = false
-                    self.selectQuantityGR = nil
-                    self.isSowListQuantity = false
-                })
-            }
-            
-            self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-                
-                if self.selectQuantityGR != nil {
-                    self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
-                }
-                
-                if Int(quantity)! > 20000 {
-                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                    let secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
-                    let msgInventory = "\(firstMessage) 20000 \(secondMessage)"
-                    alert!.setMessage(msgInventory)
-                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                }
-                
-                self.presentListSelector(quantity: Int(quantity)!, push: true)
-                
-            }
-            
-            self.opencloseContainer(true, viewShow: selectQuantityGR!, additionalAnimationOpen: { () -> Void in
-                self.productDetailButton?.listButton.isSelected = true
-                self.isSowListQuantity = true
-            }, additionalAnimationClose:{ () -> Void in
-                self.productDetailButton?.listButton.isSelected = false
-                self.isSowListQuantity = false
-            })
-            
-        } else {
-            self.presentListSelector(quantity: 1, push: false)
-        }
         
+        self.presentListSelector(quantity: 1, push: false)
     }
     
     
@@ -630,7 +579,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         if idListsSelected.count > 0 {
            
-            let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
+            let exist = true
             
             if exist && self.isPesable {
                 self.addMultipleListSelected(idLists: idListsSelected)
@@ -779,24 +728,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
         
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
-        let exist = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
-        
-        if self.quantitySelected != 0 && self.isPesable && !exist {
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
-            if let imageURL = self.productDetailButton?.image {
-                if let urlObject = URL(string:imageURL) {
-                    self.alertView?.imageIcon.setImageWith(urlObject)
-                }
-            }
-            
-            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-            self.addItemsToList(quantity:"\(self.quantitySelected)",listId:listId,finishAdd: true)
-            
-            return
-        }
-        
-        if self.isPesable || included {
             
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.isPush = true
@@ -858,19 +789,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
                 self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
             })
-            
-        } else {
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"new_alert_list"),imageError: UIImage(named:"list_alert_error"))
-            if let imageURL = self.productDetailButton?.image {
-                if let urlObject = URL(string:imageURL) {
-                    self.alertView?.imageIcon.setImageWith(urlObject)
-                }
-            }
-            
-            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
-            addItemsToList(quantity:"1", listId: listId, finishAdd: true)
-        }
         
     }
     
