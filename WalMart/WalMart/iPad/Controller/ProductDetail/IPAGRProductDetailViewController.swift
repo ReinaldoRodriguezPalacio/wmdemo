@@ -668,54 +668,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     //Mark: ListSelectorDelegate
-    func addMultipleListSelected (idLists listSelected:[String]){
-        
-        let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
-        self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
-        self.selectQuantityGR!.isPush = true
-        self.selectQuantityGR.isFromList = true
-        self.selectQuantityGR.isUpcInList = false
-        self.selectQuantityGR!.closeAction = { () in
-            
-            if self.selectQuantityGR!.isPush {
-                
-                UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                    self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                }, completion: { (complete: Bool) -> Void in
-                    self.selectQuantityGR!.removeFromSuperview()
-                })
-                
-            } else {
-                self.removeListSelector(action: nil, closeRow:true)
-            }
-            
-        }
-        
-        self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))                
-                
-                var countId =  1
-                
-                for idListSel in  listSelected {
-                    self.addItemsToList(quantity:quantity , listId: idListSel, finishAdd: countId == listSelected.count ,orderByPiece: self.selectQuantityGR!.orderByPiece)
-                    countId  =  countId + 1
-                }
-            
-        }
-        self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
-        UIView.animate(withDuration: 0.5,
-                       animations: { () -> Void in
-                        self.listSelectorController!.view.frame = CGRect(x: -self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-                        self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
-        }, completion: { (finished:Bool) -> Void in
-            
-        }
-        )
-    
-    }
     
     var closeContainer =  false
     
