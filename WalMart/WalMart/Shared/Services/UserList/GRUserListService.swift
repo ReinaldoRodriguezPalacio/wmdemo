@@ -182,7 +182,7 @@ class GRUserListService : GRBaseService {
       
         
         
-
+        var toUpdateList : [String] = []
         for serviceList in list as! [[String:Any]]{
             let listId = serviceList["id"] as! String
             
@@ -249,96 +249,112 @@ class GRUserListService : GRBaseService {
                     }
                 }
                 
-                let detailService = GRUserListDetailService()
-                detailService.buildParams(listId)
-                detailService.callService([:],
-                    successBlock: { (result:[String:Any]) -> Void in
-                        if let items = result["items"] as? [Any] {
-                            
-                            let parentList = self.findListById(listId)
-                            if parentList == nil {
-                                print("User list not founded \(listId)")
-                                return
-                            }
-                            
-                            for idx in 0 ..< items.count {
-                                var item = items[idx] as! [String:Any]
-                                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
-                                detail!.upc = item["upc"] as! String
-                                detail!.img = item["imageUrl"] as! String
-                                detail!.desc = item["description"] as! String
-                                if let price = item["price"] as? NSNumber {
-                                    detail!.price = "\(price)" as NSString
-                                }
-                                else if let price = item["price"] as? String {
-                                    detail!.price = price as NSString
-                                }
-                                
-                                var quantity: Int32 = 0
-                                if  let qIntProd = item["quantity"] as? Int32 {
-                                    quantity = qIntProd
-                                }else if  let qIntProd = item["quantity"] as? NSString {
-                                    quantity = qIntProd.intValue
-                                }
-                                
-                                var typeProdVal: Int = 0
-                                if let typeProd = item["type"] as? NSString {
-                                    typeProdVal = typeProd.integerValue
-                                }
-                                
-                                var equivalenceByPiece : NSNumber = 0
-                                if let equiva = item["equivalenceByPiece"] as? NSNumber {
-                                    equivalenceByPiece =  equiva
-                                }else if let equiva = item["equivalenceByPiece"] as? Int {
-                                    equivalenceByPiece =  NSNumber(value: equiva)
-                                }else if let equiva = item["equivalenceByPiece"] as? String {
-                                    if equiva != "" {
-                                        equivalenceByPiece =   NSNumber(value:Int(equiva)!)
-                                    }
-                                }
-                                
-                                var baseUomcd = "EA"
-                                if  let baseUomcdP = item["baseUomcd"] as? String {
-                                    baseUomcd = baseUomcdP
-                                }
-                                
-//                                if quantity > 20000 && baseUomcd == "GM" {
-//                                    quantity = 20000
-//                                }else if quantity > 99 && baseUomcd == "EA"{
-//                                    quantity = 99
-//                                }
-                                
-                                detail!.quantity = NSNumber(value: quantity as Int32)
-                                detail!.type = NSNumber(value: typeProdVal as Int)
-                                detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
-                                detail?.equivalenceByPiece =  equivalenceByPiece
-                                detail!.pieces = NSNumber(value: quantity as Int32)
-                                
-                                //
-                                detail!.list = parentList!
-                                
-                                var error: NSError? = nil
-                                do {
-                                    try self.managedContext!.save()
-                                } catch let error1 as NSError {
-                                    error = error1
-                                } catch {
-                                    fatalError()
-                                }
-                                if error != nil {
-                                    print("error at delete details: \(error!.localizedDescription)")
-                                }
-                            }
-                        }
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                        print("Error at retrieve list detail")
-                    }
-                )
+                toUpdateList.append(listId)
             }
             
+            
         }
+        self.updateLists(listIds:toUpdateList)
         
+    }
+    
+    func updateLists(listIds:[String]) {
+        if listIds.count == 0 {
+            return;
+        }
+        var newListIds : [String] = []
+        newListIds.append(array: listIds)
+        let listId = newListIds.removeFirst()
+        
+        
+        let detailService = GRUserListDetailService()
+        detailService.buildParams(listId)
+        detailService.callService([:],
+                                  successBlock: { (result:[String:Any]) -> Void in
+                                    if let items = result["items"] as? [Any] {
+                                        
+                                        let parentList = self.findListById(listId)
+                                        if parentList == nil {
+                                            print("User list not founded \(listId)")
+                                            return
+                                        }
+                                        
+                                        for idx in 0 ..< items.count {
+                                            var item = items[idx] as! [String:Any]
+                                            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
+                                            detail!.upc = item["upc"] as! String
+                                            detail!.img = item["imageUrl"] as! String
+                                            detail!.desc = item["description"] as! String
+                                            if let price = item["price"] as? NSNumber {
+                                                detail!.price = "\(price)" as NSString
+                                            }
+                                            else if let price = item["price"] as? String {
+                                                detail!.price = price as NSString
+                                            }
+                                            
+                                            var quantity: Int32 = 0
+                                            if  let qIntProd = item["quantity"] as? Int32 {
+                                                quantity = qIntProd
+                                            }else if  let qIntProd = item["quantity"] as? NSString {
+                                                quantity = qIntProd.intValue
+                                            }
+                                            
+                                            var typeProdVal: Int = 0
+                                            if let typeProd = item["type"] as? NSString {
+                                                typeProdVal = typeProd.integerValue
+                                            }
+                                            
+                                            var equivalenceByPiece : NSNumber = 0
+                                            if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                                                equivalenceByPiece =  equiva
+                                            }else if let equiva = item["equivalenceByPiece"] as? Int {
+                                                equivalenceByPiece =  NSNumber(value: equiva)
+                                            }else if let equiva = item["equivalenceByPiece"] as? String {
+                                                if equiva != "" {
+                                                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                                                }
+                                            }
+                                            
+                                            var baseUomcd = "EA"
+                                            if  let baseUomcdP = item["baseUomcd"] as? String {
+                                                baseUomcd = baseUomcdP
+                                            }
+                                            
+                                            //                                if quantity > 20000 && baseUomcd == "GM" {
+                                            //                                    quantity = 20000
+                                            //                                }else if quantity > 99 && baseUomcd == "EA"{
+                                            //                                    quantity = 99
+                                            //                                }
+                                            
+                                            detail!.quantity = NSNumber(value: quantity as Int32)
+                                            detail!.type = NSNumber(value: typeProdVal as Int)
+                                            detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
+                                            detail?.equivalenceByPiece =  equivalenceByPiece
+                                            detail!.pieces = NSNumber(value: quantity as Int32)
+                                            
+                                            //
+                                            detail!.list = parentList!
+                                            
+                                            var error: NSError? = nil
+                                            do {
+                                                try self.managedContext!.save()
+                                            } catch let error1 as NSError {
+                                                error = error1
+                                            } catch {
+                                                fatalError()
+                                            }
+                                            if error != nil {
+                                                print("error at delete details: \(error!.localizedDescription)")
+                                            }
+                                        }
+                                    }
+                                    self.updateLists(listIds: newListIds)
+        },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Error at retrieve list detail")
+                                    self.updateLists(listIds: newListIds)
+        }
+        )
     }
     
     /**

@@ -213,7 +213,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        print("URL::: FinishLoad --\(webView.request?.url!.absoluteString)")
         let string = webView.request!.url!.absoluteString as NSString
         var range = string.range(of: ConfigUrls.IngresarCheckOut)
         
@@ -275,9 +274,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(CheckOutViewController.removeViewLoading), userInfo: nil, repeats: false)
             finishLoadCheckOut!()
         }
-        
-        
-        print("URL:::-- \(webView.request)")
         
     }
     

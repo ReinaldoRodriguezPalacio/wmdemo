@@ -49,10 +49,6 @@ class GRProductDetailService: GRBaseService {
             errorBlock!(error)
         }
     }
-    
-    override func needsLogin() -> Bool {
-        return false
-    }
   
 
     

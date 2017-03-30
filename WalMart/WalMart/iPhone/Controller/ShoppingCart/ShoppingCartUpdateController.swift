@@ -390,7 +390,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if type == ResultObjectType.Groceries.rawValue {
                     
                     typeProduct = ResultObjectType.Groceries
-                    print("Parametros = \(params)")
                     
                     //TODO Signals
                     let signalParametrer = params["parameter"] as? [String:Any]

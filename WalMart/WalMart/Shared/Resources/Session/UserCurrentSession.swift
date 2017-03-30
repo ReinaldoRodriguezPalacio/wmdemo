@@ -141,7 +141,7 @@ class UserCurrentSession : NSObject {
                 
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:[String:Any]) -> Void in
-                    print("User signed")
+                    
                     }, errorBlock: { (error:NSError) -> Void in
                 })
             }
@@ -154,6 +154,7 @@ class UserCurrentSession : NSObject {
         
         let resultProfileJSONMG = userDictionaryMG["profile"] as! [String:Any]
         var resultProfileJSONGR : [String:Any]? = nil
+        
         if let userDictPrGR = userDictionaryGR["profile"] as? [String:Any] {
             resultProfileJSONGR = userDictPrGR
         }
