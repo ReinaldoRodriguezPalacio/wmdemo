@@ -62,7 +62,7 @@
 //filter
 "filter.title" = "Filtrar";
 "filter.apply" = "aplicar";
-"filter.button.title" = "Filtros";
+"filter.button.title" = "filtros";
 "filter.button.clean" = "Sin filtros";
 "filter.section.order" = "Ordenar";
 "filter.section.categories" = "Elige una Categoría";

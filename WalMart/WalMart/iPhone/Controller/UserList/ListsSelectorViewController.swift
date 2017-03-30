@@ -39,7 +39,6 @@ protocol ListSelectorDelegate: class {
 class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableViewDataSource, ListSelectorCellDelegate, NewListTableViewCellDelegate , UIScrollViewDelegate{
     
 
-
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
 
@@ -73,13 +72,12 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         self.view.backgroundColor = UIColor.clear
+        self.view.backgroundColor = UIColor.clear
         
         let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.alpha = 0.3
         blurEffectView.frame = self.view.bounds
-        //self.imageBlurView = blurEffectView
         self.view.addSubview(blurEffectView)
         
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
@@ -100,7 +98,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.closeBtn!.addTarget(self, action: #selector(ListsSelectorViewController.closeSelector), for: .touchUpInside)
         self.view.addSubview(self.closeBtn!)
         
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 200, width: 320, height: 400))
+        self.tableView = UITableView(frame: CGRect(x: 0, y: 200, width: 320, height: self.view.frame.height - 48))
         self.tableView!.backgroundColor = UIColor.clear
         self.tableView!.separatorStyle = UITableViewCellSeparatorStyle.none
         self.tableView!.autoresizingMask = UIViewAutoresizing()
@@ -123,7 +121,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let frame = self.view.bounds
         self.titleLabel!.frame = CGRect(x: 15.0, y: 0.0, width: frame.size.width - 30.0, height: 48.0)
         self.closeBtn!.frame = CGRect(x: 0, y: 2.0, width: 44.0, height: 44.0)
-        self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height)
+        self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height - 48)
         
         self.loading!.frame = CGRect(x: 0,y: 0, width: frame.size.width, height: frame.size.height)
     }
@@ -467,6 +465,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.endEditing(true)
     }
 
-
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: self.view.frame.height + 64)
+    }
     
 }

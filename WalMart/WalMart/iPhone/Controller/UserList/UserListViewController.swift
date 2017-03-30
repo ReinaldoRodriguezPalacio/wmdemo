@@ -235,7 +235,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.listSelectedDuplicate = self.selectedIndex
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRow(at: indexpath!) as? ListTableViewCell
-            self.duplicateList(cell!)
+            if cell != nil {
+                self.duplicateList(cell!)
+            }
         }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)

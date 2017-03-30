@@ -47,8 +47,6 @@ class GRShoppingCartProductsService : GRBaseService {
                             }
                             
                             for shoppingCartProduct in itemsInShoppingCart {
-                                print("shoppingCartProduct Item::")
-                                print(shoppingCartProduct)
                                 var carProduct : Cart!
                                 var carProductItem : Product!
                                 let upc = shoppingCartProduct["upc"] as! String
