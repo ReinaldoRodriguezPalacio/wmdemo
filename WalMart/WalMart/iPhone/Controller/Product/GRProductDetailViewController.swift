@@ -615,12 +615,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         self.selectQuantityGR!.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
                     }, completion: { (complete: Bool) -> Void in
                         self.selectQuantityGR?.removeFromSuperview()
+                        self.listSelectorController?.sowKeyboard = false
                     })
                     
-                } else {
-                    self.removeListSelector(action: nil)
-                }
-               
+                }               
             }
             
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
@@ -805,10 +803,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
                 }, completion: { (complete: Bool) -> Void in
                     self.selectQuantityGR?.removeFromSuperview()
+                    self.listSelectorController?.sowKeyboard = false
                 })
                     
-            } else {
-                self.removeListSelector(action: nil)
             }
         }
             

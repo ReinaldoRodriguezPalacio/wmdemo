@@ -666,6 +666,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
                 }, completion: { (complete: Bool) -> Void in
                     self.selectQuantityGR!.removeFromSuperview()
+                    self.listSelectorController?.sowKeyboard = false
                 })
                 
             } else {
@@ -815,6 +816,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     self.selectQuantityGR!.frame = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
                 }, completion: { (complete: Bool) -> Void in
                     self.selectQuantityGR!.removeFromSuperview()
+                    self.listSelectorController?.sowKeyboard = false
                 })
                     
             } else {

@@ -57,7 +57,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var hiddenOpenList : Bool = false
     
     var showListView : Bool = false
-    
+    var sowKeyboard: Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
@@ -143,7 +143,13 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     func didSelectedList(_ cell: ListSelectorViewCell) {
+        if self.sowKeyboard {
+            return
+        }
+        
         if let indexPath = self.tableView!.indexPath(for: cell) {
+            self.sowKeyboard = true
+            
             let idx = indexPath.row - 1
             if let item = self.list![idx] as? [String:Any] {
                 let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
@@ -369,9 +375,12 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     
     internal func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell) {
+        if self.sowKeyboard {
+            return
+        }
         
         if let indexPath = self.tableView!.indexPath(for: cell) {
-            
+            self.sowKeyboard = true
             let idx = indexPath.row - 1
             
             if let item = self.list![idx] as? [String:Any] {
