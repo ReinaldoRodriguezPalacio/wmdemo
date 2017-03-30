@@ -380,7 +380,7 @@
 			<key>WalmartMG.ShippingAddressByUserService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/displayShippingAddress</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/checkout/addItemToOrder</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/addItemToOrder</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
