@@ -387,7 +387,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         self.pushList = push
         
-        if self.listSelectorContainer == nil {
+        if self.listSelectorController == nil {
             
             let frameDetail = push ? CGRect(x: self.selectQuantityGR!.frame.maxX, y: 0, width: self.selectQuantityGR.frame.width, height: heightDetail) : CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
             self.listSelectorContainer = UIView(frame: frameDetail)
@@ -830,7 +830,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             if exist {
                 self.updateToListLocally(quantity: quantity, list: list)
             }else {
-                self.addToListLocally(quantity: self.quantitySelect != 0 ? "\(self.quantitySelect)" : "1" , list: list,removeSelector: true)
+                self.addToListLocally(quantity: quantity , list: list,removeSelector: true)
             }
         }
             
@@ -898,6 +898,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         // 360 Event
         BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: "\(self.price)")
+        
+        //TODO: Add message
+        if quantity == "00" {
+            self.showMessageWishList("Se eliminó de la lista")
+        }else{
+            self.showMessageWishList("Se agregó a la lista")
+        }
     
     }
     

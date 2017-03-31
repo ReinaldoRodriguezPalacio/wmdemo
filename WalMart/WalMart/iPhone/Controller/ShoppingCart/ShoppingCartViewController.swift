@@ -248,18 +248,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             editButton.backgroundColor = WMColor.light_blue
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
-            
-            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-                self.loadShoppingCartService()
-            }
         }
-       
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
+            self.loadShoppingCartService()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        self.reloadShoppingCart()
         self.showDiscountAsociate()
     }
     

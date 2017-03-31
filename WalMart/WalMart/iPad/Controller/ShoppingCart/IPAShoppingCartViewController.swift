@@ -87,7 +87,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
 
     override func viewDidAppear(_ animated: Bool) {
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        self.reloadShoppingCart()
         updateTotalItemsRow()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -439,6 +445,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.popup!.dismiss(animated: true)
             }
             selectQuantity!.addToCartAction = { (quantity:String) in
+                
+                if quantity == "00" {
+                    self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
+                    self.reloadShoppingCart()
+                    self.selectQuantity!.closeAction()
+                    return
+                }
+                
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     
