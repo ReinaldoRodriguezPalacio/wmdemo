@@ -165,7 +165,7 @@ class ShoppingCartProductsService : BaseService {
                     var desc = ""
                     var commerceItemId = ""
                     if let sku = shoppingCartProduct!["sku"] as? [String:Any] {
-                        desc = sku["productDisplayName"] as! String
+                        desc = sku["displayName"] as! String
                     }
                     if let upc = shoppingCartProduct!["skuId"] as? String {
                         

@@ -371,10 +371,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                 //["catalogRefids":"00841020507906_009537102","productId":"00841020507906","quantity":"1","orderedUOM":"EA","itemComment":"EA","orderedQTYWeight":"6"]
                 
-                let responceObject = result as! [String: AnyObject]
+                let responceObject = result["responseObject"] as! [String: AnyObject]
+                let order = responceObject["order"] as! [String: AnyObject]
+                
+                
                 //self.jsonFromObject(result as AnyObject!)
                 //let order = responceObject["order"] as! [String: AnyObject]
-                let commerceItems = responceObject["commerceItems"] as! NSArray
+                let commerceItems = order["commerceItems"] as! NSArray
                 
                 /*for item in commerceItems {
                     //let productId = item["productId"] as! String

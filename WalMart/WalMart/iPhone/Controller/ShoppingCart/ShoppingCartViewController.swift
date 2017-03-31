@@ -290,10 +290,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         
         if  self.itemsInShoppingCart.count > 0 {
+            let cartDetails = UserCurrentSession.sharedInstance.itemsMG!["priceMap"] as? [String:Any]
+            
+            /*
             //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! [String:Any]
-            self.subtotal = Int(UserCurrentSession.sharedInstance.itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
-            self.ivaprod = Int(UserCurrentSession.sharedInstance.itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
-            self.totalest = UserCurrentSession.sharedInstance.itemsMG!["total"] as! NSNumber//totalEstimado
+            self.subtotal = Int(cartDetails!["cartSubTotal"] as? String ?? "0") as NSNumber!//subtotal
+            self.ivaprod = Int(cartDetails!["totalIVATaxPrice"] as? String ?? "0") as NSNumber!//ivaSubtotal
+            self.totalest = cartDetails!["orderTotal"] as! NSNumber//totalEstimado*/
+            
+            if let valueSubTotal = cartDetails!["cartSubTotal"] as? NSString {
+                self.subtotal = (valueSubTotal as NSString).integerValue as NSNumber!//subtotal
+            }
+            if let valueTotalIva = cartDetails!["totalIVATaxPrice"] as? NSString {
+                self.ivaprod = (valueTotalIva as NSString).integerValue as NSNumber!//ivaSubtotal
+            }
+            if let valueOrderTotal = cartDetails!["orderTotal"] as? NSString {
+                self.totalest = (valueOrderTotal as NSString).integerValue as NSNumber!//totalEstimado
+            }
+            
         }else{
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
@@ -478,25 +492,30 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
             let shoppingCartProduct = productObje[(indexPath as NSIndexPath).row] //as! [String:Any]
-            let skuId = shoppingCartProduct["catalogRefId"] as? String ?? ""
-            let productId = shoppingCartProduct["productId"] as? String ?? ""
-            let desc = shoppingCartProduct["productDisplayName"] as! String
-            var price : String = ""
-            let commerceItemId = shoppingCartProduct["commerceItemId"] as! String
+            let skuId = shoppingCartProduct["skuId"] as? String ?? ""
+            let productId = shoppingCartProduct["skuId"] as? String ?? ""
             
-            let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any]
-            if let priceValue = priceInfo!["amount"] as? NSNumber{
+            let sku = shoppingCartProduct["sku"] as? [String:Any]
+            let desc = sku!["displayName"] as? String ?? ""
+            
+            var price : String = ""
+            
+            let commerceItemDetailsMap = shoppingCartProduct["commerceItemDetailsMap"] as? [String:Any]
+            let commerceItemId = commerceItemDetailsMap!["commerceItemId"] as! String
+            
+            //let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any]
+            if let priceValue = shoppingCartProduct["basePrice"] as? NSNumber{
                 price = priceValue.stringValue
             }
-            if let priceValueS = priceInfo!["amount"] as? NSString{
+            if let priceValueS = shoppingCartProduct["basePrice"] as? NSString{
                 price = priceValueS as String
             }
             //let quantity = shoppingCartProduct["quantity"] as! NSString
             var quantity : String = ""
-            if let quantityValue = shoppingCartProduct["quantity"] as? NSNumber{
+            if let quantityValue = commerceItemDetailsMap!["quantity"] as? NSNumber{
                 quantity = quantityValue.stringValue
             }
-            if let quantityValueS = shoppingCartProduct["quantity"] as? String{
+            if let quantityValueS = commerceItemDetailsMap!["quantity"] as? String{
                 quantity = quantityValueS
             }
             
@@ -506,12 +525,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             var isPreorderable = "false"
-            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
+            if let preorderable = sku!["isPreorderable"] as? String {
                 isPreorderable = preorderable
             }
             
             var imageUrl = ""
-            if let imageVal = shoppingCartProduct["imageUrl"] as? String {
+            if let imageVal = sku!["smallImageUrl"] as? String {
                 imageUrl = imageVal
             }
             
@@ -527,14 +546,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             //comments
-            let comments = shoppingCartProduct["itemComment"] as? String ?? ""
+            let comments = commerceItemDetailsMap!["itemComment"] as? String ?? ""
             
             var productDeparment = ""
-            if let category = shoppingCartProduct["category"] as? String{
+            if let category = commerceItemDetailsMap!["department"] as? String{
                 productDeparment = category
             }
             
-            var promotionDescription : String? = ""
+            var promotionDescription : String? = "" //falta
             if let promotion = shoppingCartProduct["promotion"] as? [[String:Any]] {
                 if promotion.count > 0 {
                     promotionDescription = promotion[0]["description"] as? String
@@ -545,7 +564,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(shoppingCartProduct )
            
             
-            if let priceThr = shoppingCartProduct["saving"] as? NSString {
+            if let priceThr = shoppingCartProduct["savingsAmount"] as? NSString {
                 through = priceThr as String!
             }
             
@@ -623,9 +642,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             controller.itemsToShow = getUPCItems((indexPath as NSIndexPath).section - 1, row: (indexPath as NSIndexPath).row) as [Any]
             controller.ixSelected = self.itemSelect//indexPath.row
             
-            let item = productObje[(indexPath as NSIndexPath).row] 
-            let  name = item["productDisplayName"] as! String
-            let upc = item["productId"] as! String
+            let item = productObje[(indexPath as NSIndexPath).row]
+            let sku = item["sku"] as? [String:Any]
+            let  name = sku!["displayName"] as! String
+            let upc = item["skuId"] as! String
             //EVENT
             //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             if self.navigationController != nil {
@@ -972,40 +992,42 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             var price : NSString = ""
             
-            let priceInfo = shoppingCartProduct["priceInfo"] as? [String:Any]
-            if let priceValue = priceInfo!["amount"] as? NSNumber{
+            let commerceItemDetailsMa = shoppingCartProduct["commerceItemDetailsMap"] as? [String:Any]
+            if let priceValue = commerceItemDetailsMa!["amount"] as? NSNumber{
                 price = priceValue.stringValue as NSString
             }
-            if let priceValueS = priceInfo!["amount"] as? NSString{
+            if let priceValueS = commerceItemDetailsMa!["amount"] as? NSString{
                 price = priceValueS
             }
             
             var iva : NSString = ""
-            if let ivabase = priceInfo!["savingsAmount"] as? NSString {
+            if let ivabase = shoppingCartProduct["savingsAmount"] as? NSString {
                 iva = ivabase
             }
-            if let ivabase = priceInfo!["savingsAmount"] as? NSNumber {
+            if let ivabase = shoppingCartProduct["savingsAmount"] as? NSNumber {
                 iva = ivabase.stringValue as NSString
             }
             
             var baseprice : NSString = ""
-            if let priceEvent = shoppingCartProduct["priceEvent"] as? [String:Any]{
-                
-                if let pricebase = priceEvent["basePrice"] as? NSString {
-                    baseprice = pricebase
-                }
-                if let pricebase = priceEvent["basePrice"] as? NSNumber {
-                    baseprice = pricebase.stringValue as NSString
-                }
+            
+            if let pricebase = shoppingCartProduct["basePrice"] as? NSString {
+                baseprice = pricebase
+            }
+            if let pricebase = shoppingCartProduct["basePrice"] as? NSNumber {
+                baseprice = pricebase.stringValue as NSString
             }
             
+            //quantity
+            
             var quantity : NSString = ""
-            if let quantityN = shoppingCartProduct["quantity"] as? NSString { //NSNumber
+            if let quantityN = commerceItemDetailsMa!["quantity"] as? NSString { //NSNumber
                 quantity = quantityN
             }
-            if let quantityN = shoppingCartProduct["quantity"] as? NSNumber {
+            if let quantityN = commerceItemDetailsMa!["quantity"] as? NSNumber {
                 quantity = quantityN.stringValue as NSString
             }
+            
+            
             //let quantity = shoppingCartProduct["quantity"] as NSString
             
             let savingIndex = dictShoppingCartProduct.index(forKey: "saving")
@@ -1051,18 +1073,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
            for shoppingCartProduct in  itemsInShoppingCart {
             //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             var price : NSString = ""
-            let priceInfo = shoppingCartProduct["priceInfo"] as! [String:Any]
+            //let priceInfo = shoppingCartProduct["priceInfo"] as! [String:Any]
             
-            if let priceValue = priceInfo["amount"] as? NSNumber{
+            if let priceValue = shoppingCartProduct["savingsAmount"] as? NSNumber{
                 price = priceValue.stringValue as NSString
             }
-            if let priceValueS = priceInfo["amount"] as? NSString{
+            if let priceValueS = shoppingCartProduct["savingsAmount"] as? NSString{
                 price = priceValueS
             }
             if price.doubleValue < priceLasiItem {
                 continue
             }
-            if let u = shoppingCartProduct["catalogRefId"] as? NSString  {
+            if let u = shoppingCartProduct["skuId"] as? NSString  {
                 upc = u as String
             }
           
@@ -1084,8 +1106,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
          for lineItems in self.itemsInCartOrderSection {
             let productsline = lineItems["products"] as! [[String:Any]]
             for product in productsline {
-                let upc = product["productId"] as! String
-                let desc = product["productDisplayName"] as! String
+                let upc = product["skuId"] as! String
+                let sku = product["sku"] as! [String:Any]
+                let desc = sku["displayName"] as! String
+                
                 upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue,"sku":upc])//sku
                 countItems = countItems + 1
             }

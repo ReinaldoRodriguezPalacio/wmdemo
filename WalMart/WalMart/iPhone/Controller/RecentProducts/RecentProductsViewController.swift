@@ -121,7 +121,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         if let resultArray = resultDictionary as? [Any] {
             productItemsOriginal = resultArray
         }else{
-           productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [Any] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [Any]
+           productItemsOriginal = isShoppingCart ? resultDictionary["cartDetails"] as! [[String:Any]] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [Any]
         }
         
         var objectsFinal : [[String:Any]] = []
