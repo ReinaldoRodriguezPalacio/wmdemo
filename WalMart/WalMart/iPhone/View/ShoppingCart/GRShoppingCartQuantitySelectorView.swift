@@ -345,10 +345,11 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnDelete?.alpha = 0.0
-            if !isUpcInShoppingCart &&  !isFromList {
+            if (!isUpcInShoppingCart && !isFromList ) || (isFromList && !isUpcInList) {
                 let tmpResult : NSString = "00" as NSString
                 lblQuantity.text = tmpResult as String
-                btnOkAdd.setTitle("\(strAdddToSC) \("0.0")", for: UIControlState())
+                btnOkAdd?.backgroundColor = WMColor.green
+                btnOkAdd.setTitle("\(strAdddToSC) \("0")", for: UIControlState())
                 let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \("0")", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
                 rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
                 self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)

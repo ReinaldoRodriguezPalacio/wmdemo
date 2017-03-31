@@ -125,7 +125,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         }else{
             if isInShoppingCart {
                 btnShoppingCart.isEnabled = true
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.isEnabled = true
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())

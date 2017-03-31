@@ -413,6 +413,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
+                    self.productDetailButton?.isOpenQuantitySelector = false
+                    self.productDetailButton?.reloadShoppinhgButton()
                 })
             }
             selectQuantityGR.addUpdateNote = {() in
@@ -472,7 +474,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
                             let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
                             let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.itemOrderbyPices, pieces: pieces,equivalenceByPiece:self.equivalenceByPiece.intValue)
-                       
                             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                             
                     })
@@ -548,7 +549,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
-                self.selectQuantityGR.closeSelectQuantity()
+                self.selectQuantityGR?.closeSelectQuantity()
                 self.selectQuantityGR = nil
                 completeClose?()
             })
