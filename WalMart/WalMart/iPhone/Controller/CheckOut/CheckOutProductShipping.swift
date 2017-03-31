@@ -329,7 +329,8 @@ class CheckOutProductShipping: NavigationViewController, UITableViewDelegate,UIT
 
     
     func selectDataTypeShipping(_ envio: String, util: String, date: String, rowSelected: Int){
-        if  self.paramsToOrder?.object(forKey: "shipping") == nil{
+        
+        if self.paramsToOrder?.object(forKey: "shipping") == nil {
             self.paramsToOrder?.addEntries(from: ["shipping":[]])
         }
         
