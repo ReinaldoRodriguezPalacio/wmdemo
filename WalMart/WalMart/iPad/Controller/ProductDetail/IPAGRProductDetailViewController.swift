@@ -946,31 +946,25 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         
         self.removeListSelector(action: nil, closeRow:true)
+        
         //TODO: Add message
-        self.showMessageWishList("Se actualizo en la lista")
+        if quantity == "00" {
+            self.showMessageWishList("Se eliminó de la lista")
+        }else{
+            self.showMessageWishList("Se agregó a la lista")
+        }
         
         
     }
     
     
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        context.delete(product)
-        do {
-            try context.save()
-        } catch {
-            abort()
+    func listSelectorDidDeleteProductLocally(inList list:List) {
+        if UserCurrentSession.hasLoggedUser() {
+            self.listSelectorDidDeleteProduct(inList: list.idList!)
+        }else{
+            self.updateToListLocally(quantity:"00",list:list)
         }
-        let count:Int = list.products.count
-        list.countItem = NSNumber(value: count as Int)
-        do {
-            try context.save()
-        } catch {
-           abort()
-        }
-        self.removeListSelector(action: nil, closeRow:true)
     }
     
     func instanceOfQuantitySelector(_ frame:CGRect) -> GRShoppingCartQuantitySelectorView? {

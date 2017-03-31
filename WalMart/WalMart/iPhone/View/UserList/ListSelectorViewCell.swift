@@ -11,7 +11,7 @@ import UIKit
 protocol ListSelectorCellDelegate: class {
     func didShowListDetail(_ cell: ListSelectorViewCell)
     func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell)
-    func didSelectedList(_ cell: ListSelectorViewCell)
+    func didSelectedList(_ cell: ListSelectorViewCell, productInList: Bool)
 }
 
 class ListSelectorViewCell: UITableViewCell {
@@ -82,10 +82,7 @@ class ListSelectorViewCell: UITableViewCell {
     
     func selectedList(){
         print("selectedList")
-        if !self.productInList {
-            self.delegate?.didSelectedList(self)
-            //self.indicator!.isSelected = !self.indicator!.isSelected
-        }
+        self.delegate?.didSelectedList(self,productInList: self.productInList)
         
     }
     

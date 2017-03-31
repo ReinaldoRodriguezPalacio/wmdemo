@@ -969,28 +969,13 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+    func listSelectorDidDeleteProductLocally(inList list:List) {
         
-        context.delete(product)
-        do {
-            try context.save()
-        } catch {
-            abort()
+        if UserCurrentSession.hasLoggedUser() {
+            self.listSelectorDidDeleteProduct(inList: list.idList!)
+        }else{
+           self.updateToListLocally(quantity:"00",list:list)
         }
-
-        let count:Int = list.products.count
-        list.countItem = NSNumber(value: count as Int)
-        do {
-            try context.save()
-            self.completeDelete?()
-        } catch  {
-            abort()
-        }
-        
-        self.removeListSelector(action: nil)
-        
     }
 
     

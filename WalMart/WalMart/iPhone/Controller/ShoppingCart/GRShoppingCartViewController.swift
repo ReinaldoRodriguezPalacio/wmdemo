@@ -1070,7 +1070,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     }
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
     }
 
     func listSelectorDidDeleteProduct(inList listId:String) {

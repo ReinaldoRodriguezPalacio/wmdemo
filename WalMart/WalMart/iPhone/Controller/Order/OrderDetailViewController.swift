@@ -772,7 +772,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         print("listSelectorDidAddProductLocally")
     }
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
         print("listSelectorDidDeleteProductLocally")
     }
     

@@ -29,7 +29,7 @@ protocol ListSelectorDelegate: class {
     
     func listSelectorDidShowListLocally(_ list: List)
     func listSelectorDidAddProductLocally(inList list:List)
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List)
+    func listSelectorDidDeleteProductLocally(inList list:List)
     
     func listSelectorDidClose()
     func shouldDelegateListCreation() -> Bool
@@ -142,25 +142,40 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.delegate?.listSelectorDidClose()
     }
     
-    func didSelectedList(_ cell: ListSelectorViewCell) {
+    
+    func didSelectedList(_ cell: ListSelectorViewCell, productInList: Bool) {
         if self.sowKeyboard {
             return
         }
         
-        if let indexPath = self.tableView!.indexPath(for: cell) {
-            self.sowKeyboard = true
-            
-            let idx = indexPath.row - 1
-            if let item = self.list![idx] as? [String:Any] {
-                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
-                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
-            }
-            else if let entity = self.list![idx] as? List {
-                if entity.idList != nil {
-                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: entity.idList!)
-                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
-                }else{
-                    self.delegate!.listSelectorDidAddProductLocally(inList: entity)
+        if productInList {
+            if let indexPath = self.tableView!.indexPath(for: cell) {
+                self.sowKeyboard = true
+                
+                let idx = indexPath.row - 1
+                if let item = self.list![idx] as? [String:Any] {
+                    self.delegate!.listSelectorDidDeleteProduct(inList: item["id"] as! String)
+                }
+                else if let entity = self.list![idx] as? List {
+                    self.delegate!.listSelectorDidDeleteProductLocally(inList: entity)
+                }
+          }
+        }else {
+            if let indexPath = self.tableView!.indexPath(for: cell) {
+                self.sowKeyboard = true
+                
+                let idx = indexPath.row - 1
+                if let item = self.list![idx] as? [String:Any] {
+                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+                    self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
+                }
+                else if let entity = self.list![idx] as? List {
+                    if entity.idList != nil {
+                        let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: entity.idList!)
+                        self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                    }else{
+                        self.delegate!.listSelectorDidAddProductLocally(inList: entity)
+                    }
                 }
             }
         }
