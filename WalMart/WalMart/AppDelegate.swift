@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         // Override point for customization after application launch.
         
         HTTPCookieStorage.shared.cookieAcceptPolicy = .never
-        URLSessionConfiguration.default.httpMaximumConnectionsPerHost = 1
         
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
@@ -176,8 +175,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
     
         //TODO Cambiar a produccion 
-       //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
-        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
+       TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+        //TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
