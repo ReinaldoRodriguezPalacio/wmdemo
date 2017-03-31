@@ -573,11 +573,11 @@
 			<key>WalmartMG.ShippingAddressByUserService</key>
 			<string>https://dl.dropboxusercontent.com/s/89vse854xuo39ev/getAddresShippingcopy.txt</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>https://dl.dropboxusercontent.com/s/eqadxhjmktdodso/addItemToOrder.txt?dl=0</string>
+			<string>https://dl.dropboxusercontent.com/s/qgmp6hwkfp9ax4j/addItemToOrder.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://dl.dropboxusercontent.com/s/u67pzwnx3b9oydg/getShoppingCart.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/761n4gthgb1l6bp/getCartSummary.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>

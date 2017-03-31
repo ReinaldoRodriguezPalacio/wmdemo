@@ -8,16 +8,21 @@
 
 import Foundation
 
-class RecentProductsViewController: NavigationViewController, UITableViewDataSource, RecentProductsTableViewCellDelegate, UITableViewDelegate {
+
+
+class RecentProductsViewController : NavigationViewController, UITableViewDataSource, RecentProductsTableViewCellDelegate, UITableViewDelegate {
     
-    var recentProducts: UITableView!
-    var recentProductItems: [[String:Any]] = []
-    var viewLoad: WMLoadingView!
-    var emptyView: IPOGenericEmptyView!
+    //@IBOutlet var recentProducts : UITableView!
+    var recentProducts : UITableView!
+    var recentProductItems : [[String:Any]] = []
+    
+    var viewLoad : WMLoadingView!
+    var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
-    var heightHeaderTable: CGFloat = 26.0
+    var heightHeaderTable : CGFloat = 26.0
     var itemSelect = 0
-    var plpView: PLPLegendView?
+    //var legendView : LegendView?
+    var plpView : PLPLegendView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -25,100 +30,81 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        titleLabel?.text = NSLocalizedString("profile.misbasicos.title",comment: "")
+        let titleProducts = NSLocalizedString("profile.misbasicos.title",comment: "")
+        self.titleLabel?.text = titleProducts
         
         recentProducts = UITableView()
+        
         recentProducts.register(RecentProductsTableViewCell.self, forCellReuseIdentifier: "recentCell")
         recentProducts.delegate = self
         recentProducts.dataSource = self
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         recentProducts.backgroundColor =  UIColor.white
         recentProducts.layoutMargins = UIEdgeInsets.zero
-        view.addSubview(recentProducts)
+        self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: view.bounds.width, height: view.bounds.height - 109))
+        emptyView = IPOGenericEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109))
         emptyView.returnAction = {() in
             self.back()
         }
-        
-        view.addSubview(emptyView)
+        self.view.addSubview(emptyView)
         invokeRecentProducts()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        recentProducts.frame = CGRect(x: 0, y: 46, width: view.bounds.width, height: view.bounds.height - 46)
+        self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRect(x: view.bounds.minX,y: 46, width: view.bounds.width, height: view.bounds.height - header!.frame.maxY))
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX,y: 46, width: self.view.bounds.width, height: self.view.bounds.height -  self.header!.frame.maxY))
             viewLoad.backgroundColor = UIColor.white
-            view.addSubview(viewLoad)
+            self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
             recentProducts.reloadData()
         }
-        
-        if invokeStop {
+        if invokeStop{
             self.viewLoad.stopAnnimating()
         }
         
         if IS_IOS8_OR_LESS {
             self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
-        } else {
+        }else{
             self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 109)
         }
-        
     }
    
-    override func back() {
-        super.back()
-    }
-    
-    func invokeRecentProducts() {
-        
+    func invokeRecentProducts(){
         let service = GRRecentProductsService()
-        let storeId = UserCurrentSession.sharedInstance.storeId
-        
-        if let userSigned = UserCurrentSession.sharedInstance.userSigned {
-            
-            service.callService(requestParams: service.buildParamsRecentProducts(profileId: userSigned.profile.idProfile as String, storeId: storeId == nil ? "" : storeId!) , successBlock: { (result: [String:Any]) -> Void in
-                print(result)
-                
-                // TODO : Servicios En walmart validar con servicio
-                let responseObject = result["responseObject"] as! [String:Any]
-                let sku = responseObject["sku"] as! [[String:Any]]
-                
-                self.recentProductItems = sku
-                self.contResult(sku)
-                self.recentProducts.reloadData()
-                
-                if self.viewLoad != nil {
-                    self.viewLoad.stopAnnimating()
-                }
-                
-                self.invokeStop = true
-                self.viewLoad = nil
-                self.emptyView!.isHidden = true
-                
-            }, errorBlock: { (error: NSError) -> Void in
+        let storeId  = UserCurrentSession.sharedInstance.storeId
+        service.callService(requestParams: service.buildParamsRecentProducts(profileId: UserCurrentSession.sharedInstance.userSigned?.profile.idProfile as! String, storeId: storeId == nil ? "" : storeId!) , successBlock: { (result:[String:Any]) -> Void in
+            print(result)
+            self.contResult(result)
+            // TODO : Servicios En walmart validar con servicio
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(result["responseArray"]! as AnyObject , isShoppingCart: false)
+            self.recentProducts.reloadData()
+            if self.viewLoad != nil {
+                self.viewLoad.stopAnnimating()
+            }
+            self.invokeStop = true
+            self.viewLoad = nil
+            self.emptyView!.isHidden = true
+            }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.viewLoad.stopAnnimating()
                 self.viewLoad = nil
-            })
-        }
-        
+        })
     }
     
-    func contResult(_ resultDictionary: [[String:Any]]) {
+    func contResult(_ resultDictionary: [String:Any]) {
+        let productItemsOriginal = resultDictionary["responseArray"] as! [Any]
         
-        if resultDictionary.count > 0 {
+        if productItemsOriginal.count > 0{
             let titleBasic = self.titleLabel?.text
-            self.titleLabel?.text = resultDictionary.count == 1 ? titleBasic! + " (\(resultDictionary.count))" : titleBasic! + " (\(resultDictionary.count))"
+            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
         }
     }
     
@@ -128,14 +114,14 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
      - parameter resultDictionary: [String:Any] recent products service
      */
     class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> [[String:Any]] {
+        var recentLineItems : [Any] = []
         
-        var recentLineItems: [Any] = []
-        var productItemsOriginal: [Any] = []
+        var productItemsOriginal:[Any] = []
         
         if let resultArray = resultDictionary as? [Any] {
             productItemsOriginal = resultArray
-        } else {
-           productItemsOriginal = isShoppingCart ? resultDictionary["commerceItems"] as! [Any] : resultDictionary  as! [[String:Any]]
+        }else{
+           productItemsOriginal = isShoppingCart ? resultDictionary["cartDetails"] as! [[String:Any]] : resultDictionary  as! [[String:Any]] //["responseArray"] as! [Any]
         }
         
         var objectsFinal : [[String:Any]] = []
@@ -250,23 +236,49 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
         return objectsFinal 
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let listObj = self.recentProductItems[section] as [String:Any]
+        let prodObj = listObj["products"]
+        return (prodObj! as AnyObject).count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return heightHeaderTable
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return self.recentProductItems.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        let headerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
+        headerView.backgroundColor = UIColor.white
+        let titleLabel = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: self.view.frame.width, height: heightHeaderTable))
+        
+        let listObj = self.recentProductItems[section] as [String:Any]
+        titleLabel.text = listObj["name"] as? String
+        titleLabel.textColor = WMColor.light_blue
+        titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        headerView.addSubview(titleLabel)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cellRecentProducts = tableView.dequeueReusableCell(withIdentifier: "recentCell") as! RecentProductsTableViewCell
-        let objProduct = recentProductItems[indexPath.row]
+        
+        let listObj = self.recentProductItems[(indexPath as NSIndexPath).section] as [String:Any]
+        let prodObj = listObj["products"] as! [[String:Any]]
+        let objProduct = prodObj[(indexPath as NSIndexPath).row] as! [String:Any]
+        //image
         let parentProd = objProduct["parentProducts"] as! [[String:Any]]
+        
         let img = parentProd[0]["thumbnailImageUrl"] as! String
+        
         let description = parentProd[0]["description"] as! String
-        let price = objProduct["version"] as! String // TODO: change to price
-        let skuid = objProduct["id"] as! String
+        let price = objProduct["specialPrice"] as? String
+        let skuid = objProduct["id"] as? String
         let upc = objProduct["itemNumber"] as! String
         
         //Falta pesable
@@ -274,7 +286,6 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
         if let pesableValue = objProduct["pesable"] as? NSString {
             pesable = pesableValue as String
         }
-        
         var promoDescription : NSString = ""
         var isActive = true
         
@@ -282,14 +293,13 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
         if let active = objProduct["stock"] as? Bool {
             isActive = active
         }
-        
         let plpArray = UserCurrentSession.sharedInstance.getArrayPLP(objProduct)
         //Falta priceEvent
         promoDescription = plpArray["promo"] as! String == "" ? promoDescription : plpArray["promo"] as! NSString
         
         cellRecentProducts.selectionStyle = .none
         cellRecentProducts.delegateProduct = self
-        cellRecentProducts.setValues(skuid, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),pesable:pesable as NSString)
+        cellRecentProducts.setValues(skuid!, upc:upc, productImageURL: img, productShortDescription: description, productPrice: price!, saving: promoDescription, isMoreArts: plpArray["isMore"] as! Bool,  isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc),pesable:pesable as NSString)
 
         let controller = self.view.window!.rootViewController
         cellRecentProducts.viewIpad = controller!.view
@@ -336,6 +346,11 @@ class RecentProductsViewController: NavigationViewController, UITableViewDataSou
     
     func deleteFromWishlist(_ UPC:String){
         
+    }
+    
+    override func back() {
+         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label: "")
+        super.back()
     }
     
 }
