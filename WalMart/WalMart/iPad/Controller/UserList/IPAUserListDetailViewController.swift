@@ -371,6 +371,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         if let item = self.products![indexPath!.row] as? [String:Any] {
             // TODO: cast values from response
+               quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
         } else if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
