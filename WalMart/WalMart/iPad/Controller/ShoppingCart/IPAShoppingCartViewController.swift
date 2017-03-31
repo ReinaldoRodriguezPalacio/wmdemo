@@ -221,10 +221,29 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
         }
         
         if  self.itemsInShoppingCart.count > 0 {
-            //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["priceInfo"] as! [String:Any]
-            self.subtotal = Int(UserCurrentSession.sharedInstance.itemsMG!["rawSubtotal"] as? String ?? "0") as NSNumber!//subtotal
-            self.ivaprod = Int(UserCurrentSession.sharedInstance.itemsMG!["amount"] as? String ?? "0") as NSNumber!//ivaSubtotal
-            self.totalest = UserCurrentSession.sharedInstance.itemsMG!["total"] as! NSNumber//totalEstimado
+            /*
+             //let priceInfo = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! [String:Any]
+             self.subtotal = Int(cartDetails!["cartSubTotal"] as? String ?? "0") as NSNumber!//subtotal
+             self.ivaprod = Int(cartDetails!["totalIVATaxPrice"] as? String ?? "0") as NSNumber!//ivaSubtotal
+             self.totalest = cartDetails!["orderTotal"] as! NSNumber//totalEstimado*/
+            
+            let cartDetails = UserCurrentSession.sharedInstance.itemsMG!["priceMap"] as? [String:Any]
+            
+            if let valueSubTotal = cartDetails!["cartSubTotal"] as? NSString {
+                self.subtotal = NSNumber(value: valueSubTotal.intValue as Int32)//subtotal
+                //NSNumber(value: equivalence.intValue as Int32)
+            }
+            if let valueTotalIva = cartDetails!["totalIVATaxPrice"] as? NSString {
+                //self.ivaprod = (valueTotalIva as NSString).integerValue as NSNumber!
+                //self.ivaprod = NSNumber(value: valueTotalIva.doubleValue as Double)//ivaSubtotal
+                self.ivaprod = NSNumber(value: valueTotalIva.intValue as Int32)//ivaSubtotal
+            }
+            if let valueOrderTotal = cartDetails!["orderTotal"] as? NSString {
+                //self.totalest = (valueOrderTotal as NSString).integerValue as NSNumber!//
+                //self.totalest = NSNumber(value: valueOrderTotal.doubleValue as Double)//totalEstimado
+                self.totalest = NSNumber(value: valueOrderTotal.intValue as Int32)//totalEstimado
+            }
+            
         }else{
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
@@ -441,8 +460,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
 //                if section == sect && row == idx {
 //                    self.itemSelect = countItems
 //                }
-                let upc = product["productId"] as! String
-                let desc = product["productDisplayName"] as! String
+                let upc = product["skuId"] as! String
+                let sku = product["sku"] as! [String:Any]
+                let desc = sku["displayName"] as! String
                 upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
                 countItems = countItems + 1
             }

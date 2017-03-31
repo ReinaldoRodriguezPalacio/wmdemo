@@ -299,13 +299,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.totalest = cartDetails!["orderTotal"] as! NSNumber//totalEstimado*/
             
             if let valueSubTotal = cartDetails!["cartSubTotal"] as? NSString {
-                self.subtotal = (valueSubTotal as NSString).integerValue as NSNumber!//subtotal
+                self.subtotal = NSNumber(value: valueSubTotal.intValue as Int32)//subtotal
+                //NSNumber(value: equivalence.intValue as Int32)
             }
             if let valueTotalIva = cartDetails!["totalIVATaxPrice"] as? NSString {
-                self.ivaprod = (valueTotalIva as NSString).integerValue as NSNumber!//ivaSubtotal
+                //self.ivaprod = (valueTotalIva as NSString).integerValue as NSNumber!
+                //self.ivaprod = NSNumber(value: valueTotalIva.doubleValue as Double)//ivaSubtotal
+                self.ivaprod = NSNumber(value: valueTotalIva.intValue as Int32)//ivaSubtotal
             }
             if let valueOrderTotal = cartDetails!["orderTotal"] as? NSString {
-                self.totalest = (valueOrderTotal as NSString).integerValue as NSNumber!//totalEstimado
+                //self.totalest = (valueOrderTotal as NSString).integerValue as NSNumber!//
+                //self.totalest = NSNumber(value: valueOrderTotal.doubleValue as Double)//totalEstimado
+                self.totalest = NSNumber(value: valueOrderTotal.intValue as Int32)//totalEstimado
             }
             
         }else{
@@ -943,14 +948,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.listObj = self.itemsInCartOrderSection[(indexPath as NSIndexPath).section - 1]
         self.productObje = listObj["products"] as! [[String:Any]]
         let itemWishlist = productObje[(indexPath as NSIndexPath).row] 
-        let upc = itemWishlist["commerceItemId"] as! String
+        let upc = itemWishlist["skuId"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
             self.itemsInCartOrderSection = []
 
             if UserCurrentSession.sharedInstance.itemsMG != nil {
                 //self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! NSArray as [Any]
-                let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG!["commerceItems"] as! [Any]
+                let itemsUserCurren = UserCurrentSession.sharedInstance.itemsMG!["cartDetails"] as! [Any]
                 self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as AnyObject, isShoppingCart: true)
                 self.arrayItems()
             }
@@ -1488,10 +1493,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func deleteAll() {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
-        for itemSClist in self.itemsInShoppingCart {
-            let upc = itemSClist["commerceItemId"] as! String
+        
+        for productsObj in self.productObje {
+            let upc = productsObj["skuId"] as! String
             upcs.append(upc)
         }
+        
+        /*for itemSClist in self.itemsInShoppingCart {
+            let comerceItemDetailsMap = itemSClist["commerceItemDetailsMap"] as! [String:Any]
+            let upc = comerceItemDetailsMap["commerceItemId"] as! String
+            upcs.append(upc)
+        }*/
         self.showLoadingView()
    
         

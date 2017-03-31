@@ -50,7 +50,7 @@ class ShoppingCartDeleteProductsService : BaseService {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let parameter = params["removalCommerceIds"] as! [[String:Any]]
+        let parameter = params["removalCommerceIds"] as! NSArray
         if parameter.count > 0 {
             for paramItem in parameter {
                 let upc = paramItem as! NSString
