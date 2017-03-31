@@ -507,11 +507,13 @@
 			<key>WalmartMG.GRProductsByUPCService</key>
 			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getShoppingCart.json</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>https://dl.dropboxusercontent.com/u/49807601/myBasics.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/ogq6wet9ldh3dc0/getMyBasics3.txt?dl=0</string>
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/r8zjrt8qgu2zi8z/succesAddList.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/sendOrderWithSlotPromo</string>
+			<key>New item</key>
+			<string></string>
 			<key>WalmartMG.GRTimeBands</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>

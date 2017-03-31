@@ -308,14 +308,17 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
         
         service.callService(requestParams: service.buildParamsHomeDelivery(type) as AnyObject, succesBlock: { (responce:[String:Any]) in
             
-            let slots =  responce["responseObject"] as! [String:Any]
-            let key =  slots.keys.sorted(by: { (first, second) -> Bool in
+            let slots = responce["responseObject"] as! [String:Any]
+            let key = slots.keys.sorted(by: { (first, second) -> Bool in
                 return first < second
             })
-            self.dateSlot =  []
-            for keys in key{
-                let horsSlot :NSMutableArray  = []
-                let slot :NSMutableArray  = []
+            
+            self.dateSlot = []
+            
+            for keys in key {
+                
+                let horsSlot: NSMutableArray = []
+                let slot: NSMutableArray = []
                 let slotForDay = slots[keys] as! [[String:Any]]
                 
                 for daySlot in slotForDay {
@@ -323,25 +326,25 @@ class CheckOutProductTypeShipping: NavigationViewController,AlertPickerSelectOpt
                     horsSlot.add(daySlot["deliveryTime"] as! String)
                     slot.add(daySlot["slotId"] as! String)
                     
-                    let date  = daySlot["DeliveryDateCalendar.time"] as! [String:Any]
-                    let dayDelivery  = "\(date["formattedDate"] as! String)"
+                    let date = daySlot["DeliveryDateCalendar.time"] as! [String:Any]
+                    let dayDelivery = "\(date["formattedDate"] as! String)"
                     
                     if !self.dateSlot.contains(dayDelivery) {
                         self.dateSlot.append(dayDelivery)
                     }
                     
                 }
+                
                 self.hourArray.add(horsSlot)
                 self.slotArray.add(slot)
             }
+            
             self.getAviableDates()
             print(self.hourArray)
             print(self.dateSlot)
             
-            
-            }, errorBlock: { (error:NSError) in
-                print("Error al consultar el servicio \(error.localizedDescription)")
-                
+        }, errorBlock: { (error: NSError) in
+            print("Error al consultar el servicio \(error.localizedDescription)")
         })
         
     }
