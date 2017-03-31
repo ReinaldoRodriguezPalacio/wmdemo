@@ -468,7 +468,7 @@
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
-		<string>SANDBOX</string>
+		<string>PRODUCTION</string>
 		<key>ProductionClientID</key>
 		<string>ASNC5L3MfwinzWW8QyaotxMJYvwNv9GYFFfNnRsU7gPuxScdItpnpauJTWWVF3DUIif2iFWZpMdkcc6E</string>
 		<key>SandboxClientID</key>
