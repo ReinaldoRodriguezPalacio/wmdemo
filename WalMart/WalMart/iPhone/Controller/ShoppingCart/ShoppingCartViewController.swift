@@ -1447,8 +1447,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func loadCrossSell() {
          if self.itemsInCartOrderSection.count >  0 {
             let uskuIdValue = getExpensive()
-            let crossService = CrossSellingProductService()
-            crossService.callService(requestParams: ["skuId":uskuIdValue], successBlock: { (result:[[String:Any]]?) -> Void in
+            let upsellService = UpsellingProductService()
+            let params = upsellService.buildParamsMustang(uskuIdValue)
+            upsellService.callService(requestParams: params, successBlock: { (result:[[String:Any]]?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false

@@ -256,7 +256,7 @@
 			<key>WalmartMG.ConfigService</key>
 			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/getCrossell</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getCrossell</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getPractilist</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -405,6 +405,8 @@
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/updateUserProfile</string>
+			<key>WalmartMG.UpsellingProductService</key>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getUpsell</string>
 			<key>WalmartMG.UserListDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getListById</string>
 			<key>WalmartMG.UserProfileService</key>
@@ -447,7 +449,7 @@
 			<key>WalmartMG.ConfigService</key>
 			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://dl.dropboxusercontent.com/u/47202086/Walmart/getCrossell.json</string>
+			<string>https://dl.dropboxusercontent.com/s/13pfk26xtbb8t7n/getCrossell.txt?dl=0</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -598,6 +600,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateUserProfile</string>
+			<key>WalmartMG.UpsellingProductService</key>
+			<string>https://dl.dropboxusercontent.com/s/vsym75o0evyl48n/getUpsell.txt?dl=0</string>
 			<key>WalmartMG.UserListDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/mzfj8bblxx9z1c6/detalleLista.txt?dl=0</string>
 			<key>WalmartMG.UserProfileService</key>

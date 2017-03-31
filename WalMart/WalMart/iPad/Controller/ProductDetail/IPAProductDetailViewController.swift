@@ -224,7 +224,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams: ["skuId":self.sku] , successBlock: { (result:[[String:Any]]?) -> Void in
+        let params = crossService.buildParamsMustang(self.sku as String)
+        crossService.callService(requestParams: params , successBlock: { (result:[[String:Any]]?) -> Void in
             if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0{

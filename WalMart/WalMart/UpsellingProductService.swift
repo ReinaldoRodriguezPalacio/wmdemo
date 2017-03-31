@@ -1,20 +1,18 @@
 //
-//  CrossSellingProductService.swift
+//  UpsellingProductService.swift
 //  WalMart
 //
-//  Created by Everardo Trejo Garcia on 04/09/14.
-//  Copyright (c) 2014 BCG Inc. All rights reserved.
+//  Created by Daniel V on 31/03/17.
+//  Copyright © 2017 BCG Inc. All rights reserved.
 //
 
 import Foundation
 
-
-class CrossSellingProductService : BaseService {
-    
-    let JSON_CROSSSELL_RESULT = "ProductListCross"
+class UpsellingProductService : BaseService {
+    let JSON_CROSSSELL_RESULT = "ProductListUpsell"
     
     func buildParamsMustang(_ skuId:String) -> [String : Any] {
-        return ["storeId":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!, "skuId":skuId, "displayList":["0"]]
+        return ["storeId":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!, "skuId":skuId, "displayList":["1"]]
     }
     
     func callService(requestParams params:Any,successBlock:(([[String:Any]]?) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -25,8 +23,8 @@ class CrossSellingProductService : BaseService {
                 return
             }
             successBlock!(nil)
-            }) { (error:NSError) -> Void in
-                errorBlock!(error)
+        }) { (error:NSError) -> Void in
+            errorBlock!(error)
         }
     }
     
