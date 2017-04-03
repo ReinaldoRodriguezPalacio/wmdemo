@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate, UIActivityItemSource {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -414,8 +414,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
-            let imgResult = UIImage.verticalImage(from: [imageHead!,image])
-            let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
+            self.backButton?.isHidden = true
+            self.editBtn?.isHidden = true
+            let headerCapture = UIImage(from: header)
+            self.backButton?.isHidden = false
+            self.editBtn?.isHidden = false
+            
+            let imgResult = UIImage.verticalImage(from: [imageHead!,headerCapture!, image])
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -425,6 +433,30 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
         }
     }
+
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
 
     /**
      Builds view image to share

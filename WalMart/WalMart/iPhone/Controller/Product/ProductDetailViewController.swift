@@ -90,6 +90,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var containerinfo : UIView!
     let heightDetail : CGFloat = 360
     var headerView : UIView!
+    var buttonBk: UIButton!
     var currentHeaderView : UIView!
     var isPesable : Bool = false
     var type : ResultObjectType!
@@ -145,7 +146,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
-        let buttonBk = UIButton(frame: CGRect(x: 0, y: 0, width: 46, height: 46))
+        self.buttonBk = UIButton(frame: CGRect(x: 0, y: 0, width: 46, height: 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), for: UIControlState())
         buttonBk.addTarget(self, action: #selector(ProductDetailViewController.backButton), for: UIControlEvents.touchUpInside)
         headerView.addSubview(buttonBk)
@@ -1358,7 +1359,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
+        self.buttonBk.isHidden = true
         let imageHeader = UIImage(from: self.headerView)
+        self.buttonBk.isHidden = false
         //let headers = [0]
         
         let imagen = UIImage(from: currentHeaderView)
