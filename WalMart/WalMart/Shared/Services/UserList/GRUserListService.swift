@@ -74,8 +74,11 @@ class GRUserListService : GRBaseService {
                 var items:[Any] = []
                 list!.products.enumerateObjects({ (obj:Any, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
-                        let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)",baseUomcd:product.orderByPiece.boolValue ? "EA" : "GM",equivalenceByPiece: product.equivalenceByPiece)//baseUomcd and equivalenceByPiece
-                        items.append(param as AnyObject)
+                        if product.price != nil {
+                            let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)",baseUomcd:product.orderByPiece.boolValue ? "EA" : "GM",equivalenceByPiece: product.equivalenceByPiece)//baseUomcd and equivalenceByPiece
+                             items.append(param as AnyObject)
+                        }
+                       
                     }
                 })
 

@@ -544,9 +544,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func shareItem() {
         //let image = UIImage(named:"navBar_cart")
-        let headerImage = UIImage(named:"wishlist_headerMail")
+        let headerImage = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        self.edit?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        self.edit?.isHidden = false
+        
         let image = self.wishlist.screenshot()
-        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image!])
+        let imageWHeader =  UIImage.verticalImage(from: [headerImage!, headerCapture!,image!])
         var strAllUPCs = ""
         for item in self.items {
             let strItemUpc = item["upc"]
