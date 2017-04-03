@@ -732,9 +732,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         } else {
             
-            if result == 0.0 || result == 0 {
-                return 
-            }
+//            if result == 0.0 || result == 0 {
+//                return 
+//            }
             
             btnOkAdd?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             btnOkAddN?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
@@ -875,7 +875,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.containerView.frame = CGRect(x:-self.containerWeightView.frame.maxX, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)
             }, completion: { (complete:Bool) -> Void in
-            
+            self.updateShoppButton()
         }) 
     }
     
@@ -929,6 +929,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.updateLabelN()
         }
         keyboardN.showDeleteBtn()
+        updateShoppButton()
     }
     
     func setBackActionShoppingCart(_ backAction:@escaping (() -> Void)) {

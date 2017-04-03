@@ -376,6 +376,17 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         }
     }
     
+    /**
+     Removes a popup view with an options table
+     
+     - parameter itemView: item which is to be added the popup
+     */
+    func removePopupTable(){
+            self.popupTable?.isHidden = true
+            self.popupTableItem?.imageList?.image = UIImage(named: "fieldListOpen")
+            self.popupTableItem = nil
+    }
+    
     //MARK - TableView
     /**
     Reloads the popup view with new options
@@ -477,7 +488,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.suburb?.text = ""
         self.betweenFisrt?.text = ""
         self.betweenSecond?.text = ""
-        
+        self.currentZipCode = ""
+        self.stores = []
+        self.removePopupTable()
         self.errorView?.removeFromSuperview()
         self.errorView = nil
     }
