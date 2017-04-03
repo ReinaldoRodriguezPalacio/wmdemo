@@ -669,6 +669,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }else {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         }
+        
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
@@ -682,20 +683,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableDetailOrder!.frame
-        var frame : CGRect = self.tableDetailOrder!.frame
-        frame.size.height = self.tableDetailOrder!.contentSize.height
-        self.tableDetailOrder!.frame = frame
+        let imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
         
-        //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
+        let image = self.tableDetailOrder!.screenshot()
         
-        self.tableDetailOrder!.frame = oldFrame
-        return saveImage
-
+        return UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
     }
     
     func removeListSelector(action:(()->Void)?) {
