@@ -11,7 +11,6 @@ import Foundation
 
 class DefaultListTableViewCell : UITableViewCell {
 
-
     var iconView : UIImageView!
     var nameView : UILabel!
     var articlesView : UILabel!
@@ -28,7 +27,6 @@ class DefaultListTableViewCell : UITableViewCell {
     }
 
     
-    
     override func layoutSubviews() {
         
         self.iconView.frame = CGRect(x: 8, y: 8, width: 81, height: 81)
@@ -36,10 +34,6 @@ class DefaultListTableViewCell : UITableViewCell {
         self.articlesView!.frame = CGRect(x: self.iconView.frame.maxX + 16,y: self.nameView!.frame.maxY +  2, width: 81, height: 14)
         self.priceView!.frame = CGRect(x: self.iconView.frame.maxX + 16, y: self.articlesView!.frame.maxY + 8, width: 81, height: 18)
         self.separator!.frame = CGRect(x: self.iconView.frame.maxX, y: self.bounds.height - 1,width: self.frame.width - 16, height: 1)
-        
-    
-    
-    
     }
     
     func setup(){
@@ -68,8 +62,6 @@ class DefaultListTableViewCell : UITableViewCell {
         self.separator = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.separator!)
-
-
         
     }
 

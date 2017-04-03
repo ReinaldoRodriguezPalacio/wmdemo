@@ -316,11 +316,17 @@ DetailListViewCellDelegate,UIActivityItemSource {
     //MARK: Actions
     
     func shareList() {
-
+        let imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        
         if let image = self.tableView!.screenshot() {
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
-            let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in

@@ -33,7 +33,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate {
+class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate, UIActivityItemSource {
    
 
     
@@ -853,10 +853,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
+        self.editButton?.isHidden = true
+        self.closeButton?.isHidden = true
         let imageHeader = UIImage(from: self.viewHerader)
+        self.editButton?.isHidden = false
+        self.closeButton?.isHidden = false
+        
         let screen = self.tableShoppingCart.screenshot()
         let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
-        let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
+        
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+        
+        let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
         self.navigationController!.present(controller, animated: true, completion: nil)
         
         controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -866,6 +874,29 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi carrito de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su carrito de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
     
     //MARK: - Actions List Selector
     

@@ -541,7 +541,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.closeButton.isHidden = true
         if finishCall ==  false {
             if self.timmer != nil {
-            timmer.invalidate()
+                timmer.invalidate()
                 timmer = nil
             }
             return
