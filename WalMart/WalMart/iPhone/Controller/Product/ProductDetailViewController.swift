@@ -455,6 +455,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
                     serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
+                        
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             
@@ -471,20 +472,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             self.detailCollectionView.isScrollEnabled = true
                         })
                         
-                        
-                        }) { (error:NSError) -> Void in
-                            self.isWishListProcess = false
-                            if error.code != -100 {
-                                added(false)
-                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
-                                self.view.addSubview(addedAlertWL)
-                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
-                                    addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.isEnabled = false
-                                    self.detailCollectionView.isScrollEnabled = true
-                                })
-                            }
+                    }) { (error:NSError) -> Void in
+                        self.isWishListProcess = false
+                        if error.code != -100 {
+                            added(false)
+                            addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
+                            self.view.addSubview(addedAlertWL)
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
+                                addedAlertWL.prepareToClose()
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
+                            })
+                        }
                     }
                 } else {
                     let serviceWishListDelete = DeleteItemWishlistService()
@@ -504,19 +504,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                          ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
                         
                         
-                        }, errorBlock: { (error:NSError) -> Void in
-                             self.isWishListProcess = false
-                            added(false)
-                            if error.code != -100 {
-                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
-                                self.view.addSubview(addedAlertWL)
-                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
-                                    addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.isEnabled = false
-                                    self.detailCollectionView.isScrollEnabled = true
-                                })
-                            }
+                    }, errorBlock: { (error:NSError) -> Void in
+                            self.isWishListProcess = false
+                        added(false)
+                        if error.code != -100 {
+                            addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
+                            self.view.addSubview(addedAlertWL)
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
+                                addedAlertWL.prepareToClose()
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
+                            })
+                        }
                     })
                 }
             //}
@@ -527,13 +527,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.isShowShoppingCart = false
                 self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
-                }, completion: { (animated:Bool) -> Void in
-                    if self.selectQuantity != nil {
-                        self.selectQuantity!.removeFromSuperview()
-                        self.selectQuantity = nil
-                        self.gestureCloseDetail.isEnabled = false
-                        self.detailCollectionView.isScrollEnabled = true
-                    }
+            }, completion: { (animated:Bool) -> Void in
+                if self.selectQuantity != nil {
+                    self.selectQuantity!.removeFromSuperview()
+                    self.selectQuantity = nil
+                    self.gestureCloseDetail.isEnabled = false
+                    self.detailCollectionView.isScrollEnabled = true
+                }
             })
         }
         
