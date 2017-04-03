@@ -154,7 +154,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
                     }
                     
                     let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable,orderByPieces: !self.pesable)
-                    btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                    btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
                     
                 }else {

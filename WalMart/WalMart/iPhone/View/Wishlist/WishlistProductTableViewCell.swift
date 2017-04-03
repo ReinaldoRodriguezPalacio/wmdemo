@@ -123,7 +123,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }

@@ -437,6 +437,39 @@ class UserCurrentSession : NSObject {
         return fetchedResult?.count != 0
     }
     
+    func getProductQuantityForList(_ upc:String, listId: String) -> Int {
+        var predicate : NSPredicate? = nil
+        var productQuantity: Int = 0
+        if userSigned != nil {
+            predicate = NSPredicate(format: "list.idList == %@ && ANY upc == %@ ", listId,upc)
+        }else {
+            predicate = NSPredicate(format: "list.name == %@ && ANY upc == %@ ",listId, upc)
+        }
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Product" as String)
+        request.predicate = predicate!
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.fetch(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
+        if error != nil {
+            print("errore: \(String(describing: error))")
+        }
+        
+        if fetchedResult?.count > 0 {
+            let productList = fetchedResult!.first! as! Product
+            productQuantity = Int(productList.quantity.int32Value)
+        }
+        
+        return productQuantity
+    }
+    
     func userHasUPCShoppingCart(_ upc:String) -> Bool {
         var  predicate  : NSPredicate? = nil
         if userSigned != nil {

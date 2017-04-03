@@ -372,6 +372,18 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 //        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
     }
     
+    func setQuantity(quantity: Int) {
+        
+        if quantity == 0 {
+            return
+        }
+        
+        let text = String(quantity).characters.count < 2 ? "0" : ""
+        lblQuantity.text = "\(text)"+"\(quantity)"
+        
+        self.updateQuantityBtn()
+    }
+    
     func showNoteButton() {
         self.btnNote.alpha = 1
     }

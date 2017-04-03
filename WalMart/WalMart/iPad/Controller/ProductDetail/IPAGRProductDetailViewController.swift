@@ -657,6 +657,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
+        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
         self.selectQuantityGR!.closeAction = { () in
             
             if self.selectQuantityGR!.isPush {
@@ -807,6 +808,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
+        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
         self.selectQuantityGR!.closeAction = { () in
                 
             if self.selectQuantityGR!.isPush {

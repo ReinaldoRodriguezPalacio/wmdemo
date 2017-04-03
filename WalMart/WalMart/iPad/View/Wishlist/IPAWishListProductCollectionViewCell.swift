@@ -106,7 +106,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                addProductToShopingCart!.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }

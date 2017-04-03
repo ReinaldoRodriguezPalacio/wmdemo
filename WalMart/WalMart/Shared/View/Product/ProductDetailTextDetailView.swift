@@ -59,7 +59,9 @@ class ProductDetailTextDetailView : UIView {
     }
     
     func setTextDetail(_ detail:String) {
-        self.textView.text = detail
+        
+        let detailString = detail.replacingOccurrences(of: "^^^^", with: "\n")
+        self.textView.text = detailString
     }
     func closeProductDetail() {
         if closeDetail != nil  {

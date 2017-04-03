@@ -988,4 +988,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
 
     }
     
+    override func setQuantity(quantity: Int) {
+        let text = String(quantity).characters.count < 2 ? "0" : ""
+        self.userSelectValue("\(text)"+"\(quantity)")
+    }
+    
 }

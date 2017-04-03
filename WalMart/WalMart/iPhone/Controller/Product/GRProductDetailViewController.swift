@@ -607,6 +607,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR.isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+            self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
             self.selectQuantityGR!.closeAction = { () in
                 
                 if self.selectQuantityGR!.isPush {
@@ -812,6 +813,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
+        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
         self.selectQuantityGR!.addToCartAction = { (quantity: String) in
             self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             exist ? self.updateToListLocally(quantity: quantity, list: list) : self.addToListLocally(quantity: quantity, list: list)
