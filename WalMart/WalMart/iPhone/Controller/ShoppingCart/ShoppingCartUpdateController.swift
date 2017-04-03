@@ -414,8 +414,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         }
                         
                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                        let notificationName = Notification.Name("kSuccessAddUpdateCommentCart")
+                       
+                       
+                        NotificationCenter.default.post(name: notificationName, object: nil)
                         
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                       
                         
                         UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
@@ -720,7 +724,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     WishlistService.shouldupdate = true
                                 }
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
                                 
                                 }) { (error:NSError) -> Void in
                                     

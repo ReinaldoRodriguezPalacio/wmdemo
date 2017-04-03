@@ -17,7 +17,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     var field: UITextView?
     var indicator: UIImageView?
     var showBottonAddNote: UIButton!
-    weak var delegate : CommentBubbleViewDelegate?
+    var delegate : CommentBubbleViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
         

@@ -410,6 +410,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
                     //self.productDetailButton?.reloadShoppinhgButton()
+                    print("complete")
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
@@ -494,20 +495,21 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
             }
             
-            
-          
-            self.opencloseContainer(true, viewShow:selectQuantityGR!,
-                additionalAnimationOpen: { () -> Void in
-                    self.productDetailButton?.setOpenQuantitySelector()
-                    //self.selectQuantityGR?.imageBlurView.frame = frameDetail
-                    self.productDetailButton?.addToShoppingCartButton.isSelected = true
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
+                
+            }, completion: { (complete:Bool) -> Void in
+                self.opencloseContainer(true, viewShow:self.selectQuantityGR!,
+                                        additionalAnimationOpen: { () -> Void in
+                                            self.productDetailButton?.setOpenQuantitySelector()
+                                            self.productDetailButton?.addToShoppingCartButton.isSelected = true
                 },
-                additionalAnimationClose:{ () -> Void in
-//                    self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail,
-//                    self.detailCollectionView.frame.width, self.heightDetail)
-                    self.productDetailButton?.addToShoppingCartButton.isSelected = true
-                }
-            )
+                                        additionalAnimationClose:{ () -> Void in
+                                            self.productDetailButton?.addToShoppingCartButton.isSelected = true
+                })
+            })
+          
+         
         }else{
             self.closeContainerDetail(completeClose: nil)
         }
