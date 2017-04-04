@@ -356,7 +356,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:"")// send baseUomcd
+                        var baseUomcd = "EA"
+                        if let baseUcd = item["baseUomcd"] as? String {
+                            baseUomcd = baseUcd
+                        }
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:baseUomcd)// send baseUomcd
                         products.append(param)
                     }
                     

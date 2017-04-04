@@ -370,9 +370,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
         if activityType == UIActivityType.mail {
             return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
         }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
-            return "Chequa esta lista de productos:  #walmartapp #wow "
+            return "Checa esta lista de productos:  #walmartapp #wow "
         }
-        return "Chequa esta lista de productos: \(urlss) "
+        return "Checa esta lista de productos: \(urlss) "
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {

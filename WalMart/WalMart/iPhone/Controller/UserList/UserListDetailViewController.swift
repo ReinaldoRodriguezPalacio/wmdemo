@@ -1878,7 +1878,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let stock = item["stock"] as? Bool {
                             active = stock
                         }
-                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:""))//baseUomcd
+                        var baseUomcd = "EA"
+                        if let baseUcd = item["baseUomcd"] as? String {
+                            baseUomcd = baseUcd
+                        }
+                        
+                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:baseUomcd))//baseUomcd
                     }
                     
                     self.invokeAddproductTolist(nil, products:products, succesBlock: { () -> Void in
