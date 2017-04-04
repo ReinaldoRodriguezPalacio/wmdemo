@@ -678,7 +678,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     })
             })
         }else{
-            self.closeContainerDetail(completeClose:nil)
+            self.closeContainerDetail(completeClose:nil, isPush: false)
         }
     }
     
@@ -733,7 +733,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
     }
     
-    func closeContainerDetail(completeClose: ((Void) -> Void)?){
+    func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool){
         if selectQuantity != nil {
             
         gestureCloseDetail.isEnabled = false

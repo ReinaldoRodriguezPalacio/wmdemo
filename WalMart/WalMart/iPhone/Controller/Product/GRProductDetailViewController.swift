@@ -298,7 +298,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.selectQuantityGR != nil {
             self.closeContainerDetail(completeClose:{ () -> Void in
                 self.addOrRemoveToWishList(upc,desc:desc,imageurl:imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, category: category, added: added)
-            })
+            }, isPush: false)
             return
         }
         
@@ -366,7 +366,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.selectQuantityGR != nil {
             self.closeContainerDetail(completeClose:{ () -> Void in
                 self.addProductToShoppingCart(upc, desc: desc, price: price, imageURL: imageURL,comments:comments  )
-            })
+            }, isPush: true)
             return
         }
         
@@ -508,7 +508,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
           
          
         }else{
-            self.closeContainerDetail(completeClose: nil)
+            self.closeContainerDetail(completeClose: nil, isPush: false)
         }
 
     }
@@ -543,12 +543,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
     }
 
-    override func closeContainerDetail(completeClose: ((Void) -> Void)?) {
+    override func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool) {
         if selectQuantityGR != nil {
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
-                self.selectQuantityGR?.closeSelectQuantity()
+                if !isPush {
+                    self.selectQuantityGR?.closeSelectQuantity()
+                }
                 self.selectQuantityGR = nil
                 completeClose?()
             })
@@ -1051,7 +1053,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.selectQuantityGR != nil {
             self.closeContainerDetail(completeClose:{ () -> Void in
                 self.showProductDetail()
-            })
+            }, isPush: (self.listSelectorController != nil))
             return
         }
             
