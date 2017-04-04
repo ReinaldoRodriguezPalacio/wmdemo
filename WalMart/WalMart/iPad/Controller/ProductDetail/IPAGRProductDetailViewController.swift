@@ -651,12 +651,29 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
+        let isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
         
+        if !isUpcInList && !self.isPesable {
+            self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
+            if let imageURL = self.productDetailButton?.image {
+                if let urlObject = URL(string:imageURL) {
+                    self.alertView?.imageIcon.setImageWith(urlObject)
+                }
+            }
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            
+            self.addItemsToList(quantity: "1", listId: listId, finishAdd: true, orderByPiece: true)
+            self.removeListSelector(action: nil, closeRow:true)
+            return
+        }
+
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0, width: self.tabledetail.frame.width, height: heightDetail)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
-        self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
+        self.selectQuantityGR.isUpcInList =  isUpcInList
         self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
         self.selectQuantityGR!.closeAction = { () in
             
@@ -806,13 +823,22 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
         }
+        
+        let isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
+        
+        if !isUpcInList && !self.isPesable {
+            self.itemOrderbyPices = false
+            self.addToListLocally(quantity: "1" , list: list,removeSelector: true)
+            self.removeListSelector(action: nil, closeRow:true)
+            return
+        }
             
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
             
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
-        self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
+        self.selectQuantityGR.isUpcInList =  isUpcInList
         self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
         self.selectQuantityGR!.closeAction = { () in
                 
