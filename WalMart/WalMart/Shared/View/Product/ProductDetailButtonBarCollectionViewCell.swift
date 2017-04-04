@@ -339,10 +339,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
         if !isAviableToShoppingCart{
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
     }
     

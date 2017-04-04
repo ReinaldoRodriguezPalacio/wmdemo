@@ -373,7 +373,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func setQuantity(quantity: Int) {
-        
+
         if quantity == 0 {
             return
         }

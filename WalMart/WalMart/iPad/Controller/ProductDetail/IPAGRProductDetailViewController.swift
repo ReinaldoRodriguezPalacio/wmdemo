@@ -811,7 +811,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
         self.selectQuantityGR!.closeAction = { () in
                 
-            if self.selectQuantityGR!.isPush {
+            if self.selectQuantityGR!.isPush { 
                     
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: self.tabledetail.frame.width, height: self.heightDetail)
