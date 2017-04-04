@@ -9,7 +9,7 @@
 import Foundation
 
 
-class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate {
+class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate, UIActivityItemSource {
     
     var trackingNumber = ""
     var status = ""
@@ -664,9 +664,25 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     
     func shareList() {
+        if type == ResultObjectType.Mg {
+            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }else {
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }
         
-        if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        var imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        var headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        
+        if let image = self.tableDetailOrder!.screenshot() {
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            imageHead = nil
+            headerCapture = nil
+            
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -677,16 +693,30 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    func buildImageToShare() -> UIImage? {
-        let imageHead = UIImage(named:"detail_HeaderMail")
-        self.backButton?.isHidden = true
-        let headerCapture = UIImage(from: header)
-        self.backButton?.isHidden = false
-        
-        let image = self.tableDetailOrder!.screenshot()
-        
-        return UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
     }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo!\n\nSiempre encuentra todo y pagas menos."
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar una compra que hice en www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) hizo una compra que te puede interesar en walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
+
     
     func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
