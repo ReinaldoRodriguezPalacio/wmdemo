@@ -554,7 +554,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height - 64)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
@@ -564,7 +564,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -576,7 +576,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             )
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -669,6 +669,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }else {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         }
+        
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
@@ -682,20 +683,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableDetailOrder!.frame
-        var frame : CGRect = self.tableDetailOrder!.frame
-        frame.size.height = self.tableDetailOrder!.contentSize.height
-        self.tableDetailOrder!.frame = frame
+        let imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
         
-        //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
+        let image = self.tableDetailOrder!.screenshot()
         
-        self.tableDetailOrder!.frame = oldFrame
-        return saveImage
-
+        return UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
     }
     
     func removeListSelector(action:(()->Void)?) {
