@@ -41,8 +41,9 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     
     func setup() {
+        
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.left
+        imageBackground.contentMode = .scaleAspectFill
         imageBackground.clipsToBounds = true
         
         iconCategory = UIImageView()
