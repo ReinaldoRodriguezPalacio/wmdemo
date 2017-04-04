@@ -426,7 +426,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     
                     let addShopping = ShoppingCartUpdateController()
                     let quantity = self.productDetailButton!.detailProductCart!.quantity
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: quantity.intValue,equivalenceByPiece:Int(self.selectQuantityGR!.equivalenceByPiece) ) as! [String:Any]
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.itemOrderbyPices, pieces: quantity.intValue,equivalenceByPiece:Int(self.equivalenceByPiece) ) as! [String:Any]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame

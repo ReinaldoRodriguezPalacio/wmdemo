@@ -49,6 +49,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     var keyboardN : NumericKeyboardView!
     var currentValKg : String? = nil
     
+    
     init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.priceProduct = priceProduct
@@ -711,6 +712,10 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         keyboard?.btunkilo?.isSelected = false
     }
     
+    override func updateQuantityBtn() {
+        self.updateShoppButton()
+    }
+    
     func updateShoppButton() {
         var result: Double = 0.0
         if customValue || self.orderByPiece {
@@ -725,20 +730,16 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         var rectSize = CGRect.zero
         
-        if isUpcInShoppingCart {
-            btnOkAdd?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            btnOkAddN?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        } else {
-            
-//            if result == 0.0 || result == 0 {
-//                return 
-//            }
+        if (!isUpcInShoppingCart && !isFromList ) || (isFromList && !isUpcInList) {
             
             btnOkAdd?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             btnOkAddN?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        } else {
+            btnOkAdd?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            btnOkAddN?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         }
 

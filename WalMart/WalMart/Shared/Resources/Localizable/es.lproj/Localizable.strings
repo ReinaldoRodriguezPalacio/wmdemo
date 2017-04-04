@@ -108,8 +108,8 @@
 "shoppingcart.AddtexNote" = "Agrega tu nota aqui";
 "shoppingcart.deleteofcart" = "Eliminar de carrito";
 "shoppingcart.deleteoflist" = "Eliminar de lista";
-"shoppingcart.deleteProductAlert" = "Eliminando producto de carrito";
-"shoppingcart.deleteProductDone" = "Producto eliminado de carrito";
+"shoppingcart.deleteProductAlert" = "Eliminando artículo de carrito";
+"shoppingcart.deleteProductDone" = "Artículo eliminado de carrito";
 
 
 //WishList

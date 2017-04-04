@@ -457,7 +457,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
         selectQuantityGR?.addToCartAction = { (quantity:String) in
-            
+            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             if quantity == "00" {
                 self.deleteFromCartGR()
                 return
@@ -677,12 +677,17 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            
+            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             if quantity.toIntNoDecimals() == 0 {
                 self.listSelectorDidDeleteProduct(inList: listId)
             } else {
             
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
+                if let imageURL = self.productDetailButton?.image {
+                    if let urlObject = URL(string:imageURL) {
+                        self.alertView?.imageIcon.setImageWith(urlObject)
+                    }
+                }
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
                 
                 if included {
@@ -766,7 +771,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     func listSelectorDidDeleteProduct(inList listId:String) {
         NSLog("23")
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"list_alert_error"))
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
         let detailService = GRUserListDetailService()
         detailService.buildParams(listId)
@@ -1178,7 +1183,7 @@ func buildParamsUpdateShoppingCart(_ quantity:String) -> [AnyHashable: Any] {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": self.itemOrderbyPices, "pieces": quantity,"equivalenceByPiece":self.equivalenceByPiece!]
     }
     
     
