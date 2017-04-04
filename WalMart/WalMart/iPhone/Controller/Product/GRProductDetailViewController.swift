@@ -615,8 +615,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 if self.selectQuantityGR!.isPush {
                     
                     UIView.animate(withDuration: 0.5, animations: { () -> Void in
-//                        self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
-                        self.selectQuantityGR!.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
+                        self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
+                        self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
                     }, completion: { (complete: Bool) -> Void in
                         self.selectQuantityGR?.removeFromSuperview()
                         self.listSelectorController?.sowKeyboard = false
@@ -803,7 +803,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.selectQuantityGR!.isPush = false
                     
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
-        //               self.listSelectorController!.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
+                    self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
                     self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
                 }, completion: { (complete: Bool) -> Void in
                     self.selectQuantityGR?.removeFromSuperview()
