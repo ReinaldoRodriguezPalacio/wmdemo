@@ -664,11 +664,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     
     func shareList() {
-        if type == ResultObjectType.Mg {
-            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }else {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
-        }
         
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -910,6 +905,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                                 self.alertView!.afterRemove = {
                                     self.removeListSelector(action: nil)
                                 }
+                                self.alertView?.close()
+                                self.alertView =  nil
                             }
                                 
                                 
@@ -920,6 +917,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.alertView!.afterRemove = {
                 self.removeListSelector(action: nil)
             }
+            self.alertView?.close()
+            self.alertView =  nil
         })
 
     
