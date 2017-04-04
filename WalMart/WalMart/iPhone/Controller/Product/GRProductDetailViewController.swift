@@ -600,13 +600,26 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
+        let isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
+        
+        if !isUpcInList && !self.isPesable {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
+            if let imageURL = self.productDetailButton?.image {
+                if let urlObject = URL(string:imageURL) {
+                    self.alertView?.imageIcon.setImageWith(urlObject)
+                }
+            }
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+            self.addItemsToList(quantity: "1", listId: listId)
+            self.removeListSelector(action: nil)
+            return
+        }
         
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
-            
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.isPush = true
             self.selectQuantityGR.isFromList = true
-            self.selectQuantityGR.isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
+            self.selectQuantityGR.isUpcInList = isUpcInList
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0))
             self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
             self.selectQuantityGR!.closeAction = { () in
@@ -679,19 +692,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                     self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
                                     self.alertView?.showDoneIcon()
                                     self.alertView?.afterRemove = {
-                                        
-                                        if let execute = self.selectQuantityGR?.executeClose {
-                                            if execute {
-                                                self.selectQuantityGR?.closeSelectQuantity()
-                                                self.selectQuantityGR!.removeFromSuperview()
-                                                self.selectQuantityGR = nil
-                                                self.removeListSelector(action: nil)
-                                            } else {
-                                                self.selectQuantityGR?.executeClose = true
-                                                self.selectQuantityGR?.closeSelectQuantity()
-                                            }
-                                        }
-                                        
+                                        self.closeContainerDetail(completeClose: nil, isPush: true)
+                                        self.removeListSelector(action: nil)
                                     }
                                 // 360 Event
                                 BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
@@ -725,6 +727,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                     self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                                     self.alertView?.showDoneIcon()
                                     self.alertView?.afterRemove = {
+                                        self.closeContainerDetail(completeClose: nil, isPush: true)
                                         self.removeListSelector(action: nil)
                                     }
                                 BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
@@ -734,6 +737,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.alertView?.setMessage(error.localizedDescription)
             self.alertView?.showErrorIcon("Ok")
             self.alertView?.afterRemove = {
+                self.closeContainerDetail(completeClose: nil, isPush: true)
                 self.removeListSelector(action: nil)
             }
         }
@@ -785,6 +789,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let exist = (list.products.allObjects as! [Product]).contains { (product) -> Bool in
             return product.upc == self.upc as String
         }
+        
+        let isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
+        
+        if !isUpcInList && !self.isPesable {
+            self.itemOrderbyPices = false
+            self.addToListLocally(quantity: "1", list: list)
+            self.removeListSelector(action: nil)
+            return
+        }
+        
             
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
             
