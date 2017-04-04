@@ -602,21 +602,21 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func listSelectorDidAddProduct(inList listId:String,included: Bool ) {
         
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: 320.0, height: 360.0)
+        let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
             
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.isPush = true
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR.isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: listId)
-            self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+            self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0))
             self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
             self.selectQuantityGR!.closeAction = { () in
                 
                 if self.selectQuantityGR!.isPush {
                     
                     UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                        self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
-                        self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
+                        self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: self.view.frame.width, height: 360.0)
+                        self.selectQuantityGR?.frame = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
                     }, completion: { (complete: Bool) -> Void in
                         self.selectQuantityGR?.removeFromSuperview()
                         self.listSelectorController?.sowKeyboard = false
@@ -667,8 +667,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: -320.0, y: 0.0, width: 320.0, height: 360.0)
-                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0)
+                self.listSelectorController!.view.frame = CGRect(x: -self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
+                self.selectQuantityGR!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0)
             })
         
     }
