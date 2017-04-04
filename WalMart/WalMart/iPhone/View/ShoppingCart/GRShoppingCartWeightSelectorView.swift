@@ -236,9 +236,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
-        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: closePossitionY, width: 44, height: 44))
-        closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
-        closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
+//        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: closePossitionY, width: 44, height: 44))
+//        closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
+//        closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
         let backToW = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         backToW.setImage(UIImage(named:"search_back"), for: UIControlState())
@@ -288,7 +288,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         //containerNumericView.addSubview(buttonKg)
         containerNumericView.addSubview(lblQuantityN)
         containerNumericView.addSubview(btnOkAddN)
-        containerNumericView.addSubview(closeButtonN)
+        //containerNumericView.addSubview(closeButtonN)
         containerNumericView.addSubview(keyboardN)
         containerNumericView.addSubview(backToW)
         containerNumericView.addSubview(btnNoteN)
