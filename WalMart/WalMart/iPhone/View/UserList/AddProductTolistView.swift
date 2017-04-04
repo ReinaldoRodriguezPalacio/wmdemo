@@ -45,14 +45,12 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         
         
         self.textFindProduct = FormFieldSearch()
-        self.textFindProduct!.backgroundColor = WMColor.light_gray
-        self.textFindProduct!.layer.cornerRadius = 10.0
-        self.textFindProduct!.font = WMFont.fontMyriadProLightOfSize(16)
+        self.textFindProduct!.backgroundColor = WMColor.light_light_gray
         self.textFindProduct!.delegate =  self
         self.textFindProduct!.returnKeyType = .search
         self.textFindProduct!.autocapitalizationType = .none
         self.textFindProduct!.autocorrectionType = .no
-        self.textFindProduct!.placeholder = NSLocalizedString("Agrega Artículo", comment:"")
+        self.textFindProduct!.placeholder = NSLocalizedString("Agrega artículo", comment:"")
         self.addSubview(self.textFindProduct!)
         
         self.camButtom = UIButton(type: .custom)
