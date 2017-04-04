@@ -89,12 +89,12 @@ class ShoppingCartAddProductsService : BaseService {
            
             var upcSend = ""
             for itemSvc in params as! [[String:Any]] {
-                let upc = itemSvc["skuId"] as! String
+                let upc = itemSvc["productId"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 //itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:"") as! [String : AnyObject])
                 //Add skuId
-                let skuid = itemSvc["skuId"] as! String
+                let skuid = itemSvc["productId"] as! String
                 itemsSvc = buldParamsMstng(skuid,upc:upc,quantity:quantity, quantityWithFraction:"",orderedUOM:"", itemComemnt:"",orderedQTYWeight:"")
                 //skuId:String, upc:String, quantity:String, quantityWithFraction:String, orderedUOM:String, itemComemnt:String, orderedQTYWeight:String
             }

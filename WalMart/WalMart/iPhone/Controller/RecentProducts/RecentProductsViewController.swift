@@ -115,7 +115,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
      */
     class func adjustDictionary(_ resultDictionary: AnyObject, isShoppingCart:Bool) -> [[String:Any]] {
         var recentLineItems : [Any] = []
-        
         var productItemsOriginal:[Any] = []
         
         if let resultArray = resultDictionary as? [Any] {

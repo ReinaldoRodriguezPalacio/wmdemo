@@ -500,12 +500,12 @@ class UserCurrentSession : NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartBegin.rawValue), object: nil)
          result()
         //TODO Mustang
-//        self.loadMGShoppingCart { () -> Void in
-//            //self.loadGRShoppingCart({ () -> Void in
-//                //TODO: Decide shop preShopping Cart, Empty or cart
-//              result()
-//            //})
-//        }
+        self.loadMGShoppingCart { () -> Void in
+            //self.loadGRShoppingCart({ () -> Void in
+                //TODO: Decide shop preShopping Cart, Empty or cart
+              result()
+            //})
+        }
     }
     
     //Shopping Cart para combinar
@@ -514,6 +514,7 @@ class UserCurrentSession : NSObject {
         service.callService([:], successBlock: { (result:[String:Any]) -> Void in
             print(result)
             self.itemsMG = result
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
             endLoadSC()
             }) { (error:NSError) -> Void in
                 if error.code != -100 {

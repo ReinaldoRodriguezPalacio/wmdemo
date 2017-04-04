@@ -84,11 +84,17 @@ class ShoppingCartProductsService : BaseService {
         var totalest : Double = 0.0
         var totalQuantity = 0
         var order = ""
+        var orderId = ""
+        
         for itemSC in array {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
+            let commerceItemDetailsMap = ["amount":"", "quantity":itemSC.quantity, "commerceItemId": itemSC.product.commerceItemId, "itemComment": itemSC.product.comments, "department":itemSC.product.department] as [String : Any]
+            orderId = itemSC.orderId != nil ? itemSC.orderId! : ""
             
-            let dictItem = ["productId":itemSC.product.upc,"productDisplayName":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "currencyCode" :"MXN" ,"orderedQtyWeight":itemSC.product.orderedQtyWeight, "isWeighable":itemSC.product.isWeighable, "commerceItemId": itemSC.product.commerceItemId, "catalogRefId": itemSC.product.catalogRefId] as [String : Any]
+            let sku = ["displayName":itemSC.product.desc, "isPreorderable":false, "smallImageUrl":itemSC.product.img] as [String : Any]
+            
+            let dictItem = ["productId":itemSC.product.upc,"productDisplayName":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "currencyCode" :"MXN" ,"orderedQtyWeight":itemSC.product.orderedQtyWeight, "isWeighable":itemSC.product.isWeighable, "commerceItemId": itemSC.product.commerceItemId, "commerceItemDetailsMap": commerceItemDetailsMap as [String : Any], "sku": sku as [String : Any],"catalogRefId": itemSC.product.catalogRefId] as [String : Any]
             
             let price = itemSC.product.price as NSString
             let ivaprod = itemSC.product.iva as NSString
@@ -96,6 +102,7 @@ class ShoppingCartProductsService : BaseService {
             subtotal += itemSC.quantity.doubleValue * pricebiva.doubleValue
             iva += itemSC.quantity.doubleValue * ivaprod.doubleValue
             totalest += itemSC.quantity.doubleValue * price.doubleValue
+            
             items.append(dictItem)
             
             totalQuantity += itemSC.quantity.intValue
@@ -105,11 +112,14 @@ class ShoppingCartProductsService : BaseService {
             }
         }
         
+        let priceMaps : [String:Any] = ["orderTotal": totalest, "totalIEPSTaxPrice": 0, "shippingPrice": 0, "orderDiscounts": 0, "cartSubTotal": 0, "orderPrice": 0, "shippingDiscount": 0, "orderId": orderId, "totalESTaxPrice": subtotal, "totalIVATaxPrice": iva]
+        let itemsCartDet : [[String:Any]] = (items as? [[String : Any]])!
         
-        returnDictionary = ["total": totalQuantity,"orderId":order,"totalCommerceItemCount":array.count,"commerceItems":array]
-        
+        //["total": totalQuantity,"orderId":order,"totalCommerceItemCount":array.count,"commerceItems":array]
+        //items
+        returnDictionary = ["message":"Operacion exitosa.", "priceMap":priceMaps, "redirectionReq": "false", "couponDetails": [], "cartDetails":itemsCartDet]
+        //returnDictionary = ["message":"Operacion exitosa.","order":["orderId":order,"commerceItems":array,"totalCommerceItemCount":array.count]]
         //let params = ["quantity":totalQuantity]
-        
         // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
             successBlock!(returnDictionary as! [String:Any])
