@@ -363,7 +363,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     override func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ){
         
-        if self.selectQuantityGR != nil {
+        
+        if self.selectQuantityGR != nil && self.isSowListQuantity{
             self.closeContainerDetail(completeClose:{ () -> Void in
                 self.addProductToShoppingCart(upc, desc: desc, price: price, imageURL: imageURL,comments:comments  )
             }, isPush: true)
@@ -549,7 +550,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
                 if !isPush {
-                    self.selectQuantityGR?.closeSelectQuantity()
+                    //self.selectQuantityGR?.closeSelectQuantity()
                 }
                 self.selectQuantityGR = nil
                 completeClose?()

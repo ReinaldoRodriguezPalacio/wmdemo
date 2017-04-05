@@ -623,20 +623,22 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         let itemId = item["id"] as! String
         let itemIdNew = " \(item["id"] as! String)"
         let itemParentId = item["parentId"] as! String
-        print(" \(itemId) -- \(itemParentId)")
+       
         
         if itemLevel == 0 {
             self.filterDepto = itemId
             self.filterFamily = ""
         }
       
-        if itemIdNew.contains(" f-") {
+        if itemIdNew.contains(" f-") ||  itemLevel == 1{
             self.filterFamily = itemId
              self.filterLine = ""
         }
-        if itemIdNew.contains(" l-"){
+        if itemIdNew.contains(" l-") ||  itemLevel == 2{
             self.filterLine = itemId
         }
+        
+         print(" \(self.filterDepto) -- \(self.filterFamily) \(self.filterLine)")
         
         if itemLevel != 2 {
             var indexes:[IndexPath] = []
@@ -680,19 +682,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             if let family = item["families"] as? [String:Any] {
                 self.insertItems(family, atIndexPath: updatedIndex!)
-                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_DEPARMENT.rawValue, label: "")
             }
                 
             else if let line = item["lines"] as? [String:Any] {
                 self.insertItems(line, atIndexPath: updatedIndex!)
-                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_FAMILY.rawValue, label: "")
             }
         }
         else {
             self.selectedElements![indexPath.row] = true
-        
-             ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
-            
         }
 
         for idx in 0 ..< self.selectedElements!.count {

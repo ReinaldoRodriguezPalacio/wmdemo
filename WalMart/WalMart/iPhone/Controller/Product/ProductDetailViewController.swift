@@ -601,9 +601,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     )
             }
             
-            
-            //Event
-             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
+        
             
            // selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             
@@ -625,17 +623,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.detailCollectionView.isScrollEnabled = true
                         self.isShowShoppingCart = false
                         
-                        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
-                            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
-                        } else {
-                            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
-                        }
-        
-
+                      
                 
                         UIView.animate(withDuration: 0.2,
                             animations: { () -> Void in
-                                self.productDetailButton?.reloadShoppinhgButton()
                                 self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
                                // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
@@ -645,6 +636,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 self.gestureCloseDetail.isEnabled = false
                                 self.detailCollectionView.isScrollEnabled = true
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                 self.productDetailButton?.isOpenQuantitySelector = false
+                                self.productDetailButton?.reloadShoppinhgButton()
                             }
                         )
                     }
@@ -675,7 +668,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     })
             })
         }else{
-            self.closeContainerDetail(completeClose:nil, isPush: false)
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
+            },
+                           completion: { (animated:Bool) -> Void in
+                            self.closeContainerDetail(completeClose:nil, isPush: false)
+            })
+            
         }
     }
     
