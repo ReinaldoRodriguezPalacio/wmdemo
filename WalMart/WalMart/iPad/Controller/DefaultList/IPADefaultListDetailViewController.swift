@@ -184,7 +184,8 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController, UIP
             self.sharePopover!.dismiss(animated: true)
             //self.removeSelector()
         }
-        //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+        self.quantitySelector!.isFromList = true
+        self.quantitySelector!.isUpcInList = false
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             var item = self.detailItems![indexPath!.row]
             //var upc = item["upc"] as? String
