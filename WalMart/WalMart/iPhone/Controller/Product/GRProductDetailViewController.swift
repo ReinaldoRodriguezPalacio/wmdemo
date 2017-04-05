@@ -180,7 +180,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.bundleItems = bndl
             }
             
-            if let pesable = result["type"] as?  NSString {
+            if let pesable = result["pesable"] as?  NSString {
                 self.isPesable = pesable.intValue == 1
             }
             
@@ -420,7 +420,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.isShowShoppingCart = false
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
-            params.updateValue(self.type, forKey: "type")
+            params.updateValue("groceries", forKey: "type")
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
             return
         }

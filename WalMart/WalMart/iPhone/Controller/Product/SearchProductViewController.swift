@@ -83,6 +83,7 @@ enum SearchServiceContextType {
     case withCategoryForGR
     case withTextForCamFind
     case withRecomendedLine
+    case withCategoryForTiresSearch
 }
  
  enum SearchServiceFromContext {
@@ -115,7 +116,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var originalSearchContextType: SearchServiceContextType?
     var searchContextType: SearchServiceContextType?
     var searchFromContextType: SearchServiceFromContext?
-    var textToSearch:String?
+    var textToSearch:String? = ""
     var idDepartment:String?
     var idFamily :String?
     var idLine:String?
@@ -175,7 +176,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var mgServiceIsInvike =  false
     //tap Priority
     var priority = ""
-    
+    var filterMedida : Bool! = false
+   
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
             switch self.searchContextType! {
@@ -183,6 +185,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
             case .withCategoryForGR :
                 return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
+            case .withCategoryForTiresSearch :
+                return WMGAIUtils.SCREEN_TIRESEARCHRESULT.rawValue
             default :
                 break
             }
@@ -236,7 +240,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
 
         self.header?.addSubview(self.filterButton!)
-    
         
         viewBgSelectorBtn = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16, width: 288, height: 28))
         viewBgSelectorBtn.layer.borderWidth = 1
@@ -290,6 +293,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.searchAlertView = SearchAlertView()
+        
 
         self.view.addSubview(self.searchAlertView!)
         
@@ -479,8 +483,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if indexPath.section == 0 {
                 view.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             }
-            
-            
             return view
         }
         return UICollectionReusableView(frame: CGRect.zero)
@@ -807,7 +809,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
                 self.invokeSearchUPCMG { () -> Void in
                     switch self.searchContextType! {
-                    case .withCategoryForMG :
+                    case .withCategoryForMG, .withCategoryForTiresSearch :
                         print("Searching products for Category In MG")
                         if self.originalSearchContextType != nil && self.isTextSearch{
                             self.invokeSearchproductsInMG(
@@ -957,6 +959,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
+        if self.searchContextType! == .withCategoryForTiresSearch{
+            filterMedida=true
+        }
         service.callService(params!,
             successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
                 self.priority = resultDic["priority"] as? String ?? ""
@@ -995,8 +1000,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.btnTech.isSelected = true
                         self.showAlertView = false
                     }
-                    
+                    if self.filterMedida! {
+                        let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
+                    self.mgResults!.addResults(arrayFilter)
+                        
+                        if arrayFilter.count == 0{
+                            self.finsihService =  true
+                            self.removeEmpty =  false
+                            self.showEmptyView()//Iphone
+                            if IS_IPAD{
+                            self.collection?.reloadData()//Ipad
+                            }
+                            actionError?()
+                            return
+                        }//
+                        
+                    } else{
                     self.mgResults!.addResults(arrayProduct!)
+                    }
                     var sortFacet = facet
                         sortFacet.sort { (item, seconditem) -> Bool in
                             var firstOrder = "0"
@@ -1056,17 +1077,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
             }, errorBlock: {(error: NSError) in
-                print("MG Search ERROR!!!")
-                self.mgServiceIsInvike =  false
-                self.mgResults!.totalResults = self.allProducts!.count
-                self.mgResults!.resultsInResponse = self.mgResults!.totalResults
-                actionSuccess?()
-                //self.mgResults!.resultsInResponse = 0
-                //self.mgResults!.totalResults = 0
-                print(error)
-                actionError?()
-            }
-        )
+                
+                
+                    print(error)
+                    //No se encontraron resultados para la búsqueda
+                    if error.code == 1 {
+                        self.mgResults!.resultsInResponse = 0
+                        self.mgResults!.totalResults = 0
+                        self.finsihService =   self.btnSuper.isSelected
+                        self.removeEmpty =  false
+                        if self.btnSuper.isSelected {
+                            self.showEmptyView()//Iphone
+                        }
+                        self.collection?.reloadData()//Ipad
+                        actionError?()
+                    }else{
+                        print("MG Search ERROR!!!")
+                        self.mgServiceIsInvike =  false
+                        self.mgResults!.totalResults = self.allProducts!.count
+                        self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+                        actionSuccess?()
+                        //self.mgResults!.resultsInResponse = 0
+                        //self.mgResults!.totalResults = 0
+                        print(error)
+                        actionError?()
+                    }
+                })
+        
     }
     
     func invokeSearchProductsInGroceries(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {

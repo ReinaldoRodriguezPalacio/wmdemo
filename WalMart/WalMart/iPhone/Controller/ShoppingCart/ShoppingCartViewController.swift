@@ -497,7 +497,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 onHandInventory = inventory
             }
             
-            
             var isPreorderable = "false"
             if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
                 isPreorderable = preorderable
@@ -968,7 +967,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
 
     /**
-     Find upc from items more expencive from crosselling n car
+     Find upc from items more expensive from crosselling n car
      
      - returns: upc found
      */
@@ -1385,8 +1384,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         }
                         self.itemsUPC = resultArray
                         
-                        
-                        
                     }
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
@@ -1406,7 +1403,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             positionArray.append(position)
                         }
                         
-                        let listName = "Antes de irte"
+                        let listName =  NSLocalizedString("shoppingcart.beforeleave", comment: "")
                         let subCategory = ""
                         let subSubCategory = ""
                         BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)

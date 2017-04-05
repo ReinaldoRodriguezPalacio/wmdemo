@@ -160,7 +160,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     }
     
-    
     override func layoutSubviews() {
         viewContent.center = self.center
         headerView.frame = CGRect(x: 0, y: 0, width: viewContent.frame.width, height: 46)
@@ -349,6 +348,14 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     func showPicker() {
         let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
         vc!.view.addSubview(self)
+        //vc!.view.bringSubviewToFront(self)
+        self.startAnimating()
+        
+    }
+    
+    func showPickerOverModal( viewBase: UIView) {
+        //let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+        viewBase.addSubview(self)
         //vc!.view.bringSubviewToFront(self)
         self.startAnimating()
         

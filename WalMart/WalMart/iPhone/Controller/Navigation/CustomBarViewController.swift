@@ -683,7 +683,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         addShopping.params = params
         
         let price = (params["price"] as? NSString)!.doubleValue
-        var type = params["type"] as? String
+        var type : String! = nil
+        if String(describing: params["type"]) == "WalmartMG.ResultObjectType.Groceries"{
+            type = "groceries"
+        }
+        
         let upc = params["upc"] as? String
         
         if type == nil {

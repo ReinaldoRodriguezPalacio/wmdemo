@@ -57,13 +57,6 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
                 CGRect(x: leftButton.frame.maxX + 11, y: self.titleLabel.frame.maxY + 16, width: leftButton.frame.width, height: leftButton.frame.height)
         }
         
-        
-       
-
-        
-
-        
-     
     
     }
     

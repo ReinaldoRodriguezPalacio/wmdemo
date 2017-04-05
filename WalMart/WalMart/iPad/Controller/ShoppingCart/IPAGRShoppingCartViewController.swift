@@ -42,8 +42,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     var checkoutVC : IPAGRCheckOutViewController? = nil
     var popup : UIPopoverController?
     var viewSeparator : UIView!
+    var viewSeparator2 : UIView!
     var viewTitleCheckout : UILabel!
     var backgroundView: UIView?
+    var beforeLeave : IPAShoppingCartBeforeToLeave!
 
     //MARK: - ViewCycle
     override func viewDidLoad() {
@@ -88,6 +90,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.backgroundView?.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
         self.backgroundView?.addGestureRecognizer(tap)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -102,12 +105,15 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.viewTitleCheckout.frame = CGRect(x: self.viewSeparator.frame.maxX , y: 0, width: self.view.frame.width - self.viewSeparator.frame.maxX, height: self.viewHerader.frame.height )
         self.deleteall.frame = CGRect(x: self.editButton.frame.minX - 80, y: 12, width: 75, height: 22)
         self.titleView.frame = CGRect(x: 0, y: 0, width: self.viewSeparator.frame.maxX,height: self.viewHerader.frame.height)
-
-    }
+        
+        tableShoppingCart.backgroundColor=WMColor.light_light_gray
+            }
     
     override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: NSNotification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
+        self.loadCrossSell()
+        
 
     }
     
@@ -201,6 +207,68 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
 
+    override func loadCrossSell() {
+        if self.itemsInCart.count >  0 {
+            let upcValue = getExpensive()
+            let crossService = CrossSellingGRProductService()
+            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
+                if result != nil {
+                    
+                    var isShowingBeforeLeave = false
+                    if self.tableView(self.tableShoppingCart, numberOfRowsInSection: 0) == self.itemsInCart.count + 2 {
+                        isShowingBeforeLeave = true
+                    }
+                    
+                    self.itemsUPC = result!
+                    
+                    if self.itemsUPC.count > 0{
+                            
+                        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY - 207)
+                        self.beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRect(x: 0, y: 0, width: 682, height: 207))
+                        self.beforeLeave.frame = CGRect(x : 0, y : self.tableShoppingCart.frame.maxY, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 207)
+                        self.beforeLeave.backgroundColor = UIColor.white
+                        self.view.addSubview(self.beforeLeave)
+                    }else{
+                        
+                        self.beforeLeave.frame = CGRect(x : 0, y : self.tableShoppingCart.frame.maxY, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 0)
+                        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY)
+                        
+                    }
+
+                    
+                    if self.itemsUPC.count > 3 {
+                        var arrayUPCS = self.itemsUPC
+                        arrayUPCS.sort(by: { (before, after) -> Bool in
+                            let priceB = before["price"] as! NSString
+                            let priceA = after["price"] as! NSString
+                            return priceB.doubleValue < priceA.doubleValue
+                        })
+                        var resultArray : [Any] = []
+                        for item in arrayUPCS[0...2] {
+                            resultArray.append(item)
+                        }
+                        self.itemsUPC = resultArray as! [[String : Any]]
+                        
+                    }
+                    if self.itemsInCart.count >  0  {
+                        if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
+                            self.beforeLeave?.itemsUPC = self.itemsUPC
+                            self.beforeLeave?.collection.reloadData()
+                        }else{
+                            
+                        }
+                    }
+                    //self.collection.reloadData()
+                }else {
+                    
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Termina sevicio app")
+            })
+        }
+    }
+
+    
     override func userShouldChangeQuantity(_ cell:GRProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             

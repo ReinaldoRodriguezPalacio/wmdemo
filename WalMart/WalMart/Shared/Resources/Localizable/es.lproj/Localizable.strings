@@ -707,5 +707,14 @@
 // Availability
 "items.not.available" = "Debido a la disponibilidad de tu tienda, algunos de los productos pueden no estar disponibles.";
 
-
-
+// Busca Llantas
+"llantas.message.modelo" = "Modelo";
+"llantas.message.medida" = "Medida";
+"llantas.message.instrucciones" = "Ingresa los números que se encuentran a un costado de tu llanta en el siguiente orden:";
+"llantas.message.medida.anchura" = "Anchura de Sección";
+"llantas.message.medida.aspecto" = "Relación de Aspecto";
+"llantas.message.medida.diametro" = "Diámetro";
+"llantas.message.medida.required" = "Todos los campos son requeridos";
+"llantas.field.medida.anchura" = "Anchura de Sección";
+"llantas.field.medida.aspecto" = "Relación de Aspecto";
+"llantas.field.medida.diametro" = "Diámetro";
