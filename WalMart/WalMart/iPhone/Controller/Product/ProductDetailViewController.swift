@@ -656,7 +656,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                         alert!.setMessage(msgInventory)
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                        self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                        self.selectQuantity?.first = true
+                        self.selectQuantity?.userSelectValue("\(maxProducts)")
                     }
             }
             
