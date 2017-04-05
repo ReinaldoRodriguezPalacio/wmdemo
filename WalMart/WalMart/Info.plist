@@ -386,7 +386,7 @@
 			<key>WalmartMG.ShoppingCartProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/getCartSummary</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateShoppingCartItem</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/checkout/updateItemToOrder</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/profile/userRegistry</string>
 			<key>WalmartMG.Splash</key>
@@ -581,7 +581,7 @@
 			<key>WalmartMG.ShoppingCartProductsService</key>
 			<string>https://dl.dropboxusercontent.com/s/761n4gthgb1l6bp/getCartSummary.txt?dl=0</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
+			<string>https://dl.dropboxusercontent.com/s/a9zjl765uq7ej5t/updateItemToOrder.txt</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>https://dl.dropboxusercontent.com/s/4b8t1r2kohryxxw/registryUser.txt?dl=0</string>
 			<key>WalmartMG.Splash</key>

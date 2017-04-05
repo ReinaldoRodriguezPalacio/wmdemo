@@ -366,7 +366,7 @@ class ShoppingCartProductsService : BaseService {
             for itemUpdated in updated {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
             }
-            serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:[String:Any]) -> Void in
+            serviceUpdate.callService(requestParams: arrayUpcsUpdate, succesBlock: {(result) in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {

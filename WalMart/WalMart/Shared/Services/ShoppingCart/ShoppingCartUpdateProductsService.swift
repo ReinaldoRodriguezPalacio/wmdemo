@@ -24,7 +24,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
         return ["catalogRefIds": catalogRefIds as AnyObject,"productId": productId as AnyObject,"quantity": quantity as AnyObject,"quantityWithFraction": quantityWithFraction as AnyObject,"orderedUOM": orderedUOM as AnyObject,"itemComment": "" as AnyObject,"orderedQTYWeight": orderedQTYWeight as AnyObject]
     }
     
-    func callService(_ params:  [[String:Any]],updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+    /*func callService(_ params:  [[String:Any]],updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:Any]] = []
@@ -52,11 +52,25 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
         } else {
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
         }
+    }*/
+    
+    func callService(requestParams params:[[String:Any]], succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+        if UserCurrentSession.hasLoggedUser() {
+            
+            self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                succesBlock!(resultCall)
+            }, errorBlock: { (error:NSError) -> Void in
+                errorBlock!(error)
+            })
+            
+        } else {
+            callCoreDataService(params,successBlock:succesBlock, errorBlock:errorBlock )
+        }
     }
     
     
     override func callService(_ params: [[String:Any]], successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
-       self.callService(params,updateSC:false, successBlock: successBlock, errorBlock: errorBlock)
+       self.callService(params, successBlock: successBlock, errorBlock: errorBlock)
     }
     
 }

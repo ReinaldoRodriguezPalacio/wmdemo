@@ -164,7 +164,7 @@ class ShoppingCartAddProductsService : BaseService {
                     }
                 } else {
                     let svcUpdateShoppingCart = ShoppingCartUpdateProductsService()
-                    svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
+                    svcUpdateShoppingCart.callService(params,successBlock:successBlock, errorBlock:errorBlock )
                 }
             }
         } else {

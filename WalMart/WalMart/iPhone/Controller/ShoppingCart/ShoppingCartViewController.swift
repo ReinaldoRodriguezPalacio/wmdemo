@@ -814,12 +814,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 let maxProducts = ((cell.onHandInventory as NSString).integerValue <= 5 || cell.productDeparment == "d-papeleria") ? (cell.onHandInventory as NSString).integerValue : 5
                 if maxProducts >= Int(quantity)! {
-                //if (cell.onHandInventory as NSString).integerValue <= Int(quantity as?  NSNumber) {
                     self.selectQuantity?.closeAction()
                     
                     let updateOrderService = ShoppingCartUpdateProductsService()
-                    let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
-                    updateOrderService.callService((params as AnyObject) as! [[String : Any]], successBlock: {(result) in
+                    let params = UserCurrentSession.hasLoggedUser() ? updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0") : updateOrderService.builParam(cell.skuId, quantity: quantity, comments: cell.comments, desc: cell.desc, price: cell.price, imageURL: cell.imageurl, onHandInventory: cell.onHandInventory as NSString, wishlist: false, isPreorderable: cell.isPreorderable)
+                    updateOrderService.callService(requestParams: [params], succesBlock: {(result) in
                         self.reloadShoppingCart()
                         }, errorBlock: {(error) in
                          self.reloadShoppingCart()
