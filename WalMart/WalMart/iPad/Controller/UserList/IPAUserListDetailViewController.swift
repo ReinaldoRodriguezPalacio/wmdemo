@@ -411,7 +411,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
         self.quantitySelector!.isFromList =  true
+        self.quantitySelector!.isUpcInList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in
+            
+            if quantity == "00" {
+                self.deleteFromCellUtilityButton(cell)
+                return
+            }
             
             if Int(quantity) <= 20000 {
                 
