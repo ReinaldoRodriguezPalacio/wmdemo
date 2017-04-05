@@ -659,7 +659,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
             if let imageURL = self.productDetailButton?.image {
                 if let urlObject = URL(string:imageURL) {
-                    self.alertView?.imageIcon.setImageWith(urlObject)
+                    self.alertView?.imageIcon.setImageWith(urlObject, placeholderImage: UIImage(named: "img_default_cell"))
                 }
             }
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
@@ -702,7 +702,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"addedtolist_icon"),imageError: UIImage(named:"list_alert_error"))
                 if let imageURL = self.productDetailButton?.image {
                     if let urlObject = URL(string:imageURL) {
-                        self.alertView?.imageIcon.setImageWith(urlObject)
+                        self.alertView?.imageIcon.setImageWith(urlObject, placeholderImage: UIImage(named: "img_default_cell"))
                     }
                 }
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
