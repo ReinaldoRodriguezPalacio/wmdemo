@@ -812,19 +812,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             selectQuantity?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
-                if (cell.onHandInventory as NSString).integerValue <= Int(quantity) {
+                let maxProducts = ((cell.onHandInventory as NSString).integerValue <= 5 || cell.productDeparment == "d-papeleria") ? (cell.onHandInventory as NSString).integerValue : 5
+                if maxProducts >= Int(quantity)! {
+                //if (cell.onHandInventory as NSString).integerValue <= Int(quantity as?  NSNumber) {
                     self.selectQuantity?.closeAction()
-
                     
-                    if cell.typeProd == 0 {
-                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "")
-                    } else {
-                        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
-                    }
-                    
-                    let updateOrderService = UpdateItemToOrderService()
+                    let updateOrderService = ShoppingCartUpdateProductsService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
-                    updateOrderService.callService(requestParams: params as AnyObject, succesBlock: {(result) in
+                    updateOrderService.callService((params as AnyObject) as! [[String : Any]], successBlock: {(result) in
                         self.reloadShoppingCart()
                         }, errorBlock: {(error) in
                          self.reloadShoppingCart()

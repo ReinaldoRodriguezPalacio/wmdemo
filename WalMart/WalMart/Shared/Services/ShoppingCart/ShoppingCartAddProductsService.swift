@@ -218,15 +218,16 @@ class ShoppingCartAddProductsService : BaseService {
             print("Product in shopping cart: \(product)")
             
             cartProduct.product.upc = product["upc"] as! String
+            cartProduct.product.commerceItemId = product["upc"] as! String
             cartProduct.product.price = product["price"] as! NSString
             cartProduct.product.desc = product["desc"] as! String
             cartProduct.product.img = product["imageURL"] as! String
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
-            cartProduct.product.baseprice = ""
+            cartProduct.product.baseprice = product["price"] as! String
             cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
             //new items
-            cartProduct.product.comments = "" //product["comments"] as! String
+            cartProduct.product.comments = product["comments"] as! String
             cartProduct.product.equivalenceByPiece = "" //product["equivalenceByPiece"] as! String
             cartProduct.product.promoDescription = "" //product["onHandInventory"] as! String
             cartProduct.product.saving = "" //product["savingsAmount"] as! String

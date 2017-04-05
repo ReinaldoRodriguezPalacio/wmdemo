@@ -520,7 +520,6 @@ class UserCurrentSession : NSObject {
                 if error.code != -100 {
                     endLoadSC()
                 }
-                
         }
     }
     

@@ -498,9 +498,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController, IPAGRCheckOutV
                 //self.ctrlCheckOut?.addViewLoad()
                 if NSString(string: cell.onHandInventory).integerValue <= Int(quantity) {
                     self.selectQuantity?.closeAction()
-                    let updateOrderService = UpdateItemToOrderService()
+                    let updateOrderService = ShoppingCartUpdateProductsService()
                     let params = updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0")
-                    updateOrderService.callService(requestParams: params as AnyObject, succesBlock: {(result) in
+                    updateOrderService.callService((params as AnyObject) as! [[String : Any]], successBlock: {(result) in
                         self.reloadShoppingCart()
                         }, errorBlock: {(error) in
                          self.reloadShoppingCart()
