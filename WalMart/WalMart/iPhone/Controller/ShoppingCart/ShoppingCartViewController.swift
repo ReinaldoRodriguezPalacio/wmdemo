@@ -299,9 +299,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 12, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame = CGRect(x: 16, y: 12, width: 34, height: 34)
+                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 
                 buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
@@ -323,9 +323,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
