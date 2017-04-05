@@ -54,7 +54,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
         }
     }*/
     
-    func callService(requestParams params:[[String:Any]], succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
+    func callService(requestParams params:[String:Any], succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         if UserCurrentSession.hasLoggedUser() {
             
             self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
@@ -64,7 +64,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
             })
             
         } else {
-            callCoreDataService(params,successBlock:succesBlock, errorBlock:errorBlock )
+            callCoreDataService([params],successBlock:succesBlock, errorBlock:errorBlock )
         }
     }
     

@@ -818,7 +818,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                     let updateOrderService = ShoppingCartUpdateProductsService()
                     let params = UserCurrentSession.hasLoggedUser() ? updateOrderService.buildParameter(cell.skuId, productId: cell.productId, quantity: quantity, quantityWithFraction: "0", orderedUOM: "EA", orderedQTYWeight: "0") : updateOrderService.builParam(cell.skuId, quantity: quantity, comments: cell.comments, desc: cell.desc, price: cell.price, imageURL: cell.imageurl, onHandInventory: cell.onHandInventory as NSString, wishlist: false, isPreorderable: cell.isPreorderable)
-                    updateOrderService.callService(requestParams: [params], succesBlock: {(result) in
+                    updateOrderService.callService(requestParams: params, succesBlock: {(result) in
                         self.reloadShoppingCart()
                         }, errorBlock: {(error) in
                          self.reloadShoppingCart()

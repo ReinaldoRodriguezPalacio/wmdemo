@@ -361,18 +361,20 @@ class ShoppingCartProductsService : BaseService {
         let updated = UserCurrentSession.sharedInstance.coreDataShoppingCart(predicateUpdated)
         if updated.count > 0 {
             let serviceUpdate = ShoppingCartUpdateProductsService()
-            var arrayUpcsUpdate : [[String:Any]] = []
+            //var arrayUpcsUpdate : [String:Any] = [:]//[String:Any]
             
             for itemUpdated in updated {
-                arrayUpcsUpdate.append(serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
-            }
-            serviceUpdate.callService(requestParams: arrayUpcsUpdate, succesBlock: {(result) in
-                self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
+                //arrayUpcsUpdate.append()
+                serviceUpdate.callService(requestParams: serviceUpdate.builParamSvc("", upc:itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""), succesBlock: {(result) in
+                    self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                 }, errorBlock: { (error:NSError) -> Void in
                     if error.code != -100 {
                         self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                     }
-            })
+                })
+                
+            }
+            
         } else {
             self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
         }
