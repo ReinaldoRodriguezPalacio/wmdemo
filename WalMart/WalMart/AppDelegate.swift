@@ -408,7 +408,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
         
-        UbuduSDK.sharedInstance().executeLocalNotificationActions(notification)
         handleLocalNotification(application, localNotification: notification)
     }
     
