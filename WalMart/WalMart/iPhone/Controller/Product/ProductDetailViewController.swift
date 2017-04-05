@@ -141,7 +141,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
             layout.disableStickyHeaders = false
 
-            NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         }
         
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))

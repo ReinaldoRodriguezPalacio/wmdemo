@@ -48,7 +48,6 @@ enum CustomBarNotification : String {
     case HideBadge = "kHideBadge"
     case ShowBadge = "kShowBadge"
     case ShowHelp = "kShowHelp"
-    case SuccessAddUpdateCommentCart = "kSuccessAddUpdateCommentCart"
     case ClearShoppingCartGR = "kClearShoppingCartGR"
     case ClearShoppingCartMG = "kClearShoppingCartMG"
     case EditSearch = "kEditSearch"
