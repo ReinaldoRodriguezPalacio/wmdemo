@@ -188,6 +188,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     /**
          Present empty view after load items in car
      
@@ -261,11 +266,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.showDiscountAsociate()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        

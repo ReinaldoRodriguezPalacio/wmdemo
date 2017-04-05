@@ -192,7 +192,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //NotificationCenter.default.removeObserver(self)
     }
     
     func initEmptyView(){

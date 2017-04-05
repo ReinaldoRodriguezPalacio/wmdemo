@@ -42,6 +42,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         }
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
     func selectedDetail(_ row: Int) {
         
@@ -218,6 +222,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.openPromotions =  false
         }
     }
+    
     func validatePromotions(){
     self.openPromotions =  false
     }

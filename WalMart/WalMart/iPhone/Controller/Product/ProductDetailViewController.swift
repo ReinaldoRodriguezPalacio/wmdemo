@@ -172,20 +172,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
+        
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
 
     /**

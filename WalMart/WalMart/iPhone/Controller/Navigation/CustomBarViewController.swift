@@ -215,6 +215,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

@@ -75,6 +75,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.updateTotalItemsRow()
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
  
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,14 +91,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
 
     override func viewDidAppear(_ animated: Bool) {
-        
         self.reloadShoppingCart()
         updateTotalItemsRow()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {

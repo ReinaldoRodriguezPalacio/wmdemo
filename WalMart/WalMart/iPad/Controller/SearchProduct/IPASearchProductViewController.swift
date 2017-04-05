@@ -53,6 +53,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func willEnterForeground() {
         self.selectQuantityOpen = false
     }

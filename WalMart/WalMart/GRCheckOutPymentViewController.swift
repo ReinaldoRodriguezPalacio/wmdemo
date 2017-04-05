@@ -271,6 +271,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(GRCheckOutPymentViewController.reloadPromotios), name: NSNotification.Name(rawValue: "INVOKE_RELOAD_PROMOTION"), object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "INVOKE_RELOAD_PROMOTION"), object: nil)

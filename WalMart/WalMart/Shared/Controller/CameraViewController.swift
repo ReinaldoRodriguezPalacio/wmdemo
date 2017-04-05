@@ -171,6 +171,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         NotificationCenter.default.addObserver(self, selector: #selector(CameraViewController.stopRunning), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.imagePickerCaptured!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)

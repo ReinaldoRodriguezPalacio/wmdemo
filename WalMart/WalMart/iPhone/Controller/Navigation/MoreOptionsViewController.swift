@@ -108,6 +108,11 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
        NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.reloadButtonSession()

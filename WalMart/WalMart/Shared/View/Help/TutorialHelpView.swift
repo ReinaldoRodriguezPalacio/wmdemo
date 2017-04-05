@@ -73,7 +73,10 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
          NotificationCenter.default.addObserver(self, selector: #selector(TutorialHelpView.removeHelp), name:NSNotification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
     }
     
-  
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()

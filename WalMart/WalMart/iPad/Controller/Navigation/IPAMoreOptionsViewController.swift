@@ -36,6 +36,11 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         // Como usar el app
         self.selected = IndexPath(row: 0, section: 2)
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
