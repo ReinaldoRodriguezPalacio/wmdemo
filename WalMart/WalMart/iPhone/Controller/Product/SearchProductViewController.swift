@@ -295,12 +295,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
          //self.header!.bringSubviewToFront(self.bannerView)
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         self.selectQuantity?.closeAction()
         self.selectQuantityGR?.closeAction()
     }
@@ -353,12 +359,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.startAnnimating(self.isVisibleTab)
             //}
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
         self.viewEmptyImage =  true
     }
     

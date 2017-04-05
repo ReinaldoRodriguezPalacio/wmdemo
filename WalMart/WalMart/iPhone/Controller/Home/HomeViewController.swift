@@ -127,6 +127,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())

@@ -88,6 +88,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.backgroundView?.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
         self.backgroundView?.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: NSNotification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -105,10 +107,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: NSNotification.Name(rawValue: "CLOSE_GRSHOPPING_CART"), object: nil)
-        
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

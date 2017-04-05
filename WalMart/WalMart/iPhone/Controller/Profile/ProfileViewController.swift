@@ -89,6 +89,12 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         self.viewProfile.addSubview(self.table!)
         //self.table.reloadData()
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

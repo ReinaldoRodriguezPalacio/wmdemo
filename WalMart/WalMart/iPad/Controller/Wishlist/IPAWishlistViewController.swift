@@ -127,9 +127,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
-    func removeNotification(){
-         NotificationCenter.default.removeObserver(self)
-        
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {

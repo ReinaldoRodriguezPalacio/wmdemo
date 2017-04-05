@@ -102,10 +102,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
             UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    deinit {
+        print("Remove NotificationCenter Deinit")
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -170,8 +173,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil)
         self.tableDetailOrder.reloadData()
     }
  

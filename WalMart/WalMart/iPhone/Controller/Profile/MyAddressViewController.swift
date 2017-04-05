@@ -112,6 +112,11 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
 
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         

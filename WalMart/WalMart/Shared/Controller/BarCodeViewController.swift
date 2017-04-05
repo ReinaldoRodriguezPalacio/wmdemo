@@ -84,6 +84,12 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         allowedBarcodeTypes.append("org.iso.Code128")
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if previewLayer != nil {

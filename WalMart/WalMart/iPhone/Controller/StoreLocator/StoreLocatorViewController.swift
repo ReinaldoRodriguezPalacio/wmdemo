@@ -171,6 +171,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         BaseController.setOpenScreenTagManager(titleScreen: NSLocalizedString("moreoptions.title.StoreLocator", comment: ""), screenName: WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue)

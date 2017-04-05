@@ -87,7 +87,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setBackgroundImage(bgImage, for: UIControlState())
         self.editBtn!.setBackgroundImage(bgSelected, for: .selected)
         self.editBtn!.setTitleColor(UIColor.white, for: UIControlState())
-        self.editBtn!.layer.cornerRadius = 11
+        self.editBtn!.layer.cornerRadius = 22
         self.editBtn!.addTarget(self, action: #selector(UserListDetailViewController.showEditionMode), for: .touchUpInside)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -715,7 +715,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.bounds
-            var height = self.view.frame.height
+            let height = self.view.frame.height
             
             if UserCurrentSession.hasLoggedUser() {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))

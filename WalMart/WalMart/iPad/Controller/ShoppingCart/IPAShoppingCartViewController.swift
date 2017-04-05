@@ -75,6 +75,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.updateTotalItemsRow()
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
  
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,14 +91,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
 
     override func viewDidAppear(_ animated: Bool) {
-        
         self.reloadShoppingCart()
         updateTotalItemsRow()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -125,9 +124,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: self.buttonAsociate.frame.minY, width: self.buttonAsociate.frame.width, height: self.buttonAsociate.frame.height)
                 }
                 
                 if buttonAsociate.image(for: UIControlState()) == nil {
@@ -142,7 +141,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
         }
         
-        self.buttonWishlist.frame = CGRect(x: x,y: self.buttonWishlist.frame.minY,width: 40,height: self.buttonWishlist.frame.height)
+        self.buttonWishlist.frame = CGRect(x: x, y: self.buttonWishlist.frame.minY, width: self.buttonWishlist.frame.width, height: self.buttonWishlist.frame.height)
         
         self.buttonShop.frame = CGRect( x: buttonWishlist.frame.maxX + 16, y: self.buttonShop.frame.minY, width: wShop , height: self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)

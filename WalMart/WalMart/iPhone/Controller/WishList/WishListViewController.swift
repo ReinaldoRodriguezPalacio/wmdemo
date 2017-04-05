@@ -86,6 +86,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.view.addSubview(emptyView)
         
         BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,15 +99,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         UserCurrentSession.sharedInstance.nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-       
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillLayoutSubviews() {
