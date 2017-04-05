@@ -829,7 +829,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if !isUpcInList && !self.isPesable {
             self.itemOrderbyPices = false
             self.addToListLocally(quantity: "1" , list: list,removeSelector: true)
-            self.removeListSelector(action: nil, closeRow:true)
+            //self.removeListSelector(action: nil, closeRow:true)
             return
         }
             
