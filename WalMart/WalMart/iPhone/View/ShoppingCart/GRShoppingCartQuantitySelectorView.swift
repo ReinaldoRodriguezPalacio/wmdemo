@@ -25,7 +25,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             if isFromList {
                 self.btnNote.alpha = 0
             }
-            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.addweighttitle",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
+            self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")
             self.updateQuantityBtn()
         }
     }
@@ -97,7 +97,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         var titleView = "shoppingcart.updatequantitytitle"
         if self.isFromList {
-            titleView = "shoppingcart.addweighttitle"
+            titleView = "shoppingcart.updatequantitytitle.list"
         }
         
         self.lblTitle.text = NSLocalizedString(titleView ,comment:"")

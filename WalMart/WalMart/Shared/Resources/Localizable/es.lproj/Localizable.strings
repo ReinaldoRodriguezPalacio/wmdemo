@@ -108,8 +108,8 @@
 "shoppingcart.AddtexNote" = "Agrega tu nota aqui";
 "shoppingcart.deleteofcart" = "Eliminar de carrito";
 "shoppingcart.deleteoflist" = "Eliminar de lista";
-"shoppingcart.deleteProductAlert" = "Eliminando artículo de carrito";
-"shoppingcart.deleteProductDone" = "Artículo eliminado de carrito";
+"shoppingcart.deleteProductAlert" = "Eliminando artículo del carrito";
+"shoppingcart.deleteProductDone" = "¡Listo!";
 
 
 //WishList
@@ -166,7 +166,7 @@
 "list.message.addProductToListDone" = "Artículo agregado a lista";
 "list.message.errorProductToList" = "Error al seleccionar la cantidad";
 "list.message.deleteProductToList" = "Eliminado artículo de lista";
-"list.message.deleteProductToListDone" = "Artículo eliminado de lista";
+"list.message.deleteProductToListDone" = "¡Listo!";
 "list.message.deletingAllProductsInList" = "Vaciando lista";
 "list.message.deletingAllProductsInListDone" = "Vaciado de lista finalizado";
 "list.message.updatingProductInList" = "Actualizando producto de lista";
@@ -197,8 +197,8 @@
 "shoppingcart.goshoppingcart" = "Ir al carrito";
 "shoppingcart.addquantitytitle" = "Número de Artículos";
 "shoppingcart.updatequantitytitle" = "Actualizar cantidad en el carrito";
-"shoppingcart.updatequantitytitle.list" = "Actualizar cantidad en listas";
-"shoppingcart.addweighttitle" = "Cantidad";
+"shoppingcart.updatequantitytitle.list" = "Actualizar cantidad en lista";
+"shoppingcart.addweighttitle" = "Ordenar por Pieza";
 "shoppingcart.edit" = "editar";
 "shoppingcart.keepshoppinginsidecart" = "Seguir comprando";
 "shoppingcart.endedit" = "ok";
