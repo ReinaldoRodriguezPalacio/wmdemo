@@ -63,6 +63,7 @@ class ProductDetailTextDetailView : UIView {
         var detailString = detail.replacingOccurrences(of: "^^^^", with: "\n")
          detailString = detail.replacingOccurrences(of: "^^^", with: "\n")
          detailString = detail.replacingOccurrences(of: "^^", with: "\n")
+         detailString = detail.replacingOccurrences(of: "^", with: " ")
         self.textView.text = detailString
     }
     func closeProductDetail() {
