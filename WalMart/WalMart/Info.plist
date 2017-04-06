@@ -225,6 +225,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.AddCouponService</key>
+			<string></string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -369,6 +371,8 @@
 			<string>http://192.168.43.192:9080/walmartmg/mustang/common/getPushNotifications</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
+			<key>WalmartMG.RemoveCouponService</key>
+			<string></string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
@@ -418,6 +422,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.AddCouponService</key>
+			<string></string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -514,8 +520,6 @@
 			<string>https://dl.dropboxusercontent.com/s/r8zjrt8qgu2zi8z/succesAddList.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/sendOrderWithSlotPromo</string>
-			<key>New item</key>
-			<string></string>
 			<key>WalmartMG.GRTimeBands</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
@@ -564,6 +568,8 @@
 			<string>https://dl.dropboxusercontent.com/s/ah9swbo2mflnai2/getPushNotification.txt?dl=0</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getReferedCustomer</string>
+			<key>WalmartMG.RemoveCouponService</key>
+			<string></string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>

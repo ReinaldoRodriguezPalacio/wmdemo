@@ -373,6 +373,8 @@
 		654FFBBE1D710F01004458BB /* OrderShippingTotalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654FFBBD1D710F01004458BB /* OrderShippingTotalTableViewCell.swift */; };
 		658662801E8F09B800581B9A /* UpsellingProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6586627F1E8F09B800581B9A /* UpsellingProductService.swift */; };
 		6592727E1D662B55003EFE3E /* PLPLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592727D1D662B55003EFE3E /* PLPLegendView.swift */; };
+		65B3D0D61E969FCA006194A9 /* AddCouponService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3D0D51E969FC9006194A9 /* AddCouponService.swift */; };
+		65B3D0D81E969FF1006194A9 /* RemoveCouponService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3D0D71E969FF1006194A9 /* RemoveCouponService.swift */; };
 		6C0150211D9054CD00C268A0 /* UpdateCommentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */; };
 		6C120F661D5E8C93008706DC /* ProductDetailPickBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */; };
 		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
@@ -987,6 +989,8 @@
 		654FFBBD1D710F01004458BB /* OrderShippingTotalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderShippingTotalTableViewCell.swift; sourceTree = "<group>"; };
 		6586627F1E8F09B800581B9A /* UpsellingProductService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpsellingProductService.swift; sourceTree = "<group>"; };
 		6592727D1D662B55003EFE3E /* PLPLegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLPLegendView.swift; sourceTree = "<group>"; };
+		65B3D0D51E969FC9006194A9 /* AddCouponService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCouponService.swift; sourceTree = "<group>"; };
+		65B3D0D71E969FF1006194A9 /* RemoveCouponService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveCouponService.swift; sourceTree = "<group>"; };
 		6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateCommentsService.swift; path = Shared/Services/ShoppingCart/UpdateCommentsService.swift; sourceTree = "<group>"; };
 		6C120F651D5E8C93008706DC /* ProductDetailPickBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailPickBar.swift; path = Shared/View/Product/ProductDetailPickBar.swift; sourceTree = "<group>"; };
 		6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -2821,6 +2825,7 @@
 			isa = PBXGroup;
 			children = (
 				AC37F6AF19B902AF000BB80D /* ShoppingCartProductsService.swift */,
+				65B3D0D51E969FC9006194A9 /* AddCouponService.swift */,
 				56152F7C19BF724C009F50E4 /* ShoppingCartAddProductsService.swift */,
 				56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */,
 				56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */,
@@ -2830,6 +2835,7 @@
 				6C0150201D9054CD00C268A0 /* UpdateCommentsService.swift */,
 				6CE85B461D9B301400AA2FB7 /* UpdateItemToOrderService.swift */,
 				6586627F1E8F09B800581B9A /* UpsellingProductService.swift */,
+				65B3D0D71E969FF1006194A9 /* RemoveCouponService.swift */,
 			);
 			name = ShoppingCart;
 			sourceTree = "<group>";
@@ -3557,6 +3563,7 @@
 				56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */,
 				56527DAB19AF9574008032C6 /* BaseController.swift in Sources */,
 				56E953931BB2378500E9B9F8 /* IPOEmptyNotificationView.swift in Sources */,
+				65B3D0D61E969FCA006194A9 /* AddCouponService.swift in Sources */,
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
 				565E5A7419C0BDC300444DF7 /* Cart.swift in Sources */,
@@ -3573,6 +3580,7 @@
 				6C0150211D9054CD00C268A0 /* UpdateCommentsService.swift in Sources */,
 				56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */,
 				654FFBBE1D710F01004458BB /* OrderShippingTotalTableViewCell.swift in Sources */,
+				65B3D0D81E969FF1006194A9 /* RemoveCouponService.swift in Sources */,
 				56895A501AA644D900561B12 /* MD5Util.swift in Sources */,
 				AC536D4619DB4DB6007D2D42 /* ForgotPasswordService.swift in Sources */,
 				560BE7A51A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift in Sources */,
