@@ -179,7 +179,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                     
                     self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: self, userInfo: nil)
                     
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
                 } else {
@@ -344,7 +344,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     cell.orderByPieces = self.selectQuantityGR!.orderByPiece
                     cell.pieces = Int(quantity)! // cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
-                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                     
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))

@@ -33,7 +33,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: NSNotification.Name(rawValue: CustomBarNotification.ShowHomeSelected.rawValue), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: .showHomeSelected, object: nil)
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         

@@ -320,7 +320,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             }
             
         }else{
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: character, userInfo: nil)
+            NotificationCenter.default.post(name: .scanBarCode, object: character, userInfo: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
         }
     }
@@ -405,7 +405,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             //TODO
                             alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
                             alertView!.showDoneIcon()
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ShowGRLists.rawValue), object: nil)
+                            NotificationCenter.default.post(name: .showGRLists, object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             alertView!.setMessage(error.localizedDescription)

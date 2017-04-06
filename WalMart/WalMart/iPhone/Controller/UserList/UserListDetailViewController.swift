@@ -587,7 +587,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
                 BaseController.sendAnalyticsProductsToCart(totalPrice)
             }
             else{
@@ -1433,7 +1433,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
 //
 //                //self.willHideTabbar()
-//                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+//                //NotificationCenter.default.post(name: .hideBar, object: nil)
 //            }
 //        }
 //        if differenceFromStart > 0 && TabBarHidden.isTabBarHidden {
@@ -1445,7 +1445,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //                self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, bottom, 0)
 //                
 //                self.willShowTabbar()
-//                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+//                NotificationCenter.default.post(name: .showBarb, object: nil)
 //            }
 //        }
 //    }

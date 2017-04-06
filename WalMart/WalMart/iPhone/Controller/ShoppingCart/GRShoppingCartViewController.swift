@@ -151,7 +151,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         initEmptyView()
         //loadGRShoppingCart()
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
-        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: .successAddItemsToShopingCart, object: nil)
  
     }
     
@@ -573,7 +573,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     cell.pieces = Int(quantity)! //cell.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece.intValue): (Int(quantity)!)
                     let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
                     
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                     
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -880,7 +880,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.tableShoppingCart.reloadData()
                     self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
                 }
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
+                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
             })
             }, errorBlock: { (error:NSError) -> Void in
                  self.removeViewLoad()
@@ -948,7 +948,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 //self.loadGRShoppingCart()
                 
                 self.removeViewLoad()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
+                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
                 print("done")
                 if self.onClose != nil {
                     self.onClose?(true)

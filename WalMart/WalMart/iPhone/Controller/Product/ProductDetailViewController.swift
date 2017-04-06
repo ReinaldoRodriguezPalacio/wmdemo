@@ -140,8 +140,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             layout.itemSize = CGSize(width: self.view.frame.size.width, height: layout.itemSize.height)
             layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
             layout.disableStickyHeaders = false
-
-            NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         }
         
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
@@ -172,8 +170,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: .successAddItemsToShopingCart, object: nil)
     }
     
     deinit {
@@ -565,7 +563,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
             params.updateValue(self.type, forKey: "type")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
             return
         }
         
@@ -635,7 +633,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 self.selectQuantity = nil
                                 self.gestureCloseDetail.isEnabled = false
                                 self.detailCollectionView.isScrollEnabled = true
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                                  self.productDetailButton?.isOpenQuantitySelector = false
                                 self.productDetailButton?.reloadShoppinhgButton()
                             }
@@ -1043,7 +1041,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.loadCrossSell()
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
         
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])

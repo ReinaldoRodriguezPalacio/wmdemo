@@ -116,7 +116,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                 } else {
                     //Event
                     //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartGR.rawValue), object: nil)
+                    NotificationCenter.default.post(name: .clearShoppingCartGR, object: nil)
                 }
             }
             
@@ -131,7 +131,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                 } else {
                     //Event
                     ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_MG.rawValue, label: "")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartMG.rawValue), object: nil)
+                    NotificationCenter.default.post(name: .clearShoppingCartMG, object: nil)
                 }
             }
             

@@ -3284,7 +3284,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = UDPJ785EBR;
+						DevelopmentTeam = E896UUML7L;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4066,7 +4066,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UDPJ785EBR;
+				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4128,7 +4128,7 @@
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UDPJ785EBR;
+				DEVELOPMENT_TEAM = E896UUML7L;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";

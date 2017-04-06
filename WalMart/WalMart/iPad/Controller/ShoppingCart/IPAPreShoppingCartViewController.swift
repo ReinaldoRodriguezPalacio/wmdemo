@@ -128,7 +128,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 if totArticlesMG > 0 {
                     self.openViewMG()
                 } else {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartMG.rawValue), object: nil)
+                    NotificationCenter.default.post(name:.clearShoppingCartMG, object: nil)
                 }
                 
             }
@@ -138,7 +138,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 if totArticlesGR > 0 {
                     self.openViewGR()
                 } else {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartGR.rawValue), object: nil)
+                    NotificationCenter.default.post(name: .clearShoppingCartGR, object: nil)
                 }
             }
 

@@ -231,7 +231,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     }
     
     func editSearch(){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
+        NotificationCenter.default.post(name:.editSearch, object: titleHeader!)
     }
     
     func loadDepartments() ->  [Any]? {
@@ -681,7 +681,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                         }
                     )
                 }
@@ -724,7 +724,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                                                 DispatchQueue.main.async {
                                                     cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                                     self.collection!.reloadData()

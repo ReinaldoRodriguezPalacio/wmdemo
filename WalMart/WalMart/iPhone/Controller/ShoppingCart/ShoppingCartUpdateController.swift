@@ -268,7 +268,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                     if self.timmer == nil {
                         self.showDoneIcon()
                         WishlistService.shouldupdate = true
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                        NotificationCenter.default.post(name: .reloadWishList, object: nil)
                     }
                     
                 }, errorBlock: { (error:NSError) -> Void in
@@ -310,7 +310,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                         let toSend = deleteService.buildParamsMultipe(wishlistDelete)
                         deleteService.callServiceWithParams(toSend, successBlock: { (response:[String:Any]) -> Void in
                             WishlistService.shouldupdate = true
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                            NotificationCenter.default.post(name: .reloadWishList, object: nil)
                         }, errorBlock: { (error:NSError) -> Void in
                             
                         })
@@ -398,10 +398,10 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                         if self.timmer == nil {
                             self.showDoneIcon()
                             WishlistService.shouldupdate = true
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                            NotificationCenter.default.post(name: .reloadWishList, object: nil)
                         }
                         
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                        NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
                         
                         UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
@@ -442,10 +442,10 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                 if self.timmer == nil {
                     self.showDoneIcon()
                     WishlistService.shouldupdate = true
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                    NotificationCenter.default.post(name: .reloadWishList, object: nil)
                 }
                 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                NotificationCenter.default.post(name:.successAddItemsToShopingCart, object: nil)
                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                 })
@@ -700,7 +700,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                                     self.showDoneIcon()
                                     WishlistService.shouldupdate = true
                                 }
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
+                                NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
                                 
                                 }) { (error:NSError) -> Void in
                                     

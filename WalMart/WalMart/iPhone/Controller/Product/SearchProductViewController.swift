@@ -299,8 +299,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
          //self.header!.bringSubviewToFront(self.bannerView)
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: .reloadWishList, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: .updateBadge, object: nil)
     
     }
     
@@ -1540,7 +1540,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                    self.setAlertViewValues(self.grResponceDic)
                 }
                 self.collection?.alpha = 1
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+                NotificationCenter.default.post(name: .clearSearch, object: nil)
                 if self.allProducts?.count > 0 {
                     self.filterButton?.alpha = 1
                 }
@@ -1593,7 +1593,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.view.addSubview(self.empty)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     func showEmptyMGGRView(){
@@ -1644,7 +1644,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
          self.view.addSubview(self.emptyMGGR)
        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     func showLandingPage(){
@@ -1721,7 +1721,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func editSearch(){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
+        NotificationCenter.default.post(name: .editSearch, object: titleHeader!)
         
     }
     
@@ -2106,7 +2106,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
-                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                 }else{
                     self.addItemToList(cell, quantity:quantity,orderByPiece:self.selectQuantityGR!.orderByPiece)
                 }
@@ -2313,7 +2313,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                         }
                     )
                 } else {

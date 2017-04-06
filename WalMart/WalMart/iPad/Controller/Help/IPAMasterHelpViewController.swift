@@ -182,7 +182,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                 upcArray = []
             }
             let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
+            NotificationCenter.default.post(name: .camFindSearch, object: params, userInfo: nil)
             done()
       }
     }

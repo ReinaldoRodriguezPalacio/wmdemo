@@ -119,7 +119,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1", comments: "", onHandInventory: self.onHandInventory as String, type: "", pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
             }else{
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))

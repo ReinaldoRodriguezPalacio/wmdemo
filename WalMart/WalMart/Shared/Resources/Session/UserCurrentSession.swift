@@ -673,11 +673,11 @@ class UserCurrentSession : NSObject {
     
     
     func loadShoppingCarts(_ result:@escaping (() -> Void)) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartBegin.rawValue), object: nil)
+        NotificationCenter.default.post(name:.updateShoppingCartBegin, object: nil)
         self.loadMGShoppingCart { () -> Void in
             self.loadGRShoppingCart({ () -> Void in
                 //TODO: Decide shop preShopping Cart, Empty or cart
-              NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartEnd.rawValue), object: nil)
+              NotificationCenter.default.post(name: .updateShoppingCartEnd, object: nil)
                 UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
               result()
             })
@@ -831,20 +831,20 @@ class UserCurrentSession : NSObject {
     func updateTotalItemsInCarts() {
         let countItems = self.numberOfArticlesMG() + numberOfArticlesGR()
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     
     func updateTotalItemsInCarts(itemsInGR:Int) {
         let countItems = self.numberOfArticlesMG() + itemsInGR
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     func updateTotalItemsInCarts(itemsInMG:Int) {
         let countItems = itemsInMG + self.numberOfArticlesGR()
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     func coreDataShoppingCart(_ predicate:NSPredicate) -> [Cart] {

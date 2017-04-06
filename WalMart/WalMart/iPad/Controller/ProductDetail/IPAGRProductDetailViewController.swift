@@ -201,7 +201,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
             self.bannerImagesProducts.imageIconView.isHidden = !ProductDetailViewController.validateUpcPromotion(self.upc as String)
             
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+            NotificationCenter.default.post(name: .clearSearch, object: nil)
             
             //FACEBOOKLOG
             FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
@@ -438,7 +438,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
             params.updateValue(ResultObjectType.Groceries.rawValue, forKey: "type")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
             return
         }
         
@@ -477,7 +477,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
                     
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                     self.productDetailButton?.isOpenQuantitySelector = false
                     self.productDetailButton?.reloadShoppinhgButton()
                 }, closeRow:true )

@@ -235,7 +235,7 @@ class BaseService : NSObject {
                                     self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil
-                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                    NotificationCenter.default.post(name:.userLogOut, object: nil)
                                 })
                             }else{
                                   print("callPOSTService********************login mg ")
@@ -246,7 +246,7 @@ class BaseService : NSObject {
                                     self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil
-                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                    NotificationCenter.default.post(name: .userLogOut, object: nil)
                                 })
                             }
                             
@@ -371,7 +371,7 @@ class BaseService : NSObject {
                                     self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil
-                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                    NotificationCenter.default.post(name:.userLogOut, object: nil)
                                 })
                                 
                             }else{
@@ -383,7 +383,7 @@ class BaseService : NSObject {
                                     self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance.userSigned = nil
-                                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                                    NotificationCenter.default.post(name: .userLogOut, object: nil)
                                 })
                                 
                             
@@ -628,7 +628,7 @@ class BaseService : NSObject {
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                         }, errorBlock: { (error:NSError) -> Void in
                             UserCurrentSession.sharedInstance.userSigned = nil
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                            NotificationCenter.default.post(name: .userLogOut, object: nil)
                         })
                         
                         

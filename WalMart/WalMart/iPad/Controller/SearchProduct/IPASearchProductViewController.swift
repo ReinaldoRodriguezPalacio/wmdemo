@@ -398,7 +398,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                                        completion: { (animated:Bool) -> Void in
                                         self.selectQuantity = nil
                                         //CAMBIA IMAGEN CARRO SELECCIONADO
-                                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                        NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                                         DispatchQueue.main.async {
                                             cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                             self.collection!.reloadData()
@@ -479,7 +479,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.view.addSubview(self.empty)
          self.loading?.stopAnnimating()
         self.filterButton?.alpha = 0
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     override func removeEmptyView(){

@@ -166,8 +166,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.invokeStoreLocatorService()
         
         //TODO: Delete
-        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: .HideBar.rawValue), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: .ShowBar.rawValue), object: nil)
         
     }
     

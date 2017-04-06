@@ -34,31 +34,32 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-enum CustomBarNotification : String {
-    case AddUPCToShopingCart = "kAddUPCToShopingCart"
-    case AddItemsToShopingCart = "kAddItemsToShopingCart"
-    case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
-    case SuccessDeleteItemsToShopingCart = "kSuccessDeleteItemsToShopingCart"
-    case ReloadWishList = "kReloadWishList"
-    case UpdateBadge = "kUpdateBadge"
-    case UserLogOut = "kUserLogOut"
-    case UpdateShoppingCartBegin = "kUpdateShoppingCartBegin"
-    case UpdateShoppingCartEnd = "kUpdateShoppingCartEnd"
-    case ClearSearch = "kClearSearch"
-    case HideBadge = "kHideBadge"
-    case ShowBadge = "kShowBadge"
-    case ShowHelp = "kShowHelp"
-    case ClearShoppingCartGR = "kClearShoppingCartGR"
-    case ClearShoppingCartMG = "kClearShoppingCartMG"
-    case EditSearch = "kEditSearch"
-    case CamFindSearch = "kCamFindSearch"
-    case ScanBarCode = "kScanBarcode"
-    case UpdateNotificationBadge = "kUpdateNotificationBadge"
+extension Notification.Name {
+    static let addUPCToShopingCart = Notification.Name("kAddUPCToShopingCart")
+    static let addItemsToShopingCart = Notification.Name("kAddItemsToShopingCart")
+    static let successAddItemsToShopingCart = Notification.Name("kSuccessAddItemsToShopingCart")
+    static let successDeleteItemsToShopingCart = Notification.Name("kSuccessDeleteItemsToShopingCart")
+    static let reloadWishList = Notification.Name("kReloadWishList")
+    static let updateBadge = Notification.Name("kUpdateBadge")
+    static let userLogOut = Notification.Name("kUserLogOut")
+    static let updateShoppingCartBegin = Notification.Name("kUpdateShoppingCartBegin")
+    static let updateShoppingCartEnd = Notification.Name("kUpdateShoppingCartEnd")
+    static let clearSearch = Notification.Name("kClearSearch")
+    static let hideBadge = Notification.Name("kHideBadge")
+    static let showBadge = Notification.Name("kShowBadge")
+    static let showHelp = Notification.Name("kShowHelp")
+    static let clearShoppingCartGR = Notification.Name("kClearShoppingCartGR")
+    static let clearShoppingCartMG = Notification.Name("kClearShoppingCartMG")
+    static let editSearch = Notification.Name("kEditSearch")
+    static let camFindSearch = Notification.Name("kCamFindSearch")
+    static let scanBarCode = Notification.Name("kScanBarcode")
+    static let updateNotificationBadge = Notification.Name("kUpdateNotificationBadge")
     
-    case ShowGRLists = "kShowGRLists"
-    case ShowHomeSelected = "kShowHomeSelected"
-    
+    static let showGRLists = Notification.Name("kShowGRLists")
+    static let showHomeSelected = Notification.Name("kShowHomeSelected")
 }
+
+
 
 struct TabBarHidden {
     static var isTabBarHidden : Bool = false
@@ -134,27 +135,27 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         super.viewDidLoad()
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.userLogOut(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.startUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateShoppingCartBegin.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateShoppingCartEnd.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.clearSearch), name: NSNotification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: .addUPCToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: .addItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: .updateBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.userLogOut(_:)), name: .userLogOut, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.startUpdatingShoppingCart(_:)), name: .updateShoppingCartBegin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.endUpdatingShoppingCart(_:)), name: .updateShoppingCartEnd, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.clearSearch), name: .clearSearch, object: nil)
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.hidebadge), name: NSNotification.Name(rawValue: CustomBarNotification.HideBadge.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showbadge), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBadge.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showHelp), name: NSNotification.Name(rawValue: CustomBarNotification.ShowHelp.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.hidebadge), name: .hideBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showbadge), name: .showBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showHelp), name: .showHelp, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyGroceries), name: NSNotification.Name(rawValue: CustomBarNotification.ClearShoppingCartGR.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyMG), name: NSNotification.Name(rawValue: CustomBarNotification.ClearShoppingCartMG.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.editSearch(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyGroceries), name: .clearShoppingCartGR, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyMG), name: .clearShoppingCartMG, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.editSearch(_:)), name: .editSearch, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showListsGR), name: NSNotification.Name(rawValue: CustomBarNotification.ShowGRLists.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.camFindSearch(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.showListsGR), name: .showGRLists, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.camFindSearch(_:)), name: .camFindSearch, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: .scanBarCode, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: .updateNotificationBadge, object: nil)
         
         
         buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 45))
@@ -1512,7 +1513,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func handleNotification(_ type:String,name:String,value:String,bussines:String) -> Bool {
         //Se elimina el badge de notificaciones
         UIApplication.shared.applicationIconBadgeNumber = 0
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+        NotificationCenter.default.post(name: .updateNotificationBadge, object: nil)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: value)
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
     }

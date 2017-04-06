@@ -31,7 +31,7 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
         self.addChildViewController(self.familyController)
         self.view.addSubview(self.familyController.view)
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
         self.setValuesFamily()
     }
     
@@ -102,11 +102,11 @@ class LandingPageViewController : BackToSchoolCategoryViewController{
     
     func back(){
         let _ = self.navigationController?.popToRootViewController(animated: true)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     func editSearch(){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
+        NotificationCenter.default.post(name: .editSearch, object: titleHeader!)
     }
     
     func setValuesFamily(){

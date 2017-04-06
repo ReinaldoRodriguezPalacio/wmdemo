@@ -86,7 +86,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.view.addSubview(emptyView)
         
         BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
-        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: .reloadWishList, object: nil)
     }
     
     deinit {
@@ -815,7 +815,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: paramsAll as [AnyHashable: Any])
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadDataWishlist), name: NSNotification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)

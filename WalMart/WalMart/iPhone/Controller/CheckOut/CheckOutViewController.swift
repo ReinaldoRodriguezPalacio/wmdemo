@@ -99,7 +99,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         webCheckOut.loadRequest(request)
         self.view.addSubview(webCheckOut)
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBadge.rawValue), object: nil)
+        NotificationCenter.default.post(name: .hideBadge, object: nil)
         
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
@@ -114,7 +114,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         HTTPCookieStorage.shared.cookieAcceptPolicy = .never
         super.viewWillDisappear(animated)
         self.removeAllCookies()
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBadge.rawValue), object: nil)
+        NotificationCenter.default.post(name:.showBadge, object: nil)
     }
     
     override func viewDidLayoutSubviews() {

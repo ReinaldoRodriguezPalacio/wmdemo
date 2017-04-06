@@ -236,7 +236,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                     
                     self.alertView!.setMessage("Ok")
                     self.alertView!.showDoneIcon()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                    NotificationCenter.default.post(name:.userLogOut, object: nil)
                     
                 }
                     , errorBlock: { (error:NSError) -> Void in
@@ -244,7 +244,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.signOutButton?.isEnabled = true
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                        NotificationCenter.default.post(name:.userLogOut, object: nil)
                 })
             }
         }

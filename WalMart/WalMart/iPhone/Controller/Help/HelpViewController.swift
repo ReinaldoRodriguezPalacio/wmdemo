@@ -151,7 +151,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         }
         else  if  indexPath.row  == 0 {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowHelp.rawValue), object: nil)
+            NotificationCenter.default.post(name: .showHelp, object: nil)
         } else {
             let item = self.array![0] as! [String:Any]
             if delegate != nil {

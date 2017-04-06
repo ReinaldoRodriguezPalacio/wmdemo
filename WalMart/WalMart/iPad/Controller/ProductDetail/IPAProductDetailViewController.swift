@@ -181,7 +181,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
         
     }
     
@@ -808,7 +808,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
             params.updateValue(self.type, forKey: "type")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
             return
         }
         
@@ -850,7 +850,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     var params  =  self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!,equivalenceByPiece:0 )//equivalenceByPiece
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
                 }, closeRow:true )
             } else {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -1234,7 +1234,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.titlelbl.text = self.name as String
         
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
         
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])

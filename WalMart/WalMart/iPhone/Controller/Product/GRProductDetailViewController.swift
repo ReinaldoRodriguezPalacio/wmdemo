@@ -218,7 +218,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.loadCrossSell()
             
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+            NotificationCenter.default.post(name: .clearSearch, object: nil)
             
             //FACEBOOKLOG
             FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
@@ -386,7 +386,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
             params.updateValue(ResultObjectType.Groceries.rawValue, forKey: "type")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
             return
         }
         
@@ -473,7 +473,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
                             let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
                             let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.itemOrderbyPices, pieces: pieces,equivalenceByPiece:self.equivalenceByPiece.intValue)
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                            NotificationCenter.default.post(name:.addUPCToShopingCart, object: self, userInfo: params)
                             
                     })
                 } else {

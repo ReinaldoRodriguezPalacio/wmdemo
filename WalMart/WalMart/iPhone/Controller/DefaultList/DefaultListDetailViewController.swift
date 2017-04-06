@@ -466,7 +466,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
                 BaseController.sendAnalyticsProductsToCart(totalPrice)
             }else{
                 self.noProductsAvailableAlert()

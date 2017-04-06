@@ -468,7 +468,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"alert_cart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"alert_cart"])
             }else{
                 self.noProductsAvailableAlert()
                 return

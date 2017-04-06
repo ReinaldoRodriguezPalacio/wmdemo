@@ -103,8 +103,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successAddItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successDeleteItemsToShopingCart, object: nil)
     }
     
     deinit {
@@ -603,7 +603,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     }
                 }
             }
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
             delay(0.5, completion: {
 //                self.showLoadingView()
 //                self.reloadPreviousOrderDetail()

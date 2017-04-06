@@ -46,7 +46,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
                
                 let newParams = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc,desc:self.desc,imageURL:imageURL,price:self.price,quantity:quanty,comments:"",onHandInventory:self.onHandInventory as String,type:ResultObjectType.Groceries.rawValue,pesable:self.isPesable,isPreorderable:self.isPreorderable,orderByPieces: !(self.isPesable == "true"))
                 btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: newParams)
+                NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: newParams)
                 
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
