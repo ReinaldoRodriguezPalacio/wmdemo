@@ -43,7 +43,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol IPAUserListDetailDelegate {
+protocol IPAUserListDetailDelegate: class {
     func showProductListDetail(fromProducts products:[Any], indexSelected index:Int,listName:String)
     func reloadTableListUser()
     func closeUserListDetail()
@@ -53,7 +53,7 @@ protocol IPAUserListDetailDelegate {
 class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverControllerDelegate {
 
     var sharePopover: UIPopoverController?
-    var delegate: IPAUserListDetailDelegate?
+    weak var delegate: IPAUserListDetailDelegate?
     var widthView : CGFloat = 682
     var addGestureLeft = false
     var isShared =  false
@@ -239,8 +239,19 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
-            let imgResult = UIImage.verticalImage(from: [imageHead!,image])
-            let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
+            
+            self.backButton?.isHidden = true
+            self.editBtn?.isHidden = true
+            self.titleLabel?.text = (self.listName != nil) ? self.listName : ""
+            let headerCapture = UIImage(from: header)
+            self.titleLabel?.text = ""
+            self.backButton?.isHidden = false
+            self.editBtn?.isHidden = false
+            
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
                 //self.sharePopover!.backgroundColor = UIColor.greenColor()
@@ -255,8 +266,32 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
+    //MARK: activityViewControllerDelegate
+    override func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    override func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
+    
     override func showEmptyView() {
-         self.openEmpty = true
+        self.openEmpty = true
         
         self.titleLabel?.text = self.listName
         if self.emptyView == nil {
@@ -264,13 +299,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
         
         if UserCurrentSession.hasLoggedUser() {
-           self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: self.view.bounds.width, height: 612 - 64 )
+            self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: self.view.bounds.width, height: 612 - 64 )
         }else{
             self.emptyView!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: 612)
         }
         
         self.emptyView!.backgroundColor = UIColor.white
-       
+        
         
         
         self.emptyView!.backgroundColor = UIColor.white
@@ -342,6 +377,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         var isPesable = false
         var price: NSNumber? = nil
+        var equivalence : NSNumber = 0
         if let item = self.products![indexPath!.row] as? [String:Any] {
             
             if let pesable = item["type"] as?  NSString {
@@ -353,10 +389,11 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         } else if let item = self.products![indexPath!.row] as? Product {
             isPesable = item.type.boolValue
             price = NSNumber(value: item.price.doubleValue as Double)
+            equivalence = item.equivalenceByPiece
         }
         
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalenceByPiece,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalence == 0 ? cell.equivalenceByPiece! : equivalence,upcProduct:cell.upcVal!)
             
         } else {
             self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)
@@ -369,11 +406,18 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         if let item = self.products![indexPath!.row] as? [String:Any] {
             // TODO: cast values from response
+               quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
         } else if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
-       
+        self.quantitySelector!.isFromList =  true
+        self.quantitySelector!.isUpcInList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in
+            
+            if quantity == "00" {
+                self.deleteFromCellUtilityButton(cell)
+                return
+            }
             
             if Int(quantity) <= 20000 {
                 

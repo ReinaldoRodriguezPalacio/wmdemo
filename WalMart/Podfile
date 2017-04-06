@@ -11,7 +11,6 @@ target 'WalMart' do
     pod 'FacebookCore'
     pod 'FacebookLogin'
     pod 'FacebookShare'
-    #Paypal payments
-    pod 'PayPal-iOS-SDK', '2.16.1'
-    
+    pod 'PayPal-iOS-SDK','2.16.3'
+   
 end

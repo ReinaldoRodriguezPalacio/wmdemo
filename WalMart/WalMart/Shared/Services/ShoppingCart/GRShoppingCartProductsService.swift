@@ -47,12 +47,10 @@ class GRShoppingCartProductsService : GRBaseService {
                             }
                             
                             for shoppingCartProduct in itemsInShoppingCart {
-                                print("shoppingCartProduct Item::")
-                                print(shoppingCartProduct)
                                 var carProduct : Cart!
                                 var carProductItem : Product!
                                 let upc = shoppingCartProduct["upc"] as! String
-                                let quantity = shoppingCartProduct["quantity"] as! Int
+                                let quantity = shoppingCartProduct["quantity"] as! Int32
                                 let desc = shoppingCartProduct["description"] as! String
                                 var price = ""
                                 if let priceR =  shoppingCartProduct["price"] as? NSNumber {
@@ -80,8 +78,12 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                 if let baseUomcd  = shoppingCartProduct["baseUomcd"] as? NSString {
                                     carProductItem.orderByPiece = (baseUomcd == "EA" ? 1 : 0)
+                                    if carProductItem.orderByPiece.boolValue {
+                                          carProductItem.pieces = NSNumber(value:quantity)
+                                    }else{
+                                        carProductItem.pieces = 0
+                                    }
                                 }
-                                carProductItem.pieces = NSNumber(value:quantity)
                                 
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
                                     carProductItem.type = NSNumber(value: pesable.integerValue as Int)
@@ -97,7 +99,6 @@ class GRShoppingCartProductsService : GRBaseService {
                                 if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
                                     carProductItem.isPreorderable = preorderable
                                 }
-                                print(shoppingCartProduct["equivalenceByPiece"] )
                                 if let equivalenceByPiece = shoppingCartProduct["equivalenceByPiece"] as? Int {
                                     carProductItem.equivalenceByPiece = NSNumber(value:equivalenceByPiece)
                                 }else if let equivalenceByPiece = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
@@ -112,7 +113,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 
                                
                                 
-                                carProduct.quantity = NSNumber(value: quantity as Int)
+                                carProduct.quantity = NSNumber(value: quantity as Int32)
                                 carProduct.product = carProductItem
                                 carProduct.user = user!
                                 carProduct.type = ResultObjectType.Groceries.rawValue
@@ -134,7 +135,7 @@ class GRShoppingCartProductsService : GRBaseService {
             }
             else{
                 callCoreDataService(params as! [String:Any],successBlock:successBlock, errorBlock:errorBlock )
-        }
+            }
     
         //}
     }
@@ -378,7 +379,7 @@ class GRShoppingCartProductsService : GRBaseService {
             if filtredByUpc.count > 0 {
                 let paramUse = filtredByUpc[0] as [String:String]
                 let quantity = paramUse["quantity"]
-                carProduct.quantity = NSNumber(value: Int(quantity!)! as Int)
+                carProduct.quantity = NSNumber(value: Int32(quantity!)!)
                 var newItemQ: [String:Any] = shoppingCartProduct
                 newItemQ["quantity"] = quantity
                 newItemQ["comments"] =  carProduct.note

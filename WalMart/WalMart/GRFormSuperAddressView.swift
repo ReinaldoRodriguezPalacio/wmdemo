@@ -156,6 +156,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelPhone!.textColor = WMColor.light_blue
         
         self.phoneHomeNumber = FormFieldView()
+        self.phoneHomeNumber!.isRequired = true
         self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
         self.phoneHomeNumber!.typeField = TypeField.phone
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
@@ -267,7 +268,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     for dic in  self.storesDic {
                         let name = dic["name"] as! String!
                         let cost = dic["cost"] as! String!
-                        self.stores.append("\(name) - \(cost)")
+                        self.stores.append("\(name!) - \(cost!)")
                     }
                     if self.stores.count == 0 && !self.store.isRequired
                     {
@@ -375,6 +376,17 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         }
     }
     
+    /**
+     Removes a popup view with an options table
+     
+     - parameter itemView: item which is to be added the popup
+     */
+    func removePopupTable(){
+            self.popupTable?.isHidden = true
+            self.popupTableItem?.imageList?.image = UIImage(named: "fieldListOpen")
+            self.popupTableItem = nil
+    }
+    
     //MARK - TableView
     /**
     Reloads the popup view with new options
@@ -413,7 +425,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             self.store!.imageList?.image = UIImage(named: "fieldListOpen")
             self.selectedStore = indexPath
             if delegateFormAdd != nil {
-                self.delegateFormAdd.showUpdate()
+                self.delegateFormAdd?.showUpdate()
             }
         }
         
@@ -422,7 +434,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             self.suburb!.imageList?.image = UIImage(named: "fieldListOpen")
             self.selectedNeighborhood = indexPath
             if delegateFormAdd != nil {
-                self.delegateFormAdd.showUpdate()
+                self.delegateFormAdd?.showUpdate()
             }
         }
          self.popupTable!.isHidden = true
@@ -464,5 +476,22 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         }
         
         return true
+    }
+    
+    func clearView() {
+        self.addressName?.text = ""
+        self.street?.text = ""
+        self.outdoornumber?.text = ""
+        self.indoornumber?.text = ""
+        self.zipcode?.text = ""
+        self.store?.text = ""
+        self.suburb?.text = ""
+        self.betweenFisrt?.text = ""
+        self.betweenSecond?.text = ""
+        self.currentZipCode = ""
+        self.stores = []
+        self.removePopupTable()
+        self.errorView?.removeFromSuperview()
+        self.errorView = nil
     }
 }

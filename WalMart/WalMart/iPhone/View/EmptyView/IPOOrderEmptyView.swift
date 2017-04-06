@@ -12,8 +12,9 @@ class IPOOrderEmptyView : IPOEmptyView {
     
     override func setup() {
         super.setup()
-        iconImageView.image = UIImage(named:"empty_orders")
+        bgImageView.image = UIImage(named:"empty_orders")
         descLabel.text = NSLocalizedString("empty.orders",comment:"")
+        
     }
     
     

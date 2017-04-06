@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FilterOrderViewCellDelegate {
+protocol FilterOrderViewCellDelegate: class {
     func didChangeOrder(_ order:String)
 }
 
@@ -25,7 +25,7 @@ class FilterOrderViewCell: UITableViewCell {
     var popularityButton: UIButton?
     
     var buttons: [UIButton]?
-    var delegate: FilterOrderViewCellDelegate?
+    weak var delegate: FilterOrderViewCellDelegate?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

@@ -34,7 +34,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ShoppingCartViewControllerDelegate {
+protocol ShoppingCartViewControllerDelegate: class {
     func returnToView()
 }
 
@@ -51,7 +51,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var viewHerader : UIView!
     var viewShoppingCart : UITableView!
     var viewFooter : UIView!
-    var delegate : ShoppingCartViewControllerDelegate!
+    weak var delegate : ShoppingCartViewControllerDelegate?
     var titleView : UILabel!
     var buttonWishlist : UIButton!
     var buttonAsociate : UIButton!
@@ -185,6 +185,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
         
+         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     /**
@@ -193,14 +199,32 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - returns: na
      */
     func initEmptyView(){
-        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
-        emptyView.returnAction = {() in
+        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
+        
+        let model =  UIDevice.current.modelName
+        if model.contains("iPhone") || model.contains("iPod") {
+            if !model.contains("4") {
+                heightEmptyView -= 55
+            } else {
+            heightEmptyView -= 5
+            }
+        }
+        else {
+            heightEmptyView -= 20
+        }
+        
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 40
+        }
+        self.emptyView.returnAction = {() in
             self.closeShoppingCart()
         }
-        self.view.addSubview(emptyView)
         
-        self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
+        if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
+            self.emptyView.showReturnButton = false
+        }
+        self.view.addSubview(self.emptyView)
         
     }
     
@@ -215,7 +239,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
-            
+
+//            self.emptyView!.isHidden = false
+//            self.editButton!.isHidden = true
+
             if !showCloseButton {
                 self.closeButton.isHidden = true
             } else {
@@ -227,26 +254,19 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             editButton.backgroundColor = WMColor.light_blue
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
-            
-            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-                self.loadShoppingCartService()
-            }
         }
-       
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
+            self.loadShoppingCartService()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
-        self.reloadShoppingCart()
+       
         self.showDiscountAsociate()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        
@@ -279,9 +299,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 12, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame = CGRect(x: 16, y: 12, width: 34, height: 34)
+                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 
                 buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
@@ -303,9 +323,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = 341 - 135
@@ -797,6 +817,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                    self.selectQuantity!.updateQuantityBtn()
                 }
             }
             self.view.addSubview(selectQuantity!)
@@ -879,6 +900,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
         })
+        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
     }
     
     /**
@@ -1471,7 +1493,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
               
                 
                 print("done")
-                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
                 //EVENT
                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
                 

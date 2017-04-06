@@ -409,6 +409,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         self.buildSubViews()
@@ -1826,6 +1831,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         self.confirmOrderDictionary["paymentType"] = paymentType
         self.confirmOrderDictionary["authorization"] = idAuthorization
+        self.confirmOrderDictionary["amount"] = (UserCurrentSession.sharedInstance.estimateTotalGR() + Double(self.completeOrderDictionary["deliveryAmount"] as! String)!)
         print("idAuthorization::::\(idAuthorization)::::")
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:[String:Any]) -> Void in

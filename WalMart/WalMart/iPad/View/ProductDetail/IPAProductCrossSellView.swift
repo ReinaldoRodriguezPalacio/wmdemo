@@ -12,7 +12,7 @@ class IPAProductCrossSellView : UIView {
     
     var productCrossSell : ProductDetailCrossSellView!
     
-    var delegate : ProductDetailCrossSellViewDelegate! {
+    weak var delegate : ProductDetailCrossSellViewDelegate? {
         didSet {
             productCrossSell.delegate = delegate
         }

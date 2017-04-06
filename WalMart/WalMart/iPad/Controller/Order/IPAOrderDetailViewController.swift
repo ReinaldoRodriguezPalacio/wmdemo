@@ -51,9 +51,17 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     
     override func shareList() {
          //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
-        if let image = self.buildImageToShare() {
+        if let image = self.tableDetailOrder!.screenshot() {
+            let imageHead = UIImage(named:"detail_HeaderMail")
             
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.backButton?.isHidden = true
+            let headerCapture = UIImage(from: header)
+            self.backButton?.isHidden = false
+            
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             let rect = self.self.viewFooter!.convert(self.shareButton!.frame, to: self.view.superview!)
             self.sharePopover!.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FormSuperAddressViewDelegate {
+protocol FormSuperAddressViewDelegate: class {
     func showUpdate()
     func showNoCPWarning()
 }
@@ -47,7 +47,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var selectedNeighborhood : IndexPath!
     
     var errorView : FormFieldErrorView? = nil
-    var delegateFormAdd : FormSuperAddressViewDelegate!
+    weak var delegateFormAdd : FormSuperAddressViewDelegate?
     
     var currentZipCode = ""
     var picker : AlertPickerView!
@@ -453,14 +453,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.store!.text = selectedStr
                 self.selectedStore = indexPath
                 if delegateFormAdd != nil {
-                    self.delegateFormAdd.showUpdate()
+                    self.delegateFormAdd?.showUpdate()
                 }
             }
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = selectedStr
                 self.selectedNeighborhood = indexPath
                 if delegateFormAdd != nil {
-                    self.delegateFormAdd.showUpdate()
+                    self.delegateFormAdd?.showUpdate()
                 }
             }
         }

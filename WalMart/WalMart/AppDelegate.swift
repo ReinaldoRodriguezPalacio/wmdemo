@@ -29,8 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
+        
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
+        
         
         //Push notifications
         if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
@@ -90,10 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         //Log request
-        AFNetworkActivityLogger.shared().startLogging()
-        //AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
-
-        
+        //AFNetworkActivityLogger.shared().startLogging()
         AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
             switch (status) {
             case AFNetworkReachabilityStatus.notReachable:
@@ -165,22 +165,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             dataLayer.push(["event": "ErrorEventCrash", "detailErrorCrash": exception.description ])
 
             
-            NSLog("CRASH: \(exception)")
-            NSLog("Stack Trace: \(exception.callStackSymbols)")
+//            NSLog("CRASH: \(exception)")
+//            NSLog("Stack Trace: \(exception.callStackSymbols)")
         }
-        
         
         
         //TAGManager
         let GTM = TAGManager.instance()
-        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
     
         //TODO Cambiar a produccion 
-        //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+       //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
         TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
+ 
         
         
         
@@ -226,10 +226,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             IPOSplashViewController.updateUserData(true)
         }
         
-        if self.alertNoInternet != nil {
-            self.alertNoInternet?.close()
-            self.alertNoInternet = nil
-        }
         //Tune.framework
         //Tune.measureSession()
     }
@@ -553,8 +549,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             if (parsedUrl?.appLinkData != nil) {
             
                 let targetUrl:URL =  parsedUrl!.targetURL
-                NSLog("targetUrl::\(targetUrl)")
-                
                 let strAction = stringCompare.replacingOccurrences(of: "walmartmexicoapp://", with: "") as NSString
                 var components = strAction.components(separatedBy: "/")
                 

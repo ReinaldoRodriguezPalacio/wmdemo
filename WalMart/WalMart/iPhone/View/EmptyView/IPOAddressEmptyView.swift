@@ -13,7 +13,7 @@ class IPOAddressEmptyView : IPOEmptyView {
     override func setup() {
         super.setup()
         
-        iconImageView.image = UIImage(named:"empty_adress")
+        bgImageView.image = UIImage(named:"empty_adress")
         descLabel.text = NSLocalizedString("empty.address",comment:"")
         descLabel.numberOfLines = 0
         

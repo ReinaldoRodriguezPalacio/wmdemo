@@ -87,7 +87,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         }
         
-        
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .always
         self.titleLabel!.text = NSLocalizedString("checkout.title",comment:"")
         webCheckOut = UIWebView(frame:CGRect(x: 0, y: self.header!.frame.maxY , width: self.view.bounds.width , height: self.view.bounds.height - self.header!.frame.height - 66 ))
         
@@ -111,6 +111,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
         super.viewWillDisappear(animated)
         self.removeAllCookies()
         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowBadge.rawValue), object: nil)
@@ -213,7 +214,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        print("URL::: FinishLoad --\(webView.request?.url!.absoluteString)")
         let string = webView.request!.url!.absoluteString as NSString
         var range = string.range(of: ConfigUrls.IngresarCheckOut)
         
@@ -275,9 +275,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                Timer.scheduledTimer(timeInterval: 0.9, target: self, selector: #selector(CheckOutViewController.removeViewLoading), userInfo: nil, repeats: false)
             finishLoadCheckOut!()
         }
-        
-        
-        print("URL:::-- \(webView.request)")
         
     }
     

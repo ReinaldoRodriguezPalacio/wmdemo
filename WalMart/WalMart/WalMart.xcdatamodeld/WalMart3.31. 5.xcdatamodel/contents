@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="Cart" representedClassName="WalmartMG.Cart" syncable="YES">
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="cart" inverseEntity="Product" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="productsInCart" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="List" representedClassName="WalmartMG.List" syncable="YES">
+        <attribute name="countItem" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="idList" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="registryDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="list" inverseEntity="Product" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="lists" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Param" representedClassName="WalmartMG.Param" syncable="YES">
+        <attribute name="idUser" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="params" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Product" representedClassName="WalmartMG.Product" syncable="YES">
+        <attribute name="baseprice" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="department" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="equivalenceByPiece" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="img" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isActive" optional="YES" attributeType="String" defaultValueString="true" syncable="YES"/>
+        <attribute name="isPreorderable" optional="YES" attributeType="String" defaultValueString="false" syncable="YES"/>
+        <attribute name="iva" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="onHandInventory" optional="YES" attributeType="String" defaultValueString="5" syncable="YES"/>
+        <attribute name="orderByPiece" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="pieces" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="upc" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cart" inverseName="product" inverseEntity="Cart" syncable="YES"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="List" inverseName="products" inverseEntity="List" syncable="YES"/>
+        <relationship name="wishlist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wishlist" inverseName="product" inverseEntity="Wishlist" syncable="YES"/>
+    </entity>
+    <entity name="Profile" representedClassName="WalmartMG.Profile" syncable="YES">
+        <attribute name="allowMarketingEmail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="allowTransfer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="birthDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cellPhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="homeNumberExtension" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idProfile" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maritalStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="minimumAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneHomeNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneWorkNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profession" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workNumberExtension" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="profile" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Store" representedClassName="WalmartMG.Store" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="businessID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="latSpan" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lonSpan" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="manager" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="opens" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="storeID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="telephone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="zipCode" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="WalmartMG.User" syncable="YES">
+        <attribute name="cartId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cartIdGR" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idUser" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="idUserGR" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastLogin" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maximumAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="lists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="user" inverseEntity="List" syncable="YES"/>
+        <relationship name="params" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Param" inverseName="user" inverseEntity="Param" syncable="YES"/>
+        <relationship name="productsInCart" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cart" inverseName="user" inverseEntity="Cart" syncable="YES"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="user" inverseEntity="Profile" syncable="YES"/>
+        <relationship name="wishlist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Wishlist" inverseName="user" inverseEntity="Wishlist" syncable="YES"/>
+    </entity>
+    <entity name="Wishlist" representedClassName="WalmartMG.Wishlist" syncable="YES">
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="wishlist" inverseEntity="Product" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="wishlist" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Cart" positionX="-155" positionY="-180" width="128" height="135"/>
+        <element name="List" positionX="-279" positionY="351" width="128" height="133"/>
+        <element name="Param" positionX="-180" positionY="218" width="128" height="105"/>
+        <element name="Product" positionX="169" positionY="-72" width="128" height="315"/>
+        <element name="Profile" positionX="-657" positionY="-199" width="128" height="315"/>
+        <element name="Store" positionX="-189" positionY="-27" width="128" height="223"/>
+        <element name="User" positionX="-396" positionY="-99" width="128" height="253"/>
+        <element name="Wishlist" positionX="63" positionY="315" width="128" height="90"/>
+    </elements>
+</model>

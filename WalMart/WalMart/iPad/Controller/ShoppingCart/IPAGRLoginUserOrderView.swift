@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IPAGRLoginUserOrderViewDelegate {
+protocol IPAGRLoginUserOrderViewDelegate: class {
     func showlogin()
     func shareCart()
     func addCartProductToList()
@@ -19,7 +19,7 @@ class IPAGRLoginUserOrderView : UIView {
     var imgBgEmptyLogin : UIImageView!
     var lblDesc : UILabel!
     var btnLogin : UIButton!
-    var delegate : IPAGRLoginUserOrderViewDelegate? = nil
+    weak var delegate : IPAGRLoginUserOrderViewDelegate? = nil
     var totalsView : IPOCheckOutTotalView!
     var listSelectorController: ListsSelectorViewController?
     var footer: UIView?

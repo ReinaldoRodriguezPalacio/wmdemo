@@ -90,6 +90,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var containerinfo : UIView!
     let heightDetail : CGFloat = 360
     var headerView : UIView!
+    var buttonBk: UIButton!
     var currentHeaderView : UIView!
     var isPesable : Bool = false
     var type : ResultObjectType!
@@ -145,7 +146,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
-        let buttonBk = UIButton(frame: CGRect(x: 0, y: 0, width: 46, height: 46))
+        self.buttonBk = UIButton(frame: CGRect(x: 0, y: 0, width: 46, height: 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), for: UIControlState())
         buttonBk.addTarget(self, action: #selector(ProductDetailViewController.backButton), for: UIControlEvents.touchUpInside)
         headerView.addSubview(buttonBk)
@@ -171,20 +172,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
+        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
+        
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
 
     /**
@@ -454,6 +452,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
                     serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
+                        
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             
@@ -470,20 +469,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             self.detailCollectionView.isScrollEnabled = true
                         })
                         
-                        
-                        }) { (error:NSError) -> Void in
-                            self.isWishListProcess = false
-                            if error.code != -100 {
-                                added(false)
-                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
-                                self.view.addSubview(addedAlertWL)
-                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
-                                    addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.isEnabled = false
-                                    self.detailCollectionView.isScrollEnabled = true
-                                })
-                            }
+                    }) { (error:NSError) -> Void in
+                        self.isWishListProcess = false
+                        if error.code != -100 {
+                            added(false)
+                            addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
+                            self.view.addSubview(addedAlertWL)
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
+                                addedAlertWL.prepareToClose()
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
+                            })
+                        }
                     }
                 } else {
                     let serviceWishListDelete = DeleteItemWishlistService()
@@ -503,19 +501,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                          ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
                         
                         
-                        }, errorBlock: { (error:NSError) -> Void in
-                             self.isWishListProcess = false
-                            added(false)
-                            if error.code != -100 {
-                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
-                                self.view.addSubview(addedAlertWL)
-                                UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
-                                    addedAlertWL.prepareToClose()
-                                    self.gestureCloseDetail.isEnabled = false
-                                    self.detailCollectionView.isScrollEnabled = true
-                                })
-                            }
+                    }, errorBlock: { (error:NSError) -> Void in
+                            self.isWishListProcess = false
+                        added(false)
+                        if error.code != -100 {
+                            addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
+                            self.view.addSubview(addedAlertWL)
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
+                                addedAlertWL.prepareToClose()
+                                self.gestureCloseDetail.isEnabled = false
+                                self.detailCollectionView.isScrollEnabled = true
+                            })
+                        }
                     })
                 }
             //}
@@ -526,13 +524,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.isShowShoppingCart = false
                 self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
-                }, completion: { (animated:Bool) -> Void in
-                    if self.selectQuantity != nil {
-                        self.selectQuantity!.removeFromSuperview()
-                        self.selectQuantity = nil
-                        self.gestureCloseDetail.isEnabled = false
-                        self.detailCollectionView.isScrollEnabled = true
-                    }
+            }, completion: { (animated:Bool) -> Void in
+                if self.selectQuantity != nil {
+                    self.selectQuantity!.removeFromSuperview()
+                    self.selectQuantity = nil
+                    self.gestureCloseDetail.isEnabled = false
+                    self.detailCollectionView.isScrollEnabled = true
+                }
             })
         }
         
@@ -584,6 +582,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
             selectQuantity!.closeAction =
                 { () in
+                    self.productDetailButton?.isOpenQuantitySelector = false
                     UIView.animate(withDuration: 0.5,
                         animations: { () -> Void in
                             self.productDetailButton?.reloadShoppinhgButton()
@@ -602,9 +601,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     )
             }
             
-            
-            //Event
-             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
+        
             
            // selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             
@@ -626,17 +623,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.detailCollectionView.isScrollEnabled = true
                         self.isShowShoppingCart = false
                         
-                        if UserCurrentSession.sharedInstance.userHasUPCShoppingCart(String(self.upc)) {
-                            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_UPDATE_SHOPPING_CART.rawValue, label: self.name as String)
-                        } else {
-                            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: self.name as String)
-                        }
-        
-
+                      
                 
                         UIView.animate(withDuration: 0.2,
                             animations: { () -> Void in
-                                self.productDetailButton?.reloadShoppinhgButton()
                                 self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
                                // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
@@ -646,6 +636,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 self.gestureCloseDetail.isEnabled = false
                                 self.detailCollectionView.isScrollEnabled = true
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                 self.productDetailButton?.isOpenQuantitySelector = false
+                                self.productDetailButton?.reloadShoppinhgButton()
                             }
                         )
                     }
@@ -657,7 +649,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                         alert!.setMessage(msgInventory)
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                        self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                        self.selectQuantity?.first = true
+                        self.selectQuantity?.userSelectValue("\(maxProducts)")
                     }
             }
             
@@ -676,7 +669,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     })
             })
         }else{
-            self.closeContainerDetail()
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
+            },
+                           completion: { (animated:Bool) -> Void in
+                            self.closeContainerDetail(completeClose:nil, isPush: false)
+            })
+            
         }
     }
     
@@ -731,7 +731,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
     }
     
-    func closeContainerDetail(){
+    func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool){
         if selectQuantity != nil {
             
         gestureCloseDetail.isEnabled = false
@@ -750,6 +750,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.selectQuantity!.removeFromSuperview()
                     self.selectQuantity = nil
                 }
+                completeClose?()
         })
         }
         else {
@@ -921,14 +922,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 // Remove "event": "ecommerce",
                 BaseController.sendAnalyticsPush(["ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
                 
-                }) { (error:NSError) -> Void in
+            }) { (error:NSError) -> Void in
                     NSLog("ProductDetailService error : \(error.localizedDescription) ", "ProductDetailViewController")
-                    //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                    let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+
+                    let heightEmpty = self.view.bounds.height
+                    let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmpty))
                     
                     self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                     empty.returnAction = { () in
-                        print("")
                         self.navigationController!.popViewController(animated: true)
                     }
                     self.view.addSubview(empty)
@@ -1329,6 +1330,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter completeClose:            complete block
      */
     func closeContainer(_ additionalAnimationClose: @escaping (() -> Void),completeClose: @escaping (() -> Void)) {
+        self.productDetailButton!.isOpenQuantitySelector = false
         let finalFrameOfQuantity = CGRect(x: self.detailCollectionView.frame.minX,  y: heightDetail, width: self.detailCollectionView.frame.width, height: 0)
         UIView.animate(withDuration: 0.5,
             animations: { () -> Void in
@@ -1355,7 +1357,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      */
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
+        self.buttonBk.isHidden = true
         let imageHeader = UIImage(from: self.headerView)
+        self.buttonBk.isHidden = false
         //let headers = [0]
         
         let imagen = UIImage(from: currentHeaderView)
@@ -1647,10 +1651,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let headerView = self.currentHeaderView as! ProductDetailBannerCollectionViewCell
                 for view in headerView.sizesView!.viewToInsert!.subviews {
                     if let button = view.subviews.first! as? UIButton {
-                     button.isEnabled = sizes.contains(button.titleLabel!.text!)
-                    if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
+                        button.isEnabled = sizes.contains(button.titleLabel!.text!)
+                        if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
                             button.sendActions(for: UIControlEvents.touchUpInside)
-                    }
+                        }
                     }
                 }
             }

@@ -8,10 +8,10 @@
 
 import UIKit
 
-protocol ListSelectorCellDelegate {
+protocol ListSelectorCellDelegate: class {
     func didShowListDetail(_ cell: ListSelectorViewCell)
     func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell)
-    func didSelectedList(_ cell: ListSelectorViewCell)
+    func didSelectedList(_ cell: ListSelectorViewCell, productInList: Bool)
 }
 
 class ListSelectorViewCell: UITableViewCell {
@@ -25,7 +25,7 @@ class ListSelectorViewCell: UITableViewCell {
     var pesable : Bool = false
     var productInList =  false
     
-    var delegate: ListSelectorCellDelegate?
+    weak var delegate: ListSelectorCellDelegate?
     let viewBg = UIView(frame: CGRect(x: 0, y: 0, width: 100, height:18))
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,10 +82,7 @@ class ListSelectorViewCell: UITableViewCell {
     
     func selectedList(){
         print("selectedList")
-        if !self.productInList {
-            self.delegate?.didSelectedList(self)
-            self.indicator!.isSelected = !self.indicator!.isSelected
-        }
+        self.delegate?.didSelectedList(self,productInList: self.productInList)
         
     }
     

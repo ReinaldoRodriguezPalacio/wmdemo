@@ -14,14 +14,12 @@ class AuthorizationService : GRBaseService {
     
     override func callGETService(_ params: Any, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         super.callGETService(params, successBlock: { (response:[String:Any]) in
-            print("ok Response Service")
             successBlock!(response)
         }, errorBlock: { (error:NSError) in
-            print("ERROR:: \(error.localizedDescription)")
             errorBlock!(error)
         })
         
     }
     
-
+    
 }

@@ -117,15 +117,10 @@ class GRAddItemListService: GRBaseService {
                 
                 for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:Any]
-                    let baseUomcd = item["baseUomcd"] as? String ?? "GM"
-                    let orderByPiece = baseUomcd == "EA" || baseUomcd == "pieces"
                     let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
                     detail!.desc = item["description"] as! String
-                    detail!.quantity = item["quantity"] as! NSNumber
-                    detail!.orderByPiece = orderByPiece ? 1 : 0
-                    detail!.pieces = orderByPiece ? item["quantity"] as! NSNumber : 0
                     if let active = item["isActive"] as? Bool {
                         detail!.isActive = active ? "true" : "false"
                     }
@@ -136,6 +131,46 @@ class GRAddItemListService: GRBaseService {
                     else if let price = item["price"] as? String {
                         detail!.price = price as NSString
                     }
+                    
+                    var quantity: Int32 = 0
+                    if  let qIntProd = item["quantity"] as? Int32 {
+                        quantity = qIntProd
+                    }else if  let qIntProd = item["quantity"] as? NSString {
+                        quantity = qIntProd.intValue
+                    }
+                    
+                    var typeProdVal: Int = 0
+                    if let typeProd = item["type"] as? NSString {
+                        typeProdVal = typeProd.integerValue
+                    }
+                    var equivalenceByPiece : NSNumber = 0
+                    if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                        equivalenceByPiece =  equiva
+                    }else if let equiva = item["equivalenceByPiece"] as? Int {
+                        equivalenceByPiece =  NSNumber(value: equiva)
+                    }else if let equiva = item["equivalenceByPiece"] as? String {
+                        if equiva != "" {
+                            equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+                        }
+                    }
+                    
+                    var baseUomcd = "EA"
+                    if  let baseUomcdP = item["baseUomcd"] as? String {
+                        baseUomcd = baseUomcdP
+                    }
+                    
+//                    if quantity > 20000 && baseUomcd == "GM" {
+//                        quantity = 20000
+//                    }else if quantity > 99 && baseUomcd == "EA"{
+//                        quantity = 99
+//                    }
+                    
+                    detail!.quantity = NSNumber(value: quantity as Int32)
+                    detail!.type = NSNumber(value: typeProdVal as Int)
+                    detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
+                    detail?.equivalenceByPiece =  equivalenceByPiece
+                    detail!.pieces = NSNumber(value: quantity as Int32)
+                    
                     detail!.list = entity!
                 }
                 

@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol IPAWMAlertViewControllerDelegate {
+protocol IPAWMAlertViewControllerDelegate: class {
     
     func cancelButtonTapped()
 }
 
 class IPAWMAlertViewController: IPOWMAlertViewController {
-    var delegate:IPAWMAlertViewControllerDelegate?
+    weak var delegate:IPAWMAlertViewControllerDelegate?
     var cancelButton: UIButton?
     
     override func viewDidLoad() {

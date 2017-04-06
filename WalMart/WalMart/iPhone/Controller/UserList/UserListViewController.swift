@@ -125,16 +125,21 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .none
         BaseController.setOpenScreenTagManager(titleScreen: "Listas", screenName: self.getScreenGAIName())
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
+        
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -235,7 +240,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.listSelectedDuplicate = self.selectedIndex
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRow(at: indexpath!) as? ListTableViewCell
-            self.duplicateList(cell!)
+            if cell != nil {
+                self.duplicateList(cell!)
+            }
         }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
@@ -770,11 +777,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             let item = result![idx]
                             let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
                             detail!.upc = item.upc
+                            detail!.type = item.type
                             detail!.img = item.img
                             detail!.desc = item.desc
                             detail!.price = item.price
                             detail!.quantity = item.quantity
+                            detail!.pieces = item.pieces
+                            detail!.orderByPiece = item.orderByPiece
+                            detail!.equivalenceByPiece = item.equivalenceByPiece
                             detail!.list = clist!
+                            
                             
                             // 360 Event
                             BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
@@ -1250,7 +1262,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func become(timer:Timer){
       let cell =  timer.userInfo as? NewListTableViewCell
-       cell?.inputNameList?.becomeFirstResponder()
+       if (cell?.inputNameList?.isFirstResponder)! {
+            cell?.inputNameList?.becomeFirstResponder()
+        }
     }
     
     
@@ -1572,7 +1586,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:"" )//send baseUomcd
+                        var baseUomcd = "EA"
+                        if let baseUcd = item["baseUomcd"] as? String {
+                            baseUomcd = baseUcd
+                        }
+                        
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:baseUomcd )//send baseUomcd
                         products.append(param)
                         
                         guard let name = item["description"] as? String,

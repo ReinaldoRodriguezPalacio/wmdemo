@@ -37,6 +37,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
      Send product to wishList
      */
     override func addProductToWishlist() {
+        self.isOpenQuantitySelector = false
         self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(upc)
         //event
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label: "\(desc) - \(upc)")
@@ -46,7 +47,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
             self.addDirectToListId()
         }else{
             
-            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+            self.delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
                 self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc)
             })
         }
@@ -60,7 +61,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         let service = GRAddItemListService()
         
         self.isActive =  self.isActive == "" ?  "true" : self.isActive
-        let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false,baseUomcd:"")]//isActive  /baseUomcd
+        let productObject = [service.buildProductObject(upc:self.upc, quantity:self.isPesable ? 50 : 1,pesable:"\(self.isPesable.hashValue)",active:self.isActive == "true" ? true : false,baseUomcd:self.isPesable ? "GM" : "EA")]//isActive  /baseUomcd
         
         service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
             successBlock: { (result:[String:Any]) -> Void in

@@ -15,6 +15,20 @@ class GRPaypalUpdateOrderService: GRBaseService{
     
     func callServiceConfirmOrder(requestParams params:[String:Any], succesBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?){
         
+//        delay(2) {
+//            if let path = Bundle.main.path(forResource: "paypalmockexamplecancel", ofType: "json"){
+//                let jsonData =  try! Data(contentsOf: URL(fileURLWithPath:path))
+//                let jsonResult = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments)
+//                let resultJSON = jsonResult as! [String:Any]
+//                if let errorResult = self.validateCodeMessage(resultJSON) {
+//                    errorBlock!(errorResult)
+//                    return
+//                }
+//                succesBlock!(resultJSON)
+//            }
+//        }
+
+        
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in

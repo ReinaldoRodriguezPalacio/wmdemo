@@ -70,7 +70,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.coreLocationManager.requestWhenInUseAuthorization()
         }
         
-        self.segmentedView = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16,  width: 150.0, height: 22.0))
+        self.segmentedView = UIView(frame: CGRect(x: 16,  y: self.view!.frame.maxY - 147,  width: 150.0, height: 22.0))
         self.segmentedView.layer.borderWidth = 1
         self.segmentedView.layer.cornerRadius = 11
         self.segmentedView.layer.borderColor = WMColor.light_blue.cgColor
@@ -169,6 +169,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
         //NotificationCenter.default.addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: NSNotification.Name(rawValue: CustomBarNotification.ShowBar.rawValue), object: nil)
         
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {

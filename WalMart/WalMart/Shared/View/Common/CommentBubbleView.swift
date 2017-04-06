@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol CommentBubbleViewDelegate {
+protocol CommentBubbleViewDelegate: class {
     func showBottonAddNote(_ show : Bool)
 }
 

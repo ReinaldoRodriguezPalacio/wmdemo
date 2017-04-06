@@ -32,7 +32,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol SearchViewControllerDelegate {
+protocol SearchViewControllerDelegate: class {
     func selectKeyWord(_ keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
     func searchControllerScanButtonClicked()
     func searchControllerCamButtonClicked(_ controller: CameraViewControllerDelegate!)
@@ -49,7 +49,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var header: UIView?
     var field: UITextField?
     //    var fieldArrow: UIImageView?
-    var delegate:SearchViewControllerDelegate!
+    weak var delegate:SearchViewControllerDelegate?
     var scanButton: UIButton?
     var camButton: UIButton?
     var scanLabel: UILabel?
@@ -448,7 +448,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     if self.isBarCodeUPC(code as NSString) {
                         character = code.substring(to: code.characters.index(code.startIndex, offsetBy: code.characters.count-1))
                     }
-                    delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
+                    delegate?.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     return true
                 }
                 
@@ -456,14 +456,14 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
               
-                        delegate.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
+                        delegate?.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
                         return true
                     }
                 }
                 
             }
             
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
+            delegate?.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
             
         } else {
             UIView.animate(withDuration: 1.0, animations: {
@@ -500,7 +500,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
         let item = self.elementsCategories![indexPath.row] as? [String:Any]
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
+        self.delegate?.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
         //        }
     }
     
@@ -645,7 +645,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func cancel(_ sender:UIButton) {
-        delegate.closeSearch(false, sender:nil)
+        delegate?.closeSearch(false, sender:nil)
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
     }
     
@@ -662,11 +662,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
             done()
         }
-        delegate.closeSearch(false, sender:nil)
+        delegate?.closeSearch(false, sender:nil)
     }
     
     func handleTap(_ recognizer:UITapGestureRecognizer){
-        delegate.closeSearch(false, sender:nil)
+        delegate?.closeSearch(false, sender:nil)
     }
     
     func showMessageValidation(_ message:String){

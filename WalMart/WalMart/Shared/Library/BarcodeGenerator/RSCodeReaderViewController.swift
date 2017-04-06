@@ -169,6 +169,7 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
     
     deinit {
         print("RSCodeReaderViewController deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: View lifecycle
@@ -258,13 +259,16 @@ open class RSCodeReaderViewController: UIViewController, AVCaptureMetadataOutput
         
         self.cornersLayer.frame = self.view.bounds
         self.view.layer.addSublayer(self.cornersLayer)
-    }
-    
-    override open func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationWillEnterForeground), name:NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(RSCodeReaderViewController.onApplicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        
+    }
+
+    
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         self.session.startRunning()
     }

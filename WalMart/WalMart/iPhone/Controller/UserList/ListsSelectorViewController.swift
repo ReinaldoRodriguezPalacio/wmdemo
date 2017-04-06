@@ -21,28 +21,23 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
-protocol ListSelectorDelegate {
+protocol ListSelectorDelegate: class {
     func listSelectorDidShowList(_ listId: String, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
     func listSelectorDidAddProduct(inList listId:String,included: Bool)
     func listSelectorDidDeleteProduct(inList listId:String)
     
     func listSelectorDidShowListLocally(_ list: List)
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool)
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List)
+    func listSelectorDidAddProductLocally(inList list:List)
+    func listSelectorDidDeleteProductLocally(inList list:List)
     
     func listSelectorDidClose()
     func shouldDelegateListCreation() -> Bool
     func listSelectorDidCreateList(_ name:String)
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List])
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String])
 }
 
 class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableViewDataSource, ListSelectorCellDelegate, NewListTableViewCellDelegate , UIScrollViewDelegate{
     
-
 
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
@@ -58,13 +53,11 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var productUpc: String?
     var pesable: Bool? = false
     var list: [Any]?
-    var delegate: ListSelectorDelegate?
+    weak var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
-    var viewAddToLists : UIView?
-    var addTolistsBtn: UIButton?
     var showListView : Bool = false
-    
+    var sowKeyboard: Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
@@ -79,13 +72,12 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         self.view.backgroundColor = UIColor.clear
+        self.view.backgroundColor = UIColor.clear
         
         let blurEffect = UIBlurEffect(style: .light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.alpha = 0.3
         blurEffectView.frame = self.view.bounds
-        //self.imageBlurView = blurEffectView
         self.view.addSubview(blurEffectView)
         
         let bgView = UIView(frame:CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
@@ -106,7 +98,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.closeBtn!.addTarget(self, action: #selector(ListsSelectorViewController.closeSelector), for: .touchUpInside)
         self.view.addSubview(self.closeBtn!)
         
-        self.tableView = UITableView(frame: CGRect(x: 0, y: 200, width: 320, height: 400))
+        self.tableView = UITableView(frame: CGRect(x: 0, y: 200, width: 320, height: self.view.frame.height - 48))
         self.tableView!.backgroundColor = UIColor.clear
         self.tableView!.separatorStyle = UITableViewCellSeparatorStyle.none
         self.tableView!.autoresizingMask = UIViewAutoresizing()
@@ -123,32 +115,15 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.addSubview(self.loading!)
 
         self.showLoadingIfNeeded()
-        
-        self.viewAddToLists =  UIView()
-        self.viewAddToLists?.backgroundColor =  UIColor.clear
-        self.view.addSubview(self.viewAddToLists!)
-        
-        self.addTolistsBtn = UIButton()
-        self.addTolistsBtn!.setTitle(NSLocalizedString("Añadir a lista", comment:""), for:UIControlState())
-        self.addTolistsBtn!.titleLabel!.textColor = UIColor.white
-        self.addTolistsBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.addTolistsBtn!.backgroundColor = WMColor.green
-        self.addTolistsBtn!.layer.cornerRadius = 17
-        self.addTolistsBtn!.addTarget(self, action: #selector(ListsSelectorViewController.addToLists), for: UIControlEvents.touchUpInside)
-        self.viewAddToLists!.addSubview(addTolistsBtn!)
-        
     }
     
     override func viewWillLayoutSubviews() {
         let frame = self.view.bounds
         self.titleLabel!.frame = CGRect(x: 15.0, y: 0.0, width: frame.size.width - 30.0, height: 48.0)
-        self.closeBtn!.frame = CGRect(x: frame.width - 44.0, y: 2.0, width: 44.0, height: 44.0)
-        self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height - 116.0)
+        self.closeBtn!.frame = CGRect(x: 0, y: 2.0, width: 44.0, height: 44.0)
+        self.tableView!.frame = CGRect(x: 0.0, y: 48.0, width: frame.size.width, height: frame.size.height - 48)
         
         self.loading!.frame = CGRect(x: 0,y: 0, width: frame.size.width, height: frame.size.height)
-        self.viewAddToLists!.frame = CGRect(x: 0.0, y: tableView!.frame.maxY, width: frame.size.width, height: 68.0)
-        
-        self.addTolistsBtn?.frame = CGRect(x: self.view.frame.midX - 73, y: 16.0, width: 146, height: 36)
     }
  
     override func viewDidAppear(_ animated: Bool) {
@@ -163,45 +138,43 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     //MARK: - Actions
     
-    func addToLists(){
-         print(" ListselecttorViewController :addToLists Button :")
-        if arrListSelected.count != 0 {
-            self.delegate?.listSelectedListsLocally(listSelected: arrListSelected)
-        }else{
-            self.delegate?.listIdSelectedListsLocally(idListSelected: arrayIdListsSelected)
-        }
-    
-    }
-    
     func closeSelector() {
         self.delegate?.listSelectorDidClose()
     }
     
-    var arrListSelected : [List] =  []
-    var arrayIdListsSelected : [String] = []
-    func didSelectedList(_ cell: ListSelectorViewCell) {
+    
+    func didSelectedList(_ cell: ListSelectorViewCell, productInList: Bool) {
+        if self.sowKeyboard {
+            return
+        }
         
-        print(" ListselecttorViewController :didSelectedList Delegate :")
-        if let indexPath = self.tableView!.indexPath(for: cell) {
-            let idx = indexPath.row - 1
-            if let item = self.list![idx] as? [String:Any] {
-              
-            }
-            else if let entity = self.list![idx] as? List {
-                if entity.idList == nil {
-                    if arrListSelected.contains(entity) {
-                      let index =  self.arrListSelected.index(of: entity)
-                        arrListSelected.remove(at: index!)
-                    }else{
-                        self.arrListSelected.append(entity)
-                    }
+        if productInList {
+            if let indexPath = self.tableView!.indexPath(for: cell) {
+                self.sowKeyboard = true
+                
+                let idx = indexPath.row - 1
+                if let item = self.list![idx] as? [String:Any] {
+                    self.delegate!.listSelectorDidDeleteProduct(inList: item["id"] as! String)
                 }
-                else {
-                    if self.arrayIdListsSelected.contains(entity.idList!) {
-                        let index = self.arrayIdListsSelected.index(of: entity.idList!)
-                        self.arrayIdListsSelected.remove(at: index!)
+                else if let entity = self.list![idx] as? List {
+                    self.delegate!.listSelectorDidDeleteProductLocally(inList: entity)
+                }
+          }
+        }else {
+            if let indexPath = self.tableView!.indexPath(for: cell) {
+                self.sowKeyboard = true
+                
+                let idx = indexPath.row - 1
+                if let item = self.list![idx] as? [String:Any] {
+                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+                    self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
+                }
+                else if let entity = self.list![idx] as? List {
+                    if entity.idList != nil {
+                        let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: entity.idList!)
+                        self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
                     }else{
-                        self.arrayIdListsSelected.append(entity.idList!)
+                        self.delegate!.listSelectorDidAddProductLocally(inList: entity)
                     }
                 }
             }
@@ -256,11 +229,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     // MARK: - TableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.list == nil || self.list!.count == 0 {
-            self.viewAddToLists?.isHidden =  true
-        }else{
-            self.viewAddToLists?.isHidden =  false
-        }
         return (self.list != nil ? self.list!.count : 0) + 1
     }
     
@@ -303,55 +271,25 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             return
         }
 
-        let idx = indexPath.row - 1
-        if let item = self.list![idx] as? [String:Any] {
-            let listId = item["id"] as? String
-            let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
-            if product != nil {
-                //self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
-                if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
-                    self.didShowListDetail(celldetail)
+            let idx = indexPath.row - 1
+            if let item = self.list![idx] as? [String:Any] {
+                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
+            }
+            else if let entity = self.list![idx] as? List {
+                if entity.idList == nil {
+                    self.delegate!.listSelectorDidShowListLocally(entity)
                 }
-            }
-            else {
-                self.delegate?.listSelectorDidAddProduct(inList: listId!)
-            }
-        }
-        else if let entity = self.list![idx] as? List {
-            let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
-            //Actualizacion a servicio a traves del delegate
-            if entity.idList != nil {
-                if product != nil {
-                    //self.delegate?.listSelectorDidDeleteProduct(inList: entity.idList!)
+                else {
+                    //Abrir lista con sesion
                     if let celldetail = tableView.cellForRow(at: indexPath) as? ListSelectorViewCell {
                         self.didShowListDetail(celldetail)
                     }
                 }
-                else {
-                    self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
-                }
             }
-            //Actualizacion local a DB
-            else {
-                self.delegate?.listSelectorDidAddProductLocally(inList: entity,finishAdd: true)
-                //TODO: Delete action
-//                if product != nil {
-//                    self.delegate?.listSelectorDidDeleteProductLocally(product!, inList: entity)
-//                }
-//                else {
-//
-//                }
-            }
-        }
         
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if let newCell = cell as? NewListSelectorViewCell {
-//            newCell.inputNameList!.becomeFirstResponder()
-//        }
-//    }
-    
+
     // MARK: - DB
     
     func retrieveItems(forUser user:User) -> [List]? {
@@ -452,22 +390,47 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     
     internal func showKeyboardUpdateQuantity(_ cell: ListSelectorViewCell) {
+        if self.sowKeyboard {
+            return
+        }
         
         if let indexPath = self.tableView!.indexPath(for: cell) {
+            self.sowKeyboard = true
             let idx = indexPath.row - 1
+            
             if let item = self.list![idx] as? [String:Any] {
-                let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
-                self.delegate!.listSelectorDidAddProduct(inList: item["id"] as! String,included:isIncluded)
-            }
-            else if let entity = self.list![idx] as? List {
-                if entity.idList == nil {
-                    self.delegate!.listSelectorDidShowListLocally(entity)
+                
+                let listId = item["id"] as? String
+                let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
+                
+                if product != nil {
+                    if let celldetail = tableView?.cellForRow(at: indexPath) as? ListSelectorViewCell {
+                        self.didShowListDetail(celldetail)
+                    }
+                } else {
+                    self.delegate?.listSelectorDidAddProduct(inList: listId!)
                 }
-                else {
-                    let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
-                    self.delegate!.listSelectorDidAddProduct(inList: entity.idList!,included:isIncluded)
+                
+            } else if let entity = self.list![idx] as? List {
+                
+                //Abrir teclado con sesion
+                
+                let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
+                
+                //Actualizacion a servicio a traves del delegate
+                
+                if entity.idList != nil {
+                    if product != nil {
+                        let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId:  entity.idList!)
+                        self.delegate!.listSelectorDidAddProduct(inList: entity.idList!, included: isIncluded)
+                    } else {
+                        self.delegate?.listSelectorDidAddProduct(inList: entity.idList!)
+                    }
+                } else { //Actualizacion local a DB
+                    self.delegate?.listSelectorDidAddProductLocally(inList: entity)
                 }
             }
+            
         }
         
     }
@@ -528,6 +491,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.endEditing(true)
     }
 
-
+    func contentSizeForScrollView(_ sender:Any) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: self.view.frame.height + 64)
+    }
     
 }

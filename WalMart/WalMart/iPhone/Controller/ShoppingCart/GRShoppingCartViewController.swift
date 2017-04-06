@@ -33,7 +33,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate {
+class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate, UIActivityItemSource {
    
 
     
@@ -151,7 +151,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         initEmptyView()
         //loadGRShoppingCart()
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
+        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
  
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -159,6 +165,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.removeViewLoad()
         
         loadGRShoppingCart()
+        
+//        self.emptyView!.isHidden = false
+//        self.editButton!.isHidden = true
         
         self.emptyView!.isHidden = self.itemsInCart.count > 0
         self.editButton.isHidden = self.itemsInCart.count == 0
@@ -179,7 +188,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.viewFooter.alpha = 1
         })
@@ -187,19 +196,35 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     func initEmptyView(){
+        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
         
-        emptyView = IPOShoppingCartEmptyView(frame:CGRect.zero)
-        emptyView.frame = CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: self.view.frame.height - viewHerader.frame.height)
-        emptyView.returnAction = {() in
+        let model =  UIDevice.current.modelName
+        if model.contains("iPhone") || model.contains("iPod"){
+            if !model.contains("4") {
+                heightEmptyView -= 55
+            } else {
+                heightEmptyView -= 5
+            }
+        }
+        else {
+            heightEmptyView -= 25
+        }
+        
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 40
+        }
+        self.emptyView.returnAction = {() in
             self.closeShoppingCart()
+        }
+        if IS_IPAD || UIDevice.current.modelName.contains("iPad") {
+            self.emptyView.showReturnButton = false
         }
         self.view.addSubview(emptyView)
         
-        self.emptyView.iconImageView.image =  UIImage(named:"empty_cart")
     }
     
     func closeShoppingCart() {
@@ -855,6 +880,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.tableShoppingCart.reloadData()
                     self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
                 }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
             })
             }, errorBlock: { (error:NSError) -> Void in
                  self.removeViewLoad()
@@ -922,7 +948,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 //self.loadGRShoppingCart()
                 
                 self.removeViewLoad()
-                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil, userInfo:nil)
                 print("done")
                 if self.onClose != nil {
                     self.onClose?(true)
@@ -945,10 +971,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func shareShoppingCart() {
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
+        self.editButton?.isHidden = true
+        self.closeButton?.isHidden = true
         let imageHeader = UIImage(from: self.viewHerader)
+        self.editButton?.isHidden = false
+        self.closeButton?.isHidden = false
+        
         let screen = self.tableShoppingCart.screenshot()
         let imgResult = UIImage.verticalImage(from: [imageHead!,imageHeader!,screen!])
-        let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
+        
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+        
+        let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
         self.navigationController!.present(controller, animated: true, completion: nil)
         
         controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -958,6 +992,29 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi carrito de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su carrito de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
     
     //MARK: - Actions List Selector
     
@@ -978,6 +1035,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
+            listSelectorController?.showListView =  true
             
             
             UIView.animate(withDuration: 0.5,
@@ -996,7 +1054,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                //self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -1033,14 +1090,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("lista de id de listas")
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Seleccionadas")
-    }
-    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -1050,64 +1099,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
-        let service = GRAddItemListService()
-        var products: [Any] = []
-        for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] 
-            
-            let upc = item["upc"] as! String
-            let desc = item["description"] as! String
-            let price = item["price"] as! Int
-            
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? Int {
-                quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            var pesable = "0"
-            if  let pesableP = item["type"] as? String {
-                pesable = pesableP
-            }
-            var active = true
-            if let stock = item["stock"] as? Bool {
-                active = stock
-            }
-            
-            var baseUomcd = "EA"
-            if  let baseUomcdP = item["baseUomcd"] as? String {
-                baseUomcd = baseUomcdP
-            }
-            
-            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
-        }
-
-        service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:[String:Any]) -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error at add product to list: \(error.localizedDescription)")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }
-        )
+        
+        self.addItemsfromcarToList(inList: listId, included: included, finishAdd: true)
+     
     }
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
@@ -1124,8 +1122,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
+            }else if  let qIntProd = item["quantity"] as? NSString {
                 quantity = qIntProd.integerValue
             }
             
@@ -1141,22 +1138,46 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let typeProd = item["type"] as? NSString {
                 typeProdVal = typeProd.integerValue
             }
+            var equivalenceByPiece : NSNumber = 0
+            if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece =  equiva
+            }else if let equiva = item["equivalenceByPiece"] as? Int {
+                equivalenceByPiece =  NSNumber(value: equiva)
+            }else if let equiva = item["equivalenceByPiece"] as? String {
+                equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+            }
            
-            
-            
             var addInList = true
             for prod  in list.products {
                 let myprod = prod as! Product
-                
+                let orderByPiece = item["orderByPieces"] as! NSNumber
                 if  myprod.upc == item["upc"] as! String {
                     addInList =  false
-                    myprod.quantity =  NSNumber(value:Int(myprod.quantity) + quantity)
-                    break
+                    if myprod.orderByPiece ==  orderByPiece {
+                        var quantitySum = myprod.quantity.int64Value + quantity
+                        
+                        if orderByPiece.intValue == 0 {
+                            quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        }else{
+                             quantitySum = quantitySum > 99 ? 99 : quantitySum
+                        }
+                        
+                        myprod.quantity = NSNumber(value: quantitySum)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }else{
+                        myprod.quantity = NSNumber(value: quantity)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.equivalenceByPiece =  equivalenceByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }
                 }
             }
             
             if addInList {
-                
+                print(item["description"] as! String)
                 let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
                 detail!.upc = item["upc"] as! String
                 detail!.desc = item["description"] as! String
@@ -1165,16 +1186,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail!.type = NSNumber(value: typeProdVal as Int)
                 detail!.list = list
                 detail!.img = item["imageUrl"] as! String
-                var equivalenceByPiece : NSNumber = 0
-                if let equiva = item["equivalenceByPiece"] as? NSNumber {
-                    equivalenceByPiece =  equiva
-                }else if let equiva = item["equivalenceByPiece"] as? Int {
-                    equivalenceByPiece =  NSNumber(value: equiva)
-                }else if let equiva = item["equivalenceByPiece"] as? String {
-                    equivalenceByPiece =   NSNumber(value:Int(equiva)!)
-                }
-                
+                detail?.orderByPiece = item["orderByPieces"] as! NSNumber
                 detail?.equivalenceByPiece =  equivalenceByPiece
+                detail!.pieces = NSNumber(value: quantity as Int)
                 
                 // 360 Event
                 BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
@@ -1204,7 +1218,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     }
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
     }
 
     func listSelectorDidDeleteProduct(inList listId:String) {
@@ -1262,8 +1276,18 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let description = item["description"] as? String
             let type = item["type"] as? String
             let baseUomcd = item["baseUomcd"] as? String
+            var equivalenceByPiece : NSNumber =  0
+            
+            if let equivalence = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece = equivalence
+            }else if let equivalence = item["equivalenceByPiece"] as? NSString {
+                if equivalence != "" {
+                   equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
+                }
+            }
+            
 
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: 0)//baseUomcd and equivalenceByPiece
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: equivalenceByPiece)//baseUomcd and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         
@@ -1280,6 +1304,72 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 self.alertView!.showErrorIcon("Ok")
             }
         )
+    }
+    
+    //AddItem from car to n list
+    func addItemsfromcarToList(inList listId:String, included: Bool,finishAdd:Bool){
+        
+        if self.alertView ==  nil {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        }
+        
+        let service = GRAddItemListService()
+        var products: [Any] = []
+        for idx in 0 ..< self.itemsInCart.count {
+            let item = self.itemsInCart[idx]
+            
+            let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            let price = item["price"] as! Int
+            
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? Int {
+                quantity = qIntProd
+            }
+            if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            var pesable = "0"
+            if  let pesableP = item["type"] as? String {
+                pesable = pesableP
+            }
+            var active = true
+            if let stock = item["stock"] as? Bool {
+                active = stock
+            }
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdP = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdP
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: "\(price)")
+        }
+        
+        service.callService(service.buildParams(idList: listId, upcs: products),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                if finishAdd {
+                                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                                self.alertView!.afterRemove = {
+                                    self.removeListSelector(action: nil)
+                                }
+                                    self.alertView =  nil
+                                }
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.alertView!.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+        })
+    
+    
     }
     
     func addViewload(){

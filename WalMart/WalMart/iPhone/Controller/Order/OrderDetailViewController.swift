@@ -9,7 +9,7 @@
 import Foundation
 
 
-class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate {
+class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate, UIActivityItemSource {
     
     var trackingNumber = ""
     var status = ""
@@ -45,7 +45,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         super.viewDidLoad()
         //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         
-        self.viewFooter = UIView(frame:CGRect(x: 0, y: self.view.bounds.maxY - 72, width: self.view.bounds.width, height: 46))
+        self.viewFooter = UIView(frame:CGRect(x: 0, y: self.view.bounds.maxY - 28, width: self.view.bounds.width, height: 46))
         
         self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = trackingNumber
@@ -102,15 +102,22 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
             UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessDeleteItemsToShopingCart.rawValue), object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
 
-        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 20 , width: self.view.frame.width, height: 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
 
@@ -124,7 +131,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
   
-            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64  - 45 , width: self.view.frame.width, height: 64)
+            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64   , width: self.view.frame.width, height: 64)
         
         
     }
@@ -138,19 +145,20 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if itemDetailProducts.count == 0 {
                 
                 var maxY = self.tableDetailOrder!.frame.maxY
-                let height = IS_IPAD ? self.view.frame.height : self.view.bounds.height
-                let width = IS_IPAD ? self.view.frame.width : self.view.bounds.width
+                let height = self.view.bounds.height
+                var width = self.view.bounds.width
                 
                 if IS_IPAD {
                     maxY = maxY + 140
+                    width -= 342.5
                 } else {
                     maxY = maxY + 120
                 }
                 
                 if self.emptyOrder == nil {
                     self.emptyOrder = IPOSearchResultEmptyView(frame:CGRect(x: 0, y: maxY, width: width, height: height - maxY))
-                    self.emptyOrder.iconImageView.contentMode = .scaleAspectFill
-                    self.emptyOrder.iconImageView.image = UIImage(named:"bg_pedidos_empty")
+                    self.emptyOrder.bgImageView.contentMode = .scaleAspectFill
+                    self.emptyOrder.bgImageView.image = UIImage(named:"bg_pedidos_empty")
                     self.emptyOrder.returnButton.removeFromSuperview()
                 }
                 
@@ -161,6 +169,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }
         }
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableDetailOrder.reloadData()
     }
  
     
@@ -547,12 +560,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
+            self.listSelectorController!.showListView =  true
             
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
                     self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -565,7 +578,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -592,6 +604,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 }
             }
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            delay(0.5, completion: {
+//                self.showLoadingView()
+//                self.reloadPreviousOrderDetail()
+                self.reloadViewDetail()
+            })
         }
     
     }
@@ -624,9 +641,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         else if let quantity = item["quantity"] as? NSString {
             params["quantity"] = "\(quantity.integerValue)"
         }
-        params["baseUomcd"] = item["baseUomcd"] as! String
         
-        let baseUomcd = params["baseUomcd"] as! String
+        var baseUomcd = "EA"
+        if let baseUomcdItem = item["baseUomcd"] as? String {
+            baseUomcd = baseUomcdItem
+        }
+        params["baseUomcd"] = baseUomcd
+        
         params["orderByPiece"] = baseUomcd == "EA"
         params["wishlist"] = false
         params["type"] = type.rawValue
@@ -649,8 +670,20 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }else {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         }
-        if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        var imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        var headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        
+        if let image = self.tableDetailOrder!.screenshot() {
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            imageHead = nil
+            headerCapture = nil
+            
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -661,22 +694,30 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableDetailOrder!.frame
-        var frame : CGRect = self.tableDetailOrder!.frame
-        frame.size.height = self.tableDetailOrder!.contentSize.height
-        self.tableDetailOrder!.frame = frame
-        
-        //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        self.tableDetailOrder!.frame = oldFrame
-        return saveImage
-
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
     }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo!\n\nSiempre encuentra todo y pagas menos."
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar una compra que hice en www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) hizo una compra que te puede interesar en walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
+
     
     func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
@@ -686,7 +727,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 animations: { () -> Void in
                     let frame = self.view.frame
                     self.listSelectorController!.view.frame = CGRect(x: 0, y: frame.height, width: frame.width, height: 0.0)
-                    self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
+                    //self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: -frame.height, width: frame.width, height: frame.height)
                 }, completion: { (complete:Bool) -> Void in
                     if complete {
                         if self.listSelectorController != nil {
@@ -734,14 +775,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("listas de id de listas")
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Selecionadas")
-    }
-    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -751,80 +784,21 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
-        
-        let service = GRAddItemListService()
-        var products: [Any] = []
-        for idx in 0 ..< self.itemDetailProducts.count {
-            
-            let item = self.itemDetailProducts[idx] 
-            
-            let upc = item["upc"] as! String
-            let desc = item["description"] as! String
-            
-            var price = ""
-            
-            if let priceDouble = item["price"] as? Double {
-                price = "\(priceDouble)"
-            }
-            
-            if let priceString = item["price"] as? String {
-                price = priceString
-            }
-            
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? Int {
-                quantity = qIntProd
-            }
-            if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            var pesable = "0"
-            if  let pesableP = item["type"] as? String {
-                pesable = pesableP
-            }
-            var active = true
-            if let stock = item["stock"] as? Bool {
-                active = stock
-            }
-            
-            var baseUomcd = "EA"
-            if  let baseUomcdItem = item["baseUomcd"] as? String {
-                baseUomcd = baseUomcdItem
-            }
-            
-            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
-            
-            // 360 Event
-            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
-        }
-        
-        service.callService(service.buildParams(idList: listId, upcs: products),
-            successBlock: { (result:[String:Any]) -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error at add product to list: \(error.localizedDescription)")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                    self.removeListSelector(action: nil)
-                }
-            }
-        )
+        self.addItemsToList(inList:listId , included:included , finishAdd:true )
+       
     }
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    
+    func listSelectorDidAddProductLocally(inList list:List) {
+        print("listSelectorDidAddProductLocally")
     }
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
+        print("listSelectorDidDeleteProductLocally")
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {
+        print("listSelectorDidDeleteProduct")
     }
     
     func listSelectorDidShowList(_ listId: String, andName name:String) {
@@ -899,6 +873,90 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.alertView!.showErrorIcon("Ok")
             }
         )
+    }
+    
+    func addItemsToList(inList listId:String, included: Bool,finishAdd:Bool){
+        if self.alertView == nil {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        }
+        
+        
+        let service = GRAddItemListService()
+        var products: [Any] = []
+        for idx in 0 ..< self.itemDetailProducts.count {
+            
+            let item = self.itemDetailProducts[idx]
+            
+            let upc = item["upc"] as! String
+            let desc = item["description"] as! String
+            
+            var price = ""
+            
+            if let priceDouble = item["price"] as? Double {
+                price = "\(priceDouble)"
+            }
+            
+            if let priceString = item["price"] as? String {
+                price = priceString
+            }
+            
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? Int {
+                quantity = qIntProd
+            }
+            if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            var pesable = "0"
+            if  let pesableP = item["type"] as? String {
+                pesable = pesableP
+            }
+            var active = true
+            if let stock = item["stock"] as? Bool {
+                active = stock
+            }
+            
+            var baseUomcd = "EA"
+            if  let baseUomcdItem = item["baseUomcd"] as? String {
+                baseUomcd = baseUomcdItem
+            }
+            
+            products.append(service.buildProductObject(upc: upc, quantity: quantity, pesable: pesable, active: active,baseUomcd:baseUomcd) as AnyObject)//baseUomcd
+            
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(upc, desc: desc, price: price)
+        }
+        
+        service.callService(service.buildParams(idList: listId, upcs: products),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                if finishAdd {
+                                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                                self.alertView!.afterRemove = {
+                                    self.removeListSelector(action: nil)
+                                }
+                                self.alertView?.close()
+                                self.alertView =  nil
+                            }
+                                
+                                
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error at add product to list: \(error.localizedDescription)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            self.alertView!.afterRemove = {
+                self.removeListSelector(action: nil)
+            }
+            self.alertView?.close()
+            self.alertView =  nil
+        })
+
+    
+    }
+    
+    func reloadViewDetail() {
+        self.tableDetailOrder.reloadData()
     }
     
     override func back() {

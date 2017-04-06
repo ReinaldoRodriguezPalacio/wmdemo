@@ -181,12 +181,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
+        
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-        productCrossSell.setIdList(self.idListSelected) //
+       productCrossSell.setIdList(self.idListSelected) //
         self.tabledetail.reloadData()
        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "backButton", name: CustomBarNotification.finishUserLogOut.rawValue, object: nil)
     }
@@ -195,14 +201,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         super.viewDidAppear(animated)
         self.tabledetail.reloadData()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
 
-    
-  
     func didPinch(_ sender:UIPinchGestureRecognizer){
         if  sender.scale < 1 {
             self.backButton()
@@ -825,6 +824,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         selectQuantity?.closeAction = { () in
+            self.productDetailButton!.isOpenQuantitySelector = false
             self.closeContainer({ () -> Void in
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
@@ -859,7 +859,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                 alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                self.selectQuantity?.first = true
+                self.selectQuantity?.userSelectValue("\(maxProducts)")
             }
         }
         

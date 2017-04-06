@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-protocol ProductDetailButtonBarCollectionViewCellDelegate {
+protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
     func shareProduct()
     func showProductDetail()
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void)
@@ -38,6 +38,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var detailProductCart: Cart?
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
+    var isOpenQuantitySelector: Bool = false
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -85,7 +86,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var facebookButton : UIButton!
     var deltailButton : UIButton!
     var listButton : UIButton!
-    var delegate : ProductDetailButtonBarCollectionViewCellDelegate!
+    weak var delegate : ProductDetailButtonBarCollectionViewCellDelegate?
     
     var addToShoppingCartButton : UIButton!
     
@@ -166,7 +167,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
    
     func addProductToWishlist() {
         
-        
+      self.isOpenQuantitySelector = false
     if !isAddingOrRemovingWishlist {
         isAddingOrRemovingWishlist = true
         let animation = UIImageView(frame: CGRect(x: 0, y: 0,width: 36, height: 36));
@@ -179,7 +180,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         //event
         // //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
-        delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+        delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
             if addedTWL == true {
                 self.listButton.isSelected = !self.listButton.isSelected
                 if self.listButton.isSelected {
@@ -197,18 +198,22 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     func addProductToShoppingCart() {
         if isAviableToShoppingCart {
-            delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
+            delegate?.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
         } else {
-            delegate.showMessageProductNotAviable()
+            delegate?.showMessageProductNotAviable()
         }
+        self.isOpenQuantitySelector = false
+        self.reloadShoppinhgButton()
     }
     
     func shareProduct() {
-        delegate.shareProduct()
+        
+        delegate?.shareProduct()
     }
     
     func detailProduct() {
-        delegate.showProductDetail()
+        self.isOpenQuantitySelector = false
+        delegate?.showProductDetail()
     }
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
@@ -232,10 +237,14 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0,0 , 0)
         
         self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
-        
+        self.isOpenQuantitySelector = true
     }
     
     func reloadShoppinhgButton() {
+        if isOpenQuantitySelector {
+            return
+        }
+        
         if isAviableToShoppingCart  {
             reloadButton()
         }else {
@@ -272,39 +281,41 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                let quantity = detailProductCart!.quantity
+                var quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
                 //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
-                    if quantity.intValue == 1 {
+                    if quantity.int32Value == 1 {
+                        
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                     }
                     else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+
                     }
                     //total = (quantity.doubleValue * price.doubleValue)
                 } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
-                    
                     let pieces = detailProductCart!.product.pieces
-                    
                     if pieces == 1 {
                         text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
                     } else {
                         text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
+                    } 
+                } else { //Gramos
+                    if quantity < 0 {
+                        quantity = 20000
                     }
                     
-                    
-                } else { //Gramos
-
                     let q = quantity.doubleValue
                     if q < 1000.0 {
                         text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
+
                     }
                     else {
-                        let kg = q/1000.0
-                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg as Double))
+                        let kg: Double = q/1000.0
+                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg))
                     }
                     //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
@@ -328,10 +339,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
         if !isAviableToShoppingCart{
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
     }
     

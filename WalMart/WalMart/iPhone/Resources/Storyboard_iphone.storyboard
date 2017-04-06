@@ -22,24 +22,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
-                                        <rect key="frame" x="-1" y="21" width="46" height="43"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
+                                        <rect key="frame" x="15" y="20" width="46" height="44"/>
                                         <state key="normal" image="navBar_search">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="navBar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DNA-XG-hNj">
-                                        <rect key="frame" x="69" y="20" width="183" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <imageView contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="navBar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DNA-XG-hNj">
+                                        <rect key="frame" x="82" y="20" width="212" height="44"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
-                                        <rect key="frame" x="253" y="19" width="67" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
+                                        <rect key="frame" x="298" y="20" width="67" height="44"/>
                                         <state key="normal" image="navBar_cart">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -49,10 +45,20 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.4392156862745098" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="15" id="4U0-Wm-Vfz"/>
+                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="6LB-u9-AGT"/>
+                                    <constraint firstAttribute="bottom" secondItem="PBg-Qu-tY2" secondAttribute="bottom" id="9nN-ZA-d3q"/>
+                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="B9W-wm-eMK"/>
+                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="leading" secondItem="rL3-3R-LDa" secondAttribute="leading" constant="15" id="HYU-aj-6KR"/>
+                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="Hp5-dQ-HNQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="k6B-dO-hTl"/>
+                                    <constraint firstAttribute="bottom" secondItem="doD-nc-whc" secondAttribute="bottom" id="tbJ-Hk-Y7n"/>
+                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="uST-iW-sbE"/>
+                                </constraints>
                             </view>
-                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
-                                <rect key="frame" x="0.0" y="63" width="320" height="461"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <segue destination="V74-Hq-4gN" kind="embed" identifier="homeEmbedSegue" id="X0a-aJ-NBY"/>
@@ -60,6 +66,16 @@
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="rL3-3R-LDa" firstAttribute="top" secondItem="VMm-1L-o4v" secondAttribute="top" id="6oC-0s-XVJ"/>
+                            <constraint firstAttribute="trailing" secondItem="bwT-nf-vKG" secondAttribute="trailing" id="Ub8-La-2Fb"/>
+                            <constraint firstItem="BE3-jZ-yHI" firstAttribute="top" secondItem="bwT-nf-vKG" secondAttribute="bottom" constant="44" id="Vc6-7c-1fk"/>
+                            <constraint firstAttribute="trailing" secondItem="rL3-3R-LDa" secondAttribute="trailing" id="Wau-IY-GXc"/>
+                            <constraint firstItem="bwT-nf-vKG" firstAttribute="top" secondItem="VMm-1L-o4v" secondAttribute="top" constant="64" id="YGM-y9-d8W"/>
+                            <constraint firstItem="bwT-nf-vKG" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="qmY-kC-9A4"/>
+                            <constraint firstItem="bwT-nf-vKG" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="bottom" id="ymh-HA-Xxl"/>
+                            <constraint firstItem="rL3-3R-LDa" firstAttribute="leading" secondItem="VMm-1L-o4v" secondAttribute="leading" id="yvF-VO-W7a"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xZh-A1-rAj"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -238,11 +254,11 @@
                         <viewControllerLayoutGuide type="bottom" id="8DJ-lB-xEZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dF5-zr-zVJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZAK-7z-RFS">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="fSC-rf-4RO"/>
@@ -688,9 +704,8 @@
                                     <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
-                                <rect key="frame" x="270" y="410" width="34" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
+                                <rect key="frame" x="270" y="411" width="34" height="34"/>
                                 <state key="normal" image="location"/>
                                 <state key="selected" image="location_selected"/>
                                 <connections>
@@ -700,10 +715,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="sdz-to-nCq" firstAttribute="leading" secondItem="XDH-7a-zhZ" secondAttribute="trailing" constant="-50" id="3RV-Dq-0di"/>
                             <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="leading" secondItem="s8f-vX-XUW" secondAttribute="leading" id="hOU-hM-ce7"/>
                             <constraint firstAttribute="trailing" secondItem="XDH-7a-zhZ" secondAttribute="trailing" id="oS6-t7-Igo"/>
+                            <constraint firstItem="sdz-to-nCq" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" constant="-50" id="ti5-Nf-i1X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
@@ -897,9 +914,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
+                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewLayout key="collectionViewLayout" id="x5F-0N-HoN" customClass="CSStickyHeaderFlowLayout"/>
                                 <cells/>
@@ -910,6 +926,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="GAb-US-jct"/>
+                            <constraint firstAttribute="trailing" secondItem="gAa-Bu-aYo" secondAttribute="trailing" id="RoN-0V-qgH"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="rQu-he-H3Z"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="leading" secondItem="IBt-Kr-i66" secondAttribute="leading" id="zOV-s9-SfT"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -953,9 +975,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
-                                <rect key="frame" x="0.0" y="46" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
+                                <rect key="frame" x="0.0" y="46" width="375" height="621"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zoi-Hb-PDp" customClass="CSStickyHeaderFlowLayout">
                                     <size key="itemSize" width="50" height="50"/>
@@ -971,6 +992,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ZTg-Af-AOZ" secondAttribute="trailing" id="26E-U8-cbA"/>
+                            <constraint firstItem="N1T-IX-YRP" firstAttribute="top" secondItem="ZTg-Af-AOZ" secondAttribute="bottom" id="H5Z-b6-Fn9"/>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="top" secondItem="5O4-f5-eNr" secondAttribute="bottom" constant="46" id="qJ3-Eg-zky"/>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="leading" secondItem="2oy-zj-fzv" secondAttribute="leading" id="qni-bw-CAF"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>

@@ -15,7 +15,7 @@ class NewListView: UIControl, UITextFieldDelegate {
     var saveBarButton: UIButton?
     var saveButton: UIButton?
 
-    var delegate: NewListTableViewCellDelegate?
+    weak var delegate: NewListTableViewCellDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

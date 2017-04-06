@@ -14,6 +14,9 @@ class LogoutService : BaseService {
         self.callGETService(params,
                             successBlock: { (resultCall:[String:Any]) -> Void in
                                 self.jsonFromObject(resultCall as AnyObject!)
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONID")
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONIDMG")
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONIDGR")
                                 successBlock?(resultCall)
                                 return
             },

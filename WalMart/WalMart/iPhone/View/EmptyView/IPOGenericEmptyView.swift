@@ -25,11 +25,10 @@ class IPOGenericEmptyView : IPOEmptyView {
     override func setup() {
         super.setup()
         
-        iconImageView.image = UIImage(named:"detail_OhOh")
+        bgImageView.image = UIImage(named:"detail_OhOh")
         
         descLabel.text = NSLocalizedString(IPOGenericEmptyViewSelected.Selected,comment:"")
         descLabel.numberOfLines = 3
-     
     }
     
     override func layoutSubviews() {

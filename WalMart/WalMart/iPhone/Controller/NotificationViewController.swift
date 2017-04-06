@@ -88,6 +88,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let model = UIDevice.current.modelName
         
         self.headerNotification?.frame = CGRect(x: 0,y: self.header!.frame.maxY ,width: self.view.frame.width,  height: self.header!.frame.maxY)
         
@@ -95,8 +96,13 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         receiveNotificationButton?.frame = CGRect(x: self.view.bounds.width - 70, y: 6, width: 54, height: 34)
         self.layerLine?.frame = CGRect(x: 0, y: 45, width: self.view.frame.width, height: 1)
         
-        emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
-        
+        var heightEmptyView = self.view.bounds.height
+        if !model.contains("iPhone 5") && !model.contains("Plus") && !model.contains("4") {
+            heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
+        }
+    
+        self.emptyView?.frame = CGRect(x: self.view.bounds.minX, y: self.headerNotification!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView)
+    
         notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
                                          width: self.view.bounds.width,
                                          height: self.view.bounds.height - (self.headerNotification!.frame.height))
@@ -104,23 +110,35 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     
     func invokeNotificationService(){
+        let model = UIDevice.current.modelName
+        print(model)
         
+        var heightEmptyView = self.view.bounds.height
+        if !model.contains("iPhone 5") && !model.contains("Plus") && !model.contains("4") {
+            heightEmptyView -= self.receiveNotificationLabel!.frame.maxY
+        }
+
         let pushNotificationService = PushNotificationService()
         pushNotificationService.callService({ (dict) -> Void in
             self.allNotifications = self.getNotificationsForDevice(dict)
             
             if self.allNotifications.count == 0 {
-                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
+                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
+            
+                self.emptyView!.showReturnButton = false
                 self.view.addSubview(self.emptyView!)
             } else {
                 self.notification.reloadData()
             }
+            
             self.removeLoadingView()
-            }, errorBlock: {
-                (error) -> Void in print("Error pushNotificationService")
-                self.removeLoadingView()
-                self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: self.view.bounds.height - self.header!.frame.maxY))
-                self.view.addSubview(self.emptyView!)
+        }, errorBlock: {
+            (error) -> Void in print("Error pushNotificationService")
+            self.removeLoadingView()
+            self.emptyView = IPOEmptyNotificationView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY , width: self.view.bounds.width, height: heightEmptyView))
+            
+            self.emptyView!.showReturnButton = false
+            self.view.addSubview(self.emptyView!)
         })
         
     }

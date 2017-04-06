@@ -41,11 +41,11 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         
         self.view.addSubview(tableOrders)
         
-        emptyView = IPOOrderEmptyView(frame: CGRect.zero)
-        emptyView.returnAction = {() in
+        self.emptyView = IPOOrderEmptyView(frame: CGRect.zero)
+        self.emptyView.returnAction = {() in
             self.back()
         }
-        self.view.addSubview(emptyView)
+        self.view.addSubview(self.emptyView)
         tabFooterView()
         self.reloadPreviousOrders()
         BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.myOrders", comment: ""), screenName: self.getScreenGAIName())
@@ -59,7 +59,25 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        var heightEmptyView = self.view.bounds.height
+        var widthEmptyView = self.view.bounds.width
+        let model =  UIDevice.current.modelName
+        
+        if !model.contains("Plus") && !model.contains("4") && !model.contains("5") {
+            heightEmptyView -= 46
+        }
+        if IS_IPHONE_6P {
+            heightEmptyView -= 14
+        }
+        if IS_IPAD || model.contains("iPad") {
+            widthEmptyView = 681.5
+        }
+        
+        self.emptyView!.frame = CGRect(x: 0, y: self.header!.bounds.maxY, width: widthEmptyView, height: heightEmptyView)
+        if IS_IPAD || model.contains("iPad") {
+            self.emptyView!.showReturnButton = false
+        }
+        
         self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {

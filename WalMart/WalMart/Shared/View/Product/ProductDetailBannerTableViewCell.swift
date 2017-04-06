@@ -32,13 +32,13 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ProductDetailBannerCollectionViewDelegate {
+protocol ProductDetailBannerCollectionViewDelegate: class {
     func sleectedImage(_ indexPath: IndexPath)
 }
 
 class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSource,UICollectionViewDelegate  {
     
-    var delegate : ProductDetailBannerCollectionViewDelegate!
+    weak var delegate : ProductDetailBannerCollectionViewDelegate?
     var collection: UICollectionView!
     var items: [Any]! = []
     var pointSection: UIView? = nil
@@ -171,7 +171,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate.sleectedImage(indexPath)
+        delegate?.sleectedImage(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {

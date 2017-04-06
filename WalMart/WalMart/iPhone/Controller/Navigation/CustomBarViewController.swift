@@ -38,6 +38,7 @@ enum CustomBarNotification : String {
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
+    case SuccessDeleteItemsToShopingCart = "kSuccessDeleteItemsToShopingCart"
     case ReloadWishList = "kReloadWishList"
     case UpdateBadge = "kUpdateBadge"
     case UserLogOut = "kUserLogOut"
@@ -65,7 +66,7 @@ struct TabBarHidden {
 }
 
 
-@objc protocol CustomBarDelegate {
+@objc protocol CustomBarDelegate: class {
     func customBarDidAnimate(_ hide:Bool, offset:CGFloat)
 }
 
@@ -175,22 +176,23 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         splashVC = IPOSplashViewController()
-        splashVC.didHideSplash = { () in
+        splashVC.didHideSplash = { [weak self] () in
             if !showTutorial {
-                self.showHelpHomeView()
+                self?.showHelpHomeView()
             }
-            if self.waitToSplash {
-                self.openSearchProduct()
+            if self!.waitToSplash {
+                self?.openSearchProduct()
             }
-            self.splashVC = nil
-            self.checkPrivaceNotice()
+            self?.splashVC = nil
+            self?.checkPrivaceNotice()
         }
-        splashVC.validateVersion =  {(force:Bool) in
-            self.updateAviable = UpdateViewController()
-            self.updateAviable.setup()
-            self.updateAviable.forceUpdate = force
-            self.updateAviable.frame = self.view.bounds
-            self.view.addSubview(self.updateAviable)
+        
+        splashVC.validateVersion =  {[weak self] (force:Bool) in
+            self?.updateAviable = UpdateViewController()
+            self?.updateAviable.setup()
+            self?.updateAviable.forceUpdate = force
+            self?.updateAviable.frame = (self?.view.bounds)!
+            self?.view.addSubview((self?.updateAviable)!)
         }
         self.addChildViewController(splashVC)
         self.view.addSubview(splashVC.view)
@@ -211,6 +213,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         
         
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -637,7 +644,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let showBadgeNotification = (badgeNumber > 0) && !hidden
         
         self.isTabBarHidden = false
-        TabBarHidden.isTabBarHidden = false
+       
         
         self.badgeNotification.isHidden = !showBadgeNotification
         self.buttonContainer!.frame = CGRect(x: self.buttonContainer!.frame.minX, y: self.view.frame.maxY - self.buttonContainer!.frame.height,width: self.buttonContainer!.frame.width, height: self.buttonContainer!.frame.height)
@@ -1594,7 +1601,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.view.addSubview(self.helpView!)
             
             
-            let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
+            let imageArray = [["image":"1_tutohelp","details":NSLocalizedString("help.walmart.nowPolis",comment:"")],["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
             totuView!.onClose = {() in
                 self.removeHelpForSearchView()

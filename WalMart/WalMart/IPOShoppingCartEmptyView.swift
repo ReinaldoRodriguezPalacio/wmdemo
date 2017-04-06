@@ -12,22 +12,21 @@ class IPOShoppingCartEmptyView : IPOEmptyView {
     
     override func setup() {
         super.setup()
-        iconImageView.image = UIImage(named:"empty_cart")
+        bgImageView.image = UIImage(named:"empty_cart")
         descLabel.text = NSLocalizedString("empty.shoppingcart",comment:"")
         
-        if IS_IPHONE_4_OR_LESS == true {
-            self.addSubview(returnButton)
-        }
+//        if IS_IPHONE_4_OR_LESS == true {
+//            self.addSubview(returnButton)
+//        }
 
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.descLabel.frame = CGRect(x: 0.0, y: 60.0, width: self.bounds.width, height: 16.0)
-        if IS_IPHONE_4_OR_LESS == true {
-              self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.height - 100, width: 160 , height: 40)
-        }
-        
+//        if IS_IPHONE_4_OR_LESS == true {
+//              self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.height - 100, width: 160 , height: 40)
+//        }
     }
     
 }

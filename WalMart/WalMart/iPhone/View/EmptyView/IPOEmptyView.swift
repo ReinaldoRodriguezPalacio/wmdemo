@@ -31,11 +31,15 @@ let IS_IOS8_OR_LESS = (NSString(string: UIDevice.current.systemVersion).doubleVa
 
 class IPOEmptyView : UIView {
     
-    var iconImageView : UIImageView!
+    var bgImageView : UIImageView!
     var descLabel : UILabel!
     var returnButton : UIButton!
     var returnAction : (() -> Void)?
     
+    var showReturnButton: Bool = true
+    var paddingBottomReturnButton = 60.0
+    let heightReturnButton = 40.0
+
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -48,38 +52,45 @@ class IPOEmptyView : UIView {
     
     func setup() {
         self.backgroundColor = WMColor.light_gray
-        iconImageView = UIImageView()
+        
+      //  print
+        bgImageView = UIImageView()
         
         descLabel = UILabel()
         descLabel.font = WMFont.fontMyriadProLightOfSize(14)
         descLabel.textColor = WMColor.light_blue
         descLabel.textAlignment = NSTextAlignment.center
         
-        returnButton = UIButton()
-        returnButton.titleLabel?.textColor = UIColor.white
-        returnButton.layer.cornerRadius = 20
-        returnButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        if self.showReturnButton {
+            returnButton = UIButton()
+            returnButton.titleLabel?.textColor = UIColor.white
+            returnButton.layer.cornerRadius = 20
+            returnButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
-        returnButton.backgroundColor = WMColor.light_blue
-        returnButton.setTitle(NSLocalizedString("empty.return",comment:""), for: UIControlState())
-        returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), for: UIControlEvents.touchUpInside)
+            returnButton.backgroundColor = WMColor.light_blue
+            returnButton.setTitle(NSLocalizedString("empty.return",comment:""), for: UIControlState())
+            returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), for: UIControlEvents.touchUpInside)
         
-        self.addSubview(iconImageView)
+            self.addSubview(returnButton)
+            
+        }
+        self.addSubview(bgImageView)
         self.addSubview(descLabel)
         
-        //if IS_IPHONE_4_OR_LESS == false {
-            self.addSubview(returnButton)
-        //}
-        
-        self.insertSubview(iconImageView, at: 0)
+        self.insertSubview(bgImageView, at: 0)
     }
     
     override func layoutSubviews() {
-        if iconImageView != nil && iconImageView.image != nil {
-         iconImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: iconImageView.image!.size.height)//  self.bounds.height)
+        if bgImageView != nil && bgImageView.image != nil {
+            bgImageView.frame = CGRect(x: 0.0, y: 0.0,  width: self.bounds.width,  height: self.bounds.height)
         }
         self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
-        self.returnButton.frame = CGRect(x: (self.bounds.width - 160 ) / 2, y: self.bounds.size.height - 100, width: 160 , height: 40)
+        
+        if self.showReturnButton {
+            let yButton = Int(self.bounds.size.height) - Int(self.heightReturnButton) - Int(self.paddingBottomReturnButton)
+            
+            self.returnButton.frame = CGRect(x: Int((self.bounds.width - 160 ) / 2), y: yButton, width: 160 , height: Int(self.heightReturnButton))
+        }
     }
 
     func returnActionSel() {
@@ -111,6 +122,7 @@ public extension UIDevice {
         case "iPhone7,1":                               return "iPhone 6 Plus"
         case "iPhone8,1":                               return "iPhone 6s"
         case "iPhone8,2":                               return "iPhone 6s Plus"
+        case "iPhone9,4":                               return "iPhone 7 Plus"
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":return "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           return "iPad 3"
         case "iPad3,4", "iPad3,5", "iPad3,6":           return "iPad 4"
@@ -124,5 +136,5 @@ public extension UIDevice {
         case "i386", "x86_64":                          return "Simulator"
         default:                                        return identifier
         }
-}
+    }
 }

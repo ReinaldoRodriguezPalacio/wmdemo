@@ -9,14 +9,14 @@
 import Foundation
 import AVFoundation
 
-protocol OrderConfirmDetailViewDelegate {
+protocol OrderConfirmDetailViewDelegate: class {
     func didFinishConfirm()
     func didErrorConfirm()
 }
 
 class OrderConfirmDetailView : UIView {
     
-    var delegate : OrderConfirmDetailViewDelegate!
+    weak var delegate : OrderConfirmDetailViewDelegate?
     let maxAnimationSize : CGFloat = 30
     
     var viewContent : UIView!
@@ -314,7 +314,7 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func errorOrder(_ descError:String) {
+    func errorOrder(_ descError:String,_ popToRoot:Bool=true) {
         
         viewLoadingDoneAnimate.layer.removeAllAnimations()
         viewLoadingDoneAnimateAux.layer.removeAllAnimations()
@@ -326,7 +326,12 @@ class OrderConfirmDetailView : UIView {
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonNOk.setTitle("Ok", for: UIControlState())
-        buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), for: UIControlEvents.touchUpInside)
+        if popToRoot {
+             buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), for: UIControlEvents.touchUpInside)
+        } else {
+            buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkActionWOPop), for: UIControlEvents.touchUpInside)
+        }
+       
         
         self.viewContent.addSubview(buttonNOk)
         
@@ -345,7 +350,7 @@ class OrderConfirmDetailView : UIView {
     
     func finishSopping(){
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
-        self.delegate.didFinishConfirm()
+        self.delegate?.didFinishConfirm()
         self.removeFromSuperview()
     }
     
@@ -423,8 +428,14 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func noOkAction() {
-        self.delegate.didErrorConfirm()
+    func noOkActionWOPop() {
+        noOkAction(hasToPop: false)
+    }
+    
+    func noOkAction(hasToPop:Bool = true) {
+        if hasToPop {
+            self.delegate?.didErrorConfirm()
+        }
         self.removeFromSuperview()
     }
     

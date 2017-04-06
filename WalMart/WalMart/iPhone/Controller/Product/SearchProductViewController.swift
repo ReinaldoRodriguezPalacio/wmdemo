@@ -299,12 +299,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
          //self.header!.bringSubviewToFront(self.bannerView)
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         self.selectQuantity?.closeAction()
         self.selectQuantityGR?.closeAction()
     }
@@ -313,7 +319,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewWillAppear(animated)
         self.header?.addSubview(self.filterButton!)
         if IS_IPAD {
-        self.view.addSubview(collection!)
+            self.view.addSubview(collection!)
         }
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind)
         self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.withText || self.originalSearchContextType == SearchServiceContextType.withTextForCamFind
@@ -357,12 +363,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.startAnnimating(self.isVisibleTab)
             //}
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
         self.viewEmptyImage =  true
     }
     
@@ -1581,12 +1584,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
 
-        if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
-        }else{
+        if self.empty != nil {
             self.removeEmptyView()
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
+        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height))
         
         if self.searchFromContextType == .fromSearchTextList {
             self.empty.descLabel.text = "No existe ese artículo en Súper"
@@ -1596,8 +1597,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.empty.descLabel.numberOfLines = 3
         }
     
-        self.empty.returnAction = { () in
-            self.returnBack()
+        if UIDevice.current.modelName.contains("iPad") || IS_IPAD {
+            self.empty.showReturnButton = false
+        } else {
+            self.empty.returnAction = { () in
+                self.returnBack()
+            }
         }
         
         self.view.addSubview(self.empty)
@@ -1618,15 +1623,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.loading?.stopAnnimating()
       
+        let model =  UIDevice.current.modelName
+
+        var heightEmpty = self.view.bounds.height
+        if !model.contains("iPad") && !model.contains("4") {
+            heightEmpty -= 68
+        }
+        if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
+            heightEmpty -= 44
+        }
+        
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY))
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty))
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
+        if model.contains("4") {
+            self.emptyMGGR.paddingBottomReturnButton += 34
+        } else if  model.contains("iPod") || model.contains("Plus") {
+   //         self.emptyMGGR.paddingBottomReturnButton += 24
+        } else if model.contains("iPad") || IS_IPAD {
+            self.emptyMGGR.showReturnButton = false
+        }
+        
         if btnSuper.isSelected {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
         } else {
@@ -2049,7 +2072,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
-            prodQuantity =  quantity == 0 ? "50" : "\(quantity)"
+            prodQuantity =  quantity == 0 ? "100" : "\(quantity)"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY)
@@ -2071,7 +2094,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //let quantity : Int = quantity.toInt()!
             
             if quantity == "00" {
-                self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                if self.idListFromSearch !=  ""{
+                    self.deleteItemFromList(cell: cell)
+                }else{
+                    self.deleteFromCartGR(cell: cell,position: cell.positionSelected)
+                }
+                
                 return
             }
             
@@ -2123,6 +2151,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }else {
                 pieces = (Int(quantity))
             }
+            let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(self.selectQuantityGR!.upcProduct)
             
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
@@ -2135,7 +2164,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.window?.addSubview(addShopping.view)
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = noteProduct
+            addShopping.comments = productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!)
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
@@ -2174,6 +2203,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             print("delete pressed Errro \(error)")
         }
     }
+    //Delete Item from List
+    func deleteItemFromList(cell:SearchProductCollectionViewCell){
+        
+        self.selectQuantityGR?.closeAction()
+        self.selectQuantityGR = nil
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+          alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
+        
+
+        let detailService = GRUserListDetailService()
+        detailService.buildParams(self.idListFromSearch!)
+        detailService.callService([:], successBlock: { (result:[String:Any]) -> Void in
+          
+            let service = GRDeleteItemListService()
+            service.callService(service.buildParams(cell.upc),
+                                successBlock:{ (result:[String:Any]) -> Void in
+                                    alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
+                                    alertView!.showDoneIcon()
+                                    let indexPath = self.collection?.indexPath(for: cell)
+                                    self.collection?.reloadItems(at:[indexPath!] )
+            },
+                                errorBlock:{ (error:NSError) -> Void in
+                                    print("Error at delete product from user")
+                                alertView!.setMessage(error.localizedDescription)
+                                    alertView!.showErrorIcon("Ok")
+            })
+        }, errorBlock: { (error:NSError) -> Void in
+            alertView!.setMessage(error.localizedDescription)
+            alertView!.showErrorIcon("Ok")
+        })
+    
+    }
     
     func deleteFromCart(cell:SearchProductCollectionViewCell,position:String) {
         
@@ -2200,6 +2261,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             }
         }) { (error) in
+            alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+            alertView?.showDoneIcon()
             print("delete pressed Errro \(error)")
         }
        
@@ -2214,7 +2277,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let quantity = productInCart == nil ?  0 : productInCart!.quantity
                 let note = productInCart ==  nil ? "" : productInCart!.note
 
-                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+                self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" :note!, product: productInCart?.product)
 
                 self.selectQuantityGR.alpha = 0
                 self.view.window?.addSubview(selectQuantityGR)

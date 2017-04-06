@@ -89,6 +89,12 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         self.viewProfile.addSubview(self.table!)
         //self.table.reloadData()
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -179,21 +185,47 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         }
     }
     
-    func signOut(_ sender:UIButton?) {
+    func signOut(_ sender: UIButton?) {
         
         if IS_IPAD  {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-        }else{
+        } else {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         }
 
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
 
-        //Event close sesion
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue,action: WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label: "")
-
         signOutButton?.isEnabled = false
         
+  
+        
+        let logoutService = LogoutService()
+        logoutService.callService(Dictionary<String, String>(),
+                                  successBlock: { (response:[String:Any]) -> Void in
+                                    
+                                    let authorizationService =  AuthorizationService()
+                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                                        print("::Call service AuthorizationService in LogoutService ::")
+                                        self.deleteData()
+                                        
+                                        },errorBlock:{ (error:NSError) in
+                                            print(error.localizedDescription)
+                                            self.deleteData()
+                                            
+                                    })
+                                    
+                                    print("Call service LogoutService success")
+            },
+                                  errorBlock: { (error:NSError) -> Void in
+                                    print("Call service LogoutService error \(error)")
+            }
+        )        
+        
+    }
+    
+    func deleteData(){
+        print("deleteData")
+    
         delay(0.3) {
             if  UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance.userSigned = nil
@@ -206,7 +238,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                     self.alertView!.showDoneIcon()
                     NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
                     
-                    }
+                }
                     , errorBlock: { (error:NSError) -> Void in
                         print("")
                         self.alertView!.setMessage(error.localizedDescription)
@@ -216,29 +248,8 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                 })
             }
         }
-        
-        let logoutService = LogoutService()
-        logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:[String:Any]) -> Void in
-                                    
-                                    let authorizationService =  AuthorizationService()
-                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-                                        print("::Call service AuthorizationService in LogoutService ::")
-                                        
-                                        },errorBlock:{ (error:NSError) in
-                                            print(error.localizedDescription)
-                                            
-                                    })
-                                    
-                                    print("Call service LogoutService success")
-            },
-                                  errorBlock: { (error:NSError) -> Void in
-                                    print("Call service LogoutService error \(error)")
-            }
-        )
-        
-        
     }
+    
     
     func editProfile(_ sender:UIButton) {
                 

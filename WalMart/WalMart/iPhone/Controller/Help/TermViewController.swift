@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol TermViewControllerDelegate {
+protocol TermViewControllerDelegate: class {
     func selectedDetail(_ row:Int, item: [String:Any])
 }
 
@@ -17,7 +17,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     
 
     var selectedFamily : IndexPath! = nil
-    var delegate:TermViewControllerDelegate!
+    weak var delegate:TermViewControllerDelegate?
     var familyTable: UITableView!
     var families : [[String:Any]] = []
     

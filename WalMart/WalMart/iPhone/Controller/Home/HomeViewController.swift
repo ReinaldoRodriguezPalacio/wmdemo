@@ -127,6 +127,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
@@ -134,12 +139,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func removePleca(){
         
-        UIView.animate(withDuration: 0.2 , animations: {
+        UIView.animate(withDuration: 0.2 , animations: {[unowned self] in
             self.titleView?.alpha = 0
             self.detailsButton?.alpha = 0
             self.imageNotification?.alpha = 0
              self.alertBank?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0)
-            }, completion: {(bool : Bool) in
+            }, completion: {[unowned self] (bool : Bool) in
                     self.alertBank?.alpha = 0
                     self.alertBank?.removeFromSuperview()
                     self.alertBank = nil
@@ -201,19 +206,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
             
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.2, animations: { [unowned self] in
                 self.alertBank?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
                 self.titleView!.frame = CGRect(x: 28, y: 0, width: self.view.frame.width-91, height: self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRect(x: self.view.frame.width-60, y: 12, width: 55, height: 22)
                 self.imageNotification?.frame = CGRect(x: 8,y: self.alertBank!.frame.midY-6,width: 12,height: 12)
                 
-                }, completion: {(bool : Bool) in
+                }, completion: {[unowned self] (bool : Bool) in
                         self.alertBank?.alpha = 1
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
                     self.startTimmerPleca()
-                    
             })
             
         }
@@ -592,7 +596,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
 
         
-        categories.sort { (item, seconditem) -> Bool in
+        categories.sort { [unowned self] (item, seconditem) -> Bool in
             let first = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
             let firstItem = first[0] as [String:Any]

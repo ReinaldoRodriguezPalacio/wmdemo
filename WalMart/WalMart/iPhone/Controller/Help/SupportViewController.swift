@@ -64,6 +64,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         
         
+        
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
                                                attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
                                                 NSForegroundColorAttributeName:WMColor.light_blue])
@@ -132,6 +133,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.view.addSubview(callme)
         self.view.addSubview(callmeNumber)
         self.view.addSubview(sendmeMail)
+        
         self.stores = []
         
         self.stores.append(NSLocalizedString("Support.label.list.reason.fail", comment:""))
@@ -169,24 +171,33 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let model = UIDevice.current.modelName
         let bounds = self.view.bounds
-        self.imgConfirm.frame =  CGRect(x: 0,  y: self.header!.frame.maxY , width: self.imgConfirm.image!.size.width, height: self.imgConfirm.image!.size.height)
-        self.labelQuestion1.frame = CGRect(x: 0,  y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
-        self.labelQuestion2.frame = CGRect(x: 0,  y: self.labelQuestion1.frame.maxY  , width: bounds.width, height: 15 )
+        
+        self.imgConfirm.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: bounds.height)
+        self.labelQuestion1.frame = CGRect(x: 0, y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
+        self.labelQuestion2.frame = CGRect(x: 0, y: self.labelQuestion1.frame.maxY , width: bounds.width, height: 15 )
+        
         
         if IS_IPHONE {
-            let referenceHeight = IS_IPHONE_4_OR_LESS ? bounds.midY + 30 : bounds.midY
-            callmeNumber.frame =  CGRect(x: 32 , y: referenceHeight + 120 , width: 131, height: 15)
-            callme.frame =  CGRect(x: 64 , y: referenceHeight + 106  , width: 64, height: 15)
-            sendmeMail.frame =   CGRect(x: callme.frame.maxX + 67 , y: referenceHeight + 106 , width: 64, height: 15)
-            buttomCall.frame =  CGRect(x: 64 , y: referenceHeight + 40 , width: 64, height: 64)
-            buttomMail.frame =  CGRect(x: buttomCall.frame.maxX + 64 , y: referenceHeight + 40 , width: 64, height: 64)
+            let model = UIDevice.current.modelName
+            var referenceHeight = bounds.midY + 20
+            referenceHeight = model.contains("Plus") ? referenceHeight + 35: referenceHeight
+            
+            buttomCall.frame = CGRect(x: bounds.midX - 64 - 32, y: referenceHeight + 40 , width: 64, height: 64)
+            buttomMail.frame = CGRect(x: buttomCall.frame.maxX + 64 , y: buttomCall.frame.minY , width: 64, height: 64)
+            
+            callme.frame = CGRect(x: buttomCall.frame.minX , y: buttomCall.frame.maxY + 12  , width: 64, height: 15)
+            callmeNumber.frame = CGRect(x: callme.frame.midX - (131 / 2) , y: callme.frame.maxY , width: 131, height: 15)
+            
+            sendmeMail.frame = CGRect(x: buttomMail.frame.minX , y: buttomMail.frame.maxY + 12 , width: 64, height: 15)
+            
         }else{
             callmeNumber.isHidden = true
             callme.isHidden = true
             buttomCall.isHidden = true
-            sendmeMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: bounds.maxY - 134 , width: 64, height: 15)
-            buttomMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: sendmeMail.frame.midY - 78 , width: 64, height: 64)
+            sendmeMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: model.contains("iPod") ? (bounds.maxY - 64) : (bounds.maxY - 114) , width: 64, height: 15)
+            buttomMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: (sendmeMail.frame.midY - 78) , width: 64, height: 64)
         }
         
     }

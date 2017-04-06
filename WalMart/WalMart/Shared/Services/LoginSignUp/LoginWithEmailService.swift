@@ -28,8 +28,10 @@ class LoginWithEmailService : BaseService {
                         let resultCallMG = resultCall
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance.userSigned!.idUserGR
                         if cadUserId != nil && cadUserId != "" && cadUserId!.length > 0 {
-                            let serviceGr = GRLoginService()
-                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:[String:Any]?) in
+                            //successBlock!(resultCall)
+                            UserCurrentSession.sharedInstance.userSignedOnService = false
+                            let serviceGr = GRLoginWithEmailService()
+                            serviceGr.callService(params, successBlock:{ (resultCall:[String:Any]?) in
                                 UserCurrentSession.sharedInstance.createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance.userSignedOnService = false
@@ -45,9 +47,6 @@ class LoginWithEmailService : BaseService {
                     }
                     else{
                         let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                        //let message = resultCall["message"] as! String
-                        //let error = NSError()
-                        //error.setValue(message, forKey:codeMessage)
                         errorBlock!(errorDom)
                     }
                 }
@@ -61,6 +60,30 @@ class LoginWithEmailService : BaseService {
         
     }
 
+    func callWhitEmailService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+
+        self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                    if codeMessage.intValue == 0 &&  UserCurrentSession.hasLoggedUser(){
+                        successBlock!(resultCall)
+                    }
+                    else{
+                        let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
+                        //let message = resultCall["message"] as! String
+                        //let error = NSError()
+                        //error.setValue(message, forKey:codeMessage)
+                        errorBlock!(errorDom)
+                    }
+                }
+            }) { (error:NSError) -> Void in
+                errorBlock!(error)
+                UserCurrentSession.sharedInstance.userSignedOnService = false
+            }
+        
+        
+    }
+    
+    
     
     func callServiceForFacebook(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in

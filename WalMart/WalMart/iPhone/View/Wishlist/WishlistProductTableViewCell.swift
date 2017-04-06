@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol WishlistProductTableViewCellDelegate {
+protocol WishlistProductTableViewCellDelegate: class {
     func deleteFromWishlist(_ UPC:String)
 }
 
 class WishlistProductTableViewCell : ProductTableViewCell {
     
-    var delegateProduct : WishlistProductTableViewCellDelegate!
+    weak var delegateProduct : WishlistProductTableViewCellDelegate?
     var resultObjectType : ResultObjectType! = ResultObjectType.Mg
     var productPriceSavingLabel : CurrencyCustomLabel!
     var separatorView : UIView?
@@ -123,7 +123,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
@@ -132,7 +132,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     }
     
     func deleteUPCWishlist() {
-        delegateProduct.deleteFromWishlist("")
+        delegateProduct?.deleteFromWishlist("")
     }
     
    

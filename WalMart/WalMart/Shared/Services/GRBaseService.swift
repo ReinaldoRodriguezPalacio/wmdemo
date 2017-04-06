@@ -33,19 +33,24 @@ class GRBaseService : BaseService {
         //println(serviceURL)
         return serviceURL
     }
-
+    
     override func getManager() -> AFHTTPSessionManager {
         
-        var jsessionIdSend = UserCurrentSession.sharedInstance.JSESSIONID
+        
+        let managerGR = AFHTTPSessionManager()
+        managerGR.requestSerializer = AFJSONRequestSerializer()
+        managerGR.responseSerializer = AFJSONResponseSerializer()
+        managerGR.responseSerializer.acceptableContentTypes = nil
+        managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
+        managerGR.securityPolicy.allowInvalidCertificates = true
+        managerGR.securityPolicy.validatesDomainName = false
+        managerGR.requestSerializer.httpShouldHandleCookies = true
+        
         var jSessionAtgIdSend = UserCurrentSession.sharedInstance.JSESSIONATG
         
-        if jsessionIdSend == "" {
-            if let param1 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONID") {
-                print("PARAM JSESSIONID ::"+param1.value)
-                jsessionIdSend = param1.value
-            }
+        if jSessionAtgIdSend == "" {
             if let param2 = CustomBarViewController.retrieveParamNoUser(key: "JSESSIONATG") {
-                print("PARAM JSESSIONATG ::" + param2.value)
+                //print("PARAM JSESSIONATG ::" + param2.value)
                 jSessionAtgIdSend = param2.value
             }
         }
@@ -58,34 +63,34 @@ class GRBaseService : BaseService {
             let uuid  = NSUUID().uuidString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
             let strUsr  = "ff24423eefbca345" + timeStamp + uuid // "f3062afbe4c4a8ea2fc730687d0e9f818c7f9a23"//
             
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-        
-            AFStatic.managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
-            AFStatic.managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
-            AFStatic.managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
-            //session --
-            print("URL:: \(self.serviceUrl())")
-            print("send::sessionID -- \(UserCurrentSession.sharedInstance.JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance.JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+            managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
+            
+            managerGR.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+            managerGR.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+            managerGR.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control") // .sha1()
             
         } else{
             //session --
-            print("URL:: \(self.serviceUrl())")
-            AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
-            print("send::sessionID -- \(UserCurrentSession.sharedInstance.JSESSIONID) ATGID -- \(UserCurrentSession.sharedInstance.JSESSIONATG)")
-            AFStatic.managerGR.requestSerializer.setValue(jsessionIdSend, forHTTPHeaderField:"JSESSIONID")
-            AFStatic.managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+            managerGR.requestSerializer = AFJSONRequestSerializer() as  AFJSONRequestSerializer
         }
-        return AFStatic.managerGR
+        if !getCookieFromUserDefaults().isEmpty {
+            managerGR.requestSerializer.setValue(getCookieFromUserDefaults(), forHTTPHeaderField:"Cookie")
+        }
+        managerGR.requestSerializer.setValue(jSessionAtgIdSend, forHTTPHeaderField:"JSESSIONATG")
+        return managerGR
     }
     
     override func needsToLoginCode() -> Int {
         return -100
     }
-
+    
     static func getUseSignalServices() ->Bool{
         return Bundle.main.object(forInfoDictionaryKey: "useSignalsServices") as! Bool
     }
+    
+    override func getKeyForCookie() -> String {
+        return "JSESSIONID"
+    }
+    
     
 }

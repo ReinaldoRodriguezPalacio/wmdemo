@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol AddressViewDelegate {
+@objc protocol AddressViewDelegate: class {
     func textModify(_ textField: UITextField!)
     func setContentSize()
     @objc optional func validateZip(_ isvalidate:Bool)
@@ -46,7 +46,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var titleLabel: UILabel!
     
     var viewLoad : WMLoadingView!
-    var delegate:AddressViewDelegate!
+    weak var delegate:AddressViewDelegate?
     var showSuburb : Bool! = false
     var isLogin : Bool! = false
     var isIpad : Bool! = false
@@ -90,7 +90,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 }
                 
             }
-            self.delegate.textModify(field)
+            self.delegate?.textModify(field)
         })
         
         self.keyboardBar = viewAccess
@@ -427,8 +427,8 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.city!.isHidden = false
                 self.state!.isHidden = false
                 showSuburb = true
-                delegate.validateZip!(true)
-                delegate.setContentSize()
+                delegate?.validateZip!(true)
+                delegate?.setContentSize()
             }
         } else {
             if showSuburb == true {
@@ -438,7 +438,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.city!.isHidden = true
                 self.state!.isHidden = true
                 showSuburb = false
-                delegate.setContentSize()
+                delegate?.setContentSize()
             }
         }
         
@@ -457,7 +457,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if listSuburb.count > 0 {
-            delegate.textModify(suburb!)
+            delegate?.textModify(suburb!)
             self.idSuburb = listSuburb[row]["id"] as? String
             suburb!.text = listSuburb[row]["name"] as? String
         }

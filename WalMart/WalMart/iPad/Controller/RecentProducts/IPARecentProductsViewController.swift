@@ -16,13 +16,13 @@ class IPARecentProductsViewController: RecentProductsViewController {
             self.navigationController!.setNavigationBarHidden(true, animated: true)
         }
          super.viewDidLoad()
-        self.emptyView.iconImageView.image = UIImage(named:"empty_recent")
+        self.emptyView.bgImageView.image = UIImage(named:"empty_recent")
         self.emptyView.returnButton.isHidden = true
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height-46)
+        self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
     }
     
     

@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import QuartzCore
 
-protocol CameraViewControllerDelegate{
+protocol CameraViewControllerDelegate: class{
     func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void))
 }
 
@@ -28,7 +28,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var videoInput : AVCaptureDeviceInput? = nil
     var previewLayer : AVCaptureVideoPreviewLayer? = nil
     var running : Bool = false
-    var delegate : CameraViewControllerDelegate? = nil
+    weak var delegate : CameraViewControllerDelegate? = nil
     var popover: UIPopoverController? = nil
     var topBarView: UIView?
     var topBackgroundView: UIView?
@@ -169,6 +169,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         NotificationCenter.default.addObserver(self, selector: #selector(CameraViewController.startRunning), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CameraViewController.stopRunning), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillLayoutSubviews() {

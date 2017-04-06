@@ -112,19 +112,29 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
 
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         let buttonWidth: CGFloat = 55.0
         let buttonHeight: CGFloat = 22.0
+        let heightEmptyView = Int(self.view.bounds.height)
         
         let bounds = self.view.bounds
         self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY + SELECTORH , width: bounds.width, height: bounds.height - self.header!.frame.maxY - SELECTORH )
         //tamaño
         self.newAddressButton!.frame = CGRect(x: self.view.bounds.width - (buttonWidth + 16.0), y: (header!.bounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+
         //self.newAddressButton!.frame = CGRectMake( self.view.bounds.maxX - 165.0, 12.0, 75.0, 22.0 )
         self.titleLabel!.frame = CGRect(x: self.newAddressButton!.frame.width , y: 0, width: self.view.bounds.width - (self.newAddressButton!.frame.width * 2), height: self.header!.frame.maxY)
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        
+        self.emptyView!.frame = CGRect(x: 0, y: 46, width: Int(self.view.bounds.width), height: heightEmptyView)
+
+      //  self.emptyView!.paddingBottomReturnButton = 60
         
         self.viewBgSelectorBtn.frame =  CGRect(x: (self.view.bounds.width - 282) / 2  ,  y: self.header!.frame.maxY + 16, width: 282, height: 28)
     }

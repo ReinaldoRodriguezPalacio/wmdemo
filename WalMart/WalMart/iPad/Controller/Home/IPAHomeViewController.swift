@@ -125,6 +125,8 @@ class IPAHomeViewController : HomeViewController {
             paginatedProductDetail.animationController.originPoint =  pontInView
             paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
             currentCell?.hideImageView()
+            
+            
            
             self.navigationController?.delegate = paginatedProductDetail
             self.navigationController?.pushViewController(paginatedProductDetail, animated: true)

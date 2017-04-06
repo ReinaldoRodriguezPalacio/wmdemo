@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ReferedFormDelegate {
+protocol ReferedFormDelegate: class {
     func selectSaveButton(_ name: String, mail: String)
     func selectCloseButton()
 }
@@ -23,7 +23,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     var name : FormFieldView!
     var email : FormFieldView!
     var saveButton: UIButton?
-    var delegate: ReferedFormDelegate?
+    weak var delegate: ReferedFormDelegate?
     var layerLine: CALayer!
     let leftRightPadding  : CGFloat = CGFloat(16)
     let errorLabelWidth  : CGFloat = CGFloat(150)

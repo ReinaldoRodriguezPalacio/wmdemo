@@ -66,6 +66,11 @@ class IPACustomBarViewController :  CustomBarViewController {
         
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func removePop(_ sender:UITapGestureRecognizer) {
         self.searchView.closeSearch()
     }
@@ -309,7 +314,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let strController = components[0] as String
             let vc = storyboard!.instantiateViewController(withIdentifier: strController)
                 if let navVC = vc as? UINavigationController {
-                    if let loginVC = navVC.viewControllers.first as? LoginController {
+                    if let loginVC = navVC.viewControllers.first as? IPALoginController {
                         if components.count > 1 {
                             loginVC.controllerTo = components[1] as String
                         }
@@ -436,7 +441,6 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             }, completion: { (complete:Bool) -> Void in
                 if  self.vcWishlist != nil {
-                    self.vcWishlist.removeNotification()
                     self.vcWishlist.view.removeFromSuperview()
                     self.vcWishlist.removeFromParentViewController()
                     self.viewBgWishlist.removeFromSuperview()

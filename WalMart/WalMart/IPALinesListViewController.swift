@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol IPALinesListViewControllerDelegate {
+protocol IPALinesListViewControllerDelegate: class {
     func didSelectLineList(_ department:String,family:String,line:String, name:String)
 }
 
 class IPALinesListViewController : LineViewController {
     
-      var delegate : IPALinesListViewControllerDelegate!
+      weak var delegate : IPALinesListViewControllerDelegate?
     
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -22,7 +22,7 @@ class IPALinesListViewController : LineViewController {
             let lineSelect  = self.families[indexPath.row] as [String:Any]
             let linesId = lineSelect["id"] as! String
             let name = lineSelect["name"] as! String
-            delegate.didSelectLineList(departmentId,family: "_",line: linesId, name: name)
+            delegate?.didSelectLineList(departmentId,family: "_",line: linesId, name: name)
         
     }
 

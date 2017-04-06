@@ -99,7 +99,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(ShoppingCartUpdateController.closeAlert), for: UIControlEvents.touchUpInside)
-        closeButton.frame = CGRect(x: 0, y: 5, width: 44, height: 44)
+
+        closeButton.frame = CGRect(x: 0, y: 20, width: 44, height: 44)
         
         viewBgImage = UIView(frame: CGRect(x: (self.view.frame.width / 2) - 40, y: 100, width: 80, height: 80))
         viewBgImage.layer.cornerRadius = viewBgImage.frame.width / 2
@@ -151,7 +152,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         titleLabel.frame = CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.minY, width: titleLabel.frame.width, height: size.height)
         titleLabel.text = labelTitleResult
         
-        
         self.view.addSubview(bgView)
         self.view.addSubview(content)
         self.view.addSubview(closeButton)
@@ -167,7 +167,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.imageBlurView.frame = self.view.bounds
         content.frame =  CGRect(x: 0, y: minContentY, width: self.view.frame.width, height: 340)
         
-        closeButton.frame = CGRect(x: 0, y: 5, width: 44, height: 44)
+        closeButton.frame = CGRect(x: 0, y: 20, width: 44, height: 44)
         viewBgImage.frame = CGRect(x: (self.view.frame.width / 2) - 40, y: 100, width: 80, height: 80)
         spinImage.frame = CGRect(x: (self.view.frame.width / 2) - 42, y: 98, width: 84, height: 84)
         titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - (titleLabel.frame.width / 2), y: titleLabel.frame.minY, width: titleLabel.frame.width, height: titleLabel.frame.height)
@@ -195,7 +195,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func startAddingToShoppingCart() {
-        
+        self.closeButton.isHidden = true
         timmer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
         finishCall = false
         
@@ -272,7 +272,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true) //360 multiple add
                     
                     self.finishCall = true
-                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     if self.timmer == nil {
                         self.showDoneIcon()
                         WishlistService.shouldupdate = true
@@ -294,6 +294,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        self.closeButton.isHidden = false
                     }
                     
                 })
@@ -312,6 +313,8 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if self.timmer == nil {
                         self.showDoneIcon()
                     }
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                     
                     if wishlistDelete.count > 0 {
                         let deleteService = DeleteItemWishlistService()
@@ -339,6 +342,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        self.closeButton.isHidden = false
                     }
                     
                 })
@@ -385,7 +389,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if type == ResultObjectType.Groceries.rawValue {
                     
                     typeProduct = ResultObjectType.Groceries
-                    print("Parametros = \(params)")
                     
                     //TODO Signals
                     let signalParametrer = params["parameter"] as? [String:Any]
@@ -411,7 +414,9 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         
                         NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
                         
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                        print("kSuccessAddUpdateCommentCart")
+                        //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                       
                         
                         UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
@@ -432,6 +437,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
                             self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                            self.closeButton.isHidden = false
                         }
 
                     }
@@ -477,8 +483,9 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.imageProduct.image = UIImage(named:"alert_ups")
                     self.viewBgImage.backgroundColor = WMColor.light_light_blue
                 }
+                 self.closeButton.isHidden = false
                 
-                self.showDoneIcon()
+                //self.showDoneIcon()
             }
             
         }
@@ -522,6 +529,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
+                    print(error.localizedDescription)
             }
         }else {
             self.finishCall = true
@@ -532,9 +540,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func showDoneIcon(){
+        //self.closeButton.isHidden = true
         if finishCall ==  false {
             if self.timmer != nil {
-            timmer.invalidate()
+                timmer.invalidate()
                 timmer = nil
             }
             return
@@ -576,6 +585,22 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     func addActionButtons() {
         
         if goToShoppingCart != nil {
+            
+            if typeProduct == ResultObjectType.Groceries && self.showBtnAddNote {
+                btnAddNote = UIButton(frame: CGRect(x: 0, y: 248, width: self.view.frame.width, height: 20))
+                btnAddNote.setImage(UIImage(named: "notes_alert"), for: UIControlState())
+                self.btnAddNote!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
+                if self.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+                    self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.updateNote",comment:""), for: UIControlState())
+                }else {
+                    self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.addNote",comment:""), for: UIControlState())
+                }
+                btnAddNote.setTitleColor(UIColor.white, for: UIControlState())
+                btnAddNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+                //btnAddNote.addTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), for: UIControlEvents.touchUpInside)
+                self.content.addSubview(btnAddNote)
+            }
+            
             keepShoppingButton = UIButton(frame:CGRect(x: (self.view.frame.width / 2) - 134, y: 288, width: 128, height: 40))
             keepShoppingButton.layer.cornerRadius = 20
             keepShoppingButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), for: UIControlState())
@@ -642,11 +667,10 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.commentTextView!.alpha = 0.0
-            //self.btnAddNote.alpha = 0.0
+            self.btnAddNote.alpha = 0.0
             self.commentTextView!.alpha = 0.0
             self.goToShoppingCartButton!.alpha = 0.0
             self.keepShoppingButton!.alpha = 0.0
-            //self.btnAddNote!.alpha = 0.0
             
             }, completion: { (complete:Bool) -> Void in
                 
@@ -656,7 +680,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.commentTextView!.isHidden = true
                     self.goToShoppingCartButton!.isHidden = true
                     self.keepShoppingButton!.isHidden = true
-                    //self.btnAddNote!.isHidden = true
+                    self.btnAddNote!.isHidden = true
                     self.spinImage.isHidden = false
                     self.titleLabel.isHidden = false
                     if  self.imageDone != nil {
@@ -713,7 +737,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     WishlistService.shouldupdate = true
                                 }
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: self, userInfo: nil)
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
+                                //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue), object: self, userInfo: nil)
                                 
                                 }) { (error:NSError) -> Void in
                                     
@@ -728,6 +752,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                         self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
                                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                                        self.closeButton.isHidden = false
                                     }
                                     
                             }
@@ -761,11 +786,14 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     }
     
     func addNoteToProduct(_ sender:UIButton?) {
-        //self.btnAddNote!.alpha = 0.0
+        self.btnAddNote!.alpha = 0.0
         
         if IS_IPHONE_4_OR_LESS == true {
+            self.btnAddNote.frame = CGRect(x: self.btnAddNote.frame.minX, y: 46, width: self.btnAddNote.frame.width,height: self.btnAddNote.frame.height)
             self.commentTextView = CommentBubbleView(frame: CGRect(x: (self.view.frame.width - 300) / 2 , y: 77, width: 300, height: 115))
         }else {
+            self.btnAddNote.frame = CGRect(x: self.btnAddNote.frame.minX, y: 76, width: self.btnAddNote.frame.width,height: self.btnAddNote.frame.height)
+
             self.commentTextView = CommentBubbleView(frame: CGRect(x: (self.view.frame.width - 300) / 2 , y: 110, width: 300, height: 155))
         }
         self.commentTextView?.delegate = self
@@ -789,7 +817,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             self.goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.saveNote",comment:""), for: UIControlState())
             self.goToShoppingCartButton.removeTarget(self, action: #selector(ShoppingCartUpdateController.goShoppingCart), for: UIControlEvents.touchUpInside)
             self.goToShoppingCartButton.addTarget(self, action: #selector(ShoppingCartUpdateController.saveNote(_:)), for: UIControlEvents.touchUpInside)
-            //            self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), for: UIControlState())
+            self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), for: UIControlState())
             self.goToShoppingCartButton.alpha = 0.0
             
             
@@ -810,7 +838,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.content.addSubview(self.commentTextView!)
                     UIView.animate(withDuration: 0.3, animations: { () -> Void in
                         self.commentTextView!.alpha = 1.0
-                        //self.btnAddNote.alpha = 1.0
+                        self.btnAddNote.alpha = 1.0
                         
                         if IS_IPHONE_4_OR_LESS {
                             self.goToShoppingCartButton.frame = CGRect(x: self.goToShoppingCartButton.frame.minX , y: self.goToShoppingCartButton.frame.minY - 81.0 , width: self.goToShoppingCartButton.frame.width, height: 40)

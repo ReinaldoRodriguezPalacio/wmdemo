@@ -78,13 +78,20 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRect.zero)
+        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
+        
         emptyView.returnAction = {() in
             self.back()
         }
         self.view.addSubview(emptyView)
         
         BaseController.setOpenScreenTagManager(titleScreen: "WishList", screenName: self.getScreenGAIName())
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,23 +99,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         UserCurrentSession.sharedInstance.nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-       
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY , width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
+        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY, width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
         self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
-        self.emptyView!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        let heightEmptyView = self.view.bounds.height
         
+        self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -542,9 +541,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func shareItem() {
         //let image = UIImage(named:"navBar_cart")
-        let headerImage = UIImage(named:"wishlist_headerMail")
+        let headerImage = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        self.edit?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        self.edit?.isHidden = false
+        
         let image = self.wishlist.screenshot()
-        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image!])
+        let imageWHeader =  UIImage.verticalImage(from: [headerImage!, headerCapture!,image!])
         var strAllUPCs = ""
         for item in self.items {
             let strItemUpc = item["upc"]
@@ -812,9 +817,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"] as [String : Any]
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadDataWishlist), name: NSNotification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
   
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
         
+    }
+    
+    func reloadDataWishlist(){
+         self.reloadWishlist()
     }
     
     @IBAction func deletealltap(_ sender: AnyObject) {
@@ -940,8 +951,5 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
         }
     }
-    
-
- 
     
 }

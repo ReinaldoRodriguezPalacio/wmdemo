@@ -81,11 +81,15 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             
         }
          //self.view.addSubview(viewImageContent)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPALinesViewController.finisSearch), name: NSNotification.Name(rawValue: "FINISH_SEARCH"), object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(IPALinesViewController.finisSearch), name: NSNotification.Name(rawValue: "FINISH_SEARCH"), object: nil)
-
         if self.loading == nil {
             self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
             self.loading!.backgroundColor = UIColor.white
@@ -103,7 +107,6 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
      */
     func finisSearch(){
         self.loading!.stopAnnimating()
-        NotificationCenter.default.removeObserver(self)
         print("::Termina carga de productos de linea::")
     }
 

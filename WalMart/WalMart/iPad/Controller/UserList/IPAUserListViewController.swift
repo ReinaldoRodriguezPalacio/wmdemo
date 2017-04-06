@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol IPAUserListDelegate {
+protocol IPAUserListDelegate: class {
     func viewForContainer() -> UIView
     func showListDetail(forId idList:String?, orEntity entity:List?, andName name:String?)
     func showListDetailAnimated(forId idList:String?, orEntity entity:List?, andName name:String?)
@@ -24,7 +24,7 @@ class IPAUserListViewController: UserListViewController {
 
     var selectedItem : IndexPath?
     var selectedId : String?
-    var delegate: IPAUserListDelegate?
+    weak var delegate: IPAUserListDelegate?
     var rowSelected : IndexPath?
     var isTableNewFrame  =  false
     var heightTable: CGFloat = 0.0

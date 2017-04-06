@@ -9,14 +9,14 @@
 import Foundation
 
 
-protocol IPAWishListProductCollectionViewCellDelegate {
+protocol IPAWishListProductCollectionViewCellDelegate: class {
     func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell)
 }
 
 class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     
-    var delegate : IPAWishListProductCollectionViewCellDelegate!
+    weak var delegate : IPAWishListProductCollectionViewCellDelegate?
     var addProductToShopingCart : UIButton? = nil
     var deleteProduct : UIButton!
     var productPriceThroughLabel : CurrencyCustomLabel? = nil
@@ -106,7 +106,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                addProductToShopingCart!.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
@@ -138,7 +138,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     func deleteProductWishList() {
         if delegate != nil {
-            delegate.deleteProductWishList(self)
+            delegate?.deleteProductWishList(self)
         }
     }
     

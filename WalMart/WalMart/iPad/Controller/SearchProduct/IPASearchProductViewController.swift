@@ -53,6 +53,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func willEnterForeground() {
         self.selectQuantityOpen = false
     }
@@ -330,7 +335,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             let quantity = productInCart ==  nil ? 0 :  productInCart!.quantity
             let note = productInCart ==  nil ? "" :  productInCart!.note
             
-            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note!, product: productInCart?.product)
+            self.buildGRSelectQuantityView(cell, viewFrame: frameDetail, quantity: quantity, noteProduct: note == nil ? "" : note!, product: productInCart?.product)
             
             selectQuantityGR?.closeAction = { () in
                 self.selectQuantityPopover!.dismiss(animated: true)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol NewListTableViewCellDelegate {
+protocol NewListTableViewCellDelegate: class {
     func cancelNewList()
     func createNewList(_ value:String)
     func scanTicket()
@@ -22,7 +22,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     var separatorView: UIView?
     var scanning = false
 
-    var delegate: NewListTableViewCellDelegate?
+    weak var delegate: NewListTableViewCellDelegate?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
