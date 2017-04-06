@@ -11,6 +11,7 @@ import Foundation
 enum CategoriesType {
     case categoryForMG
     case categoryForGR
+    case categoryForTiresSearch
 }
 
 class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableViewDelegate {
@@ -113,25 +114,48 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             let linesArr = selectedSection["line"] as! [Any]
             let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
 
+            
+            
+            // BUSCAMOS POR LA LLAVE Y ENVIAMOS AL BUSCADOR
+            if itemLine["id"] as! String == "l-serarching-llantas-solr"{
+            
+                    let controller = SearchTiresIniViewController()
+                    controller.titleHeader = itemLine["name"] as? String
+                    controller.idDepartment = departmentId
+                    controller.idFamily = selectedSection["id"] as? String
+                    controller.idLine = itemLine["id"] as? String
+                    self.navigationController!.pushViewController(controller, animated: true)
+
+            }
+            else{
             let controller = SearchProductViewController()
             controller.searchContextType = .withCategoryForMG
+            
             if self.categoriesType != nil {
                 switch self.categoriesType! {
-                case .categoryForGR : controller.searchContextType = .withCategoryForGR
-                case .categoryForMG : controller.searchContextType = .withCategoryForMG
+                case .categoryForGR :
+                    controller.searchContextType = .withCategoryForGR
+                    break
+                case .categoryForMG :
+                    controller.searchContextType = .withCategoryForMG
+                    break
+                case .categoryForTiresSearch :
+                    controller.searchContextType = .withCategoryForTiresSearch
                 //default : print("No se ha indicado tipo de categorias.")
                 }
              
-            }
+                }
+            
             controller.titleHeader = itemLine["name"] as? String
             controller.idDepartment = departmentId
             controller.idFamily = selectedSection["id"] as? String
             controller.idLine = itemLine["id"] as? String
-
+        
             self.navigationController!.pushViewController(controller, animated: true)
             //let label = itemLine["name"] as! String
             //let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
             //BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
+            }
         }
     }
     

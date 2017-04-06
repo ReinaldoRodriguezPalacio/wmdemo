@@ -181,7 +181,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.bundleItems = bndl
             }
             
-            if let pesable = result["type"] as?  NSString {
+            if let pesable = result["pesable"] as?  NSString {
                 self.isPesable = pesable.intValue == 1
             }
             

@@ -53,12 +53,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var addToListButton: UIButton?
     var editButton : UIButton!
     var deleteall: UIButton!
+    var itemsUPC: [[String:Any]] = []
+     var beforeShopTag: Bool = false
     
     var customlabel : CurrencyCustomLabel!
     var isEdditing = false
     var showCloseButton : Bool = true
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
+    var isSelectingProducts = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -89,6 +92,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         tableShoppingCart.dataSource = self
         tableShoppingCart.register(GRProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         tableShoppingCart.register(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totals")
+        tableShoppingCart.register(ShoppingCartCrossSellCollectionViewCell.self, forCellReuseIdentifier: "crossSellCell")
         tableShoppingCart.separatorStyle = UITableViewCellSeparatorStyle.none
 
         tableShoppingCart.clipsToBounds = false
@@ -239,17 +243,25 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()
             self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
+               self.loadCrossSell()
         }
     }
     
     //MARK: - Table View Data Source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemsInCart.count + 1
+        if itemsInCart.count > 0{
+            if itemsUPC.count > 0 {
+                return itemsInCart.count + 2
+            }else {
+                return itemsInCart.count + 1
+            }
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        var cell : UITableViewCell? = nil
         if indexPath.row == itemsInCart.count {
             let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
             let subtotal = UserCurrentSession.sharedInstance.estimateTotalGR()
@@ -259,7 +271,17 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             
             return tblTotalCell
         }
-        
+        if itemsInCart.count < indexPath.row  {
+            
+            let cellPromotion = tableShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
+            //cellPromotion!.delegate = self
+            cellPromotion!.itemsUPC = itemsUPC
+            cellPromotion!.collection.reloadData()
+            cell = cellPromotion
+            
+            return cell!
+        }
+
         let tblShoppingCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! GRProductShoppingCartTableViewCell
         
         tblShoppingCell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -354,15 +376,21 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == itemsInCart.count {
-            return 80
+        if itemsInCart.count > indexPath.row {
+            return 110
+        }else{
+            if itemsInCart.count == indexPath.row  {
+                return 80
+            }
+            if itemsInCart.count < indexPath.row  {
+                return 207
+            }
         }
-        return 110
+        return 0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if itemsInCart.count > indexPath.row   {
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+        if itemsInCart.count > indexPath.row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems() as [Any]
             controller.ixSelected = indexPath.row
@@ -371,6 +399,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 self.navigationController!.pushViewController(controller, animated: true)
             }
         }
+
     }
     
     func showshoppingcart() {
@@ -390,7 +419,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             cont!.successCallBack = {() in
                 UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
                     self.loadGRShoppingCart()
-                    
                     
                     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
                     if self.itemsInCart.count == 0 {
@@ -414,7 +442,92 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             }
         }
+        
     }
+    
+    /**
+     Invoke cross Selling service, present related products in car
+     */
+    func loadCrossSell() {
+        if self.itemsInCart.count >  0 {
+            let upcValue = getExpensive()
+            let crossService = CrossSellingGRProductService()
+            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
+                if result != nil {
+                    
+                    var isShowingBeforeLeave = false
+                    if self.tableView(self.tableShoppingCart, numberOfRowsInSection: 0) == self.itemsInCart.count + 2 {
+                        isShowingBeforeLeave = true
+                    }
+                    
+                    self.itemsUPC = result!
+                    if self.itemsUPC.count > 3 {
+                        var arrayUPCS = self.itemsUPC
+                        arrayUPCS.sort(by: { (before, after) -> Bool in
+                            let priceB = before["price"] as! NSString
+                            let priceA = after["price"] as! NSString
+                            return priceB.doubleValue < priceA.doubleValue
+                        })
+                        var resultArray : [[String:Any]] = []
+                        for item in arrayUPCS[0...2] {
+                            resultArray.append(item)
+                        }
+                        self.itemsUPC = resultArray
+                        
+                    }
+                    if self.itemsInCart.count >  0  {
+                        if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
+                            self.tableShoppingCart.insertRows(at: [IndexPath(item: self.itemsInCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
+                        }else{
+                            self.tableShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
+                        }
+                    }
+                    //self.collection.reloadData()
+                    
+                    if !self.beforeShopTag {
+                        var position = 0
+                        var positionArray: [Int] = []
+                        
+                        for _ in self.itemsUPC {
+                            position += 1
+                            positionArray.append(position)
+                        }
+                        
+                        let listName = NSLocalizedString("shoppingcart.beforeleave", comment: "")
+                        let subCategory = ""
+                        let subSubCategory = ""
+                        BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                        self.beforeShopTag = true
+                    }
+                    
+                }else {
+                    
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Termina sevicio app")
+            })
+        }
+    }
+
+    /**
+     Find upc from items more expensive from crosselling n car
+     
+     - returns: upc found
+     */
+    func getExpensive() -> String {
+        let priceLasiItem = 0.0
+        var upc = ""
+        for shoppingCartProduct in  itemsInCart {
+            //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
+            let price = shoppingCartProduct["price"] as! NSNumber
+            if price.doubleValue < priceLasiItem {
+                continue
+            }
+            upc = shoppingCartProduct["upc"] as! NSString as String
+        }
+        return upc
+    }
+
     
     func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
         

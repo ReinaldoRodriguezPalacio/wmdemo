@@ -13,7 +13,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     
     var labelTitle : UILabel!
     var buttonClose : UIButton!
-    
+    var esGR : Bool = false
     override func setup() {
         super.setup()
         
@@ -38,13 +38,25 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let upc = itemUPC["upc"] as! String
 
         let desc = itemUPC["description"] as! String
-        let price = itemUPC["price"] as! String
-        let imageArray = itemUPC["imageUrl"] as! [Any]
+        var price : String! = ""
+        var imageArray : [Any] = []
         var imageUrl = ""
-        if imageArray.count > 0 {
-            imageUrl = imageArray[0] as! String
+        
+        if let priceString = itemUPC["price"] as? String {
+             price = priceString
+             imageArray = itemUPC["imageUrl"] as! [Any]
+            
+             if imageArray.count > 0 {
+                imageUrl = imageArray[0] as! String
+             }
         }
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
+        else {
+             price = String(format:"%.2f", itemUPC["price"] as! Double)
+             imageUrl = itemUPC["imageUrl"] as! String
+            esGR=true
+        }
+        
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
         
         return cell
     }
@@ -53,9 +65,14 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         let itemUPC = itemsUPC[indexPath.row] 
         let upc = itemUPC["upc"] as! String
-        
+        var shoppingCartItems : [Any]! = []
         UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")
-        let shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [Any]
+        if esGR {
+             shoppingCartItems  = UserCurrentSession.sharedInstance.itemsGR!["items"] as? [Any]
+        }else{
+             shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [Any]
+        }
+        
         for itemInCart in shoppingCartItems! {
             if let dictItem = itemInCart as? [String:Any] {
                 if let preorderable = dictItem["isPreorderable"] {
@@ -83,12 +100,22 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             //let itemUPC = itemsUPC[indexPath.row] as [String:Any]
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String
-            let price = itemUPC["price"] as! String
-            let imageArray = itemUPC["imageUrl"] as! [Any]
+            var price : String! = ""
+            var imageArray : [Any] = []
             var imageUrl = ""
-            if imageArray.count > 0 {
-                imageUrl = imageArray[0] as! String
+            var type = ""
+            if let priceString = itemUPC["price"] as? String {
+                price = priceString
+                imageArray = itemUPC["imageUrl"] as! [Any]
+                
+                if imageArray.count > 0 {
+                    imageUrl = imageArray[0] as! String
+                }
             }
+            else {
+                price = String(format:"%.2f", itemUPC["price"] as! Double)
+                imageUrl = itemUPC["imageUrl"] as! String
+                type = "groceries"            }
             
             var numOnHandInventory : String = "0"
             if let numberOf = itemUPC["onHandInventory"] as? String{
@@ -102,7 +129,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             
             //EVENT
             ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_BEFORE_TO_GO.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(desc) - \(upc)")
-            let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1", comments: "", onHandInventory: numOnHandInventory, type: "", pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
+            let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1", comments: "", onHandInventory: numOnHandInventory, type: type, pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
             NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
         }else {
             

@@ -9,6 +9,9 @@
 import Foundation
 
 class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, UICollectionViewDelegate, IPAFamilyViewControllerDelegate  {
+    var filterMedida: Bool! = false
+    var medidaToSearch:String! = ""
+
     
     
     @IBOutlet var categories: UICollectionView!

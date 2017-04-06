@@ -55,6 +55,8 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class IPALandingPageViewController: NavigationViewController, UIPopoverControllerDelegate, IPAFamilyViewControllerDelegate, IPASectionHeaderSearchReusableDelegate,SearchProductCollectionViewCellDelegate {
+    var filterMedida: Bool! = false
+    var medidaToSearch:String! = ""
     
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
@@ -157,7 +159,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.filterButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
-        
+                
         self.view.addSubview(self.header!)
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
@@ -458,6 +460,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                 view.setSelected()
             }
             viewHeader?.addSubview(self.filterButton!)
+            
             return view
         }
         return reusableView!

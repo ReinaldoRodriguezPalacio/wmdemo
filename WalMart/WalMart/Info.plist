@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.67</string>
+	<string>3.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -510,11 +510,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCategories_ant</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
+			<key>WalmartMG.CrossSellingGRProductService</key>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -564,7 +566,9 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -578,7 +582,19 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -617,11 +633,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCategories_ant</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
+			<key>WalmartMG.CrossSellingGRProductService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -671,7 +689,9 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -685,7 +705,19 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -1014,11 +1046,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCategories_ant</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
+			<key>WalmartMG.CrossSellingGRProductService</key>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -1068,7 +1102,9 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -1084,7 +1120,19 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -1123,11 +1171,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCategories_ant</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
+			<key>WalmartMG.CrossSellingGRProductService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -1178,6 +1228,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -1194,6 +1246,18 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
