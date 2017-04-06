@@ -509,6 +509,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func invokeDeleteProductFromListService(_ upc: String, succesDelete: @escaping (() -> Void)) {
         super.invokeDeleteProductFromListService(upc) { () -> Void in
             self.delegate!.reloadTableListUser()
+            self.deleteProductServiceInvoked = false
+            self.isDeleting = false
         }
         
     }

@@ -1209,7 +1209,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             detailService.buildParams(listId!)
             detailService.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 self.deleteProductServiceInvoked = true
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
                 let service = GRDeleteItemListService()
                 service.callService(service.buildParams(upc),

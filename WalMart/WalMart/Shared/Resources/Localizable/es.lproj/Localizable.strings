@@ -165,7 +165,7 @@
 "list.message.addingProductToList" = "Agregando artículo a lista";
 "list.message.addProductToListDone" = "Artículo agregado a lista";
 "list.message.errorProductToList" = "Error al seleccionar la cantidad";
-"list.message.deleteProductToList" = "Eliminado artículo de lista";
+"list.message.deleteProductToList" = "Eliminando artículo de lista";
 "list.message.deleteProductToListDone" = "¡Listo!";
 "list.message.deletingAllProductsInList" = "Vaciando lista";
 "list.message.deletingAllProductsInListDone" = "Vaciado de lista finalizado";
