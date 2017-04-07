@@ -188,8 +188,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     //MARK: - UITableViewDelegate
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        let navigation = self.filtersAll!["leftArea"] as! NSArray
-        return navigation.count + 1 //(1 = sortOption)
+        
+        if let navigation = self.filtersAll!["leftArea"] as? NSArray {
+            return navigation.count + 1
+        }
+        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

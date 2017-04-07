@@ -84,8 +84,12 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             print(result)
             self.contResult(result)
             // TODO : Servicios En walmart validar con servicio
-            self.recentProductItems = RecentProductsViewController.adjustDictionary(result["responseArray"]! as AnyObject , isShoppingCart: false)
-            self.recentProducts.reloadData()
+            
+            if let productItemsOriginal = result["responseObject"] as? [Any] {
+                self.recentProductItems = RecentProductsViewController.adjustDictionary(productItemsOriginal as AnyObject, isShoppingCart: false)
+                self.recentProducts.reloadData()
+            }
+            
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
             }
@@ -100,11 +104,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func contResult(_ resultDictionary: [String:Any]) {
-        let productItemsOriginal = resultDictionary["responseArray"] as! [Any]
-        
-        if productItemsOriginal.count > 0{
-            let titleBasic = self.titleLabel?.text
-            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
+        if let productItemsOriginal = resultDictionary["responseObject"] as? [Any] {
+            if productItemsOriginal.count > 0{
+                let titleBasic = self.titleLabel?.text
+                self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
+            }
         }
     }
     
