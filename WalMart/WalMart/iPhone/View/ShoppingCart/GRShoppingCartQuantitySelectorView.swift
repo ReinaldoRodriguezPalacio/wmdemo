@@ -341,6 +341,9 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
                 self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteoflist", comment: ""), for: .normal)
             } else {
                 self.btnOkAdd.setTitle(NSLocalizedString("shoppingcart.deleteofcart", comment: ""), for: .normal)
+                if (self.btnNote != nil) && !isFromList {
+                    self.btnNote.alpha = 0
+                }
             }
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
@@ -356,9 +359,14 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             }
         } else {
             self.btnOkAdd.backgroundColor = WMColor.green
+            
+            if (self.btnNote != nil) && !isFromList {
+                self.btnNote.alpha = 1
+            }
             self.btnOkAdd.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnDelete?.alpha = 1.0
+            
         }
             
         UIView.animate(withDuration: 0.2, animations: { () -> Void in

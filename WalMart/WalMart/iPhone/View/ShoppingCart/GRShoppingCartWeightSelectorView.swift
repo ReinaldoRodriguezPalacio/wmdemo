@@ -755,6 +755,10 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd?.backgroundColor = WMColor.red
             self.btnOkAddN?.backgroundColor = WMColor.red
             
+            if (self.btnNote != nil) && !isFromList {
+                self.btnNote.alpha = 0
+            }
+            
             let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
             lblQuantityW?.text = tmpResult as String
             
@@ -797,6 +801,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             
         } else {
             self.btnOkAdd?.backgroundColor = WMColor.green
+            if (self.btnNote != nil) && !isFromList {
+                self.btnNote.alpha = 1
+            }
             self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
