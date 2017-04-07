@@ -153,7 +153,7 @@ class IPOSplashViewController: IPOBaseController {
                 
                 if error == nil{
                     
-                    self.webViewSplash.loadRequest(NSURLRequest(url: NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL) as URLRequest)
+//                    self.webViewSplash.loadRequest(NSURLRequest(url: NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL) as URLRequest)
                     
                     if let privateNot = result["privaceNotice"] as? [[String:Any]] {
                         
