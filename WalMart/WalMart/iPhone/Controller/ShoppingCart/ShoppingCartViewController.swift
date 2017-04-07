@@ -58,7 +58,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var listObj : [String:Any]!
     var productObje : [[String:Any]]!
     
-    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26
+    var heightHeaderTable : CGFloat = 0.0//IS_IPAD ? 40.0 : 26
     var itemSelect = 0
     var idexesPath : [IndexPath]! = []
     

@@ -423,7 +423,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.AddCouponService</key>
-			<string></string>
+			<string>https://dl.dropboxusercontent.com/s/wz0v69d5la3awkb/AddCouponService.txt?dl=0</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -569,7 +569,7 @@
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.RemoveCouponService</key>
-			<string></string>
+			<string>https://dl.dropboxusercontent.com/s/7sxfe0trc9b7m09/removeCoupon.txt?dl=0</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
