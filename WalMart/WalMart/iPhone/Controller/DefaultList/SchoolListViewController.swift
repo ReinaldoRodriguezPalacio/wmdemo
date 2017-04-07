@@ -235,7 +235,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         let service = GRProductBySearchService()
         //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         //let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 100, brand: nil)
-        let params = service.buildParamsForSearch(url: "", text: "", sort: "0", startOffSet: "0", maxResult:"100")
+        let params = service.buildParamsForSearch(url: "", text: "", sort: "0", startOffSet: "0", maxResult:"100", storeId: UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.storeId :"0000009999")
         service.callService(params as AnyObject,
                             successBlock:{ (arrayProduct,facet:NSMutableDictionary?) in
                                 self.detailItems = arrayProduct as? [[String:Any]]

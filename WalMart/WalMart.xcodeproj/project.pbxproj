@@ -3215,7 +3215,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = E896UUML7L;
+						DevelopmentTeam = Y9UWXL6Q88;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -3885,8 +3885,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3908,7 +3908,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3932,8 +3932,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3947,7 +3947,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3961,9 +3961,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				DEVELOPMENT_TEAM = Y9UWXL6Q88;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4003,10 +4003,10 @@
 					"-w",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
-				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
+				PROVISIONING_PROFILE_SPECIFIER = "Iphone Developer";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4024,9 +4024,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joel Juarez (5VQWH52CN8)";
+				DEVELOPMENT_TEAM = Y9UWXL6Q88;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4066,10 +4066,10 @@
 					"-w",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.WalmartTest;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "b8eb7f17-8589-421a-8baa-5d12df853729";
-				PROVISIONING_PROFILE_SPECIFIER = "WalmartBCG DES";
+				PROVISIONING_PROFILE = "6ec47376-c61e-4c78-9392-c16bdd75ed0b";
+				PROVISIONING_PROFILE_SPECIFIER = "Iphone Developer";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

@@ -220,7 +220,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         //let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
-        let params = service.buildParamsForSearch(url: "", text: "", sort: "0", startOffSet: "0", maxResult:"20")
+        let params = service.buildParamsForSearch(url: "", text: "", sort: "0", startOffSet: "0", maxResult:"20",storeId: UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.storeId :"0000009999")
         service.callService(params as AnyObject, successBlock: { (respose:[[String:Any]], facet: NSMutableDictionary?) in
             print("temina")
             if respose.count > 0 {

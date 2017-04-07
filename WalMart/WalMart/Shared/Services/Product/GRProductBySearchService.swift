@@ -55,8 +55,8 @@ class GRProductBySearchService: BaseService {
         ] as [String:Any]
     }*/
     
-    func buildParamsForSearch(url:String?, text:String?, sort:String?, startOffSet:String?, maxResult:String?)  -> [String:String] {
-        return  ["url":url!, "text":text!, "maxResults":maxResult!, "sort":sort!, "startOffSet":startOffSet!]
+    func buildParamsForSearch(url:String?, text:String?, sort:String?, startOffSet:String?, maxResult:String?,storeId:String?)  -> [String:String] {
+        return  ["url":url!, "text":text!, "maxResults":maxResult!, "sort":sort!, "startOffSet":startOffSet!,"storeId":storeId != nil ? storeId! : "0000009999"]
     }
 
     func callService(_ params:AnyObject, successBlock:(([[String:Any]],_ facet:NSMutableDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {

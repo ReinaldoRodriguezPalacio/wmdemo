@@ -716,7 +716,7 @@
         let signalsDictionary : [String:Any] = ["signals" : BaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
-        let params = service.buildParamsForSearch(url: self.urlFamily, text: self.textToSearch, sort: "0", startOffSet: String(startOffSets), maxResult:"20")
+        let params = service.buildParamsForSearch(url: self.urlFamily, text: self.textToSearch, sort: "0", startOffSet: String(startOffSets), maxResult:"20",storeId: UserCurrentSession.hasLoggedUser() ? UserCurrentSession.sharedInstance.storeId : "0000009999" )
         service.callService(params as AnyObject,
                             successBlock: { (arrayProduct:[[String : Any]]?, facet:NSMutableDictionary?) -> Void in
                                 

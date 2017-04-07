@@ -14,7 +14,7 @@ class CrossSellingProductService : BaseService {
     let JSON_CROSSSELL_RESULT = "ProductListCross"
     
     func buildParamsMustang(_ skuId:String) -> [String : Any] {
-        return ["storeId":UserCurrentSession.sharedInstance.storeId == nil ? "" :UserCurrentSession.sharedInstance.storeId!, "skuId":skuId, "displayList":["0"]]
+        return ["storeId":UserCurrentSession.sharedInstance.storeId == nil ? "0000009999" :UserCurrentSession.sharedInstance.storeId!, "skuId":skuId, "displayList":["0"]]
     }
     
     func callService(requestParams params:Any,successBlock:(([[String:Any]]?) -> Void)?, errorBlock:((NSError) -> Void)? ) {
