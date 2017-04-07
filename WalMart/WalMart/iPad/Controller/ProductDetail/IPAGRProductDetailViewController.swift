@@ -831,6 +831,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.addToListLocally(quantity: "1" , list: list,removeSelector: true)
             //self.removeListSelector(action: nil, closeRow:true)
             return
+            
         }
             
         let frameDetail = CGRect(x: self.tabledetail.frame.width, y: 0.0,  width: self.tabledetail.frame.width, height: heightDetail)
@@ -860,6 +861,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
+             self.orderByPieceSelect = self.selectQuantityGR!.orderByPiece
             if exist {
                 self.updateToListLocally(quantity: quantity, list: list)
             }else {
@@ -895,6 +897,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if self.imageUrl.count > 0 {
             detail!.img = self.imageUrl[0] as! NSString as String
         }
+        
         
         var error: NSError? = nil
         do {
@@ -953,7 +956,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     context.delete(productSelect!)
                     
                 }else{
+                    productSelect?.orderByPiece = self.orderByPieceSelect as NSNumber
                     productSelect?.quantity = NSNumber(value:Int(quantity)!)
+                    productSelect?.pieces = NSNumber(value:Int(quantity)!)
                 }
             }
         }
