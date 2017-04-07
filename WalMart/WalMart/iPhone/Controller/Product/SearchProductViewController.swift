@@ -998,6 +998,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     if self.filterMedida! {
                         let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
+                    self.mgResults!.totalResults = arrayFilter.count
                     self.mgResults!.addResults(arrayFilter)
                         
                         if arrayFilter.count == 0{
