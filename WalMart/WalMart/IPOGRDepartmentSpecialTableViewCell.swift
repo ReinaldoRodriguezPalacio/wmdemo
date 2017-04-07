@@ -95,42 +95,14 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         let widthMoreLabel = 64
         
         self.moreButton?.frame = CGRect(x: Int(midXMoreButton - (widthMoreButton / 2)) , y: 43, width: widthMoreButton, height: 16)
-        self.moreButton!.isHidden =  true
+        self.moreButton!.isHidden =  false
         self.moreLabel?.frame = CGRect(x: Int(midXMoreButton - (widthMoreLabel / 2)), y: Int(self.moreButton!.frame.maxY + 36), width: widthMoreLabel, height: 11)
-        self.moreLabel!.isHidden =  true
-        self.descLabel!.isHidden =  true
+        self.moreLabel!.isHidden =  false
+        self.descLabel!.isHidden =  false
         
         let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap))
         descLabel!.addGestureRecognizer(tapOnMore)
-        self.viewLoadingProduct ()
-        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(IPOGRDepartmentSpecialTableViewCell.removeViewLoading), userInfo: nil, repeats: false)
     }
-    
-    func removeViewLoading(){
-        viewLoading!.isHidden =  true
-        moreButton!.isHidden =  false
-        moreLabel!.isHidden =  false
-        descLabel!.isHidden =  false
-    }
-    
-    func viewLoadingProduct(){
-        viewLoading =  UIView()
-        viewLoading!.frame = CGRect(x: 0,y: 0,width: self.frame.width,height: 125)
-        viewLoading!.backgroundColor =  UIColor.white
-        
-        let imageIndicator =  UIImageView(frame: CGRect(x: self.frame.midX - 16, y: 20,width: 32,height: 32))
-        imageIndicator.image =  UIImage(named:"home_super_spark")
-        viewLoading!.addSubview(imageIndicator)
-        
-        let labelLoading =  UILabel(frame:CGRect(x: 0, y: imageIndicator.frame.maxY + 10, width: self.frame.width, height: 30))
-        labelLoading.text =  NSLocalizedString("gr.category.message.loading", comment:"")
-        labelLoading.textAlignment =  .center
-        labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)
-        labelLoading.textColor = WMColor.light_blue
-        viewLoading!.addSubview(labelLoading)
-        self.contentView.addSubview(viewLoading!)
-    }
-    
     
     func withOutProducts(){
         for sView in   self.contentView.subviews {
