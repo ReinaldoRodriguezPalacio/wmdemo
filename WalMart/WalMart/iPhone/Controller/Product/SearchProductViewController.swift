@@ -991,8 +991,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     if self.landingPageMG?.count > 0{ // > 0 TODO cambiar
                         //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                         let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
-                        self.bannerView.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named: "header_default"))
+                        self.bannerView.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                            self.bannerView.image = image//"http://\(imageURL)"
+                        }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                            print("Error al presentar imagen")
+                        }
+                        
                         self.isLandingPage = true
+                        
+                        //Se muestra listado de MG
                         self.btnTech.isSelected = true
                         self.showAlertView = false
                     }
@@ -1134,16 +1141,22 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if arrayProduct != nil && arrayProduct!.count > 0 {
                 self.grResponceDic = resultDic
                 if self.landingPageGR?.count > 0 && self.btnSuper.isSelected{ // > 0 TODO cambiar
+                    //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
                     let imageURL = IS_IPAD ? self.landingPageGR!["imgipad"] as! String : self.landingPageGR!["imgiphone"] as! String
-                    self.bannerView.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named: "header_default"))
+                    self.bannerView.setImageWith(URLRequest(url:URL(string: imageURL)!), placeholderImage:UIImage(named: "header_default"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                        self.bannerView.image = image //"http://\(imageURL)"
+                    }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                        print("Error al presentar imagen")
+                    }
                     self.isLandingPage = true
                     self.showAlertView = false
+                    //Se muestra listado de MG
                     self.btnTech.isSelected = false
                     self.btnSuper.isSelected = true
                 }
                 
                 let item = arrayProduct![0]
-                
+                //println(item)
                 if let results = item["resultsInResponse"] as? NSString {
                     self.grResults!.resultsInResponse += results.integerValue
                 }

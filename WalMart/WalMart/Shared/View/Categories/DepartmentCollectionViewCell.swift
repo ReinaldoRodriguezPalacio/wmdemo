@@ -20,6 +20,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     var startFrame : CGRect!
     var customCloseDep = false
     
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -70,13 +71,15 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
             loadImagefromUrl = loadImage
-        }
-        
+        }//self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
         if loadImagefromUrl {
-            self.imageIcon.setImage(with: URL(string: imgURLName)!, and: imageIcon, success: { (image) in
-                self.saveImageToDisk(imageIconURL, image: image, defaultImage: imageIcon!)
-            }, failure: {})
-        } else {
+            self.imageIcon.setImageWith(URLRequest(url:URL(string: imgURLName)!), placeholderImage:imageIcon, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                self.imageIcon.image = image
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon!)
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                    
+            }
+        }else{
             self.imageIcon.image = imageIcon
         }
         
@@ -89,13 +92,20 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
             loadImagefromUrl = loadImage
-        }
+        }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
+      
+        print(imgURLNamehead)
         
         if loadImagefromUrl {
-            self.imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
+            self.imageBackground.setImageWith(URLRequest(url:URL(string: imgURLNamehead)!), placeholderImage:imageHeader, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                print("into :: loadImagefromUrl")
+                print("Encontro :\(imgURLNamehead)")
+                self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
-            }, failure: {})
-        } else {
+                }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                    
+            }
+        }else{
             print("esles loadImagefromUrl")
             self.imageBackground.image = imageHeader
         }
@@ -106,22 +116,25 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.titleLabel.isHidden = hideImage
         self.imageIcon.isHidden = hideImage
         
-        if IS_IPHONE_6 || IS_IPHONE_6P {
-            imageBackground.contentMode = .scaleAspectFill
-        }
-        
     }
     
-    func setValuesLanding(_ imageBackgroundURL: String) {
+    func setValuesLanding(_ imageBackgroundURL:String) {
         
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
+        
+        //println("Imagen del header en: \(imageBackgroundURL) ")
+        
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+            self.imageBackground.image = image
+            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+            }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in
+                print(error)
+        }
+        
+        //self.titleLabel.text = title
+        
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true
-        
-        if IS_IPHONE_6 || IS_IPHONE_6P {
-            imageBackground.contentMode = .scaleAspectFill
-        }
         
     }
     
@@ -140,29 +153,21 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     }
     
     func animateToOpenDepartment(_ widthEnd:CGFloat,endAnumating:(() -> Void)?) {
-        
         self.startFrame = self.frame
         self.addGestureTiImage()
-        
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            
-            self.frame = CGRect(x: 0, y: 0, width: widthEnd, height: self.frame.height)
-            self.imageBackground.frame = self.bounds
-            self.titleLabel.frame = CGRect(x: (widthEnd / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
-            self.imageIcon.frame = CGRect(x: (widthEnd / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
-            self.buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-            self.buttonClose.alpha = 1
-            
-            if IS_IPHONE_6 || IS_IPHONE_6P {
-                self.imageBackground.contentMode = .scaleAspectFill
-            }
-            
-        }, completion: { (complete:Bool) -> Void in
-            self.titleLabel.frame = CGRect(x: 0, y: self.titleLabel.frame.minY, width: widthEnd, height: self.titleLabel.frame.height)
-            if endAnumating != nil {
-                endAnumating!()
-            }
-        })
+                self.frame = CGRect(x: 0, y: 0, width: widthEnd, height: self.frame.height)
+                self.imageBackground.frame = self.bounds
+                self.titleLabel.frame = CGRect(x: (widthEnd / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
+                self.imageIcon.frame = CGRect(x: (widthEnd / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
+                self.buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                self.buttonClose.alpha = 1
+            }, completion: { (complete:Bool) -> Void in
+                self.titleLabel.frame = CGRect(x: 0, y: self.titleLabel.frame.minY, width: widthEnd, height: self.titleLabel.frame.height)
+                if endAnumating != nil {
+                    endAnumating!()
+                }
+        }) 
     }
   
     func addGestureTiImage(){
@@ -176,27 +181,29 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     func closeDepartment() {
         
+        
+//        let label = self.titleLabel.text!
+//        let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
+        //BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_CANCEL.rawValue, label: label)
+        
         if customCloseDep {
             if self.onclose != nil {
                 self.onclose!()
             }
             return
         }
-        
         if startFrame != nil {
-            
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.frame = self.startFrame
                 self.titleLabel.frame = CGRect(x: (self.startFrame.width / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
                 self.imageIcon.frame = CGRect(x: (self.startFrame.width / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
                 self.buttonClose.alpha = 0
-            }, completion: { (complete:Bool) -> Void in
-                self.removeFromSuperview()
-                if self.onclose != nil {
-                    self.onclose!()
-                }
-            })
-            
+                }, completion: { (complete:Bool) -> Void in
+                    self.removeFromSuperview()
+                    if self.onclose != nil {
+                        self.onclose!()
+                    }
+            }) 
         } else {
             self.removeFromSuperview()
             if self.onclose != nil {
@@ -254,6 +261,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             }
         })
     }
+    
 
     func getImagePath(_ fileName:String) -> String {
         let fileManager = FileManager.default
@@ -279,5 +287,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let getImagePath = paths.appendingPathComponent(fileName)
         return getImagePath
     }
- 
+    
+    
+    
 }

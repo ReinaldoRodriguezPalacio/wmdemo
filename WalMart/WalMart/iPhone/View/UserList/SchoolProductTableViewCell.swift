@@ -23,11 +23,13 @@ class SchoolProductTableViewCell: DetailListViewCell {
             imageUrl = imageUrlTxt
         }
     
-        self.productImage!.contentMode = self.contentModeOrig
-        self.productImage!.setImage(with: URL(string: imageUrl!)!, and: UIImage(named:"img_default_table"), success: { (image) in
+        self.productImage!.contentMode = UIViewContentMode.center
+        self.productImage!.setImageWith(URLRequest(url:URL(string: imageUrl!)!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+            self.productImage!.contentMode = self.contentModeOrig
+            self.productImage!.image = image
             self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
-        }, failure: {})
+            }, failure: nil)
     
         self.promoDescription!.text = product["promoDescription"] as? String
         self.upcVal = product["upc"] as? String

@@ -101,14 +101,18 @@ class DetailListViewCell: ProductTableViewCell {
         
         let imageUrl = product["imageUrl"] as! String
         
-        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.contentMode = UIViewContentMode.center
         self.imageNormal = nil
         
-        self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
-            self.imageGrayScale = self.convertImageToGrayScale(image)
-            self.imageNormal = image
-        }, failure: {})
-        
+        self.productImage!.setImageWith(URLRequest(url: URL(string: imageUrl)!),
+            placeholderImage: UIImage(named:"img_default_table"),
+            success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+                self.productImage!.contentMode = self.contentModeOrig
+                self.productImage!.image = image
+                self.imageGrayScale = self.convertImageToGrayScale(image)
+                self.imageNormal = image
+                
+            }, failure: nil)
         self.promoDescription!.text = product["promoDescription"] as? String
         self.productShortDescriptionLabel!.text = product["description"] as? String
         self.upcVal = product["upc"] as? String
@@ -226,13 +230,18 @@ class DetailListViewCell: ProductTableViewCell {
         let imageUrl = product.img
         let description = product.desc
         
-        self.productImage!.contentMode = self.contentModeOrig
+        self.productImage!.contentMode = UIViewContentMode.center
         self.imageNormal = nil
         
-        self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
-            self.imageGrayScale = self.convertImageToGrayScale(image)
-            self.imageNormal = image
-        }, failure: {})
+        self.productImage!.setImageWith(URLRequest(url:URL(string: imageUrl)!),
+            placeholderImage: UIImage(named:"img_default_table"),
+            success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage!) -> Void in
+                self.productImage!.contentMode = self.contentModeOrig
+                self.productImage!.image = image
+                self.imageGrayScale = self.convertImageToGrayScale(image)
+                self.imageNormal = image
+                
+            }, failure: nil)
         
         self.upcVal = product.upc
         self.promoDescription!.text = ""

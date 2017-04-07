@@ -52,7 +52,6 @@ PODS:
   - PayPal-iOS-SDK/CardIO (2.16.3):
     - CardIO (~> 5.4.1)
   - PayPal-iOS-SDK/Core (2.16.3)
-  - UbuduSDK (1.23.3)
 
 DEPENDENCIES:
   - AFNetworkActivityLogger (from `https://github.com/AFNetworking/AFNetworkActivityLogger.git`, branch `3_0_0`)
@@ -63,7 +62,6 @@ DEPENDENCIES:
   - FBNotifications
   - GoogleTagManager (~> 3.15.0)
   - PayPal-iOS-SDK (= 2.16.3)
-  - UbuduSDK
 
 EXTERNAL SOURCES:
   AFNetworkActivityLogger:
@@ -90,8 +88,7 @@ SPEC CHECKSUMS:
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleTagManager: 43b61f634e42e4b9566ab41e9fd6aa0f6adf47a5
   PayPal-iOS-SDK: db237a752c0b388b93a0b9915b30e26878732bdb
-  UbuduSDK: 04a1a6a3a8afd872c0fb8db40abb00ab2c0ae471
 
-PODFILE CHECKSUM: 2cb54fc250f8d3551771917a79cbb5b356a9d94c
+PODFILE CHECKSUM: 59c7f95ef99f04eeeb79a57d14081a952b72fc80
 
 COCOAPODS: 1.1.1
