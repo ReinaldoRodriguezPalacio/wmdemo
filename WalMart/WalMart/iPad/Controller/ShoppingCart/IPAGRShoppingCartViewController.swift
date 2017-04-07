@@ -50,7 +50,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     //MARK: - ViewCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.loadCrossSell()
         viewTitleCheckout = UILabel(frame: viewHerader.bounds)
         viewTitleCheckout.font = WMFont.fontMyriadProRegularOfSize(14)
         viewTitleCheckout.textColor = WMColor.light_blue
@@ -81,6 +81,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
+        
         viewSeparator = UIView(frame: CGRect.zero)
         viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
@@ -97,7 +98,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 46)
-        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY)
+        self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY - 207)
         viewSeparator!.frame = CGRect(x: self.tableShoppingCart.frame.maxX, y: 0, width: 1.0, height: self.view.bounds.width)
         viewShowLogin?.frame = containerGROrder.bounds
         checkoutVC?.view.frame = containerGROrder.bounds
@@ -112,7 +113,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
-        self.loadCrossSell()
+        
     }
 
     deinit {
@@ -238,12 +239,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.itemsUPC = result!
                     
                     if self.itemsUPC.count > 0{
-                            
+                       
+                        
                         self.tableShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: self.view.frame.height  - self.viewHerader.frame.maxY - 207)
-                        self.beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRect(x: 0, y: 0, width: 682, height: 207))
+                         self.beforeLeave = IPAShoppingCartBeforeToLeave(frame:CGRect(x: 0, y: 0, width: 682, height: 207))
                         self.beforeLeave.frame = CGRect(x : 0, y : self.tableShoppingCart.frame.maxY, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 207)
                         self.beforeLeave.backgroundColor = UIColor.white
                         self.view.addSubview(self.beforeLeave)
+                        
                     }else{
                         
                         self.beforeLeave.frame = CGRect(x : 0, y : self.tableShoppingCart.frame.maxY, width: self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), height: 0)
