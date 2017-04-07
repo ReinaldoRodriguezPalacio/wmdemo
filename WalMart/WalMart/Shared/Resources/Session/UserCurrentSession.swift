@@ -524,21 +524,6 @@ class UserCurrentSession : NSObject {
     }
     
     
-    
-    /*func loadGRShoppingCart(endLoadSC:(() -> Void)) {
-        let service = GRShoppingCartProductsService()
-        service.callService(requestParams: [:],
-            successBlock: { (resultCall:[String:Any]) -> Void in
-                self.itemsGR = resultCall
-                endLoadSC()
-            },
-            errorBlock: { (error:NSError) -> Void in
-                self.itemsGR = nil
-                endLoadSC()
-            }
-        )
-    }*/
-    
     func isEmptyMG() -> Bool {
         if self.itemsMG != nil {
             if let itemsInShoppingCart = self.itemsMG!["items"] as? [[String:Any]] {

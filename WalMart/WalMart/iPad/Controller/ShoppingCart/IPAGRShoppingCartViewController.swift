@@ -154,8 +154,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
         let itemGRSC = itemsInCart[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemGRSC["upc"] as! String
-        
-        let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
         allUPCS.append(upc)
         
@@ -165,46 +163,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             viewLoad.startAnnimating(false)
             self.view.addSubview(viewLoad)
         }
-            
-        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                
-                self.itemsInCart.removeAtIndex(indexPath.row)
-                if self.itemsInCart.count > 0 {
-                    self.tableShoppingCart.reloadData()
-                    
-                    if self.viewLoad != nil {
-                        self.viewLoad.stopAnnimating()
-                        self.viewLoad = nil
-                    }
-                    
-                    if self.viewShowLogin != nil {
-                        self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
-                            subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
-                            saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-                        
-                    }
-                    
-                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance.numberOfArticlesGR())",
-                        subtotal: "\(UserCurrentSession.sharedInstance.estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
-                    
-                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
-                    
-                    //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
-                } else {
-                    self.navigationController!.popViewControllerAnimated(true)
-                    self.onClose?(isClose:true)
-                  
-                }
-                
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error")
-        })
-        */
-        
+
       
         
     }

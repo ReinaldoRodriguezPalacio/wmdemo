@@ -720,27 +720,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let itemGRSC = itemsInCart[(indexPath as NSIndexPath).row] as! [String:Any]
         let upc = itemGRSC["upc"] as! String
         
-        /*let serviceWishDelete = GRShoppingCartDeleteProductsService()
-        var allUPCS : [String] = []
-         allUPCS.append(upc)
-        self.addViewload()
-            
-            serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                    self.itemsInCart.removeAtIndex(indexPath.row)
-                    self.removeViewLoad()
-                if self.itemsInCart.count == 0 {
-                    self.navigationController!.popToRootViewControllerAnimated(true)
-                } else {
-                    self.tableShoppingCart.reloadData()
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
-                }
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error")
-            })
-         */
-        
     }
     
     func retrieveParam(_ entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil) -> AnyObject{
@@ -784,9 +763,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         for item in array {
             arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
         }
-        
-        
-        let serviceWishDelete = GRShoppingCartDeleteProductsService()
+
         var allUPCS : [String] = []
         for itemWishlist in arrayUPCQuantity {
             print(itemWishlist)
@@ -795,26 +772,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         self.addViewload()
-        
-        /*serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                //self.loadGRShoppingCart()
-                
-                self.removeViewLoad()
-                
-                print("done")
-                if self.onClose != nil {
-                    self.onClose?(isClose:true)
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-                else {
-                    self.navigationController?.popToRootViewControllerAnimated(true)
-                }
-                
-            })
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error")
-        })*/
         self.editAction(self.editButton)
     }
     

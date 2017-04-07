@@ -1509,9 +1509,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 self.loadShoppingCartService()
                 print("done")
                 
-                //EVENT
-                //BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
-                
                 self.navigationController?.popToRootViewController(animated: true)
             })
             
