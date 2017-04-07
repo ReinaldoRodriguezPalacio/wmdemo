@@ -35,7 +35,7 @@ class ShoppingCartDeleteProductsService : BaseService {
                 //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
                 
                 //let parameter = params["parameter"] as! [Any]
-                NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: self, userInfo: nil)
+                NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
                 if successBlock != nil {
                     successBlock!([:])
                 }
