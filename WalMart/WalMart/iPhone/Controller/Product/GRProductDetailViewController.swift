@@ -543,7 +543,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             print("delete pressed Errro \(error)")
         }
     }
-
+/*
     override func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool) {
         if selectQuantityGR != nil {
             self.closeContainer({ () -> Void in
@@ -556,15 +556,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 completeClose?()
             })
         }else{
-            UserCurrentSession.sharedInstance.loadGRShoppingCart
-                { () -> Void in
-                    if self.productDetailButton != nil {
-                        self.productDetailButton?.reloadShoppinhgButton()
-                    }
+            UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
+                if self.productDetailButton != nil {
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }
             }
         }
     }
-    
+    */
     func instanceOfQuantitySelector(_ frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
