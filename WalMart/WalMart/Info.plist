@@ -226,7 +226,7 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.AddCouponService</key>
-			<string></string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/addCoupon</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/address/addInvoiceAddress</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -254,7 +254,7 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/displayTaxonomy/</string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/displayTaxonomy</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
@@ -300,23 +300,17 @@
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.GRItemByTicketService</key>
-			<string>http://192.168.43.192:9080/http;//192.168.43.192:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
+			<string>http;//192.168.43.192:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/getLinesForSearch</string>
-			<key>WalmartMG.GRPayPalFuturePaymentService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPaymentType</string>
-			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateOrderStatusPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/plp/getProductsPLPBySearch</string>
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/list/getItemByTicket</string>
-			<key>WalmartMG.GRProductsByUPCService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteItemToOrder</string>
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/profile/getMyBasics</string>
 			<key>WalmartMG.GRSaveUserListService</key>
@@ -372,7 +366,7 @@
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.RemoveCouponService</key>
-			<string></string>
+			<string>http://192.168.43.192:9080/walmartmg/mustang/auth/cart/removeCoupon</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
@@ -616,31 +610,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isReferedActive</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
-		</dict>
-	</dict>
-	<key>WMMustangURLServicesSession</key>
-	<dict>
-		<key>DEVWM</key>
-		<dict>
-			<key>WalmartMG.DefaultListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getPractilist</string>
-			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getLinesForSearch</string>
-			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getItemsBySearching</string>
-			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getSkuSummaryDetails</string>
-		</dict>
-		<key>PRODUCTION</key>
-		<dict>
-			<key>WalmartMG.DefaultListService</key>
-			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
-			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/y9qeo58at8mr55u/getLinesForSearch.txt?dl=0</string>
-			<key>WalmartMG.GRProductBySearchService</key>
-			<string>https://dl.dropboxusercontent.com/s/infhnclwxsxj7q8/searchByText.txt?dl=0</string>
-			<key>WalmartMG.ProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/s/4skuwv3wolsvorj/getProductDEtail.txt</string>
 		</dict>
 	</dict>
 	<key>WMPayPalEnvironment</key>
