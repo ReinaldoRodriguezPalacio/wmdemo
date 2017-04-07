@@ -117,7 +117,6 @@
 		5614A64D1A6830D50048B71A /* GRShoppingCartProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A64C1A6830D50048B71A /* GRShoppingCartProductsService.swift */; };
 		5614A6531A683AA70048B71A /* GRShoppingCartAddProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6521A683AA70048B71A /* GRShoppingCartAddProductsService.swift */; };
 		5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6541A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift */; };
-		5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6561A6841430048B71A /* GRShoppingCartUpdateProductsService.swift */; };
 		5614A65A1A68674B0048B71A /* GRAddressesByIDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6591A68674B0048B71A /* GRAddressesByIDService.swift */; };
 		5614A65F1A68826E0048B71A /* GRPurchaseOrdersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */; };
 		5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */; };
@@ -712,7 +711,6 @@
 		5614A64C1A6830D50048B71A /* GRShoppingCartProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartProductsService.swift; sourceTree = "<group>"; };
 		5614A6521A683AA70048B71A /* GRShoppingCartAddProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartAddProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartAddProductsService.swift; sourceTree = "<group>"; };
 		5614A6541A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartDeleteProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartDeleteProductsService.swift; sourceTree = "<group>"; };
-		5614A6561A6841430048B71A /* GRShoppingCartUpdateProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartUpdateProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartUpdateProductsService.swift; sourceTree = "<group>"; };
 		5614A6591A68674B0048B71A /* GRAddressesByIDService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressesByIDService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressesByIDService.swift; sourceTree = "<group>"; };
 		5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPurchaseOrdersService.swift; path = Shared/Services/Profile/GRPurchaseOrdersService.swift; sourceTree = "<group>"; };
 		5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRItemByTicketService.swift; path = Shared/Services/Profile/GRItemByTicketService.swift; sourceTree = "<group>"; };
@@ -1477,7 +1475,6 @@
 				5614A64C1A6830D50048B71A /* GRShoppingCartProductsService.swift */,
 				5614A6521A683AA70048B71A /* GRShoppingCartAddProductsService.swift */,
 				5614A6541A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift */,
-				5614A6561A6841430048B71A /* GRShoppingCartUpdateProductsService.swift */,
 			);
 			name = ShoppingCart;
 			sourceTree = "<group>";
@@ -3448,7 +3445,6 @@
 				AC59118019DE0D2400EB095C /* FMDatabase.m in Sources */,
 				AC5479F71AB21785009DC7AB /* IPAShoppingCartEmptyView.swift in Sources */,
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
-				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
 				4AE2A69F1DA5D48300FBBD1B /* PreferencesNotificationsCell.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
 				AC6AAE9C19CCC3AC004081C4 /* OrderViewController.swift in Sources */,

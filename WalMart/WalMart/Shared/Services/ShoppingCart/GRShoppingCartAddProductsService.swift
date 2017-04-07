@@ -127,9 +127,9 @@ class GRShoppingCartAddProductsService : BaseService {
                         errorBlock!(error)
                 }
             } else {
-                
-                let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
-                svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
+//                
+//                let svcUpdateShoppingCart = GRShoppingCartUpdateProductsService()
+//                svcUpdateShoppingCart.callService(params,updateSC:true,successBlock:successBlock, errorBlock:errorBlock )
 
 //                UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
 //                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
