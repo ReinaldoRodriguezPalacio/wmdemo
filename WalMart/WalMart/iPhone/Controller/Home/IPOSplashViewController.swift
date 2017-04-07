@@ -11,49 +11,37 @@ import CoreData
 import AFNetworking
 
 struct ShoppingCartParams {
-    static var maxProducts : Int = 5
+    static var maxProducts: Int = 5
 }
-
-
 
 struct ConfigServices {
-    static var ConfigIdMG : String = "WMMustangURLServices"
-    static var ConfigIdGRSign : String = "WMMustangURLServicesSession"
-    
-    static var ConfigIdMGSignals : String = "WMMustangURLServices"
-    static var ConfigIdGRSignalsSing : String = "WMMustangURLServicesSession"
-    
-    static var camfindparams : String = ""
+    static var ConfigIdMG: String = "WMMustangURLServices"
+    static var ConfigIdGRSign: String = "WMMustangURLServicesSession"
+    static var ConfigIdMGSignals: String = "WMMustangURLServices"
+    static var ConfigIdGRSignalsSing: String = "WMMustangURLServicesSession"
+    static var camfindparams: String = ""
 }
-
 
 struct RecommendedCategory {
-    static var cagtegories : [[String:Any]] = []
-    static var groceriescategory : [String:Any] = [:]
-    
+    static var cagtegories: [[String:Any]] = []
+    static var groceriescategory: [String:Any] = [:]
 }
 
-
-
-
-class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnectionDelegate  {
+class IPOSplashViewController: IPOBaseController {
     
-    var webViewSplash : UIWebView!
-    var splashDefault : UIImageView!
-    var paramsSetup : [[String:String]]!
+    var currentVersion: Double = 0.0
+    var minimumVersion: Double = 0.0
+    var webViewSplash: UIWebView!
+    var splashDefault: UIImageView!
+    var paramsSetup: [[String:String]]!
+    var blockScreen: Bool = false
+    var splashTTL: Double = 1.0
+    var labelVersion: UILabel!
+    var didHideSplash: (() -> Void)? = nil
+    var validateVersion: ((_ force: Bool) -> Void)? = nil
     
-    var currentVersion : Double = 0.0
-    var minimumVersion : Double = 0.0
-    
-    var blockScreen :Bool = false
-    var splashTTL : Double = 1.0
-    var labelVersion : UILabel!
-    
-    var didHideSplash : (() -> Void)? = nil
-    var validateVersion : ((_ force:Bool) -> Void)? = nil
-    
-    override func getScreenGAIName() -> String {
-        return WMGAIUtils.SCREEN_SPLASH.rawValue
+    deinit {
+        print("Deinit splash")
     }
     
     override func viewDidLoad() {
@@ -65,20 +53,16 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         splashDefault.image = UIImage(named: "spash_iphone")
         splashDefault.contentMode = .scaleAspectFill
         
-        
         webViewSplash = UIWebView(frame:self.view.bounds)
         webViewSplash.delegate = self
         
-      
         configSplashAndGoToHome()
         
-        
-        self.view.addSubview(webViewSplash)
-        self.view.addSubview(splashDefault)
+        view.addSubview(webViewSplash)
+        view.addSubview(splashDefault)
         
         let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let minorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
-        
         let nameFamily = "Versión \(majorVersion) (\(minorVersion))"
         
         labelVersion = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: 100, height: 16.0))
@@ -90,48 +74,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    func retrieveParam(_ key:String) -> Param? {
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        let user = UserCurrentSession.sharedInstance.userSigned
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
-        if user != nil {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
-        }
-        else {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
-        }
-        var result: [Param]? = nil
-        do{
-            result = try context.fetch(fetchRequest) as? [Param]
-        }catch{
-            print("retrieveParam error in executeFetchRequest")
-        }
-        var parameter: Param? = nil
-        if result != nil && result!.count > 0 {
-            parameter = result!.first
-        }
-        return parameter
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SPLASH.rawValue
     }
-    
-    func gotohomecontroller(){
-        UIView.animate(withDuration: 0.4, delay: 0.3, options: UIViewAnimationOptions.allowAnimatedContent, animations: { () -> Void in
-            self.view.alpha = 0
-            }, completion: { (end:Bool) -> Void in
-                if  self.view.superview != nil {
-                    self.view.superview!.isUserInteractionEnabled = true
-                }
-                self.view.removeFromSuperview()
-                self.removeFromParentViewController()
-                
-                if self.didHideSplash != nil {
-                    self.didHideSplash!()
-                }
-        })
-    }
-    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -140,63 +85,207 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         labelVersion.frame =  CGRect(x: self.webViewSplash.frame.midX - 50,y: self.webViewSplash.frame.height - 80 , width: 100, height: 16)
     }
     
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if request.url!.absoluteString.hasPrefix("ios:") {
-            UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                self.splashDefault.alpha = 0
-                }, completion: { (response:Bool) -> Void in
-                    self.splashDefault.removeFromSuperview()
-            }) 
-            return false
+    func retrieveParam(_ key: String) -> Param? {
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let user = UserCurrentSession.sharedInstance.userSigned
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        
+        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
+        
+        if user != nil {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
+        } else {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
-        //else {
-       //     NSURLConnection(request: request, delegate: self)
-       // }
         
-        return true
+        var result: [Param]? = nil
+        var parameter: Param? = nil
+        
+        do {
+            result = try context.fetch(fetchRequest) as? [Param]
+        } catch {
+            print("retrieveParam error in executeFetchRequest")
+        }
+        
+        if result != nil && result!.count > 0 {
+            parameter = result!.first
+        }
+        
+        return parameter
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func gotohomecontroller(){
         
+        UIView.animate(withDuration: 0.4, delay: 0.3, options: UIViewAnimationOptions.allowAnimatedContent, animations: { () -> Void in
+            self.view.alpha = 0
+        }, completion: { (end: Bool) -> Void in
+            
+            if self.view.superview != nil {
+                self.view.superview!.isUserInteractionEnabled = true
+            }
+            
+            self.view.removeFromSuperview()
+            self.removeFromParentViewController()
+            
+            if self.didHideSplash != nil {
+                self.didHideSplash!()
+            }
+        })
         
     }
-    
-    
-    
-    func connection(_ connection: NSURLConnection, didFailWithError error: Error) {
+
+    func configSplashAndGoToHome() {
         
+        let confServ = ConfigService()
+        confServ.callService([:], successBlock: { (result: [String:Any]) -> Void in
+            
+            var error: NSError?
+            self.configureWebView(result)
+            
+            let authorizationService = AuthorizationService()
+            authorizationService.callGETService([], successBlock: { (result: [String:Any]) in
+                // success
+                IPOSplashViewController.callUpdateServices()
+                UserCurrentSession.sharedInstance.finishConfig  = true
+                self.invokeServiceToken()
+                
+                if error == nil{
+                    
+                    self.webViewSplash.loadRequest(NSURLRequest(url: NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL) as URLRequest)
+                    
+                    if let privateNot = result["privaceNotice"] as? [[String:Any]] {
+                        
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "dd/MM/yyyy"
+                        let sinceDate = dateFormatter.date(from: privateNot[0]["sinceDate"] as! String)!
+                        let untilDate = dateFormatter.date(from: privateNot[0]["untilDate"] as! String)!
+                        let version = privateNot[0]["version"] as! NSNumber
+                        let versionAP = "AP\(version)" as String!
+                        var isReviewActive: NSString = "false"
+                        
+                        if let value = result["isReviewActive"] as? NSString {
+                            isReviewActive = value
+                        }
+                        
+                        UserCurrentSession.sharedInstance.dateStart = sinceDate
+                        UserCurrentSession.sharedInstance.dateEnd = untilDate
+                        UserCurrentSession.sharedInstance.version = versionAP
+                        UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
+                        
+                        if let commensChck = result["alertComment"] as? [[String:Any]] {
+                            
+                            if let active = commensChck[0]["isActive"] as? Bool {
+                                UserCurrentSession.sharedInstance.activeCommens = active
+                            }
+                            
+                            if let message = commensChck[0]["message"] as? String {
+                                UserCurrentSession.sharedInstance.messageInCommens = message
+                            }
+                            
+                            if let upcs = commensChck[0]["upcs"] as? [String] {
+                                UserCurrentSession.sharedInstance.upcSearch = upcs
+                            }
+                            
+                        }
+                        
+                        var requiredAP = true
+                        if let param = self.retrieveParam(versionAP!) {
+                            requiredAP = !(param.value == "false")
+                        }
+                        
+                        if requiredAP {
+                            
+                            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+                            let filePath = paths.appendingPathComponent("AvisoPrivacidad.pdf")
+                            
+                            if (FileManager.default.fileExists(atPath: filePath)) {
+                                do {
+                                    try FileManager.default.removeItem(atPath: filePath)
+                                } catch let error1 as NSError {
+                                    error = error1
+                                } catch {
+                                    fatalError()
+                                }
+                            }
+                            
+                            var privaceNotice = result["privaceNotice"] as! [[String:Any]]
+                            let url = privaceNotice[0]["url"] as! String
+                            let request = NSURLRequest(url: NSURL(string:url)! as URL)
+                            let configuration = URLSessionConfiguration.default
+                            let manager = AFURLSessionManager(sessionConfiguration: configuration)
+                            let downloadTask = manager.downloadTask(with: request as URLRequest, progress: nil, destination: { (url:URL, urlResponse:URLResponse) -> URL in
+                                
+                                let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
+                                
+                                return file!.appendingPathComponent("AvisoPrivacidad.pdf")
+                            }, completionHandler: { (response:URLResponse?, fileUrl:URL?, error:Error?) -> Void in
+                                print("File Path: \(fileUrl)")
+                            })
+                            downloadTask.resume()
+                        }
+                    }
+                    UserCurrentSession.sharedInstance.searchForCurrentUser()
+                }
+               
+            }, errorBlock: { (error: NSError) in
+                print(error.localizedDescription)
+            })
+            
+        }, errorBlock: { (error: NSError) -> Void in
+            self.gotohomecontroller()
+        })
     }
     
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+    func invokeServiceToken() {
         
+        let idDevice = UIDevice.current.identifierForVendor!.uuidString
+        let notificationService = NotificationService()
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
+        let showNotification = showNotificationParam == nil ? true: (showNotificationParam!.value == "true")
+        
+        if  UserCurrentSession.sharedInstance.deviceToken != "" {
+            
+            let params = notificationService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
+            print("Splash")
+            print(notificationService.jsonFromObject(params as AnyObject!))
+            
+            notificationService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
+                //println( "Registrado para notificaciones")
+                
+            }) { (error:NSError) -> Void in
+                print( "Error device token: \(error.localizedDescription)" )
+            }
+        }
     }
+
     func configureWebView(_ itemsconfig:[String:Any]) {
-        
         
         if let block = itemsconfig["block"] as? Bool {
             blockScreen = block
         }
+        
         if let ttlsplash = itemsconfig["ttl"] as? Double {
             splashTTL = ttlsplash
         }
+        
         if let maxproducts = itemsconfig["maxproducts"] as? Int {
             ShoppingCartParams.maxProducts = maxproducts
         }
 
-        
         if let camfindparams = itemsconfig["camfindparams"] as? String {
             ConfigServices.camfindparams = camfindparams
         }
-        
-        
-        
+
         if let currentVersionVal = itemsconfig["currentVersion"] as? Double {
             currentVersion = currentVersionVal
         }
+        
         if let minimumVersionVal = itemsconfig["minimumVersion"] as? Double {
             minimumVersion = minimumVersionVal
         }
+        
         if currentVersion > 0 && minimumVersion > 0 {
             if let majorVersion =  Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? NSString {
                 if currentVersion > majorVersion.doubleValue  {
@@ -209,41 +298,42 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             
         }
         
-        
         configureSplash()
     }
     
     func configureSplash() {
+        
         if !blockScreen {
             UIView.animate(withDuration: 0.4, delay: splashTTL, options: UIViewAnimationOptions.allowAnimatedContent, animations: { () -> Void in
                 self.view.alpha = 0
-                }, completion: { (end:Bool) -> Void in
-                    if  self.view.superview != nil {
-                        self.view.superview!.isUserInteractionEnabled = true
-                    }
-                    
-                    URLCache.shared.removeAllCachedResponses()
-                    self.webViewSplash.removeFromSuperview()
-                    self.webViewSplash = nil
-                    
-                    self.removeFromParentViewController()
-                    self.view.removeFromSuperview()
-                    if self.didHideSplash != nil {
-                        self.didHideSplash!()
-                    }
+            }, completion: { (end:Bool) -> Void in
+                
+                if self.view.superview != nil {
+                    self.view.superview!.isUserInteractionEnabled = true
+                }
+                
+                URLCache.shared.removeAllCachedResponses()
+                self.webViewSplash.removeFromSuperview()
+                self.webViewSplash = nil
+                
+                self.removeFromParentViewController()
+                self.view.removeFromSuperview()
+                
+                if self.didHideSplash != nil {
+                    self.didHideSplash!()
+                }
             })
         }
+        
     }
     
-    func serviceUrl(_ serviceName:String) -> String {
+    func serviceUrl(_ serviceName: String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMMustangURLServices") as! [String:Any]
         let environmentServices = services[environment] as! [String:Any]
         let serviceURL =  environmentServices[serviceName] as! String
         return serviceURL
     }
-    
-    
     
     class func callUpdateServices() {
                 
@@ -254,7 +344,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         )
 
         
-     //TODO : Llamar donde se utilizan
+     //TODO: Llamar donde se utilizan
 //        let defaultlist = DefaultListService()
 //        defaultlist.callService({ (result:NSDictionary) -> Void in
 //            print("Call DefaultListService sucess")
@@ -284,7 +374,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         IPOSplashViewController.updateUserData(false)
     }
     
-    class func updateUserData(_ invokeService:Bool) {
+    class func updateUserData(_ invokeService: Bool) {
         
         
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()
@@ -324,127 +414,45 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    deinit{
-        print("Deinit splash")
-    }
+}
+
+// MARK: - UIWebViewDelegate
+
+extension IPOSplashViewController: UIWebViewDelegate {
     
-    
-    func configSplashAndGoToHome() {
-        let confServ = ConfigService()
-        confServ.callService([:], successBlock: { (result:[String:Any]) -> Void in
-            var error: NSError?
-            self.configureWebView(result)
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        
+        if request.url!.absoluteString.hasPrefix("ios:") {
             
-            let authorizationService = AuthorizationService()
-            authorizationService.callGETService([], successBlock: { (result:[String:Any]) in
-                //success
-                IPOSplashViewController.callUpdateServices()
-                UserCurrentSession.sharedInstance.finishConfig  = true
-                self.invokeServiceToken()
-                
-                if error == nil{
-                    self.webViewSplash.loadRequest(NSURLRequest(url: NSURL(string:self.serviceUrl("WalmartMG.Splash"))! as URL) as URLRequest)
-                    if let privateNot = result["privaceNotice"] as? [[String:Any]] {
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "dd/MM/yyyy"
-                        let sinceDate = dateFormatter.date(from: privateNot[0]["sinceDate"] as! String)!
-                        let untilDate = dateFormatter.date(from: privateNot[0]["untilDate"] as! String)!
-                        let version = privateNot[0]["version"] as! NSNumber
-                        let versionAP = "AP\(version)" as String!
-                        var isReviewActive : NSString = "false"
-                        
-                        if let value = result["isReviewActive"] as? NSString {
-                            isReviewActive = value
-                        }
-                        
-                        UserCurrentSession.sharedInstance.dateStart = sinceDate
-                        UserCurrentSession.sharedInstance.dateEnd = untilDate
-                        UserCurrentSession.sharedInstance.version = versionAP
-                        
-                        UserCurrentSession.sharedInstance.isReviewActive = isReviewActive.boolValue
-                        
-                        if let commensChck = result["alertComment"] as? [[String:Any]] {
-                            if let active = commensChck[0]["isActive"] as? Bool {
-                                UserCurrentSession.sharedInstance.activeCommens = active
-                            }
-                            if let message = commensChck[0]["message"] as? String {
-                                UserCurrentSession.sharedInstance.messageInCommens = message
-                            }
-                            if let upcs = commensChck[0]["upcs"] as? [String] {
-                                UserCurrentSession.sharedInstance.upcSearch = upcs
-                            }
-                            
-                        }
-                        
-                        
-                        var requiredAP = true
-                        if let param = self.retrieveParam(versionAP!) {
-                            requiredAP = !(param.value == "false")
-                        }
-                        
-                        
-                        if requiredAP {
-                            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-                            let filePath = paths.appendingPathComponent("AvisoPrivacidad.pdf")
-                            //                    var checkValidation = NSFileManager.defaultManager()
-                            if (FileManager.default.fileExists(atPath: filePath)) {
-                                do {
-                                    try FileManager.default.removeItem(atPath: filePath)
-                                } catch let error1 as NSError {
-                                    error = error1
-                                } catch {
-                                    fatalError()
-                                }
-                            }
-                            
-                            var privaceNotice = result["privaceNotice"] as! [[String:Any]]
-                            let url = privaceNotice[0]["url"] as! String
-                            let request = NSURLRequest(url: NSURL(string:url)! as URL)
-                            let configuration = URLSessionConfiguration.default
-                            let manager = AFURLSessionManager(sessionConfiguration: configuration)
-                            let downloadTask = manager.downloadTask(with: request as URLRequest, progress: nil, destination: { (url:URL, urlResponse:URLResponse) -> URL in
-                                
-                                let file =  try? FileManager.default.url(for: .documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: false)
-                                
-                                return file!.appendingPathComponent("AvisoPrivacidad.pdf")
-                                }, completionHandler: { (response:URLResponse?, fileUrl:URL?, error:Error?) -> Void in
-                                    print("File Path : \(fileUrl)")
-                            })
-                            downloadTask.resume()
-                        }
-                    }
-                    UserCurrentSession.sharedInstance.searchForCurrentUser()
-                }
-                //finish succes
-                }, errorBlock: { (error: NSError) in
-                    print(error.localizedDescription)
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.splashDefault.alpha = 0
+            }, completion: { (response:Bool) -> Void in
+                self.splashDefault.removeFromSuperview()
             })
             
-            
-            },errorBlock: { (error:NSError) -> Void in
-                self.gotohomecontroller()
-        })
+            return false
+        }
+      
+        return true
     }
     
-    func invokeServiceToken(){
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        
+        
+    }
+    
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        
+    }
+    
+}
 
-        let idDevice = UIDevice.current.identifierForVendor!.uuidString
-        let notificationService = NotificationService()
-        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
-        let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
-        if  UserCurrentSession.sharedInstance.deviceToken != "" {
-            
-            let params = notificationService.buildParams(UserCurrentSession.sharedInstance.deviceToken, identifierDevice: idDevice, enablePush: !showNotification)
-            print("Splash")
-            print(notificationService.jsonFromObject(params as AnyObject!))
+// MARK: - NSURLConnectionDelegate
 
-            notificationService.callPOSTService(params, successBlock: { (result:[String:Any]) -> Void in
-                //println( "Registrado para notificaciones")
-                
-            }) { (error:NSError) -> Void in
-                print( "Error device token: \(error.localizedDescription)" )
-            }
-        }
+extension IPOSplashViewController: NSURLConnectionDelegate {
+    
+    func connection(_ connection: NSURLConnection, didFailWithError error: Error) {
+        
     }
     
 }
