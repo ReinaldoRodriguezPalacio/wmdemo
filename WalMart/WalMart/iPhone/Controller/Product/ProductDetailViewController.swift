@@ -579,33 +579,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
             selectQuantity!.closeAction =
                 { () in
-                    self.productDetailButton?.isOpenQuantitySelector = false
-                    UIView.animate(withDuration: 0.5,
-                        animations: { () -> Void in
-                            self.productDetailButton?.reloadShoppinhgButton()
-                            self.isShowShoppingCart = false
-                            self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
-                            //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
-                        },
-                        completion: { (animated:Bool) -> Void in
-                            if self.selectQuantity != nil {
-                                self.selectQuantity!.removeFromSuperview()
-                                self.selectQuantity = nil
-                                self.gestureCloseDetail.isEnabled = false
-                                self.detailCollectionView.isScrollEnabled = true
-                            }
-                        }
-                    )
+                    self.closeContainerDetail(completeClose: { () -> Void in
+                        self.productDetailButton?.isOpenQuantitySelector = false
+                        self.productDetailButton?.reloadShoppinhgButton()
+                    }, isPush: false)
             }
-            
-        
-            
-           // selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             
          
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
+                    self.selectQuantity?.closeAction()
                     
                     if quantity == "00" {
                         self.deleteFromCart()
@@ -616,27 +600,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
                         let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!,equivalenceByPiece:0 )//equivalenceByPiece
-                        self.gestureCloseDetail.isEnabled = false
-                        self.detailCollectionView.isScrollEnabled = true
-                        self.isShowShoppingCart = false
-                        
-                      
-                
-                        UIView.animate(withDuration: 0.2,
-                            animations: { () -> Void in
-                                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: 320, height: 0	)
-                               // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
-                            },
-                            completion: { (animated:Bool) -> Void in
-                                self.selectQuantity!.removeFromSuperview()
-                                self.selectQuantity = nil
-                                self.gestureCloseDetail.isEnabled = false
-                                self.detailCollectionView.isScrollEnabled = true
-                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
-                                 self.productDetailButton?.isOpenQuantitySelector = false
-                                self.productDetailButton?.reloadShoppinhgButton()
-                            }
-                        )
+                            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                     }
                     else {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -734,7 +698,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         gestureCloseDetail.isEnabled = false
         self.detailCollectionView.isScrollEnabled = true
         self.closeContainer({ () -> Void in
-            
+            self.selectQuantity?.frame = CGRect(x: 0, y: 360, width: 320, height: 0)
             }, completeClose: { () -> Void in
                 self.isShowShoppingCart = false
                 
