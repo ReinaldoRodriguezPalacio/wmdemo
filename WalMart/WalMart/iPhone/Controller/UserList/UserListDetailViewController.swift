@@ -687,7 +687,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRect(x: 63.0, y: labelTwo.frame.maxY - 18 , width: 16.0, height: 16.0)
+        icon.frame = CGRect(x: 110.0, y: labelTwo.frame.maxY - 18 , width: 16.0, height: 16.0)
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .custom)

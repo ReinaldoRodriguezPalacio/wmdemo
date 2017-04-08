@@ -66,7 +66,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSize(width: 71, height: 22), forUIControlState: UIControlState())
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSize(width: 61, height: 22), forUIControlState: UIControlState())
         self.saveButton!.addTarget(self, action: #selector(AddressViewController.save(_:)), for: UIControlEvents.touchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ).lowercased() , for: UIControlState())
         self.saveButton!.isHidden = true
@@ -327,7 +327,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
         
-        self.saveButton!.frame = CGRect(x: self.view.bounds.maxX - left , y: 0 , width: 71, height: self.header!.frame.height)
+        self.saveButton!.frame = CGRect(x: self.view.bounds.maxX - left , y: 0 , width: 61, height: self.header!.frame.height)
         self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         
         self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.width , height: bounds.height - self.header!.frame.height )
@@ -492,20 +492,20 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         case .shiping:
             let height : CGFloat = self.viewAddress!.showSuburb == true ? 640 + 184  : (600-190) + 184
             self.viewAddress?.frame = CGRect(x: 0.0, y: self.viewTypeAdress != nil ? 45 : 0 , width: bounds.width , height: height)
-            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
+            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 50 )
             self.content.bringSubview(toFront: self.viewAddress!)
         case .fiscalPerson:
             self.setupViewFiscal()
             let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
             self.viewAddressFisical?.frame = CGRect(x: 0.0, y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: height)
-            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
+            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 70 )
             self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
             self.content.bringSubview(toFront: self.viewAddressFisical!)
         case .fiscalMoral:
             self.setupViewFiscal()
              let height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
             self.viewAddressMoral?.frame = CGRect(x: 0.0,  y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: height)
-            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 40 )
+            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 70 )
             self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
             self.content.bringSubview(toFront: self.viewAddressMoral!)
         //default:
