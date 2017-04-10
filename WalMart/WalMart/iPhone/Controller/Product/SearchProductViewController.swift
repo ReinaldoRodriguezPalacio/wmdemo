@@ -1095,6 +1095,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         self.collection?.reloadData()//Ipad
                         actionError?()
+                    }else if error.code == 9{
+                        self.mgResults!.resultsInResponse = 0
+                        self.mgResults!.totalResults = 0
+                        self.finsihService =  true
+                        self.removeEmpty =  false
+                        self.showEmptyView()//Iphone
+                        if IS_IPAD{
+                            self.collection?.reloadData()//Ipad
+                        }
+                        actionError?()
+                        return
                     }else{
                         print("MG Search ERROR!!!")
                         self.mgServiceIsInvike =  false
