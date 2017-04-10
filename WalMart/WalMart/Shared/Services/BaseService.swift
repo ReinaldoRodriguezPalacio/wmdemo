@@ -217,9 +217,9 @@ class BaseService : NSObject {
             }
             UserCurrentSession.sharedInstance.JSESSIONATG =  atgSession != "" ? atgSession as String :  UserCurrentSession.sharedInstance.JSESSIONATG
             CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONATG", value: UserCurrentSession.sharedInstance.JSESSIONATG)
+
             
-            
-            let resultJSON = json as! [String:Any]
+            let resultJSON =  json as? [String:Any] ?? [:] as! [String:Any]
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
@@ -353,7 +353,8 @@ class BaseService : NSObject {
             
             
             
-            let resultJSON = json as! [String:Any]
+            let resultJSON =  json as? [String:Any] ?? [:] as! [String:Any]
+            
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 //Tag Manager
                 BaseController.sendTagManagerErrors("ErrorEventBusiness", detailError: errorResult.localizedDescription)

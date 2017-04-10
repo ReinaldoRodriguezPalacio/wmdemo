@@ -253,19 +253,20 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let array = self.pointButtons! as [Any]
         if array.count > 0 {
             if self.pointButtons!.count != self.visibleItem! {
-                
-                if let button = array[self.visibleItem!] as? UIButton {
-                    for inner: UIButton in self.pointButtons! {
-                        inner.isSelected = button === inner
+                if !(self.visibleItem! >= array.count) {
+                    if let button = array[self.visibleItem!] as? UIButton {
+                        for inner: UIButton in self.pointButtons! {
+                            inner.isSelected = button === inner
+                        }
                     }
+                    UIView.animate(withDuration: 0.1, animations: { () -> Void in
+                        self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
+                    }, completion: { (complete:Bool) -> Void in
+                    })
                 }
-                UIView.animate(withDuration: 0.1, animations: { () -> Void in
-                    self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
-                }, completion: { (complete:Bool) -> Void in
-                })
-            
+                
             }
-          
+            
         }
     }
     
