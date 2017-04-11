@@ -405,6 +405,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
             }
             self.selectQuantityGR.isFromList = false
+            
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
                     //self.productDetailButton?.reloadShoppinhgButton()
@@ -507,7 +508,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 })
             })
           
-         
+            self.selectQuantityGR?.isUpcInShoppingCart = (self.productDetailButton?.isUpcInShoppingCart)!
         }else{
             self.closeContainerDetail(completeClose: nil, isPush: false)
         }
@@ -686,17 +687,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let service = GRAddItemListService()
         let pesable = self.isPesable ? "1" : "0"
         let orderByPiece = self.itemOrderbyPices //self.selectQuantityGR?.orderByPiece ?? true
-        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive,baseUomcd:orderByPiece ? "EA" : "GM")
-        service.callService(service.buildParams(idList: listId, upcs: [productObject]),
-                            successBlock: { (result:[String:Any]) -> Void in
-                                    self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
-                                    self.alertView?.showDoneIcon()
-                                    self.alertView?.afterRemove = {
-                                        self.closeContainerDetail(completeClose: nil, isPush: true)
-                                        self.removeListSelector(action: nil)
-                                    }
-                                // 360 Event
-                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+        let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!, pesable:pesable, active:self.isActive, baseUomcd:orderByPiece ? "EA" : "GM")
+            service.callService(service.buildParams(idList: listId, upcs: [productObject]),
+            successBlock: { (result:[String:Any]) -> Void in
+            
+            self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+            self.alertView?.showDoneIcon()
+            self.alertView?.afterRemove = {
+                self.closeContainerDetail(completeClose: nil, isPush: true)
+                self.removeListSelector(action: nil)
+            }
+            // 360 Event
+            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
                                 
         }, errorBlock: { (error:NSError) -> Void in
             print("Error at add product to list: \(error.localizedDescription)")
@@ -719,18 +721,17 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func updateItemToList(quantity:String,listId:String){
         
         //let service = GRAddItemListService()
-       let orderByPiece = self.itemOrderbyPices
-       let service = GRUpdateItemListService()
+        let orderByPiece = self.itemOrderbyPices
+        let service = GRUpdateItemListService()
         service.listId = listId
-        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
-                            successBlock: { (result:[String:Any]) -> Void in
-                                    self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
-                                    self.alertView?.showDoneIcon()
-                                    self.alertView?.afterRemove = {
-                                        self.closeContainerDetail(completeClose: nil, isPush: true)
-                                        self.removeListSelector(action: nil)
-                                    }
-                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"), successBlock: { (result:[String:Any]) -> Void in
+            self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
+            self.alertView?.showDoneIcon()
+            self.alertView?.afterRemove = {
+                self.closeContainerDetail(completeClose: nil, isPush: true)
+                self.removeListSelector(action: nil)
+            }
+            BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
 
         }, errorBlock: { (error:NSError) -> Void in
             print("Error at add product to list: \(error.localizedDescription)")
@@ -742,7 +743,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
         }
         )
-    
     
     }
     
@@ -804,15 +804,15 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.isPush = true
-        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
+  //      self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: 320.0, height: 360.0))
         self.selectQuantityGR!.closeAction = { () in
-                UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                    //self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
-                    self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
-                }, completion: { (complete: Bool) -> Void in
-                    self.selectQuantityGR?.removeFromSuperview()
-                    self.listSelectorController?.sowKeyboard = false
-                })
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                //self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
+                self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: 320.0, height: 360.0)
+            }, completion: { (complete: Bool) -> Void in
+                self.selectQuantityGR?.removeFromSuperview()
+                self.listSelectorController?.sowKeyboard = false
+            })
         }
             
         self.selectQuantityGR.isFromList = true

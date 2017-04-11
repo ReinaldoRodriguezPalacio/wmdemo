@@ -755,10 +755,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd?.backgroundColor = WMColor.red
             self.btnOkAddN?.backgroundColor = WMColor.red
             
-            if (self.btnNote != nil) && !isFromList {
-                self.btnNote.alpha = 0
-            }
-            
             let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
             lblQuantityW?.text = tmpResult as String
             
@@ -801,9 +797,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             
         } else {
             self.btnOkAdd?.backgroundColor = WMColor.green
-            if (self.btnNote != nil) && !isFromList {
-                self.btnNote.alpha = 1
-            }
+
             self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
@@ -812,6 +806,20 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAddN?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
             self.btnDelete?.alpha = 1.0
+        }
+        
+        if (self.btnNote != nil && isFromList) || (self.btnNote != nil && !isUpcInShoppingCart) || (lblQuantityW?.text == ZERO_QUANTITY_STRING || currentValGr == 0.0) {
+            self.btnNote.alpha = 0
+        } else if (self.btnNote != nil && !isFromList) && (self.btnNote != nil && isUpcInShoppingCart) && (lblQuantityW?.text != ZERO_QUANTITY_STRING || currentValGr != 0.0) {
+            self.btnNote.alpha = 1
+        } else if self.btnNote == nil && isUpcInShoppingCart && (lblQuantityW?.text != ZERO_QUANTITY_STRING || currentValGr != 0.0) {
+            self.btnNote = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
+            self.btnNote.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
+            self.btnNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+            self.btnNote.alpha = 1
+            self.btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: .touchUpInside)
+            
+            self.addSubview(btnNote)
         }
         
         UIView.animate(withDuration: 0.2, animations: { () -> Void in

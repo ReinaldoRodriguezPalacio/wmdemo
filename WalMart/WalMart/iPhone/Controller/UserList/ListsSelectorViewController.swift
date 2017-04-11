@@ -89,7 +89,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.titleLabel!.text = NSLocalizedString("list.selector.title", comment:"")
         self.titleLabel!.textColor = UIColor.white
         self.titleLabel!.textAlignment = .center
-        self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.backgroundColor = UIColor.clear
         self.view.addSubview(self.titleLabel!)
         
