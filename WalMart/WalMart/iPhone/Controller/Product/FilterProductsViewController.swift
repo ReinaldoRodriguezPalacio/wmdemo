@@ -49,13 +49,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     let JSON_KEY_FACET_ITEMNAME = "itemName"
     let JSON_SLIDER = "slider"
     let JSON_KEY_FACET_UPCS = "upcs"
-    
     let FILTER_PRICE_ID = "Por Precios"
     
     var applyButton: UIButton?
     var removeButton: UIButton?
     var tableView: UITableView?
     var loading: WMLoadingView?
+    var isFromTiresSearch: Bool! = false
     
     var textToSearch: String?
     var originalSearchContext: SearchServiceContextType?
@@ -216,7 +216,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         
         //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil && (self.originalSearchContext! == SearchServiceContextType.withCategoryForMG || self.originalSearchContext! == SearchServiceContextType.withCategoryForTiresSearch) && facet != nil {
             //self.successCallBack!()
             
             //var intIx = 0
@@ -324,7 +324,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.isTextSearch {
                  return 2
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil && facet?.count > 0  {
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil && facet?.count > 0 && !isFromTiresSearch {
             return 1 + facet!.count
         }
         

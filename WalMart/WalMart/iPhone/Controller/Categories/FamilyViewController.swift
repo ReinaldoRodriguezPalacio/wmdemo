@@ -124,6 +124,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                     controller.idDepartment = departmentId
                     controller.idFamily = selectedSection["id"] as? String
                     controller.idLine = itemLine["id"] as? String
+                    
                     self.navigationController!.pushViewController(controller, animated: true)
 
             }
@@ -135,12 +136,15 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 switch self.categoriesType! {
                 case .categoryForGR :
                     controller.searchContextType = .withCategoryForGR
+                    controller.filterMedida=false
                     break
                 case .categoryForMG :
                     controller.searchContextType = .withCategoryForMG
+                    controller.filterMedida=false
                     break
                 case .categoryForTiresSearch :
                     controller.searchContextType = .withCategoryForTiresSearch
+                    controller.filterMedida=true
                 //default : print("No se ha indicado tipo de categorias.")
                 }
              
@@ -150,7 +154,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             controller.idDepartment = departmentId
             controller.idFamily = selectedSection["id"] as? String
             controller.idLine = itemLine["id"] as? String
-        
+            controller.filterMedida=false
             self.navigationController!.pushViewController(controller, animated: true)
             //let label = itemLine["name"] as! String
             //let labelCategory = label.uppercased().replacingOccurrences(of: " ", with: "_")
