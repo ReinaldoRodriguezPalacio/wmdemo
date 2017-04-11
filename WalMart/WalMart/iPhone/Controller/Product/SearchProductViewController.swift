@@ -2078,6 +2078,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect, quantity: NSNumber, noteProduct:String, product: Product?){
         
+        let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(cell.upc)
+        
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
@@ -2085,6 +2087,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY)
+            selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
+            selectQuantityGR.btnNoteN.isHidden =  !hasUPC
+
+            
             
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"
