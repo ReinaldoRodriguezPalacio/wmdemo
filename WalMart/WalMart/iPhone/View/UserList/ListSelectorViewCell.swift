@@ -170,7 +170,8 @@ class ListSelectorViewCell: UITableViewCell {
         self.selectedBackgroundView!.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
         
         if let sizeButton = openDetail?.titleLabel?.sizeThatFits(CGSize.zero) {
-            self.openDetail!.frame = CGRect(x: frame.width - (sizeButton.width + 26), y: 8.0, width: sizeButton.width + 10, height: 40.0)
+            let wBtn =  sizeButton.width + 10 < 55 ? 55 : sizeButton.width + 10
+            self.openDetail!.frame = CGRect(x: frame.width - (wBtn + 15), y: 8.0, width: wBtn , height: 40.0)
             viewBg.frame = CGRect(x: 0, y: 0, width: sizeButton.width + 10, height: 18)
             viewBg.center = CGPoint(x: openDetail!.frame.width / 2, y: openDetail!.frame.height / 2)
         }

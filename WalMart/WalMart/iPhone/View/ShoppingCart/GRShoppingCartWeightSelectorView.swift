@@ -29,7 +29,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     var lblQuantityW : UILabel!
     var keyboardP : NumericKeyboardView!
     var lblQuantityP : UILabel!
-    var quantityWAnimate : UIView!
     
     var originalValGr: Double! = 100.0
     var originalValPzs: Double! = 1.0
@@ -130,15 +129,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         lblQuantityW.textAlignment = NSTextAlignment.center
         lblQuantityW.minimumScaleFactor =  35 / 40
         lblQuantityW.adjustsFontSizeToFitWidth = true
-        
-        quantityWAnimate = UIView(frame: CGRect(x: lblQuantityW.bounds.maxX - 3, y: 0, width: 1, height: lblQuantityW.frame.height))
-        quantityWAnimate.backgroundColor = UIColor.white
-        quantityWAnimate.alpha = 0
-        //lblQuantityW.addSubview(quantityWAnimate)
+       
         
         self.updateLabelW()
-        
-        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(GRShoppingCartWeightSelectorView.updateAnimation), userInfo: nil, repeats: true)
         
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
@@ -479,6 +472,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                 self.updateLabelN(currentValKg!)
             }
             updateShoppButton()
+            self.btnNote.alpha = 1
         } else {
             self.orderByPiece =  false
             let resultText : NSString = "\(value!)" as NSString
@@ -486,6 +480,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             originalValGr = currentValGr
             self.updateLabelW()
             self.updateShoppButton()
+            self.btnNote.alpha = 1
         }
         }
     }
@@ -577,7 +572,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         self.lblQuantityP?.text = ZERO_QUANTITY_STRING
         
         self.updateShoppButton()
-        
+        self.btnNote.alpha = 0
         
         
     }
@@ -755,9 +750,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.btnOkAdd?.backgroundColor = WMColor.red
             self.btnOkAddN?.backgroundColor = WMColor.red
             
-            if (self.btnNote != nil) && !isFromList {
-                self.btnNote.alpha = 0
-            }
+            //if (self.btnNote != nil) && !isFromList {
+              //  self.btnNote.alpha = 0
+            //}
             
             let tmpResult : NSString = "\(Int(currentValGr))g" as NSString
             lblQuantityW?.text = tmpResult as String
@@ -801,9 +796,10 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             
         } else {
             self.btnOkAdd?.backgroundColor = WMColor.green
-            if (self.btnNote != nil) && !isFromList {
-                self.btnNote.alpha = 1
-            }
+            //if (self.btnNote != nil) && !isFromList {
+              //  self.btnNote.alpha = 1
+            //}
+            
             self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
@@ -841,7 +837,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }
         
         let rectSize =  lblQuantityW.attributedText!.boundingRect(with: CGSize(width: lblQuantityW.frame.width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        quantityWAnimate.frame = CGRect(x: (lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, y: 0, width: 1, height: lblQuantityW.frame.height)
         self.validateWeightSelectedBtn(gr: currentValGr)
     }
     
@@ -895,14 +890,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             }, completion: { (complete:Bool) -> Void in
                 
         }) 
-    }
-    
-    func updateAnimation() {
-        if quantityWAnimate.alpha  == 0 {
-            quantityWAnimate.alpha = 1
-        }else {
-            quantityWAnimate.alpha = 0
-        }
     }
     
     func changegrkg(_ sender:UIButton) {
