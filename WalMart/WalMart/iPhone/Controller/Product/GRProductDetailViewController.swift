@@ -510,6 +510,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
          
         }else{
             self.closeContainerDetail(completeClose: nil, isPush: false)
+            self.selectQuantityGR?.closeAction()
+            self.selectQuantityGR = nil
         }
 
     }
@@ -694,6 +696,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                     self.alertView?.afterRemove = {
                                         self.closeContainerDetail(completeClose: nil, isPush: true)
                                         self.removeListSelector(action: nil)
+                                       
+
                                     }
                                 // 360 Event
                                 BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
@@ -941,7 +945,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if error != nil {
             print(error!.localizedDescription)
         }
-        
+        self.selectQuantityGR?.closeSelectQuantity()
+        self.selectQuantityGR?.removeFromSuperview()
+        self.selectQuantityGR = nil
         self.removeListSelector(action: nil)
         //TODO: Add message
         if quantity == "00" {
@@ -1014,6 +1020,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 if !self.pushList {
                                     self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 }
+                                self.selectQuantityGR?.closeAction()
+                                self.selectQuantityGR = nil
                             }
                         }
                     )

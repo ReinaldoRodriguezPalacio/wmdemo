@@ -74,7 +74,6 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         quantityWAnimate.backgroundColor = UIColor.white
         quantityWAnimate.alpha = 0
         lblQuantity.addSubview(quantityWAnimate)
-        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(KeyboardWeightViewController.updateAnimation), userInfo: nil, repeats: true)
         
         viewContainerQ.addSubview(lblQuantity)
         viewContainerQ.addSubview(btnLess)
@@ -153,13 +152,6 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         }
     }
     
-    func updateAnimation() {
-        if quantityWAnimate.alpha  == 0 {
-            quantityWAnimate.alpha = 1
-        }else {
-            quantityWAnimate.alpha = 0
-        }
-    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "pices" {
