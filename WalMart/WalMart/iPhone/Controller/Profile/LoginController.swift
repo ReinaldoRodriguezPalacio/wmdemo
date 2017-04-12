@@ -27,7 +27,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var noAccount : UILabel? = nil
     var controllerTo: String!
     var viewLoad : WMLoadingView!
-
     var errorView : FormFieldErrorView? = nil
     var closeAlertOnSuccess : Bool = true
     var alertView : IPOWMAlertViewController? = nil
@@ -38,7 +37,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
     var isOnlyLogin =  true
@@ -178,8 +176,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.email?.becomeFirstResponder()
         }*/
     }
-    
-    
     
     override func viewWillLayoutSubviews() {
         if !viewAnimated {

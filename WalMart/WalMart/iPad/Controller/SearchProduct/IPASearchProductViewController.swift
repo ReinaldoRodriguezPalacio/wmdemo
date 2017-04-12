@@ -186,6 +186,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 return
             }
         }
+        self.filterController!.isFromTiresSearch = filterMedida
         self.filterController!.facet =  self.facet != nil ? self.facet : nil
         self.filterController!.facetGr = self.facetGr
         self.filterController!.isGroceriesSearch = self.btnSuper.isSelected
@@ -435,7 +436,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func apply(_ order:String, upcs: [String]) {
         super.apply(order, upcs: upcs)
-        if upcs.count == 0 {
+        if upcs.count == 0 && !filterMedida {
          self.showEmptyView()
         }
         

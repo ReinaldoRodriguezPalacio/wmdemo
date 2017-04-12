@@ -1005,9 +1005,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     if self.filterMedida! {
                         let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
-                    self.mgResults!.totalResults = arrayFilter.count
+                        self.mgResults!.resultsInResponse = arrayFilter.count
+                        self.mgResults!.totalResults = arrayFilter.count
                     self.mgResults!.addResults(arrayFilter)
-                        
+                    
                         if arrayFilter.count == 0{
                             self.finsihService =  true
                             self.removeEmpty =  false
@@ -1771,6 +1772,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
             
         }
+        controllerFilter.isFromTiresSearch = filterMedida
         controllerFilter.isGroceriesSearch = self.btnSuper.isSelected
         controllerFilter.searchContext = self.searchContextType
         self.navigationController?.pushViewController(controllerFilter, animated: true)
@@ -1798,6 +1800,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         
         self.isAplyFilter =  true
+ 
+        if filterMedida{
+            self.applyFilterTiresSearch(order)
+            return
+        }
+
         
         if IS_IPHONE {
             self.isLoading = true
@@ -1854,8 +1862,45 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
 
+    func applyFilterTiresSearch(_ order:String){
+        
+        if IS_IPHONE {
+            self.isLoading = true
+        } else {
+            showLoadingIfNeeded(false)
+        }
+        if self.originalSearchContextType != .withTextForCamFind {
+            self.allProducts? = []
+        }
+        self.allProducts?.append(array: self.mgResults!.products!)
+        self.idSort = order
+        switch (FilterType(rawValue: self.idSort!)!) {
+        case .descriptionAsc :
+            self.allProducts!.sort { ($0["description"] as! String) < ($1["description"] as! String) }
+        case .descriptionDesc :
+            self.allProducts!.sort { ($0["description"] as! String) > ($1["description"] as! String) }
+        case .priceAsc :
+            self.allProducts!.sort { ($0["price"] as! String).toDouble() < ($1["price"] as! String).toDouble() }
+        case .priceDesc :
+            self.allProducts!.sort { ($0["price"] as! String).toDouble() > ($1["price"] as! String).toDouble() }
+        case .none : print("Not sorted")
+        default :
+            print("default")
+        }
+        
+        self.finsihService =  true
+        self.collection?.reloadData()
+        self.showLoadingIfNeeded(true)
+        
+        
+    }
+    
     func apply(_ order:String, upcs: [String]) {
 
+        if filterMedida{
+            self.applyFilterTiresSearch(order)
+            return
+        }
         
         if IS_IPHONE {
             self.isLoading = true
@@ -1979,7 +2024,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }) { (error:NSError) -> Void in
                 print(error)
         }
-        
     }
     
     func removeSelectedFilters(){
@@ -2078,6 +2122,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect, quantity: NSNumber, noteProduct:String, product: Product?){
         
+        let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(cell.upc)
+        
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
@@ -2085,6 +2131,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY)
+            selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
+            selectQuantityGR.btnNoteN.isHidden =  !hasUPC
+
+            
             
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"

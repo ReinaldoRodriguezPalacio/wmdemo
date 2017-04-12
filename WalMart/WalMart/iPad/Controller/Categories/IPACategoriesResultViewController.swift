@@ -13,7 +13,8 @@ struct CategoryShouldShowFamily {
 }
 
 class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControllerDelegate,IPASectionHeaderSearchReusableDelegate,IPACatHeaderSearchReusableDelegate,UIPopoverControllerDelegate {
-
+   
+    
     var viewImageBgCategory : UIImageView!
     var imgCategory : UIImage!
 
