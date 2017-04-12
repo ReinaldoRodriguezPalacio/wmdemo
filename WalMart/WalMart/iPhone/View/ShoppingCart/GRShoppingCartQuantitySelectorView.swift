@@ -24,6 +24,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         didSet {
             if isFromList {
                 self.btnNoteQuantity.alpha = 0
+                self.btnNoteN.alpha = 0
 
             }
             self.lblTitle?.text = self.isFromList ? NSLocalizedString("shoppingcart.updatequantitytitle.list",comment:"") : NSLocalizedString("shoppingcart.updatequantitytitle",comment:"")

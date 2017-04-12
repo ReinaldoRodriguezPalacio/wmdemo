@@ -16,7 +16,6 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void)
     func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
-    //func showProductDetailOptions()
 }
 
 
@@ -39,7 +38,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var isAddingOrRemovingWishlist: Bool = false
     var productDepartment:String = ""
     var isOpenQuantitySelector: Bool = false
-    var isUpcInShoppingCart = false
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -319,9 +317,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                     //total = (kgrams * price.doubleValue)
             }
             
-            if (quantity != 0) || (pieces != 0) {
-                self.isUpcInShoppingCart = true
-            }
             
             self.addToShoppingCartButton!.setTitle(text, for: UIControlState())
             self.addToShoppingCartButton!.setTitle(text, for: UIControlState.selected)
