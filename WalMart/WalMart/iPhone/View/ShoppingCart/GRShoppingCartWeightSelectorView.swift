@@ -468,7 +468,8 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.updateShoppButton()
 
         }
-            let alpha:CGFloat  = self.isFromList ? 0.0 : 1.0
+          let alpha:CGFloat  = self.isFromList ? 0.0 : self.isUpcInShoppingCart ?  1.0 : 0.0
+          
             self.btnNoteQuantity.alpha = alpha
             self.btnDelet.alpha = 1
            
