@@ -509,7 +509,7 @@
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -559,7 +559,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -626,13 +626,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getCategories_ant</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -682,7 +682,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -1046,13 +1046,13 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>

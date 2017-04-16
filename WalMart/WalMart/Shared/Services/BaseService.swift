@@ -197,7 +197,12 @@ class BaseService : NSObject {
             let stringOfClassType: String = self.serviceUrl()
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? String ?? ""
-            let atgSession = headers["JSESSIONATG"] as? NSString  ?? ""
+            var atgSession = headers["JSESSIONATG"] as? NSString  ?? ""
+            let atgSession1 = headers["jsessionatg"] as? NSString ?? ""
+          
+            if atgSession1 != "" {
+              atgSession = atgSession1
+            }
             if cookie != "" {
                 let httpResponse = response
                 if let fields = httpResponse.allHeaderFields as? [String : String] {
@@ -323,7 +328,15 @@ class BaseService : NSObject {
             let response : HTTPURLResponse = request.response as! HTTPURLResponse
             let headers : [String:Any] = response.allHeaderFields as! [String : Any]
             let cookie = headers["Set-Cookie"] as? NSString ?? ""
-            let atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+            var atgSession = headers["JSESSIONATG"] as? NSString ?? ""
+            let atgSession1 = headers["jsessionatg"] as? NSString ?? ""
+          
+            if atgSession1 != "" {
+              atgSession = atgSession1
+            }
+          
+          print("JSESSIONATG.....:: \(atgSession)")
+          print("JSESSIONATG.1....:: \(atgSession1)")
             let stringOfClassType: String = self.serviceUrl()
             
             if cookie != "" {

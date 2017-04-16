@@ -417,9 +417,9 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
 
                         
-                        UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                        })
+                        //UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                          //  UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+                        //})
                         
                     }) { (error:NSError) -> Void in
                         

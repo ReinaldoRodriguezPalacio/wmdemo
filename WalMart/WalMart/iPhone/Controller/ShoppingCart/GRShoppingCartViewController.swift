@@ -165,6 +165,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.removeViewLoad()
         
         loadGRShoppingCart()
+        loadCrossSell()
         
 //        self.emptyView!.isHidden = false
 //        self.editButton!.isHidden = true
@@ -243,7 +244,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()
             self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-               self.loadCrossSell()
         }
     }
     
@@ -872,7 +872,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             
             serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
+                  if  !(indexPath.row >= self.itemsInCart.count) {
                     self.itemsInCart.remove(at: indexPath.row)
+                  }
+                  
                     self.removeViewLoad()
                 if self.itemsInCart.count == 0 {
                     self.navigationController?.popToRootViewController(animated: true)
