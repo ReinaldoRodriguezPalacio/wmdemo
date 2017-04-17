@@ -1706,6 +1706,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     
 }
 
+//MARK: UIViewControllerPreviewingDelegate
 extension ShoppingCartViewController: UIViewControllerPreviewingDelegate {
     //registerForPreviewingWithDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -1725,6 +1726,7 @@ extension ShoppingCartViewController: UIViewControllerPreviewingDelegate {
     }
 }
 
+//MARK: UIGestureRecognizerDelegate
 extension ShoppingCartViewController: UIGestureRecognizerDelegate {
     
     func addLongTouch(view:UIView) {
