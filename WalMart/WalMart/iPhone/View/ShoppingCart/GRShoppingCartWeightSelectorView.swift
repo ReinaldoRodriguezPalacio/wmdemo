@@ -136,8 +136,11 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         lblQuantityW.textAlignment = NSTextAlignment.center
         lblQuantityW.minimumScaleFactor =  35 / 40
         lblQuantityW.adjustsFontSizeToFitWidth = true
-       
         
+        btnMore = UIButton(frame: CGRect(x: lblQuantityW.frame.maxX + 4,  y: yPositionForTitles, width: buttonSize, height: buttonSize))
+        btnMore.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnMoreAction), for: UIControlEvents.touchUpInside)
+        btnMore.setImage(UIImage(named: "addProduct_Add"), for: UIControlState())
+       
         self.updateLabelW()
         
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
@@ -175,13 +178,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         let gestureQuantity = UITapGestureRecognizer(target: self, action: #selector(GRShoppingCartWeightSelectorView.changetonumberpad(_:)))
         lblQuantityW.addGestureRecognizer(gestureQuantity)
         lblQuantityW.isUserInteractionEnabled = true
-        
-//        btnNote = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: keyboard.frame.maxY  , width: 40, height: 40))
-//        btnNote.setImage(UIImage(named:"notes_keyboard"), for: UIControlState())
-//        btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: UIControlEvents.touchUpInside)
-//        btnNote.alpha =  0
-        
-        
+                
         btnNoteQuantity = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
         btnNoteQuantity.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
         btnNoteQuantity.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
