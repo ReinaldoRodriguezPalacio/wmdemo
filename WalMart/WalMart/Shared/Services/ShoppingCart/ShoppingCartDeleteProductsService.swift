@@ -36,10 +36,12 @@ class ShoppingCartDeleteProductsService : BaseService {
                 
                 //let parameter = params["parameter"] as! [Any]
                 NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                
                 if successBlock != nil {
                     successBlock!([:])
                 }
-                }) { (error:NSError) -> Void in
+                
+            }) { (error:NSError) -> Void in
                     if errorBlock != nil {
                         errorBlock!(error)
                     }
@@ -73,6 +75,7 @@ class ShoppingCartDeleteProductsService : BaseService {
                 }
             }
         }
+        
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
     }

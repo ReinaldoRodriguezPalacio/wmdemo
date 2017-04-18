@@ -785,7 +785,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
             UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                print("delete pressed OK")
+                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                 alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
                 alertView?.showDoneIcon()
                 alertView?.afterRemove = {

@@ -79,11 +79,12 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                 }
             }
         }
+        
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
-                successBlock?([:])
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+            successBlock?([:])
         }
-        
-        
+    
     }
     
     
