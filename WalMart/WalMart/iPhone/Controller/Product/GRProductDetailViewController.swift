@@ -542,7 +542,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             print("delete pressed Errro \(error)")
         }
     }
-/*
+
     override func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool) {
         if selectQuantityGR != nil {
             self.closeContainer({ () -> Void in
@@ -562,7 +562,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
         }
     }
-    */
+    
     func instanceOfQuantitySelector(_ frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
@@ -1000,7 +1000,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         delay: 0.0,
                         options: .layoutSubviews,
                         animations: { () -> Void in
-                            self.listSelectorContainer!.frame = CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0)
+                            self.listSelectorContainer?.frame = CGRect(x: 0, y: 360.0, width: self.view.frame.width, height: 0.0)
                         }, completion: { (complete:Bool) -> Void in
                             if complete {
                                 self.listSelectorController?.willMove(toParentViewController: nil)
