@@ -191,7 +191,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
-        
          NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successAddItemsToShopingCart, object: nil)
     }
     

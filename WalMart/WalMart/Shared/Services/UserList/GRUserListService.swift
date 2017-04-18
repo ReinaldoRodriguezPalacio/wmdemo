@@ -238,11 +238,12 @@ class GRUserListService : GRBaseService {
             
         }
         self.updateLists(listIds:toUpdateList)
-        
     }
     
     func updateLists(listIds:[String]) {
         if listIds.count == 0 {
+            manageListDataSuccess?()
+            manageListDataSuccess = nil
             return;
         }
         var newListIds : [String] = []
