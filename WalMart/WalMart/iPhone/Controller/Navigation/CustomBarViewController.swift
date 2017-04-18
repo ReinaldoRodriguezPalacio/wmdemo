@@ -1531,16 +1531,16 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.trimmingCharacters(in: CharacterSet.whitespaces)) {
         case "": self.buttonSelected(self.buttonList[0])
-        case "UPC","upc": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
-        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
-        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
-        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
-        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
-        case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
-        case "WF": self.buttonSelected(self.buttonList[3])
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: schoolName, andGrade:grade, andSearchContextType: .withCategoryForMG)
-        case "URL": self.openURLNotification(trimValue)
-        case "SH":
+        case "UPC", "upc": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
+        case "TXT", "txt": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
+        case "LIN", "lin": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
+        case "FAM", "fam": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
+        case "CAT", "cat": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
+        case "CF", "cf": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
+        case "WF", "wf": self.buttonSelected(self.buttonList[3])
+        case "LIST", "list": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: schoolName, andGrade:grade, andSearchContextType: .withCategoryForMG)
+        case "URL", "url": self.openURLNotification(trimValue)
+        case "SH", "sh":
             if self.splashVC == nil {
                 self.openSearchProduct()
             } else {
