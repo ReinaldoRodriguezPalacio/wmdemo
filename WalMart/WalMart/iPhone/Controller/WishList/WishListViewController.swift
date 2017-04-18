@@ -121,10 +121,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY, width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
-        self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
-        let heightEmptyView = self.view.bounds.height
+        self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY, width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height - 44)
+        self.wishLitsToolBar.frame = CGRect(x: 0, y: self.wishlist.frame.maxY , width: self.view.frame.width, height: 64)
         
+        let heightEmptyView = self.view.bounds.height - 44
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)
     }
     
@@ -501,7 +501,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func tabFooterView() {
         wishLitsToolBar = UIView(frame: CGRect(x: 0, y: self.wishlist.frame.maxY , width: self.view.frame.width, height: 64))
-        wishLitsToolBar.backgroundColor = UIColor.clear
+        wishLitsToolBar.backgroundColor = UIColor.white
         
         let bgShareBuy = UIView(frame:CGRect(x: 0, y: 0 , width: self.view.frame.width, height: 64))
         bgShareBuy.backgroundColor = UIColor.white
@@ -937,7 +937,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     
                 })
                 
-                }) { (error:NSError) -> Void in
+            }) { (error:NSError) -> Void in
             }
         }
     }

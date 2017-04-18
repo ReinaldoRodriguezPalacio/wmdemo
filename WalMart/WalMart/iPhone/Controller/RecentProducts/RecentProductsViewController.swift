@@ -47,8 +47,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         self.recentProducts.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
-        let model =  UIDevice.current.modelName
-        let heightEmptyView = self.view.bounds.height
+        let heightEmptyView = self.view.bounds.height - 44
 
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmptyView)
         
