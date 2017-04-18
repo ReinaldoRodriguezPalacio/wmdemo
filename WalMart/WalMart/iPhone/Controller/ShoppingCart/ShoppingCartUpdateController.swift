@@ -52,6 +52,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
     var closeButton: UIButton!
     var imageDone: UIImageView!
     var goToShoppingCart: (() -> Void)!
+    var noteAdded: (() -> Void)?
     var typeProduct: ResultObjectType!
     var keepShoppingButton: UIButton!
     var goToShoppingCartButton: UIButton!
@@ -712,65 +713,15 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                     if let totalPieces = self.params["quantity"] as? NSString {
                         pieces = Int(totalPieces as String)!
                     }
-                    if let type = self.params["type"] as?  String {
-                        if type == ResultObjectType.Groceries.rawValue {
-                            self.typeProduct = ResultObjectType.Groceries
-                            print("Parametros = \(self.params)")
-                            
-                            var numOnHandInventory: NSString = "0"
-                            if let numberOf = self.params["onHandInventory"] as? NSString{
-                                numOnHandInventory  = numberOf
-                            }
-                            
-                            let pesable = self.params["pesable"] as! NSString
-                            
-                            var orderByPiece = true
-                            if let orderpiece = self.params["orderByPiece"] as? Bool {
-                                orderByPiece = orderpiece
-                            }else if let orderpiece = self.params["orderByPieces"] as? Bool{
-                                 orderByPiece = orderpiece
-                            }
-                            
-                            var pieces = 0
-                            if let totalPieces = self.params["quantity"] as? NSString {
-                                pieces = Int(totalPieces as String)!
-                            }
-                            
-                            let serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as! NSString as String, quantity: self.params["quantity"] as! NSString as String, comments: self.comments, desc: self.params["desc"] as! NSString as String, price: self.params["price"] as! NSString as String, imageURL: self.params["imgUrl"] as! NSString as String, onHandInventory: numOnHandInventory, pesable: pesable, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber, parameter: nil, successBlock: { (result:[String:Any]) -> Void in
-                                
-                                self.finishCall = true
-                                
-                                if self.noteAdded != nil {
-                                    self.noteAdded?()
-                                    self.noteAdded = nil
-                                }
-                                
-                                if self.timmer == nil {
-                                    self.showDoneIcon()
-                                    WishlistService.shouldupdate = true
-                                }
-
-                                NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
-                                
-                                }) { (error:NSError) -> Void in
-                                    
-                                    if error.code != -100 {
-                                        self.spinImage.layer.removeAllAnimations()
-                                        self.spinImage.isHidden = true
-                                    }
-                                    
-                                    if error.code == 1 || error.code == 999 {
-                                        self.titleLabel.text = error.localizedDescription
-                                    } else if error.code != -100 {
-                                        self.titleLabel.text = error.localizedDescription
-                                        self.imageProduct.image = UIImage(named:"alert_ups")
-                                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
-                                        self.closeButton.isHidden = false
-                                    }
-                                    
-                            }
-                            
+                    
+                    let serviceAddProduct = GRShoppingCartAddProductsService()
+                    serviceAddProduct.callService(self.params["upc"] as! NSString as String, quantity: self.params["quantity"] as! NSString as String, comments: self.comments, desc: self.params["desc"] as! NSString as String, price: self.params["price"] as! NSString as String, imageURL: self.params["imgUrl"] as! NSString as String, onHandInventory: numOnHandInventory, pesable: pesable, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber, parameter: nil, successBlock: { (result:[String:Any]) -> Void in
+                        
+                        self.finishCall = true
+                        
+                        if self.noteAdded != nil {
+                            self.noteAdded?()
+                            self.noteAdded = nil
                         }
                         
                         if self.timmer == nil {
