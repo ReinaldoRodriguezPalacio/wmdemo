@@ -1023,6 +1023,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     }
                     controller.detailOf = "Search results"
                     self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+                    self.btnSearch!.isSelected = true
+                    self.closeSearch(false, sender: nil)
             })
         }
         else{
@@ -1048,11 +1050,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.textToSearch = keyWord
                 controllernav?.pushViewController(controller, animated: true)
             }
-            self.onCloseSearch?()
-            self.onCloseSearch = nil
+            self.btnSearch!.isSelected = true
+            self.closeSearch(false, sender: nil)
         }
-        self.btnSearch!.isSelected = true
-        self.closeSearch(false, sender: nil)
     }
     
     
