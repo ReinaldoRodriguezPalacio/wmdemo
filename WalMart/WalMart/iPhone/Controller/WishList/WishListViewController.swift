@@ -86,7 +86,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         tabFooterView()
         
-        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
+        emptyView = IPOWishlistEmptyView(frame: CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 44))
         
         emptyView.returnAction = {() in
             self.back()
@@ -500,7 +500,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func tabFooterView() {
-        wishLitsToolBar = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 108 , width: self.view.frame.width, height: 64))
+        wishLitsToolBar = UIView(frame: CGRect(x: 0, y: self.wishlist.frame.maxY , width: self.view.frame.width, height: 64))
         wishLitsToolBar.backgroundColor = UIColor.clear
         
         let bgShareBuy = UIView(frame:CGRect(x: 0, y: 0 , width: self.view.frame.width, height: 64))

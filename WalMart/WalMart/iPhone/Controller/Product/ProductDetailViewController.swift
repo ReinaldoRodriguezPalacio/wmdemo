@@ -886,7 +886,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }) { (error:NSError) -> Void in
                     NSLog("ProductDetailService error : \(error.localizedDescription) ", "ProductDetailViewController")
 
-                    let heightEmpty = self.view.bounds.height
+                    let heightEmpty = self.view.bounds.height - 44
                     let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: heightEmpty))
                     
                     self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
