@@ -45,7 +45,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         super.viewDidLoad()
         //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         
-        self.viewFooter = UIView(frame:CGRect(x: 0, y: self.view.bounds.maxY - 28, width: self.view.bounds.width, height: 46))
+        self.viewFooter = UIView(frame:CGRect(x: 0, y: self.view.bounds.maxY - 64, width: self.view.bounds.width, height: 46))
         
         self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = trackingNumber
@@ -115,9 +115,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 64)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 154)
 
-        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.tableDetailOrder.frame.maxY , width: self.view.frame.width, height: 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
 
@@ -131,8 +131,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
   
-            self.self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64   , width: self.view.frame.width, height: 64)
-        
         
     }
     
