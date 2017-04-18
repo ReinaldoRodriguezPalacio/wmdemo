@@ -108,9 +108,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 64)
 
-        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 20 , width: self.view.frame.width, height: 64)
+        self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
 

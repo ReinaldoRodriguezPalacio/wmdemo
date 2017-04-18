@@ -18,7 +18,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
        super.setup()
         
         //iconImageView.image = UIImage(named:"empty_list")
-        self.bgImageView.isHidden = true
+        //self.bgImageView.isHidden = true
         
         bgImageView.image =  UIImage(named: "empty_wishlist")
         imageEmptyViewIconBtn = UIImageView(image: UIImage(named: "empty_wishlist_icon"))

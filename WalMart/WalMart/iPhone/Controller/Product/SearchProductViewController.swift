@@ -1617,7 +1617,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
       
         let model =  UIDevice.current.modelName
         print(model)
-        var heightEmpty = self.view.bounds.height
+        var heightEmpty = self.view.bounds.height - 64
         if !model.contains("iPad") && !model.contains("4") {
             heightEmpty -= 64
         }

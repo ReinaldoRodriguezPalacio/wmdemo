@@ -184,9 +184,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.isPesable = pesable.intValue == 1
             }
             
-           
-            
-            
 
             var numOnHandInventory : NSString = (self.isPesable ? "20000" : "99")
             if let numberOf = result["onHandInventory"] as? NSString{
@@ -238,7 +235,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             },errorBlock: { (error:NSError) -> Void in
                 let heightEmpty = self.view.bounds.height                
-                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height:  heightEmpty))
+                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.heightDetail))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     self.navigationController!.popViewController(animated: true)

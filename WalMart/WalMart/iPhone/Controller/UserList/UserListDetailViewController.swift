@@ -695,8 +695,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func showEmptyView() {
         if self.emptyView ==  nil {
             self.openEmpty = true
-            let bounds = self.view.bounds
-            let height = bounds.size.height - 44
+            let bounds = self.view.frame
+            let height = bounds.height
             
             if UserCurrentSession.hasLoggedUser() {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
@@ -707,7 +707,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.view.addSubview(self.emptyView!)
             
             let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-            //bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - 108)
+            bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - 108)
             self.emptyView!.addSubview(bg)
             
             let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -725,7 +725,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.emptyView!.addSubview(labelTwo)
             
             let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-            icon.frame = CGRect(x: 98.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+            icon.frame = CGRect(x: labelOne.frame.midX - 62, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
             self.emptyView!.addSubview(icon)
             
             let button = UIButton(type: .custom)
