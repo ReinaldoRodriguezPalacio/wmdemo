@@ -32,6 +32,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     if successBlock != nil {
                         successBlock!(resultCall)
                     }
+                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
                     self.callCoreDataService(params, successBlock: nil, errorBlock: nil)
                 })
                

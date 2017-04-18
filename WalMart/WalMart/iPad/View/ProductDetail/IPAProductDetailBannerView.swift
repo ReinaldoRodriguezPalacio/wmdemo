@@ -36,7 +36,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
     
-    var delegate : ProductDetailBannerCollectionViewDelegate!
+    weak var delegate : ProductDetailBannerCollectionViewDelegate?
     var collection: UICollectionView!
     var items: [Any]! = []
     var pointSection: UIView? = nil
@@ -211,7 +211,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if delegate != nil{
-            delegate.sleectedImage(indexPath)
+            delegate?.sleectedImage(indexPath)
         }
     }
     

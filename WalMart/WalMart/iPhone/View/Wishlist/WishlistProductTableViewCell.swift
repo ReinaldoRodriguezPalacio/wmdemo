@@ -8,13 +8,13 @@
 
 import Foundation
 
-protocol WishlistProductTableViewCellDelegate {
+protocol WishlistProductTableViewCellDelegate: class {
     func deleteFromWishlist(_ UPC:String)
 }
 
 class WishlistProductTableViewCell : ProductTableViewCell {
     
-    var delegateProduct : WishlistProductTableViewCellDelegate!
+    weak var delegateProduct : WishlistProductTableViewCellDelegate?
     var resultObjectType : ResultObjectType! = ResultObjectType.Mg
     var productPriceSavingLabel : CurrencyCustomLabel!
     var separatorView : UIView?
@@ -123,7 +123,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
@@ -132,7 +132,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     }
     
     func deleteUPCWishlist() {
-        delegateProduct.deleteFromWishlist("")
+        delegateProduct?.deleteFromWishlist("")
     }
     
    
@@ -145,7 +145,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
                 ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(self.desc) - \(self.upc)")
                 
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable: isPreorderable)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
                 
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))

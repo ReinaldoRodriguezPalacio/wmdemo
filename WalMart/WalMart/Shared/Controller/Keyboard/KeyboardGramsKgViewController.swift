@@ -19,7 +19,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var orderPiceButton: UIButton!
     @IBOutlet weak var viewContainerQ: UIView!
-    @IBOutlet weak var btnNote: UIButton!
+    @IBOutlet weak var btnNoteGrams: UIButton!
     
     var lblQuantity : UILabel!
     
@@ -67,9 +67,9 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         
         viewContainerQ.addSubview(lblQuantity)
         
-        btnNote.setImage(UIImage(named:"notes_keyboard"), for: UIControlState())
-        btnNote.addTarget(self, action: Selector("updateOrAddNote"), for: UIControlEvents.touchUpInside)
-        btnNote.alpha =  0
+        btnNoteGrams.setImage(UIImage(named:"notes_keyboard"), for: UIControlState())
+        btnNoteGrams.addTarget(self, action: Selector("updateOrAddNote"), for: UIControlEvents.touchUpInside)
+        btnNoteGrams.alpha =  0
         
         self.updateLabelW()
         self.updateShoppButton()

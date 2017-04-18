@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol IPAGRCategoryCollectionViewCellDelegate {
+protocol IPAGRCategoryCollectionViewCellDelegate: class {
     func didTapProduct(_ upcProduct:String,descProduct:String,imageProduct :UIImageView)
     func didTapLine(_ name:String,department:String,family:String,line:String)
     func didTapMore(_ index:IndexPath)
@@ -17,7 +17,7 @@ protocol IPAGRCategoryCollectionViewCellDelegate {
 class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
 
-    var delegate: IPAGRCategoryCollectionViewCellDelegate!
+    weak var delegate: IPAGRCategoryCollectionViewCellDelegate?
     var iconCategory : UIImageView!
     var imageBackground : UIImageView!
     var titleLabel:UILabel!
@@ -41,8 +41,9 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     
     func setup() {
+        
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.left
+        imageBackground.contentMode = .scaleAspectFill
         imageBackground.clipsToBounds = true
         
         iconCategory = UIImageView()
@@ -208,7 +209,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
 
-        delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
+        delegate?.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
         //delegate.didTapLine(name: String, department: String, family: String, line: String)
         
         

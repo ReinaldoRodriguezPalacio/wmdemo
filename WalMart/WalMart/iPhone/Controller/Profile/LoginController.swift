@@ -27,7 +27,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var noAccount : UILabel? = nil
     var controllerTo: String!
     var viewLoad : WMLoadingView!
-
     var errorView : FormFieldErrorView? = nil
     var closeAlertOnSuccess : Bool = true
     var alertView : IPOWMAlertViewController? = nil
@@ -403,7 +402,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
         caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
-            print("Call service caroService success")
+            //print("Call service caroService success")
         }) { (error:NSError) -> Void in
             print("Call service caroService error \(error)")
         }
@@ -606,5 +605,79 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
+    
+    func getFBUserData(){
+        if((FBSDKAccessToken.current()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).start(completionHandler: { (connection, result, error) -> Void in
+                if (error == nil){
+                    print(result!)
+                    let resultDic = result as! [String:Any]
+                    self.loginWithEmail(resultDic["email"] as! String, firstName: resultDic["first_name"] as! String, lastName: resultDic["last_name"] as! String, gender: resultDic["gender"] as! String, birthDay:resultDic["birthday"] as? String  == nil ? "" : resultDic["birthday"] as! String)
+                }else{
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
+                }
+            })
+        }
+    }
+    
+    func loginWithEmail(_ email:String, firstName: String, lastName: String, gender: String, birthDay: String){
+        self.email?.text = email
+        let service = LoginWithEmailService()
+        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:[String:Any]?) in
+            
+            
+            let caroService = CarouselService()
+            let caroparams = Dictionary<String, String>()
+            caroService.callService(caroparams, successBlock: { (result:[String:Any]) -> Void in
+                //print("Call service caroService success")
+            }) { (error:NSError) -> Void in
+                print("Call service caroService error \(error)")
+            }
+            
+            self.signInButton!.isEnabled = true
+            if self.successCallBack == nil {
+                if self.controllerTo != nil  {
+                    let storyboard = self.loadStoryboardDefinition()
+                    let vc = storyboard!.instantiateViewController(withIdentifier: self.controllerTo)
+                    self.navigationController!.pushViewController(vc, animated: true)
+                }
+            }else {
+                if self.closeAlertOnSuccess {
+                    //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
+                    
+                    if self.alertView != nil {
+                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }
+                self.successCallBack?()
+            }
+            
+            }, errorBlock: {(error: NSError) in
+                self.fbLoginMannager = FBSDKLoginManager()
+                self.fbLoginMannager.logOut()
+                self.alertView!.close()
+                self.registryUser()
+                self.signUp.email?.text = email
+                self.signUp.name?.text = firstName
+                self.signUp.lastName?.text = lastName
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM/dd/yyyy"
+            if birthDay != ""{
+                let date = dateFormatter.date(from: birthDay)
+                self.signUp.inputBirthdateView?.date = date!
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                self.signUp.birthDate!.text = dateFormatter.string(from: date!)
+                self.signUp.dateVal = date
+            }
+                
+                if(gender == "male"){
+                   self.signUp.maleButton?.isSelected = true
+                }else{
+                    self.signUp.femaleButton?.isSelected = true
+                }
+            })
+    }
     
 }

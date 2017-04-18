@@ -124,7 +124,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         super.viewDidAppear(animated)
         
         //TODO: Delete
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+        //NotificationCenter.default.post(name: .hideBar, object: nil)
         
     }
     

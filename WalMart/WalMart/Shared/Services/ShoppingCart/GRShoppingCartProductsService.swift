@@ -47,8 +47,6 @@ class GRShoppingCartProductsService : GRBaseService {
                             }
                             
                             for shoppingCartProduct in itemsInShoppingCart {
-                                print("shoppingCartProduct Item::")
-                                print(shoppingCartProduct)
                                 var carProduct : Cart!
                                 var carProductItem : Product!
                                 let upc = shoppingCartProduct["upc"] as! String
@@ -137,7 +135,7 @@ class GRShoppingCartProductsService : GRBaseService {
             }
             else{
                 callCoreDataService(params as! [String:Any],successBlock:successBlock, errorBlock:errorBlock )
-        }
+            }
     
         //}
     }
@@ -222,7 +220,7 @@ class GRShoppingCartProductsService : GRBaseService {
                     serviceDelete.callService(requestParams: ["parameter":[itemDeleted.product.upc]], successBlock: { (result:[String:Any]) -> Void in
                         self.synchronizeUpdateWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
                         WishlistService.shouldupdate = true
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+                        NotificationCenter.default.post(name: .reloadWishList, object: nil)
                         
                         }, errorBlock: { (error:NSError) -> Void in
                             if error.code != -100 {

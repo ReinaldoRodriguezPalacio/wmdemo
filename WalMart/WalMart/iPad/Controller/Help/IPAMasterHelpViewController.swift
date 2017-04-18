@@ -42,6 +42,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         }
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
     func selectedDetail(_ row: Int) {
         
@@ -178,7 +182,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                 upcArray = []
             }
             let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
+            NotificationCenter.default.post(name: .camFindSearch, object: params, userInfo: nil)
             done()
       }
     }
@@ -218,6 +222,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.openPromotions =  false
         }
     }
+    
     func validatePromotions(){
     self.openPromotions =  false
     }

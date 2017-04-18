@@ -14,7 +14,7 @@ import CoreImage
 let DIGITS_STRING = "0123456789"
 
 // Code generators are required to provide these two functions.
-public protocol RSCodeGenerator {
+public protocol RSCodeGenerator: class {
      func generateCode(_ machineReadableCodeObject:AVMetadataMachineReadableCodeObject) -> UIImage?
     
      func generateCode(_ contents:String, machineReadableCodeObjectType:String) -> UIImage?
@@ -23,7 +23,7 @@ public protocol RSCodeGenerator {
 // Check digit are not required for all code generators.
 // UPC-E is using check digit to valid the contents to be encoded.
 // Code39Mod43, Code93 and Code128 is using check digit to encode barcode.
-public protocol RSCheckDigitGenerator {
+public protocol RSCheckDigitGenerator: class {
     func checkDigit(_ contents:String) -> String
 }
 

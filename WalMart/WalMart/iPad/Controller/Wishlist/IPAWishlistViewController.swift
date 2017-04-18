@@ -122,14 +122,14 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     }
     
     func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: .reloadWishList, object: nil)
 
         
     }
     
-    func removeNotification(){
-         NotificationCenter.default.removeObserver(self)
-        
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -528,7 +528,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func sendNewItemsToShoppingCart(_ params:[Any]){
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: paramsAll as [AnyHashable: Any])
             NotificationCenter.default.addObserver(self, selector: #selector(IPAWishlistViewController.reloadDataWishlist), name: NSNotification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)
         }
         

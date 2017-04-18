@@ -13,7 +13,8 @@ struct CategoryShouldShowFamily {
 }
 
 class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControllerDelegate,IPASectionHeaderSearchReusableDelegate,IPACatHeaderSearchReusableDelegate,UIPopoverControllerDelegate {
-
+   
+    
     var viewImageBgCategory : UIImageView!
     var imgCategory : UIImage!
 
@@ -39,6 +40,8 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     var titleLabel : UILabel!
     
     var actionClose : (()->Void)?
+    var filterMedida: Bool! = false
+    var medidaToSearch:String! = ""
     
     var searchContextType: SearchServiceContextType? = nil
     var closeAnimated : Bool = true
@@ -168,7 +171,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         }
         
     }
-        
+    
     func didSelectLine(_ department:String,family:String,line:String, name:String) {
         
         familyController.departmentId = line
@@ -182,6 +185,13 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.idDepartment = department
         searchProduct.idLine = line
         searchProduct.titleHeader = name
+        if self.filterMedida{
+        searchProduct.textToSearch = medidaToSearch
+        searchProduct.filterMedida = true
+        }else{
+        searchProduct.textToSearch = ""
+        searchProduct.filterMedida = false
+        }
 
         searchProduct.collection?.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frameEnd.width, height: self.frameEnd.height), animated: false)
         searchProduct.showLoadingIfNeeded(false)

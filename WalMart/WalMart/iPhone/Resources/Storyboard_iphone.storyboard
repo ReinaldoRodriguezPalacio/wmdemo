@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,10 +23,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-3R-LDa">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-Qu-tY2">
-                                        <rect key="frame" x="1" y="21" width="46" height="43"/>
+                                        <rect key="frame" x="15" y="20" width="46" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="46" id="VX2-bA-5sH"/>
                                         </constraints>
@@ -49,16 +49,16 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.4392156862745098" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="5D4-nR-hWm"/>
-                                    <constraint firstAttribute="bottom" secondItem="doD-nc-whc" secondAttribute="bottom" constant="1" id="Iny-jh-NUn"/>
-                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="16" id="O0J-Ub-zSF"/>
-                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="OEI-tJ-u5l"/>
-                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="Tqw-BS-WB7"/>
-                                    <constraint firstAttribute="bottom" secondItem="PBg-Qu-tY2" secondAttribute="bottom" id="UIr-QN-n8u"/>
-                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="21" id="UVN-8E-C8E"/>
-                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="Ufc-U6-Ujo"/>
-                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="leading" secondItem="rL3-3R-LDa" secondAttribute="leading" constant="1" id="mcV-wh-GOX"/>
-                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="19" id="vMX-uf-uKr"/>
+                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="15" id="4U0-Wm-Vfz"/>
+                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="6LB-u9-AGT"/>
+                                    <constraint firstAttribute="height" constant="63" id="9cj-4a-UKi"/>
+                                    <constraint firstAttribute="bottom" secondItem="PBg-Qu-tY2" secondAttribute="bottom" id="9nN-ZA-d3q"/>
+                                    <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="B9W-wm-eMK"/>
+                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="leading" secondItem="rL3-3R-LDa" secondAttribute="leading" constant="15" id="HYU-aj-6KR"/>
+                                    <constraint firstItem="doD-nc-whc" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="Hp5-dQ-HNQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="DNA-XG-hNj" secondAttribute="bottom" id="k6B-dO-hTl"/>
+                                    <constraint firstAttribute="bottom" secondItem="doD-nc-whc" secondAttribute="bottom" id="tbJ-Hk-Y7n"/>
+                                    <constraint firstItem="PBg-Qu-tY2" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="uST-iW-sbE"/>
                                 </constraints>
                             </view>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwT-nf-vKG">

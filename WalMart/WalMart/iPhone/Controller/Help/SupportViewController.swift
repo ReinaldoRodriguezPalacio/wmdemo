@@ -183,7 +183,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         if IS_IPHONE {
             let model = UIDevice.current.modelName
             var referenceHeight = bounds.midY + 20
-            referenceHeight = model.contains("Plus") ? referenceHeight + 20: referenceHeight
+            referenceHeight = model.contains("Plus") ? referenceHeight + 35: referenceHeight
             
             buttomCall.frame = CGRect(x: bounds.midX - 64 - 32, y: referenceHeight + 40 , width: 64, height: 64)
             buttomMail.frame = CGRect(x: buttomCall.frame.maxX + 64 , y: buttomCall.frame.minY , width: 64, height: 64)
@@ -197,7 +197,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
             callmeNumber.isHidden = true
             callme.isHidden = true
             buttomCall.isHidden = true
-            sendmeMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: model.contains("iPod") ? (bounds.maxY - 64) : (bounds.maxY - 134) , width: 64, height: 15)
+            sendmeMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: model.contains("iPod") ? (bounds.maxY - 64) : (bounds.maxY - 114) , width: 64, height: 15)
             buttomMail.frame =  CGRect(x: (bounds.width - 64) / 2 , y: (sendmeMail.frame.midY - 78) , width: 64, height: 64)
         }
         

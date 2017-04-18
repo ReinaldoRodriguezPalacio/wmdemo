@@ -13,12 +13,10 @@ class LogoutService : BaseService {
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
                             successBlock: { (resultCall:[String:Any]) -> Void in
-                               print("ELIMINANDO COKIES:::")
-                                let coockieStorege  = HTTPCookieStorage.shared
-                                for cookie in coockieStorege.cookies! {
-                                    coockieStorege.deleteCookie(cookie)
-                                }
-//                                 CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value: "")
+                                self.jsonFromObject(resultCall as AnyObject!)
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONID")
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONIDMG")
+                                UserDefaults.standard.removeObject(forKey: "JSESSIONIDGR")
                                 successBlock?(resultCall)
                                 return
             },

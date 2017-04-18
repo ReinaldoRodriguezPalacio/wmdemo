@@ -32,7 +32,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol BannerCollectionViewCellDelegate {
+protocol BannerCollectionViewCellDelegate: class {
     func bannerDidSelect(_ queryBanner:String,type:String,urlTteaser:String?, bannerName: String)
     func termsSelect(_ url:String)
 }
@@ -40,7 +40,7 @@ protocol BannerCollectionViewCellDelegate {
 class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataSource,UIPageViewControllerDelegate {
     
     var currentInterval: TimeInterval = 4.0
-    var delegate: BannerCollectionViewCellDelegate!
+    weak var delegate: BannerCollectionViewCellDelegate?
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
     var pointButtons: [UIButton]? = nil
@@ -252,20 +252,20 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let array = self.pointButtons! as [Any]
         if array.count > 0 {
             if self.pointButtons!.count != self.visibleItem! {
-                if !(self.visibleItem! > array.count) {
-                if let button = array[self.visibleItem!] as? UIButton {
-                    for inner: UIButton in self.pointButtons! {
-                        inner.isSelected = button === inner
+                if !(self.visibleItem! >= array.count) {
+                    if let button = array[self.visibleItem!] as? UIButton {
+                        for inner: UIButton in self.pointButtons! {
+                            inner.isSelected = button === inner
+                        }
                     }
+                    UIView.animate(withDuration: 0.1, animations: { () -> Void in
+                        self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
+                    }, completion: { (complete:Bool) -> Void in
+                    })
                 }
-                UIView.animate(withDuration: 0.1, animations: { () -> Void in
-                    self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
-                }, completion: { (complete:Bool) -> Void in
-                })
+                
             }
             
-            }
-          
         }
     }
     
@@ -285,7 +285,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let teaserUrlPhone = values["teaserUrlPhone"]
         let bannerUrlTablet = values["teaserUrlIpad"]
         
-        delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone, bannerName: values["eventCode"] != nil ? values["eventCode"]! : "")
+        delegate?.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone, bannerName: values["eventCode"] != nil ? values["eventCode"]! : "")
     }
     
     func isUrl(_ temrs:String)-> Bool{
@@ -314,7 +314,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 viewTerms.startAnimating()
                 viewTerms.openURL = {(urlStr) in
                     if self.isUrl(urlStr){
-                        self.delegate.termsSelect(urlStr)
+                        self.delegate?.termsSelect(urlStr)
                     }
                 }
                 

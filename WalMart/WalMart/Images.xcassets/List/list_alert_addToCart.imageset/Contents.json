@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "list_alert_addToCart.png"
+      "filename" : "alert_list_add-to-cart.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "list_alert_addToCart@2x.png"
+      "filename" : "alert_list_add-to-cart@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

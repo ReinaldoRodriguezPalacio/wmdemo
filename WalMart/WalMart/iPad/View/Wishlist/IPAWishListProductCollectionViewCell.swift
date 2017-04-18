@@ -9,14 +9,14 @@
 import Foundation
 
 
-protocol IPAWishListProductCollectionViewCellDelegate {
+protocol IPAWishListProductCollectionViewCellDelegate: class {
     func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell)
 }
 
 class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     
-    var delegate : IPAWishListProductCollectionViewCellDelegate!
+    weak var delegate : IPAWishListProductCollectionViewCellDelegate?
     var addProductToShopingCart : UIButton? = nil
     var deleteProduct : UIButton!
     var productPriceThroughLabel : CurrencyCustomLabel? = nil
@@ -106,7 +106,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             isDisabled = true
         }else{
             if isInShoppingCart {
-                addProductToShopingCart!.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
             }
@@ -119,7 +119,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
                 let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1", comments: "", onHandInventory: self.onHandInventory as String, type: "", pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
             }else{
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
@@ -138,7 +138,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     
     func deleteProductWishList() {
         if delegate != nil {
-            delegate.deleteProductWishList(self)
+            delegate?.deleteProductWishList(self)
         }
     }
     

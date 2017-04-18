@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AddressViewCellDelegate {
+protocol AddressViewCellDelegate: class {
     func applyPrefered (_ addressID:String )
 }
 
@@ -17,7 +17,7 @@ class AddressViewCell: SWTableViewCell {
     var titleLabel : UILabel!
     var viewLine : UIView!
     var preferedButton : UIButton!
-    var delegateAddres:AddressViewCellDelegate!
+    weak var delegateAddres:AddressViewCellDelegate?
     var addressID : String!
     
     var imageDisclousure : UIImageView!
@@ -101,7 +101,7 @@ class AddressViewCell: SWTableViewCell {
     
     func applyPrefered (){
         if !self.preferedButton.isSelected {
-            delegateAddres.applyPrefered(self.addressID)
+            delegateAddres?.applyPrefered(self.addressID)
         }
     }
     

@@ -33,7 +33,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: NSNotification.Name(rawValue: CustomBarNotification.ShowHomeSelected.rawValue), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: .showHomeSelected, object: nil)
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         
@@ -64,6 +64,11 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.searchBackView.alpha = 0.35
         self.searchBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.removePop(_:))))
         
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     func removePop(_ sender:UITapGestureRecognizer) {
@@ -436,7 +441,6 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             }, completion: { (complete:Bool) -> Void in
                 if  self.vcWishlist != nil {
-                    self.vcWishlist.removeNotification()
                     self.vcWishlist.view.removeFromSuperview()
                     self.vcWishlist.removeFromParentViewController()
                     self.viewBgWishlist.removeFromSuperview()

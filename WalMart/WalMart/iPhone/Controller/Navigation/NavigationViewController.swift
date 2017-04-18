@@ -63,7 +63,7 @@ class NavigationViewController: IPOBaseController {
         if self.navigationController != nil {
             self.navigationController!.popViewController(animated: true)
         }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     

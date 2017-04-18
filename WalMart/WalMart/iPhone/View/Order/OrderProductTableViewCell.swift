@@ -125,7 +125,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         }else{
             if isInShoppingCart {
                 btnShoppingCart.isEnabled = true
-                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.isEnabled = true
                 btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
@@ -154,13 +154,13 @@ class OrderProductTableViewCell : ProductTableViewCell {
                     }
                     
                     let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable,orderByPieces: !self.pesable)
-                    btnShoppingCart.setImage(UIImage(named: "wishlist_done"), for:UIControlState())
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
+                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
                     
                 }else {
                     
                     let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String, wishlist:false,type:self.type.rawValue ,pesable:"0",isPreorderable:isPreorderable, category: "")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
                 }
                 
                 //let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:"1",wishlist:false,type:type.rawValue,pesable:"0")

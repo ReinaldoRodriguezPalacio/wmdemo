@@ -245,7 +245,7 @@ class ShoppingCartAddProductsService : BaseService {
         }
         
         WishlistService.shouldupdate = true
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
+        NotificationCenter.default.post(name: .reloadWishList, object: nil)
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)

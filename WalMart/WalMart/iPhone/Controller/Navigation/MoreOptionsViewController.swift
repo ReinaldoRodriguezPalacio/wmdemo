@@ -105,7 +105,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
             
        NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: NSNotification.Name(rawValue: ProfileNotification.updateProfile.rawValue), object: nil)
-       NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: .updateNotificationBadge, object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -249,7 +254,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
         let optionTxt = self.options[currentOption]
 
         switch (OptionsController(rawValue: optionTxt)!) {
@@ -306,7 +311,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         if currentOption == notificationOptions {
             //Se elimina Badge de notificaciones
             UIApplication.shared.applicationIconBadgeNumber = 0
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+            NotificationCenter.default.post(name: .updateNotificationBadge, object: nil)
         }
         
     }
@@ -367,64 +372,71 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
     }
     
-    func signOut(_ sender:UIButton?) {
+    func signOut(_ sender: UIButton?) {
         
-        if sender == nil {
+        if IS_IPAD  {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-        }else{
+        } else {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
         
+        sender?.isEnabled = false
         
-        delay(0.3) {
+        func deleteData() {
             
-            if  UserCurrentSession.sharedInstance.userSigned != nil {
+            delay(0.3) {
                 
-                UserCurrentSession.sharedInstance.userSigned = nil
-                UserCurrentSession.sharedInstance.deleteAllUsers()
-                
-                self.reloadButtonSession()
-                let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: { (result:[String:Any]) -> Void in
+                if UserCurrentSession.hasLoggedUser() {
                     
-                    self.alertView!.setMessage("Ok")
-                    self.alertView!.showDoneIcon()
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
+                    UserCurrentSession.sharedInstance.userSigned = nil
+                    UserCurrentSession.sharedInstance.deleteAllUsers()
                     
-                    } , errorBlock: { (error:NSError) -> Void in
-                        print("")
+                    let shoppingService = ShoppingCartProductsService()
+                    shoppingService.callCoreDataService([:], successBlock: { (result: [String:Any]) -> Void in
+                        
+                        self.alertView!.setMessage("Ok")
+                        self.alertView!.showDoneIcon()
+                        sender?.isEnabled = true
+                        NotificationCenter.default.post(name:.userLogOut, object: nil)
+                        
+                    }, errorBlock: { (error: NSError) -> Void in
+                        
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UserLogOut.rawValue), object: nil)
-                })
-                
+                        sender?.isEnabled = true
+                        NotificationCenter.default.post(name:.userLogOut, object: nil)
+                        
+                    })
+                }
             }
             
         }
         
         let logoutService = LogoutService()
-        logoutService.callService(Dictionary<String, String>(),
-                                  successBlock: { (response:[String:Any]) -> Void in
-                                    
-                                    let authorizationService =  AuthorizationService()
-                                    authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-                                        print("::Call service AuthorizationService in LogoutService ::")
-                                        
-                                        },errorBlock:{ (error:NSError) in
-                                            print(error.localizedDescription)
-                                            
-                                    })
-                                    
-                                    print("Call service LogoutService success")
-            },
-                                  errorBlock: { (error:NSError) -> Void in
-                                    print("Call service LogoutService error \(error)")
-            }
-        )
+        logoutService.callService(Dictionary<String, String>(), successBlock: { (response: [String:Any]) -> Void in
+            
+            let authorizationService = AuthorizationService()
+            authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+                deleteData()
+            }, errorBlock:{ (error: NSError) in
+                print(error.localizedDescription)
+                deleteData()
+            })
+            
+        }, errorBlock: { (error: NSError) -> Void in
+            print("Call service LogoutService error \(error)")
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Ok")
+            sender?.isEnabled = true
+        })
         
     }
+    
+    
+
+     
     
     //MARK CameraViewControllerDelegate
     func photoCaptured(_ value: String?,upcs:[String]?,done: (() -> Void))
@@ -437,7 +449,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
 
             let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
+            NotificationCenter.default.post(name: .camFindSearch, object: params, userInfo: nil)
             done()
         }
     }

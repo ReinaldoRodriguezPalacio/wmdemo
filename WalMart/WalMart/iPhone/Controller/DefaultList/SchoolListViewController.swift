@@ -316,7 +316,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             price = item["price"] as? String
             
             let width:CGFloat = self.view.frame.width
-            var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
+            let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
            
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
@@ -468,7 +468,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"alert_cart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"alert_cart"])
             }else{
                 self.noProductsAvailableAlert()
                 return

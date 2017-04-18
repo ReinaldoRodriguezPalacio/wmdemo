@@ -183,12 +183,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
         self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
+        
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
-        productCrossSell.setIdList(self.idListSelected) //
+       productCrossSell.setIdList(self.idListSelected) //
         self.tabledetail.reloadData()
        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "backButton", name: CustomBarNotification.finishUserLogOut.rawValue, object: nil)
     }
@@ -197,14 +203,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         super.viewDidAppear(animated)
         self.tabledetail.reloadData()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
 
-    
-  
     func didPinch(_ sender:UIPinchGestureRecognizer){
         if  sender.scale < 1 {
             self.backButton()
@@ -811,7 +810,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
             params.updateValue(comments, forKey: "comments")
             params.updateValue(self.type, forKey: "type")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+            NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
             return
         }
         
@@ -853,7 +852,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     var params  =  self.buildParamsUpdateShoppingCart(quantity,orderByPiece: false,pieces: Int(quantity)!,equivalenceByPiece:0)
                     params.updateValue(comments, forKey: "comments")
                     params.updateValue(self.type, forKey: "type")
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
                 }, closeRow:true )
             } else {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -862,7 +861,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                 alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                self.selectQuantity?.first = true
+                self.selectQuantity?.userSelectValue("\(maxProducts)")
             }
         }
         
@@ -1128,7 +1128,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             BaseController.sendAnalyticsPush(["ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
             
             }) { (error:NSError) -> Void in
-                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.headerView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.headerView.frame.maxY - 50))
+                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.headerView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.headerView.frame.maxY))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
                 empty.returnAction = { () in
                     print("Return Button")
@@ -1239,7 +1239,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.titlelbl.text = self.name as String
         
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
         
         //FACEBOOKLOG
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])

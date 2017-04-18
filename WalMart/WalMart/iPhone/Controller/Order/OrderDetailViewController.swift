@@ -9,7 +9,7 @@
 import Foundation
 
 
-class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate {
+class OrderDetailViewController : NavigationViewController,UITableViewDataSource,UITableViewDelegate, ListSelectorDelegate, UIActivityItemSource {
     
     var trackingNumber = ""
     var status = ""
@@ -102,8 +102,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
             UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successAddItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successDeleteItemsToShopingCart, object: nil)
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -162,6 +169,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }
         }
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableDetailOrder.reloadData()
     }
  
     
@@ -543,7 +555,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height - 64)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
@@ -553,7 +565,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
@@ -565,7 +577,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             )
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 64)
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
             })
         }
         else {
@@ -591,11 +603,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     }
                 }
             }
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
             delay(0.5, completion: {
-                self.showLoadingView()
-                self.reloadPreviousOrderDetail()
-                
+//                self.showLoadingView()
+//                self.reloadPreviousOrderDetail()
+                self.reloadViewDetail()
             })
         }
     
@@ -658,8 +670,20 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }else {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         }
-        if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        
+        var imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        var headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        
+        if let image = self.tableDetailOrder!.screenshot() {
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            imageHead = nil
+            headerCapture = nil
+            
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -670,22 +694,30 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
     }
     
-    func buildImageToShare() -> UIImage? {
-        let oldFrame : CGRect = self.tableDetailOrder!.frame
-        var frame : CGRect = self.tableDetailOrder!.frame
-        frame.size.height = self.tableDetailOrder!.contentSize.height
-        self.tableDetailOrder!.frame = frame
-        
-        //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
-        UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        self.tableDetailOrder!.frame = oldFrame
-        return saveImage
-
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
     }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo!\n\nSiempre encuentra todo y pagas menos."
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar una compra que hice en www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) hizo una compra que te puede interesar en walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
+
     
     func removeListSelector(action:(()->Void)?) {
         if self.listSelectorController != nil {
@@ -743,19 +775,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("listas de id de listas")
-        var count =  1
-        for idList in idListsSelected {
-            self.addItemsToList(inList: idList, included: false, finishAdd:count == idListsSelected.count )
-            count = count + 1
-        }
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Selecionadas")
-    }
-    
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
@@ -770,11 +789,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         print("listSelectorDidAddProductLocally")
     }
     
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
         print("listSelectorDidDeleteProductLocally")
     }
     
@@ -917,6 +936,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                                 self.alertView!.afterRemove = {
                                     self.removeListSelector(action: nil)
                                 }
+                                self.alertView?.close()
+                                self.alertView =  nil
                             }
                                 
                                 
@@ -927,9 +948,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.alertView!.afterRemove = {
                 self.removeListSelector(action: nil)
             }
+            self.alertView?.close()
+            self.alertView =  nil
         })
 
     
+    }
+    
+    func reloadViewDetail() {
+        self.tableDetailOrder.reloadData()
     }
     
     override func back() {

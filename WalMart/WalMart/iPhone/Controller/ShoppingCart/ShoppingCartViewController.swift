@@ -34,13 +34,11 @@ fileprivate func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-protocol ShoppingCartViewControllerDelegate {
+protocol ShoppingCartViewControllerDelegate: class {
     func returnToView()
 }
 
 class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate,AlertPickerViewDelegate {
-    
-    @IBOutlet var viewContent: UIView!
     
     var viewLoad: WMLoadingView!
     var itemsInShoppingCart: [[String:Any]]! = []
@@ -48,13 +46,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     var ivaprod: NSNumber!
     var totalest: NSNumber!
     var deleteall: UIButton!
-    var viewHerader: UIView!
-    var viewShoppingCart: UITableView!
-    var viewFooter: UIView!
-    var delegate: ShoppingCartViewControllerDelegate!
-    var titleView: UILabel!
-    var buttonWishlist: UIButton!
-    var buttonAsociate: UIButton!
+    @IBOutlet var viewContent : UIView!
+    var viewHeader : UIView!
+    var viewShoppingCart : UITableView!
+    var viewFooter : UIView!
+    weak var delegate : ShoppingCartViewControllerDelegate?
+    var titleView : UILabel!
+    var buttonWishlist : UIButton!
+    var buttonAsociate : UIButton!
     var beforeShopTag: Bool = false
     var isEmployeeDiscount: Bool = false
     var closeButton: UIButton!
@@ -109,10 +108,10 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         self.view.backgroundColor = UIColor.clear
         self.view.clipsToBounds = true
         
-        viewHerader = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
-        viewHerader.backgroundColor = WMColor.light_light_gray
+        viewHeader = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
+        viewHeader.backgroundColor = WMColor.light_light_gray
         
-        titleView = UILabel(frame: viewHerader.bounds)
+        titleView = UILabel(frame: viewHeader.bounds)
         titleView.font = WMFont.fontMyriadProRegularOfSize(14)
         titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
@@ -138,7 +137,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         deleteall.titleEdgeInsets = UIEdgeInsetsMake(1.0, 1.0, 0.0, 0.0)
         deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), for: UIControlEvents.touchUpInside)
         
-        closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height))
+        closeButton = UIButton(frame:CGRect(x: 0, y: 0, width: viewHeader.frame.height, height: viewHeader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
         closeButton.setImage(UIImage(named: "BackProduct"), for: UIControlState())
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -146,10 +145,10 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         //closeButton.layer.cornerRadius = 3
         closeButton.addTarget(self, action: #selector(ShoppingCartViewController.closeShoppingCart), for: UIControlEvents.touchUpInside)
         
-        viewHerader.addSubview(closeButton)
-        viewHerader.addSubview(editButton)
-        viewHerader.addSubview(deleteall)
-        viewHerader.addSubview(titleView)
+        viewHeader.addSubview(closeButton)
+        viewHeader.addSubview(editButton)
+        viewHeader.addSubview(deleteall)
+        viewHeader.addSubview(titleView)
         
         viewFooter = UIView()
         viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 - 59 , width: self.view.bounds.width, height: 72)
@@ -173,7 +172,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         viewShoppingCart.separatorStyle = .none
         viewShoppingCart.isMultipleTouchEnabled = false
         
-        self.viewContent.addSubview(viewHerader)
+        self.viewContent.addSubview(viewHeader)
         self.viewContent.addSubview(viewShoppingCart)
         self.viewContent.sendSubview(toBack: viewShoppingCart)
         self.viewContent.addSubview(viewFooter)
@@ -192,6 +191,13 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successAddItemsToShopingCart, object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     /**
@@ -200,7 +206,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      - returns: na
      */
     func initEmptyView(){
-        var heightEmptyView = self.view.frame.maxY - viewHerader.frame.height
+        var heightEmptyView = self.view.frame.maxY - viewHeader.frame.height
         
         let model =  UIDevice.current.modelName
         if model.contains("iPhone") || model.contains("iPod") {
@@ -214,9 +220,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             heightEmptyView -= 20
         }
         
-        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHerader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
-        if model.contains("Plus") || model.contains("4") {
-            self.emptyView.paddingBottomReturnButton += 5
+        self.emptyView = IPOShoppingCartEmptyView(frame: CGRect(x: 0,  y: viewHeader.frame.maxY,  width: self.view.frame.width,  height: heightEmptyView))
+        if model.contains("4") {
+            self.emptyView.paddingBottomReturnButton += 40
         }
         self.emptyView.returnAction = {() in
             self.closeShoppingCart()
@@ -242,7 +248,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
-//            
+
 //            self.emptyView!.isHidden = false
 //            self.editButton!.isHidden = true
 
@@ -257,45 +263,32 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             editButton.backgroundColor = WMColor.light_blue
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
-            
-            loadCrossSell()
-            
-            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-                self.loadShoppingCartService()
-                self.removeLoadingView()
-            }
-            
-        } else {
-            loadShoppingCartService()
         }
-       
+        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
+            self.loadShoppingCartService()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
         self.reloadShoppingCart()
         self.showDiscountAsociate()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
        
         self.viewContent.frame = self.view.bounds
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 75)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 75)
 
         if !self.isEdditing {
-        self.titleView.frame = CGRect(x: (self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
+        self.titleView.frame = CGRect(x: (self.viewHeader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHeader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHeader.bounds.height)
         }
 
         self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
-        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
+        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHeader.frame.height, height: viewHeader.frame.height)
         
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
@@ -313,9 +306,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 12, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame = CGRect(x: 16, y: 12, width: 34, height: 34)
+                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 
                 buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
@@ -340,9 +333,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 34, height: 34)
                 }
                 x = buttonAsociate.frame.maxX + 16
                 wShop = self.viewFooter.frame.width - buttonAsociate.frame.maxX //341 - 135
@@ -529,7 +522,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
             }
-            
             
             var isPreorderable = "false"
             if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
@@ -898,7 +890,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }, errorBlock: { (error:NSError) -> Void in
             print("delete pressed Errro \(error)")
         })
-        
+        NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
     }
     
     /**
@@ -987,7 +979,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     }
 
     /**
-     Find upc from items more expencive from crosselling n car
+     Find upc from items more expensive from crosselling n car
      
      - returns: upc found
      */
@@ -1408,6 +1400,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                             resultArray.append(item)
                         }
                         self.itemsUPC = resultArray
+                        
                     }
                     
                     if self.itemsInShoppingCart.count >  0  {
@@ -1428,7 +1421,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                             positionArray.append(position)
                         }
                         
-                        let listName = "Antes de irte"
+                        let listName =  NSLocalizedString("shoppingcart.beforeleave", comment: "")
                         let subCategory = ""
                         let subSubCategory = ""
                         
@@ -1487,6 +1480,13 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                 self.removeLoadingView()
+              
+                
+                print("done")
+                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
+                //EVENT
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
+                
                 let _ = self.navigationController?.popToRootViewController(animated: true)
             })
             

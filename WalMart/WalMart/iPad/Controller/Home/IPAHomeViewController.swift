@@ -19,7 +19,7 @@ class IPAHomeViewController : HomeViewController {
         collection.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "iPACategoryHome")
         collection.register(IPAProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductHome")
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowHomeSelected.rawValue), object: nil)
+        NotificationCenter.default.post(name: .showHomeSelected, object: nil)
     }
     
     override func showPleca(){
@@ -125,6 +125,8 @@ class IPAHomeViewController : HomeViewController {
             paginatedProductDetail.animationController.originPoint =  pontInView
             paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
             currentCell?.hideImageView()
+            
+            
            
             self.navigationController?.delegate = paginatedProductDetail
             self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
@@ -182,7 +184,7 @@ class IPAHomeViewController : HomeViewController {
         
         //TODO: Delete
         //willHideTabbar()
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.HideBar.rawValue), object: nil)
+        //NotificationCenter.default.post(name: .hideBar, object: nil)
         
         self.navigationController!.delegate = nil
         self.navigationController!.pushViewController(controller, animated: true)

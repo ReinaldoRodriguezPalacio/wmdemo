@@ -20,7 +20,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     var containerNumericView : UIView!
     var btnChankePices : UIButton!
     var lblQuantityN : UILabel!
-    var btnNoteN : UIButton!
+    var btnDelet : UIButton!
     var btnNoteCompleteN : UIButton!
     var btnLess : UIButton!
     var btnMore : UIButton!
@@ -28,13 +28,11 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     var lblQuantityW : UILabel!
     var keyboardP : NumericKeyboardView!
     var lblQuantityP : UILabel!
-    var quantityWAnimate : UIView!
     
-    
-    var originalValGr: Double! = 50.0
+    var originalValGr: Double! = 100.0
     var originalValPzs: Double! = 1.0
     
-    var currentValGr : Double! = 50.0
+    var currentValGr : Double! = 100.0
     var currentValPzs : Double! = 1.0
     
     var currentValCstmGr : Double! = 0.0
@@ -51,7 +49,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     var currentValKg : String? = nil
     var isSearchProductView = false
     
-
+    
     init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String,startY: CGFloat = 0, isSearchProductView: Bool) {
         super.init(frame: frame,equivalenceByPiece:equivalenceByPiece)
         self.isSearchProductView = isSearchProductView
@@ -81,6 +79,12 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+    }
+    
+    override func layoutSubviews() {
+        if isPush {
+            closeButton.setImage(UIImage(named: "search_back"), for: UIControlState())
+        }
     }
     
     override func setup() {
@@ -132,22 +136,13 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         lblQuantityW.textAlignment = NSTextAlignment.center
         lblQuantityW.minimumScaleFactor =  35 / 40
         lblQuantityW.adjustsFontSizeToFitWidth = true
-        
-        btnMore = UIButton(frame: CGRect(x: lblQuantityW.frame.maxX + 4,  y: yPositionForTitles, width: buttonSize, height: buttonSize))
-        btnMore.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnMoreAction), for: UIControlEvents.touchUpInside)
-        btnMore.setImage(UIImage(named: "addProduct_Add"), for: UIControlState())
-        
-        quantityWAnimate = UIView(frame: CGRect(x: lblQuantityW.bounds.maxX - 3, y: 0, width: 1, height: lblQuantityW.frame.height))
-        quantityWAnimate.backgroundColor = UIColor.white
-        quantityWAnimate.alpha = 0
+       
         
         self.updateLabelW()
         
-        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(GRShoppingCartWeightSelectorView.updateAnimation), userInfo: nil, repeats: true)
-        
         var closePossitionY : CGFloat = IS_IPAD ? startH - 3 :  startH - 26
         closePossitionY = closePossitionY <= 0 ? 0 : closePossitionY
-        let closeButton = UIButton(frame: CGRect(x: 4, y: closePossitionY, width: 44, height: 44))
+        closeButton = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         closeButton.setImage(UIImage(named:"close"), for: UIControlState())
         closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
@@ -181,12 +176,18 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         lblQuantityW.addGestureRecognizer(gestureQuantity)
         lblQuantityW.isUserInteractionEnabled = true
         
-        btnNote = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
-        btnNote.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
-        btnNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        btnNote.alpha = 0
-        btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: .touchUpInside)
-        self.addSubview(btnNote)
+//        btnNote = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: keyboard.frame.maxY  , width: 40, height: 40))
+//        btnNote.setImage(UIImage(named:"notes_keyboard"), for: UIControlState())
+//        btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: UIControlEvents.touchUpInside)
+//        btnNote.alpha =  0
+        
+        
+        btnNoteQuantity = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
+        btnNoteQuantity.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
+        btnNoteQuantity.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        btnNoteQuantity.alpha = 0
+        btnNoteQuantity.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: .touchUpInside)
+        self.addSubview(btnNoteQuantity)
         
         btnNoteComplete = UIButton(frame: CGRect(x: 0, y: btnOkAdd.frame.maxY + 10, width: self.frame.width, height: 40))
         btnNoteComplete.setImage(UIImage(named: "notes_alert"), for: UIControlState())
@@ -198,7 +199,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         btnDelete = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
         btnDelete.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
         btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        btnDelete.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
+        btnDelete.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.deleteItems), for: .touchUpInside)
 
         self.addSubview(self.backgroundView!)
         containerWeightView.addSubview(btnLess)
@@ -207,7 +208,8 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         containerWeightView.addSubview(keyboard)
         containerWeightView.addSubview(btnOkAdd)
         containerWeightView.addSubview(closeButton)
-        containerWeightView.addSubview(btnNote)
+        containerWeightView.addSubview(keyboard)
+        containerWeightView.addSubview(btnNoteQuantity)
         containerWeightView.addSubview(btnNoteComplete)
         containerWeightView.addSubview(btnDelete)
         
@@ -243,9 +245,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
-        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: closePossitionY, width: 44, height: 44))
-        closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
-        closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
+//        let closeButtonN = UIButton(frame: CGRect(x: self.frame.width - 44, y: closePossitionY, width: 44, height: 44))
+//        closeButtonN.setImage(UIImage(named:"close"), for: UIControlState())
+//        closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), for: UIControlEvents.touchUpInside)
         
         let backToW = UIButton(frame: CGRect(x: 0, y: closePossitionY, width: 44, height: 44))
         backToW.setImage(UIImage(named:"search_back"), for: UIControlState())
@@ -271,29 +273,13 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         btnOkAddN.backgroundColor = WMColor.green
         btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
         
-
-        let btnDelet = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
+        btnDelet = UIButton(frame:CGRect(x:btnOkAdd.frame.maxX,y:btnOkAdd.frame.minY,width:self.bounds.width - btnOkAdd.frame.maxX ,height:36))
         btnDelet.setTitle(NSLocalizedString("shoppingcart.delete", comment: ""), for: .normal)
         btnDelet.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        btnDelet.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deleteItems), for: .touchUpInside)
+        btnDelet.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.deleteItems), for: .touchUpInside)
         
         self.updateShoppButton()
         
-//        btnNoteN = UIButton(frame: CGRect(x: (self.frame.width) - 48, y: keyboard.frame.maxY + 15  , width: 40, height: 40))
-//        btnNoteN.setImage(UIImage(named:"notes_k  eyboard"), for: UIControlState())
-//        btnNoteN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: UIControlEvents.touchUpInside)
-//        btnNoteN.alpha  = 0
-//        
-//        btnNoteCompleteN = UIButton(frame: CGRect(x: 0, y: btnOkAdd.frame.maxY + 15, width: self.frame.width, height: 40))
-//        btnNoteCompleteN.setImage(UIImage(named: "notes_alert"), for: UIControlState())
-//        self.btnNoteCompleteN!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-//        btnNoteCompleteN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), for: UIControlEvents.touchUpInside)
-//        btnNoteCompleteN.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-//        btnNoteCompleteN.alpha = 0
-//        
-        
-        
-        self.updateShoppButton()
         
         btnNoteN = UIButton(frame:CGRect(x:0,y:btnOkAdd.frame.minY,width:btnOkAdd.frame.minX ,height:36))
         btnNoteN.setTitle(NSLocalizedString("shoppingcart.addnotebtn", comment: ""), for: .normal)
@@ -305,7 +291,8 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         containerNumericView.addSubview(lblQuantityN)
         containerNumericView.addSubview(keyboardN)
         containerNumericView.addSubview(btnOkAddN)
-        containerNumericView.addSubview(closeButtonN)
+        //containerNumericView.addSubview(closeButtonN)
+        containerNumericView.addSubview(keyboardN)
         containerNumericView.addSubview(backToW)
         containerNumericView.addSubview(btnNoteN)
         containerNumericView.addSubview(btnDelet)
@@ -399,14 +386,27 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             if Double(equivalence) <= CONS_MAXVAL {
                 if  Double(equivalence) == 0 {
                   showError("Cantidad minima 1 pieza")
-                } else {
+                } else if self.orderByPiece {
+                    if  Int(tmpResult) > 99 {
+                         showError("Cantidad Máxima 99 piezas")
+                    }else{
+                        currentValPzs = tmpResult
+                        originalValPzs = currentValPzs
+                        self.updateLabelP()
+                        self.updateShoppButton()
+                    }
+                    
+                }else {
                     currentValPzs = tmpResult
                     originalValPzs = currentValPzs
                     self.updateLabelP()
                     self.updateShoppButton()
                 }
             } else {
-                let maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
+                var maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
+                if maxPices > 99 {
+                    maxPices =  99
+                }
                 showError("Cantidad Máxima \(maxPices) piezas")
             }
             
@@ -482,6 +482,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
                 self.updateLabelN(currentValKg!)
             }
             updateShoppButton()
+           
         } else {
             self.orderByPiece =  false
             let resultText : NSString = "\(value!)" as NSString
@@ -489,7 +490,14 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             originalValGr = currentValGr
             self.updateLabelW()
             self.updateShoppButton()
+
         }
+          let alpha:CGFloat  = self.isFromList ? 0.0 : self.isUpcInShoppingCart ?  1.0 : 0.0
+          
+            self.btnNoteQuantity.alpha = alpha
+            self.btnDelet.alpha = 1
+           
+            self.btnNoteN.alpha = alpha
         }
     }
     
@@ -540,7 +548,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     
     override func showNoteButton() {
         self.btnNoteN.alpha = 1
-        self.btnNote.alpha = 1
+        self.btnNoteQuantity.alpha = 1
     }
     
     override func showNoteButtonComplete() {
@@ -579,7 +587,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         self.lblQuantityP?.text = ZERO_QUANTITY_STRING
         
         self.updateShoppButton()
-        
+        self.btnNoteQuantity.alpha = 0
+        self.btnNoteN.alpha = 0
+        btnDelet.alpha = 0
         
         
     }
@@ -698,27 +708,34 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
     }
     
     func validateWeightSelectedBtn(gr: Double) {
+        turnOffSelectedWeightBtn()
         if gr == 100.0 {
-            keyboard.btngramos.isSelected = true
+            keyboard?.btngramos?.isSelected = true
         } else if gr == 250.0 {
-            keyboard.btncuarto.isSelected = true
+            keyboard?.btncuarto?.isSelected = true
         } else if gr == 500.0 {
-            keyboard.btmediokilo.isSelected = true
+            keyboard?.btmediokilo?.isSelected = true
         } else if gr == 750.0 {
-            keyboard.bttrescuartos.isSelected = true
+            keyboard?.bttrescuartos?.isSelected = true
         } else if gr == 1000.0 {
-            keyboard.btunkilo.isSelected = true
+            keyboard?.btunkilo?.isSelected = true
+        }else {
+            turnOffSelectedWeightBtn()
         }
     }
 
     func turnOffSelectedWeightBtn() {
-        keyboard.btngramos.isSelected = false
-        keyboard.btncuarto.isSelected = false
-        keyboard.btmediokilo.isSelected = false
-        keyboard.bttrescuartos.isSelected = false
-        keyboard.btunkilo.isSelected = false
+        keyboard?.btngramos?.isSelected = false
+        keyboard?.btncuarto?.isSelected = false
+        keyboard?.btmediokilo?.isSelected = false
+        keyboard?.bttrescuartos?.isSelected = false
+        keyboard?.btunkilo?.isSelected = false
     }
-
+    
+    override func updateQuantityBtn() {
+        self.updateShoppButton()
+    }
+    
     func updateShoppButton() {
         var result: Double = 0.0
         if customValue || self.orderByPiece {
@@ -733,12 +750,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         var rectSize = CGRect.zero
         
-        if isUpcInShoppingCart {
-            btnOkAdd?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            btnOkAddN?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
-            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
-            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        } else {
+        if (!isUpcInShoppingCart && !isFromList ) || (isFromList && !isUpcInList) {
             
             if result == 0.0 || result == 0 {
                 return
@@ -748,13 +760,18 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             btnOkAddN?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        } else {
+            btnOkAdd?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            btnOkAddN?.setTitle("\(strUpdateToSC) \(strPrice)", for: UIControlState())
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRect(with: CGSize(width: self.frame.width, height: 36), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         }
         
-        
+
         if (lblQuantityW?.text ?? "" == ZERO_QUANTITY_STRING || currentValGr == 0.0) && (lblQuantityN?.text ?? "" == ZERO_QUANTITY_STRING ) && (lblQuantityP?.text ?? ZERO_QUANTITY_STRING == ZERO_QUANTITY_STRING) {
             
             self.originalValGr = 0.0
-            self.currentValGr = self.originalValGr
+            self.currentValGr = 0.0
             self.currentValCstmGr = 0.0
             self.currentValPzs = 0.0
             
@@ -804,6 +821,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             
         } else {
             self.btnOkAdd?.backgroundColor = WMColor.green
+            
             self.btnOkAdd?.removeTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.deletefromshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             self.btnOkAdd?.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), for: UIControlEvents.touchUpInside)
             
@@ -841,8 +859,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }
         
         let rectSize =  lblQuantityW.attributedText!.boundingRect(with: CGSize(width: lblQuantityW.frame.width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
-        quantityWAnimate.frame = CGRect(x: (lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, y: 0, width: 1, height: lblQuantityW.frame.height)
-        
+        self.validateWeightSelectedBtn(gr: currentValGr)
     }
     
     func updateLabelN(_ value: String) {
@@ -883,7 +900,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.containerView.frame = CGRect(x:-self.containerWeightView.frame.maxX, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)
             }, completion: { (complete:Bool) -> Void in
-            
+            self.updateShoppButton()
         }) 
     }
     
@@ -897,14 +914,6 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }) 
     }
     
-    func updateAnimation() {
-        if quantityWAnimate.alpha  == 0 {
-            quantityWAnimate.alpha = 1
-        }else {
-            quantityWAnimate.alpha = 0
-        }
-    }
-    
     func changegrkg(_ sender:UIButton) {
         if buttonGramsKG.isSelected {
             
@@ -913,7 +922,12 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.keyboardN.changeType(NumericKeyboardViewType.Decimal)
             
             var formatedString = ""
-            let valInKg = currentValCstmGr / 1000.0
+            var valInKg = currentValCstmGr / 1000.0
+            
+            if valInKg < 0.01 {
+                currentValCstmGr = 0.0
+                valInKg = 0.0
+            }
             
             if (currentValCstmGr.truncatingRemainder(dividingBy: 1000)) == 0 {
                 formatedString = String(format:"%.f",valInKg)
@@ -932,6 +946,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.updateLabelN()
         }
         keyboardN.showDeleteBtn()
+        updateShoppButton()
     }
     
     func setBackActionShoppingCart(_ backAction:@escaping (() -> Void)) {
@@ -988,6 +1003,15 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             })
         }
 
+    }
+    
+    override func setQuantity(quantity: Int) {
+        if quantity == 0 {
+            return
+        }
+        
+        let text = String(quantity).characters.count < 2 ? "0" : ""
+        self.userSelectValue("\(text)"+"\(quantity)")
     }
     
 }

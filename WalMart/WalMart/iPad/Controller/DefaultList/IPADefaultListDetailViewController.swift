@@ -8,18 +8,16 @@
 
 import Foundation
 
-protocol IPADefaultListDetailViewControllerDelegate {
+protocol IPADefaultListDetailViewControllerDelegate: class {
     func reloadViewList()
 }
 
-class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPopoverControllerDelegate {
+class IPADefaultListDetailViewController :  DefaultListDetailViewController, UIPopoverControllerDelegate {
     
     var sharePopover: UIPopoverController?
-    var delegate : IPADefaultListDetailViewControllerDelegate?
+    weak var delegate : IPADefaultListDetailViewControllerDelegate?
     var isShared =  false
     
-
-
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = IPAProductDetailPageViewController()
@@ -49,14 +47,15 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         if !isShared {
           tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
         }
-            self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72 , width: self.view.frame.width, height: 72)
-            self.duplicateButton?.frame = CGRect(x: 145, y: y, width: 34.0, height: 34.0)
+        
+        self.footerSection!.frame = CGRect(x: 0,  y: self.view.frame.maxY - 72 , width: self.view.frame.width, height: 72)
+        self.duplicateButton?.frame = CGRect(x: 145, y: y, width: 34.0, height: 34.0)
             
-            x = self.duplicateButton!.frame.maxX + 16.0
-            self.shareButton!.frame = CGRect(x: x, y: y, width: shareWidth, height: shareWidth)
-            x = self.shareButton!.frame.maxX + separation
-            addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
-            self.customLabel?.frame  = self.addToCartButton!.bounds
+        x = self.duplicateButton!.frame.maxX + 16.0
+        self.shareButton!.frame = CGRect(x: x, y: y, width: shareWidth, height: shareWidth)
+        x = self.shareButton!.frame.maxX + separation
+        addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        self.customLabel?.frame  = self.addToCartButton!.bounds
       
     }
 
@@ -65,8 +64,16 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         isShared = true
 
         if let image = self.buildImageToShare() {
+            
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            self.backButton?.isHidden = true
+            let headerCapture = UIImage(from: header)
+            self.backButton?.isHidden = false
 
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
@@ -80,6 +87,56 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             }
         }
     }
+    
+    //MARK: activityViewControllerDelegate
+    override func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    override func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        
+        
+        let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
+        var dominio = "https://www.walmart.com.mx"
+        if environment != "PRODUCTION"{
+            //            dominio = "http://192.168.43.192:8085"
+            dominio = "http://192.168.43.192:8095"
+        }
+        var urlss  = ""
+        if self.lineId != nil {
+            let name  = self.schoolName!.replacingOccurrences(of: " ", with: "-")
+            let desc = self.gradeName!.replacingOccurrences(of: " ", with: "-")
+            let namelines = self.nameLine!.replacingOccurrences(of: " ", with: "-")
+            
+            var  appLink  = UserCurrentSession.urlWithRootPath("\(dominio)/images/m_webParts/banners/Carrusel/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name_\(name)&description=\(desc)")
+            
+            appLink = "\(dominio)/images/m_webParts/banners/Carrusel/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name=\(name)&description=\(desc)"
+            
+            //appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
+            
+            urlss = "\n Entra a la aplicación:\n \(appLink!)"
+        }
+        
+        
+        if activityType == UIActivityType.mail {
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
+        }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
+            return "Chequa esta lista de productos:  #walmartapp #wow "
+        }
+        return "Chequa esta lista de productos: \(urlss) "
+    }
+    
+    override func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Encontré estos productos te pueden interesar en www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //-----
     
      //MARK: Delegate item cell
     override func didChangeQuantity(_ cell:DetailListViewCell){
@@ -104,7 +161,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         
         
         let width:CGFloat = self.view.frame.width
-        var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
+        let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
       
         _ = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
         
@@ -127,7 +184,8 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             self.sharePopover!.dismiss(animated: true)
             //self.removeSelector()
         }
-        //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+        self.quantitySelector!.isFromList = true
+        self.quantitySelector!.isUpcInList = false
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             var item = self.detailItems![indexPath!.row]
             //var upc = item["upc"] as? String

@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol IPACatHeaderSearchReusableDelegate{
+protocol IPACatHeaderSearchReusableDelegate: class{
     func closeCategory()
 }
 
@@ -20,7 +20,7 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
     var imageIcon : UIImageView!
     var titleLabel : UILabel!
     var btnClose : UIButton!
-    var delegate : IPACatHeaderSearchReusableDelegate!
+    weak var delegate : IPACatHeaderSearchReusableDelegate?
     
 
     override init(frame: CGRect) {
@@ -81,7 +81,7 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
     
     func closeCategory() {
         if delegate != nil {
-            delegate.closeCategory()
+            delegate?.closeCategory()
         }
     }
     

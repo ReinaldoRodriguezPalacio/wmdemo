@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SliderTableViewCellDelegate {
+protocol SliderTableViewCellDelegate: class {
     func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int)
 }
 
@@ -18,7 +18,7 @@ class SliderTableViewCell: UITableViewCell {
     var minLabel: CurrencyCustomLabel?
     var currencyFmt: NumberFormatter?
     var slider: NMRangeSlider?
-    var delegate: SliderTableViewCellDelegate?
+    weak var delegate: SliderTableViewCellDelegate?
 
     var minValue: Double = 0.0
     var maxValue: Double = 0.0

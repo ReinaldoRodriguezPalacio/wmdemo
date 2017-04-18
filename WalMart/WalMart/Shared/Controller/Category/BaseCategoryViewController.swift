@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol BaseCategoryViewControllerDataSource {
-    func loadDepartments() -> [Any]?
+protocol BaseCategoryViewControllerDataSource: class {
+    func loadDepartments() ->  [Any]?
 }
 
-protocol BaseCategoryViewControllerDelegate {
+protocol BaseCategoryViewControllerDelegate: class {
     func getServiceURLIcon() -> String
     func getServiceURLHeader() -> String
     func didSelectDeparmentAtIndex(_ indexPath: IndexPath)
@@ -21,7 +21,7 @@ protocol BaseCategoryViewControllerDelegate {
 class BaseCategoryViewController : IPOBaseController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet var categories: UICollectionView?
-    var delegate : BaseCategoryViewControllerDelegate?
+    weak var delegate : BaseCategoryViewControllerDelegate?
     var datasource : BaseCategoryViewControllerDataSource?
     var currentIndexSelected : IndexPath?
     var items : [Any]? = []

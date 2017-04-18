@@ -26,8 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
+        
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
+        
+        
+        // Cancel in process paypal order when the app closes
+        GRCheckOutPymentViewController.cancelOrderPaypal()
+        
         
         //Push notifications
         if application.responds(to: #selector(UIApplication.registerUserNotificationSettings(_:))) {
@@ -38,27 +45,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         
-        print("****************** ****************** ****************** ****************** ")
-        print("clearCokkie clearCokkie clearCokkie")
-        // CustomBarViewController.addOrUpdateParamNoUser(key: "JSESSIONID", value:"")
-        let coockieStorege  = HTTPCookieStorage.shared
-        for cookie in coockieStorege.cookies! {
-            coockieStorege.deleteCookie(cookie)
-        }
-        
         //Facebook
         FBSDKProfile.enableUpdates(onAccessTokenChange: true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
        
         //Session --
-//        let authorizationService =  AuthorizationService()
-//        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
-//            UserCurrentSession.sharedInstance.searchForCurrentUser()
-//            },errorBlock:{ (error:NSError) in
-//                print(error.localizedDescription)
-//                
-//        })
+        let authorizationService =  AuthorizationService()
+        authorizationService.callGETService("", successBlock: { (response:[String:Any]) in
+            UserCurrentSession.sharedInstance.searchForCurrentUser()
+            },errorBlock:{ (error:NSError) in
+                print(error.localizedDescription)
+                
+        })
         
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
@@ -87,10 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
         
         //Log request
-        AFNetworkActivityLogger.shared().startLogging()
-        //AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
-
-        
+        //AFNetworkActivityLogger.shared().startLogging()
         AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
             switch (status) {
             case AFNetworkReachabilityStatus.notReachable:
@@ -153,17 +149,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             dataLayer.push(["event": "ErrorEventCrash", "detailErrorCrash": exception.description ])
 
             
-            NSLog("CRASH: \(exception)")
-            NSLog("Stack Trace: \(exception.callStackSymbols)")
+//            NSLog("CRASH: \(exception)")
+//            NSLog("Stack Trace: \(exception.callStackSymbols)")
         }
         
         
         //TAGManager
         let GTM = TAGManager.instance()
-        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
+        GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
     
         //TODO Cambiar a produccion 
-        //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+      // TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
         TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
@@ -188,14 +184,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         let controller = UIApplication.shared.keyWindow!.rootViewController
-        let presented = controller!.presentedViewController
-        presented?.dismiss(animated: false, completion: nil)
-        if imgView == nil {
+        if let presented = controller!.presentedViewController {
             imgView = UIImageView(frame: controller!.view.bounds)
             imgView!.image = UIImage(named:"spash_iphone")
+            presented.view.addSubview(imgView!)
+            presented.view.bringSubview(toFront: imgView!)
+        } else if imgView == nil {
+            imgView = UIImageView(frame: controller!.view.bounds)
+            imgView!.image = UIImage(named:"spash_iphone")
+            controller!.view.addSubview(imgView!)
+            controller!.view.bringSubview(toFront: imgView!)
         }
-        controller!.view.addSubview(imgView!)
-        controller!.view.bringSubview(toFront: imgView!)
+       
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -211,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         //UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+        NotificationCenter.default.post(name: .updateNotificationBadge, object: nil)
         //Facebook
         FBSDKAppEvents.activateApp()
 
@@ -221,10 +221,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             IPOSplashViewController.updateUserData(true)
         }
         
-        if self.alertNoInternet != nil {
-            self.alertNoInternet?.close()
-            self.alertNoInternet = nil
-        }
         //Tune.framework
         //Tune.measureSession()
     }
@@ -381,7 +377,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             UIApplication.shared.applicationIconBadgeNumber = 1
         }
        
-       NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+       NotificationCenter.default.post(name:.updateNotificationBadge, object: nil)
         self.handleNotification(application,userInfo: userInfo)
        
         
@@ -546,8 +542,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             if (parsedUrl?.appLinkData != nil) {
             
                 let targetUrl:URL =  parsedUrl!.targetURL
-                NSLog("targetUrl::\(targetUrl)")
-                
                 let strAction = stringCompare.replacingOccurrences(of: "walmartmexicoapp://", with: "") as NSString
                 var components = strAction.components(separatedBy: "/")
                 

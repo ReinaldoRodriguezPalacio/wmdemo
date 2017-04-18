@@ -71,6 +71,7 @@ enum WMGAIUtils : String {
     case SCREEN_GRPREVIOUSORDERSDETAIL = "GRPreviousOrdersDetail"
     case SCREEN_MGSEARCHRESULT = "MGSearchResult"
     case SCREEN_GRSEARCHRESULT = "GRSearchResult"
+    case SCREEN_TIRESEARCHRESULT = "TiresSearch"
     case SCREEN_MGNEWADDRESSDELIVERY = "MGNewAddressDelivery"
     case SCREEN_PREVIOUSORDERDETAIL = "PreviousOrderDetail"
     case SCREEN_HOWTOUSETHEAPP = " HowToUseTheApp"

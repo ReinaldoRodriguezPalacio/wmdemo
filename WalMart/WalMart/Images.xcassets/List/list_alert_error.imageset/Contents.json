@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "list_alert_error.png"
+      "filename" : "alert_list_error.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "list_alert_error@2x.png"
+      "filename" : "alert_list_error@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

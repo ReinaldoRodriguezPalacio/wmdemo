@@ -38,7 +38,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     var elements: [Any]?
     var elementsCategories: [Any]?
     var searchText: String! = ""
-    var delegate:SearchViewControllerDelegate!
+    weak var delegate:SearchViewControllerDelegate?
     var afterselect : (() -> Void)? = nil
     var endEditing : (() -> Void)? = nil
     var all: Bool = false
@@ -366,7 +366,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false )
         //        }else{
         let item = self.elementsCategories![indexPath.row] as? [String:Any]
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
+        self.delegate?.showProducts(forDepartmentId: item!["idDepto"] as? String, andFamilyId: item!["idFamily"] as? String, andLineId: item!["idLine"] as? String, andTitleHeader:item!["title"] as! String , andSearchContextType:item!["type"] as! String == ResultObjectType.Mg.rawValue ? .withCategoryForMG: .withCategoryForGR )
         
         //        }
         //        let item = self.elements![indexPath.row] as? [String:Any]

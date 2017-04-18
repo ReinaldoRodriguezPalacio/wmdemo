@@ -10,13 +10,12 @@ import Foundation
 import CoreData
 
 
-protocol ProductDetailButtonBarCollectionViewCellDelegate {
+protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
     func shareProduct()
     func showProductDetail()
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void)
     func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
-    //func showProductDetailOptions()
 }
 
 
@@ -86,7 +85,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var facebookButton : UIButton!
     var deltailButton : UIButton!
     var listButton : UIButton!
-    var delegate : ProductDetailButtonBarCollectionViewCellDelegate!
+    weak var delegate : ProductDetailButtonBarCollectionViewCellDelegate?
     
     var addToShoppingCartButton : UIButton!
     
@@ -141,7 +140,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState())
-         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState())
+        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState())
         self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: UIControlState.selected)
         
@@ -180,7 +179,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         //event
         // //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
-        delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
+        delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
             if addedTWL == true {
                 self.listButton.isSelected = !self.listButton.isSelected
                 if self.listButton.isSelected {
@@ -198,9 +197,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     func addProductToShoppingCart() {
         if isAviableToShoppingCart {
-            delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
+            delegate?.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
         } else {
-            delegate.showMessageProductNotAviable()
+            delegate?.showMessageProductNotAviable()
         }
         self.isOpenQuantitySelector = false
         self.reloadShoppinhgButton()
@@ -208,12 +207,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     
     func shareProduct() {
         
-        delegate.shareProduct()
+        delegate?.shareProduct()
     }
     
     func detailProduct() {
         self.isOpenQuantitySelector = false
-        delegate.showProductDetail()
+        delegate?.showProductDetail()
     }
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
@@ -268,8 +267,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
         self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
 
-       
-        
         
         self.addToShoppingCartButton!.backgroundColor = buttonColor
         
@@ -281,48 +278,48 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.comments = ""
         
         if detailProductCart != nil {
-                var quantity = detailProductCart!.quantity
+            var quantity = detailProductCart!.quantity
+            let pieces = detailProductCart!.product.pieces
                 //var price = detail!.product.price as NSNumber
-                var text: String? = ""
+            var text: String? = ""
                 //var total: Double = 0.0
                 //Piezas
-                if self.isPesable == false {
-                    if quantity.int32Value == 1 {
+            if self.isPesable == false {
+                if quantity.int32Value == 1 {
                         
-                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
-                    }
-                    else {
-                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+                    text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
+                }
+                else {
+                    text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
 
-                    }
+                }
                     //total = (quantity.doubleValue * price.doubleValue)
-                } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
-                    let pieces = detailProductCart!.product.pieces
-                    if pieces == 1 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
-                    } else {
-                        text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
-                    } 
-                } else { //Gramos
-                    if quantity < 0 {
-                        quantity = 20000
-                    }
+            } else if detailProductCart!.product.orderByPiece.boolValue { // Gramos pero se ordena por pieza
+                if pieces == 1 {
+                    text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), pieces)
+                } else {
+                    text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), pieces)
+                }
+            } else { //Gramos
+                if quantity < 0 {
+                    quantity = 20000
+                }
                     
-                    let q = quantity.doubleValue
-                    if q < 1000.0 {
-                        text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
+                let q = quantity.doubleValue
+                if q < 1000.0 {
+                    text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
 
-                    }
-                    else {
-                        let kg: Double = q/1000.0
-                        text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg))
-                    }
+                } else {
+                    let kg: Double = q/1000.0
+                    text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(value: kg))
+                }
                     //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
-                }
+            }
+            
             
             self.addToShoppingCartButton!.setTitle(text, for: UIControlState())
-              self.addToShoppingCartButton!.setTitle(text, for: UIControlState.selected)
+            self.addToShoppingCartButton!.setTitle(text, for: UIControlState.selected)
             
             if detailProductCart!.type == ResultObjectType.Groceries.rawValue {
                 if detailProductCart!.note != nil && detailProductCart!.note != "" {
@@ -339,10 +336,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(UIColor.white, for: UIControlState.selected)
             self.addToShoppingCartButton!.setTitle(buttonTitle, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
-        if !isAviableToShoppingCart{
+        if !isAviableToShoppingCart {
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState())
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
+            self.addToShoppingCartButton?.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0,0)
         }
     }
     

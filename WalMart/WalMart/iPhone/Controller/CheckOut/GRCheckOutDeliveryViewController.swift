@@ -252,7 +252,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
         self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton),y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
         self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.content!.frame.maxY + 16, width: widthButton, height: 34)
-        
         self.lblInfo!.frame = CGRect (x: 8 , y: 8, width: self.toolTipLabel.frame.width - 16, height: 108)
         self.imageView!.frame = CGRect(x: 16 , y: self.toolTipLabel.frame.minY - 124, width: self.toolTipLabel.frame.width, height: 124)
         self.viewContents!.frame = imageView!.bounds
@@ -623,21 +622,21 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     if let pickUpInStore = result["pickUpInStore"] as? String {
                         var pickUpInStoreCostVal = 0.0
                         if let pickUpInStoreCost = result["pickUpInStoreCost"] as? NSString {
-                            pickUpInStoreCostVal = pickUpInStoreCost.doubleValue
+                            pickUpInStoreCostVal = pickUpInStoreCost != ""  ? pickUpInStoreCost.doubleValue : 0.0
                         }
                         self.shipmentItems!.append(["name":pickUpInStore, "key":"4","cost":pickUpInStoreCostVal])
                     }
                     if let normalDelivery = result["normalDelivery"] as? String {
                         var normalDeliveryCostVal = 0.0
                         if let normalDeliveryCost = result["normalDeliveryCost"] as? NSString {
-                            normalDeliveryCostVal = normalDeliveryCost.doubleValue
+                            normalDeliveryCostVal = normalDeliveryCost != "" ? normalDeliveryCost.doubleValue : 0.0
                         }
                         self.shipmentItems!.append(["name":normalDelivery, "key":"1","cost":normalDeliveryCostVal])
                     }
                     if let expressDelivery = result["expressDelivery"] as? String {
                         var expressDeliveryCostVal = 0.0
                         if let expressDeliveryCost = result["expressDeliveryCost"] as? NSString {
-                            expressDeliveryCostVal = expressDeliveryCost.doubleValue
+                            expressDeliveryCostVal = expressDeliveryCost != "" ? expressDeliveryCost.doubleValue : 0.0
                         }
                         self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
                     }

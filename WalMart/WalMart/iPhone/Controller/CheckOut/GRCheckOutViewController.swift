@@ -409,6 +409,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         self.buildSubViews()

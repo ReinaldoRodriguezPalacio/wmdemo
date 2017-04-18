@@ -13,7 +13,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     var closeanimation : (() -> Void)!
     var field : FormFieldSearch!
     var backButton : UIButton!
-    var delegate: SearchViewControllerDelegate!
+    weak var delegate: SearchViewControllerDelegate?
     var clearButton: UIButton?
     var errorView : FormFieldErrorView? = nil
     var viewContent : UIView!
@@ -185,7 +185,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                     if self.isBarCodeUPC(code as NSString) {
                         character = code.substring(to: code.characters.index(code.startIndex, offsetBy: code.characters.count-1))
                     }
-                    delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
+                    delegate?.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     closePopOver()
                     closeSearch()
                     return true
@@ -194,7 +194,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 if strFieldValue.substring(to: 1).uppercased() == "B" {
                     let validateNumeric: NSString = strFieldValue.substring(from: 1) as NSString
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
+                        delegate?.selectKeyWord("", upc: textField.text!.uppercased(), truncate:false,upcs:nil)
                         closePopOver()
                         closeSearch()
                         return true 
@@ -203,7 +203,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 
             }
             
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:nil)
+            delegate?.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:nil)
             closePopOver()
             closeSearch()
         }
@@ -289,7 +289,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         }
         self.closeSearch()
         closePopOver()
-        self.delegate.searchControllerScanButtonClicked()
+        self.delegate?.searchControllerScanButtonClicked()
     }
     
     func showCamera(_ sender:UIButton) {
@@ -298,7 +298,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         }
         
         self.closePopOver()
-        self.delegate.searchControllerCamButtonClicked(self)
+        self.delegate?.searchControllerCamButtonClicked(self)
     }
     
     // MARK: - CameraViewControllerDelegate
@@ -309,7 +309,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 upcArray = []
             }
             let params = ["upcs": upcArray!, "keyWord":value!] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.CamFindSearch.rawValue), object: params, userInfo: nil)
+            NotificationCenter.default.post(name: .camFindSearch, object: params, userInfo: nil)
             done()
         }
         self.closeSearch()

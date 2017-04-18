@@ -14,7 +14,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
     
     
     var collection: UICollectionView!
-    var delegate: ProductDetailCrossSellViewDelegate!
+    weak var delegate: ProductDetailCrossSellViewDelegate?
     var upc: String = ""
     var itemsUPC: [[String:Any]] = [] {
         didSet {
@@ -110,7 +110,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         }else{
             pontInView = (currentCell?.convert(currentCell!.productImage!.frame, to:  self.superview?.superview))!
         }
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: "",isBundle: false)
+        delegate?.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: "",isBundle: false)
         
     }
     

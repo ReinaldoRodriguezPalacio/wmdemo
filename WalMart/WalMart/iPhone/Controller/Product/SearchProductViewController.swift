@@ -83,6 +83,7 @@ enum SearchServiceContextType {
     case withCategoryForGR
     case withTextForCamFind
     case withRecomendedLine
+    case withCategoryForTiresSearch
 }
  
  enum SearchServiceFromContext {
@@ -115,7 +116,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var originalSearchContextType: SearchServiceContextType?
     var searchContextType: SearchServiceContextType?
     var searchFromContextType: SearchServiceFromContext?
-    var textToSearch:String?
+    var textToSearch:String? = ""
     var idDepartment:String?
     var idFamily :String?
     var idLine:String?
@@ -177,6 +178,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var priority = ""
     var preview: PreviewModalView? = nil
     
+    var filterMedida : Bool! = false
+   
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
             switch self.searchContextType! {
@@ -184,6 +187,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
             case .withCategoryForGR :
                 return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
+            case .withCategoryForTiresSearch :
+                return WMGAIUtils.SCREEN_TIRESEARCHRESULT.rawValue
             default :
                 break
             }
@@ -295,6 +300,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.searchAlertView = SearchAlertView()
+        
 
         self.view.addSubview(self.searchAlertView!)
         
@@ -308,11 +314,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             addLongTouch(view:collection!)
         }
 
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: .reloadWishList, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: .updateBadge, object: nil)
+    
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
         self.selectQuantity?.closeAction()
         self.selectQuantityGR?.closeAction()
     }
@@ -321,7 +334,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         super.viewWillAppear(animated)
         self.header?.addSubview(self.filterButton!)
         if IS_IPAD {
-        self.view.addSubview(collection!)
+            self.view.addSubview(collection!)
         }
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.withText || self.searchContextType == SearchServiceContextType.withTextForCamFind)
         self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.withText || self.originalSearchContextType == SearchServiceContextType.withTextForCamFind
@@ -365,12 +378,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.startAnnimating(self.isVisibleTab)
             //}
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: NSNotification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
         self.viewEmptyImage =  true
     }
     
@@ -507,8 +517,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if indexPath.section == 0 {
                 view.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             }
-            
-            
             return view
         }
         return UICollectionReusableView(frame: CGRect.zero)
@@ -848,7 +856,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
                 self.invokeSearchUPCMG { () -> Void in
                     switch self.searchContextType! {
-                    case .withCategoryForMG :
+                    case .withCategoryForMG, .withCategoryForTiresSearch :
                         print("Searching products for Category In MG")
                         if self.originalSearchContextType != nil && self.isTextSearch{
                             self.invokeSearchproductsInMG(
@@ -999,6 +1007,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
+        if self.searchContextType! == .withCategoryForTiresSearch{
+            filterMedida=true
+        }
         service.callService(params!,
             successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
                 self.priority = resultDic["priority"] as? String ?? ""
@@ -1030,8 +1041,26 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.btnTech.isSelected = true
                         self.showAlertView = false
                     }
+                    if self.filterMedida! {
+                        let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
+                        self.mgResults!.resultsInResponse = arrayFilter.count
+                        self.mgResults!.totalResults = arrayFilter.count
+                    self.mgResults!.addResults(arrayFilter)
                     
+                        if arrayFilter.count == 0{
+                            self.finsihService =  true
+                            self.removeEmpty =  false
+                            self.showEmptyView()//Iphone
+                            if IS_IPAD{
+                            self.collection?.reloadData()//Ipad
+                            }
+                            actionError?()
+                            return
+                        }//
+                        
+                    } else{
                     self.mgResults!.addResults(arrayProduct!)
+                    }
                     var sortFacet = facet
                         sortFacet.sort { (item, seconditem) -> Bool in
                             var firstOrder = "0"
@@ -1091,17 +1120,41 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
             }, errorBlock: {(error: NSError) in
-                print("MG Search ERROR!!!")
-                self.mgServiceIsInvike =  false
-                self.mgResults!.totalResults = self.allProducts!.count
-                self.mgResults!.resultsInResponse = self.mgResults!.totalResults
-                actionSuccess?()
-                //self.mgResults!.resultsInResponse = 0
-                //self.mgResults!.totalResults = 0
-                print(error)
-                actionError?()
-            }
-        )
+                
+                
+                    print(error)
+                    //No se encontraron resultados para la búsqueda
+                    if error.code == 1 {
+                        self.mgResults!.resultsInResponse = 0
+                        self.mgResults!.totalResults = 0
+                        self.finsihService =   self.btnSuper.isSelected
+                        self.removeEmpty =  false
+                        if self.btnSuper.isSelected {
+                            self.showEmptyView()//Iphone
+                        }
+                        self.collection?.reloadData()//Ipad
+                        actionError?()
+                    }else if error.code == 9 {
+                        self.finsihService =  true
+                        self.removeEmpty =  false
+                        self.showEmptyView()//Iphone
+                        if IS_IPAD{
+                            self.collection?.reloadData()//Ipad
+                        }
+                        actionError?()
+                    }else{
+                        print("MG Search ERROR!!!")
+                        self.mgServiceIsInvike =  false
+                        self.mgResults!.totalResults = self.allProducts!.count
+                        self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+                        actionSuccess?()
+                        //self.mgResults!.resultsInResponse = 0
+                        //self.mgResults!.totalResults = 0
+                        print(error)
+                        actionError?()
+                    }
+                })
+        
     }
     
     func invokeSearchProductsInGroceries(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
@@ -1544,7 +1597,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                    self.setAlertViewValues(self.grResponceDic)
                 }
                 self.collection?.alpha = 1
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+                NotificationCenter.default.post(name: .clearSearch, object: nil)
                 if self.allProducts?.count > 0 {
                     self.filterButton?.alpha = 1
                 }
@@ -1575,15 +1628,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
 
-        if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
-        }else{
+        if self.empty != nil {
             self.removeEmptyView()
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 46))
         }
-        if UIDevice.current.modelName.contains("4") {
-            self.empty.paddingBottomReturnButton += 44
-        }
+        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height))
         
         if self.searchFromContextType == .fromSearchTextList {
             self.empty.descLabel.text = "No existe ese artículo en Súper"
@@ -1593,12 +1641,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.empty.descLabel.numberOfLines = 3
         }
     
-        self.empty.returnAction = { () in
-            self.returnBack()
+        if UIDevice.current.modelName.contains("iPad") || IS_IPAD {
+            self.empty.showReturnButton = false
+        } else {
+            self.empty.returnAction = { () in
+                self.returnBack()
+            }
         }
         
         self.view.addSubview(self.empty)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     func showEmptyMGGRView(){
@@ -1616,10 +1668,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading?.stopAnnimating()
       
         let model =  UIDevice.current.modelName
-        print(model)
+
         var heightEmpty = self.view.bounds.height
         if !model.contains("iPad") && !model.contains("4") {
-            heightEmpty -= 64
+            heightEmpty -= 68
         }
         if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
             heightEmpty -= 44
@@ -1635,9 +1687,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
 
         if model.contains("4") {
-            self.emptyMGGR.paddingBottomReturnButton += 56
+            self.emptyMGGR.paddingBottomReturnButton += 34
         } else if  model.contains("iPod") || model.contains("Plus") {
-            self.emptyMGGR.paddingBottomReturnButton += 24
+   //         self.emptyMGGR.paddingBottomReturnButton += 24
+        } else if model.contains("iPad") || IS_IPAD {
+            self.emptyMGGR.showReturnButton = false
         }
         
         if btnSuper.isSelected {
@@ -1647,7 +1701,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         self.view.addSubview(self.emptyMGGR)
        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearSearch.rawValue), object: nil)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
     func showLandingPage(){
@@ -1724,7 +1778,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func editSearch(){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
+        NotificationCenter.default.post(name: .editSearch, object: titleHeader!)
         
     }
     
@@ -1752,6 +1806,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
             
         }
+        controllerFilter.isFromTiresSearch = filterMedida
         controllerFilter.isGroceriesSearch = self.btnSuper.isSelected
         controllerFilter.searchContext = self.searchContextType
         self.navigationController?.pushViewController(controllerFilter, animated: true)
@@ -1779,6 +1834,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool) {
         
         self.isAplyFilter =  true
+ 
+        if filterMedida{
+            self.applyFilterTiresSearch(order)
+            return
+        }
+
         
         if IS_IPHONE {
             self.isLoading = true
@@ -1835,8 +1896,45 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
 
+    func applyFilterTiresSearch(_ order:String){
+        
+        if IS_IPHONE {
+            self.isLoading = true
+        } else {
+            showLoadingIfNeeded(false)
+        }
+        if self.originalSearchContextType != .withTextForCamFind {
+            self.allProducts? = []
+        }
+        self.allProducts?.append(array: self.mgResults!.products!)
+        self.idSort = order
+        switch (FilterType(rawValue: self.idSort!)!) {
+        case .descriptionAsc :
+            self.allProducts!.sort { ($0["description"] as! String) < ($1["description"] as! String) }
+        case .descriptionDesc :
+            self.allProducts!.sort { ($0["description"] as! String) > ($1["description"] as! String) }
+        case .priceAsc :
+            self.allProducts!.sort { ($0["price"] as! String).toDouble() < ($1["price"] as! String).toDouble() }
+        case .priceDesc :
+            self.allProducts!.sort { ($0["price"] as! String).toDouble() > ($1["price"] as! String).toDouble() }
+        case .none : print("Not sorted")
+        default :
+            print("default")
+        }
+        
+        self.finsihService =  true
+        self.collection?.reloadData()
+        self.showLoadingIfNeeded(true)
+        
+        
+    }
+    
     func apply(_ order:String, upcs: [String]) {
 
+        if filterMedida{
+            self.applyFilterTiresSearch(order)
+            return
+        }
         
         if IS_IPHONE {
             self.isLoading = true
@@ -1960,7 +2058,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }) { (error:NSError) -> Void in
                 print(error)
         }
-        
     }
     
     func removeSelectedFilters(){
@@ -2059,13 +2156,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect, quantity: NSNumber, noteProduct:String, product: Product?){
         
+        let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(cell.upc)
+        
         var prodQuantity = "1"
         let startY: CGFloat = IS_IPAD ? 0 : 46
         if cell.pesable! {
-            prodQuantity =  quantity == 0 ? "50" : "\(quantity)"
+            prodQuantity =  quantity == 0 ? "100" : "\(quantity)"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
+            selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
+            selectQuantityGR.btnNoteN.isHidden =  !hasUPC
+
+            
+            
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:startY)
@@ -2108,7 +2212,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
-                    NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                 }else{
                     self.addItemToList(cell, quantity:quantity,orderByPiece:self.selectQuantityGR!.orderByPiece)
                 }
@@ -2315,7 +2419,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                            NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                         }
                     )
                 } else {

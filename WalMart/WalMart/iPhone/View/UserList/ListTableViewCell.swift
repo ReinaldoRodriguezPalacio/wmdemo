@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ListTableViewCellDelegate {
+protocol ListTableViewCellDelegate: class {
     func duplicateList(_ cell:ListTableViewCell)
     func didListChangeName(_ cell:ListTableViewCell, text:String?)
     func editCell(_ cell:SWTableViewCell)

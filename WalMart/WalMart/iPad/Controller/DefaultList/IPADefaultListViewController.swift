@@ -11,7 +11,7 @@ import Foundation
 class IPADefaultListViewController : DefaultListViewController {
     
     
-    var delegate : IPADefaultListDetailViewControllerDelegate?
+    weak var delegate : IPADefaultListDetailViewControllerDelegate?
     
     override func viewDidLoad() {
         self.hiddenBack = true

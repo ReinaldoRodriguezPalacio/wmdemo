@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ProductDetailCrossSellViewDelegate {
+protocol ProductDetailCrossSellViewDelegate: class {
     
     func goTODetailProduct(_ upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String,isBundle:Bool)
     
@@ -17,7 +17,7 @@ protocol ProductDetailCrossSellViewDelegate {
 class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollectionViewDelegate  {
     
     var collection: UICollectionView!
-    var delegate: ProductDetailCrossSellViewDelegate!
+    weak var delegate: ProductDetailCrossSellViewDelegate?
     var itemSize :CGSize! = CGSize(width: 106.66, height: 146)
     var upc: String = ""
     var itemsUPC: [[String:Any]] = []
@@ -141,7 +141,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_RELATED_PRODUCT.rawValue, label: "\(cell.upcProduct)")
         
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRect.zero,idList: self.idListSeletSearch, isBundle: false)
+        delegate?.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRect.zero,idList: self.idListSeletSearch, isBundle: false)
     }
     
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol NewListTableViewCellDelegate {
+protocol NewListTableViewCellDelegate: class {
     func cancelNewList()
     func createNewList(_ value:String)
     func scanTicket()
@@ -22,7 +22,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     var separatorView: UIView?
     var scanning = false
 
-    var delegate: NewListTableViewCellDelegate?
+    weak var delegate: NewListTableViewCellDelegate?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -31,6 +31,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        self.contentView.layer.cornerRadius = 5.0
         
         self.inputNameList = ListFieldSearch(frame: CGRect(x: 16.0, y: 0.0, width: 200.0, height: 40.0))
         self.inputNameList!.backgroundColor = WMColor.light_gray
@@ -58,7 +59,6 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.separatorView = UIView()
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
-        
     }
     
     override func layoutSubviews() {

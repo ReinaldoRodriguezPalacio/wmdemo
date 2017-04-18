@@ -71,8 +71,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
-        
+         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successAddItemsToShopingCart, object: nil)
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+ 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -82,7 +88,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: NSNotification.Name(rawValue: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue), object: nil)
+        self.reloadShoppingCart()
         updateTotalItemsRow()
     }
     
@@ -91,21 +97,21 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
 //        self.viewLoad.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
 //        self.viewLoad.setNeedsLayout()
         
-        self.viewHerader.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
+        self.viewHeader.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46)
         self.viewContent.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.viewFooter.frame = CGRect(x: self.viewContent.frame.width - 341, y: viewContent.frame.height - 72 , width: 341 , height: 72)
         if itemsUPC.count > 0 {
-            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
+            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
             self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
             self.beforeLeave.labelTitle!.alpha = 1.0
         }else {
-            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHerader.frame.maxY , width: self.viewContent.frame.width - 341, height: viewContent.frame.height)
+            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: viewContent.frame.height)
             self.beforeLeave.frame = CGRect(x: 0,y: 0,width: 0, height: 0)
             self.beforeLeave.labelTitle!.alpha = 0.0
         }
         
         
-        self.imagePromotion.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.viewHerader.frame.maxY, width: 341, height: 434)
+        self.imagePromotion.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.viewHeader.frame.maxY, width: 341, height: 434)
         self.totalsView.frame = CGRect(x: self.viewContent.frame.width - 341, y: self.imagePromotion.frame.maxY, width: 341, height: 168)
         
         self.viewSeparator.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewShoppingCart.frame.width,height: AppDelegate.separatorHeigth())
@@ -115,9 +121,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance.userSigned != nil {
             if UserCurrentSession.sharedInstance.isAssociated == 1{
                 if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 13, width: 34, height: 34))
+                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
                 }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 13, width: 40, height: 40)
+                    buttonAsociate.frame =  CGRect(x: 16, y: self.buttonAsociate.frame.minY, width: self.buttonAsociate.frame.width, height: self.buttonAsociate.frame.height)
                 }
                 
                 if buttonAsociate.image(for: UIControlState()) == nil {
@@ -132,14 +138,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
         }
         
-        self.buttonWishlist.frame = CGRect(x: x,y: self.buttonWishlist.frame.minY,width: 40,height: self.buttonWishlist.frame.height)
+        self.buttonWishlist.frame = CGRect(x: x, y: self.buttonWishlist.frame.minY, width: self.buttonWishlist.frame.width, height: self.buttonWishlist.frame.height)
         
         self.buttonShop.frame = CGRect( x: buttonWishlist.frame.maxX + 16, y: self.buttonShop.frame.minY, width: wShop , height: self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
-        self.titleView.frame = CGRect(x: 16, y: self.viewHerader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHerader.bounds.height)
+        self.titleView.frame = CGRect(x: 16, y: self.viewHeader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHeader.bounds.height)
         self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
-        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHerader.frame.height, height: viewHerader.frame.height)
+        self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHeader.frame.height, height: viewHeader.frame.height)
         if self.customlabel != nil {
             self.customlabel.frame = self.buttonShop.bounds
         }
@@ -217,6 +223,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
+        
+        self.loadCrossSell()
+        
         
     }
     
@@ -362,8 +371,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 }else {
                     
                 }
+                self.removeLoadingView()
                 }, errorBlock: { (error:NSError) -> Void in
                     print("Termina sevicio app")
+                    self.removeLoadingView()
             })
         }
     }
@@ -405,6 +416,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.popup!.dismiss(animated: true)
             }
             selectQuantity!.addToCartAction = { (quantity:String) in
+                
+                if quantity == "00" {
+                    self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
+                    self.reloadShoppingCart()
+                    self.selectQuantity!.closeAction()
+                    return
+                }
+                
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     

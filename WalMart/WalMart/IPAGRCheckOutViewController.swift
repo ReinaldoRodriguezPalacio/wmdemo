@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-protocol IPAGRCheckOutViewControllerDelegate {
+protocol IPAGRCheckOutViewControllerDelegate: class {
     func shareShoppingCart()
     func closeIPAGRCheckOutViewController()
     func showViewBackground(_ show:Bool)
@@ -23,7 +23,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     var buttonShare: UIButton!
     var itemsInCart: [Any]!
     var listSelectorController: ListsSelectorViewController?
-    var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
+    weak var delegateCheckOut : IPAGRCheckOutViewControllerDelegate?
     var footer: UIView?
     var buttonShop: UIButton?
     var totalView : IPOCheckOutTotalView!
@@ -164,20 +164,6 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     //MARK: - ListSelectorDelegate
     
-    func listIdSelectedListsLocally(idListSelected idListsSelected: [String]) {
-        print("Lista de id de listas")
-        var countId = 1
-        for listId in idListsSelected{
-         self.addItemsFromCarToList(inList: listId, included: false, finishAdd: countId == idListsSelected.count)
-            countId =  countId + 1
-        }
-    }
-    
-    func listSelectedListsLocally(listSelected listsSelected: [List]) {
-        print("Listas Seleccionadas")
-        
-    }
-    
     /**
      Close list selector
      */
@@ -204,7 +190,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      
      - parameter list: list object to add product
      */
-    func listSelectorDidAddProductLocally(inList list:List,finishAdd:Bool) {
+    func listSelectorDidAddProductLocally(inList list:List) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -350,7 +336,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter product: product object to delete
      - parameter list:    list object to delete product
      */
-    func listSelectorDidDeleteProductLocally(_ product:Product, inList list:List) {
+    func listSelectorDidDeleteProductLocally(inList list:List) {
     }
     
     /**
@@ -490,7 +476,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      Close IPAGRCheckout delegate
      */
     func didFinishConfirm() {
-        self.delegateCheckOut.closeIPAGRCheckOutViewController()
+        self.delegateCheckOut?.closeIPAGRCheckOutViewController()
     }
     
     /**

@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol IPAMoreOptionsViewControllerDelegate {
+protocol IPAMoreOptionsViewControllerDelegate: class {
     func selectedDetail(_ row: Int)
 }
 
 class IPAMoreOptionsViewController: MoreOptionsViewController{
 
-    var delegate:IPAMoreOptionsViewControllerDelegate!
+    weak var delegate:IPAMoreOptionsViewControllerDelegate?
     var selected: IndexPath?
     
     @IBOutlet var imgProfile: UIImageView?
@@ -35,6 +35,11 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         print("Create MORE_OPTIONS_RELOAD")
         // Como usar el app
         self.selected = IndexPath(row: 0, section: 2)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewWillLayoutSubviews() {
@@ -193,22 +198,22 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         if currentOption == 7 {//6
             //Se elimina Badge de notificaciones
             UIApplication.shared.applicationIconBadgeNumber = 0
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateNotificationBadge.rawValue), object: nil)
+            NotificationCenter.default.post(name: .updateNotificationBadge, object: nil)
         }
         
-        self.delegate.selectedDetail(currentOption)
+        self.delegate?.selectedDetail(currentOption)
     }
     
    
 
     override func signOut(_ sender: UIButton?) {
-        self.delegate.selectedDetail(8)
+        self.delegate?.selectedDetail(8)
         self.selected = IndexPath(row: 0, section: 2)
         super.signOut(nil)
     }
 
     override func editProfile(_ sender:UIButton) {
-       self.delegate.selectedDetail(11)
+       self.delegate?.selectedDetail(11)
        NotificationCenter.default.addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadProfile), name: NSNotification.Name(rawValue: "RELOAD_PROFILE"), object: nil)
 
     }

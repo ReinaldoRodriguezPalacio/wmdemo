@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SelectorBandDelegate {
+protocol SelectorBandDelegate: class {
     func addProductQuantity(_ quantity:Int)
     func deleteProduct()
     func tapInPrice(_ quantity:Int,total:String)
@@ -23,7 +23,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
 
     let animationSpeed = 0.50
     
-    var delegate: SelectorBandDelegate?
+    weak var delegate: SelectorBandDelegate?
     var numberOfOptions: Int?
     var selectedOption: Int = -1
     var totalString: String!

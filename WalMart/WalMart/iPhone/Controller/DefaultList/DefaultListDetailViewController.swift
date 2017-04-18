@@ -246,7 +246,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             quantity = item["quantity"] as? NSNumber
             
             let width:CGFloat = self.view.frame.width
-            var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
+            let height:CGFloat = (self.view.frame.height)
            
             let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
             
@@ -254,6 +254,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!, isSearchProductView: false)
             } else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
+                self.quantitySelector?.isFromList = true
             }
             
             if let orderByPiece = item["orderByPiece"] as? Bool {
@@ -261,6 +262,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             } else {
                 quantitySelector?.first = true
                 quantitySelector?.userSelectValue(quantity!.stringValue)
+                
             }
             
             self.view.addSubview(self.quantitySelector!)
@@ -268,7 +270,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 self.removeSelector()
             }
             
-            self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+         //   self.quantitySelector!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+           
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 var item = self.detailItems![indexPath!.row]
                 //var upc = item["upc"] as? String
@@ -324,11 +327,17 @@ DetailListViewCellDelegate,UIActivityItemSource {
     //MARK: Actions
     
     func shareList() {
-
+        let imageHead = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        
         if let image = self.tableView!.screenshot() {
+            let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+            
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
-            let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -372,9 +381,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
         if activityType == UIActivityType.mail {
             return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
         }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
-            return "Chequa esta lista de productos:  #walmartapp #wow "
+            return "Checa esta lista de productos:  #walmartapp #wow "
         }
-        return "Chequa esta lista de productos: \(urlss) "
+        return "Checa esta lista de productos: \(urlss) "
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
@@ -463,10 +472,12 @@ DetailListViewCellDelegate,UIActivityItemSource {
                         params["onHandInventory"] = "20000"
                     }
                 }
+                params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
+                
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
                 BaseController.sendAnalyticsProductsToCart(totalPrice)
             }else{
                 self.noProductsAvailableAlert()

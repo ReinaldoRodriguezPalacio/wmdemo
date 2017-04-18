@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol KeyboardViewDelegate {
+protocol KeyboardViewDelegate: class {
     func userSelectValue(_ value:String!)
     func userSelectDelete()
 }
@@ -22,7 +22,7 @@ class NumericKeyboardView : UIView {
 
 
     var widthButton : CGFloat = 40.0
-    var delegate : KeyboardViewDelegate!
+    weak var delegate : KeyboardViewDelegate?
     var typeKeyboard : NumericKeyboardViewType! = NumericKeyboardViewType.Integer
     var normal : UIColor!
     var selected : UIColor!
@@ -176,14 +176,14 @@ class NumericKeyboardView : UIView {
     
     func chngequantity(_ sender:UIButton) {
         if delegate != nil {
-            self.delegate.userSelectValue("\(sender.titleLabel!.text!)")
+            self.delegate?.userSelectValue("\(sender.titleLabel!.text!)")
         }
     }
     
     func deletequantity(_ sender:UIButton) {
         if delegate != nil {
             //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ERASE_QUANTITY.rawValue, label: "")
-            self.delegate.userSelectDelete()
+            self.delegate?.userSelectDelete()
         }
     }
     

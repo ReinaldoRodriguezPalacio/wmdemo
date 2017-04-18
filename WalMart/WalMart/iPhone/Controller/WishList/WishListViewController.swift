@@ -103,6 +103,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         
         self.wishlist?.addSubview(self.refreshControl)
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: .reloadWishList, object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,15 +116,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         UserCurrentSession.sharedInstance.nameListToTag = "WishList"
         self.idexesPath = []
         reloadWishlist()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: NSNotification.Name(rawValue: CustomBarNotification.ReloadWishList.rawValue), object: nil)
-       
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillLayoutSubviews() {
@@ -127,10 +124,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.wishlist.frame =  CGRect(x: 0, y: self.wishlist.frame.minY, width: self.view.frame.width, height: self.view.frame.height - 64 - self.header!.frame.height)
         self.wishLitsToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         let heightEmptyView = self.view.bounds.height
-
-        if UIDevice.current.modelName.contains("iPhone") || UIDevice.current.modelName.contains("iPod"){
-            self.emptyView.paddingBottomReturnButton = 54
-        }
         
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: heightEmptyView)
     }
@@ -538,9 +531,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func shareItem() {
         //let image = UIImage(named:"navBar_cart")
-        let headerImage = UIImage(named:"wishlist_headerMail")
+        let headerImage = UIImage(named:"detail_HeaderMail")
+        self.backButton?.isHidden = true
+        self.edit?.isHidden = true
+        let headerCapture = UIImage(from: header)
+        self.backButton?.isHidden = false
+        self.edit?.isHidden = false
+        
         let image = self.wishlist.screenshot()
-        let imageWHeader =  UIImage.verticalImage(from: [headerImage!,image!])
+        let imageWHeader =  UIImage.verticalImage(from: [headerImage!, headerCapture!,image!])
         var strAllUPCs = ""
         for item in self.items {
             let strItemUpc = item["upc"]
@@ -806,7 +805,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"] as [String : Any]
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: paramsAll as [AnyHashable: Any])
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: paramsAll as [AnyHashable: Any])
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadDataWishlist), name: NSNotification.Name(rawValue: "RELOAD_WISHLIST"), object: nil)

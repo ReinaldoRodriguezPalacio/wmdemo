@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate, UIActivityItemSource {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -96,7 +96,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setBackgroundImage(bgImage, for: UIControlState())
         self.editBtn!.setBackgroundImage(bgSelected, for: .selected)
         self.editBtn!.setTitleColor(UIColor.white, for: UIControlState())
-        self.editBtn!.layer.cornerRadius = 11
+        self.editBtn!.layer.cornerRadius = 22
         self.editBtn!.addTarget(self, action: #selector(UserListDetailViewController.showEditionMode), for: .touchUpInside)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -434,8 +434,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if let image = self.tableView!.screenshot() {
             let imageHead = UIImage(named:"detail_HeaderMail")
-            let imgResult = UIImage.verticalImage(from: [imageHead!,image])
-            let controller = UIActivityViewController(activityItems: [imgResult!], applicationActivities: nil)
+            self.backButton?.isHidden = true
+            self.editBtn?.isHidden = true
+            let headerCapture = UIImage(from: header)
+            self.backButton?.isHidden = false
+            self.editBtn?.isHidden = false
+            
+            let imgResult = UIImage.verticalImage(from: [imageHead!,headerCapture!, image])
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
+            
+            let controller = UIActivityViewController(activityItems: [self, imgResult!, urlWmart!], applicationActivities: nil)
             self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
@@ -445,6 +453,30 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
         }
     }
+
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //----
 
     /**
      Builds view image to share
@@ -575,7 +607,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 upcs.append(params as AnyObject)
             }
             if upcs.count > 0 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.AddItemsToShopingCart.rawValue), object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
                 BaseController.sendAnalyticsProductsToCart(totalPrice)
             }
             else{
@@ -658,6 +690,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         
+        self.quantitySelector?.closeSelectQuantity()
+        
         self.isDeleting = true
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
         if let indexPath = self.tableView!.indexPath(for: cell) {
@@ -696,14 +730,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.bounds
-            let height = bounds.size.height - 44
+            let height = self.view.frame.height
             
             if UserCurrentSession.hasLoggedUser() {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
-            }else{
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height))
+            } else {
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height ))
             }
-            self.emptyView!.backgroundColor = UIColor.red
+            self.emptyView!.backgroundColor = UIColor.white
             self.view.addSubview(self.emptyView!)
             
             let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
@@ -732,11 +766,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if UserCurrentSession.hasLoggedUser() {
                 button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
             }else{
-                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.view.bounds.height - 208, width: 160 , height: 40)
+                var ybtn = self.view.bounds.height - 208
+                if self.view.bounds.height < 500 {
+                    ybtn = self.view.bounds.height - 100
+                }
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y:ybtn , width: 160 , height: 40)
+
             }
-            /*if IS_IPHONE_4_OR_LESS{
-             button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
-             }*/
+        
             button.backgroundColor = WMColor.light_blue
             button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), for: UIControlState())
             button.setTitleColor(UIColor.white, for: UIControlState())
@@ -762,8 +799,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.emptyView?.removeFromSuperview()
                     self.emptyView = nil
                 }
-            }
-            )
+            } )
         }
 
     }
@@ -1058,7 +1094,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
-            
+            self.quantitySelector?.isUpcInList = true
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
@@ -1072,10 +1108,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             self.quantitySelector!.isFromList =  true
             self.quantitySelector!.addToCartAction = { (quantity:String) in
-                if UserCurrentSession.hasLoggedUser() {
-                    if let item = self.products![indexPath!.row] as? Product {
-                        self.invokeUpdateProductFromListService(item, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
-                    }
+                
+                if quantity == "00" {
+                    self.deleteFromCellUtilityButton(cell)
+                    return
+                }
+              
+                
+                if let item = self.products![indexPath!.row] as? [String:Any] {
+                    let upc = item["upc"] as? String//TODO Validar si se puede obtener un Product
+                    //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
@@ -1187,7 +1229,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             detailService.buildParams(listId!)
             detailService.callService([:], successBlock: { (result:[String:Any]) -> Void in
                 self.deleteProductServiceInvoked = true
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
                 let service = GRDeleteItemListService()
                 service.callService(service.buildParams(product.upc),
@@ -1327,7 +1369,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
-            print("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
             fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
@@ -1357,8 +1398,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
           //  }
-            
-            self.updateTotalLabel()
+            let countSelect = selectedItems!.count > 0 ? selectedItems![selectedItems!.count - 1] as?  Int : 0
+            if countSelect !=  products!.count {
+                self.updateTotalLabel()
+            }
         }else
         {
          self.products =  nil
@@ -1811,7 +1854,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if let stock = item["stock"] as? Bool {
                             active = stock
                         }
-                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:""))//baseUomcd
+                        var baseUomcd = "EA"
+                        if let baseUcd = item["baseUomcd"] as? String {
+                            baseUomcd = baseUcd
+                        }
+                        
+                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active,baseUomcd:baseUomcd))//baseUomcd
                     }
                     
                     self.invokeAddproductTolist(nil, products:products, succesBlock: { () -> Void in

@@ -85,6 +85,7 @@ class LineViewController : FamilyViewController {
                 switch self.categoriesType! {
                 case .categoryForGR : controller.searchContextType = .withCategoryForGR
                 case .categoryForMG : controller.searchContextType = .withCategoryForMG
+                case .categoryForTiresSearch : controller.searchContextType = .withCategoryForTiresSearch
                 //default : print("No se ha indicado tipo de categorias.")
                 }
              

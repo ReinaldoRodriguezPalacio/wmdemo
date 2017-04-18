@@ -74,7 +74,9 @@ class UserCurrentSession : NSObject {
     var screenViewArray : [String:Any]! = [:]
     var nameListToTag =  ""
     
+    var JSESSIONID = ""
     var JSESSIONATG = ""
+
     var jsessionIdArray : [String]! = []
 
     
@@ -139,7 +141,7 @@ class UserCurrentSession : NSObject {
                 
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:[String:Any]) -> Void in
-                    print("User signed")
+                    
                     }, errorBlock: { (error:NSError) -> Void in
                 })
             }
@@ -152,6 +154,7 @@ class UserCurrentSession : NSObject {
         
         let resultProfileJSONMG = userDictionaryMG["profile"] as! [String:Any]
         var resultProfileJSONGR : [String:Any]? = nil
+        
         if let userDictPrGR = userDictionaryGR["profile"] as? [String:Any] {
             resultProfileJSONGR = userDictPrGR
         }
@@ -414,7 +417,7 @@ class UserCurrentSession : NSObject {
         if userSigned != nil {
             predicate = NSPredicate(format: "user == %@ && idList == %@ && ANY products.upc == %@ ", userSigned!,listId,upc)
         }else {
-            predicate = NSPredicate(format: "user == nil && idList == %@ && ANY products.upc == %@ ",listId, upc)
+            predicate = NSPredicate(format: "user == nil && name == %@ && ANY products.upc == %@ ",listId, upc)
         }
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -434,6 +437,39 @@ class UserCurrentSession : NSObject {
         }
         
         return fetchedResult?.count != 0
+    }
+    
+    func getProductQuantityForList(_ upc:String, listId: String) -> Int {
+        var predicate : NSPredicate? = nil
+        var productQuantity: Int = 0
+        if userSigned != nil {
+            predicate = NSPredicate(format: "list.idList == %@ && ANY upc == %@ ", listId,upc)
+        }else {
+            predicate = NSPredicate(format: "list.name == %@ && ANY upc == %@ ",listId, upc)
+        }
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let request    = NSFetchRequest<NSFetchRequestResult>(entityName: "Product" as String)
+        request.predicate = predicate!
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.fetch(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
+        if error != nil {
+            print("errore: \(String(describing: error))")
+        }
+        
+        if fetchedResult?.count > 0 {
+            let productList = fetchedResult!.first! as! Product
+            productQuantity = Int(productList.quantity.int32Value)
+        }
+        
+        return productQuantity
     }
     
     func userHasUPCShoppingCart(_ upc:String) -> Bool {
@@ -645,11 +681,11 @@ class UserCurrentSession : NSObject {
     
     
     func loadShoppingCarts(_ result:@escaping (() -> Void)) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartBegin.rawValue), object: nil)
+        NotificationCenter.default.post(name:.updateShoppingCartBegin, object: nil)
         self.loadMGShoppingCart { () -> Void in
             self.loadGRShoppingCart({ () -> Void in
                 //TODO: Decide shop preShopping Cart, Empty or cart
-              NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateShoppingCartEnd.rawValue), object: nil)
+              NotificationCenter.default.post(name: .updateShoppingCartEnd, object: nil)
                 UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
               result()
             })
@@ -797,20 +833,20 @@ class UserCurrentSession : NSObject {
     func updateTotalItemsInCarts() {
         let countItems = self.numberOfArticlesMG() + numberOfArticlesGR()
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     
     func updateTotalItemsInCarts(itemsInGR:Int) {
         let countItems = self.numberOfArticlesMG() + itemsInGR
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     func updateTotalItemsInCarts(itemsInMG:Int) {
         let countItems = itemsInMG + self.numberOfArticlesGR()
         let params = ["quantity":countItems]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.UpdateBadge.rawValue), object: params)
+        NotificationCenter.default.post(name: .updateBadge, object: params)
     }
     
     func coreDataShoppingCart(_ predicate:NSPredicate) -> [Cart] {

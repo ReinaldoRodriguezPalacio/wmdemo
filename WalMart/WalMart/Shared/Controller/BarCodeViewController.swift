@@ -11,7 +11,7 @@ import AVFoundation
 import QuartzCore
 import CoreData
 
-@objc protocol BarCodeViewControllerDelegate{
+@objc protocol BarCodeViewControllerDelegate: class{
     func barcodeCaptured(_ value:String?)
     @objc optional func barcodeCapturedWithType(_ value:String?,isUpcSearch:Bool)
 }
@@ -26,7 +26,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var metadataOutput : AVCaptureMetadataOutput? = nil
     var previewView : UIView = UIView()
     var allowedBarcodeTypes : [String] = []
-    var delegate : BarCodeViewControllerDelegate? = nil
+    weak var delegate : BarCodeViewControllerDelegate? = nil
     var helpLabel : UILabel? = nil
     var bgImage : UIImageView!
     var close : UIButton!
@@ -83,6 +83,12 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         allowedBarcodeTypes.append("org.gs1.EAN-8")
         allowedBarcodeTypes.append("org.iso.Code128")
     }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -314,7 +320,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             }
             
         }else{
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ScanBarCode.rawValue), object: character, userInfo: nil)
+            NotificationCenter.default.post(name: .scanBarCode, object: character, userInfo: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
         }
     }
@@ -356,7 +362,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                         var item = items[idx] as! [String:Any]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:"")// send baseUomcd
+                        var baseUomcd = "EA"
+                        if let baseUcd = item["baseUomcd"] as? String {
+                            baseUomcd = baseUcd
+                        }
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:baseUomcd)// send baseUomcd
                         products.append(param)
                     }
                     
@@ -395,7 +405,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             //TODO
                             alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
                             alertView!.showDoneIcon()
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: CustomBarNotification.ShowGRLists.rawValue), object: nil)
+                            NotificationCenter.default.post(name: .showGRLists, object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             alertView!.setMessage(error.localizedDescription)

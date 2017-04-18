@@ -55,6 +55,8 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class IPALandingPageViewController: NavigationViewController, UIPopoverControllerDelegate, IPAFamilyViewControllerDelegate, IPASectionHeaderSearchReusableDelegate,SearchProductCollectionViewCellDelegate {
+    var filterMedida: Bool! = false
+    var medidaToSearch:String! = ""
     
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
@@ -157,7 +159,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
         self.filterButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
-        
+                
         self.view.addSubview(self.header!)
         self.view.addSubview(self.headerView!)
         self.view.addSubview(self.collection!)
@@ -229,7 +231,7 @@ class IPALandingPageViewController: NavigationViewController, UIPopoverControlle
     }
     
     func editSearch(){
-        NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.EditSearch.rawValue), object: titleHeader!)
+        NotificationCenter.default.post(name:.editSearch, object: titleHeader!)
     }
     
     func loadDepartments() ->  [Any]? {
@@ -458,6 +460,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                 view.setSelected()
             }
             viewHeader?.addSubview(self.filterButton!)
+            
             return view
         }
         return reusableView!
@@ -678,7 +681,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                         }
                     )
                 }
@@ -721,7 +724,7 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                                                completion: { (animated:Bool) -> Void in
                                                 self.selectQuantity = nil
                                                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                                                NotificationCenter.default.post(name:NSNotification.Name(rawValue: CustomBarNotification.AddUPCToShopingCart.rawValue), object: self, userInfo: params)
+                                                NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                                                 DispatchQueue.main.async {
                                                     cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for: UIControlState())
                                                     self.collection!.reloadData()

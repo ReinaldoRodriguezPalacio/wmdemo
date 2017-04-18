@@ -73,6 +73,75 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+    
+        UserCurrentSession.sharedInstance.loadShoppingCarts({() -> Void in
+//            if UserCurrentSession.sharedInstance.isEmptyMG() && !UserCurrentSession.sharedInstance.isEmptyGR() {
+//                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as GRShoppingCartViewController
+//                vcResult.showCloseButton = false
+//                self.navigationController?.pushViewController(vcResult, animated: false)
+//                
+//            }
+//            if !UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
+//                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as ShoppingCartViewController
+//                vcResult.showCloseButton = false
+//                
+//                self.navigationController?.pushViewController(vcResult, animated: false)
+//            }
+            
+//            if UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
+//                //Show emptyView
+//                self.emptyView!.hidden = false
+//                self.emptyView.frame = CGRectMake(0, 0 , self.view.bounds.width, self.view.bounds.height)
+//            } else {
+            let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
+            //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
+            let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
+            let totArticlesGR = UserCurrentSession.sharedInstance.numberOfArticlesGR()
+            let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
+            self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green,empty:totArticlesGR == 0)
+            
+            let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
+            let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
+            let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
+            self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance.estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
+//            }
+            
+            self.viewSuper.tapAction =  { () -> Void in
+                if totArticlesGR > 0 {
+                    //Event
+                    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_GR_OPEN_SHOPPING_CART.rawValue, label: "")
+                    
+                    self.yPointOpen = self.viewSuper.imgBackground.convert(self.viewSuper.imgBackground.frame, to: self.view).maxY
+                    self.performSegue(withIdentifier: "shoppingCartGR", sender: self)
+                } else {
+                    //Event
+                    //BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
+                    NotificationCenter.default.post(name: .clearShoppingCartGR, object: nil)
+                }
+            }
+            
+            
+            self.viewMG.tapAction =  { () -> Void in
+                if totArticlesMG > 0 {
+                    //Event
+                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_MG_OPEN_SHOPPING_CART.rawValue, label: "")
+                    
+                    self.yPointOpen = self.viewMG.imgBackground.convert(self.viewMG.imgBackground.frame, to: self.view).maxY
+                    self.performSegue(withIdentifier: "shoppingCartMG", sender: self)
+                } else {
+                    //Event
+                    ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_MG.rawValue, label: "")
+                    NotificationCenter.default.post(name: .clearShoppingCartMG, object: nil)
+                }
+            }
+            
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+            if self.viewLoad != nil {
+                self.viewLoad.stopAnnimating()
+                self.viewLoad = nil
+            }
+        })
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -133,7 +202,7 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
                 self.yPointOpen = self.viewSuper.imgBackground.convert(self.viewSuper.imgBackground.frame, to: self.view).maxY
                 self.performSegue(withIdentifier: "shoppingCartGR", sender: self)
             } else {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartGR.rawValue), object: nil)
+                NotificationCenter.default.post(name:.clearShoppingCartGR, object: nil)
             }
         }
         
@@ -142,7 +211,7 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
                 self.yPointOpen = self.viewMG.imgBackground.convert(self.viewMG.imgBackground.frame, to: self.view).maxY
                 self.performSegue(withIdentifier: "shoppingCartMG", sender: self)
             } else {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ClearShoppingCartMG.rawValue), object: nil)
+                NotificationCenter.default.post(name: .clearShoppingCartMG, object: nil)
             }
         }
         

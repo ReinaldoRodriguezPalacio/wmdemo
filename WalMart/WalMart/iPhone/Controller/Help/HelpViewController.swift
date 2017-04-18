@@ -9,13 +9,13 @@
 import Foundation
 
 
-protocol HelpViewControllerDelegate {
+protocol HelpViewControllerDelegate : class{
     func selectedDetail(_ row:Int, item: [String:Any])
 }
 
 class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITableViewDataSource {
 
-    var delegate:HelpViewControllerDelegate!
+    weak var delegate:HelpViewControllerDelegate?
     var table: UITableView!
     var array : [Any]!
     var selected : Int! = -1
@@ -151,7 +151,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         }
         else  if  indexPath.row  == 0 {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_THE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: CustomBarNotification.ShowHelp.rawValue), object: nil)
+            NotificationCenter.default.post(name: .showHelp, object: nil)
         } else {
             let item = self.array![0] as! [String:Any]
             if delegate != nil {

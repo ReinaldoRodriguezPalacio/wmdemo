@@ -34,7 +34,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollectionViewDelegate, UICollectionViewDataSource, ProductDetailColorSizeDelegate, NSCopying {
     
-    var delegate : ProductDetailBannerCollectionViewDelegate!
+    weak var delegate : ProductDetailBannerCollectionViewDelegate?
     var colorsViewDelegate: ProductDetailColorSizeDelegate?
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
@@ -318,7 +318,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate.sleectedImage(indexPath)
+        delegate?.sleectedImage(indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
