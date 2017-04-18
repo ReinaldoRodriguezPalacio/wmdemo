@@ -2224,6 +2224,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             addShopping.didMove(toParentViewController: vc!)
             addShopping.typeProduct = ResultObjectType.Groceries
             addShopping.comments = productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!)
+            addShopping.noteAdded = { () in
+                self.selectQuantityGR?.closeSelectQuantity()
+            }
             addShopping.goToShoppingCart = {() in }
             addShopping.removeSpinner()
             addShopping.addActionButtons()
