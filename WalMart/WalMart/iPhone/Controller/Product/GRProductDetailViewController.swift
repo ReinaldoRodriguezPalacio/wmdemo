@@ -497,6 +497,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
                 
             }, completion: { (complete:Bool) -> Void in
+              if self.selectQuantityGR != nil {
                 self.opencloseContainer(true, viewShow:self.selectQuantityGR!,
                                         additionalAnimationOpen: { () -> Void in
                                             self.productDetailButton?.setOpenQuantitySelector()
@@ -505,6 +506,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                         additionalAnimationClose:{ () -> Void in
                                             self.productDetailButton?.addToShoppingCartButton.isSelected = true
                 })
+              }
             })
           
          
