@@ -220,6 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         if imgView != nil {
             imgView!.removeFromSuperview()
+            imgView = nil
             IPOSplashViewController.updateUserData(true)
         }
         
