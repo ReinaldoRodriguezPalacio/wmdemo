@@ -193,7 +193,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.loadImageButton!.frame = CGRect(x: self.view.bounds.width - 56, y: self.camButton!.center.y - 20, width: 40, height: 40)
             
             self.repeatButton!.frame = CGRect(x: 44, y: self.view.bounds.height - 72, width: 100, height: 36)
-            self.okButton!.frame = CGRect(x: (self.view!.frame.width / 2) + 16, y: self.view.bounds.height - 72, width: 100, height: 36)
+            self.okButton!.frame = CGRect(x: (self.view!.frame.width - 144), y: self.view.bounds.height - 72, width: 100, height: 36)
             self.view.bringSubview(toFront: self.bottomBarView!)
         }
         else{

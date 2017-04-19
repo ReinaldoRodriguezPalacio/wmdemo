@@ -182,10 +182,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         if IS_IPHONE {
             let model = UIDevice.current.modelName
-            var referenceHeight = bounds.midY + 20
-            referenceHeight = model.contains("Plus") ? referenceHeight + 35: referenceHeight
+            var referenceHeight = bounds.height - 36 - 12 - 30 - 64 - self.header!.frame.height//bounds.midY + 20
+            referenceHeight = model.contains("Plus") ? referenceHeight - 20: referenceHeight
             
-            buttomCall.frame = CGRect(x: bounds.midX - 64 - 32, y: referenceHeight + 40 , width: 64, height: 64)
+            buttomCall.frame = CGRect(x: bounds.midX - 64 - 32, y: referenceHeight, width: 64, height: 64)
             buttomMail.frame = CGRect(x: buttomCall.frame.maxX + 64 , y: buttomCall.frame.minY , width: 64, height: 64)
             
             callme.frame = CGRect(x: buttomCall.frame.minX , y: buttomCall.frame.maxY + 12  , width: 64, height: 15)
