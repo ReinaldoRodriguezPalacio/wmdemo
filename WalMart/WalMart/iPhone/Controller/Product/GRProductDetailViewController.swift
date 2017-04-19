@@ -402,15 +402,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             self.selectQuantityGR.isFromList = false
             selectQuantityGR?.closeAction = { () in
-                self.closeContainer({ () -> Void in
-                    //self.productDetailButton?.reloadShoppinhgButton()
-                    print("complete")
-                }, completeClose: { () -> Void in
+                self.closeContainerDetail(completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     //self.selectQuantityGR = nil
                     self.productDetailButton?.isOpenQuantitySelector = false
                     self.productDetailButton?.reloadShoppinhgButton()
-                })
+                },isPush: false)
             }
             selectQuantityGR.addUpdateNote = {() in
                 if self.productDetailButton!.detailProductCart != nil {
@@ -1010,7 +1007,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 if !self.pushList {
                                     self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 }
-                                self.selectQuantityGR?.closeAction()
                             }
                         }
                     )
@@ -1095,7 +1091,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func startAnimatingProductDetail() {
         
         if self.selectQuantityGR != nil {
-            self.selectQuantityGR?.closeSelectQuantity()
+            self.closeContainerDetail(completeClose: nil, isPush:  false)
         }
         
         if self.nutrmentals.count == 0 {
