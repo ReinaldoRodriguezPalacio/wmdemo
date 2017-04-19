@@ -377,7 +377,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if isShowShoppingCart {
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
-                self.selectQuantity!.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
+                self.selectQuantity?.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0)
                 //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
@@ -390,7 +390,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         
         //EVENT
-        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
+        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawselectQuantity = nilValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(self.name) - \(self.upc)")
         
         self.detailCollectionView.scrollsToTop = true
         self.detailCollectionView.isScrollEnabled = false

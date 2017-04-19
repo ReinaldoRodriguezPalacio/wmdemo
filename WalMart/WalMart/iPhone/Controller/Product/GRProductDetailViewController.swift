@@ -407,7 +407,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     print("complete")
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
-                    self.selectQuantityGR = nil
+                    //self.selectQuantityGR = nil
                     self.productDetailButton?.isOpenQuantitySelector = false
                     self.productDetailButton?.reloadShoppinhgButton()
                 })
@@ -507,7 +507,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }else{
             self.closeContainerDetail(completeClose: nil, isPush: false)
             self.selectQuantityGR?.closeAction()
-            self.selectQuantityGR = nil
         }
 
     }
@@ -548,7 +547,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
                 if !isPush {
-                    //self.selectQuantityGR?.closeSelectQuantity()
+                    self.selectQuantityGR?.closeSelectQuantity()
                 }
                 self.selectQuantityGR = nil
                 completeClose?()
@@ -629,7 +628,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         self.listSelectorController?.sowKeyboard = false
                     })
             }
-            
+            self.isSowListQuantity = true
             self.selectQuantityGR!.addToCartAction = { (quantity:String) in
                 self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 if quantity.toIntNoDecimals() == 0 {
@@ -703,8 +702,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             if let execute = self.selectQuantityGR?.executeClose {
                 if execute {
                     self.selectQuantityGR?.closeSelectQuantity()
-                    self.selectQuantityGR!.removeFromSuperview()
-                    self.selectQuantityGR = nil
                     self.removeListSelector(action: nil)
                 } else {
                     self.selectQuantityGR?.executeClose = true
@@ -801,7 +798,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
             
         let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
-            
+        self.isSowListQuantity = true
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 360.0))
@@ -882,8 +879,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
         
         self.selectQuantityGR?.closeSelectQuantity()
-        self.selectQuantityGR?.removeFromSuperview()
-        self.selectQuantityGR = nil
         self.removeListSelector(action: nil)
         
         //TODO: Add message
@@ -942,8 +937,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             print(error!.localizedDescription)
         }
         self.selectQuantityGR?.closeSelectQuantity()
-        self.selectQuantityGR?.removeFromSuperview()
-        self.selectQuantityGR = nil
         self.removeListSelector(action: nil)
         //TODO: Add message
         if quantity == "00" {
@@ -1017,7 +1010,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                     self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 }
                                 self.selectQuantityGR?.closeAction()
-                                self.selectQuantityGR = nil
                             }
                         }
                     )
