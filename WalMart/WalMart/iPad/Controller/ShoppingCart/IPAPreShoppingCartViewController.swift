@@ -53,7 +53,7 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
         
         if loadShoppingCart {
             loadAnimationPreShopping()
-            reloadPreShopingCart()
+            reloadPreShoppingCar()
         } else {
             updateShoppingCarts()
         }
@@ -68,8 +68,8 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
         super.viewWillLayoutSubviews()
         viewBG.frame = self.view.bounds
     }
-    
-    func reloadPreShopingCart() {
+  
+   /*func reloadPreShopingCart() {
         
         if self.controllerShowing != nil {
             
@@ -84,7 +84,7 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
             self.controllerShowing = nil
         }
         
-    }
+    }*/
     
     
     func reloadPreShoppingCar(){
@@ -305,7 +305,7 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
             vcResult.onSuccessOrder = {() in
                 vcResult.removeFromParentViewController()
                 vcResult.view.removeFromSuperview()
-                self.reloadPreShopingCart()
+                self.reloadPreShoppingCar()
                 self.closeShoppingCart()
             }
             

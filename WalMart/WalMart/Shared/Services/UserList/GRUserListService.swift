@@ -275,7 +275,17 @@ class GRUserListService : GRBaseService {
                                             else if let price = item["price"] as? String {
                                                 detail!.price = price as NSString
                                             }
-                                            
+                                            if let stock = item["stock"] as? Bool {
+                                              detail!.stock = stock
+                                            }
+                                            else if let stock = item["stock"] as? String {
+                                              detail!.stock = stock != "0"
+                                            }
+
+                                            if let promoDescription = item["promoDescription"] as? String {
+                                              detail!.promoDescription = promoDescription
+                                            }
+                                          
                                             var quantity: Int32 = 0
                                             if  let qIntProd = item["quantity"] as? Int32 {
                                                 quantity = qIntProd
@@ -315,7 +325,8 @@ class GRUserListService : GRBaseService {
                                             detail?.orderByPiece = (baseUomcd == "EA") ? 1 : 0
                                             detail?.equivalenceByPiece =  equivalenceByPiece
                                             detail!.pieces = NSNumber(value: quantity as Int32)
-                                            
+                                          
+                                          
                                             //
                                             detail!.list = parentList!
                                             

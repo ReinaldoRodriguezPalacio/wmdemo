@@ -1263,14 +1263,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     },
                     errorBlock:{ (error:NSError) -> Void in
                         print("Error at delete product from user")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+                        self.alertView?.setMessage(error.localizedDescription)
+                        self.alertView?.showErrorIcon("Ok")
                         self.deleteProductServiceInvoked = false
                     }
                 )
                 }, errorBlock: { (error:NSError) -> Void in
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
+                    self.alertView?.setMessage(error.localizedDescription)
+                    self.alertView?.showErrorIcon("Ok")
                     self.deleteProductServiceInvoked = false
             })
             
