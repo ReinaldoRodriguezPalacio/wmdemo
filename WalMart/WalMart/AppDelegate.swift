@@ -405,7 +405,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         guard let name = notification.userInfo!["name"] as? String,
             let value = notification.userInfo!["value"] as? String,
             let bussines = notification.userInfo!["business"] as? String,
-            let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as? String else {
+            let listName = notification.userInfo![REMINDER_PARAM_LISTNAME] as? String else {
                 return
         }
                 
@@ -585,7 +585,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         }
     }
     
-    
+    func ubudu(_ ubuduSDK: UbuduSDK!, executeOpenDeepLinkRequest url: URL!, triggeredBy trigger: UbuduTriggerSource) {
+        handleURLFacebook(url, sourceApplication: "")
+    }
     
     func handleURL(_ url: URL){
         let stringCompare = url.absoluteString as NSString
