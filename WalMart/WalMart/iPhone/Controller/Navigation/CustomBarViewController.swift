@@ -1006,9 +1006,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.isEditingSearch = false
                 }
                 controller.detailOf = "Search results"
-                self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
-                self.closeSearch(false, sender: nil)
                 
+                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                        self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+                        self.closeSearch(false, sender: nil)
+                    }else{
+                        controllernav?.pushViewController(controller, animated: true)
+                    }
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if upcDesc.length < 14 {
@@ -1075,7 +1079,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
             controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
         }
-        controllernav?.pushViewController(controller, animated: true)
+        self.onCloseSearch = {controllernav?.pushViewController(controller, animated: true)}
 //        self.btnSearch!.selected = false
 //        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
         
