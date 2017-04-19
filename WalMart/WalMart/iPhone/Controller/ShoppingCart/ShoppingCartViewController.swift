@@ -151,14 +151,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         viewHeader.addSubview(titleView)
         
         viewFooter = UIView()
-        viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 72 - 59 , width: self.view.bounds.width, height: 72)
+        viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 70 - 60, width: self.view.bounds.width, height: 70)
         viewFooter.backgroundColor = UIColor.white
 
         showDiscountAsociate()
         
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
-        buttonShop.layer.cornerRadius = 17
+        buttonShop.layer.cornerRadius = buttonShop.frame.height / 2
         buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonShop)
         
@@ -263,6 +263,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
         }
+        
         UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
             self.loadShoppingCartService()
         }
@@ -280,18 +281,18 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         super.viewDidLayoutSubviews()
        
         self.viewContent.frame = self.view.bounds
-        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 75)
+        self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.view.bounds.width, height: viewContent.frame.height - self.viewFooter.frame.height - 90)
 
         if !self.isEdditing {
-        self.titleView.frame = CGRect(x: (self.viewHeader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHeader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHeader.bounds.height)
+            self.titleView.frame = CGRect(x: (self.viewHeader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), y: self.viewHeader.bounds.minY, width: self.view.bounds.width - 32, height: self.viewHeader.bounds.height)
         }
 
         self.editButton.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
         self.closeButton.frame = CGRect(x: 0, y: 0, width: viewHeader.frame.height, height: viewHeader.frame.height)
         
         if UserCurrentSession.sharedInstance.userSigned != nil {
-            if UserCurrentSession.sharedInstance.isAssociated == 1{
-                    self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
+            if UserCurrentSession.sharedInstance.isAssociated == 1 {
+                self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
             }
         }
         
@@ -299,55 +300,47 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     
     func showDiscountAsociate() {
 
-        var x: CGFloat = 16
-
+        let height: CGFloat = viewFooter.frame.height / 2.0
+        let yPosition: CGFloat = (viewFooter.frame.height - height) / 2
+        
+        var xPosition: CGFloat = 16
+        
         if UserCurrentSession.sharedInstance.userSigned != nil {
-            if UserCurrentSession.sharedInstance.isAssociated == 1{
+            if UserCurrentSession.sharedInstance.isAssociated == 1 {
                 
                 if buttonAsociate == nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
-                }else{
-                    buttonAsociate.frame = CGRect(x: 16, y: 16, width: 34, height: 34)
+                    buttonAsociate = UIButton(frame: CGRect(x: xPosition, y: yPosition, width: height, height: height))
+                    buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
+                    buttonAsociate.setImage(UIImage(named:"active_discount"), for: UIControlState.highlighted)
+                    buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), for: UIControlEvents.touchUpInside)
+                    viewFooter.addSubview(buttonAsociate)
+                } else {
+                    buttonAsociate.frame = CGRect(x: xPosition, y: yPosition, width: height, height: height)
                 }
                 
-                buttonAsociate.setImage(UIImage(named:"active_dis"), for: UIControlState())
-                buttonAsociate.setImage(UIImage(named:"active_discount"), for: UIControlState.highlighted)
-                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), for: UIControlEvents.touchUpInside)
-                viewFooter.addSubview(buttonAsociate)
-                x =  buttonAsociate.frame.maxX + 16
+                xPosition = buttonAsociate.frame.maxX + 16
             }
         }
         
-        if buttonWishlist ==  nil {
-            buttonWishlist = UIButton(frame: CGRect(x: x, y: 16, width: 34, height: 34))
+        if buttonWishlist == nil {
+            buttonWishlist = UIButton(frame: CGRect(x: xPosition, y: yPosition, width: height, height: height))
+            buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), for: UIControlState())
+            buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
+            viewFooter.addSubview(buttonWishlist)
         } else {
-            buttonWishlist.frame = CGRect(x: x, y: 16, width: 34, height: 34)
+            buttonWishlist.frame = CGRect(x: xPosition, y: yPosition, width: height, height: height)
         }
         
-        buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), for: UIControlState())
-        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), for: UIControlEvents.touchUpInside)
-        viewFooter.addSubview(buttonWishlist)
+        var wShop: CGFloat = self.viewFooter.frame.width - buttonWishlist.frame.maxX
         
-        var wShop: CGFloat =  self.viewFooter.frame.width - buttonWishlist.frame.maxX //341 - 82
-        if UserCurrentSession.sharedInstance.userSigned != nil {
-            if UserCurrentSession.sharedInstance.isAssociated == 1{
-                if buttonAsociate ==  nil {
-                    buttonAsociate = UIButton(frame: CGRect(x: 16, y: 16, width: 34, height: 34))
-                }else{
-                    buttonAsociate.frame =  CGRect(x: 16, y: 16, width: 34, height: 34)
-                }
-                x = buttonAsociate.frame.maxX + 16
-                wShop = self.viewFooter.frame.width - buttonAsociate.frame.maxX //341 - 135
-            }
-        }
-        wShop = wShop -  (IS_IPAD ? 0.0 : 32.0)
+        wShop = wShop - (IS_IPAD ? 0.0 : 32.0)
+        
         if buttonShop == nil {
-            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  ,width: wShop, height: 34))
-        }else {
-            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop, height: 34)
+            buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY, width: wShop, height: height))
+        } else {
+            buttonShop.frame = CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY  , width: wShop, height: height)
         }
 
-    
     }
     
     
@@ -387,6 +380,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
+        self.removeLoadingView()
         
     }
     
