@@ -1006,7 +1006,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.isEditingSearch = false
                 }
                 controller.detailOf = "Search results"
-                controllernav?.pushViewController(controller, animated: true)
+                self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+                self.closeSearch(false, sender: nil)
                 
                 }, errorBlock: { (error:NSError) -> Void in
                     
