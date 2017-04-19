@@ -511,9 +511,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
           
          
         }else{
-            self.closeContainerDetail(completeClose: nil, isPush: false)
-            self.selectQuantityGR?.closeAction()
-            self.selectQuantityGR = nil
+          
+          UIView.animate(withDuration: 0.5,
+                         animations: { () -> Void in
+                          self.selectQuantityGR?.frame = CGRect(x: 0, y: 360, width: self.view.frame.width, height: 0	)
+          },
+                         completion: { (animated:Bool) -> Void in
+                          self.closeContainerDetail(completeClose: nil, isPush: false)
+                          self.selectQuantityGR?.closeAction()
+                          self.selectQuantityGR = nil
+          })
+          
+          
         }
 
     }
@@ -547,7 +556,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             print("delete pressed Errro \(error)")
         }
     }
-/*
+
     override func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool) {
         if selectQuantityGR != nil {
             self.closeContainer({ () -> Void in
@@ -567,7 +576,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
         }
     }
-    */
+  
     func instanceOfQuantitySelector(_ frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
