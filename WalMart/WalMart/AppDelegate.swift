@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     var window: UIWindow?
     var imgView: UIImageView? = nil
     var alertNoInternet: IPOWMAlertViewController? = nil
+    var currentUbuduURL: URL?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -586,7 +587,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     }
     
     func ubudu(_ ubuduSDK: UbuduSDK!, executeOpenDeepLinkRequest url: URL!, triggeredBy trigger: UbuduTriggerSource) {
-        handleURLFacebook(url, sourceApplication: "")
+        if currentUbuduURL == nil || currentUbuduURL != url {
+            currentUbuduURL = url
+            handleURLFacebook(url, sourceApplication: "")
+            delay(5.0, completion: { 
+                self.currentUbuduURL = nil
+            })
+        }
     }
     
     func handleURL(_ url: URL){
