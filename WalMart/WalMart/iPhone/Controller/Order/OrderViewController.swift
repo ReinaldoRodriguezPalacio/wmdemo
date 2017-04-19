@@ -78,7 +78,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         if IS_IPAD || model.contains("iPad") {
             self.emptyView!.showReturnButton = false
         }
-        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 92)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
             self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 109 , width: self.view.frame.width, height: 64)

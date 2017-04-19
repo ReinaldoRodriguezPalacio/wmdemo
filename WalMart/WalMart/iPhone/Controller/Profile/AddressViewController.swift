@@ -335,7 +335,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.saveButton!.frame = CGRect(x: self.view.bounds.maxX - left , y: 0 , width: 71, height: self.header!.frame.height)
         self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         
-        self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.width , height: bounds.height - self.header!.frame.height )
+        self.content.frame = CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.width , height: bounds.height - self.header!.frame.height - 40)
         
         if self.viewTypeAdress != nil{
             self.viewTypeAdress?.frame = CGRect( x: (bounds.width - 180) / 2 , y: 0 , width: 180 , height: 45)
@@ -494,13 +494,13 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         case .shiping:
             let height : CGFloat = self.viewAddress!.showSuburb == true ? 600 : 600-190
             self.viewAddress?.frame = CGRect(x: 0.0, y: self.viewTypeAdress != nil ? 45 : 0 , width: bounds.width , height: height)
-            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
+            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 20 )
             self.content.bringSubview(toFront: self.viewAddress!)
         case .fiscalPerson:
             self.setupViewFiscal()
             let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
             self.viewAddressFisical?.frame = CGRect(x: 0.0, y: self.viewTypeAdressFiscal!.frame.maxY, width: bounds.width , height: height)
-            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
+            self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 20 )
             self.content!.bringSubview(toFront: self.viewTypeAdressFiscal!)
             self.content.bringSubview(toFront: self.viewAddressFisical!)
         case .fiscalMoral:

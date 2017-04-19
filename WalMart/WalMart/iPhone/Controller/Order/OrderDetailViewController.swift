@@ -95,8 +95,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.view.addSubview(viewFooter)
         
         
-        self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+        self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
         showLoadingView()
         
