@@ -212,7 +212,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -301,8 +301,6 @@
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -618,7 +616,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
@@ -766,7 +764,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -855,8 +853,6 @@
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -1032,7 +1028,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1113,8 +1109,6 @@
 			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -1167,7 +1161,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
