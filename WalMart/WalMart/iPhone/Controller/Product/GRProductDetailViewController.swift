@@ -393,7 +393,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         self.comments = comments as NSString
         if selectQuantityGR == nil {
             
-            let frameDetail = CGRect(x: 0,y: 0, width: self.detailCollectionView.frame.width, height: heightDetail)
+            let frameDetail = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: heightDetail)
             if self.isPesable {
                 let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String, isSearchProductView: false)
                 selectQuantityGR = selectQuantityGRW
@@ -402,15 +402,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             self.selectQuantityGR.isFromList = false
             selectQuantityGR?.closeAction = { () in
-                self.closeContainer({ () -> Void in
-                    //self.productDetailButton?.reloadShoppinhgButton()
-                    print("complete")
-                }, completeClose: { () -> Void in
+                self.closeContainerDetail(completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     //self.selectQuantityGR = nil
                     self.productDetailButton?.isOpenQuantitySelector = false
                     self.productDetailButton?.reloadShoppinhgButton()
-                })
+                },isPush: false)
             }
             selectQuantityGR.addUpdateNote = {() in
                 if self.productDetailButton!.detailProductCart != nil {
@@ -491,7 +488,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
-                
+                self.containerinfo.frame = CGRect(x: self.detailCollectionView.frame.minX, y: self.heightDetail, width: self.detailCollectionView.frame.width, height: 0)
             }, completion: { (complete:Bool) -> Void in
                 self.opencloseContainer(true, viewShow:self.selectQuantityGR!,
                                         additionalAnimationOpen: { () -> Void in
@@ -550,6 +547,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.selectQuantityGR?.closeSelectQuantity()
                 }
                 self.selectQuantityGR = nil
+                self.isSowListQuantity = false
                 completeClose?()
             })
         }else{
@@ -581,7 +579,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.selectQuantityGR!.frame = CGRect(x: 0, y: 0.0, width: self.view.frame.width, height: 360.0)
-                self.listSelectorController!.view.frame = CGRect(x: 320, y: 0.0, width: self.view.frame.width, height: 360.0)
+                self.listSelectorController!.view.frame = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
             }, completion: { (complete: Bool) -> Void in
                 self.removeListSelector(action: nil)
             })
@@ -612,7 +610,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return
         }
         
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
+        let frameDetail = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
             self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
             self.selectQuantityGR!.isPush = true
             self.selectQuantityGR.isFromList = true
@@ -797,7 +795,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
         
             
-        let frameDetail = CGRect(x: 320.0, y: 0.0, width: self.view.frame.width, height: 360.0)
+        let frameDetail = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
         self.isSowListQuantity = true
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
         self.selectQuantityGR!.isPush = true
@@ -805,7 +803,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         self.selectQuantityGR!.closeAction = { () in
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     //self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: 320.0, height: 360.0)
-                    self.selectQuantityGR?.frame = CGRect(x: 320, y: 0.0, width: self.view.frame.width, height: 360.0)
+                    self.selectQuantityGR?.frame = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: 360.0)
                 }, completion: { (complete: Bool) -> Void in
                     self.selectQuantityGR?.removeFromSuperview()
                     self.listSelectorController?.sowKeyboard = false
@@ -1009,7 +1007,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 if !self.pushList {
                                     self.productDetailButton?.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCUserlist(self.upc as String)
                                 }
-                                self.selectQuantityGR?.closeAction()
                             }
                         }
                     )
@@ -1094,7 +1091,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func startAnimatingProductDetail() {
         
         if self.selectQuantityGR != nil {
-            self.selectQuantityGR?.closeSelectQuantity()
+            self.closeContainerDetail(completeClose: nil, isPush:  false)
         }
         
         if self.nutrmentals.count == 0 {
