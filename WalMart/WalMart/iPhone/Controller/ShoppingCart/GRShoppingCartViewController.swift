@@ -107,9 +107,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         view.addSubview(tableShoppingCart)
         view.addSubview(viewHeader)
         
-        viewFooter = UIView(frame: CGRect(x: 0, y: self.view.bounds.height, width: self.view.bounds.width - 72 - 44, height: 72))
+        viewFooter = UIView()
+        viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 70 - 60, width: self.view.bounds.width, height: 70)
         viewFooter.backgroundColor = UIColor.white
-        //viewFooter.alpha = 0
+
         
         let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 1))
         viewBorderTop.backgroundColor = WMColor.light_light_gray
@@ -204,7 +205,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewHeader.frame.height - 72 - 44)
+        tableShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.viewFooter.frame.height - 90)
+        
     }
     
     override func viewDidLayoutSubviews() {

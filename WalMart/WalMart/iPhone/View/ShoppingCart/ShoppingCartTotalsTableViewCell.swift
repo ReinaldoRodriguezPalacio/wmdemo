@@ -34,20 +34,21 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         
-        let titleWidth: CGFloat = 101
-        let valueWidth: CGFloat = 50
-        let xPosition: CGFloat = frame.width - titleWidth - valueWidth - 28
-        let labelHeight: CGFloat = 14
+        let margin: CGFloat = 16
+        let titlesWidth: CGFloat = 100
+        let valueMaxWidth: CGFloat = valueTotal!.label1!.frame.width + valueTotal!.label2!.frame.width
+        let startX: CGFloat = bounds.width - valueMaxWidth - titlesWidth - (margin * 2)
         
-        subtotalTitle.frame = CGRect(x: xPosition, y: 18, width: titleWidth, height: labelHeight)
-        iva.frame = CGRect(x: xPosition, y: subtotalTitle.frame.maxY + 6, width: titleWidth, height: labelHeight)
-        total.frame = CGRect(x: xPosition, y: iva.frame.maxY + 20, width: titleWidth, height: labelHeight)
-        totalSavingTitle.frame = CGRect(x: xPosition, y: iva.frame.maxY + 3, width: titleWidth, height: labelHeight)
+        subtotalTitle!.frame = CGRect(x: startX, y: margin, width: titlesWidth, height: labelSize)
+        iva!.frame = CGRect(x: startX, y: subtotalTitle!.frame.maxY + 6, width: titlesWidth, height: labelSize)
+        totalSavingTitle!.frame = CGRect(x: startX, y: iva!.frame.maxY + 6, width: titlesWidth, height: labelSize)
+        total!.frame = CGRect(x: startX, y: totalSavingTitle!.frame.maxY + 6, width: titlesWidth, height: labelSize)
         
-        valueSubtotal.frame = CGRect(x: subtotalTitle.frame.maxX + 12, y: subtotalTitle.frame.minY, width: valueWidth, height: labelHeight)
-        valueIva.frame = CGRect(x: iva.frame.maxX + 12, y: iva.frame.minY, width: valueWidth, height: labelHeight)
-        valueTotal.frame = CGRect(x: total.frame.maxX + 12, y: total.frame.minY, width: valueWidth, height: labelHeight)
-        valueTotalSaving.frame = CGRect(x: iva.frame.maxX + 12, y: totalSavingTitle.frame.minY, width: valueWidth, height: labelHeight)
+        // values
+        valueSubtotal!.frame = CGRect(x: subtotalTitle!.frame.maxX + 8, y: subtotalTitle!.frame.minY, width: valueMaxWidth, height: labelSize)
+        valueIva!.frame = CGRect(x: iva!.frame.maxX + 8, y: iva!.frame.minY, width: valueMaxWidth, height: labelSize)
+        valueTotalSaving!.frame = CGRect(x: totalSavingTitle!.frame.maxX + 8, y: totalSavingTitle!.frame.minY, width: valueMaxWidth, height: labelSize)
+        valueTotal!.frame = CGRect(x: total!.frame.maxX + 8, y: total!.frame.minY, width: valueMaxWidth, height: labelSize)
         
     }
     

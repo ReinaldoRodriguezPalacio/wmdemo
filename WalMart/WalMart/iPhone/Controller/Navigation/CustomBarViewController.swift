@@ -1079,12 +1079,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
             controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
         }
-        self.onCloseSearch = {controllernav?.pushViewController(controller, animated: true)}
+        
+        if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+            self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+            self.closeSearch(false, sender: nil)
+        }else{
+            controllernav?.pushViewController(controller, animated: true)
+        }
 //        self.btnSearch!.selected = false
 //        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
-        
-        self.btnSearch!.isSelected = true
-        self.closeSearch(false, sender: nil)
     }
     
     func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String, andGrade grade:String , andSearchContextType searchContextType:SearchServiceContextType){
