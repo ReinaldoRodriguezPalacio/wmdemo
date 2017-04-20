@@ -426,8 +426,12 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             if  let baseUomcdP = item["baseUomcd"] as? String {
                 baseUomcd = baseUomcdP
             }
-            
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd: baseUomcd,equivalenceByPiece: 0)//send baseUomcd  and equivalenceByPiece
+            var stock =  true
+            if  let stockP = item["stock"] as? Bool {
+              stock = stockP
+            }
+          
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd: baseUomcd,equivalenceByPiece: 0,stock: stock)//send baseUomcd  and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

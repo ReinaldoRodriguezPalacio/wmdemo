@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.68</string>
+	<string>3.69</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -211,8 +211,6 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -765,8 +763,6 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -1031,8 +1027,6 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
