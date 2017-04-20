@@ -169,7 +169,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.femaleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), for: UIControlEvents.touchUpInside)
         self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-        self.femaleButton!.isSelected = true
+        //self.femaleButton!.isSelected = true
         
 
         

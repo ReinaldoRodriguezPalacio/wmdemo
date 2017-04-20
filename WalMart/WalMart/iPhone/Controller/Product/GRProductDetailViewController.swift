@@ -411,6 +411,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.productDetailButton?.reloadShoppinhgButton()
                 },isPush: false)
             }
+        
             selectQuantityGR.addUpdateNote = {() in
                 if self.productDetailButton!.detailProductCart != nil {
                     let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
@@ -727,9 +728,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func updateItemToList(quantity:String,listId:String){
         
-       let orderByPiece = self.itemOrderbyPices
-       let listDetailService = GRUserListDetailService()
-       listDetailService.buildParams(listId)
+        let orderByPiece = self.itemOrderbyPices
+        let listDetailService = GRUserListDetailService()
+        listDetailService.buildParams(listId)
+
         listDetailService.callService([:], successBlock:  { (result:[String:Any]) -> Void in
             let service = GRUpdateItemListService()
             service.listId = listId

@@ -792,7 +792,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.removeListSelector(action: nil, closeRow:true)
             }
         })
-        
+
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {

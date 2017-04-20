@@ -170,7 +170,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart(_:)), name: .successAddItemsToShopingCart, object: nil)
     }
     
     deinit {
@@ -582,9 +582,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.productDetailButton?.reloadShoppinhgButton()
                 }, isPush: false)
             }
-         
-            selectQuantity!.addToCartAction = { (quantity:String) in
-                
+
+            if productDetailButton!.detailProductCart?.quantity != nil {
+                selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+                selectQuantity?.first = true
+            }
+            
+            selectQuantity!.addToCartAction =
+                { (quantity:String) in
+                    //let quantity : Int = quantity.toInt()!
                     self.selectQuantity?.closeAction()
                     
                     if quantity == "00" {
