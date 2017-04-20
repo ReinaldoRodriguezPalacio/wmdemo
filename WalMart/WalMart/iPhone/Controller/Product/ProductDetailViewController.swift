@@ -585,7 +585,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }, isPush: false)
             }
             
-         
+            if productDetailButton!.detailProductCart?.quantity != nil {
+                selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+                selectQuantity?.first = true
+            }
+            
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
