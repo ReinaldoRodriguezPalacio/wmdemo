@@ -407,7 +407,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.selectQuantityGR.isFromList = false
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
-                    //self.productDetailButton?.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     print("complete")
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
