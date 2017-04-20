@@ -122,6 +122,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.footerSection!.backgroundColor = UIColor.white
         
         
+        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0.8))
+        viewBorderTop.backgroundColor = WMColor.light_gray
+        footerSection!.addSubview(viewBorderTop)
+        
         let y = (72 - 34.0)/2
 
         self.duplicateButton = UIButton(frame: CGRect(x: 16.0, y: y, width: 34.0, height: 34.0))
