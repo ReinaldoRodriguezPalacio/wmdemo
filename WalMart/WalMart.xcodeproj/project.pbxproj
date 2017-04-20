@@ -54,7 +54,6 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
-		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		0C000E5A1E7991DE007BEFBF /* TiresSizeSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C000E591E7991DE007BEFBF /* TiresSizeSearchService.swift */; };
 		0C000E5C1E79EBF1007BEFBF /* TiresMarcasService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C000E5B1E79EBF1007BEFBF /* TiresMarcasService.swift */; };
 		0C000E5E1E79FCBC007BEFBF /* TiresModelsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C000E5D1E79FCBC007BEFBF /* TiresModelsService.swift */; };
@@ -67,6 +66,7 @@
 		0CF9E0651E7AF1CC00B20429 /* llanta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF9E0641E7AF1CC00B20429 /* llanta.png */; };
 		0CF9E0671E7B097600B20429 /* SearchTiresBySizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */; };
 		0CF9E0691E7B53C600B20429 /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0681E7B53C600B20429 /* UILabelX.swift */; };
+		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
 		2262E7291E78B92600114C63 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7271E78B92600114C63 /* Extensions.swift */; };
 		2262E72A1E78B92600114C63 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7281E78B92600114C63 /* ImageLoader.swift */; };
@@ -636,7 +636,6 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
-		1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C000E591E7991DE007BEFBF /* TiresSizeSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresSizeSearchService.swift; sourceTree = "<group>"; };
 		0C000E5B1E79EBF1007BEFBF /* TiresMarcasService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresMarcasService.swift; sourceTree = "<group>"; };
 		0C000E5D1E79FCBC007BEFBF /* TiresModelsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresModelsService.swift; sourceTree = "<group>"; };
@@ -649,6 +648,7 @@
 		0CF9E0641E7AF1CC00B20429 /* llanta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = llanta.png; sourceTree = "<group>"; };
 		0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresBySizeService.swift; sourceTree = "<group>"; };
 		0CF9E0681E7B53C600B20429 /* UILabelX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelX.swift; sourceTree = "<group>"; };
+		1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = iPhone/Resources/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -1068,6 +1068,7 @@
 		6C6AC2011CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPABackToSchoolContainerViewController.swift; path = iPad/Controller/Categories/IPABackToSchoolContainerViewController.swift; sourceTree = "<group>"; };
 		6C6AC2031CF90C760072FBB7 /* IPABackToSchoolViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPABackToSchoolViewController.swift; path = iPad/Controller/Categories/IPABackToSchoolViewController.swift; sourceTree = "<group>"; };
 		6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/MGShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
+		6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 6.xcdatamodel"; sourceTree = "<group>"; };
 		6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = GRCheckOutDeliveryViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutDeliveryViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutCommentsViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutCommentsViewController.swift; sourceTree = "<group>"; };
 		6C7E3FC71D11B74C00E814AC /* CMSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMSwitchView.h; path = Lib/CMSwitchView/CMSwitchView.h; sourceTree = "<group>"; };
@@ -1085,7 +1086,6 @@
 		6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "WalMart/Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		6CA591A01E76F43800216A38 /* SetDeliveryTypesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetDeliveryTypesService.swift; path = Shared/Services/checkout/SetDeliveryTypesService.swift; sourceTree = "<group>"; };
-		6CA591A21E78A44300216A38 /* WalMart3.31. 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 5.xcdatamodel"; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -4276,8 +4276,8 @@
 		4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */,
 				6C3CB1051E5F69F800AD6116 /* WalMart3.31. 5.xcdatamodel */,
-
 				16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */,
 				4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */,
 				4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */,
@@ -4285,7 +4285,7 @@
 				4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */,
 				4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */,
 			);
-			currentVersion = 6C3CB1051E5F69F800AD6116 /* WalMart3.31. 5.xcdatamodel */;
+			currentVersion = 6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
