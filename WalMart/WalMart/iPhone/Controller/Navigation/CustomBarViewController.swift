@@ -1008,7 +1008,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.detailOf = "Search results"
                 
                     if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-                        self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+                        self.onCloseSearch = {
+                            let navController = self.currentController as? UINavigationController
+                            navController?.pushViewController(controller, animated: true)
+                        }
                         self.closeSearch(false, sender: nil)
                     }else{
                         controllernav?.pushViewController(controller, animated: true)
@@ -1028,7 +1031,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         self.isEditingSearch = false
                     }
                     controller.detailOf = "Search results"
-                    self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+                    
+                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                        self.onCloseSearch = {
+                            let navController = self.currentController as? UINavigationController
+                            navController?.pushViewController(controller, animated: true)
+                        }
+                    }else{
+                        controllernav?.pushViewController(controller, animated: true)
+                    }
+                    
+                    self.onCloseSearch = {
+                        let navController = self.currentController as? UINavigationController
+                        navController?.pushViewController(controller, animated: true)
+                    }
                     self.btnSearch!.isSelected = true
                     self.closeSearch(false, sender: nil)
             })
@@ -1036,24 +1052,34 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else{
             
                 //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
-            let controllernav = self.currentController as? UINavigationController
-            let controllersInNavigation = controllernav?.viewControllers.count
-            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
-                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                isEditingSearch = false
-            }
-            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
-                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
-                isEditingSearch = false
-            }
+            let controller = SearchProductViewController()
+            controller.upcsToShow = upcs
+            controller.searchContextType = .withText
+            controller.titleHeader = keyWord
+            controller.textToSearch = keyWord
             
-            self.onCloseSearch = {
-                let controller = SearchProductViewController()
-                controller.upcsToShow = upcs
-                controller.searchContextType = .withText
-                controller.titleHeader = keyWord
-                controller.textToSearch = keyWord
+            let controllernav = self.currentController as? UINavigationController
+            if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                self.onCloseSearch = {
+                    let navController = self.currentController as? UINavigationController
+                    let controllersInNavigation = navController?.viewControllers.count
+                    if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil){
+                        navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                        self.isEditingSearch = false
+                    }
+                    navController?.pushViewController(controller, animated: true)
+                }
+            }else{
+                let controllersInNavigation = controllernav?.viewControllers.count
+                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                    isEditingSearch = false
+                }
+                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
+                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
+                    isEditingSearch = false
+                }
                 controllernav?.pushViewController(controller, animated: true)
             }
             self.btnSearch!.isSelected = true
@@ -1081,7 +1107,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-            self.onCloseSearch = { controllernav?.pushViewController(controller, animated: true) }
+            self.onCloseSearch = {
+                let navController = self.currentController as? UINavigationController
+                navController?.pushViewController(controller, animated: true)
+                }
             self.closeSearch(false, sender: nil)
         }else{
             controllernav?.pushViewController(controller, animated: true)
