@@ -739,6 +739,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             self.currentValGr = 0.0
             self.currentValCstmGr = 0.0
             self.currentValPzs = 0.0
+            self.currentValKg = "0"
             
             turnOffSelectedWeightBtn()
             self.btnOkAdd?.backgroundColor = WMColor.red
