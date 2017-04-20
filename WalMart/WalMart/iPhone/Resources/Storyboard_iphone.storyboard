@@ -39,7 +39,7 @@
                                         <rect key="frame" x="131.5" y="20" width="112" height="44"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doD-nc-whc">
-                                        <rect key="frame" x="318" y="20" width="45" height="45"/>
+                                        <rect key="frame" x="324" y="20" width="45" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="NDz-Mt-GKI"/>
                                             <constraint firstAttribute="height" constant="45" id="UgP-OE-Ys5"/>
@@ -54,7 +54,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.4392156862745098" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="12" id="4U0-Wm-Vfz"/>
+                                    <constraint firstAttribute="trailing" secondItem="doD-nc-whc" secondAttribute="trailing" constant="6" id="4U0-Wm-Vfz"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="centerX" secondItem="rL3-3R-LDa" secondAttribute="centerX" id="6LB-u9-AGT"/>
                                     <constraint firstAttribute="height" constant="64" id="9cj-4a-UKi"/>
                                     <constraint firstItem="DNA-XG-hNj" firstAttribute="top" secondItem="rL3-3R-LDa" secondAttribute="top" constant="20" id="B9W-wm-eMK"/>

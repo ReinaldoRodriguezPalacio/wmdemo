@@ -17,7 +17,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     override func setup() {
         super.setup()
         
-        numProducts = UILabel(frame: CGRect(x: 16, y: 25, width: 75, height: 14))
+        numProducts = UILabel(frame: CGRect(x: 16, y: 16, width: 75, height: labelSize))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
         numProducts.textColor = WMColor.gray
         numProducts.numberOfLines = 2
@@ -33,19 +33,22 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        subtotalTitle.frame = CGRect(x: valueTotalSaving.frame.minX - subtotalTitle.frame.size.width - 8, y: self.subtotalY, width: subtotalTitle.frame.size.width , height: 12)
-        valueSubtotal.frame = CGRect(x: subtotalTitle.frame.maxX + 8, y: subtotalTitle.frame.minY, width: 50, height: 12)
+        let margin: CGFloat = 16
+        let titlesWidth: CGFloat = 100
+        let valueMaxWidth: CGFloat = valueTotal!.label1!.frame.width + valueTotal!.label2!.frame.width
+        let startX: CGFloat = bounds.width - valueMaxWidth - titlesWidth - (margin * 2)
         
-        if self.firstTotal {
-            valueTotal.frame = CGRect(x: self.frame.width - (valueTotal.frame.size.width + 16), y: subtotalTitle.frame.maxY + 4.0 , width: valueTotal.frame.size.width, height: valueTotal.frame.size.height)
-            total.frame = CGRect(x: valueTotal.frame.minX - (total.frame.size.width + 8) ,y: subtotalTitle.frame.maxY + 4.0, width: total.frame.size.width, height: total.frame.size.height)
-            valueTotalSaving.frame = CGRect(x: self.frame.width - 66,  y: total.frame.maxY + 4.0 , width: 50, height: 12)
-            totalSavingTitle.frame = CGRect(x: valueTotalSaving.frame.minX - 109 , y: total.frame.maxY + 4.0 , width: 101, height: 12)
-        }else{
-            self.valueTotalSaving.frame = CGRect(x: self.frame.width - 66,  y: self.subtotalTitle.frame.maxY + 4.0 , width: 50, height: 12)
-            self.totalSavingTitle.frame = CGRect(x: self.valueTotalSaving.frame.minX - 109 , y: self.subtotalTitle.frame.maxY + 4.0 , width: 101, height: 12)
-            self.valueTotal.frame = CGRect(x: self.frame.width - (self.valueTotal.frame.size.width + 16), y: self.totalSavingTitle.frame.maxY + 4.0 , width: self.valueTotal.frame.size.width, height: self.valueTotal.frame.size.height)
-            self.total.frame = CGRect(x: valueTotal.frame.minX - (self.total.frame.size.width + 8) ,y: self.totalSavingTitle.frame.maxY + 4.0, width: self.total.frame.size.width, height: self.total.frame.size.height)
+        subtotalTitle!.frame = CGRect(x: startX, y: margin, width: titlesWidth, height: labelSize)
+        totalSavingTitle!.frame = CGRect(x: startX, y: subtotalTitle!.frame.maxY + 6, width: titlesWidth, height: labelSize)
+        total!.frame = CGRect(x: startX, y: totalSavingTitle!.frame.maxY + 6, width: titlesWidth, height: labelSize)
+        
+        valueSubtotal!.frame = CGRect(x: subtotalTitle!.frame.maxX + 8, y: subtotalTitle!.frame.minY, width: valueMaxWidth, height: labelSize)
+        valueTotalSaving!.frame = CGRect(x: totalSavingTitle!.frame.maxX + 8, y: totalSavingTitle!.frame.minY, width: valueMaxWidth, height: labelSize)
+        valueTotal!.frame = CGRect(x: total!.frame.maxX + 8, y: total!.frame.minY, width: valueMaxWidth, height: labelSize)
+        
+        if totalSavingTitle.isHidden {
+            total!.frame = CGRect(x: startX, y: margin, width: titlesWidth, height: labelSize)
+            valueTotal!.frame = CGRect(x: subtotalTitle!.frame.maxX + 8, y: subtotalTitle!.frame.minY, width: valueMaxWidth, height: labelSize)
         }
         
     }

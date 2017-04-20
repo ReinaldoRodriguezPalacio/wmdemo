@@ -227,7 +227,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        badgeShoppingCart.frame = CGRect(x: self.view.bounds.width - 30 , y: 20, width: 15, height: 15)
+        badgeShoppingCart.frame = CGRect(x: self.view.bounds.width - 24 , y: 20, width: 15, height: 15)
         if self.helpView != nil {
             self.helpView!.frame = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height)
             if totuView != nil {
@@ -1449,7 +1449,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showBadge() {
         if badgeShoppingCart == nil {
-            badgeShoppingCart = BadgeView(frame: CGRect(x: self.view.bounds.width - 30 , y: 20, width: 15, height: 15))
+            badgeShoppingCart = BadgeView(frame: CGRect(x: self.view.bounds.width - 24 , y: 20, width: 15, height: 15))
             self.headerView.addSubview(badgeShoppingCart)
         }
         if btnShopping?.isSelected == false {
@@ -1469,7 +1469,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func updateBadge(_ numProducts:Int) {
         DispatchQueue.main.async(execute: {
             self.badgeShoppingCart.updateTitle(numProducts)
-            self.badgeShoppingCart.frame = CGRect(x: self.view.bounds.width - 30 , y: 20, width: 15, height: 15)
+            self.badgeShoppingCart.frame = CGRect(x: self.view.bounds.width - 24 , y: 20, width: 15, height: 15)
         });
     }
     
