@@ -248,9 +248,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.emptyView!.isHidden = self.itemsInShoppingCart.count > 0
             self.editButton.isHidden = self.itemsInShoppingCart.count == 0
 
-//            self.emptyView!.isHidden = false
-//            self.editButton!.isHidden = true
-
             if !showCloseButton {
                 self.closeButton.isHidden = true
             } else {
@@ -262,17 +259,17 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             editButton.backgroundColor = WMColor.light_blue
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
+            
+            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
+                self.loadShoppingCartService()
+            }
         }
         
-        UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-            self.loadShoppingCartService()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.reloadShoppingCart()
         self.showDiscountAsociate()
     }
     
@@ -377,9 +374,13 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.updateShopButton(total!)
         }
         
-        self.viewShoppingCart.delegate = self
-        self.viewShoppingCart.dataSource = self
+        if viewShoppingCart.delegate == nil {
+            viewShoppingCart.delegate = self
+            viewShoppingCart.dataSource = self
+        }
+        
         self.viewShoppingCart.reloadData()
+        self.loadCrossSell()
         self.removeLoadingView()
         
     }
@@ -1398,9 +1399,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     
                     if self.itemsInShoppingCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
+                            self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
                         } else {
-                            self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.automatic)
+                            self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
                         }
                     }
                     
