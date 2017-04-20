@@ -757,33 +757,41 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func updateItemToList(quantity:String,listId:String,finishAdd:Bool,orderByPiece:Bool) {
         
         let orderByPiece = self.itemOrderbyPices
-        let service = GRUpdateItemListService()
-        service.listId = listId
-        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
-                            successBlock: { (result:[String:Any]) -> Void in
-                                
-                                if finishAdd {
-                                    self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
-                                    self.alertView?.showDoneIcon()
-                                    self.alertView?.afterRemove = {
-                                        self.removeListSelector(action: nil, closeRow:true)
+        let listDetailService = GRUserListDetailService()
+        listDetailService.buildParams(listId)
+        listDetailService.callService([:], successBlock:  { (result:[String:Any]) -> Void in
+            let service = GRUpdateItemListService()
+            service.listId = listId
+            service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
+                                successBlock: { (result:[String:Any]) -> Void in
+                                    
+                                    if finishAdd {
+                                        self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
+                                        self.alertView?.showDoneIcon()
+                                        self.alertView?.afterRemove = {
+                                            self.removeListSelector(action: nil, closeRow:true)
+                                        }
                                     }
-                                }
-                                
-                                
-                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
-                                
-        }, errorBlock: { (error:NSError) -> Void in
+                                    
+                                    
+                                    BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+                                    
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at update product to list: \(error.localizedDescription)")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
+                self.alertView?.afterRemove = {
+                    self.removeListSelector(action: nil, closeRow:true)
+                }
+            })
+        },errorBlock: { (error:NSError) -> Void in
             print("Error at update product to list: \(error.localizedDescription)")
             self.alertView?.setMessage(error.localizedDescription)
             self.alertView?.showErrorIcon("Ok")
             self.alertView?.afterRemove = {
                 self.removeListSelector(action: nil, closeRow:true)
             }
-        }
-        )
-        
-        
+        })
     }
     
     func listSelectorDidDeleteProduct(inList listId:String) {
