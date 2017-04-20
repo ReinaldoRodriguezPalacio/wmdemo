@@ -53,7 +53,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.phoneLabel!.textColor = WMColor.gray
         self.contentView.addSubview(self.phoneLabel)
 
-        self.buttonContainer = UIView(frame: CGRect(x: 0, y: frame.size.height - 48.0, width: frame.size.width, height: 48.0))
+        self.buttonContainer = UIView(frame: CGRect(x: 0, y: frame.size.height - 45.0, width: frame.size.width, height: 48.0))
         self.buttonContainer.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.buttonContainer)
         
@@ -72,16 +72,19 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     }
     
     func buildToolbar() {
-        let y:CGFloat = (self.buttonContainer.frame.height - 34.0)/2
+        
+        let y: CGFloat = (self.buttonContainer.frame.height - 34.0)/2
+        let buttons: CGFloat = IS_IPHONE ? 4 : 3
+        let xSpace: CGFloat = (frame.width - (34 * buttons)) / (buttons + 1)
 
-        let btnLocation = UIButton(frame: CGRect(x: 38.0, y: y, width: 34.0, height: 34.0))
+        let btnLocation = UIButton(frame: CGRect(x: xSpace, y: y, width: 34.0, height: 34.0))
         btnLocation.setImage(UIImage(named: "locateInMap"), for: UIControlState())
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), for: .selected)
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), for: .highlighted)
         btnLocation.addTarget(self, action: #selector(ClubLocatorTableViewCell.showInMap), for: .touchUpInside)
         self.buttonContainer.addSubview(btnLocation)
 
-        let btnRoute = UIButton(frame: CGRect(x: btnLocation.frame.maxX + 36, y: y, width: 34.0, height: 34.0))
+        let btnRoute = UIButton(frame: CGRect(x: btnLocation.frame.maxX + xSpace, y: y, width: 34.0, height: 34.0))
         btnRoute.setImage(UIImage(named: "directions"), for: UIControlState())
         btnRoute.setImage(UIImage(named: "directions_selected"), for: .selected)
         btnRoute.setImage(UIImage(named: "directions_selected"), for: .highlighted)
@@ -90,7 +93,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
 
         var nexButtonX = btnRoute.frame.maxX
         if IS_IPHONE {
-            let btnPhone = UIButton(frame: CGRect(x: btnRoute.frame.maxX + 36, y: y, width: 34.0, height: 34.0))
+            let btnPhone = UIButton(frame: CGRect(x: btnRoute.frame.maxX + xSpace, y: y, width: 34.0, height: 34.0))
             btnPhone.setImage(UIImage(named: "call"), for: UIControlState())
             btnPhone.setImage(UIImage(named: "call_selected"), for: .selected)
             btnPhone.setImage(UIImage(named: "call_selected"), for: .highlighted)
@@ -99,7 +102,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
             nexButtonX = btnPhone.frame.maxX
         }
         
-        let btnShare = UIButton(frame: CGRect(x: nexButtonX + 36, y: y, width: 34.0, height: 34.0))
+        let btnShare = UIButton(frame: CGRect(x: nexButtonX + xSpace, y: y, width: 34.0, height: 34.0))
         btnShare.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
         btnShare.setImage(UIImage(named: "detail_share"), for: .selected)
         btnShare.setImage(UIImage(named: "detail_share"), for: .highlighted)

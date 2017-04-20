@@ -126,7 +126,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let buttonHeight: CGFloat = 22.0
         let heightEmptyView = Int(bounds.height) - 44
         
-        self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY + SELECTORH , width: bounds.width, height: bounds.height - self.header!.frame.maxY - SELECTORH )
+        self.table!.frame =  CGRect(x: 0,  y: self.header!.frame.maxY + SELECTORH , width: bounds.width, height: bounds.height - self.header!.frame.maxY - SELECTORH - 44)
         //tamaño
         self.newAddressButton!.frame = CGRect(x: bounds.width - (buttonWidth + 16.0), y: (header!.bounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
 

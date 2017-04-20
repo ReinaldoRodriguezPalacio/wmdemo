@@ -90,8 +90,8 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         
         sAddredssForm.frame = CGRect(x: 0, y: 0,  width: self.view.bounds.width, height: 700)
-        scrollForm.contentSize = CGSize( width: self.view.bounds.width, height: 720)
-        scrollForm.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.frame.height - self.header!.frame.maxY)
+        scrollForm.contentSize = CGSize( width: self.view.bounds.width, height: 675)
+        scrollForm.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.frame.height - self.header!.frame.maxY - 44)
         
         if self.showGRAddressForm{
             self.setSaveButtonToBottom()

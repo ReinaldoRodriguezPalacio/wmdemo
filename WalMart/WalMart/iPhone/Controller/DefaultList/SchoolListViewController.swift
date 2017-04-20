@@ -128,7 +128,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         if indexPath.section == 0 {
             return 98
         }
-        return indexPath.row == self.detailItems!.count ? 64 : 109
+        return indexPath.row == self.detailItems!.count ? 80 : 109
     }
     
      func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {

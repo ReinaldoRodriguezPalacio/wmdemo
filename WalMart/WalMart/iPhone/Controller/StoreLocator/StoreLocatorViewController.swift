@@ -193,9 +193,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         self.clubMap!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height)
         self.clubCollection?.frame = CGRect(x: 0.0, y: self.searchView!.frame.maxY, width: bounds.width, height: height - 118)
-        if self.segmentedView!.frame.origin.y == 16 {
-            self.segmentedView!.frame = CGRect(x: 16.0, y: bounds.height - 110, width: 150.0, height: 22.0)
-        }
+        self.segmentedView!.frame = CGRect(x: 16.0, y: bounds.height - 90, width: 150.0, height: 22.0)
+        
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame
             height = bounds.height - 20.0
@@ -301,13 +300,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.view.addSubview(self.viewBgDetailView!)
             
             self.detailView!.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-            UIView.animate(withDuration: 0.5,
-                delay: isSameCenter ? 0.0 : 1.5,
-                options: UIViewAnimationOptions.beginFromCurrentState,
-                animations: {
+            UIView.animate(withDuration: 0.5, delay: isSameCenter ? 0.0 : 0.8, options: UIViewAnimationOptions.beginFromCurrentState, animations: {
                     self.detailView!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                },
-                completion: nil)
+            })
+            
         }
     }
     
