@@ -216,7 +216,7 @@ class GRUserListService : GRBaseService {
                 updateDetailList = countItems.intValue > 0
             }
             
-            var error: NSError? = nil
+            var _: NSError? = nil
             self.saveContext()
             
             if(updateDetailList) {

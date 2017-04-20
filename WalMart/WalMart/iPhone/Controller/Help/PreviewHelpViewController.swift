@@ -66,7 +66,7 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
                     var  htmlString : NSString = try! NSString(contentsOfFile:htmlFile as String, encoding: String.Encoding.utf8.rawValue)
                     
                     if imgFile != nil{
-                        let imgFilePath  = Bundle.main.path(forResource: imgFile as? String, ofType: "jpg")
+                        let imgFilePath  = Bundle.main.path(forResource: imgFile as String?, ofType: "jpg")
                         htmlString = htmlString.replacingOccurrences(of: "$pathImage$", with: imgFilePath!) as NSString
                     }
                     self.webShowDetail.loadHTMLString(htmlString as String, baseURL: nil)

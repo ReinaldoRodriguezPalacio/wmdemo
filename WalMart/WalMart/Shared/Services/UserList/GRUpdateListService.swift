@@ -44,7 +44,7 @@ class GRUpdateListService: GRBaseService {
             list = result[0]
             list?.setValue(listName, forKey: "name")
         }
-        var error: NSError? = nil
+        var _: NSError? = nil
         self.saveContext()
     }
 

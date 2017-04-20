@@ -855,7 +855,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
             lblQuantityW.text = tmpResult as String
         }
         
-        let rectSize =  lblQuantityW.attributedText!.boundingRect(with: CGSize(width: lblQuantityW.frame.width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+        _ =  lblQuantityW.attributedText!.boundingRect(with: CGSize(width: lblQuantityW.frame.width, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         self.validateWeightSelectedBtn(gr: currentValGr)
     }
     

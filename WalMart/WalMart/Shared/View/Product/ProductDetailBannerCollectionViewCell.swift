@@ -257,20 +257,18 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        let viewWidth: CGFloat = self.bounds.width
-        let widthDifference: CGFloat = self.bounds.width - 6
-        var widthNew = self.bounds.width + self.bounds.height - widthDifference
+        
+        var widthNew = self.bounds.width + self.bounds.height - 314
         if widthNew <= self.bounds.width {
             widthNew = self.bounds.width
         }
         
-     
-            if widthNew > viewWidth {
-                let heightNew = widthNew  - viewWidth
-                self.collection.alpha = 0
-                
-                let cellImg = self.collection.cellForItem(at: IndexPath(item: self.currentItem!, section: 0)) as? ProductDetailBannerMediaCollectionViewCell
+        
+        if widthNew > self.bounds.width {
+            let heightNew = widthNew - self.bounds.width
+            self.collection.alpha = 0
+            
+            let cellImg = self.collection.cellForItem(at: IndexPath(item: self.currentItem!, section: 0)) as? ProductDetailBannerMediaCollectionViewCell
             if cellImg != nil {
                 let originRect = cellImg!.imageView!.frame
                 let rectTransform = CGRect(x: originRect.minX - (heightNew / 2), y: originRect.minY, width: originRect.width + heightNew, height: originRect.height + heightNew)
@@ -281,12 +279,12 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                     self.imageZoom.alpha = 1
                 })
             }
-            } else {
-                self.collection.alpha = 1
-                self.imageZoom.alpha = 0
-                self.imageZoom.frame = collection.frame
-                
-            }
+        } else {
+            self.collection.alpha = 1
+            self.imageZoom.alpha = 0
+            self.imageZoom.frame = collection.frame
+            
+        }
         
         self.buildColorsAndSizesView()
         

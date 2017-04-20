@@ -42,11 +42,11 @@ class LinesForSearchService: BaseService {
             },
             failure: {(request:URLSessionDataTask?, error:Error) in
                 if (error as NSError).code == -1005 {
-                    print("Response Error : \(error) \n Response \(request!.response)")
+                    print("Response Error : \(error) \n")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                print("Response Error : \(error) \n Response \(request!.response)")
+                print("Response Error : \(error) \n ")
                 errorBlock!(error as NSError)
         })
         

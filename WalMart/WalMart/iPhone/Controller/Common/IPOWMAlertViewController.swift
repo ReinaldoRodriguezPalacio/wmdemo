@@ -337,7 +337,7 @@ class IPOWMAlertViewController : UIViewController {
     
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
+        rotationAnimation.toValue = .pi * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.isCumulative = true
         rotationAnimation.repeatCount = Float(repeats)

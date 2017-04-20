@@ -162,8 +162,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), for: UIControlEvents.touchUpInside)
         viewFooter.addSubview(buttonShop)
         
-        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 1))
-        viewBorderTop.backgroundColor = WMColor.light_light_gray
+        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0.8))
+        viewBorderTop.backgroundColor = WMColor.light_gray
         viewFooter.addSubview(viewBorderTop)
         
         viewShoppingCart.register(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
@@ -476,7 +476,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     func runSpinAnimationOnView(_ view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
+        rotationAnimation.toValue = .pi * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.isCumulative = true
         rotationAnimation.repeatCount = Float(repeats)

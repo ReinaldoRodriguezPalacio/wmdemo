@@ -60,7 +60,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     func didTapInTitle() {
         title.backgroundColor = WMColor.blue
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.titleImage.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.titleImage.transform = CGAffineTransform(rotationAngle: .pi)
         })
         
         if delegate != nil {
@@ -72,7 +72,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     func setSelected(){
         title.backgroundColor = WMColor.blue
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
-            self.titleImage.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            self.titleImage.transform = CGAffineTransform(rotationAngle: .pi)
         })
     }
     

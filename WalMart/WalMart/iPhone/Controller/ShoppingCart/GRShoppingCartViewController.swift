@@ -111,9 +111,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         viewFooter.frame = CGRect(x: 0, y: self.view.bounds.height - 70 - 60, width: self.view.bounds.width, height: 70)
         viewFooter.backgroundColor = UIColor.white
 
-        
-        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 1))
-        viewBorderTop.backgroundColor = WMColor.light_light_gray
+        let viewBorderTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 0.8))
+        viewBorderTop.backgroundColor = WMColor.light_gray
         
         addToListButton = UIButton(frame: CGRect(x: 8 ,y: 0, width: 50, height: viewFooter.frame.height))
         addToListButton!.setImage(UIImage(named: "detail_list"), for: UIControlState())
