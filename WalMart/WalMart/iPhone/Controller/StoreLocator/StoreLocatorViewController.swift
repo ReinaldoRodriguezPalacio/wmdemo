@@ -192,9 +192,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clearButton!.frame = CGRect(x: self.searchField.frame.width - 40 , y: 0, width: 48, height: 40)
         
         self.clubMap!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height)
-        self.clubCollection?.frame = CGRect(x: 0.0, y: self.searchView!.frame.maxY, width: bounds.width, height: height - 72)
+        self.clubCollection?.frame = CGRect(x: 0.0, y: self.searchView!.frame.maxY, width: bounds.width, height: height - 118)
         if self.segmentedView!.frame.origin.y == 16 {
-            self.segmentedView!.frame = CGRect(x: 16.0, y: bounds.height - 84.0, width: 150.0, height: 22.0)
+            self.segmentedView!.frame = CGRect(x: 16.0, y: bounds.height - 110, width: 150.0, height: 22.0)
         }
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame

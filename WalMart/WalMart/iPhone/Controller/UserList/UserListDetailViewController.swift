@@ -1901,13 +1901,20 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
    
     //MARK: RefreshControl
     func handleRefresh(refreshControl: UIRefreshControl) {
-        let listService = GRUserListService()
-        listService.syncListData(listId: self.listId!, successBlock: { () -> Void in
-            print("Refresh")
-            self.fromDelete = true
-            self.loadServiceItems(nil)
-            refreshControl.endRefreshing()
-        })
+        
+        if let listID = self.listId {
+            let listService = GRUserListService()
+            listService.syncListData(listId: listID, successBlock: { () -> Void in
+                print("Refresh")
+                self.fromDelete = true
+                self.loadServiceItems(nil)
+                refreshControl.endRefreshing()
+            })
+        } else {
+            delay(0.2, completion: { 
+                refreshControl.endRefreshing()
+            })
+        }
     }
 }
 
