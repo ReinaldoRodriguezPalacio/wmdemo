@@ -817,17 +817,34 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controllernav = self.currentController as? UINavigationController
-        let controllersInNavigation = controllernav?.viewControllers.count
-        if (controllersInNavigation > 2 && controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
-            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-            isEditingSearch = false
-        }
+        
         let controller = SearchProductViewController()
         controller.upcsToShow = upcs
         controller.searchContextType = .withTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
-        controllernav?.pushViewController(controller, animated: true)
+        
+        if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+            self.onCloseSearch = {
+                let navController = self.currentController as? UINavigationController
+                let controllersInNavigation = navController?.viewControllers.count
+                if (controllersInNavigation > 1 && navController?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil){
+                    navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                    self.isEditingSearch = false
+                }
+                navController?.pushViewController(controller, animated: true)
+            }
+            self.btnSearch!.isSelected = true
+            self.closeSearch(false, sender: nil)
+        }else{
+            let controllersInNavigation = controllernav?.viewControllers.count
+            if (controllersInNavigation > 2 && controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                isEditingSearch = false
+            }
+            controllernav?.pushViewController(controller, animated: true)
+        }
+        
     }
     /**
      

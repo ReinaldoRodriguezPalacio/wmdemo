@@ -727,20 +727,31 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func updateItemToList(quantity:String,listId:String){
         
-        //let service = GRAddItemListService()
        let orderByPiece = self.itemOrderbyPices
-       let service = GRUpdateItemListService()
-        service.listId = listId
-        service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
-                            successBlock: { (result:[String:Any]) -> Void in
+       let listDetailService = GRUserListDetailService()
+       listDetailService.buildParams(listId)
+        listDetailService.callService([:], successBlock:  { (result:[String:Any]) -> Void in
+            let service = GRUpdateItemListService()
+            service.listId = listId
+            service.callService(service.buildParams(upc: self.upc as String, quantity: Int(quantity)!,baseUomcd:orderByPiece ? "EA" : "GM"),
+                                successBlock: { (result:[String:Any]) -> Void in
                                     self.alertView?.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                                     self.alertView?.showDoneIcon()
                                     self.alertView?.afterRemove = {
                                         self.closeContainerDetail(completeClose: nil, isPush: true)
                                         self.removeListSelector(action: nil)
                                     }
-                                BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
-
+                                    BaseController.sendAnalyticsProductToList(self.upc as String, desc: self.name as String, price: self.price as String)
+                                    
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at add product to list: \(error.localizedDescription)")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
+                self.alertView?.afterRemove = {
+                    self.closeContainerDetail(completeClose: nil, isPush: true)
+                    self.removeListSelector(action: nil)
+                }
+            })
         }, errorBlock: { (error:NSError) -> Void in
             print("Error at add product to list: \(error.localizedDescription)")
             self.alertView?.setMessage(error.localizedDescription)
@@ -749,10 +760,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.closeContainerDetail(completeClose: nil, isPush: true)
                 self.removeListSelector(action: nil)
             }
-        }
-        )
-    
-    
+        })
     }
     
     
