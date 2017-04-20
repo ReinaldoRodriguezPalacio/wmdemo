@@ -1631,7 +1631,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.empty != nil {
             self.removeEmptyView()
         }
-        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - 44))
         
         if self.searchFromContextType == .fromSearchTextList {
             self.empty.descLabel.text = "No existe ese artículo en Súper"
@@ -1654,13 +1654,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func showEmptyMGGRView(){
-        //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-        
-       
+      
+        if self.empty != nil {
+          self.removeEmptyView()
+        }
+      
         self.filterButton?.alpha = 0
-        //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+      
         var maxY = self.collection!.frame.minY
-        
+      
         if self.idListFromSearch != "" && !IS_IPAD {
             maxY = maxY + 64
         }
@@ -1668,15 +1670,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.loading?.stopAnnimating()
       
         let model =  UIDevice.current.modelName
+        let heightEmpty = self.view.bounds.height - (44 + maxY)
 
-        var heightEmpty = self.view.bounds.height
-        if !model.contains("iPad") && !model.contains("4") {
-            heightEmpty -= 68
-        }
-        if !model.contains("Plus") && (model != "iPhone 6s") && !model.contains("iPad") && !model.contains("iPod") && !model.contains("4") {
-            heightEmpty -= 44
-        }
-        
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty))
             self.emptyMGGR.returnAction = { () in
@@ -1699,8 +1694,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
         }
+      
         self.view.addSubview(self.emptyMGGR)
-       
         NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
