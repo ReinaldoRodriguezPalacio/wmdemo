@@ -70,7 +70,7 @@ class GRUserListService : GRBaseService {
                 list!.products.enumerateObjects({ (obj:Any, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
                         if product.price != nil {
-                            let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)",baseUomcd:product.orderByPiece.boolValue ? "EA" : "GM",equivalenceByPiece: product.equivalenceByPiece)//baseUomcd and equivalenceByPiece
+                            let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.intValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)",baseUomcd:product.orderByPiece.boolValue ? "EA" : "GM",equivalenceByPiece: product.equivalenceByPiece,stock:product.stock )//baseUomcd and equivalenceByPiece
                              items.append(param as AnyObject)
                         }
                        
@@ -136,6 +136,8 @@ class GRUserListService : GRBaseService {
     func manageListData(_ list:[Any]) {
         let user = UserCurrentSession.sharedInstance.userSigned
         if user == nil {
+          manageListDataSuccess?()
+          manageListDataSuccess = nil
             print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
             return
         }

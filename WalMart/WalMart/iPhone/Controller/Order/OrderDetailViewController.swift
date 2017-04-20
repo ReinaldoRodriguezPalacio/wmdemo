@@ -853,9 +853,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let description = item["description"] as? String
             let type = item["type"] as? String
             let baseUomcdParam = item["baseUomcd"] as? String
+            let stock = item["stock"] as? Bool ?? true
             
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type,baseUomcd:baseUomcdParam,equivalenceByPiece: 0)//baseUomcd and equivalenceByPiece
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type,baseUomcd:baseUomcdParam,equivalenceByPiece: 0,stock: stock)//baseUomcd and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

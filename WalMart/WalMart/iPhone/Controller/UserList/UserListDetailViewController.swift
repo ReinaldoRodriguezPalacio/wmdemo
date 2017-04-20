@@ -644,7 +644,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
             
-            if upcs.count > 0 {
+            if upcs.count > 0 && UserCurrentSession.hasLoggedUser() {
                 self.invokeDeleteAllProductsFromListService(upcs,products:entities)
             }
             if entities.count > 0 {

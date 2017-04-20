@@ -1233,7 +1233,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 detail?.orderByPiece = item["orderByPieces"] as! NSNumber
                 detail?.equivalenceByPiece =  equivalenceByPiece
                 detail!.pieces = NSNumber(value: quantity as Int)
-                
+                detail!.stock = item["stock"] as? Bool ?? true
+              
                 // 360 Event
                 BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
             }
@@ -1321,6 +1322,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let type = item["type"] as? String
             let baseUomcd = item["baseUomcd"] as? String
             var equivalenceByPiece : NSNumber =  0
+            let stock = item["stock"] as? Bool ?? true
             
             if let equivalence = item["equivalenceByPiece"] as? NSNumber {
                 equivalenceByPiece = equivalence
@@ -1331,7 +1333,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             
 
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: equivalenceByPiece)//baseUomcd and equivalenceByPiece
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: equivalenceByPiece,stock: stock)//baseUomcd and equivalenceByPiece
             products.append(serviceItem as AnyObject)
         }
         

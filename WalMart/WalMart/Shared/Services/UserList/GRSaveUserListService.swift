@@ -32,7 +32,7 @@ class GRSaveUserListService : GRBaseService {
         return ["upc":upc, "quantity":quantity,"baseUomcd":baseUomcd]
     }
     
-    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,baseUomcd:String?,equivalenceByPiece:NSNumber) -> [String:Any] {
+    func buildProductObject(upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,baseUomcd:String?,equivalenceByPiece:NSNumber, stock:Bool) -> [String:Any] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
@@ -54,7 +54,7 @@ class GRSaveUserListService : GRBaseService {
             base["baseUomcd"] = baseUomcd!
         }
         base["equivalenceByPiece"] = equivalenceByPiece
-        
+        base["stock"] = stock
         return base
     }
 
@@ -216,7 +216,8 @@ class GRSaveUserListService : GRBaseService {
                     detail!.type = type
                 }
                 if let stock = item["stock"] as? Bool {
-                    detail!.isActive = stock == true ? "true" : "false"
+                    detail!.isActive = stock ? "true" : "false"
+                    detail!.stock = stock
                 }
                 
                 if let baseUomcd = item["baseUomcd"] as? String {

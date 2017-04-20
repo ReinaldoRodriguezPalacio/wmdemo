@@ -1754,6 +1754,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: RefreshControl
     
     func handleRefresh(refreshControl: UIRefreshControl) {
+      if UserCurrentSession.hasLoggedUser() {
         let user = UserCurrentSession.sharedInstance
         user.invokeWishListService()
         user.invokeGroceriesUserListService({ () -> Void in
@@ -1761,7 +1762,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.reloadList(success: nil, failure: nil)
             refreshControl.endRefreshing()
         })
-    }
+      }else{
+        delay(0.2, completion: { 
+           refreshControl.endRefreshing()
+        })
+       
+      }
+  }
     
 }
 

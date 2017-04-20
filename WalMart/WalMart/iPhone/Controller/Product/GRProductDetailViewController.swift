@@ -144,12 +144,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 if self.isActive == true  {
                     self.isActive  = stockSvc
                 }
+              self.stock = stockSvc
             }
             
             if let stockSvc = result["stock"] as?  NSNumber {
                 if self.isActive == true  {
                     self.isActive  = stockSvc.boolValue
                 }
+               self.stock = stockSvc.boolValue
             }
             if let department = result["department"] as? [String:Any] {
                 self.idDepartment = department["idDepto"] as! String
@@ -854,6 +856,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detail!.type = NSNumber(value: self.isPesable as Bool)
         detail!.list = list
         detail!.equivalenceByPiece = self.equivalenceByPiece
+        detail!.stock  = self.stock
         
         if self.imageUrl.count > 0 {
             detail!.img = self.imageUrl[0] as! NSString as String

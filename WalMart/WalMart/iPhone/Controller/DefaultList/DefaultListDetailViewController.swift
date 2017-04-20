@@ -607,9 +607,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 let type = product["type"] as! String
                 let baseUomcd = product["baseUomcd"] as! String
                 let equivalenceByPiece =  product["equivalenceByPiece"] as? String == "" ? "0" : product["equivalenceByPiece"] as? String
-                
+                let stock = product["stock"] as? Bool ?? true
+              
                 if let upc = product["upc"] as? String {
-                    let item = service.buildProductObject(upc: upc, quantity: quantity.intValue, image: imageUrl, description: dsc, price: price.stringValue, type:type,baseUomcd:baseUomcd,equivalenceByPiece: NSNumber(value:Int(equivalenceByPiece!)!))
+                    let item = service.buildProductObject(upc: upc, quantity: quantity.intValue, image: imageUrl, description: dsc, price: price.stringValue, type:type,baseUomcd:baseUomcd,equivalenceByPiece: NSNumber(value:Int(equivalenceByPiece!)!),stock:stock )
                     items.append(item as AnyObject)
                     
                     // 360 Event
