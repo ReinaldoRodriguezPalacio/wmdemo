@@ -262,7 +262,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         if first {
             var tmpResult : String = value!
             tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)" : value!
-            if tmpResult != "00" {
+            if tmpResult != "00" && tmpResult != "0" {
                 lblQuantity.text = tmpResult as String
                 first = false
             }
