@@ -424,7 +424,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                     let frame = vc!.view.frame
                     
-                    
+                    self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                     let addShopping = ShoppingCartUpdateController()
                     let quantity = self.productDetailButton!.detailProductCart!.quantity
                     let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.itemOrderbyPices, pieces: quantity.intValue,equivalenceByPiece:Int(self.equivalenceByPiece) ) as! [String:Any]
