@@ -451,14 +451,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 selectQuantityGR?.showNoteButton()
                 
                 if productDetailButton!.detailProductCart?.product != nil {
-                    selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                    if isPesable {
+                         selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                    } else {
+                        selectQuantityGR?.orderByPiece = true
+                    }
                 }
                 
             }
             
-            //selectQuantityGR?.generateBlurImage(self.detailCollectionView,frame:CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail))
             selectQuantityGR?.addToCartAction = { (quantity:String) in
-                //let quantity : Int = quantity.toInt()!
+                
+                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 
                 if quantity == "00" {
                     self.deleteFromCartGR()
@@ -468,17 +472,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 if self.onHandInventory.integerValue >= Int(quantity) {
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
-                        }, completeClose: { () -> Void in
-                            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
-                            self.selectQuantityGR = nil
-                            self.isShowShoppingCart = false
-                            //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-            
-                            let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
-                            let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.itemOrderbyPices, pieces: pieces,equivalenceByPiece:self.equivalenceByPiece.intValue)
-                            NotificationCenter.default.post(name:.addUPCToShopingCart, object: self, userInfo: params)
+                    }, completeClose: { () -> Void in
+                        
+                        let pesable = self.isPesable ? "1" : "0"
+                        
+                        let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity, comments: comments, onHandInventory: self.onHandInventory as String, type: ResultObjectType.Groceries.rawValue, pesable: pesable, isPreorderable: "false", orderByPieces: self.selectQuantityGR!.orderByPiece)
+                        
+                        NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
+                        self.productDetailButton?.isOpenQuantitySelector = false
+                        self.productDetailButton?.reloadShoppinhgButton()
                             
                     })
+                    
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     

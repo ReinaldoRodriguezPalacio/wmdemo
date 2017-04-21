@@ -529,7 +529,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             selectQuantityGR?.showNoteButton()
             
             if productDetailButton!.detailProductCart?.product != nil {
-                selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                if isPesable {
+                    selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                } else {
+                    selectQuantityGR?.orderByPiece = true
+                }
             }
             
         }
