@@ -262,26 +262,25 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 productDetailButton!.delegate = self
                 headerview.addSubview(productDetailButton!)
                 
-            } else if let productDetailButton = self.productDetailButton as? GRProductDetailButtonBarCollectionViewCell {
-                
-                productDetailButton.upc = self.upc as String
-                productDetailButton.desc = self.name as String
-                productDetailButton.price = self.price as String
-                productDetailButton.isPesable  = self.isPesable
-                productDetailButton.isActive = isActive == true ? self.strisActive! : "false"
-                productDetailButton.onHandInventory = self.onHandInventory as String
-                productDetailButton.isPreorderable = self.strisPreorderable
-                productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0
-                productDetailButton.validateIsInList(self.upc as String)
-                productDetailButton.idListSelect =  self.idListFromlistFind
-                
-                var imageUrl = ""
-                if self.imageUrl.count > 0 {
-                    imageUrl = self.imageUrl[0] as! NSString as String
-                }
-                
-                productDetailButton.image = imageUrl
             }
+            
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).upc = self.upc as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).desc = self.name as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).price = self.price as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isPesable  = self.isPesable
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isActive = isActive == true ? self.strisActive! : "false"
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).onHandInventory = self.onHandInventory as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isPreorderable = self.strisPreorderable
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).validateIsInList(self.upc as String)
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).idListSelect =  self.idListFromlistFind
+            
+            var imageUrl = ""
+            if self.imageUrl.count > 0 {
+                imageUrl = self.imageUrl[0] as! NSString as String
+            }
+            
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).image = imageUrl
             
             return headerview
         }
