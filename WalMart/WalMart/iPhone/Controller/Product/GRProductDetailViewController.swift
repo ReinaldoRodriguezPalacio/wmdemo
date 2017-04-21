@@ -254,32 +254,36 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
+            let headerview = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
             
-            let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
-            productDetailButtonGR.upc = self.upc as String
-            productDetailButtonGR.desc = self.name as String
-            productDetailButtonGR.price = self.price as String
-            productDetailButtonGR.isPesable  = self.isPesable
-            productDetailButtonGR.isActive = isActive == true ? self.strisActive! : "false"
-            productDetailButtonGR.onHandInventory = self.onHandInventory as String
-            productDetailButtonGR.isPreorderable = self.strisPreorderable
-            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButtonGR.validateIsInList(self.upc as String)
-            productDetailButtonGR.idListSelect =  self.idListFromlistFind
-            productDetailButton = productDetailButtonGR
-            
-            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc)
-            
-            var imageUrl = ""
-            if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as! NSString as String
+            if productDetailButton == nil {
+                
+                productDetailButton = GRProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
+                productDetailButton!.delegate = self
+                headerview.addSubview(productDetailButton!)
+                
+            } else if let productDetailButton = self.productDetailButton as? GRProductDetailButtonBarCollectionViewCell {
+                
+                productDetailButton.upc = self.upc as String
+                productDetailButton.desc = self.name as String
+                productDetailButton.price = self.price as String
+                productDetailButton.isPesable  = self.isPesable
+                productDetailButton.isActive = isActive == true ? self.strisActive! : "false"
+                productDetailButton.onHandInventory = self.onHandInventory as String
+                productDetailButton.isPreorderable = self.strisPreorderable
+                productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0
+                productDetailButton.validateIsInList(self.upc as String)
+                productDetailButton.idListSelect =  self.idListFromlistFind
+                
+                var imageUrl = ""
+                if self.imageUrl.count > 0 {
+                    imageUrl = self.imageUrl[0] as! NSString as String
+                }
+                
+                productDetailButton.image = imageUrl
             }
-            productDetailButton!.image = imageUrl
-            productDetailButton!.delegate = self
-            view.addSubview(productDetailButton!)
             
-            return view
+            return headerview
         }
         
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
