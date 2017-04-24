@@ -523,10 +523,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                           self.selectQuantityGR?.closeAction()
                           self.selectQuantityGR = nil
           })
-          
-          
         }
-
     }
     
     
@@ -733,7 +730,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     func updateItemToList(quantity:String,listId:String){
-        
         let orderByPiece = self.itemOrderbyPices
         let listDetailService = GRUserListDetailService()
         listDetailService.buildParams(listId)
