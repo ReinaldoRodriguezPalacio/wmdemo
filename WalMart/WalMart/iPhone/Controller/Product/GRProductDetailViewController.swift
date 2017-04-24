@@ -217,7 +217,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.loadCrossSell()
             
-            NotificationCenter.default.post(name: .clearSearch, object: nil)
+            //NotificationCenter.default.post(name: .clearSearch, object: nil)
             
             //FACEBOOKLOG
             FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
