@@ -170,7 +170,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
-        NotificationCenter.default.addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart(_:)), name: .successAddItemsToShopingCart, object: nil)
     }
     
     deinit {
@@ -585,7 +585,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     }, isPush: false)
             }
             
-         
+            if productDetailButton!.detailProductCart?.quantity != nil {
+                selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+                selectQuantity?.first = true
+            }
+            
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
@@ -660,7 +664,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
             UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                print("delete pressed OK")
+                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                 alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
                 alertView?.showDoneIcon()
                 alertView?.afterRemove = {

@@ -123,7 +123,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         //println("Imagen del header en: \(imageBackgroundURL) ")
         
-        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage:nil, success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
+        self.imageBackground.setImageWith(URLRequest(url:URL(string: imageBackgroundURL)!), placeholderImage: UIImage(named: "loading_home"), success: { (request:URLRequest, response:HTTPURLResponse?, image:UIImage) -> Void in
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
             }) { (request:URLRequest, response:HTTPURLResponse?, error:Error) -> Void in

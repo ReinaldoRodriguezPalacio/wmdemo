@@ -181,7 +181,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .updateBadge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .successAddItemsToShopingCart, object: nil)
         
     }
     
@@ -783,7 +783,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
             UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                print("delete pressed OK")
+                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                 alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
                 alertView?.showDoneIcon()
                 alertView?.afterRemove = {
