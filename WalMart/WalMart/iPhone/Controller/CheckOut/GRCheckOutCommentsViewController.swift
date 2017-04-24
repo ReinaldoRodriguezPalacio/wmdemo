@@ -63,7 +63,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         })
         
         self.content = TPKeyboardAvoidingScrollView()
-        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - 154)
         self.content.delegate = self
         self.content.scrollDelegate = self
         self.content.backgroundColor = UIColor.white
@@ -167,16 +167,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.sectionTitleWine.font = WMFont.fontMyriadProRegularOfSize(12)
         self.content.addSubview(self.sectionTitleWine!)
 
-
-
-
-
-
-
-
-        
-        
-        
         let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance.messageInCommens )
         commentsDefault.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsDefault.length))
         commentsDefault.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsDefault.length))
@@ -253,9 +243,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.frame = CGRect(x: margin,y: self.sectionTitleComments!.frame.maxY + margin,width: width,height: 65)
         self.sectionTitleWine!.frame = CGRect(x: margin,y: self.comments!.frame.maxY + margin,width: width,height: 50)
 
-        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 111)
         self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 64)
-        self.layerLine.frame = CGRect(x: 0, y: self.view.bounds.height - 65,  width: self.view.frame.width, height: 1)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 154)
+        self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
         self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton), y: self.layerLine.frame.maxY + 16, width: widthButton, height: 34)
         self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: widthButton, height: 34)
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )

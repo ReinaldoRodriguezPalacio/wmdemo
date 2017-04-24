@@ -200,7 +200,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if landingItem != nil && indexPath.section == 0 {
-            return 215
+            return  IS_IPHONE_6P ? 240 : 215
         }
         
         if indexPath.row % 2 == 0 || collapsed {

@@ -464,10 +464,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton!.frame = CGRect(x: self.view.bounds.maxX - 70 , y:(self.header!.frame.size.height - 22)/2 ,width: 55, height:22)
         if isLandingPage {
             //self.maxYBanner == 0.0 ? self.header!.frame.maxY + 20 : self.maxYBanner
-            bannerView!.frame = CGRect(x: 0,y: 0, width:self.view.frame.width, height:IS_IPAD ?  216 :93)
+            bannerView!.frame = CGRect(x: 0,y: 0, width:self.view.frame.width, height:IS_IPAD ?  216 :96)
             viewBgSelectorBtn.frame =  CGRect(x: CGFloat(viewBgSelectorBtnX),  y:self.bannerView!.frame.maxY - 28,width: 288, height:28)
             viewBgSelectorBtn.alpha = 0
-            startPoint = 46
+            startPoint = self.header!.frame.maxY
+            heightCollection = self.view.bounds.height - startPoint
             self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
 
         }
@@ -483,11 +484,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //println("View bounds: \(self.view.bounds)")
         self.collection!.collectionViewLayout.invalidateLayout()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        //self.loading!.frame = self.collection!.frame
     }
     
     override func back(){
@@ -587,6 +583,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             
             landingCell.addSubview(self.bannerView)
+            landingCell.clipsToBounds = true
             return landingCell
         }
         
