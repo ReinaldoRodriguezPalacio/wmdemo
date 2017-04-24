@@ -8,16 +8,15 @@
 
 import Foundation
 
-
-class DepartmentCollectionViewCell : UICollectionViewCell {
+class DepartmentCollectionViewCell: UICollectionViewCell {
     
-    var buttonClose : UIButton!
-    var imageBackground : UIImageView!
-    var imageIcon : UIImageView!
-    var titleLabel : UILabel!
-    var isOpen : Bool = false
-    var onclose : (() -> Void)? = nil
-    var startFrame : CGRect!
+    var buttonClose: UIButton!
+    var imageBackground: UIImageView!
+    var imageIcon: UIImageView!
+    var titleLabel: UILabel!
+    var isOpen: Bool = false
+    var onclose: (() -> Void)? = nil
+    var startFrame: CGRect!
     var customCloseDep = false
     
     required init?(coder aDecoder: NSCoder) {
@@ -58,24 +57,26 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
     }
     
-    
-    func setValues(_ title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
+    func setValues(_ title: String, imageBackgroundURL: String, keyBgUrl: String, imageIconURL: String, keyIconUrl: String, hideImage: Bool) {
+        
         let model =  UIDevice.current.modelName
-        let scale = model.contains("Plus") ? 3 : UIScreen.main.scale
+        let scale = model.contains("Plus") ? 3: UIScreen.main.scale
         let svcUrl = serviceUrl(keyIconUrl)
         
         var imgURLName = "\(svcUrl)\(imageIconURL)"
         imgURLName = imgURLName.replacingOccurrences(of: ".png", with: "@\(Int(scale))x.png" )
         var loadImagefromUrl =  true
         
-        let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
+        let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr: "categories_default") { (loadImage: Bool) -> Void in
             loadImagefromUrl = loadImage
         }
         
         if loadImagefromUrl {
+            
             self.imageIcon.setImage(with: URL(string: imgURLName)!, and: imageIcon, success: { (image) in
                 self.saveImageToDisk(imageIconURL, image: image, defaultImage: imageIcon!)
             }, failure: {})
+            
         } else {
             self.imageIcon.image = imageIcon
         }
@@ -85,23 +86,24 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let strinname = imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg")
         imgURLNamehead = imgURLNamehead.replacingOccurrences(of: ".jpg", with: "@\(Int(scale))x.jpg" )
         imgURLNamehead = imgURLNamehead.replacingOccurrences(of: ".png", with: "@\(Int(scale))x.jpg" )
-        loadImagefromUrl =  true
+        loadImagefromUrl = true
         
-        let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
+        let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage: Bool) -> Void in
             loadImagefromUrl = loadImage
         }
         
         if loadImagefromUrl {
+            
             self.imageBackground.setImage(with: URL(string: imgURLNamehead)!, and: imageHeader, success: { (image) in
                 self.saveImageToDisk(imageBackgroundURL.replacingOccurrences(of: ".png", with: ".jpg"), image: image,defaultImage:imageHeader!)
             }, failure: {})
+            
         } else {
             print("esles loadImagefromUrl")
             self.imageBackground.image = imageHeader
         }
         
         self.titleLabel.text = title
-        
         self.imageBackground.isHidden = hideImage
         self.titleLabel.isHidden = hideImage
         self.imageIcon.isHidden = hideImage
@@ -121,13 +123,13 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
     }
     
-    func setValuesFromCell(_ cell:DepartmentCollectionViewCell) {
+    func setValuesFromCell(_ cell: DepartmentCollectionViewCell) {
         self.imageIcon.image = cell.imageIcon.image
         self.imageBackground.image = cell.imageBackground.image
         self.titleLabel.text = cell.titleLabel.text
     }
     
-    func serviceUrl(_ serviceName:String) -> String {
+    func serviceUrl(_ serviceName: String) -> String {
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
         let environmentServices = services[environment] as! [String:Any]
@@ -135,7 +137,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         return serviceURL
     }
     
-    func animateToOpenDepartment(_ widthEnd:CGFloat,endAnumating:(() -> Void)?) {
+    func animateToOpenDepartment(_ widthEnd: CGFloat, endAnumating: (() -> Void)?) {
         
         self.startFrame = self.frame
         self.addGestureTiImage()
@@ -161,13 +163,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         })
     }
   
-    func addGestureTiImage(){
+    func addGestureTiImage() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DepartmentCollectionViewCell.closeDepartment))
         self.imageBackground.isUserInteractionEnabled = true
         self.imageBackground.addGestureRecognizer(tapGesture)
-        
-       
-        
     }
     
     func closeDepartment() {
@@ -186,6 +185,11 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                 self.titleLabel.frame = CGRect(x: (self.startFrame.width / 2) - (self.titleLabel.frame.width / 2), y: self.titleLabel.frame.minY, width: self.titleLabel.frame.width, height: self.titleLabel.frame.height)
                 self.imageIcon.frame = CGRect(x: (self.startFrame.width / 2) - 14,  y: self.imageIcon.frame.minY ,  width: self.imageIcon.frame.width,  height: self.imageIcon.frame.height)
                 self.buttonClose.alpha = 0
+                
+                if IS_IPHONE_6 || IS_IPHONE_6P {
+                    self.imageBackground.contentMode = .left
+                }
+                
             }, completion: { (complete:Bool) -> Void in
                 self.removeFromSuperview()
                 if self.onclose != nil {
@@ -201,42 +205,43 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }
     }
     
-    func loadImageFromDisk(_ fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
+    func loadImageFromDisk(_ fileName: String, defaultStr: String, succesBlock: ((Bool) -> Void)) -> UIImage! {
         let getImagePath = self.getImagePath(fileName)
         let fileManager = FileManager.default
-        if (fileManager.fileExists(atPath: getImagePath))
-        {
+        
+        if (fileManager.fileExists(atPath: getImagePath)) {
             let imageis: UIImage = UIImage(data: try! Data(contentsOf: URL(fileURLWithPath: getImagePath)), scale: 2)!
             succesBlock(false)
             return imageis
-        }
-        else
-        {
+        } else {
+            
             var imageDefault = UIImage(named: (fileName.replacingOccurrences(of: ".jpg", with:"") as NSString).deletingPathExtension)
             if imageDefault == nil {
                 imageDefault = UIImage(named: (fileName as NSString).deletingPathExtension + ".jpg")
             }
-            
             
             if imageDefault != nil {
                 print("default image \((fileName as NSString).deletingPathExtension)")
                 succesBlock(true)
                 return imageDefault
             }
+            
             print("default walmart image \(fileName)")
              succesBlock(true)
             return UIImage(named:defaultStr )
         }
+        
     }
     
-    func saveImageToDisk(_ fileName:String,image:UIImage,defaultImage:UIImage) {
+    func saveImageToDisk(_ fileName: String, image: UIImage, defaultImage: UIImage) {
         DispatchQueue.global(qos: .default).async(execute: { () -> Void in
-            let imageData : Data = UIImagePNGRepresentation(image)!
-            let imageDataLast : Data = UIImagePNGRepresentation(defaultImage)!
+            
+            let imageData: Data = UIImagePNGRepresentation(image)!
+            let imageDataLast: Data = UIImagePNGRepresentation(defaultImage)!
             
             if imageData.MD5() != imageDataLast.MD5() {
+
                 let getImagePath = self.getImagePath(fileName)
-                //let fileManager = NSFileManager.defaultManager()
                 try? imageData.write(to: URL(fileURLWithPath: getImagePath), options: [.atomic])
                 
                 let todeletecloud =  URL(fileURLWithPath: getImagePath)
@@ -248,14 +253,17 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                     fatalError()
                 }
             }
+            
         })
     }
 
-    func getImagePath(_ fileName:String) -> String {
+    func getImagePath(_ fileName: String) -> String {
+        
         let fileManager = FileManager.default
         var paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)[0] as NSString
         paths = paths.appendingPathComponent("catimg") as NSString
-        var isDir : ObjCBool = true
+        var isDir: ObjCBool = true
+        
         if fileManager.fileExists(atPath: paths as String, isDirectory: &isDir) == false {
             let err: NSErrorPointer? = nil
             do {
@@ -264,6 +272,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
                 err??.pointee = error
             }
         }
+        
         let todeletecloud =  URL(fileURLWithPath: paths as String)
 
         do {

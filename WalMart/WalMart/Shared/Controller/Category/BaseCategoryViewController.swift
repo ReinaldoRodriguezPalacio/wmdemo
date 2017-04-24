@@ -76,13 +76,13 @@ class BaseCategoryViewController : IPOBaseController, UICollectionViewDelegate, 
         self.categories!.isScrollEnabled = false
         self.categories!.isUserInteractionEnabled = false
         self.categories!.contentInset = UIEdgeInsetsMake(0, 0, self.categories!.frame.height, 0)
-        self.categories!.reloadData()
         
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.categories!.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
         }, completion: { (Bool) -> Void in
             print("")
-           self.delegate?.didSelectDeparmentAtIndex(indexPath)
+            self.delegate?.didSelectDeparmentAtIndex(indexPath)
+            self.categories!.reloadData()
         }) 
     }
     
