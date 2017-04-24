@@ -252,32 +252,35 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
+            let headerview = detailCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header", for: indexPath) 
             
-            let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
-            productDetailButtonGR.upc = self.upc as String
-            productDetailButtonGR.desc = self.name as String
-            productDetailButtonGR.price = self.price as String
-            productDetailButtonGR.isPesable  = self.isPesable
-            productDetailButtonGR.isActive = isActive == true ? self.strisActive! : "false"
-            productDetailButtonGR.onHandInventory = self.onHandInventory as String
-            productDetailButtonGR.isPreorderable = self.strisPreorderable
-            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButtonGR.validateIsInList(self.upc as String)
-            productDetailButtonGR.idListSelect =  self.idListFromlistFind
-            productDetailButton = productDetailButtonGR
+            if productDetailButton == nil {
+                
+                productDetailButton = GRProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 56.0))
+                productDetailButton!.delegate = self
+                headerview.addSubview(productDetailButton!)
+                
+            }
             
-            //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc)
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).upc = self.upc as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).desc = self.name as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).price = self.price as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isPesable  = self.isPesable
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isActive = isActive == true ? self.strisActive! : "false"
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).onHandInventory = self.onHandInventory as String
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isPreorderable = self.strisPreorderable
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).validateIsInList(self.upc as String)
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).idListSelect =  self.idListFromlistFind
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButton!.image = imageUrl
-            productDetailButton!.delegate = self
-            view.addSubview(productDetailButton!)
             
-            return view
+            (self.productDetailButton as! GRProductDetailButtonBarCollectionViewCell).image = imageUrl
+            
+            return headerview
         }
         
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
@@ -417,7 +420,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                     let frame = vc!.view.frame
                     
-                    
+                    self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                     let addShopping = ShoppingCartUpdateController()
                     let quantity = self.productDetailButton!.detailProductCart!.quantity
                     let paramsToSC = self.buildParamsUpdateShoppingCart(quantity.stringValue, orderByPiece: self.itemOrderbyPices, pieces: quantity.intValue,equivalenceByPiece:Int(self.equivalenceByPiece) ) as! [String:Any]
@@ -444,14 +447,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 selectQuantityGR?.showNoteButton()
                 
                 if productDetailButton!.detailProductCart?.product != nil {
-                    selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                    if isPesable {
+                         selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
+                    } else {
+                        selectQuantityGR?.orderByPiece = true
+                    }
                 }
                 
             }
             
-            //selectQuantityGR?.generateBlurImage(self.detailCollectionView,frame:CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail))
             selectQuantityGR?.addToCartAction = { (quantity:String) in
-                //let quantity : Int = quantity.toInt()!
+                
+                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 
                 if quantity == "00" {
                     self.deleteFromCartGR()
@@ -461,17 +468,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 if self.onHandInventory.integerValue >= Int(quantity) {
                     self.closeContainer({ () -> Void in
                         self.productDetailButton?.reloadShoppinhgButton()
-                        }, completeClose: { () -> Void in
-                            self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
-                            self.selectQuantityGR = nil
-                            self.isShowShoppingCart = false
-                            //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-            
-                            let pieces = self.equivalenceByPiece.intValue > 0 ? (Int(quantity)! / self.equivalenceByPiece.intValue) : (Int(quantity)!)
-                            let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: self.itemOrderbyPices, pieces: pieces,equivalenceByPiece:self.equivalenceByPiece.intValue)
-                            NotificationCenter.default.post(name:.addUPCToShopingCart, object: self, userInfo: params)
+                    }, completeClose: { () -> Void in
+                        
+                        let pesable = self.isPesable ? "1" : "0"
+                        
+                        let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity, comments: comments, onHandInventory: self.onHandInventory as String, type: ResultObjectType.Groceries.rawValue, pesable: pesable, isPreorderable: "false", orderByPieces: self.selectQuantityGR!.orderByPiece)
+                        
+                        NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
+                        self.productDetailButton?.isOpenQuantitySelector = false
+                        self.productDetailButton?.reloadShoppinhgButton()
                             
                     })
+                    
                 } else {
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     

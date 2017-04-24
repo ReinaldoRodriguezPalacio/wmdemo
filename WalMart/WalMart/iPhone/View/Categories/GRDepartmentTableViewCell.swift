@@ -96,8 +96,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
     }
     
     func setValuesLanding(_ imageBackgroundURL:String) {
-        
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: UIImage(named: "loading_home"))
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true

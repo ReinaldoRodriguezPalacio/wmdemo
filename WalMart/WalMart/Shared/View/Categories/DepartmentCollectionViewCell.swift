@@ -106,15 +106,11 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         self.titleLabel.isHidden = hideImage
         self.imageIcon.isHidden = hideImage
         
-        if IS_IPHONE_6 || IS_IPHONE_6P {
-            imageBackground.contentMode = .scaleAspectFill
-        }
-        
     }
     
     func setValuesLanding(_ imageBackgroundURL: String) {
         
-        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: nil)
+        self.imageBackground.setImageWith(URL(string: imageBackgroundURL)!, placeholderImage: UIImage(named: "loading_home"))
         self.imageBackground.isHidden = false
         self.titleLabel.isHidden = true
         self.imageIcon.isHidden = true
