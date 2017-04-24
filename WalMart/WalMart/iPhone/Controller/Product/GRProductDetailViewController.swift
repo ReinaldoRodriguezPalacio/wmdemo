@@ -457,9 +457,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
-                
                 self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
-                
                 if quantity == "00" {
                     self.deleteFromCartGR()
                     return
