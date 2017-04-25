@@ -399,15 +399,18 @@ class IPAUserListViewController: UserListViewController {
                                         self.newListEnabled = true
                                         self.cancelNewList()
                                         if UserCurrentSession.hasLoggedUser() {
-                                            for itemList in self.itemsUserList! as! [[String:Any]] {
-                                                
-                                                if (itemList["name"] as! String) == value {
-                                                    self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
-                                                    let cell = self.tableuserlist!.cellForRow(at: IndexPath(row:count,section:1))
-                                                    cell?.isSelected = true
-                                                    return
+                                            if let userList = self.itemsUserList! as? [[String:Any]] {
+                                                for itemList in userList {
+                                                    
+                                                    if (itemList["name"] as! String) == value {
+                                                        self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
+                                                        let cell = self.tableuserlist!.cellForRow(at: IndexPath(row:count,section:1))
+                                                        cell?.isSelected = true
+                                                        return
+                                                    }
+                                                    
+                                                    count += 1
                                                 }
-                                                count += 1
                                             }
                                         }
                                 },
