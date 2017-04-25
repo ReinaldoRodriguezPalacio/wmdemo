@@ -60,22 +60,15 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        var heightEmptyView = self.view.bounds.height
+        let heightEmptyView = self.view.frame.height - 46
         var widthEmptyView = self.view.bounds.width
-        let model =  UIDevice.current.modelName
         
-        if !model.contains("Plus") && !model.contains("4") && !model.contains("5") {
-            heightEmptyView -= 46
-        }
-        if IS_IPHONE_6P {
-            heightEmptyView -= 14
-        }
-        if IS_IPAD || model.contains("iPad") {
+        if IS_IPAD {
             widthEmptyView = 681.5
         }
         
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.bounds.maxY, width: widthEmptyView, height: heightEmptyView)
-        if IS_IPAD || model.contains("iPad") {
+        if IS_IPAD{
             self.emptyView!.showReturnButton = false
         }
         self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 92)

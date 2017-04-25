@@ -1223,11 +1223,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
     override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable : Any] {
         var imageUrlSend = ""
+        
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
+        
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable, "orderByPiece": self.itemOrderbyPices, "pieces": quantity,"equivalenceByPiece":self.equivalenceByPiece!]
+        return ["upc": self.upc, "desc": self.name, "imgUrl": imageUrlSend, "price": self.price, "quantity":quantity, "comments": self.comments, "onHandInventory": self.onHandInventory, "wishlist": false, "type": ResultObjectType.Groceries.rawValue, "pesable": pesable, "orderByPiece": orderByPiece, "pieces": quantity, "equivalenceByPiece": self.equivalenceByPiece!]
     }
     
     

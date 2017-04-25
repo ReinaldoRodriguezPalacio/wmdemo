@@ -1070,33 +1070,28 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let frame = self.view.frame
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
+            let footerFrame = self.viewFooter!.frame
             
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height:frame.height - footerFrame.minY)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             listSelectorController?.showListView =  true
             
-            
             UIView.animate(withDuration: 0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: self.view.bounds.height - 114)
                     //self.listSelectorController!.imageBlurView!.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
                 },
                 completion: { (finished:Bool) -> Void in
-                    if finished {
-                        let footerFrame = self.viewFooter!.frame
-                        self.listSelectorController!.tableView!.contentInset = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-                        self.listSelectorController!.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-                    }
                 }
             )
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: self.view.bounds.height - 114)
             })
         }
         else {
