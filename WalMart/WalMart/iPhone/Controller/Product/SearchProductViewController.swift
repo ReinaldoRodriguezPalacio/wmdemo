@@ -826,6 +826,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         else{
                             self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                          
                         }
 
                     case .withCategoryForGR :
@@ -1226,6 +1227,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.grResults!.resultsInResponse = self.mgResults!.totalResults
                 self.finsihService =   self.btnSuper.isSelected
                 self.removeEmpty =  false
+              if self.btnSuper.isSelected  && self.searchContextType != WalmartMG.SearchServiceContextType.withText {
+                  self.showEmptyView()//Iphone
+                }
                 self.collection?.reloadData()
                // actionSuccess?()
                 print(error)
@@ -1622,7 +1626,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func showEmptyMGGRView(){
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         
-       
+        if self.empty !=  nil {
+          return
+        }
+      
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
         var maxY = self.collection!.frame.minY
