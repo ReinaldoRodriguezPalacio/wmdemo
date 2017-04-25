@@ -45,7 +45,8 @@ class IPAUserListViewController: UserListViewController {
         self.needsToShowWishList = false
         self.selectedItem = IndexPath(row: 0, section: 0)
         self.tableuserlist?.selectRow(at: self.selectedItem, animated: false, scrollPosition: .none)
-        self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
+        self.heightTable = 549.0
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,7 +85,7 @@ class IPAUserListViewController: UserListViewController {
         self.searchContainer!.isHidden = false
         self.searchConstraint?.constant = self.SC_HEIGHT
         self.isTableNewFrame =  false
-        self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
+        self.heightTable = 549
         self.didShowBackground = false
         if animated {
             UIView.animate(withDuration: 0.5,
@@ -113,7 +114,7 @@ class IPAUserListViewController: UserListViewController {
     override func hideSearchField(_ aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
         self.isTableNewFrame =  true
-        self.heightTable = self.view.frame.height
+        self.heightTable = self.view.frame.height - (self.header!.frame.height)
         self.didShowBackground = true
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
         UIView.animate(withDuration: 0.5,
