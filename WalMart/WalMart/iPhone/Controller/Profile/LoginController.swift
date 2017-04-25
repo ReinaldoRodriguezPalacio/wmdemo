@@ -177,8 +177,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 //self.generateBlurImage()
             }
         
-            self.viewCenter!.frame = CGRect(x: (self.view.bounds.width / 2) - (456 / 2) ,y: 0, width: 456, height: self.view.bounds.height)
-            self.content.frame = CGRect( x: (self.viewCenter!.frame.width / 2) - (320 / 2) , y: 50 , width: 320 , height: bounds.height - 50)
+            let maxWidth = view.frame.width
+            
+            self.viewCenter!.frame = CGRect(x: 0, y: 8, width: maxWidth, height: self.view.bounds.height)
+            self.content.frame = CGRect( x: 0 , y: 50 , width: maxWidth , height: bounds.height - 50)
             self.titleLabel!.frame =  CGRect(x: 0 , y: 0, width: self.content.frame.width , height: 16)
             self.email?.frame = CGRect(x: leftRightPadding,  y: 40 , width: self.content.frame.width-(leftRightPadding*2), height: fieldHeight)
             self.password?.frame = CGRect(x: leftRightPadding, y: email!.frame.maxY+1, width: self.email!.frame.width , height: fieldHeight)
