@@ -122,7 +122,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }
         
         let xPosition = isFullView ? ((frame.width - 232) / 2) : ((frame.width - 222) / 2)
-        let yPositionForTitles = isFullView && startH != 0 ? 112 : (startH + 51)
+        let yPositionForTitles = (isFullView && startH != 0) ? (IS_IPHONE_6P ? 132 : 112 ): (startH + 51)
         let buttonSize: CGFloat = isFullView ? 40 : 32
         
         btnLess = UIButton(frame: CGRect(x: xPosition, y: yPositionForTitles, width: buttonSize, height: buttonSize))
