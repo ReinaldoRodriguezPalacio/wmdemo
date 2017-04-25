@@ -122,7 +122,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         }
         
         let xPosition = isFullView ? ((frame.width - 232) / 2) : ((frame.width - 222) / 2)
-        let yPositionForTitles = isFullView && startH != 0 ? 112 : (startH + 51)
+        let yPositionForTitles = isFullView && startH != 0 ? 130 : (startH + 51)
         let buttonSize: CGFloat = isFullView ? 40 : 32
         
         btnLess = UIButton(frame: CGRect(x: xPosition, y: yPositionForTitles, width: buttonSize, height: buttonSize))
@@ -151,7 +151,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         let adjustWeightY: CGFloat = frame.height > 380 ? 14 : 0
         let separationWeightY: CGFloat = 12 + adjustWeightY
-        let keyboardWeightHeight: CGFloat = isFullView ? 196 : 190
+        let keyboardWeightHeight: CGFloat = isFullView ? 196 : 195
         let keyboardWeightYPosition: CGFloat = isFullView ? lblQuantityW.frame.maxY + 74 : lblQuantityW.frame.maxY + separationWeightY
         
         keyboard = WeightKeyboardView(frame: CGRect(x: (self.frame.width / 2) - (289/2), y: keyboardWeightYPosition, width: 289, height: keyboardWeightHeight))
