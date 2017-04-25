@@ -271,7 +271,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         
         
-        self.femaleButton!.frame = CGRect(x: 84,  y: birthDate!.frame.maxY + 15,  width: 76 , height: fieldHeight)
+        self.femaleButton!.frame = CGRect(x: (view.frame.width - 152) / 2,  y: birthDate!.frame.maxY + 15,  width: 76 , height: fieldHeight)
         self.maleButton!.frame = CGRect(x: self.femaleButton!.frame.maxX,  y: birthDate!.frame.maxY + 15, width: 76 , height: fieldHeight)
         
         self.cancelButton!.frame = CGRect(x: leftRightPadding,  y: maleButton!.frame.maxY + 15,  width: (self.email!.frame.width / 2) - 5 , height: fieldHeight)
@@ -753,7 +753,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             lblPersonalData.numberOfLines = 0
             
             
-            self.acceptSharePersonal = UIButton(frame: CGRect(x: 45, y: lblPersonalData.frame.maxY + 24.0, width: 120, height: 16))
+            self.acceptSharePersonal = UIButton(frame: CGRect(x: (frame.width - 240) / 2, y: lblPersonalData.frame.maxY + 24.0, width: 120, height: 16))
             self.acceptSharePersonal?.setTitle(NSLocalizedString("signup.info.share.yes", comment: ""), for: UIControlState())
             self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOff"), for: UIControlState())
             self.acceptSharePersonal!.setImage(UIImage(named:"checkTermOn"), for: UIControlState.selected)
@@ -771,8 +771,9 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
             self.declineSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), for: UIControlEvents.touchUpInside)
             
+            let btnWidth = (frame.width - (16 * 3)) / 2
             
-            self.backButton = UIButton(frame: CGRect(x: 16, y: declineSharePersonal!.frame.maxY + 102.0, width: 136, height: 40))
+            self.backButton = UIButton(frame: CGRect(x: 16, y: declineSharePersonal!.frame.maxY + 102.0, width: btnWidth, height: 40))
             self.backButton!.setTitle(NSLocalizedString("signup.info.return", comment: ""), for: UIControlState())
             self.backButton!.setTitleColor(UIColor.white, for: UIControlState())
             self.backButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -780,7 +781,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.backButton!.layer.cornerRadius = 20.0
             self.backButton!.addTarget(self, action: #selector(SignUpViewController.backRegistry(_:)), for: .touchUpInside)
             
-            self.registryButton = UIButton(frame: CGRect(x: self.backButton!.frame.maxX + 16.0, y: declineSharePersonal!.frame.maxY + 102.0, width: 136, height: 40))
+            self.registryButton = UIButton(frame: CGRect(x: self.backButton!.frame.maxX + 16.0, y: declineSharePersonal!.frame.maxY + 102.0, width: btnWidth, height: 40))
             self.registryButton!.setTitle(NSLocalizedString("signup.info.registry", comment: ""), for: UIControlState())
             self.registryButton!.setTitleColor(UIColor.white, for: UIControlState())
             self.registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
