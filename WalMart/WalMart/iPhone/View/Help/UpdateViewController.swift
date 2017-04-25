@@ -68,8 +68,13 @@ class UpdateViewController: UIView {
         
         
         var startY  : CGFloat =  189.0
-        if UIDevice.current.userInterfaceIdiom != .phone  {
-            startY =  289
+        
+        if IS_IPHONE_6P {
+            startY = 239.0
+        }
+        
+        if IS_IPAD  {
+            startY =  289.0
         }
         
         title.frame = CGRect(x: (self.frame.width / 2) - 145, y: startY, width: 290, height: 24)

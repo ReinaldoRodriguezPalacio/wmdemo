@@ -443,16 +443,16 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                 if ixCount < self.itemsInShoppingCart.count {
                     serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:[String:Any]) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
-
-                        
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }else {
                     serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:[String:Any]) -> Void in
                         self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
                         animation.removeFromSuperview()
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
                         }, errorBlock: { (error:NSError) -> Void in
                             animation.removeFromSuperview()
+                              NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil) 
                     })
                 }
                 ixCount += 1

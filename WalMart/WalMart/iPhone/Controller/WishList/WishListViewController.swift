@@ -273,8 +273,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func deleteFromWishlist(_ UPC:String) {
+        self.addViewLoad()
         let serviceWishDelete = DeleteItemWishlistService()
         serviceWishDelete.callCoreDataService(UPC, successBlock: { (result:[String:Any]) -> Void in
+            WishlistService.shouldupdate = true
             self.reloadWishlist()
             }) { (error:NSError) -> Void in
             
@@ -304,6 +306,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //            })
         }
         
+    }
+    
+    func addViewLoad() {
+        viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+        viewLoad.backgroundColor = UIColor.white
+        self.view.addSubview(viewLoad)
+        viewLoad.startAnnimating(true)
     }
     
     func updateShopButton() {
@@ -822,6 +831,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
         
+        self.addViewLoad()
+        
         let serviceWishDelete = DeleteItemWishlistService()
         var upcsWL : [String]  = []
         for itemWishlist in self.items {
@@ -829,10 +840,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             upcsWL.append(upc as String)
         }
         serviceWishDelete.callServiceWithParams(["parameter":upcsWL], successBlock: { (result:[String:Any]) -> Void in
-                self.reloadWishlist()
+                self.invokeWishlistService()
                 self.editAction(self.edit)
             }) { (error:NSError) -> Void in
-                self.reloadWishlist()
+                self.invokeWishlistService()
                 self.editAction(self.edit)
         }
         

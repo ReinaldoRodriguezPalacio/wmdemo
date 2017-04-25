@@ -621,7 +621,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shippingCost, withTax: tax)
         let total = subtotal.adding(shippingCost).adding(tax)
  
-        let payment = PayPalPayment(amount: total, currencyCode: currency, shortDescription: "Walmart", intent: .authorize)
+        let payment = PayPalPayment(amount: total, currencyCode: currency, shortDescription: "Tu pedido en Walmart.com.mx", intent: .authorize)
         
        let shippingAddress =  PayPalShippingAddress(recipientName: "\(firstName) \(middleName) \(lastName)", withLine1: addressLine1, withLine2: addressLine2, withCity: city, withState    : state, withPostalCode: postalCode, withCountryCode: country)
         

@@ -42,9 +42,11 @@ class DeleteItemWishlistService : BaseService {
                 //Se actualza la lista del usuario
                 let serviceWish = UserWishlistService()
                 serviceWish.callService({ (wishlist:[String:Any]) -> Void in
+                    successBlock!([:])
                     }, errorBlock: { (error:NSError) -> Void in
+                        errorBlock!(error)
                 })
-                successBlock!([:])
+                
                 }) { (error:NSError) -> Void in
                     errorBlock!(error)
             }
