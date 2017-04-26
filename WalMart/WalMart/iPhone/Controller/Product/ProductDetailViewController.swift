@@ -1401,7 +1401,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter sender: sender
      */
     func endUpdatingShoppingCart(_ sender:AnyObject) {
-        self.productDetailButton?.setDetailProductInCart()
+        self.productDetailButton?.reloadShoppinhgButton()
     }
     
     //MARK: Color Size Functions

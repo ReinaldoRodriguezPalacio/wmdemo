@@ -239,10 +239,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.isOpenQuantitySelector = true
     }
     
-    func setDetailProductInCart() {
-        self.reloadShoppinhgButton()
-    }
-    
     func reloadShoppinhgButton() {
         if isOpenQuantitySelector {
             return
