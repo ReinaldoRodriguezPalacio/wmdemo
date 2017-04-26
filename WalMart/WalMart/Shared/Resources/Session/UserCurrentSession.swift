@@ -537,6 +537,7 @@ class UserCurrentSession : NSObject {
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             
             for cartDelete in array {
+                cartDelete.quantity = 1
                 cartDelete.status = NSNumber(value: CartStatus.updated.rawValue as Int)
             }
             
