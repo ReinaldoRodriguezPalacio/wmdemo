@@ -23,7 +23,11 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
 
 class ProductDetailButtonBarCollectionViewCell : UIView {
     
-    var upc : String!
+    var upc : String! {
+        didSet {
+            detailProductCart  = self.retrieveProductInCar()
+        }
+    }
     var desc : String!
     var price : String!
     var image : String!
@@ -239,6 +243,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.isOpenQuantitySelector = true
     }
     
+    func setDetailProductInCart() {
+        detailProductCart  = self.retrieveProductInCar()
+        self.reloadShoppinhgButton()
+    }
+    
     func reloadShoppinhgButton() {
         if isOpenQuantitySelector {
             return
@@ -270,14 +279,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         self.addToShoppingCartButton!.backgroundColor = buttonColor
         
-        detailProductCart  = self.retrieveProductInCar()
-        
         self.addToShoppingCartButton!.setImage(nil, for: UIControlState())
         self.addToShoppingCartButton!.setImage(nil, for: UIControlState.selected)
         
         self.comments = ""
         
-        if detailProductCart != nil {
+        if detailProductCart != nil && detailProductCart!.quantity.int32Value != 0 {
             var quantity = detailProductCart!.quantity
             let pieces = detailProductCart!.product.pieces
                 //var price = detail!.product.price as NSNumber
