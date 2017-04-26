@@ -185,7 +185,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
         
-         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+//         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {

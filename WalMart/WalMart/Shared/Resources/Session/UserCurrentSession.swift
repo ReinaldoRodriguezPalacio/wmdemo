@@ -503,6 +503,53 @@ class UserCurrentSession : NSObject {
         
     }
     
+    func userHasUPCDeletedInShoppingCart(_ upc: String) {
+        
+        var predicate: NSPredicate? = nil
+        
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status == %@", userSigned!, upc,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
+        } else {
+            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status == %@", upc,NSNumber(value: WishlistStatus.deleted.rawValue as Int))
+        }
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Cart" as String)
+        request.predicate = predicate
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.fetch(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+            print("errore: \(error!)")
+        }
+        
+        if fetchedResult?.count != 0 {
+            
+            var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
+            if UserCurrentSession.hasLoggedUser() {
+                predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance.userSigned!)
+            }
+            let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+            
+            for cartDelete in array {
+                cartDelete.status = NSNumber(value: CartStatus.updated.rawValue as Int)
+            }
+            
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                print(error1.description)
+            }
+            
+        }
+        
+    }
+    
     func userHasQuantityUPCShoppingCart(_ upc:String) -> Cart? {
         var  predicate  : NSPredicate? = nil
         if userSigned != nil {
@@ -543,6 +590,7 @@ class UserCurrentSession : NSObject {
         
         return productIncar
     }
+    
     
     func userHasNoteUPCShoppingCart(_ upc:String) -> Bool {
         var  predicate  : NSPredicate? = nil
