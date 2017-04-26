@@ -23,11 +23,7 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate: class {
 
 class ProductDetailButtonBarCollectionViewCell : UIView {
     
-    var upc : String! {
-        didSet {
-            detailProductCart  = self.retrieveProductInCar()
-        }
-    }
+    var upc : String!
     var desc : String!
     var price : String!
     var image : String!
@@ -244,7 +240,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     func setDetailProductInCart() {
-        detailProductCart  = self.retrieveProductInCar()
         self.reloadShoppinhgButton()
     }
     
@@ -283,7 +278,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setImage(nil, for: UIControlState.selected)
         
         self.comments = ""
-        
+        detailProductCart  = self.retrieveProductInCar()
+
         if detailProductCart != nil && detailProductCart!.quantity.int32Value != 0 {
             var quantity = detailProductCart!.quantity
             let pieces = detailProductCart!.product.pieces
