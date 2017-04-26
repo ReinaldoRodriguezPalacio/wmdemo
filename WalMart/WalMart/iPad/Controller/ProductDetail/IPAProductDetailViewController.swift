@@ -863,7 +863,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.selectQuantity?.userSelectValue("\(maxProducts)")
             }
         }
-        
+      
+        if productDetailButton!.detailProductCart?.quantity != nil {
+          self.productDetailButton?.reloadShoppinhgButton()
+          selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+          selectQuantity?.first = true
+        }
+      
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton!.addToShoppingCartButton.isSelected = true

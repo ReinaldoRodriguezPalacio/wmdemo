@@ -503,7 +503,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             if self.productDetailButton!.detailProductCart != nil {
                 let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
                 let frame = vc!.view.frame
-                
+                self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 self.productDetailButton!.detailProductCart  = self.productDetailButton!.retrieveProductInCar()
                 let addShopping = ShoppingCartUpdateController()
                 let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:Any]
@@ -523,13 +523,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         
         if productDetailButton!.detailProductCart?.quantity != nil {
-            
+            self.productDetailButton?.reloadShoppinhgButton()
             selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
             selectQuantityGR?.first = true
             selectQuantityGR?.showNoteButton()
             
             if productDetailButton!.detailProductCart?.product != nil {
                 if isPesable {
+                  
                     selectQuantityGR?.validateOrderByPiece(orderByPiece: productDetailButton!.detailProductCart!.product.orderByPiece.boolValue, quantity: productDetailButton!.detailProductCart!.quantity.doubleValue, pieces: productDetailButton!.detailProductCart!.product.pieces.intValue)
                 } else {
                     selectQuantityGR?.orderByPiece = true
