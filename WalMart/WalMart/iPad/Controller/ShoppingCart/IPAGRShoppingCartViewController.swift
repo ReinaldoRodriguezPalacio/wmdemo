@@ -184,7 +184,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                     
                     self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
                 } else {

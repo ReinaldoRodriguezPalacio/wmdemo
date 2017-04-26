@@ -265,7 +265,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                     BaseController.sendAnalyticsAddOrRemovetoCart(allItems, isAdd: true) //360 multiple add
                     
                     self.finishCall = true
-                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     if self.timmer == nil {
                         self.showDoneIcon()
                         WishlistService.shouldupdate = true
@@ -308,7 +308,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                         self.showDoneIcon()
                     }
                     
-                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     
                     if wishlistDelete.count > 0 {
                         let deleteService = DeleteItemWishlistService()
@@ -406,7 +406,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                             NotificationCenter.default.post(name: .reloadWishList, object: nil)
                         }
                         
-                        NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                        NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
 
                         
                         //UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
@@ -452,7 +452,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                     NotificationCenter.default.post(name: .reloadWishList, object: nil)
                 }
                 
-                NotificationCenter.default.post(name:.successAddItemsToShopingCart, object: nil)
+                NotificationCenter.default.post(name:.successUpdateItemsInShoppingCart, object: nil)
                 UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
                     UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                 })
@@ -729,7 +729,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                             WishlistService.shouldupdate = true
                         }
                         
-                        NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                        NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                         
                     }) { (error: NSError) -> Void in
                         

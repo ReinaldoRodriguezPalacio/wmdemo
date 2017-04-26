@@ -270,14 +270,13 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         self.addToShoppingCartButton!.backgroundColor = buttonColor
         
-        detailProductCart  = self.retrieveProductInCar()
-        
         self.addToShoppingCartButton!.setImage(nil, for: UIControlState())
         self.addToShoppingCartButton!.setImage(nil, for: UIControlState.selected)
         
         self.comments = ""
-        
-        if detailProductCart != nil {
+        detailProductCart  = self.retrieveProductInCar()
+
+        if detailProductCart != nil && detailProductCart!.quantity.int32Value != 0 {
             var quantity = detailProductCart!.quantity
             let pieces = detailProductCart!.product.pieces
                 //var price = detail!.product.price as NSNumber

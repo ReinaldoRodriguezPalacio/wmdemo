@@ -182,8 +182,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
         bannerImagesProducts.imageIconView.isHidden = true
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName: "IPAProductDetail")
+
         self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
-        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .successAddItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: .successUpdateItemsInShoppingCart, object: nil)
         
     }
     

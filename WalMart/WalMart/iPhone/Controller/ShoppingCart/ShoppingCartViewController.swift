@@ -184,6 +184,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
         UserCurrentSession.sharedInstance.nameListToTag = "Shopping Cart"
+
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable() {
             registerForPreviewing(with: self, sourceView: viewShoppingCart!)
@@ -191,7 +192,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
-         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successAddItemsToShopingCart, object: nil)
+//         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {
@@ -884,7 +885,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }, errorBlock: { (error:NSError) -> Void in
             print("delete pressed Errro \(error)")
         })
-        NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
+        
     }
     
     /**
@@ -1477,7 +1478,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
               
                 
                 print("done")
-                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
+
                 //EVENT
                 ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
                 

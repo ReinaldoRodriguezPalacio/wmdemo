@@ -36,6 +36,7 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
                     let shoppingService = ShoppingCartProductsService()
                     shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
                 }else{
+                    NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
                     successBlock!([:])
                 }
                 }) { (error:NSError) -> Void in

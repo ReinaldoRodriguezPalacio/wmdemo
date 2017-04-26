@@ -170,7 +170,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.view.addSubview(containerinfo)
         BaseController.setOpenScreenTagManager(titleScreen: self.titlelbl.text!, screenName:self.getScreenGAIName() )
         NSLog("finish viewDidLoad", "")
-        NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart(_:)), name: .successAddItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart(_:)), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {
