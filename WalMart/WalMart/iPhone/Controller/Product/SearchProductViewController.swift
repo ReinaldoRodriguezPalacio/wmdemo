@@ -2361,9 +2361,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func buildMGSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+  func buildMGSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect,quantity:String){
         let startY: CGFloat = IS_IPAD ? 20 : 64
         selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc,startY:startY)
+        selectQuantity.userSelectValue(quantity)
         selectQuantity!.closeAction = { () in
             UIView.animate(withDuration: 0.2, animations: {
                 self.selectQuantity.alpha = 0
@@ -2418,7 +2419,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if !selectQuantityOpen {
             if let frameTo = self.view.window?.frame  {
                 let frameDetail = CGRect(x: 0,y: 0, width: frameTo.width,height: frameTo.height)
-                self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+                self.buildMGSelectQuantityView(cell, viewFrame: frameDetail, quantity: String(describing: productInCart!.quantity))
                 self.selectQuantity.alpha = 0
                 self.view.window?.addSubview(selectQuantity)
                 UIView.animate(withDuration: 0.2, animations: { 
