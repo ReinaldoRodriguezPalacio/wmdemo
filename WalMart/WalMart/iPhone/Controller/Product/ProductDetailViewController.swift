@@ -615,7 +615,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.selectQuantity?.userSelectValue("\(maxProducts)")
                     }
             }
-            
+          
+          if productDetailButton!.detailProductCart?.quantity != nil {
+            self.productDetailButton?.reloadShoppinhgButton()
+            selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+            selectQuantity?.first = true
+          }
+          
             self.detailCollectionView.isScrollEnabled = false
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.detailCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.detailCollectionView.frame.width,  height: self.detailCollectionView.frame.height ), animated: false)
@@ -706,7 +712,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()
                 }
-                
                 if self.selectQuantity != nil {
                     self.selectQuantity!.removeFromSuperview()
                     self.selectQuantity = nil

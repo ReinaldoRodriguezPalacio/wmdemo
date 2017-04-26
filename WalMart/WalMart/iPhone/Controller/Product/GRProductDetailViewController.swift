@@ -436,12 +436,16 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()
                     addShopping.addNoteToProduct(nil)
+                    addShopping.noteAdded = { () in
+                      self.selectQuantityGR?.closeSelectQuantity()
+                    }
                 }
             
             }
             
             if productDetailButton!.detailProductCart?.quantity != nil {
-                
+                self.productDetailButton?.reloadShoppinhgButton()
+              
                 selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()

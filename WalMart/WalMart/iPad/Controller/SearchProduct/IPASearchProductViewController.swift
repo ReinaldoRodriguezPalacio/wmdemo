@@ -361,7 +361,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         if !selectQuantityOpen {
             
             let frameDetail = CGRect(x: 0,y: 0,width: 320,height: 394)
-            self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+            self.buildMGSelectQuantityView(cell, viewFrame: frameDetail,quantity: "\(productInCart!.quantity)")
             
             selectQuantity?.closeAction = { () in
                 self.selectQuantityPopover!.dismiss(animated: true)
@@ -388,7 +388,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                             pieces = (Int(quantity)!)
                         }
                         
-                        let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: true, pieces: pieces)
+                        let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: true, pieces: pieces,commens: "")
                         
                         ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                         

@@ -207,9 +207,9 @@ class ShoppingCartQuantitySelectorView: UIView, KeyboardViewDelegate {
         
         var resultText: NSString = ""
         if first {
-            var tmpResult: String = value as String
-            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)": value!
-            if tmpResult != ZERO_QUANTITY_STRING{
+            var tmpResult : String = value as String
+            tmpResult = (tmpResult as NSString).integerValue < 10 ? "0\(value!)" : value!
+            if tmpResult != ZERO_QUANTITY_STRING  && tmpResult != "0" {
                 lblQuantity.text = tmpResult as String
                 first = false
             }
