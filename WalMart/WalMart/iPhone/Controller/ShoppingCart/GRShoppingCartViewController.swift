@@ -151,7 +151,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         initEmptyView()
         //loadGRShoppingCart()
         BaseController.setOpenScreenTagManager(titleScreen: "Carrito", screenName: self.getScreenGAIName())
-        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: .successAddItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
  
     }
     
@@ -883,7 +883,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.tableShoppingCart.reloadData()
                     self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
                 }
-                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
+                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
             })
             }, errorBlock: { (error:NSError) -> Void in
                  self.removeViewLoad()
@@ -951,7 +951,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 //self.loadGRShoppingCart()
                 
                 self.removeViewLoad()
-                NotificationCenter.default.post(name:  .successDeleteItemsToShopingCart, object: nil, userInfo:nil)
+                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
                 print("done")
                 if self.onClose != nil {
                     self.onClose?(true)

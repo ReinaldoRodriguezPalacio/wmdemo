@@ -37,8 +37,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 extension Notification.Name {
     static let addUPCToShopingCart = Notification.Name("kAddUPCToShopingCart")
     static let addItemsToShopingCart = Notification.Name("kAddItemsToShopingCart")
-    static let successAddItemsToShopingCart = Notification.Name("kSuccessAddItemsToShopingCart")
-    static let successDeleteItemsToShopingCart = Notification.Name("kSuccessDeleteItemsToShopingCart")
+    static let successUpdateItemsInShoppingCart = Notification.Name("kSuccessUpdateItemsInShoppingCart")
     static let reloadWishList = Notification.Name("kReloadWishList")
     static let updateBadge = Notification.Name("kUpdateBadge")
     static let userLogOut = Notification.Name("kUserLogOut")
@@ -54,7 +53,6 @@ extension Notification.Name {
     static let camFindSearch = Notification.Name("kCamFindSearch")
     static let scanBarCode = Notification.Name("kScanBarcode")
     static let updateNotificationBadge = Notification.Name("kUpdateNotificationBadge")
-    
     static let showGRLists = Notification.Name("kShowGRLists")
     static let showHomeSelected = Notification.Name("kShowHomeSelected")
 }

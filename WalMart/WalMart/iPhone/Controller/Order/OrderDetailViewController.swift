@@ -103,8 +103,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("profile.myOrders", comment: "")
             BaseController.setOpenScreenTagManager(titleScreen: "Pedido \(trackingNumber)", screenName: self.getScreenGAIName())
         
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successAddItemsToShopingCart, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successDeleteItemsToShopingCart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OrderDetailViewController.reloadViewDetail), name: .successUpdateItemsInShoppingCart, object: nil)
+        
     }
     
     deinit {

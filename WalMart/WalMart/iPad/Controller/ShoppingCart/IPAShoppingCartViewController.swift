@@ -73,7 +73,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
-         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successAddItemsToShopingCart, object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {

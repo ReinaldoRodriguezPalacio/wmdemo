@@ -32,7 +32,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     if successBlock != nil {
                         successBlock!(resultCall)
                     }
-                    NotificationCenter.default.post(name: .successAddItemsToShopingCart, object: nil)
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     self.callCoreDataService(params, successBlock: nil, errorBlock: nil)
                 })
                
@@ -82,6 +82,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
         
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+            
             successBlock?([:])
         }
     
