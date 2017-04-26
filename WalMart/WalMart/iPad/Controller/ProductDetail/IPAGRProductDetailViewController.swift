@@ -518,6 +518,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
                 addShopping.addNoteToProduct(nil)
+                addShopping.noteAdded = { () in
+                  self.selectQuantityGR?.closeSelectQuantity()
+                }
+              
             }
             
         }
