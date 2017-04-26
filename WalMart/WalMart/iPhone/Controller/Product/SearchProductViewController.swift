@@ -2180,8 +2180,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         pieces = (Int(quantity)!)
                     }
                     
-                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces)
-                    
+                  let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: self.selectQuantityGR!.orderByPiece, pieces: pieces,commens:noteProduct)
+                  
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
@@ -2222,7 +2222,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
             let frame = vc!.view.frame
             let addShopping = ShoppingCartUpdateController()
-            let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(Int(quantity))",position:cell.positionSelected,orderByPiece:self.selectQuantityGR.orderByPiece,pieces: pieces)
+            let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(Int(quantity))",position:cell.positionSelected,orderByPiece:self.selectQuantityGR.orderByPiece,pieces: pieces,commens: productincar == nil ? "" :( productincar!.note ==  nil ? "" : productincar!.note!))
             addShopping.params = paramsToSC
             //vc!.addChildViewController(addShopping)
             addShopping.view.frame = frame
@@ -2238,8 +2238,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             addShopping.removeSpinner()
             addShopping.addActionButtons()
             addShopping.addNoteToProduct(nil)
+          
         }
-        
+      
         selectQuantityGR?.userSelectValue(prodQuantity)
         selectQuantityGR?.first = true
         //selectQuantityGR!.generateBlurImage(self.view,frame:selectQuantityGR.bounds)
@@ -2252,7 +2253,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.selectQuantityGR?.closeAction()
         self.selectQuantityGR = nil
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0)
+        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0,commens: "")
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }
@@ -2313,7 +2314,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.selectQuantity!.closeAction()
         self.selectQuantity = nil
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0)
+        let itemToDelete = self.buildParamsUpdateShoppingCart(cell, quantity: "0", position: position,orderByPiece:true, pieces: 0, commens: "")
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }
@@ -2384,7 +2385,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     
-                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: true, pieces: Int(quantity)!)
+                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity, position: cell.positionSelected, orderByPiece: true, pieces: Int(quantity)!, commens: "")
                     
                     ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
@@ -2429,17 +2430,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell, quantity:String, position:String, orderByPiece: Bool, pieces: Int) -> [String:Any] {
+  func buildParamsUpdateShoppingCart(_ cell:SearchProductCollectionViewCell, quantity:String, position:String, orderByPiece: Bool, pieces: Int,commens:String) -> [String:Any] {
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"
         if cell.type == ResultObjectType.Groceries.rawValue {
             if searchText != ""{
-                return ["orderByPieces": orderByPiece, "pieces": pieces, "upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
+                return ["orderByPieces": orderByPiece, "pieces": pieces, "upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":commens,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
             }
-            return ["orderByPieces": orderByPiece, "pieces": pieces, "upc": cell.upc, "desc": cell.desc, "imgUrl": cell.imageURL, "price": cell.price, "quantity": quantity, "comments": "", "onHandInventory": cell.onHandInventory, "wishlist": false, "type": ResultObjectType.Groceries.rawValue, "pesable": pesable]
-        }
-        else {
+            return ["orderByPieces": orderByPiece, "pieces": pieces, "upc": cell.upc, "desc": cell.desc, "imgUrl": cell.imageURL, "price": cell.price, "quantity": quantity, "comments": commens, "onHandInventory": cell.onHandInventory, "wishlist": false, "type": ResultObjectType.Groceries.rawValue, "pesable": pesable]
+        }else {
             
             if searchText != ""{
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel,"position":position]]

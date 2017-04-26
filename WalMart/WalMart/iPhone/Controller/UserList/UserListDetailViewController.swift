@@ -1045,20 +1045,23 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             var price: NSNumber? = nil
             var equivalence : NSNumber = 0
+            var quantity : Int = 1
             
             if let item = self.products![indexPath!.row] as? [String:Any] {
                 if let pesable = item["type"] as? NSString {
                     isPesable = pesable.intValue == 1
                 }
                 price = item["price"] as? NSNumber
+                quantity = (item["quantity"] as? Int)!
                 
             }
             else if let item = self.products![indexPath!.row] as? Product {
                 isPesable = item.type.boolValue
                 price = NSNumber(value: item.price.doubleValue as Double)
                 equivalence = item.equivalenceByPiece
+                quantity = Int(item.quantity)
             }
-            
+          
             
 
             let width:CGFloat = self.view.frame.width
@@ -1072,6 +1075,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
+          
+            self.quantitySelector?.setQuantity(quantity:quantity)
             self.quantitySelector?.isUpcInList = true
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
