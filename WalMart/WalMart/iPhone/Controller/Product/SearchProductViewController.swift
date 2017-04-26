@@ -2365,6 +2365,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let startY: CGFloat = IS_IPAD ? 20 : 64
         selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc,startY:startY)
         selectQuantity.userSelectValue(quantity)
+        selectQuantity?.first = true
         selectQuantity!.closeAction = { () in
             UIView.animate(withDuration: 0.2, animations: {
                 self.selectQuantity.alpha = 0
