@@ -597,8 +597,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             }
                             self.newListBtn!.isEnabled = true
                         })
-                        self.isShowingWishList = true
-                        self.isShowingSuperlists = true
+                        self.isShowingWishList = !self.isEditingUserList
+                        self.isShowingSuperlists = !self.isEditingUserList
                         self.tableuserlist!.reloadSections(IndexSet(integer: 0), with: UITableViewRowAnimation.bottom)
                         CATransaction.commit()
                     })
@@ -718,8 +718,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
                 self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
                     self.newListEnabled = false
-                    self.isShowingWishList  = true
-                    self.isShowingSuperlists = true
+                    self.isShowingWishList  = !self.isEditingUserList
+                    self.isShowingSuperlists = !self.isEditingUserList
                     self.newListBtn!.isSelected = false
                     self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
@@ -783,8 +783,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     self.saveContext()
                     self.newListEnabled = false
-                    self.isShowingWishList  = true
-                    self.isShowingSuperlists = true
+                    self.isShowingWishList  = !self.isEditingUserList
+                    self.isShowingSuperlists = !self.isEditingUserList
                     
                     self.newListBtn!.isSelected = false
                     self.newListBtn!.backgroundColor = WMColor.green
