@@ -85,6 +85,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         super.viewDidLoad()
 
         
+        tableView?.keyboardDismissMode = .onDrag
+        
         let bgImage = UIImage(color: WMColor.light_blue, size: CGSize(width: 110, height: 44), radius: 22)
         let bgSelected = UIImage(color: WMColor.green, size: CGSize(width: 110, height: 44), radius: 22)
         
