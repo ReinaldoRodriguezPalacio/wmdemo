@@ -123,8 +123,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             }
     
     override func viewDidAppear(_ animated: Bool) {
-         super.viewDidAppear(animated)
-           self.loadCrossSell()
+        super.viewDidAppear(animated)
+        self.loadCrossSell()
     }
 
     deinit {
@@ -149,6 +149,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.viewSeparator.isHidden = !self.emptyView!.isHidden
+        
     }
     
     override func deleteRowAtIndexPath(_ indexPath : IndexPath){
@@ -184,17 +185,16 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         saving: UserCurrentSession.sharedInstance.estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance.estimateSavingGR())")
                     
                     self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() -  UserCurrentSession.sharedInstance.estimateSavingGR())")
-                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
+                    //NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
+                 }
                 } else {
                     self.navigationController!.popViewController(animated: true)
                     self.onClose?(true)
                     
                 }
-                
-            }
-        }, errorBlock: { (error:NSError) -> Void in
+            }, errorBlock: { (error:NSError) -> Void in
             print("error")
         })
         
@@ -277,13 +277,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
                             self.beforeLeave?.itemsUPC = self.itemsUPC
                             self.beforeLeave?.collection.reloadData()
-                        }else{
-                            
                         }
                     }
                     //self.collection.reloadData()
-                }else {
-                    
                 }
             }, errorBlock: { (error:NSError) -> Void in
                 print("Termina sevicio app")
@@ -482,7 +478,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func reloadGRShoppingCart(){
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
-            
             self.loadGRShoppingCart()
         }
     }

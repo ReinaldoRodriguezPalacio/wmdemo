@@ -460,6 +460,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
             }
             
+            if productDetailButton!.detailProductCart?.quantity != nil {
+                selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue)
+            }
+            
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
                 if quantity == "00" {

@@ -199,6 +199,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             self.closeButton.isHidden = false
         }
         
+        if self.itemsInCart.count == 0 {
+            self.navigationController?.popViewController(animated: true)
+            self.onClose?(true)
+        }
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -266,6 +271,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func loadGRShoppingCart() {
+    
         if UserCurrentSession.sharedInstance.itemsGR != nil {
             self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()

@@ -363,13 +363,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
                             self.beforeLeave.itemsUPC = self.itemsUPC
                             self.beforeLeave.collection.reloadData()
-                        }else{
-                            
                         }
                     }
                     //self.collection.reloadData()
-                }else {
-                    
                 }
                 self.removeLoadingView()
                 }, errorBlock: { (error:NSError) -> Void in

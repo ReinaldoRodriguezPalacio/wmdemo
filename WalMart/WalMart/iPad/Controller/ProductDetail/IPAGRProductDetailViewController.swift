@@ -456,6 +456,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
+        
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             if quantity == "00" {
@@ -526,10 +527,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
         }
         
+        productDetailButton!.reloadButton()
+
         if productDetailButton!.detailProductCart?.quantity != nil {
             self.productDetailButton?.reloadShoppinhgButton()
-            selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
-            selectQuantityGR?.first = true
+            selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue)
             selectQuantityGR?.showNoteButton()
             
             if productDetailButton!.detailProductCart?.product != nil {
