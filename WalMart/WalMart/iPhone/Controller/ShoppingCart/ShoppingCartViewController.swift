@@ -1165,8 +1165,10 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                             cont!.email?.text = cont!.signUp.email?.text
                             cont!.password?.text = cont!.signUp.password?.text
                         }
+                        address.navigationController?.popViewController(animated: true)
                         self.presentedCheckOut(cont!, address: address)
                     }
+                    
                     self.navigationController!.pushViewController(address, animated: true)
                     
                     cont!.closeAlert(true, messageSucesss: true)
@@ -1198,7 +1200,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     self.checkVC.finishLoadCheckOut = {() in
                        
                         if address != nil {
-                            address!.closeAlert()
+                            address?.navigationController?.popViewController(animated: true)
+                            address?.closeAlert()
                         }
                         
                         if loginController.alertView != nil {
@@ -1222,7 +1225,8 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                         }
                         
                         if address != nil {
-                            address!.closeAlert()
+                            address?.navigationController?.popViewController(animated: true)
+                            address?.closeAlert()
                         }
                         
                         if self.navigationController != nil {
