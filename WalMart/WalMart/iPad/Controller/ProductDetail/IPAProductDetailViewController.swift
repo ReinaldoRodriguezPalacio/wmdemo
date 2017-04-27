@@ -996,9 +996,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func showMessageProductNotAviable() {
-        
-        self.showMessageWishList(NSLocalizedString("productdetail.notaviable",comment:""))
-        
+        closeContainer({ () -> Void in
+        }, completeClose: { () -> Void in
+           self.showMessageWishList(NSLocalizedString("productdetail.notaviable",comment:""))
+        }, closeRow:isShowProductDetail)
     }
     
     func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
