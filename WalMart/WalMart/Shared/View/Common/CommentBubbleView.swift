@@ -61,9 +61,6 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
             self.delegate?.showBottonAddNote(false)
-            textView.text = NSLocalizedString("shoppingcart.AddtexNote", comment: "")
-            textView.resignFirstResponder()
-            textView.textColor = UIColor.gray
         }else{
             self.delegate?.showBottonAddNote(true)
 
