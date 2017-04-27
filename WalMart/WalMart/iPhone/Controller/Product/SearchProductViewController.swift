@@ -2386,7 +2386,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
   func buildMGSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect,quantity:String){
-        let startY: CGFloat = IS_IPAD ? 20 : 64
+        let startY: CGFloat = IS_IPAD ? 0 : 64
         selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),upcProduct:cell.upc,startY:startY)
         selectQuantity.userSelectValue(quantity)
         selectQuantity?.first = true
