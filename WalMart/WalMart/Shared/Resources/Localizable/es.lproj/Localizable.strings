@@ -592,15 +592,30 @@
 
 //Invoice
 "invoice.section.actionToDo" = "¿Qué deseas hacer?";
-"invoice.button.invoice" = "Facturar";
+"invoice.button.invoice" = "Factura nueva";
 "invoice.button.consult" = "Consultar";
+"invoice.button.resend" = "Reenviar factura";
+"invoice.button.ticketInfo" = "Ingresa o escanea el número de ticket";
 "invoice.section.yourdata" = "Tus Datos";
 "invoice.field.rfc" = "RFC";
+"invoice.field.turfc" = "Tu RFC";
+"invoice.field.rfcejemplo" = "ej. PPMNMMDDAA123";
+"invoice.section.addressTitle" = "Dirección de Facturación";
+"invoice.field.address" = "Agregar nueva dirección de facturación";
+"invoice.button.noaddress" = "Emitir factura sin dirección";
+"invoice.section.iepsTitle" = "Si declaras IEPS ingresa el número de constancia";
+"invoice.field.ieps" = "ej. 012345678901234";
+"invoice.button.noieps" = "No utilizar IEPS";
+"invoice.section.emailTitle" = "Correo electrónico para envío de factura";
+"invoice.button.facturar" = "Facturar";
+"invoice.message.facturaOk" = "La factura ha sido enviada a:";
+"invoice.message.facturaResend" = "Factura reenviada con éxito.";
+"invoice.message.facturaResendEmail" = "Te la hemos enviado a";
 "invoice.field.zipcode" = "Código Postal";
 "invoice.section.purchase.data" = "Datos de tu compra";
 "invoice.button.scan" = "Ingresar datos escaneando tu ticket";
 "invoice.section.write" = "O ingresa manualmente los datos";
-"invoice.field.ticketnumber" = "Número de ticket - ";
+"invoice.field.ticketnumber" = "Ingresa TC#";
 "invoice.field.transactionnumber" = "Número de transacción - ";
 "invoice.field.tr" = "TR# en tu ticket";
 "invoice.field.tc" = "TC# en tu ticket";
