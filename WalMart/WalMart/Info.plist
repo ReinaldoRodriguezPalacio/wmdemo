@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>12</string>
+	<string>14</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -509,7 +509,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
@@ -1052,7 +1052,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
