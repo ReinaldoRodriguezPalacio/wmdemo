@@ -77,9 +77,6 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         viewImageContent.clipsToBounds = true
         
       
-        
-       
-        
         searchProduct = IPASearchCatProductViewController()
         searchProduct.searchContextType = self.searchContextType
         searchProduct.delegateImgHeader = self
@@ -100,9 +97,14 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         
         self.addChildViewController(searchProduct)
         self.view.addSubview(searchProduct.view)
+      
+       NotificationCenter.default.addObserver(self, selector: #selector(IPACategoriesResultViewController.closePop), name: .addCLosePopCategorie, object: nil)
     }
   
-    
+    override func viewDidDisappear(_ animated: Bool) {
+      NotificationCenter.default.removeObserver(self)
+    }
+  
     func setValues(_ department:String,family:String,line:String, name:String ) {
         self.department = department
         self.family = family
@@ -242,7 +244,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         familyController.delegate = self
         
         let pointPop =  searchProduct.viewHeader.convert(CGPoint(x: self.view.frame.width / 2,  y: frameStart.height + 40 ), to:self.view)
-        print(pointPop)
+        //print(pointPop)
         familyController.modalPresentationStyle = .popover
         familyController.preferredContentSize = CGSize(width: 320, height: 322)
         
@@ -255,9 +257,9 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     func popoverControllerDidDismissPopover(_ popoverController: UIPopoverController) {
         searchProduct.dismissCategory()
     }
-    
-    
-
-    
-    
+  
+    func closePop(){
+      popover?.dismiss(animated: false)
+       searchProduct.dismissCategory()
+    }
 }

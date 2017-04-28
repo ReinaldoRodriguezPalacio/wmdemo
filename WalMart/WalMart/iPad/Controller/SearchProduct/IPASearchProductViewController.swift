@@ -51,6 +51,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         collection?.register(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
         collection?.frame = self.view.bounds
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPASearchProductViewController.closePop), name: .addCLosePopCategorie, object: nil)
     }
     
     deinit {
@@ -494,5 +495,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.returnBack()
         
     }
-    
+  
+    func closePop(){
+      selectQuantityPopover?.dismiss(animated: false)
+      self.sharePopover = nil
+      self.selectQuantityOpen = false
+    }
+  
 }

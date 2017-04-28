@@ -55,6 +55,7 @@ extension Notification.Name {
     static let updateNotificationBadge = Notification.Name("kUpdateNotificationBadge")
     static let showGRLists = Notification.Name("kShowGRLists")
     static let showHomeSelected = Notification.Name("kShowHomeSelected")
+    static let addCLosePopCategorie = Notification.Name("kAddCLosePopCategorie")
 }
 
 
