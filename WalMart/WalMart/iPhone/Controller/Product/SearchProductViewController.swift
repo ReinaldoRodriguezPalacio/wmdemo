@@ -1675,12 +1675,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let heightEmpty = self.view.bounds.height - (44 + maxY)
 
         if self.emptyMGGR == nil {
-            self.emptyMGGR = IPOSearchResultEmptyView(frame: CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty))
+            let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: frameEmpty)
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            self.emptyMGGR.frame = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
         if model.contains("4") {

@@ -93,7 +93,7 @@ class IPOWMAlertViewController : UIViewController {
         if  self.btnFrame {
              titleLabel.frame =  CGRect(x: 16,  y: viewBgImage.frame.maxY + 24, width: self.view.frame.width - 32, height: titleLabel!.frame.height)
         }else{
-            titleLabel.frame = self.isOtherFame ? CGRect(x: (bounds.width - 321),  y: viewBgImage.frame.maxY + 24, width: 321, height: titleLabel!.frame.height) : CGRect(x: (bounds.width - 232) / 2,  y: viewBgImage.frame.maxY + 16, width: 232, height: titleLabel!.frame.height)
+            titleLabel.frame = self.isOtherFame ? CGRect(x: 16,  y: viewBgImage.frame.maxY + 24, width: bounds.width - 32, height: titleLabel!.frame.height) : CGRect(x: (bounds.width - 232) / 2,  y: viewBgImage.frame.maxY + 16, width: 232, height: titleLabel!.frame.height)
         }
       
         

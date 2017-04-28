@@ -95,7 +95,7 @@ class IPOCheckOutTotalView : UIView {
         
         totalTitleLable.frame = CGRect(x: 156, y: savingTitleLable.frame.maxY + 6, width: 91, height: 12)
         totalValueLabel.frame = CGRect(x: totalTitleLable.frame.maxX + 3, y: totalTitleLable.frame.minY, width: 50, height: 12)
-        numProducts.frame = CGRect(x: 16, y: 16, width: 75, height: 14)
+        numProducts.frame = CGRect(x: 16, y: 16, width: 100, height: 14)
         
         let dSaving = NumberFormatter().number(from: saving)
         let dSubtotal = NumberFormatter().number(from: subtotal)
@@ -148,7 +148,7 @@ class IPOCheckOutTotalView : UIView {
             
             totalTitleLable.frame = CGRect(x: 156, y: savingTitleLable.frame.maxY + 6, width: 91, height: 12)
             totalValueLabel.frame = CGRect(x: totalTitleLable.frame.maxX + 3, y: totalTitleLable.frame.minY, width: 50, height: 12)
-            numProducts.frame = CGRect(x: 16, y: 16, width: 75, height: 14)
+            numProducts.frame = CGRect(x: 16, y: 16, width: 100, height: 14)
             
             let dSaving = NumberFormatter().number(from: saving)
             let dSubtotal = NumberFormatter().number(from: subtotal)

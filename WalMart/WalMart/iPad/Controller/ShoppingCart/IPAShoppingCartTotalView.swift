@@ -63,7 +63,7 @@ class IPAShoppingCartTotalView : UIView {
         valueSubtotal.textAlignment = .right
         valueIva = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 16, y: iva.frame.minY, width: 90, height: 18))
         valueIva.textAlignment = .right
-        valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 16, y: total.frame.minY, width: 90, height: 18))
+        valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 16, y: total.frame.minY, width: 100, height: 18))
         valueTotal.textAlignment = .right
         valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: totalSavingTitle.frame.maxX + 16, y: totalSavingTitle.frame.minY, width: 90, height: 18))
         valueTotalSaving.textAlignment = .right

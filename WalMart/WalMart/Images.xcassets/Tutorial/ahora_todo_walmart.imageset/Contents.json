@@ -32,12 +32,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "1_tutorial.png",
+      "filename" : "precart.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "1_tutorial-1.png",
+      "filename" : "precart@2x.png",
       "scale" : "2x"
     }
   ],

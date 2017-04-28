@@ -1466,7 +1466,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         self.updateTotalLabel()
         if self.selectedItems != nil {
-            self.tableView?.reloadData()
+            //self.tableView?.reloadData()
         }
     }
     
