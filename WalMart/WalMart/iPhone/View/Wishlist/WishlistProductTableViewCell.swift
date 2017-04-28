@@ -58,7 +58,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         
         
         btnShoppingCart = UIButton(frame: CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32))
-        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+        btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
         btnShoppingCart.addTarget(self, action: #selector(WishlistProductTableViewCell.addToShoppingCart), for: UIControlEvents.touchUpInside)
         
         self.separatorView = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
@@ -125,7 +125,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             if isInShoppingCart {
                 btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
-                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
             }
         }
         

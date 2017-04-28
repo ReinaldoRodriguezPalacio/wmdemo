@@ -18,7 +18,7 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
-        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
+        self.addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for: UIControlState())
         self.addProductToShopingCart!.addTarget(self, action: Selector("addProductToShoping"), for: UIControlEvents.touchUpInside)
         
         self.productShortDescriptionLabel!.frame = CGRect(x: 8, y: 0, width: self.frame.width - 16 , height: 46)

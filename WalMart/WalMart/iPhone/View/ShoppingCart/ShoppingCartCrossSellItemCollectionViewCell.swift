@@ -18,7 +18,7 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
         self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (75 / 2), y: 15, width: 75, height: 75)
         
-        imageShoppingCart = UIImageView(image: UIImage(named: "ProductToShopingCart"))
+        imageShoppingCart = UIImageView(image: UIImage(named: "productToShopingCart"))
         imageShoppingCart.frame = CGRect(x: (75 / 2) - (24 / 2), y: 75 - 24, width: 24, height: 24)
         self.productImage!.addSubview(imageShoppingCart)
         
@@ -57,7 +57,7 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
             imageShoppingCart.image = UIImage(named: "cart_desabled")
         } else {
             productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
-            imageShoppingCart.image = UIImage(named: "ProductToShopingCart")
+            imageShoppingCart.image = UIImage(named: "productToShopingCart")
         }
         
     }

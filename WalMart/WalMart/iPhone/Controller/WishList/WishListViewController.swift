@@ -104,6 +104,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         self.wishlist?.addSubview(self.refreshControl)
         NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: .reloadWishList, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {

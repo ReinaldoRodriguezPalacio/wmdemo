@@ -42,7 +42,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         
         btnShoppingCart = UIButton(frame: CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32))
-        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+        btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
         btnShoppingCart.addTarget(self, action: #selector(OrderProductTableViewCell.addToShoppingCart), for: UIControlEvents.touchUpInside)
         
         separatorView = UIView(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: 108,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 1))
@@ -128,7 +128,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
                 btnShoppingCart.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
                 btnShoppingCart.isEnabled = true
-                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+                btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
             }
         }
         

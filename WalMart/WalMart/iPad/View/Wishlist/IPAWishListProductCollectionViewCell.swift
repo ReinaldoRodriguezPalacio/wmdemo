@@ -45,7 +45,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         productShortDescriptionLabel!.numberOfLines = 2
         
         self.addProductToShopingCart = UIButton()
-        self.addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), for: UIControlState())
+        self.addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for: UIControlState())
         self.addProductToShopingCart!.addTarget(self, action: #selector(IPAWishListProductCollectionViewCell.addProductToShoping), for: UIControlEvents.touchUpInside)
         
         self.deleteProduct = UIButton()
@@ -108,7 +108,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
             if isInShoppingCart {
                 addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
-                addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), for:UIControlState())
+                addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
             }
         }
     }

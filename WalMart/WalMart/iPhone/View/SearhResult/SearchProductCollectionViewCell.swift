@@ -60,7 +60,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
         
         self.addProductToShopingCart = UIButton()
-        self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
+        self.addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for: UIControlState())
         self.addProductToShopingCart!.addTarget(self, action: #selector(SearchProductCollectionViewCell.addProductToShoping), for: UIControlEvents.touchUpInside)
        
         self.contentView.addSubview(productPriceThroughLabel!)
@@ -153,7 +153,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             if isInShoppingCart {
                 self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), for:UIControlState())
             }else {
-                self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), for: UIControlState())
+                self.addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for: UIControlState())
             }
         }
         serachFromList = isFormList
