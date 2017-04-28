@@ -1922,7 +1922,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 refreshControl.endRefreshing()
             })
         } else {
-            delay(0.2, completion: { 
+            delay(0.2, completion: {
+                self.loadServiceItems(nil)
                 refreshControl.endRefreshing()
             })
         }

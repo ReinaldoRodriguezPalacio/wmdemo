@@ -913,6 +913,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         detail!.type = NSNumber(value: self.isPesable as Bool)
         detail!.list = list
         detail!.equivalenceByPiece = self.equivalenceByPiece!//self.selectQuantityGR!.equivalenceByPiece as NSNumber
+        detail!.stock  = self.isActive
         
         if self.imageUrl.count > 0 {
             detail!.img = self.imageUrl[0] as! NSString as String
