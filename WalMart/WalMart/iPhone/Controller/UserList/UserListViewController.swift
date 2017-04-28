@@ -1763,7 +1763,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             refreshControl.endRefreshing()
         })
       }else{
-        delay(0.2, completion: { 
+        delay(0.2, completion: {
+           self.reloadList(success: nil, failure: nil)
            refreshControl.endRefreshing()
         })
        

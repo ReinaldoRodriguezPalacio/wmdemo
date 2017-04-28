@@ -35,7 +35,6 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         
         self.inputNameList = ListFieldSearch(frame: CGRect(x: 16.0, y: 0.0, width: 200.0, height: 40.0))
         self.inputNameList!.backgroundColor = WMColor.light_gray
-        self.inputNameList!.layer.cornerRadius = 5.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
         self.inputNameList!.delegate =  self
         self.inputNameList!.placeholder = NSLocalizedString("list.new.placeholder", comment:"")
@@ -50,6 +49,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.saveButton!.addTarget(self, action: #selector(NewListTableViewCell.save(_:)), for: .touchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .always
+        self.inputNameList!.layer.cornerRadius = 5.0
 
         self.scanTicketBtn = UIButton(type: .custom)
         self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), for: UIControlState())
@@ -72,6 +72,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
             self.inputNameList!.frame = CGRect(x: 16.0, y: (bounds.height - 40.0)/2, width: bounds.width - 32.0, height: 40.0)
             self.scanTicketBtn!.isHidden = true
         }
+        self.saveButton!.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 38.0)
         self.separatorView!.frame = CGRect(x: 72.0, y: bounds.height - 1.0, width: self.contentView.frame.size.width - 72.0, height: 1.0)
     }
     

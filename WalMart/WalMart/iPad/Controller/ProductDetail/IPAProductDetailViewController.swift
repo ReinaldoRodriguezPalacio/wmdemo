@@ -1233,6 +1233,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         self.isLoading = false
+        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
         
         self.tabledetail.delegate = self
         self.tabledetail.dataSource = self
@@ -1498,8 +1499,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         return filteredKeys
     }
 
-    func getUpc(_ itemsSelected: [String:String]) -> String
-    {
+    func getUpc(_ itemsSelected: [String:String]) -> String {
         var upc = ""
         var isSelected = false
         let details: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
