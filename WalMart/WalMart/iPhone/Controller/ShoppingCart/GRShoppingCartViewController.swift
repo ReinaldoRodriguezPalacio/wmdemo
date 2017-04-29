@@ -1018,7 +1018,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func shareShoppingCart() {
         self.removeListSelector(action: nil)
-        let imageHead = UIImage(named:"detail_HeaderMail")
+      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.viewHeader.frame.width, height: 70.0))
+      let image = UIImage(named: "detail_HeaderMail")
+      imageView.image = image
+      let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         self.editButton?.isHidden = true
         self.closeButton?.isHidden = true
         let imageHeader = UIImage(from: self.viewHeader)

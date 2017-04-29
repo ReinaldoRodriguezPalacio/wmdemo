@@ -669,7 +669,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
         }
         
-        var imageHead = UIImage(named:"detail_HeaderMail")
+      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.header!.frame.width, height: 70.0))
+      let image = UIImage(named: "detail_HeaderMail")
+      imageView.image = image
+      var imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         self.backButton?.isHidden = true
         var headerCapture = UIImage(from: header)
         self.backButton?.isHidden = false

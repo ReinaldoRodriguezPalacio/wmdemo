@@ -541,7 +541,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func shareItem() {
         //let image = UIImage(named:"navBar_cart")
-        let headerImage = UIImage(named:"detail_HeaderMail")
+      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.header!.frame.width, height: 70.0))
+      let imageHeader = UIImage(named: "detail_HeaderMail")
+      imageView.image = imageHeader
+      let headerImage = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         self.backButton?.isHidden = true
         self.edit?.isHidden = true
         let headerCapture = UIImage(from: header)

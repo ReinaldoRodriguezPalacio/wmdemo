@@ -1324,7 +1324,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Builds an image to share
      */
     func shareProduct() {
-        let imageHead = UIImage(named:"detail_HeaderMail")
+      
+      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.headerView.frame.width, height: 70.0))
+      let image = UIImage(named: "detail_HeaderMail")
+      imageView.image = image
+      let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         self.buttonBk.isHidden = true
         let imageHeader = UIImage(from: self.headerView)
         self.buttonBk.isHidden = false
