@@ -719,9 +719,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             else if let item = self.products![indexPath.row] as? Product {
                 self.managedContext!.delete(item)
+                self.saveContext()
+              
                 let count:Int = self.listEntity!.products.count
                 self.listEntity!.countItem = NSNumber(value: count as Int)
-                self.saveContext()
+              
+              
                 self.fromDelete =  true
                 self.retrieveProductsLocally(true)
                 self.editBtn!.isHidden = count == 0
@@ -750,7 +753,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.view.addSubview(self.emptyView!)
             
             let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-            bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - 108)
+          
+            bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - (self.isDeleting ? 0 : 108))
             self.emptyView!.addSubview(bg)
             
             let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -775,7 +779,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if UserCurrentSession.hasLoggedUser() {
                 button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
             }else{
-                var ybtn = self.view.bounds.height - 208
+              var ybtn = self.view.bounds.height - 208//(self.isDeleting ? 148 : 208)
                 if self.view.bounds.height < 500 {
                     ybtn = self.view.bounds.height - 100
                 }
@@ -1416,8 +1420,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if countSelect !=  products!.count {
                 self.updateTotalLabel()
             }
-        }else
-        {
+        }else{
          self.products =  nil
          self.titleLabel?.text = ""
             self.editBtn!.isHidden = true
@@ -1432,14 +1435,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.deleteAllBtn!.isHidden = true
             self.isEdditing = true
             self.showEditionMode()
-            self.showEmptyView()
-            
+
+          self.showEmptyView()
+          
         } else {
             self.editBtn!.isHidden = false
             self.deleteAllBtn!.isHidden = false
             self.removeEmpyView()
         }
-        
+        self.reloadTableListUser()
       
         
     }

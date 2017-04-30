@@ -9,7 +9,8 @@
 import Foundation
 
 class IPOWMAlertViewController : UIViewController {
-    
+  
+  
     var titleLabel : UILabel!
     var viewBgImage : UIView!
     var spinImageView : UIImageView!
@@ -63,8 +64,9 @@ class IPOWMAlertViewController : UIViewController {
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.textColor = WMColor.light_gray
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 0
-        
+        titleLabel.lineBreakMode = .byClipping
+        titleLabel.numberOfLines =  4
+      
         spinImage = UIImageView()
         spinImage.image = UIImage(named:"waiting")
         runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, repeats: 100)
