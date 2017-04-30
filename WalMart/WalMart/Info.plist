@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>16</string>
+	<string>17</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -103,8 +103,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>$(PRODUCT_NAME) requiere uso de bluetooth.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -749,13 +747,6 @@
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
-	</dict>
-	<key>WMUbuduEnvironment</key>
-	<dict>
-		<key>UbuduDevelopment</key>
-		<string>c3b51e179cf1a2dcd28db5f1a518698bb8980e44</string>
-		<key>UbuduProduction</key>
-		<string></string>
 	</dict>
 	<key>clusterWMGroceriesURLServices</key>
 	<dict>

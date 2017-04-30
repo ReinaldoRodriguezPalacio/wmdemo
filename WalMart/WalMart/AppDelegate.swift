@@ -17,12 +17,11 @@ import AFNetworkActivityLogger
 import AdSupport
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier, UbuduSDKDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier {
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
     var alertNoInternet: IPOWMAlertViewController? = nil
-    var currentUbuduURL: URL?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -160,25 +159,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
     
         //TODO Cambiar a produccion 
-      // TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
-        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
+        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+       // TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
  
-        // Ubudu
-        let ubuduEnvironment = Bundle.main.object(forInfoDictionaryKey: "WMUbuduEnvironment") as! [String:Any]
-        let ubuduNamespace = ubuduEnvironment["UbuduDevelopment"] as! String
-        let ubuduSDK = UbuduSDK.sharedInstance() as UbuduSDK
-        
-        ubuduSDK.appNamespace = ubuduNamespace
-        ubuduSDK.delegate = self
-        
-        do {
-            try ubuduSDK.start()
-        } catch {
-            print("Error while starting Ubudu SDK")
-        }
         return true
     }
 
@@ -409,7 +395,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         let controller = UIApplication.shared.keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismiss(animated: false, completion: nil)
-        UbuduSDK.sharedInstance().executeLocalNotificationActions(notification)
         self.handleLocalNotification(application, localNotification: notification)
     }
     
@@ -595,16 +580,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 }
 
             }
-        }
-    }
-    
-    func ubudu(_ ubuduSDK: UbuduSDK!, executeOpenDeepLinkRequest url: URL!, triggeredBy trigger: UbuduTriggerSource) {
-        if currentUbuduURL == nil || currentUbuduURL != url {
-            currentUbuduURL = url
-            handleURLFacebook(url, sourceApplication: "")
-            delay(5.0, completion: { 
-                self.currentUbuduURL = nil
-            })
         }
     }
     
