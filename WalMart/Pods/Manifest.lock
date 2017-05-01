@@ -37,11 +37,11 @@ PODS:
     - FBSDKCoreKit (~> 4.15)
     - FBSDKShareKit (~> 4.15)
   - FBNotifications (1.0.1)
-  - FBSDKCoreKit (4.21.0):
+  - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.21.0):
+  - FBSDKLoginKit (4.22.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.21.0):
+  - FBSDKShareKit (4.22.0):
     - FBSDKCoreKit
   - GoogleAnalytics (3.17.0)
   - GoogleTagManager (3.15.2):
@@ -52,7 +52,6 @@ PODS:
   - PayPal-iOS-SDK/CardIO (2.16.3):
     - CardIO (~> 5.4.1)
   - PayPal-iOS-SDK/Core (2.16.3)
-  - UbuduSDK (1.23.3)
 
 DEPENDENCIES:
   - AFNetworkActivityLogger (from `https://github.com/AFNetworking/AFNetworkActivityLogger.git`, branch `3_0_0`)
@@ -63,7 +62,6 @@ DEPENDENCIES:
   - FBNotifications
   - GoogleTagManager (~> 3.15.0)
   - PayPal-iOS-SDK (= 2.16.3)
-  - UbuduSDK
 
 EXTERNAL SOURCES:
   AFNetworkActivityLogger:
@@ -84,14 +82,13 @@ SPEC CHECKSUMS:
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
   FacebookShare: 8e9ee8ea06505e6a1d3d719b0cc63e840fb8aaeb
   FBNotifications: 3f1a9e43ffa2979a685eec29c960ca6a15c70be9
-  FBSDKCoreKit: 8a372ab194b5c7c26355c1920ef52dbeb44bc222
-  FBSDKLoginKit: a1a5f4b4ac445823a020fbeeaf5f03714a67ff9c
-  FBSDKShareKit: 649a7acfd01a3e056a33994c1bfbb997814cc8a2
+  FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
+  FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
+  FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleTagManager: 43b61f634e42e4b9566ab41e9fd6aa0f6adf47a5
   PayPal-iOS-SDK: db237a752c0b388b93a0b9915b30e26878732bdb
-  UbuduSDK: 04a1a6a3a8afd872c0fb8db40abb00ab2c0ae471
 
-PODFILE CHECKSUM: 34b50ae9ff44052cec00d4aca95c3e4dbd25cc81
+PODFILE CHECKSUM: c9e018cd9770224471dc514029201ddbe0feeca6
 
 COCOAPODS: 1.1.1
