@@ -380,6 +380,13 @@ class GRUserListService : GRBaseService {
         var userList: [List]?
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
         fetchRequest.entity = NSEntityDescription.entity(forEntityName: "List", in: self.managedContext!)
+        if UserCurrentSession.hasLoggedUser() {
+            let user = UserCurrentSession.sharedInstance.userSigned
+            fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
+        }else{
+            fetchRequest.predicate = NSPredicate(format: "user == nil")
+        }
+        
         do{
             userList = try self.managedContext!.fetch(fetchRequest) as? [List]
         }catch{
