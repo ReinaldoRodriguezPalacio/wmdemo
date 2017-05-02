@@ -1232,7 +1232,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64.0
     }
@@ -1295,9 +1294,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         }
     }
-    
-
-    
     
     
     //MARK: - Utils
@@ -1618,11 +1614,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         )
     }
-    
-    
-    
-    
-       
+ 
     //MARK: - UITextFieldDelegate
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -1745,7 +1737,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         })
     }
     
-    
     func invokeWishListService() {
         let service = UserWishlistService()
         service.callCoreDataService({(result:[String:Any]) -> Void in
@@ -1780,6 +1771,5 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
        
       }
   }
-    
 }
 
