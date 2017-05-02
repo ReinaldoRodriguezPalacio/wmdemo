@@ -44,7 +44,8 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        familyTable.frame = self.view.bounds
+        let bounds = self.view.bounds
+        familyTable.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width, height: bounds.height - (IS_IPAD ? 0 : 44 ))
     }
     
     func numberOfSections(in tableView: UITableView) -> Int{
