@@ -461,7 +461,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             
             if productDetailButton!.detailProductCart?.quantity != nil {
-                selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue)
+                selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue,orderByPiece:self.selectQuantityGR!.orderByPiece ? 1 : 0)
             }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
@@ -642,7 +642,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.selectQuantityGR.isFromList = true
             self.selectQuantityGR.isUpcInList = isUpcInList
             self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.heightDetail))
-            self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
+            let listProduct = UserCurrentSession.sharedInstance.getProductForList(upc as String,listId: listId)
+            if listProduct != nil {
+                self.selectQuantityGR!.setQuantity(quantity: listProduct!.quantity.intValue,orderByPiece: listProduct!.orderByPiece.intValue)
+            }
+
             self.selectQuantityGR!.closeAction = { () in
                     UIView.animate(withDuration: 0.5, animations: { () -> Void in
                         self.listSelectorController?.view.frame = CGRect(x: 0, y: 0.0, width: self.view.frame.width, height: self.heightDetail)
@@ -830,8 +834,15 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
             
         let frameDetail = CGRect(x: self.view.frame.width, y: 0.0, width: self.view.frame.width, height: self.heightDetail)
+        
         self.isSowListQuantity = true
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        
+        let listProduct = UserCurrentSession.sharedInstance.getProductForList(upc as String,listId: list.name)
+        if listProduct != nil {
+            self.selectQuantityGR!.setQuantity(quantity: listProduct!.quantity.intValue,orderByPiece: listProduct!.orderByPiece.intValue)
+        }
+        
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.heightDetail))
         self.selectQuantityGR!.closeAction = { () in
@@ -843,10 +854,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.listSelectorController?.sowKeyboard = false
                 })
         }
-            
+        
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  UserCurrentSession.sharedInstance.userHasUPCUserlist(upc as String,listId: list.name)
-        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
         self.selectQuantityGR!.addToCartAction = { (quantity: String) in
             self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece
             exist ? self.updateToListLocally(quantity: quantity, list: list) : self.addToListLocally(quantity: quantity, list: list)

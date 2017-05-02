@@ -1003,9 +1003,12 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
 
     }
     
-    override func setQuantity(quantity: Int) {
+    override func setQuantity(quantity: Int, orderByPiece: Int) {
         if quantity == 0 {
             return
+        }
+        if orderByPiece == 1 {
+            self.orderbypices()
         }
         
         let text = String(quantity).characters.count < 2 ? "0" : ""

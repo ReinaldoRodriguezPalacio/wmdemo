@@ -848,6 +848,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
     }
+    
     func didListChangeNameFailed(){
         changeNames =  false
     }

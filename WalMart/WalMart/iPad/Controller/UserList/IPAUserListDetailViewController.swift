@@ -379,6 +379,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var price: NSNumber? = nil
         var equivalence : NSNumber = 0
         var quantity : Int = 1
+        var orderByPiece: Int = 0
         if let item = self.products![indexPath!.row] as? [String:Any] {
             
             if let pesable = item["type"] as?  NSString {
@@ -393,6 +394,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             price = NSNumber(value: item.price.doubleValue as Double)
             equivalence = item.equivalenceByPiece
             quantity = Int(item.quantity)
+            orderByPiece = item.orderByPiece.intValue
         }
         
         if isPesable {
@@ -412,7 +414,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         } else if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
-        self.quantitySelector?.setQuantity(quantity:quantity)
+        self.quantitySelector?.setQuantity(quantity:quantity, orderByPiece: orderByPiece)
         self.quantitySelector!.isFromList =  true
         self.quantitySelector!.isUpcInList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in

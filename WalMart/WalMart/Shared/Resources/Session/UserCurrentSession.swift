@@ -439,9 +439,9 @@ class UserCurrentSession : NSObject {
         return fetchedResult?.count != 0
     }
     
-    func getProductQuantityForList(_ upc:String, listId: String) -> Int {
+    func getProductForList(_ upc:String, listId: String) -> Product? {
         var predicate : NSPredicate? = nil
-        var productQuantity: Int = 0
+        var product: Product? = nil
         if userSigned != nil {
             predicate = NSPredicate(format: "list.idList == %@ && ANY upc == %@ ", listId,upc)
         }else {
@@ -465,11 +465,10 @@ class UserCurrentSession : NSObject {
         }
         
         if fetchedResult?.count > 0 {
-            let productList = fetchedResult!.first! as! Product
-            productQuantity = Int(productList.quantity.int32Value)
+            product = fetchedResult!.first! as? Product
         }
         
-        return productQuantity
+        return product
     }
     
     func userHasUPCShoppingCart(_ upc:String) -> Bool {

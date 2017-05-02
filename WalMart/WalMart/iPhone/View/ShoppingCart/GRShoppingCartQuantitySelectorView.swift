@@ -371,7 +371,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
 //        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
     }
     
-    func setQuantity(quantity: Int) {
+    func setQuantity(quantity: Int, orderByPiece: Int) {
 
         if quantity == 0 {
             return

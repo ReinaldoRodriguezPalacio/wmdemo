@@ -531,7 +531,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
         if productDetailButton!.detailProductCart?.quantity != nil {
             self.productDetailButton?.reloadShoppinhgButton()
-            selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue)
+            selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue, orderByPiece: self.selectQuantityGR!.orderByPiece ? 1 : 0)
             selectQuantityGR?.showNoteButton()
             
             if productDetailButton!.detailProductCart?.product != nil {
@@ -685,7 +685,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  isUpcInList
-        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: listId))
+        let listProduct = UserCurrentSession.sharedInstance.getProductForList(upc as String,listId: listId)
+        if listProduct != nil {
+            self.selectQuantityGR!.setQuantity(quantity: listProduct!.quantity.intValue,orderByPiece: listProduct!.orderByPiece.intValue)
+        }
         self.selectQuantityGR!.closeAction = { () in
             
             if self.selectQuantityGR!.isPush {
@@ -860,7 +863,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.isPush = true
         self.selectQuantityGR.isFromList = true
         self.selectQuantityGR.isUpcInList =  isUpcInList
-        self.selectQuantityGR!.setQuantity(quantity: UserCurrentSession.sharedInstance.getProductQuantityForList(upc as String,listId: list.name))
+        let listProduct = UserCurrentSession.sharedInstance.getProductForList(upc as String,listId: list.name)
+        if listProduct != nil {
+            self.selectQuantityGR!.setQuantity(quantity: listProduct!.quantity.intValue,orderByPiece: listProduct!.orderByPiece.intValue)
+        }
         self.selectQuantityGR!.closeAction = { () in
                 
             if self.selectQuantityGR!.isPush { 
