@@ -52,8 +52,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         buyWishlist.layer.cornerRadius = self.buyWishlist.frame.height / 2
         buyWishlist.addTarget(self, action: #selector(IPAWishlistViewController.senditemsToShoppingCart), for: UIControlEvents.touchUpInside)
         
-       
-        
         header.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel(frame: CGRect(x: (header.frame.width/2) - 75, y: 0, width: 150, height: header.frame.height))
@@ -100,11 +98,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         WishlistService.shouldupdate = true
         reloadWishlist()
-        
-        
-        
-        
-
+        NotificationCenter.default.addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -194,7 +188,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     func reloadWishlist() {
         
-        if WishlistService.shouldupdate == true {
+        //if WishlistService.shouldupdate == true {
         WishlistService.shouldupdate = false
         self.loading = WMLoadingView(frame: CGRect(x: 0, y: 0, width: 1024, height: 334))
         self.view.addSubview(self.loading!)
@@ -243,7 +237,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             }, errorBlock: { (error:NSError) -> Void in
         })
-        }
+     //}
     }
     
     func updateShopButton() {

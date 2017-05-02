@@ -286,7 +286,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
     func reloadWishlist() {
-        if WishlistService.shouldupdate {
+        //if WishlistService.shouldupdate {
             WishlistService.shouldupdate = false
             self.buttonShop.isEnabled = true
             if viewLoad != nil {
@@ -305,7 +305,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //                self.invokeWishlistService()
 //
 //            })
-        }
+        //}
         
     }
     
