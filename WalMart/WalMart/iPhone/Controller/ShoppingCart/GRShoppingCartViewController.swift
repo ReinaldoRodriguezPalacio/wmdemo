@@ -1142,10 +1142,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        
-        
         self.addItemsfromcarToList(inList: listId, included: included, finishAdd: true)
-     
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
@@ -1156,7 +1153,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
         
 
         for idx in 0 ..< self.itemsInCart.count {

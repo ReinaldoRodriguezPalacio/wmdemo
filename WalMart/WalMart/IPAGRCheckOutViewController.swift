@@ -13,6 +13,8 @@ protocol IPAGRCheckOutViewControllerDelegate: class {
     func shareShoppingCart()
     func closeIPAGRCheckOutViewController()
     func showViewBackground(_ show:Bool)
+    func showListDetail(_ listId: String, andName name:String)
+    func showListDetailLocally(_ list: List)
 }
 
 class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
@@ -70,6 +72,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.removeViewLoad()
         self.addViewLoad()
     }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds.size
@@ -355,13 +358,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      */
     func listSelectorDidShowList(_ listId: String, andName name:String) {
         //No se presentaba lista en carrito
-        print("tap listSelectorDidShowList")
-//        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-//            vc.listId = listId
-//            vc.listName = name
-//            vc.enableScrollUpdateByTabBar = false
-//            self.navigationController!.pushViewController(vc, animated: true)
-//        }
+        self.delegateCheckOut?.showListDetail(listId, andName: name)
     }
     
     /**
@@ -370,12 +367,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter list: List object
      */
     func listSelectorDidShowListLocally(_ list: List) {
-        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listEntity = list
-            vc.listName = list.name
-            vc.enableScrollUpdateByTabBar = false
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
+        self.delegateCheckOut?.showListDetailLocally(list)
     }
     
     /**

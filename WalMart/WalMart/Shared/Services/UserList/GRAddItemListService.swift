@@ -173,11 +173,11 @@ class GRAddItemListService: GRBaseService {
                     }
                    
                     
-//                    if quantity > 20000 && baseUomcd == "GM" {
-//                        quantity = 20000
-//                    }else if quantity > 99 && baseUomcd == "EA"{
-//                        quantity = 99
-//                    }
+                    if quantity > 20000 && baseUomcd == "GM" {
+                        quantity = 20000
+                    }else if quantity > 99 && baseUomcd == "EA"{
+                        quantity = 99
+                    }
                     
                     detail!.quantity = NSNumber(value: quantity as Int32)
                     detail!.type = NSNumber(value: typeProdVal as Int)
