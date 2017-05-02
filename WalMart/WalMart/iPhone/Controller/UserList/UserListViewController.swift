@@ -1476,7 +1476,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                     )
                 },
-                errorBlock: nil)
+                errorBlock: { (error:NSError) -> Void in
+                  print("Error \(error.localizedDescription)")
+                  self.alertView?.setMessage(error.localizedDescription)
+                  self.alertView?.showErrorIcon("Ok")
+            
+            })
 
         }
     }
