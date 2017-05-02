@@ -390,9 +390,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
         }//for
         //condiciones
-        
-        
-        
+
         if paramsPreorderable.count == 0 && params.count == 0{
             
             if self.items.count > 0 && hasItemsNotAviable {
@@ -403,10 +401,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                 return
             }
-            
-            
-            
-            
             
             if self.items.count > 1 {
                 for itemWishList in self.items {
@@ -528,7 +522,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
 //       //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
     }
-    
     
     func reloadDataWishlist(){
         self.reloadWishlist()

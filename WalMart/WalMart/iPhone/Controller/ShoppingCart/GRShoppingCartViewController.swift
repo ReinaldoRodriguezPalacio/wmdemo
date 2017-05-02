@@ -576,7 +576,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         return upc
     }
 
-    
     func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
         
         if self.isEdditing == false {
@@ -712,7 +711,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
-    
     
     //MARK : Edit shopping cart
     
@@ -1012,7 +1010,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         self.editAction(self.editButton)
     }
-    
     
     //MARK: Share Shopping Cart
     

@@ -289,8 +289,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
 
-    
-    
     //MARK: activityViewControllerDelegate
     override func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
@@ -504,6 +502,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
          print("End form Ipa Shpping cart")
          })
          }*/
+        
+        self.beforeLeave?.collection.reloadData()
         
     }
     
