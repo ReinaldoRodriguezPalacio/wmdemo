@@ -34,6 +34,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         super.viewDidLoad()
         
          NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: .showHomeSelected, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IPACustomBarViewController.removePopA(_:)), name: .removePopSearch, object: nil)
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         
@@ -74,6 +75,10 @@ class IPACustomBarViewController :  CustomBarViewController {
     func removePop(_ sender:UITapGestureRecognizer) {
         self.searchView.closeSearch()
     }
+  
+  func removePopA(_ sender:UITapGestureRecognizer){
+    self.searchView.closePopOver()
+  }
     
     override func retrieveTabBarOptions() -> [String] {
         //return ["tabBar_home", "tabBar_mg","tabBar_super", "tabBar_wishlist_list","tabBar_menu"]
