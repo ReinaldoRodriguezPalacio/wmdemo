@@ -950,7 +950,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         print("\(self.products!.count)")
         if indexPath.row == self.products!.count {
             let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()

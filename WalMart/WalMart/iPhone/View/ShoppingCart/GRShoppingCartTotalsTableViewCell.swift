@@ -17,7 +17,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     override func setup() {
         super.setup()
         
-        numProducts = UILabel(frame: CGRect(x: 16, y: 16, width: 75, height: labelSize))
+        numProducts = UILabel(frame: CGRect(x: 16, y: 16, width: 100, height: labelSize))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
         numProducts.textColor = WMColor.gray
         numProducts.numberOfLines = 2

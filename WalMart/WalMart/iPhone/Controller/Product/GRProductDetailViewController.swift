@@ -1060,11 +1060,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         )
     }
     
-    
-    func listSelectorDidShowList(_ listId: String, andName name:String) {
+
+    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listId = listId
+            vc.listId = listEntity.idList
             vc.listName = name
+            vc.listEntity = listEntity
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }

@@ -801,12 +801,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func listSelectorDidDeleteProduct(inList listId:String) {
         print("listSelectorDidDeleteProduct")
     }
-    
-    func listSelectorDidShowList(_ listId: String, andName name:String) {
+  
+
+    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
         let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listId = listId
+            vc.listId = listEntity.idList
             vc.listName = name
+            vc.listEntity = listEntity
             vc.enableScrollUpdateByTabBar = false
             self.navigationController!.pushViewController(vc, animated: true)
         }
