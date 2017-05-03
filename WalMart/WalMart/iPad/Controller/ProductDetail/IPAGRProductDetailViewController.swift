@@ -35,6 +35,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSelectorDelegate , IPAUserListDetailDelegate{
+
  
 
 
@@ -586,8 +587,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             print("delete pressed Errro \(error)")
         }
     }
-    
-    func listSelectorDidShowList(_ listId: String, andName name:String) {
+  
+    func listSelectorDidShowList(_ listEntity: List, andName name: String) {
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
@@ -598,14 +599,15 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                             children.removeFromParentViewController()
                         }
                     }
-                   self.listSelectorDidShowList(listId, andName: name)
+                   self.listSelectorDidShowList(listEntity, andName: name)
             })
             return
         }
         
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
-            vc.listId = listId
+            vc.listId = listEntity.idList
             vc.listName = name
+            vc.listEntity = listEntity
             vc.delegate = self
             vc.widthView = self.bannerImagesProducts.frame.width
             vc.addGestureLeft = true

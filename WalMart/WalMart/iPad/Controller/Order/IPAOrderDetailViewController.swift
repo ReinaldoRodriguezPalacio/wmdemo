@@ -76,12 +76,13 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             }
         }
     }
-    
-    override func listSelectorDidShowList(_ listId: String, andName name:String) {
+
+    override func listSelectorDidShowList(_ listEntity: List, andName name:String) {
         let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
-            vc.listId = listId
+            vc.listId = listEntity.idList
             vc.listName = name
+            vc.listEntity = listEntity
             vc.enableScrollUpdateByTabBar = false
             vc.hiddenBackButton = false
             self.navigationController!.pushViewController(vc, animated: true)
