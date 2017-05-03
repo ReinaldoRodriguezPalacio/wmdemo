@@ -18,6 +18,7 @@ protocol IPAGRCheckOutViewControllerDelegate: class {
 }
 
 class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
+
    
 
     
@@ -356,9 +357,10 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
      - parameter listId: listId
      - parameter name:   List Name
      */
-    func listSelectorDidShowList(_ listId: String, andName name:String) {
+
+    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
         //No se presentaba lista en carrito
-        self.delegateCheckOut?.showListDetail(listId, andName: name)
+        self.delegateCheckOut?.showListDetail(listEntity.idList!, andName: name)
     }
     
     /**

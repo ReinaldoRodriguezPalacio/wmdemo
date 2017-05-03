@@ -34,6 +34,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate, UIActivityItemSource {
+
    
 
     var onClose: ((_ isClose:Bool) -> Void)? = nil
@@ -1263,11 +1264,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     func listSelectorDidDeleteProduct(inList listId:String) {
     }
-    
-    func listSelectorDidShowList(_ listId: String, andName name:String) {
+  
+    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listId = listId
+            vc.listId = listEntity.idList
             vc.listName = name
+            vc.listEntity = listEntity
             vc.enableScrollUpdateByTabBar = false
             self.navigationController!.pushViewController(vc, animated: true)
         }

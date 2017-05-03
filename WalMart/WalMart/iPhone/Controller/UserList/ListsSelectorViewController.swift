@@ -22,7 +22,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 protocol ListSelectorDelegate: class {
-    func listSelectorDidShowList(_ listId: String, andName name:String)
+    func listSelectorDidShowList(_ listEntity: List, andName name:String)
     func listSelectorDidAddProduct(inList listId:String)
     func listSelectorDidAddProduct(inList listId:String,included: Bool)
     func listSelectorDidDeleteProduct(inList listId:String)
@@ -376,15 +376,12 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func didShowListDetail(_ cell: ListSelectorViewCell) {
         if let indexPath = self.tableView!.indexPath(for: cell) {
             let idx = indexPath.row - 1
-            if let item = self.list![idx] as? [String:Any] {
-                self.delegate!.listSelectorDidShowList(item["id"] as! String, andName: item["name"] as! String)
-            }
-            else if let entity = self.list![idx] as? List {
+            if let entity = self.list![idx] as? List {
                 if entity.idList == nil {
                     self.delegate!.listSelectorDidShowListLocally(entity)
                 }
                 else {
-                    self.delegate!.listSelectorDidShowList(entity.idList!, andName: entity.name)
+                    self.delegate!.listSelectorDidShowList(entity, andName: entity.name)
                 }
             }
         }
