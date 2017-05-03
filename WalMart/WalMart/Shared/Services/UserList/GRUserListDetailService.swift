@@ -36,10 +36,14 @@ class GRUserListDetailService: GRBaseService {
 
     func callCoreDataService(listId:String, successBlock:((List?,[Product]?) -> Void)?, errorBlock:((NSError) -> Void)?) {
         
-        let list = findListById(listId)
+      let list = findListById(listId)
+      if list != nil {
         let products = getProductsFor(list: list!)
-        
         successBlock?(list,products)
+      }else{
+         let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey:"Eror al buscar lista"] )
+        errorBlock!(error)
+      }
     }
     
     
