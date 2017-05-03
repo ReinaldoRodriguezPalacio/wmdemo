@@ -699,117 +699,142 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter cell: cell or list doubles,
      */
     func duplicateList(_ cell:ListTableViewCell) {
-        if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-            if self.itemsUserList!.count >= 12 {
-                if self.alertView != nil{
-                    self.alertView!.close()
-                    self.alertView = nil
-                }
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+      if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+        if self.itemsUserList!.count >= 12 {
+          if self.alertView != nil{
+            self.alertView!.close()
+            self.alertView = nil
+          }
+          self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+          self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+          self.alertView!.showErrorIcon("Ok")
+        }
+        else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
+          let listId = listItem["id"] as! String
+          let listName = listItem["name"] as! String
+
+          self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
+            self.newListEnabled = false
+            self.isShowingWishList  = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
+            self.newListBtn!.isSelected = false
+            self.newListBtn!.backgroundColor = WMColor.green
+            
+            self.reloadList(
+              success: { () -> Void in
+                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                self.alertView!.showDoneIcon()
+                //---
+                self.newListEnabled = true
+                self.cancelNewList()
+                //---
+            },
+              failure: { (error) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
+            })
+            
+          })
+        }else if let listItem = self.itemsUserList![indexPath.row] as? List {
+          
+          if UserCurrentSession.hasLoggedUser() {//Con session
+           
+            let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+
+            self.invokeSaveListToDuplicateService(forListId: listItem.idList!, andName: copyName, successDuplicateList: { () -> Void in
+              self.newListEnabled = false
+              self.isShowingWishList  = !self.isEditingUserList
+              self.isShowingSuperlists = !self.isEditingUserList
+              self.newListBtn!.isSelected = false
+              self.newListBtn!.backgroundColor = WMColor.green
+              
+              self.reloadList(
+                success: { () -> Void in
+                  self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                  self.alertView!.showDoneIcon()
+                  //---
+                  self.newListEnabled = true
+                  self.cancelNewList()
+                  //---
+              },
+                failure: { (error) -> Void in
+                  self.alertView!.setMessage(error.localizedDescription)
+                  self.alertView!.showErrorIcon("Ok")
+              })
+              
+            })
+            
+          }else{//Sin sessión
+            let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+            let clist = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
+            clist!.name = copyName
+            clist!.registryDate = Date()
+            clist!.countItem = NSNumber(value: 0 as Int)
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
+            fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
+            var result: [Product]? = nil
+            do{
+              result = try self.managedContext!.fetch(fetchRequest) as? [Product]
+            }catch{
+              print("Error executeFetchRequest")
             }
-            else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-                let listId = listItem["id"] as! String
-                let listName = listItem["name"] as! String
-//                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
-//                    println("pase por acas")
-//                }, itemsUserList: self.itemsUserList!)
-                //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
-                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
-                    self.newListEnabled = false
-                    self.isShowingWishList  = !self.isEditingUserList
-                    self.isShowingSuperlists = !self.isEditingUserList
-                    self.newListBtn!.isSelected = false
-                    self.newListBtn!.backgroundColor = WMColor.green
-                    self.reloadList(
-                        success: { () -> Void in
-                            self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                            self.alertView!.showDoneIcon()
-                            //---
-                            self.newListEnabled = true
-                            self.cancelNewList()
-                            //---
-                        },
-                        failure: { (error) -> Void in
-                            self.alertView!.setMessage(error.localizedDescription)
-                            self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                })
+            if result != nil && result!.count > 0 {
+              clist!.countItem = NSNumber(value: result!.count as Int)
+              for idx in 0 ..< result!.count {
+                let item = result![idx]
+                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
+                detail!.upc = item.upc
+                detail!.type = item.type
+                detail!.img = item.img
+                detail!.desc = item.desc
+                detail!.price = item.price
+                detail!.quantity = item.quantity
+                detail!.stock = item.stock
+                detail!.promoDescription = item.promoDescription
+                detail!.pieces = item.pieces
+                detail!.orderByPiece = item.orderByPiece
+                detail!.equivalenceByPiece = item.equivalenceByPiece
+                detail!.list = clist!
+                
+                
+                // 360 Event
+                BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
+              }
             }
-            else if let listItem = self.itemsUserList![indexPath.row] as? List {
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                    self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
-                    
-                    let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
-                    let clist = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
-                    clist!.name = copyName
-                    clist!.registryDate = Date()
-                    clist!.countItem = NSNumber(value: 0 as Int)
-                    
-                    let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-                    fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
-                    fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
-                     var result: [Product]? = nil
-                    do{
-                         result = try self.managedContext!.fetch(fetchRequest) as? [Product]
-                    }catch{
-                       print("Error executeFetchRequest")
-                    }
-                    if result != nil && result!.count > 0 {
-                        clist!.countItem = NSNumber(value: result!.count as Int)
-                        for idx in 0 ..< result!.count {
-                            let item = result![idx]
-                            let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
-                            detail!.upc = item.upc
-                            detail!.type = item.type
-                            detail!.img = item.img
-                            detail!.desc = item.desc
-                            detail!.price = item.price
-                            detail!.quantity = item.quantity
-                            detail!.stock = item.stock
-                            detail!.promoDescription = item.promoDescription
-                            detail!.pieces = item.pieces
-                            detail!.orderByPiece = item.orderByPiece
-                            detail!.equivalenceByPiece = item.equivalenceByPiece
-                            detail!.list = clist!
-                            
-                            
-                            // 360 Event
-                            BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
-                        }
-                    }
-                    
-                    self.saveContext()
-                    self.newListEnabled = false
-                    self.isShowingWishList  = !self.isEditingUserList
-                    self.isShowingSuperlists = !self.isEditingUserList
-                    
-                    self.newListBtn!.isSelected = false
-                    self.newListBtn!.backgroundColor = WMColor.green
-                    self.reloadList(
-                        success: { () -> Void in
-                            self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
-                            self.alertView!.showDoneIcon()
-                            //---
-                            self.newListEnabled = true
-                            self.cancelNewList()
-                            //---
-                        },
-                        failure: { (error) -> Void in
-                            self.alertView!.setMessage(error.localizedDescription)
-                            self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                }
-            }
+            
+            self.saveContext()
+            self.newListEnabled = false
+            self.isShowingWishList  = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
+            
+            self.newListBtn!.isSelected = false
+            self.newListBtn!.backgroundColor = WMColor.green
+            self.reloadList(
+              success: { () -> Void in
+                self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
+                self.alertView!.showDoneIcon()
+                //---
+                self.newListEnabled = true
+                self.cancelNewList()
+                //---
+            },
+              failure: { (error) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+            })
+            
+          }
+          
+        }
+      }
         self.listSelectedDuplicate = IndexPath(row: 0, section: 0)
     }
-    
+  
     /**
      change name to list
-     
+   
      - parameter cell: cell to edit
      - parameter text: name list
      */
@@ -818,7 +843,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if self.listToUpdate == nil {
                 self.listToUpdate = [:]
             }
-            
+          
             let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
             if let listItem = self.itemsUserList![idx] as? [String:Any] {
                 let listId = listItem["id"] as! String
