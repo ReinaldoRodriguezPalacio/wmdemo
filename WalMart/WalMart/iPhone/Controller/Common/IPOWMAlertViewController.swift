@@ -65,7 +65,7 @@ class IPOWMAlertViewController : UIViewController {
         titleLabel.textColor = WMColor.light_gray
         titleLabel.textAlignment = .center
         titleLabel.lineBreakMode = .byClipping
-        titleLabel.numberOfLines =  4
+        titleLabel.numberOfLines =  10
       
         spinImage = UIImageView()
         spinImage.image = UIImage(named:"waiting")

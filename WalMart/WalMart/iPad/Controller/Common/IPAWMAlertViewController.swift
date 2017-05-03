@@ -38,7 +38,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
             }
         }
 
-        titleLabel.frame = self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (321 / 2),  y: viewBgImage.frame.maxY + 24, width: 321, height: titleLabel!.frame.height) :
+        titleLabel.frame = self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (471 / 2),  y: viewBgImage.frame.maxY + 24, width: 471, height: 90) :
             CGRect(x: (bounds.width - 370) / 2,  y: viewBgImage.frame.maxY + 16, width: 370, height: titleLabel!.frame.height)
       
         if self.doneButton != nil {
@@ -111,6 +111,14 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         
         self.cancelButton!.frame = CGRect(x: (bounds.width - 128 ) / 2, y: (bounds.height / 2) + 25, width: 128 , height: 40)
         self.view.addSubview(cancelButton!)
+    }
+    
+    override func setMessage(_ message:String){
+        titleLabel.frame.size = CGSize(width: 471, height: titleLabel!.frame.height)
+        
+        let size =  message.boundingRect(with: CGSize(width: titleLabel.frame.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
+        titleLabel.frame = CGRect(x: titleLabel.frame.minX, y: titleLabel.frame.minY, width: 471, height: size.height)
+        titleLabel.text = message
     }
     
     func cancelBtn(){
