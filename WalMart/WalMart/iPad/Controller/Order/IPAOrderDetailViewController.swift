@@ -52,7 +52,10 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     override func shareList() {
          //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
         if let image = self.tableDetailOrder!.screenshot() {
-            let imageHead = UIImage(named:"detail_HeaderMail")
+          let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.header!.frame.width, height: 70.0))
+          let image = UIImage(named: "detail_HeaderMail")
+          imageView.image = image
+          let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
             
             self.backButton?.isHidden = true
             let headerCapture = UIImage(from: header)

@@ -120,10 +120,10 @@ class IPAHomeViewController : HomeViewController {
             
             let currentCell = collectionView.cellForItem(at: indexPath) as! IPAProductHomeCollectionViewCell!
             currentCellSelected = indexPath
-            let pontInView = currentCell?.convert(currentCell!.productImage!.frame, to:  self.view)
-            paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
-            paginatedProductDetail.animationController.originPoint =  pontInView
-            paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
+//            let pontInView = currentCell?.convert(currentCell!.productImage!.frame, to:  self.view)
+//            paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
+//            paginatedProductDetail.animationController.originPoint =  pontInView
+//            paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
             currentCell?.hideImageView()
             
             

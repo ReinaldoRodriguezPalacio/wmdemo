@@ -1301,7 +1301,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     //MARK: Share product
     
     func shareProduct() {
-        let imageHead = UIImage(named:"detail_HeaderMail")
+      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.headerView.frame.width, height: 70.0))
+      let image = UIImage(named: "detail_HeaderMail")
+      imageView.image = image
+      let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         // Build header title to share
         let tmpheaderView = UIView(frame:CGRect(x: 0, y: 0, width: self.bannerImagesProducts.frame.width, height: heigthHeader))
         tmpheaderView.backgroundColor = WMColor.light_light_gray
