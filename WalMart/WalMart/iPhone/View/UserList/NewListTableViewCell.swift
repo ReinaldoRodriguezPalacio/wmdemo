@@ -47,6 +47,11 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.saveButton!.setTitleColor(UIColor.white, for: UIControlState())
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.addTarget(self, action: #selector(NewListTableViewCell.save(_:)), for: .touchUpInside)
+        let cornerRadius: CGFloat = 5
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: self.saveButton!.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width:cornerRadius, height: cornerRadius)).cgPath
+        self.saveButton!.layer.mask = maskLayer
+      
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .always
         self.inputNameList!.layer.cornerRadius = 5.0
