@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         if let presented = controller!.presentedViewController {
           NotificationCenter.default.post(name: .addCLosePopCategorie, object: self, userInfo: nil)
           
-          if presented.isKind(of:IPAFamilyViewController.self) {
+          if presented.isKind(of:IPAFamilyViewController.self) || presented.isKind(of:IPASearchLastViewTableViewController.self) {
             let present =  presented.presentingViewController
             imgView = UIImageView(frame: controller!.view.bounds)
             imgView!.image = UIImage(named:"spash_iphone")

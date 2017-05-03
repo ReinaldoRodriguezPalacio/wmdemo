@@ -674,7 +674,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
                             stringIndex = stringIndex!.trimmingCharacters(in: whitespaceset)
                             if name!.hasPrefix(listName) {
                                 stringIndex = stringIndex! == "" ? "1" : stringIndex
+                              if stringIndex!.isNumeric() {
                                 arrayOfIndex.append(Int(stringIndex!)!)
+                              }
                             }
                         }
                     }
