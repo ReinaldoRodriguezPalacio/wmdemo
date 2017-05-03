@@ -631,12 +631,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     func showListDetail(_ listId: String, andName name:String){
         print("tap listSelectorDidShowList")
-        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
+        /*if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
             vc.listId = listId
             vc.listName = name
             vc.enableScrollUpdateByTabBar = false
             self.navigationController!.pushViewController(vc, animated: true)
-        }
+        }*/
     }
     
     func showListDetailLocally(_ list: List) {
@@ -647,5 +647,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }
+  
+  override func listSelectorDidShowListLocally(_ list: List) {
+    print("tap listSelectorDidShowListLocally")
+  }
 
 }
