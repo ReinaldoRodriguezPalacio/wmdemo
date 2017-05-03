@@ -255,8 +255,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
-
-
     }
     
     /**
@@ -699,6 +697,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      - parameter cell: cell or list doubles,
      */
     func duplicateList(_ cell:ListTableViewCell) {
+      let service = GRUserListService()
+      self.itemsUserList = service.retrieveUserList()
       if let indexPath = self.tableuserlist!.indexPath(for: cell) {
         if self.itemsUserList!.count >= 12 {
           if self.alertView != nil{
@@ -708,6 +708,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
           self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
           self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
           self.alertView!.showErrorIcon("Ok")
+          return
         }
         else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
           let listId = listItem["id"] as! String
