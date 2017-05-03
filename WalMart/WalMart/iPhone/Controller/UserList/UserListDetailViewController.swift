@@ -973,7 +973,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
             listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         } else if let item = self.products![indexPath.row] as? Product {
-            listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+          if item.img != "" {
+             listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+          }else{
+             self.loadServiceItems(nil)
+          }
         }
         
         if self.isEdditing {
@@ -1128,6 +1132,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             } else if let item = self.products![indexPath!.row] as? Product {
                 quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
             }
+            self.quantitySelector?.setQuantity(quantity: quantity, orderByPiece: orderByPiece)
             self.quantitySelector!.isFromList =  true
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 

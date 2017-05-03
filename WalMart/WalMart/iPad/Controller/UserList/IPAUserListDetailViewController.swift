@@ -396,11 +396,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             quantity = Int(item.quantity)
             orderByPiece = item.orderByPiece.intValue
         }
-        
+        let selectorFrame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0)
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,equivalenceByPiece: equivalence == 0 ? cell.equivalenceByPiece! : equivalence,upcProduct:cell.upcVal!, isSearchProductView: false)
-        } else {
-            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 388.0), priceProduct: price,upcProduct:cell.upcVal!)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!,isSearchProductView: false)
+        }
+        else {
+            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
         }
         
         self.quantitySelector!.closeAction = { () in
@@ -414,7 +415,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         } else if let item = self.products![indexPath!.row] as? Product {
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
-        self.quantitySelector?.setQuantity(quantity:quantity, orderByPiece: orderByPiece)
+        
         self.quantitySelector!.isFromList =  true
         self.quantitySelector!.isUpcInList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in
