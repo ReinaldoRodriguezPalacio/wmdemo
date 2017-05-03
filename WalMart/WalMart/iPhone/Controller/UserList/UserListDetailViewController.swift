@@ -446,8 +446,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if let image = self.tableView!.screenshot() {
           let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.header!.frame.width, height: 70.0))
-          let image = UIImage(named: "detail_HeaderMail")
-          imageView.image = image
+          let imageHed = UIImage(named: "detail_HeaderMail")
+          imageView.image = imageHed
           let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
             self.backButton?.isHidden = true
             self.editBtn?.isHidden = true
