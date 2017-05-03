@@ -546,8 +546,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             
                 let targetUrl:URL =  parsedUrl!.targetURL
                 let strAction = stringCompare.replacingOccurrences(of: "walmartmexicoapp://", with: "") as NSString
-                var components = strAction.components(separatedBy: "/")
-                
+                var components = strAction.components(separatedBy: "&")
+              
+              
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
                     let srtBussines  = components[0].components(separatedBy: "_")[1]
                     let srtType  = components[1].components(separatedBy: "_")[1]
