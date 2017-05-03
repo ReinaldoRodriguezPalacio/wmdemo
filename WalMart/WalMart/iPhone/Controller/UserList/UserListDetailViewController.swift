@@ -1176,6 +1176,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - Services
     func invokeDetailListService(_ action:(()->Void)? , reloadList : Bool) {
         let detailService = GRUserListDetailService()
+        if self.listId == nil {
+            back()
+            return
+        }
         detailService.callCoreDataService(listId: self.listId!,
                                           successBlock: { (result:List?,products:[Product]?) -> Void in
                 self.products = products!

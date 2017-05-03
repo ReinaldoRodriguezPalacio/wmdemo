@@ -56,6 +56,7 @@ extension Notification.Name {
     static let showGRLists = Notification.Name("kShowGRLists")
     static let showHomeSelected = Notification.Name("kShowHomeSelected")
     static let addCLosePopCategorie = Notification.Name("kAddCLosePopCategorie")
+    static let removePopSearch = Notification.Name("KremovePopSearch")
 }
 
 

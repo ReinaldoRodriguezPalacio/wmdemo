@@ -39,7 +39,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         }
 
         titleLabel.frame = self.isOtherFame ? CGRect(x: (self.view.bounds.width / 2) - (471 / 2),  y: viewBgImage.frame.maxY + 24, width: 471, height: 90) :
-            CGRect(x: (bounds.width - 370) / 2,  y: viewBgImage.frame.maxY + 16, width: 370, height: titleLabel!.frame.height)
+            CGRect(x: (bounds.width - 400) / 2,  y: viewBgImage.frame.maxY + 16, width: 400, height: titleLabel!.frame.height)
       
         if self.doneButton != nil {
             doneButton.frame = CGRect(x: (bounds.width - 160 ) / 2, y: titleLabel.frame.maxY + 16, width: 160 , height: 40)
