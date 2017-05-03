@@ -712,6 +712,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
           let listId = listItem["id"] as! String
           let listName = listItem["name"] as! String
+          
+        
 
           self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
             self.newListEnabled = false
@@ -736,6 +738,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
           })
         }else if let listItem = self.itemsUserList![indexPath.row] as? List {
+         
           
           if UserCurrentSession.hasLoggedUser() {//Con session
            
@@ -765,6 +768,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             })
             
           }else{//Sin sessión
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+            
             let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
             let clist = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
             clist!.name = copyName
