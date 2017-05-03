@@ -232,6 +232,9 @@ class DetailListViewCell: ProductTableViewCell {
         self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
             self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
+            if disabled {
+                self.productImage!.image = self.imageGrayScale
+            }
         }, failure: {})
         
         self.upcVal = product.upc
@@ -294,6 +297,10 @@ class DetailListViewCell: ProductTableViewCell {
             self.quantityIndicator!.isEnabled = false
             self.quantityIndicator!.backgroundColor = WMColor.light_gray
             self.hasStock = false
+        }
+        
+        if disabled {
+            self.productImage!.image = imageGrayScale
         }
         
         checkDisabled(disabled)
