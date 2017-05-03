@@ -813,16 +813,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.newListBtn!.backgroundColor = WMColor.green
             self.reloadList(
               success: { () -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
-                self.alertView!.showDoneIcon()
+                self.alertView?.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
+                self.alertView?.showDoneIcon()
                 //---
                 self.newListEnabled = true
                 self.cancelNewList()
                 //---
             },
               failure: { (error) -> Void in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
             })
             
           }

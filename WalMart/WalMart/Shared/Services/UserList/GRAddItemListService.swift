@@ -66,7 +66,7 @@ class GRAddItemListService: GRBaseService {
             
             let user = UserCurrentSession.sharedInstance.userSigned
             var entity : List?  = nil
-            if user!.lists != nil {
+            if user?.lists != nil {
                 let userLists : [List] = user!.lists!.allObjects as! [List]
                 
                 let resultLists = userLists.filter({ (list:List) -> Bool in
