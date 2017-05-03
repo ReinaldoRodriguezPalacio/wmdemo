@@ -77,7 +77,9 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
   
   func removePopA(_ sender:UITapGestureRecognizer){
-    self.searchView.closePopOver()
+    if self.searchView != nil {
+      self.searchView.closePopOver()
+    }
   }
     
     override func retrieveTabBarOptions() -> [String] {
