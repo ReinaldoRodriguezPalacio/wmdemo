@@ -231,11 +231,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             for product in self.products! {
                 
                 if let item = product as? Product {
-                    params["upc"] = item.upc
-                    params["description"] = item.desc
-                    params["imgUrl"] = item.img
-                    params["price"] = item.price
-                    params["quantity"] = "\(item.quantity)"
+                    let itemQuantity = item.quantity.stringValue
+                    let itemUpc = item.upc
+                    let itemDescription = item.desc
+                    let itemImgUrl = item.img
+                    let itemPrice = item.price.doubleValue
+                    
+                    params["upc"] = itemUpc
+                    params["description"] = itemDescription
+                    params["imgUrl"] = itemImgUrl
+                    params["price"] = itemPrice
+                    params["quantity"] = itemQuantity
                     params["wishlist"] = false
                     params["type"] = ResultObjectType.Groceries.rawValue
                     params["comments"] = ""
@@ -1382,7 +1388,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - DB
     func retrieveProductsLocally(_ reloadList : Bool) {
         var products: [Product]? = nil
-        let dateList =  self.listEntity?.registryDate
+        var dateList: Date? =  nil
+        
+        if listEntity != nil {
+            dateList = listEntity!.registryDate
+        }
         
         self.listEntity =  dateList == nil ? nil : self.listEntity
        
