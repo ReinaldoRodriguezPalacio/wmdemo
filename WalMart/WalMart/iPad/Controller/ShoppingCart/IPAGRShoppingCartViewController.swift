@@ -292,8 +292,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
 
-    
-    
     //MARK: activityViewControllerDelegate
     override func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
@@ -508,6 +506,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
          })
          }*/
         
+        self.beforeLeave?.collection.reloadData()
+        
     }
     
     func showlogin() {
@@ -629,4 +629,23 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.showBackgroundView(show)
     }
     
+    func showListDetail(_ listId: String, andName name:String){
+        print("tap listSelectorDidShowList")
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
+            vc.listId = listId
+            vc.listName = name
+            vc.enableScrollUpdateByTabBar = false
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func showListDetailLocally(_ list: List) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? IPAUserListDetailViewController {
+            vc.listEntity = list
+            vc.listName = list.name
+            vc.enableScrollUpdateByTabBar = false
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+
 }

@@ -576,7 +576,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         return upc
     }
 
-    
     func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
         
         if self.isEdditing == false {
@@ -712,7 +711,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.white, interLine: false)
     }
-    
     
     //MARK : Edit shopping cart
     
@@ -1013,7 +1011,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.editAction(self.editButton)
     }
     
-    
     //MARK: Share Shopping Cart
     
     func shareShoppingCart() {
@@ -1145,10 +1142,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        
-        
         self.addItemsfromcarToList(inList: listId, included: included, finishAdd: true)
-     
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
@@ -1159,7 +1153,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
         
 
         for idx in 0 ..< self.itemsInCart.count {

@@ -133,8 +133,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         super.viewDidAppear(animated)
     }
     
-       
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
