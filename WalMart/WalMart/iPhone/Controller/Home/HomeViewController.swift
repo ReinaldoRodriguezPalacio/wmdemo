@@ -836,11 +836,13 @@ extension HomeViewController: UIGestureRecognizerDelegate {
                 let cellFrameInSuperview = collection!.convert(cellAttributes!.frame, to: collection!.superview)
                 self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
                 self.preview?.cellFrame = cellFrameInSuperview
+                self.preview?.onClosePicker = {
+                    self.preview = nil
+                }
             }
         
             if gestureReconizer.state == UIGestureRecognizerState.ended || gestureReconizer.state == UIGestureRecognizerState.failed || gestureReconizer.state == UIGestureRecognizerState.cancelled {
                 self.preview?.closePicker()
-                self.preview = nil
             }
         
             if gestureReconizer.state == UIGestureRecognizerState.began {
