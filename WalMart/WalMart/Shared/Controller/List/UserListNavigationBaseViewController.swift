@@ -126,11 +126,11 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx++)"
         }*/
         
-        var returnName =  "\(listName) \(idxTxt)"
-        if returnName.length() > 25 {
+        let returnName =  "\(listName) \(idxTxt)"
+        /*if returnName.length() > 25 {
             returnName = (returnName as NSString).substring(to: 24)
             returnName = "\(returnName)\(dispinibleIndex!)"
-        }
+        }*/
         
         return returnName
     }

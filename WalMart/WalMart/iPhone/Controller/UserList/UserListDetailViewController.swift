@@ -1647,7 +1647,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text! as NSString
         let newString = strNSString.replacingCharacters(in: range, with: string)
-        
+      if string == "" {
+        return true
+      }
         return (newString.characters.count > 25) ? false : true
     }
     
