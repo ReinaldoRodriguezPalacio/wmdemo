@@ -1598,7 +1598,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     var number = 0;
                     
                     if self.itemsUserList != nil {
-                        for item in  self.itemsUserList as! [List]{
+                        for item in  self.itemsUserList! as! [List]{
                           
                             if let nameList = item.name as? String {
                                 if nameList.uppercased().hasPrefix(name.uppercased()) {
