@@ -259,6 +259,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
             
             if let orderByPiece = item["orderByPiece"] as? Bool {
                 quantitySelector?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity!.doubleValue, pieces: 0)
+                quantitySelector?.userSelectValue(quantity!.stringValue)
             } else {
                 quantitySelector?.first = true
                 quantitySelector?.userSelectValue(quantity!.stringValue)

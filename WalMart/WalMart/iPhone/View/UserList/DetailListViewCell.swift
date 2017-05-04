@@ -107,6 +107,9 @@ class DetailListViewCell: ProductTableViewCell {
         self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
             self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
+            if disabled {
+                self.productImage!.image = self.imageGrayScale
+            }
         }, failure: {})
         
         self.promoDescription!.text = product["promoDescription"] as? String
