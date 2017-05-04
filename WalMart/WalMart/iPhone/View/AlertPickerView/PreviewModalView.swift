@@ -12,7 +12,7 @@ import Foundation
 class PreviewModalView : AlertModalView {
     
     var cellFrame: CGRect = CGRect.zero
-    
+    var topView: UIView!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -33,6 +33,12 @@ class PreviewModalView : AlertModalView {
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
+        topView = UIView(frame: CGRect.zero)
+        topView.backgroundColor = UIColor.clear
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(PreviewModalView.closePicker))
+        topView.addGestureRecognizer(recognizer)
+        
         viewContent = UIView(frame: CGRect.zero)
         viewContent.layer.cornerRadius = 8.0
         viewContent.backgroundColor = UIColor.white
@@ -51,11 +57,13 @@ class PreviewModalView : AlertModalView {
         let height = view.frame.size.height + 6
         self.initView = view
         self.viewContent.frame.size = CGSize(width: width, height: height)
+        self.topView.frame.size = CGSize(width: width, height: height)
         //controllerShow.view.frame.size
         //viewContent.center = CGPoint(x: self.center.x, y: self.center.y)
         self.viewContent.addSubview(self.initView!)
         self.viewContent.clipsToBounds = true 
         self.initView!.center =  self.viewContent.center
+        self.viewContent.addSubview(self.topView)
     }
     
     class func initPreviewWithDefault() -> PreviewModalView {

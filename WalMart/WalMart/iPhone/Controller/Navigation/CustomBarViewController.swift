@@ -1058,10 +1058,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         controllernav?.pushViewController(controller, animated: true)
                     }
                     
-                    self.onCloseSearch = {
-                        let navController = self.currentController as? UINavigationController
-                        navController?.pushViewController(controller, animated: true)
-                    }
                     self.btnSearch!.isSelected = true
                     self.closeSearch(false, sender: nil)
             })
