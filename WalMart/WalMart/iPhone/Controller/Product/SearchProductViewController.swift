@@ -769,8 +769,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    
-    
     func getDetailController(indexPath: IndexPath) -> ProductDetailPageViewController? {
         if self.isLandingPage && indexPath.row == 0 {
             return nil
@@ -1499,8 +1497,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .fromSearchTextList{
            self.showEmptyView()
-        }
-        else {
+        } else if (self.allProducts == nil || self.allProducts!.count == 0) && self.isLandingPage {
+           self.showEmptyLandingView()
+        } else {
             if self.searchContextType != nil && self.isTextSearch && self.allProducts != nil {
                 //println("sorting values from text search")
                 //Order items
@@ -1581,14 +1580,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     })
                 }
             }
+            
             if self.emptyMGGR != nil {
                 self.emptyMGGR.removeFromSuperview()
             }
+            
             if self.empty != nil {
                 if self.allProducts?.count > 0 {
                     self.removeEmptyView()
                 }
             }
+            
             DispatchQueue.main.async {
                 self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
@@ -1657,8 +1659,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func showEmptyMGGRView(){
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         
-        if self.empty !=  nil {
-          return
+        if self.empty != nil {
+            return
         }
       
         self.filterButton?.alpha = 0
@@ -1700,6 +1702,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
       
         self.view.addSubview(self.emptyMGGR)
         NotificationCenter.default.post(name: .clearSearch, object: nil)
+    }
+    
+    func showEmptyLandingView() {
+        
+        if self.empty != nil {
+            self.removeEmptyView()
+        }
+        
+        let yMargin: CGFloat = (IS_IPAD ? 217 : 96)
+        self.empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: self.collection!.frame.origin.y + yMargin, width: self.collection!.frame.width, height: self.collection!.frame.height - yMargin))
+        self.empty.bgImageView.image = UIImage(named: "oh-oh_search_categories")
+        self.empty.descLabel.text = NSLocalizedString("empty.orders.noResults",comment:"")
+        self.empty.descLabel.numberOfLines = 1
+        self.empty.showReturnButton = false
+        
+        self.view.addSubview(self.empty)
+        
     }
     
     func showLandingPage(){
