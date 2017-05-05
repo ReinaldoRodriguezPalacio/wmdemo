@@ -748,11 +748,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.frame
-          let heightEmpty = heightView - self.header!.frame.maxY - 58.0 //(50)
+          let heightEmpty = heightView - self.header!.frame.maxY - 64.0 //(44)
           
           //self.view.frame.height - self.addProductsView!.frame.maxY
             if UserCurrentSession.hasLoggedUser() {
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: heightEmpty - 64.0))
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: heightEmpty - 108.0))// se agrega 44
             } else {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightEmpty))
             }

@@ -87,7 +87,7 @@ class IPOEmptyView : UIView {
         self.descLabel.frame = CGRect(x: 0.0, y: 28.0, width: self.bounds.width, height: 16.0)
         
         if self.showReturnButton {
-            let yButton = Int(self.bounds.size.height) - Int(self.heightReturnButton) - Int(self.paddingBottomReturnButton)
+            let yButton = Int(self.bounds.size.height) - Int(self.heightReturnButton) - Int(self.paddingBottomReturnButton) - 44
             
             self.returnButton.frame = CGRect(x: Int((self.bounds.width - 160 ) / 2), y: yButton, width: 160 , height: Int(self.heightReturnButton))
         }
