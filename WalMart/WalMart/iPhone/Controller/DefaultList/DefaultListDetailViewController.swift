@@ -623,10 +623,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
             }
         }
         
-        var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
-        if copyName.length() > 25 {
-            copyName = (copyName as NSString).substring(to: 24)
-        }
+        let copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
+        //if copyName.length() > 25 {
+          //  copyName = (copyName as NSString).substring(to: 24)
+        //}
         service.callService(service.buildParams(copyName, items: items),
             successBlock: { (result:[String:Any]) -> Void in
                 successDuplicateList()
@@ -692,11 +692,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
             idxTxt = "copia \(dispinibleIndex! + 1)"
         }
         
-        var returnName =  "\(listName) \(idxTxt)"
-        if returnName.length() > 25 {
+        let returnName =  "\(listName) \(idxTxt)"
+       /* if returnName.length() > 25 {
             returnName = (returnName as NSString).substring(to: 24)
             returnName = "\(returnName)\(dispinibleIndex!)"
-        }
+        }*/
         
         return returnName
         

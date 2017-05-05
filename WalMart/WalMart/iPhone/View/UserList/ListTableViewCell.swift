@@ -274,7 +274,9 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
                 return true
             }
         }
-
+        if string == "" {
+          return true
+        }
         if (keyword.characters.count > 25) {
             return false
         }

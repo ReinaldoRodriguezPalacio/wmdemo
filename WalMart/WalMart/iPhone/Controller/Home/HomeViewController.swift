@@ -831,17 +831,18 @@ extension HomeViewController: UIGestureRecognizerDelegate {
         
         if let viewControllerToCommit = self.getProductDetailController(index: indexPath!) {
             viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
-        
             if self.preview == nil {
                 let cellAttributes = collection!.layoutAttributesForItem(at: indexPath!)
                 let cellFrameInSuperview = collection!.convert(cellAttributes!.frame, to: collection!.superview)
                 self.preview = PreviewModalView.initPreviewModal(viewControllerToCommit.view)
                 self.preview?.cellFrame = cellFrameInSuperview
+                self.preview?.onClosePicker = {
+                    self.preview = nil
+                }
             }
         
-            if gestureReconizer.state == UIGestureRecognizerState.ended {
+            if gestureReconizer.state == UIGestureRecognizerState.ended || gestureReconizer.state == UIGestureRecognizerState.failed || gestureReconizer.state == UIGestureRecognizerState.cancelled {
                 self.preview?.closePicker()
-                self.preview = nil
             }
         
             if gestureReconizer.state == UIGestureRecognizerState.began {
