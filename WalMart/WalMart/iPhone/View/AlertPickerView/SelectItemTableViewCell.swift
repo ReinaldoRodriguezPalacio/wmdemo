@@ -48,7 +48,7 @@ class SelectItemTableViewCell : UITableViewCell {
         super.layoutSubviews()
         checkSelected.frame = CGRect(x: 0, y: 0, width: 33, height: 46)
         
-        self.textLabel?.frame = CGRect(x: self.checkSelected.frame.maxX, y: self.textLabel!.frame.minY, width: 249, height: self.textLabel!.frame.height)
+        self.textLabel?.frame = CGRect(x: self.checkSelected.frame.maxX, y: self.textLabel!.frame.minY, width: self.frame.width - self.checkSelected.frame.maxX, height: self.textLabel!.frame.height)
         
         self.showButton?.frame = CGRect(x: 250, y: self.textLabel!.frame.minY, width: 22, height: self.textLabel!.frame.height)
     }
