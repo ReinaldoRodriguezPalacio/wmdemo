@@ -91,7 +91,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
         
         
-        centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: self.view.frame.width - 32,height: 40))
+        centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: (IS_IPAD ? 288 : self.view.frame.width - 32),height: 40))
         centerButton.layer.cornerRadius = 20
         centerButton.setTitle(centerText, for: UIControlState())
         centerButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
