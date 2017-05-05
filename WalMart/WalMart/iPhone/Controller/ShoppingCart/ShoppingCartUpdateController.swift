@@ -453,9 +453,6 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                 }
                 
                 NotificationCenter.default.post(name:.successUpdateItemsInShoppingCart, object: nil)
-                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                    UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                })
                 
             }) { (error:NSError) -> Void in
                 

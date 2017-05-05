@@ -21,9 +21,6 @@ class ShoppingCartDeleteProductsService : BaseService {
         return ["parameter":upcs]
     }
 
-    
-    
-    
     func callCoreDataService(_ upc:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callCoreDataServiceWithParams(builParams(upc), successBlock: successBlock, errorBlock: errorBlock)
     }
@@ -31,11 +28,6 @@ class ShoppingCartDeleteProductsService : BaseService {
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-                //let shoppingService = ShoppingCartProductsService()
-                //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
-                
-                //let parameter = params["parameter"] as! [Any]
-//                NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                 
                 if successBlock != nil {
                     successBlock!([:])

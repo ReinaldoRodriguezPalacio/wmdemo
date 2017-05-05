@@ -69,7 +69,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
                 leftButton.frame = CGRect(x: self.view.frame.midX - 144, y: titleLabel.frame.maxY + 40, width: 140, height: 40)
                 rightButton.frame = CGRect(x: leftButton.frame.maxX + 8, y: titleLabel.frame.maxY + 40, width: leftButton.frame.size.width, height: 40)
             }else{
-                leftButton.frame = CGRect(x: 16, y: titleLabel.frame.maxY + 40, width: 140, height: 40)
+                leftButton.frame = CGRect(x: 16, y: titleLabel.frame.maxY + 40, width: (((self.view.frame.width - 40) / 2) ), height: 40)
                 rightButton.frame = CGRect(x: leftButton.frame.maxX + 8, y: titleLabel.frame.maxY + 40, width: leftButton.frame.size.width, height: 40)
             }
         }
@@ -91,7 +91,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
         
         
-        centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: 288,height: 40))
+        centerButton = UIButton(frame:CGRect(x: 16, y: self.titleLabel.frame.maxY + 29, width: self.view.frame.width - 32,height: 40))
         centerButton.layer.cornerRadius = 20
         centerButton.setTitle(centerText, for: UIControlState())
         centerButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)

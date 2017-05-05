@@ -188,11 +188,10 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable() {
             registerForPreviewing(with: self, sourceView: viewShoppingCart!)
-        }else if !IS_IPAD{
+        } else if !IS_IPAD {
             addLongTouch(view:viewShoppingCart!)
         }
 
-//         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {
@@ -261,9 +260,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             editButton.tintColor = WMColor.light_blue
             deleteall.alpha = 0
             
-            UserCurrentSession.sharedInstance.loadMGShoppingCart { () -> Void in
-                self.loadShoppingCartService()
-            }
+            loadShoppingCartService()
         }
         
     }
