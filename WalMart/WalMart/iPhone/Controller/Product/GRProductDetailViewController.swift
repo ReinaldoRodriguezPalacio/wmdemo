@@ -460,9 +460,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
             }
             
-            if productDetailButton!.detailProductCart?.quantity != nil {
-                selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue,orderByPiece:self.selectQuantityGR!.orderByPiece ? 1 : 0)
-            }
+//            if productDetailButton!.detailProductCart?.quantity != nil {
+//                selectQuantityGR?.setQuantity(quantity: productDetailButton!.detailProductCart!.quantity.intValue,orderByPiece:self.selectQuantityGR!.orderByPiece ? 1 : 0)
+//            }
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 self.itemOrderbyPices = self.selectQuantityGR!.orderByPiece

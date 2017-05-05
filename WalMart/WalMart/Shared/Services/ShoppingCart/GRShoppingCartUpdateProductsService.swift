@@ -33,12 +33,14 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 if updateSC {
-                    let shoppingService = GRShoppingCartProductsService()
-                    shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
-                }else{
+                    UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
+                        successBlock!([:])
+                    }
+                } else {
                     successBlock!([:])
                 }
-                }) { (error:NSError) -> Void in
+                
+            }) { (error:NSError) -> Void in
                     errorBlock!(error)
             }
             

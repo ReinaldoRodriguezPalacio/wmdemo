@@ -166,12 +166,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: tableShoppingCart!)
-        }else if !IS_IPAD{
+        } else if !IS_IPAD {
             addLongTouch(view:tableShoppingCart!)
         }
         
-       self.tableShoppingCart?.addSubview(self.refreshControl)
-        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        self.tableShoppingCart?.addSubview(self.refreshControl)
+        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.loadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
     deinit {
@@ -186,14 +186,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         loadGRShoppingCart()
         loadCrossSell()
         
-//        self.emptyView!.isHidden = false
-//        self.editButton!.isHidden = true
-        
         self.emptyView!.isHidden = self.itemsInCart.count > 0
         self.editButton.isHidden = self.itemsInCart.count == 0
         
- //       self.emptyView!.isHidden = false
-   //     self.editButton!.isHidden = true
         if !showCloseButton {
             self.closeButton.isHidden = true
         } else {
@@ -272,7 +267,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func loadGRShoppingCart() {
-    
         if UserCurrentSession.sharedInstance.itemsGR != nil {
             self.itemsInCart = UserCurrentSession.sharedInstance.itemsGR!["items"] as! [[String:Any]]
             self.tableShoppingCart.reloadData()
@@ -911,26 +905,25 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         addViewload()
         
         BaseController.sendAnalyticsAddOrRemovetoCart([itemGRSC], isAdd: false)
-            serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-                UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
-                  if  !(indexPath.row >= self.itemsInCart.count) {
-                    self.itemsInCart.remove(at: indexPath.row)
-                  }
-                  
-                    self.removeViewLoad()
-                if self.itemsInCart.count == 0 {
-                    self.navigationController?.popToRootViewController(animated: true)
-                } else {
-                    self.tableShoppingCart.reloadData()
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
-                }
-                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-            })
-              
-            }, errorBlock: { (error:NSError) -> Void in
-                 self.removeViewLoad()
-                print("error")
-            })
+        
+        serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
+            
+            if  !(indexPath.row >= self.itemsInCart.count) {
+                self.itemsInCart.remove(at: indexPath.row)
+            }
+            
+            self.removeViewLoad()
+            if self.itemsInCart.count == 0 {
+                self.navigationController?.popToRootViewController(animated: true)
+            } else {
+                self.tableShoppingCart.reloadData()
+                self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR() - UserCurrentSession.sharedInstance.estimateSavingGR())")
+            }
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            self.removeViewLoad()
+            print("error")
+        })
         
       }
     
@@ -990,22 +983,17 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         addViewload()
         
         serviceWishDelete.callService(allUPCS, successBlock: { (result:[String:Any]) -> Void in
-            UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                //self.loadGRShoppingCart()
-                
-                self.removeViewLoad()
-                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-                print("done")
-                if self.onClose != nil {
-                    self.onClose?(true)
-                    let _ = self.navigationController?.popViewController(animated: true)
-                }
-                else {
-                    let _ = self.navigationController?.popToRootViewController(animated: true)
-                }
-                
-            })
-            }, errorBlock: { (error:NSError) -> Void in
+
+            self.removeViewLoad()
+            
+            if self.onClose != nil {
+                self.onClose?(true)
+                let _ = self.navigationController?.popViewController(animated: true)
+            } else {
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            }
+            
+        }, errorBlock: { (error:NSError) -> Void in
                 print("error")
         })
         
