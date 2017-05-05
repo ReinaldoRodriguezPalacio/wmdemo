@@ -699,6 +699,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func duplicateList(_ cell:ListTableViewCell) {
       let service = GRUserListService()
       self.itemsUserList = service.retrieveUserList()
+      self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
+            let firstString = first as! List
+            let secondString = second as! List
+            return firstString.name < secondString.name
+            
+        })
+
       if let indexPath = self.tableuserlist!.indexPath(for: cell) {
         if self.itemsUserList!.count >= 12 {
           if self.alertView != nil{
