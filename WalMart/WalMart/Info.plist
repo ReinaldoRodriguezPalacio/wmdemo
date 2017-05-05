@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>22</string>
+	<string>24</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -577,7 +577,7 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.TiresAniosService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
 			<key>WalmartMG.TiresMarcasService</key>
@@ -1097,7 +1097,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
@@ -1115,7 +1115,7 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.TiresAniosService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
 			<key>WalmartMG.TiresMarcasService</key>
