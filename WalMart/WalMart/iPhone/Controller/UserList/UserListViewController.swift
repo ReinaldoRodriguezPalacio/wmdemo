@@ -253,8 +253,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.duplicateList(cell!)
             }
         }
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
     }
     
     /**
