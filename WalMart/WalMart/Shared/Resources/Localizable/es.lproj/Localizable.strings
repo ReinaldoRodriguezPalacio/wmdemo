@@ -153,7 +153,8 @@
 "list.detail.quantity.kg" = "%@ kg";
 "list.detail.buy" = "Comprar %@";
 "list.detail.empty.header" = "Tu Lista está vacía.";
-"list.detail.empty.text" = "Toca el ícono         de cada artículo para agregarlo.";
+"list.detail.empty.textWithoutSesion" = "Toca el ícono         de cada artículo para agregarlo.";
+"list.detail.empty.textWithSesion" = "Agrega artículos usando el buscador,\ntomando una foto, usando un ticket o tocando el\nícono         en la pantalla del detalle del artículo.";
 "list.detail.empty.back" = "Regresar";
 
 "list.message.help" = "También puedes escanear un ticket de papel para crear una lista";

@@ -322,15 +322,20 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: self.view.bounds.width, height: 16))
+        let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: self.view.bounds.width, height: UserCurrentSession.hasLoggedUser() ? 48 : 16))
         labelTwo.textAlignment = .center
         labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
-        labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
+        labelTwo.numberOfLines = UserCurrentSession.hasLoggedUser() ? 3 : 1
+        labelTwo.text = NSLocalizedString(UserCurrentSession.hasLoggedUser() ? "list.detail.empty.textWithSesion":"list.detail.empty.textWithoutSesion", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
+      if UserCurrentSession.hasLoggedUser() {
+        icon.frame = CGRect(x: 242.0, y: labelOne.frame.maxY + 42.0, width: 16.0, height: 16.0)
+      } else {
         icon.frame = CGRect(x: 280.0, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+      }
         self.emptyView!.addSubview(icon)
     }
 

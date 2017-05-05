@@ -62,7 +62,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var analyticsSent = false
     var preview: PreviewModalView? = nil
     var emptyView: UIView?
-
+    var heightView : CGFloat = 0.0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -83,8 +83,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+      
+        heightView = self.view.frame.height
         tableView?.keyboardDismissMode = .onDrag
         
         let bgImage = UIImage(color: WMColor.light_blue, size: CGSize(width: 110, height: 44), radius: 22)
@@ -748,19 +748,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.frame
-            let height = bounds.height
-            
+          let heightEmpty = heightView - self.header!.frame.maxY - 58.0 //(50)
+          
+          //self.view.frame.height - self.addProductsView!.frame.maxY
             if UserCurrentSession.hasLoggedUser() {
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: height))
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: heightEmpty - 64.0))
             } else {
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: height ))
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightEmpty))
             }
             self.emptyView!.backgroundColor = UIColor.white
             self.view.addSubview(self.emptyView!)
             
             let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
-          
-            bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.view.bounds.height - (self.isDeleting ? 0 : 68))
+            bg.frame = CGRect(x: 0.0, y: 0.0,  width: self.view.bounds.width,  height: self.emptyView!.bounds.height)
             self.emptyView!.addSubview(bg)
             
             let labelOne = UILabel(frame: CGRect(x: 0.0, y: 28.0, width: bounds.width, height: 16.0))
@@ -770,27 +770,27 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
             self.emptyView!.addSubview(labelOne)
             
-            let labelTwo = UILabel(frame: CGRect(x: 0.0, y: labelOne.frame.maxY + 12.0, width: bounds.width, height: 16))
+          let labelTwo = UILabel(frame: CGRect(x: 16.0, y: labelOne.frame.maxY + 12.0, width: (bounds.width - 32), height: UserCurrentSession.hasLoggedUser() ? 48 : 16))
             labelTwo.textAlignment = .center
             labelTwo.textColor = WMColor.light_blue
+            labelTwo.numberOfLines = UserCurrentSession.hasLoggedUser() ? 3 : 1
             labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
-            labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
+            labelTwo.text = NSLocalizedString(UserCurrentSession.hasLoggedUser() ? "list.detail.empty.textWithSesion":"list.detail.empty.textWithoutSesion", comment:"")
             self.emptyView!.addSubview(labelTwo)
             
             let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
+          if UserCurrentSession.hasLoggedUser() {
+            icon.frame = CGRect(x: labelOne.frame.midX - 98, y: labelOne.frame.maxY + 42.0, width: 16.0, height: 16.0)
+          } else {
             icon.frame = CGRect(x: labelOne.frame.midX - 62, y: labelOne.frame.maxY + 12.0, width: 16.0, height: 16.0)
+          }
             self.emptyView!.addSubview(icon)
             
             let button = UIButton(type: .custom)
             if UserCurrentSession.hasLoggedUser() {
-                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.frame.height - 100, width: 160 , height: 40)
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.bounds.height - (54 + 40 + 50 + self.addProductsView!.frame.height), width: 160 , height: 40)
             }else{
-              var ybtn = self.view.bounds.height - 228//(self.isDeleting ? 148 : 208)
-                if self.view.bounds.height < 500 {
-                    ybtn = self.view.bounds.height - 100
-                }
-                button.frame = CGRect(x: (bounds.width - 160.0)/2,y:ybtn , width: 160 , height: 40)
-
+              button.frame = CGRect(x: (bounds.width - 160.0)/2, y:self.emptyView!.bounds.height - (54 + 40 + 50), width: 160 , height: 40)
             }
         
             button.backgroundColor = WMColor.light_blue
