@@ -118,11 +118,6 @@ class GRShoppingCartAddProductsService : GRBaseService {
                     }
                 }
                 
-                
-
-
-               
-                
                 let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upcSend)
                 if hasUPC{
                 // update

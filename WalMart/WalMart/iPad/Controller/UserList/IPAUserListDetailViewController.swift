@@ -421,6 +421,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
         }
         
+        self.quantitySelector!.setQuantity(quantity:  quantity, orderByPiece: orderByPiece)
         self.quantitySelector!.isFromList =  true
         self.quantitySelector!.isUpcInList =  true
         self.quantitySelector!.addToCartAction = { (quantity:String) in

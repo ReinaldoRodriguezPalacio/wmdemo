@@ -443,7 +443,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let textCell = itemsToShow[indexPath.row]
-        return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
+        return  46
     }
     
    //MARK: textFieldDelegate

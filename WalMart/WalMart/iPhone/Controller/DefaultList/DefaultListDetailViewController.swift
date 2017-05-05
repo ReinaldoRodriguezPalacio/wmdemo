@@ -550,10 +550,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         }
         return count
     }
-    
-    
-    
-   
+
     func duplicate() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
         self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
@@ -561,7 +558,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
             self.alertView!.showDoneIcon()
         })
     }
-    
     
     func invokeSaveListToDuplicateService(_ listName:String,successDuplicateList:@escaping (() -> Void)) {
         
@@ -595,8 +591,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
 
         
     }
-    
-    
     
     func copyList(_ listName:String,itemsUserList:[Any]?,successDuplicateList:@escaping (() -> Void)) {
         let service = GRSaveUserListService()
