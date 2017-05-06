@@ -171,7 +171,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         self.tableShoppingCart?.addSubview(self.refreshControl)
-        NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.loadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        
+        if !UserCurrentSession.hasLoggedUser() {
+            NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(GRShoppingCartViewController.loadGRShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        }
+        
     }
     
     deinit {
