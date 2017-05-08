@@ -71,7 +71,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.presentAddressFullScreen = true
         self.updateTotalItemsRow()
-         NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        
     }
     
     deinit {
@@ -242,18 +242,21 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
-            self.itemsInShoppingCart.remove(at: indexPath.row)
             
-            if self.itemsInShoppingCart.count > 0 {
-                self.viewShoppingCart.reloadData()
-                self.updateTotalItemsRow()
-            } else {
-                 self.onClose?(true)
-                let _ = self.navigationController?.popViewController(animated: true)
+            if self.itemsInShoppingCart.count > indexPath.row {
+                self.itemsInShoppingCart.remove(at: indexPath.row)
+                
+                if self.itemsInShoppingCart.count > 0 {
+                    self.viewShoppingCart.reloadData()
+                    self.updateTotalItemsRow()
+                } else {
+                    self.onClose?(true)
+                    let _ = self.navigationController?.popViewController(animated: true)
+                }
             }
             
-            }, errorBlock: { (error:NSError) -> Void in
-                print("delete pressed Errro \(error)")
+        }, errorBlock: { (error:NSError) -> Void in
+            print("delete pressed Errro \(error)")
         })
     }
     
