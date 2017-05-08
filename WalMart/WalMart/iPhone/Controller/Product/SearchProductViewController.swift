@@ -1679,6 +1679,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.emptyMGGR == nil {
             let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
             self.emptyMGGR = IPOSearchResultEmptyView(frame: frameEmpty)
+          self.emptyMGGR.isLarge = false
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }

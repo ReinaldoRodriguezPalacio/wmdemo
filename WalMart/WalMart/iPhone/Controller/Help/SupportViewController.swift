@@ -174,7 +174,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         let model = UIDevice.current.modelName
         let bounds = self.view.bounds
         
-        self.imgConfirm.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: bounds.height)
+        self.imgConfirm.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: bounds.height - (self.header!.frame.height + (IS_IPHONE ? 44 : 0)))
         self.labelQuestion1.frame = CGRect(x: 0, y: self.header!.frame.maxY + 28 , width: bounds.width, height: 15 )
         self.labelQuestion2.frame = CGRect(x: 0, y: self.labelQuestion1.frame.maxY , width: bounds.width, height: 15 )
         
