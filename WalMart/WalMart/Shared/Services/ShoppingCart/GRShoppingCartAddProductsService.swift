@@ -242,6 +242,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
         
         WishlistService.shouldupdate = true
         NotificationCenter.default.post(name: .reloadWishList, object: nil)
+        
+        UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+        })
+        
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
     }
