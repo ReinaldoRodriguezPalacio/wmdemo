@@ -585,7 +585,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         CATransaction.begin()
                         CATransaction.setCompletionBlock({ () -> Void in
                             var cells = self.tableuserlist!.visibleCells
-                            for idx in 0 ..< cells.count {
+                            var initial = self.isShowingWishList && self.needsToShowWishList ? 1 : 0
+                            initial = initial + (self.isShowingSuperlists ? 1 : 0)
+                            for idx in initial ..< cells.count {
                                 if let cell = cells[idx] as? ListTableViewCell {
                                     cell.enableDuplicateList(false)
                                     cell.canDelete = true
