@@ -27,6 +27,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     func callService(requestParams params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+                
                 UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
                     UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
                     
@@ -38,10 +39,10 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     self.callCoreDataService(params, successBlock: nil, errorBlock: nil)
                 })
                
-                }) { (error:NSError) -> Void in
-                    if errorBlock != nil {
-                        errorBlock!(error)
-                    }
+            }) { (error: NSError) -> Void in
+                if errorBlock != nil {
+                    errorBlock!(error)
+                }
             }
         } else {
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
@@ -54,6 +55,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     }
     
     func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -84,7 +86,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
         
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-            
+            NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
             successBlock?([:])
         }
     
