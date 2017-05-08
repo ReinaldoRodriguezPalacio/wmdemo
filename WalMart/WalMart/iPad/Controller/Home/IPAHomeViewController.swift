@@ -83,6 +83,10 @@ class IPAHomeViewController : HomeViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        collection.reloadData()
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch (indexPath.section,indexPath.row) {
         case (0,0):
