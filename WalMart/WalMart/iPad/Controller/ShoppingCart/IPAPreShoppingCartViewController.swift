@@ -13,7 +13,7 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
     let optionsShoppingCart = ["Súper","Tecnología, Hogar y Más"]
     let shoppingCart: UIViewController? = nil
     
-    var loadImage : LoadingIconView!
+    var loadImage : LoadingIconView?
     var viewSuper: PreShoppingCartView!
     var viewMG: PreShoppingCartView!
     var viewBG: UIView!
@@ -26,7 +26,6 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
     var delegate: ShoppingCartViewControllerDelegate!
     var controllerShowing: UIViewController? = nil
     var finishAnimation: (() -> Void)? = nil
-    var loadShoppingCart = true
     
     override func viewDidLoad() {
         
@@ -51,12 +50,8 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
         viewSuper.frame =  CGRect(x: 200, y: -288, width: 288, height: 228)
         viewMG.frame =  CGRect(x: 536, y: -288, width: 288, height: 228)
         
-        if loadShoppingCart {
-            loadAnimationPreShopping()
-            reloadPreShoppingCar()
-        } else {
-            updateShoppingCarts()
-        }
+        loadAnimationPreShopping()
+        reloadPreShoppingCart()
         
     }
     
@@ -68,86 +63,18 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
         super.viewWillLayoutSubviews()
         viewBG.frame = self.view.bounds
     }
-  
-   /*func reloadPreShopingCart() {
-        
-        if self.controllerShowing != nil {
-            
-            if self.controllerShowing!.parent != nil {
-                self.controllerShowing?.removeFromParentViewController()
-            }
-            
-            if self.controllerShowing!.view.superview != nil {
-                self.controllerShowing?.view.removeFromSuperview()
-            }
-            
-            self.controllerShowing = nil
-        }
-        
-    }*/
     
-    
-    func reloadPreShoppingCar(){
-    
-        //self.emptyView!.isHidden = true
-        //self.emptyView.frame = CGRect(x: 0, y: -self.view.bounds.height, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+    func reloadPreShoppingCart(){
         
         UserCurrentSession.sharedInstance.loadShoppingCarts({() -> Void in
             
-            //let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
-            
-//            if UserCurrentSession.sharedInstance.isEmptyMG() && UserCurrentSession.sharedInstance.isEmptyGR() {
-//                //Show emptyView
-//                self.emptyView!.hidden = false
-//                UIView.animateWithDuration(0.3, animations: { () -> Void in
-//                    self.emptyView.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-//                    }) { (complete:Bool) -> Void in
-//                }
-//                
-//            } else {
-            
-                let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
-                //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
-                let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
-                let totArticlesGR = UserCurrentSession.sharedInstance.numberOfArticlesGR()
-                let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
-                self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0 )
-                
-                let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
-            let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
-                let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
-                self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance.estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
-            
-            self.viewMG.tapAction =  { () -> Void in
-                // self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY
-                //self.performSegueWithIdentifier("shoppingCartMG", sender: self)
-                if totArticlesMG > 0 {
-                    self.openViewMG()
-                } else {
-                    NotificationCenter.default.post(name:.clearShoppingCartMG, object: nil)
-                }
-                
-            }
-            
-            
-            self.viewSuper.tapAction =  { () -> Void in
-                if totArticlesGR > 0 {
-                    self.openViewGR()
-                } else {
-                    NotificationCenter.default.post(name: .clearShoppingCartGR, object: nil)
-                }
-            }
-
-            
-            
-                self.animateViews()
-                
-                
-//            }
+            self.updateShoppingCarts()
+            self.loadImage?.stopAnnimating()
+            self.loadImage?.removeFromSuperview()
+            self.loadImage = nil
             
             UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-            self.loadImage.stopAnnimating()
-            self.loadImage.removeFromSuperview()
+            
         })
         
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
@@ -158,11 +85,15 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
     
     func loadAnimationPreShopping() {
         
-        loadImage = LoadingIconView(frame: CGRect(x: 454, y: 292.5, width: 116, height: 120))
-        view.addSubview(loadImage)
-        
-        loadImage.startAnnimating()
-        loadImage.backgroundColor = UIColor.clear
+        if loadImage == nil {
+            
+            loadImage = LoadingIconView(frame: CGRect(x: 454, y: 292.5, width: 116, height: 120))
+            view.addSubview(loadImage!)
+            
+            loadImage!.startAnnimating()
+            loadImage!.backgroundColor = UIColor.clear
+            
+        }
 
         shoppingCart?.view.removeFromSuperview()
         shoppingCart?.removeFromParentViewController()
@@ -178,12 +109,13 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
         let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
         let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
         let totArticlesGR = UserCurrentSession.sharedInstance.numberOfArticlesGR()
-        let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)": noArticlesGrStr
-        self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0 )
+        let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
+        
+        self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance.estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0)
         
         let totArticlesMG = UserCurrentSession.sharedInstance.numberOfArticlesMG()
         let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
-        let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)": noArticlesMgStr
+        let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
         self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance.estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
         
         self.viewMG.tapAction =  { () -> Void in
@@ -191,7 +123,6 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
                 self.openViewMG()
             } else {
                 NotificationCenter.default.post(name:.clearShoppingCartMG, object: nil)
-
             }
         }
         
@@ -305,7 +236,7 @@ class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelega
             vcResult.onSuccessOrder = {() in
                 vcResult.removeFromParentViewController()
                 vcResult.view.removeFromSuperview()
-                self.reloadPreShoppingCar()
+                self.reloadPreShoppingCart()
                 self.closeShoppingCart()
             }
             
