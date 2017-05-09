@@ -450,6 +450,10 @@
 "gr.category.open" = "Abrir";
 "gr.category.all" = "Ver más";
 "gr.category.message.loading" = "Cargando destacados...";
+"gr.category.message.noGroceries" = "No existe ese artículo en Súper";
+
+// MG Category
+"mg.category.message.noTechnology" = "No existe ese artículo en Tecnología, Hogar y más";
 
 //Address Super
 "gr.address.title" = "Nueva Dirección";
