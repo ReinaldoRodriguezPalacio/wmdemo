@@ -1373,14 +1373,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
             
-        if  self.searchContextType == .withCategoryForGR {
+        if self.searchContextType == .withCategoryForGR {
             if self.idDepartment !=  nil {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
             }
         }
         
         if btnSuper.isSelected   {
-            if (firstOpen || self.isLandingPage) && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
+            if (firstOpen || self.isLandingPage) && (self.grResults!.products == nil) {
                 btnTech.isSelected = true
                 btnSuper.isSelected = false
                 self.allProducts = []
@@ -1495,10 +1495,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if !self.isLandingPage   {
                 self.showEmptyMGGRView()
             }
-        } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .fromSearchTextList{
+        } else if (self.allProducts == nil || self.allProducts!.count == 0) && self.searchFromContextType == .fromSearchTextList {
            self.showEmptyView()
         } else if (self.allProducts == nil || self.allProducts!.count == 0) && self.isLandingPage {
-           self.showEmptyLandingView()
+            self.showEmptyLandingView()
+        } else if (self.allProducts == nil || self.allProducts!.count == 0) {
+            self.showEmptyMGGRView()
         } else {
             if self.searchContextType != nil && self.isTextSearch && self.allProducts != nil {
                 //println("sorting values from text search")

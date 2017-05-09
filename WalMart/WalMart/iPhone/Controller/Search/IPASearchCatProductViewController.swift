@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPASearchCatProductViewController : IPASearchProductViewController {
+class IPASearchCatProductViewController: IPASearchProductViewController {
     
     var imageBgCategory : UIImage?
     var imageIconCategory : UIImage?
@@ -115,7 +115,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.loading!.startAnnimating(false)
         }
     }
-
+    
     override func returnBack() {
         
         if self.empty != nil {
@@ -124,6 +124,42 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         }
 
         self.delegateHeader?.closeCategory()
+    }
+    
+    override func showEmptyMGGRView() {
+        
+        if self.empty != nil {
+            return
+        }
+        
+        self.filterButton?.alpha = 0
+        self.loading?.stopAnnimating()
+        
+        let maxY: CGFloat = 0 
+        let heightEmpty = self.view.bounds.height - (44 + maxY)
+        
+        if self.emptyMGGR == nil {
+            
+            let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            self.emptyMGGR = IPOSearchResultEmptyView(frame: frameEmpty)
+            self.emptyMGGR.isLarge = false
+            self.emptyMGGR.returnAction = { () in
+                self.returnBack()
+            }
+            
+        } else {
+            self.emptyMGGR.frame = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+        }
+        
+        if self.searchContextType == .withCategoryForGR {
+            self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
+        } else {
+            self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
+        }
+        
+        self.view.addSubview(self.emptyMGGR)
+        NotificationCenter.default.post(name: .clearSearch, object: nil)
+        
     }
     
     func setSelectedHeaderCat(){
