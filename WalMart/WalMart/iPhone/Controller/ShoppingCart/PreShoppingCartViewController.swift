@@ -10,7 +10,7 @@ import Foundation
 
 class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegate  {
 
-    let optionsShoppingCart = ["Súper","Tecnología, Hogar y Más"]
+    let optionsShoppingCart = ["Walmart Súper","Tecnología, Hogar y Más"]
     
     var viewLoad: WMLoadingView!
     var viewSuper: PreShoppingCartView!
