@@ -257,7 +257,10 @@ class ShoppingCartAddProductsService : BaseService {
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-        
+      
+        UserCurrentSession.sharedInstance.loadShoppingCarts { () -> Void in
+        }
+      
     }
     
     func statusForProduct() -> Int {
