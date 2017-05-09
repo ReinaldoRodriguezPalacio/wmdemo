@@ -2185,16 +2185,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
             selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
             selectQuantityGR.btnNoteN.isHidden =  !hasUPC
-
-            
-            
         }else{
             prodQuantity =  quantity == 0 ? "1" : "\(quantity)"
             selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),upcProduct:cell.upc,startY:startY)
-            if self.idListFromSearch != "" {
-                selectQuantityGR.isFromList = true
-            }
         }
+        
     
         selectQuantityGR?.closeAction = { () in
             self.selectQuantityGR.removeFromSuperview()
@@ -2252,9 +2247,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        let orderByPiece = product != nil ? product!.orderByPiece.boolValue : false
-        selectQuantityGR?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity.doubleValue, pieces: 1)
-        
         selectQuantityGR?.addUpdateNote = { () in
             var pieces = 0
             if cell.equivalenceByPiece != "" {
@@ -2285,10 +2277,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             addShopping.addNoteToProduct(nil)
           
         }
-      
-        selectQuantityGR?.userSelectValue(prodQuantity)
-        selectQuantityGR?.first = true
-        //selectQuantityGR!.generateBlurImage(self.view,frame:selectQuantityGR.bounds)
+
+        if self.idListFromSearch != "" {
+            selectQuantityGR.isFromList = true
+            selectQuantityGR.isUpcInList = UserCurrentSession.sharedInstance.userHasUPCUserlist(cell.upc, listId: idListFromSearch!)
+            let listProduct = UserCurrentSession.sharedInstance.getProductForList(cell.upc,listId: idListFromSearch!)
+            if listProduct != nil {
+                self.selectQuantityGR!.setQuantity(quantity: listProduct!.quantity.intValue,orderByPiece: listProduct!.orderByPiece.intValue)
+                self.selectQuantityGR?.validateOrderByPiece(orderByPiece: (listProduct!.orderByPiece.intValue == 1), quantity: listProduct!.quantity.doubleValue, pieces: listProduct!.quantity.intValue)
+            }
+        }else{
+            let orderByPiece = product != nil ? product!.orderByPiece.boolValue : false
+            selectQuantityGR?.validateOrderByPiece(orderByPiece: orderByPiece, quantity: quantity.doubleValue, pieces: 1)
+            selectQuantityGR?.userSelectValue(prodQuantity)
+            selectQuantityGR?.first = true
+        }
     }
     
     func deleteFromCartGR(cell:SearchProductCollectionViewCell,position:String) {
