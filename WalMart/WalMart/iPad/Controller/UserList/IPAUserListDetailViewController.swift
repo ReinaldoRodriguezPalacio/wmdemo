@@ -500,7 +500,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover = nil
     }
 
-    
     override func reloadTableListUser() {
         if delegate != nil {
             self.delegate!.reloadTableListUser()
@@ -528,8 +527,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
     }
     
- 
-    
     override func addReminder(){
         if self.showReminderController{
             self.showReminderController = false
@@ -553,7 +550,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    
     //MARK: AddProductTolistViewDelegate
     override func scanCode() {
         let barCodeController = IPABarCodeViewController()
@@ -564,7 +560,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         barCodeController.isAnyActionFromCode =  true
         self.present(barCodeController, animated: true, completion: nil)
     }
-    
     
     override func searchByTextAndCamfind(_ text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
         
@@ -613,6 +608,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }else{
             setReminderSelected(false)
         }
+    }
+    
+    override func invokeDetailListService(_ action: (() -> Void)?, reloadList: Bool) {
+        if self.listId == nil {
+            self.delegate!.reloadTableListUserSelectedRow()
+            return
+        }
+        super.invokeDetailListService(action, reloadList: reloadList)
     }
 
 }

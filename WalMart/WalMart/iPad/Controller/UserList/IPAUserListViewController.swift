@@ -428,9 +428,6 @@ class IPAUserListViewController: UserListViewController {
         )
     }
     
-    
-
-    
     override func scanTicket() {
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
@@ -440,8 +437,6 @@ class IPAUserListViewController: UserListViewController {
         barCodeController.onlyCreateList = true
         self.present(barCodeController, animated: true, completion: nil)
     }
-    
-    
 
     override func selectRowIfNeeded() {
         self.tableuserlist?.selectRow(at: self.selectedItem, animated: false, scrollPosition: UITableViewScrollPosition.none)

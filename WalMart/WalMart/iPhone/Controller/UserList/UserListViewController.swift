@@ -241,12 +241,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         valid if the function duplicate list execute.
      */
     func duplicateList(){
-        
-        let indexpath = self.selectedIndex // NSIndexPath(forRow: 1, inSection: 1)
         if self.listSelectedDuplicate == self.selectedIndex {
             return
         }
         self.listSelectedDuplicate = self.selectedIndex
+        let indexpath = self.selectedIndex
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRow(at: indexpath!) as? ListTableViewCell
             if cell != nil {
@@ -737,11 +736,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 //---
                 self.newListEnabled = true
                 self.cancelNewList()
+                self.listSelectedDuplicate = nil
                 //---
             },
               failure: { (error) -> Void in
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
+                self.listSelectedDuplicate = nil
             })
             
           })
@@ -766,11 +767,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                   //---
                   self.newListEnabled = true
                   self.cancelNewList()
+                self.listSelectedDuplicate = nil
                   //---
               },
                 failure: { (error) -> Void in
                   self.alertView!.setMessage(error.localizedDescription)
                   self.alertView!.showErrorIcon("Ok")
+                self.listSelectedDuplicate = nil
               })
               
             })
@@ -832,18 +835,19 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 //---
                 self.newListEnabled = true
                 self.cancelNewList()
+                self.listSelectedDuplicate = nil
                 //---
             },
               failure: { (error) -> Void in
                 self.alertView?.setMessage(error.localizedDescription)
                 self.alertView?.showErrorIcon("Ok")
+                self.listSelectedDuplicate = nil
             })
             
           }
           
         }
       }
-        self.listSelectedDuplicate = IndexPath(row: 0, section: 0)
     }
   
     /**
@@ -1277,7 +1281,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         
         if indexPath.section == 0 {
             if indexPath.row == 0 && self.newListEnabled {

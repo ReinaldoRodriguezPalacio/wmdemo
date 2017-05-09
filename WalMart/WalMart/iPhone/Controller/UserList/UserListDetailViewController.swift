@@ -352,7 +352,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
     // MARK: - Navigation
 
