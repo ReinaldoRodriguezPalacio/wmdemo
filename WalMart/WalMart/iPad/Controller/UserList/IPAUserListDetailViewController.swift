@@ -435,16 +435,22 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 
                 self.sharePopover?.dismiss(animated: false)
                 
-                if UserCurrentSession.hasLoggedUser() {
-                    if let product = self.products![indexPath!.row] as? Product {
-                        self.invokeUpdateProductFromListService(product, quantity: Int(quantity)!,baseUomcd: self.quantitySelector!.orderByPiece ? "EA" : "GM")
-                    }
+                if let item = self.products![indexPath!.row] as? [String:Any] {
+                    let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
+                    //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
                 } else if let item = self.products![indexPath!.row] as? Product {
+                    
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                    item.pieces =  NSNumber(value: Int(quantity)!) //NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
-                    self.saveContext()
-                    self.retrieveProductsLocally(true)
+                    item.pieces = NSNumber(value:Int(quantity)!)
+                    
+                    if UserCurrentSession.hasLoggedUser() {
+                        self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
+                    } else {
+                        self.saveContext()
+                        self.retrieveProductsLocally(true)
+                    }
+                    
                     self.removeSelector()
                 }
                 
