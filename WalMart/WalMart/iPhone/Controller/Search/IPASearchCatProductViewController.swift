@@ -135,12 +135,11 @@ class IPASearchCatProductViewController: IPASearchProductViewController {
         self.filterButton?.alpha = 0
         self.loading?.stopAnnimating()
         
-        let maxY: CGFloat = 0 
-        let heightEmpty = self.view.bounds.height - (44 + maxY)
+        let maxY: CGFloat = 0
         
         if self.emptyMGGR == nil {
             
-            let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            let frameEmpty = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
             self.emptyMGGR = IPOSearchResultEmptyView(frame: frameEmpty)
             self.emptyMGGR.isLarge = false
             self.emptyMGGR.returnAction = { () in
@@ -148,13 +147,13 @@ class IPASearchCatProductViewController: IPASearchProductViewController {
             }
             
         } else {
-            self.emptyMGGR.frame = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            self.emptyMGGR.frame = CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY)
         }
         
         if self.searchContextType == .withCategoryForGR {
-            self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
+            self.emptyMGGR.descLabel.text = NSLocalizedString("gr.category.message.noGroceries", comment: "")
         } else {
-            self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
+            self.emptyMGGR.descLabel.text = NSLocalizedString("mg.category.message.noTechnology", comment: "")
         }
         
         self.view.addSubview(self.emptyMGGR)
