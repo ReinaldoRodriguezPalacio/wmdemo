@@ -1193,7 +1193,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         detailService.callCoreDataService(listId: self.listId!,
                                           successBlock: { (result:List?,products:[Product]?) -> Void in
-                self.products = products!
+                
+                                            
+                self.products = products?.sorted(by: { (first, second) -> Bool in
+                                              let firstString = first.desc
+                                              let secondString = second.desc
+                                              return firstString < secondString
+                            })
                 
                 if !self.analyticsSent {
                     
