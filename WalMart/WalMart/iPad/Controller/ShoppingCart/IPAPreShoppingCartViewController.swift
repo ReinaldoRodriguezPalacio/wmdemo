@@ -10,7 +10,7 @@ import Foundation
 
 class IPAPreShoppingCartViewController:  BaseController, UIDynamicAnimatorDelegate {
     
-    let optionsShoppingCart = ["Súper","Tecnología, Hogar y Más"]
+    let optionsShoppingCart = ["Walmart Súper","Tecnología, Hogar y Más"]
     let shoppingCart: UIViewController? = nil
     
     var loadImage : LoadingIconView?
