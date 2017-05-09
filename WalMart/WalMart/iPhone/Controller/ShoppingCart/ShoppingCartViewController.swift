@@ -192,6 +192,13 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
+        if UserCurrentSession.hasLoggedUser() {
+            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.loadShoppingCartService), name: .successUpdateItemsInShoppingCart, object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
+        }
+        
+        
     }
     
     deinit {

@@ -21,7 +21,6 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
     var gravity: UIGravityBehavior!
     var animator: UIDynamicAnimator!
     var collision: UICollisionBehavior!
-    var loadShoppingCart = true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
@@ -50,22 +49,15 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if loadShoppingCart {
-            
-            if viewLoad == nil {
-                viewLoad = WMLoadingView(frame: self.view.bounds)
-                viewLoad.backgroundColor = UIColor.white
-                viewLoad.startAnnimating(false)
-                view.addSubview(viewLoad)
-            }
-            
-            UserCurrentSession.sharedInstance.loadShoppingCarts {
-                self.updateShoppingCarts()
-                self.loadShoppingCart = false
-            }
-            
-        } else {
-            updateShoppingCarts()
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.white
+            viewLoad.startAnnimating(false)
+            view.addSubview(viewLoad)
+        }
+        
+        UserCurrentSession.sharedInstance.loadShoppingCarts {
+            self.updateShoppingCarts()
         }
         
     }
@@ -97,7 +89,6 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
         collision.addBoundary(withIdentifier: "barrier" as NSCopying, from: CGPoint(x: self.view.frame.origin.x, y: self.navigationController!.view.frame.height + 62), to: CGPoint(x: self.view.frame.origin.x + self.view.frame.width, y: self.navigationController!.view.frame.height + 62))
         animator.addBehavior(collision)
         animator.delegate = self
-        loadShoppingCart = true
         
     }
     

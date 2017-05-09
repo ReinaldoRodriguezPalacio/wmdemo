@@ -44,22 +44,27 @@ class ShoppingCartDeleteProductsService : BaseService {
     }
     
     func callCoreDataServiceWithParams(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
         let parameter = params["parameter"] as! [Any]
+        
         if parameter.count > 0 {
             for paramItem in parameter {
+                
                 let upc = paramItem as! NSString
                 var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
+                
                 if UserCurrentSession.hasLoggedUser() {
                     predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance.userSigned!)
                 }
-                let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+                
+                let array: [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                 
                 for cartDelete in array {
                     cartDelete.status = NSNumber(value: CartStatus.deleted.rawValue as Int)
                 }
+                
                 do {
                     try context.save()
                 } catch let error1 as NSError {
@@ -68,10 +73,25 @@ class ShoppingCartDeleteProductsService : BaseService {
             }
         }
         
-        NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-        
-        let shoppingService = ShoppingCartProductsService()
-        shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
+        if UserCurrentSession.hasLoggedUser() {
+            
+            delay(0.5, completion: {
+                UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
+                }
+            })
+            
+            let shoppingService = ShoppingCartProductsService()
+            shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
+            
+        } else {
+            UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                let shoppingService = ShoppingCartProductsService()
+                shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
+                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
+            }
+        }
+    
     }
     
     
