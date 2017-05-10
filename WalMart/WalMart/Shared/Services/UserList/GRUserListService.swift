@@ -17,6 +17,7 @@ class GRUserListService : GRBaseService {
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "false")
             self.callGETService(params,
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
@@ -138,8 +139,10 @@ class GRUserListService : GRBaseService {
         if user == nil {
           manageListDataSuccess?()
           manageListDataSuccess = nil
-            print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
-            return
+          CustomBarViewController.addOrUpdateParam("listUpdated", value: "true")
+          NotificationCenter.default.post(name: .userlistUpdated, object: nil)
+          print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
+          return
         }
 
         let arryListLocal:NSMutableArray = []
@@ -246,6 +249,8 @@ class GRUserListService : GRBaseService {
         if listIds.count == 0 {
             manageListDataSuccess?()
             manageListDataSuccess = nil
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true")
+            NotificationCenter.default.post(name: .userlistUpdated, object: nil)
             return;
         }
         var newListIds : [String] = []
