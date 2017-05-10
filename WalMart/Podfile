@@ -14,4 +14,9 @@ target 'WalMart' do
     #Paypal payments
     pod 'PayPal-iOS-SDK', '2.16.3'
     
+    #Fabric comment to commit walmart app
+    pod 'Fabric'
+    pod 'Crashlytics'
+
+
 end

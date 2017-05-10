@@ -160,7 +160,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let jsonLines = JSON(products)
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:123))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:self.frame.height))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             product.jsonItemSelected = lineToShow
