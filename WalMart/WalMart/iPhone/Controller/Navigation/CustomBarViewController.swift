@@ -58,6 +58,7 @@ extension Notification.Name {
     static let addCLosePopCategorie = Notification.Name("kAddCLosePopCategorie")
     static let removePopSearch = Notification.Name("KremovePopSearch")
     static let userlistUpdated = Notification.Name("KuserlistUpdated")
+    static let userlistShowLoading = Notification.Name("KuserlistShowLoading")
 }
 
 

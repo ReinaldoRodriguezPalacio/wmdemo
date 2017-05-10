@@ -137,6 +137,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.updateListTable), name: .userlistUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.showLoadingView), name: .userlistShowLoading, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -334,6 +335,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
@@ -1161,9 +1163,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      Remove loader from screen list
      */
     func removeLoadingView() {
-        let param = CustomBarViewController.retrieveParam("listUpdated")
-        let removeLoad = !UserCurrentSession.hasLoggedUser() || (param != nil && param!.value == "true")
-        if self.viewLoad != nil && removeLoad {
+        let param = CustomBarViewController.retrieveParam("listUpdated", forUser: UserCurrentSession.hasLoggedUser())
+        if self.viewLoad != nil && param != nil && param!.value == "true" {
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }

@@ -17,7 +17,11 @@ class GRUserListService : GRBaseService {
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
-            CustomBarViewController.addOrUpdateParam("listUpdated", value: "false")
+            let param = CustomBarViewController.retrieveParam("listUpdated", forUser: UserCurrentSession.hasLoggedUser())
+            if param == nil || (param != nil && param!.value == "false") {
+              NotificationCenter.default.post(name: .userlistShowLoading, object: nil)
+            }
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "false",forUser: true)
             self.callGETService(params,
                 successBlock: { (resultCall:[String:Any]) -> Void in
                     //self.jsonFromObject(resultCall)
@@ -139,7 +143,7 @@ class GRUserListService : GRBaseService {
         if user == nil {
           manageListDataSuccess?()
           manageListDataSuccess = nil
-          CustomBarViewController.addOrUpdateParam("listUpdated", value: "true")
+          CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: true)
           NotificationCenter.default.post(name: .userlistUpdated, object: nil)
           print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
           return
@@ -249,7 +253,7 @@ class GRUserListService : GRBaseService {
         if listIds.count == 0 {
             manageListDataSuccess?()
             manageListDataSuccess = nil
-            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true")
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: true)
             NotificationCenter.default.post(name: .userlistUpdated, object: nil)
             return;
         }

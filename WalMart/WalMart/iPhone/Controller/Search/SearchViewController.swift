@@ -668,7 +668,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             NotificationCenter.default.post(name: .camFindSearch, object: params, userInfo: nil)
             done()
         }
-        delegate?.closeSearch(false, sender:nil)
+        if value != nil {
+          delegate?.closeSearch(false, sender:nil)
+        }
     }
     
     func handleTap(_ recognizer:UITapGestureRecognizer){
