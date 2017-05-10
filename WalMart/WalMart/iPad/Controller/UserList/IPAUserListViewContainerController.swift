@@ -259,9 +259,16 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     func reloadTableListUserSelectedRow() {
-        let _ = self.listController?.selectedItem
-        self.listController?.tableuserlist?.reloadSections(IndexSet(integer: 1), with: UITableViewRowAnimation.fade)
-        self.listController?.tableuserlist?.selectRow(at: self.listController?.selectedItem as IndexPath?, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        if let indexPath = self.listController?.selectedItem as IndexPath? {
+            let listEntity: List? = self.listController?.itemsUserList?[indexPath.row] as? List
+        
+            if listEntity != nil {
+                self.listController?.selectedEntityList = listEntity
+                self.listController?.selectedListName = listEntity!.name
+                self.listController?.selectedListId = listEntity!.idList
+                self.showListDetailAnimated(forId: listEntity!.idList, orEntity: listEntity!, andName: listEntity!.name)
+            }
+        }
     }
     
     
