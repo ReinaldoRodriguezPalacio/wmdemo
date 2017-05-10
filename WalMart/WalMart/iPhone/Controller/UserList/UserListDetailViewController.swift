@@ -1379,7 +1379,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
                     self.alertView!.afterRemove = {
-                        self.retrieveProductsLocally(true)
                         self.removeSelector()
                         return
                     }
