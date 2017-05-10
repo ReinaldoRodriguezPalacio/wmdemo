@@ -181,7 +181,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-
+    
     /**
      Close or show action view if is necesary
      */
@@ -301,6 +301,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.viewLoad.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.detailCollectionView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 90)
     }
 
     // MARK: - Collection view config

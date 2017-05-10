@@ -546,39 +546,27 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func addCartToList() {
         if self.listSelectorController == nil {
+            
             self.addToListButton!.isSelected = true
+            
             let frame = self.view.frame
+            let footerFrame = self.viewFooter!.frame
             
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
-            //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: frame.height, width: frame.width, height: frame.height)
+            self.listSelectorController!.view.frame = CGRect(x: 0.0, y: footerFrame.minY, width: frame.width, height: footerFrame.minY)
             self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMove(toParentViewController: self)
             self.listSelectorController!.view.clipsToBounds = true
             self.listSelectorController!.showListView =  true
             
-            
-            UIView.animate(withDuration: 0.5,
-                animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
-                },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-                        let footerFrame = self.viewFooter!.frame
-                        self.listSelectorController!.tableView!.contentInset = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-                        self.listSelectorController!.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-                    }
-                }
-            )
-            
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+                self.listSelectorController!.view.frame = CGRect(x: 0, y: 0, width: frame.width, height: footerFrame.minY)
             })
-        }
-        else {
+            
+        } else {
             self.removeListSelector(action: nil)
         }
     }
