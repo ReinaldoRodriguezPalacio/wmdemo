@@ -1141,17 +1141,22 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     return
                 }
               
-                
                 if let item = self.products![indexPath!.row] as? [String:Any] {
-                    let upc = item["upc"] as? String//TODO Validar si se puede obtener un Product
+                    let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
                     //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
-                }
-                else if let item = self.products![indexPath!.row] as? Product {
+                } else if let item = self.products![indexPath!.row] as? Product {
+                    
                     item.quantity = NSNumber(value: Int(quantity)! as Int)
                     item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                    item.pieces =  NSNumber(value:Int(quantity)!) //NSNumber(value: cell.equivalenceByPiece!.intValue > 0 ? (Int(quantity)! / cell.equivalenceByPiece!.intValue): (Int(quantity)!))
-                    self.saveContext()
-                    self.retrieveProductsLocally(true)
+                    item.pieces = NSNumber(value:Int(quantity)!)
+                    
+                    if UserCurrentSession.hasLoggedUser() {
+                        self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
+                    } else {
+                        self.saveContext()
+                        self.retrieveProductsLocally(true)
+                    }
+                    
                     self.removeSelector()
                 }
             }
@@ -1348,6 +1353,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func invokeUpdateProductFromListService(_ product: Product, quantity:Int,baseUomcd:String) {
+        
         if quantity == 0 {
             invokeDeleteProductFromListService(product, succesDelete: { () -> Void in
                 print("succesDelete")
@@ -1356,36 +1362,31 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         if quantity <= 20000 {
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
-                    
-        
-        let service = GRUpdateItemListService()
-        service.callService(service.buildParams(upc: product.upc, quantity: quantity,baseUomcd:baseUomcd),
-            successBlock: { (result:[String:Any]) -> Void in
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
+            
+            let service = GRUpdateItemListService()
+            service.callService(service.buildParams(upc: product.upc, quantity: quantity, baseUomcd: baseUomcd), successBlock: { (result: [String:Any]) -> Void in
                 
-                product.quantity = NSNumber(value: Int(quantity) as Int)
-                product.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                product.pieces =  NSNumber(value:Int(quantity)) 
                 self.saveContext()
-                
                 self.invokeDetailListService({ () -> Void in
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
                     self.alertView!.afterRemove = {
+                        self.retrieveProductsLocally(true)
                         self.removeSelector()
                         return
                     }
                 }, reloadList: true)
-            }, errorBlock: { (error:NSError) -> Void in
+                
+            }, errorBlock: { (error: NSError) -> Void in
                 print("Error at delete product from user")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
-            }
-        )
-        }else{
+            })
+            
+        } else {
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
             let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
@@ -1394,6 +1395,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
         }
+        
     }
     
     //MARK: - DB
