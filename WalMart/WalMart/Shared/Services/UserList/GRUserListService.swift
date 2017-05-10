@@ -17,6 +17,10 @@ class GRUserListService : GRBaseService {
     func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if !isLoadingLists {
             isLoadingLists = false
+            let param = CustomBarViewController.retrieveParam("listUpdated", forUser: UserCurrentSession.hasLoggedUser())
+            if param == nil || (param != nil && param!.value == "false") {
+              NotificationCenter.default.post(name: .userlistShowLoading, object: nil)
+            }
             CustomBarViewController.addOrUpdateParam("listUpdated", value: "false",forUser: true)
             self.callGETService(params,
                 successBlock: { (resultCall:[String:Any]) -> Void in
@@ -422,7 +426,6 @@ class GRUserListService : GRBaseService {
         }catch{
             print("Error retrieveUserList")
         }
-        CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
         return result
     }
     
