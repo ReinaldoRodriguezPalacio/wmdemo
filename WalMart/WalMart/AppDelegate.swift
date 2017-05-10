@@ -14,6 +14,8 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import AFNetworking
 import AFNetworkActivityLogger
+import Fabric
+import Crashlytics
 import AdSupport
 
 @UIApplicationMain
@@ -30,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //White status bar
         UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
-        
+      
+        Fabric.with([Crashlytics.self])
         
         // Cancel in process paypal order when the app closes
         GRCheckOutPymentViewController.cancelOrderPaypal()
@@ -58,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 print(error.localizedDescription)
                 
         })
+      
         
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
@@ -159,8 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
     
         //TODO Cambiar a produccion 
-        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
-       // TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
+       // TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
