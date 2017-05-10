@@ -192,12 +192,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
-        if UserCurrentSession.hasLoggedUser() {
-            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.loadShoppingCartService), name: .successUpdateItemsInShoppingCart, object: nil)
-        } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
-        }
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
         
     }
     
@@ -875,18 +870,16 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
         
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
-            self.itemsInShoppingCart.remove(at: indexPath.row)
             
+            self.itemsInShoppingCart.remove(at: indexPath.row)
             self.viewShoppingCart.reloadData()
             self.updateTotalItemsRow()
             
             if self.itemsInShoppingCart.count == 0 {
                 self.navigationController!.popToRootViewController(animated: true)
-            } else {
-                self.loadCrossSell()
             }
             
-        }, errorBlock: { (error:NSError) -> Void in
+        }, errorBlock: { (error: NSError) -> Void in
             print("delete pressed Errro \(error)")
         })
         
@@ -896,7 +889,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      Update totals view in case, delete or update itmes
      */
     func updateTotalItemsRow() {
-        let totalIndexPath =  IndexPath(row: itemsInShoppingCart.count, section: 0)
+        let totalIndexPath = IndexPath(row: itemsInShoppingCart.count, section: 0)
         self.viewShoppingCart.reloadRows(at: [totalIndexPath], with: UITableViewRowAnimation.none)
         UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
     }

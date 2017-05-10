@@ -20,114 +20,116 @@ class ShoppingCartProductsService : BaseService {
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
     func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        
         if !ShoppingCartService.isSynchronizing {
-        if UserCurrentSession.hasLoggedUser() {
-            synchronizeWebShoppingCartFromCoreData({ () -> Void in
-                self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
-                    
-                    //println("Items in shoppingCart: \(resultCall)")
-                    
-                    let itemsInShoppingCart = resultCall["items"] as! [[String:Any]]
-                    
-                    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    
-                    let user = UserCurrentSession.sharedInstance.userSigned
-                    
-                    var currentQuantity = 0
-                    if user != nil {
-                    let predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
-                    let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
-                    for cart in array {
-                        context.delete(cart)
-                        }
-                    }
-
-                    do {
-                        try context.save()
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    } catch {
-                        fatalError()
-                    }
-                    
-                    for shoppingCartProduct in itemsInShoppingCart {
+            
+            if UserCurrentSession.hasLoggedUser() {
+                synchronizeWebShoppingCartFromCoreData({ () -> Void in
+                    self.callGETService([:], successBlock: { (resultCall:[String:Any]) -> Void in
                         
+                        //println("Items in shoppingCart: \(resultCall)")
                         
-                        var carProduct : Cart!
-                        var carProductItem : Product!
-                        let upc = shoppingCartProduct["upc"] as! String
-                        let quantity = shoppingCartProduct["quantity"] as! NSString
-                        let desc = shoppingCartProduct["description"] as! String
-                        let price = shoppingCartProduct["price"] as! String
-                        var baseprice = ""
-                        if  let base = shoppingCartProduct["basePrice"] as? String {
-                            baseprice = base
-                        }
-                        if  let base = shoppingCartProduct["basePrice"] as? NSNumber {
-                            baseprice = base.stringValue
-                        }
-                        var iva = ""
-                        if  let ivabase = shoppingCartProduct["ivaAmount"] as? String {
-                            iva = ivabase
-                        }
-                        if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
-                            iva = ivabase.stringValue
-                        }
-                        var department = ""
-                        if  let departmentBase = shoppingCartProduct["department"] as? String {
-                            department = departmentBase
+                        let itemsInShoppingCart = resultCall["items"] as! [[String:Any]]
+                        
+                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+                        
+                        let user = UserCurrentSession.sharedInstance.userSigned
+                        
+                        var currentQuantity = 0
+                        if user != nil {
+                            let predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
+                            let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+                            for cart in array {
+                                context.delete(cart)
+                            }
                         }
                         
-                        
-                        var imageUrl = ""
-                        if let images = shoppingCartProduct["imageUrl"] as? [Any] {
-                            imageUrl = images[0] as! String
+                        do {
+                            try context.save()
+                        } catch let error as NSError {
+                            print(error.localizedDescription)
+                        } catch {
+                            fatalError()
                         }
                         
-                        carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
-                        
-                        carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
-                        
-                        carProductItem.upc = upc
-                        carProductItem.desc = desc
-                        carProductItem.price = price as NSString
-                        carProductItem.iva = iva
-                        carProductItem.baseprice = baseprice
-                        carProductItem.img = imageUrl
-                        carProductItem.department = department
-                        
-                        if let active = shoppingCartProduct["isActive"] as? String {
-                            carProductItem.isActive = active
+                        for shoppingCartProduct in itemsInShoppingCart {
+                            
+                            
+                            var carProduct : Cart!
+                            var carProductItem : Product!
+                            let upc = shoppingCartProduct["upc"] as! String
+                            let quantity = shoppingCartProduct["quantity"] as! NSString
+                            let desc = shoppingCartProduct["description"] as! String
+                            let price = shoppingCartProduct["price"] as! String
+                            var baseprice = ""
+                            if  let base = shoppingCartProduct["basePrice"] as? String {
+                                baseprice = base
+                            }
+                            if  let base = shoppingCartProduct["basePrice"] as? NSNumber {
+                                baseprice = base.stringValue
+                            }
+                            var iva = ""
+                            if  let ivabase = shoppingCartProduct["ivaAmount"] as? String {
+                                iva = ivabase
+                            }
+                            if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
+                                iva = ivabase.stringValue
+                            }
+                            var department = ""
+                            if  let departmentBase = shoppingCartProduct["department"] as? String {
+                                department = departmentBase
+                            }
+                            
+                            
+                            var imageUrl = ""
+                            if let images = shoppingCartProduct["imageUrl"] as? [Any] {
+                                imageUrl = images[0] as! String
+                            }
+                            
+                            carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
+                            
+                            carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
+                            
+                            carProductItem.upc = upc
+                            carProductItem.desc = desc
+                            carProductItem.price = price as NSString
+                            carProductItem.iva = iva
+                            carProductItem.baseprice = baseprice
+                            carProductItem.img = imageUrl
+                            carProductItem.department = department
+                            
+                            if let active = shoppingCartProduct["isActive"] as? String {
+                                carProductItem.isActive = active
+                            }
+                            if let inventory = shoppingCartProduct["onHandInventory"] as? String {
+                                carProductItem.onHandInventory = inventory
+                            }
+                            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
+                                carProductItem.isPreorderable = preorderable
+                            }
+                            
+                            carProduct.quantity = NSNumber(value: quantity.intValue)
+                            carProduct.product = carProductItem
+                            carProduct.type = ResultObjectType.Mg.rawValue
+                            carProduct.user = user!
+                            carProduct.status = NSNumber(value: CartStatus.synchronized.rawValue as Int)
+                            
+                            currentQuantity += quantity.integerValue
+                            
                         }
-                        if let inventory = shoppingCartProduct["onHandInventory"] as? String {
-                            carProductItem.onHandInventory = inventory
-                        }
-                        if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
-                            carProductItem.isPreorderable = preorderable
-                        }
-
-                        carProduct.quantity = NSNumber(value: quantity.intValue)
-                        carProduct.product = carProductItem
-                        carProduct.type = ResultObjectType.Mg.rawValue
-                        carProduct.user = user!
-                        carProduct.status = NSNumber(value: CartStatus.synchronized.rawValue as Int)
                         
-                        currentQuantity += quantity.integerValue
                         
-                    }
-                    
-                    
-                    do {
-                        try context.save()
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    } catch {
-                        fatalError()
-                    }
-                    
-                    successBlock!(resultCall)
-                    ShoppingCartService.isSynchronizing  = false
+                        do {
+                            try context.save()
+                        } catch let error as NSError {
+                            print(error.localizedDescription)
+                        } catch {
+                            fatalError()
+                        }
+                        
+                        successBlock!(resultCall)
+                        ShoppingCartService.isSynchronizing  = false
                     }) { (error:NSError) -> Void in
                         if error.code == 1 {
                             
@@ -144,18 +146,23 @@ class ShoppingCartProductsService : BaseService {
                             successBlock!(["items":[],"subtotal":NSNumber(value: 0.0 as Double)])
                             //let params = ["quantity":0]
                             //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
-                        }else{
+                        } else {
                             errorBlock!(error)
                         }
-                }
-                
-                }, errorBlock: { (error:NSError) -> Void in
+                    }
+                    
+                }, errorBlock: { (error: NSError) -> Void in
                     print("Error: \(error)")
-            })
-        }else{
-            callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
+                })
+                
+            } else {
+                callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
+            }
+            
+        } else {
+            errorBlock!(NSError(domain: "", code: -1, userInfo: nil))
         }
-        }
+        
     }
     
     func callCoreDataService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

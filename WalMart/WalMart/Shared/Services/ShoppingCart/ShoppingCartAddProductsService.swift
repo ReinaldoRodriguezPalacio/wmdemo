@@ -253,7 +253,10 @@ class ShoppingCartAddProductsService : BaseService {
         
         WishlistService.shouldupdate = true
         NotificationCenter.default.post(name: .reloadWishList, object: nil)
-        NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
+        
+        if !UserCurrentSession.hasLoggedUser() {
+            NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
+        }
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
