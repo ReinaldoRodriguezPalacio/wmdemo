@@ -84,6 +84,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     var viewContents: UIView?
     var lblError: UILabel?
     var imageIco: UIImageView?
+    var crossSellInExecution = false
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -192,12 +193,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             addLongTouch(view:viewShoppingCart!)
         }
 
-        if UserCurrentSession.hasLoggedUser() {
-            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.loadShoppingCartService), name: .successUpdateItemsInShoppingCart, object: nil)
-        } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
-        }
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
         
     }
     
@@ -875,18 +871,16 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
         
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
-            self.itemsInShoppingCart.remove(at: indexPath.row)
             
+            self.itemsInShoppingCart.remove(at: indexPath.row)
             self.viewShoppingCart.reloadData()
             self.updateTotalItemsRow()
             
             if self.itemsInShoppingCart.count == 0 {
                 self.navigationController!.popToRootViewController(animated: true)
-            } else {
-                self.loadCrossSell()
             }
             
-        }, errorBlock: { (error:NSError) -> Void in
+        }, errorBlock: { (error: NSError) -> Void in
             print("delete pressed Errro \(error)")
         })
         
@@ -896,7 +890,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
      Update totals view in case, delete or update itmes
      */
     func updateTotalItemsRow() {
-        let totalIndexPath =  IndexPath(row: itemsInShoppingCart.count, section: 0)
+        let totalIndexPath = IndexPath(row: itemsInShoppingCart.count, section: 0)
         self.viewShoppingCart.reloadRows(at: [totalIndexPath], with: UITableViewRowAnimation.none)
         UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
     }
@@ -1373,69 +1367,79 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         
         if self.itemsInShoppingCart.count >  0 {
             
-            let upcValue = getExpensive()
-            let crossService = CrossSellingProductService()
-            
-            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
+            if !crossSellInExecution {
                 
-                if result != nil {
+                let upcValue = getExpensive()
+                let crossService = CrossSellingProductService()
+                
+                crossSellInExecution = true
+                
+                crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
                     
-                    var isShowingBeforeLeave = false
+                    self.crossSellInExecution = false
                     
-                    if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
-                        isShowingBeforeLeave = true
-                    }
-                    
-                    self.itemsUPC = result!
-                    
-                    if self.itemsUPC.count > 3 {
+                    if result != nil {
                         
-                        var arrayUPCS = self.itemsUPC
+                        var isShowingBeforeLeave = false
                         
-                        arrayUPCS.sort(by: { (before, after) -> Bool in
-                            let priceB = before["price"] as! NSString
-                            let priceA = after["price"] as! NSString
-                            return priceB.doubleValue < priceA.doubleValue
-                        })
-                        
-                        var resultArray: [[String:Any]] = []
-                        for item in arrayUPCS[0...2] {
-                            resultArray.append(item)
-                        }
-                        self.itemsUPC = resultArray
-                        
-                    }
-                    
-                    if self.itemsInShoppingCart.count >  0  {
-                        if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
-                        } else {
-                            self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
-                        }
-                    }
-                    
-                    if !self.beforeShopTag {
-                        
-                        var position = 0
-                        var positionArray: [Int] = []
-                        
-                        for _ in self.itemsUPC {
-                            position += 1
-                            positionArray.append(position)
+                        if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
+                            isShowingBeforeLeave = true
                         }
                         
-                        let listName =  NSLocalizedString("shoppingcart.beforeleave", comment: "")
-                        let subCategory = ""
-                        let subSubCategory = ""
+                        self.itemsUPC = result!
                         
-                        BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
-                        self.beforeShopTag = true
+                        if self.itemsUPC.count > 3 {
+                            
+                            var arrayUPCS = self.itemsUPC
+                            
+                            arrayUPCS.sort(by: { (before, after) -> Bool in
+                                let priceB = before["price"] as! NSString
+                                let priceA = after["price"] as! NSString
+                                return priceB.doubleValue < priceA.doubleValue
+                            })
+                            
+                            var resultArray: [[String:Any]] = []
+                            for item in arrayUPCS[0...2] {
+                                resultArray.append(item)
+                            }
+                            self.itemsUPC = resultArray
+                            
+                        }
+                        
+                        if self.itemsInShoppingCart.count >  0  {
+                            if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
+                                self.viewShoppingCart.insertRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
+                            } else {
+                                self.viewShoppingCart.reloadRows(at: [IndexPath(item: self.itemsInShoppingCart.count + 1, section: 0)], with: UITableViewRowAnimation.none)
+                            }
+                        }
+                        
+                        if !self.beforeShopTag {
+                            
+                            var position = 0
+                            var positionArray: [Int] = []
+                            
+                            for _ in self.itemsUPC {
+                                position += 1
+                                positionArray.append(position)
+                            }
+                            
+                            let listName =  NSLocalizedString("shoppingcart.beforeleave", comment: "")
+                            let subCategory = ""
+                            let subSubCategory = ""
+                            
+                            BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                            self.beforeShopTag = true
+                        }
+                        
                     }
-                    
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Termina sevicio app")
-            })
+                }, errorBlock: { (error:NSError) -> Void in
+                    print("Termina sevicio app")
+                    self.crossSellInExecution = false
+                })
+                
+            }
+            
         }
     }
     

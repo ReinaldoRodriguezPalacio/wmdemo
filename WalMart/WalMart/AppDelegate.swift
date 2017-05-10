@@ -411,7 +411,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             let listName = notification.userInfo![REMINDER_PARAM_LISTNAME] as? String else {
                 return
         }
-                
+         CustomBarViewController.addOrUpdateParam("listUpdated", value: "false")       
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
             if (application.applicationState == UIApplicationState.background ||  application.applicationState == UIApplicationState.inactive)
             {

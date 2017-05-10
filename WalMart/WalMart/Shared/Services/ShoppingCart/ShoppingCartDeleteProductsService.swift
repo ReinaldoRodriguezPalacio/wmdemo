@@ -85,11 +85,9 @@ class ShoppingCartDeleteProductsService : BaseService {
             shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
             
         } else {
-            UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                let shoppingService = ShoppingCartProductsService()
-                shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-                NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-            }
+            let shoppingService = ShoppingCartProductsService()
+            shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
+            NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
         }
     
     }

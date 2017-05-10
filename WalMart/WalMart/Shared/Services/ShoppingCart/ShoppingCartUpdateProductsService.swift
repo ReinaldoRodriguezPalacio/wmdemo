@@ -22,25 +22,29 @@ class ShoppingCartUpdateProductsService : ShoppingCartAddProductsService {
     func callService(_ params: [[String:Any]],updateSC:Bool, successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
         
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [[String:Any]] = []
+            
+            var itemsSvc: [[String:Any]] = []
             var upcSend = ""
-            for itemSvc in params{
+            
+            for itemSvc in params {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:""))
             }
+            
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
                 
                 if updateSC {
                     let shoppingService = ShoppingCartProductsService()
                     shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
-                }else{
+                } else {
                     NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
                     successBlock!([:])
                 }
-                }) { (error:NSError) -> Void in
-                    errorBlock!(error)
+                
+            }) { (error: NSError) -> Void in
+                errorBlock!(error)
             }
 
         } else {

@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol UserListDetailViewControllerDelegate: class {
+    func duplicateListDelegate()
+}
+
 class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate, UIActivityItemSource {
 
     let CELL_ID = "listCell"
@@ -63,6 +67,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var preview: PreviewModalView? = nil
     var emptyView: UIView?
     var heightView : CGFloat = 0.0
+    weak var detailDelegate: UserListDetailViewControllerDelegate?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -218,6 +223,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         
@@ -1545,7 +1551,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
 
         }else{
-         NotificationCenter.default.post(name: Notification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
+          self.detailDelegate?.duplicateListDelegate()
         }
     }
     
