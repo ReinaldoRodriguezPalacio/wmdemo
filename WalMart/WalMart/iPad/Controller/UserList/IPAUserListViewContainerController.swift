@@ -150,11 +150,13 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
         self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
-        self.viewLoad!.startAnnimating(false)
+        self.viewLoad!.startAnnimating(true)
     }
     
     func removeLoadingView() {
-        if self.viewLoad != nil {
+        let param = CustomBarViewController.retrieveParam("listUpdated")
+        let removeLoad = !UserCurrentSession.hasLoggedUser() || (param != nil && param!.value == "true")
+        if self.viewLoad != nil && removeLoad {
             self.viewLoad!.stopAnnimating()
         }
          self.viewLoad = nil
@@ -223,6 +225,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             vc.listName = listName
             vc.listEntity = entity
             vc.itemsUserList = self.listController!.itemsUserList
+            vc.detailDelegate = self.listController!
 
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
@@ -260,13 +263,15 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     func reloadTableListUserSelectedRow() {
         if let indexPath = self.listController?.selectedItem as IndexPath? {
-            let listEntity: List? = self.listController?.itemsUserList?[indexPath.row] as? List
+            if self.listController?.itemsUserList != nil && self.listController!.itemsUserList!.count > 0 {
+                let listEntity: List? = self.listController?.itemsUserList?[indexPath.row] as? List
         
-            if listEntity != nil {
-                self.listController?.selectedEntityList = listEntity
-                self.listController?.selectedListName = listEntity!.name
-                self.listController?.selectedListId = listEntity!.idList
-                self.showListDetailAnimated(forId: listEntity!.idList, orEntity: listEntity!, andName: listEntity!.name)
+                if listEntity != nil {
+                    self.listController?.selectedEntityList = listEntity
+                    self.listController?.selectedListName = listEntity!.name
+                    self.listController?.selectedListId = listEntity!.idList
+                    self.showListDetailAnimated(forId: listEntity!.idList, orEntity: listEntity!, andName: listEntity!.name)
+                }
             }
         }
     }

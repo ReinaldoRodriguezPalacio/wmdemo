@@ -497,7 +497,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 })
             }
         }else{
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
+            self.detailDelegate?.duplicateListDelegate()
         }
     }
 

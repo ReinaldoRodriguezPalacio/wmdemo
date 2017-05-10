@@ -57,6 +57,7 @@ extension Notification.Name {
     static let showHomeSelected = Notification.Name("kShowHomeSelected")
     static let addCLosePopCategorie = Notification.Name("kAddCLosePopCategorie")
     static let removePopSearch = Notification.Name("KremovePopSearch")
+    static let userlistUpdated = Notification.Name("KuserlistUpdated")
 }
 
 
@@ -157,7 +158,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.camFindSearch(_:)), name: .camFindSearch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: .scanBarCode, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: .updateNotificationBadge, object: nil)
-        
         
         buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 45))
         self.view.addSubview(buttonContainer!)

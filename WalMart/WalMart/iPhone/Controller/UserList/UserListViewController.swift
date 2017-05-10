@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserListViewController : UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, NewListTableViewCellDelegate, SWTableViewCellDelegate, UITextFieldDelegate, ListTableViewCellDelegate, BarCodeViewControllerDelegate, UIScrollViewDelegate {
+class UserListViewController : UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, NewListTableViewCellDelegate, SWTableViewCellDelegate, UITextFieldDelegate, ListTableViewCellDelegate, BarCodeViewControllerDelegate, UserListDetailViewControllerDelegate,UIScrollViewDelegate {
     
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
@@ -136,10 +136,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.addSubview(self.refreshControl)
         
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.updateListTable), name: .userlistUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: NSNotification.Name(rawValue: "DUPLICATE_LIST"), object: nil)
-        
     }
     
     deinit {
@@ -237,10 +236,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - List Utilities
     var listSelectedDuplicate : IndexPath?
     
+    //MARK: UserListDetailService
     /**
         valid if the function duplicate list execute.
      */
-    func duplicateList(){
+    func duplicateListDelegate(){
         if self.listSelectedDuplicate == self.selectedIndex {
             return
         }
@@ -1161,7 +1161,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      Remove loader from screen list
      */
     func removeLoadingView() {
-        if self.viewLoad != nil {
+        let param = CustomBarViewController.retrieveParam("listUpdated")
+        let removeLoad = !UserCurrentSession.hasLoggedUser() || (param != nil && param!.value == "true")
+        if self.viewLoad != nil && removeLoad {
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }
@@ -1177,6 +1179,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 controller.listId = self.selectedListId
                 controller.listName = self.selectedListName
                 controller.listEntity = self.selectedEntityList
+                controller.detailDelegate = self
             }
         }
     }
@@ -1794,6 +1797,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
         self.tableuserlist?.reloadData()
+    }
+    
+    func updateListTable(){
+        self.reloadList(success: { () -> Void in
+          self.removeLoadingView()
+            },failure: { (error) -> Void in
+               self.removeLoadingView()
+           })
     }
     
     //MARK: RefreshControl
