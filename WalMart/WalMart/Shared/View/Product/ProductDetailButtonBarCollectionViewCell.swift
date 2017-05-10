@@ -180,12 +180,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         // //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
         delegate?.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.isSelected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable,category:self.productDepartment, added: { (addedTWL:Bool) -> Void in
-            if addedTWL == true {
-                self.listButton.isSelected = !self.listButton.isSelected
+            self.listButton.isSelected = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc)
                 if self.listButton.isSelected {
                     BaseController.sendAnalyticsProductToList(self.upc, desc: self.desc, price: self.price as String)
                 }
-            }
             animation.layer.removeAllAnimations()
             animation.removeFromSuperview()
             self.isAddingOrRemovingWishlist = false
