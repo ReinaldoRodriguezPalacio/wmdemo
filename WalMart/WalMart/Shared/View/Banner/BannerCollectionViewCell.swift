@@ -276,7 +276,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let values = self.dataSource![selectedItem]
         
         if self.banners != nil && self.banners?.count > 0 {
-            if selectedItem > self.banners!.count {
+            if !(selectedItem > self.banners!.count) {
                 BaseController.sendAnalyticsClickBanner(self.banners![selectedItem])
             }
         }
