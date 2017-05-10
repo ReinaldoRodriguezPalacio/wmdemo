@@ -279,6 +279,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
                 if granted {
                     
                 }else {
+                  self.closeCamera()
                     return
                 }
             })

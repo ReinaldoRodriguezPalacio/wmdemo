@@ -105,7 +105,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
             self.beforeLeave.labelTitle!.alpha = 1.0
         }else {
-            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: viewContent.frame.height)
+            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: self.view.frame.height - 44)
             self.beforeLeave.frame = CGRect(x: 0,y: 0,width: 0, height: 0)
             self.beforeLeave.labelTitle!.alpha = 0.0
         }
@@ -347,7 +347,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = result!
+                    self.itemsUPC = []
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC
                         arrayUPCS.sort(by: { (before, after) -> Bool in
