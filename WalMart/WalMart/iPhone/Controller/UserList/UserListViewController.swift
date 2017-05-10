@@ -1161,9 +1161,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      Remove loader from screen list
      */
     func removeLoadingView() {
-        let param = CustomBarViewController.retrieveParam("listUpdated")
-        let removeLoad = !UserCurrentSession.hasLoggedUser() || (param != nil && param!.value == "true")
-        if self.viewLoad != nil && removeLoad {
+        let param = CustomBarViewController.retrieveParam("listUpdated", forUser: UserCurrentSession.hasLoggedUser())
+        if self.viewLoad != nil && param != nil && param!.value == "true" {
             self.viewLoad!.stopAnnimating()
             self.viewLoad = nil
         }

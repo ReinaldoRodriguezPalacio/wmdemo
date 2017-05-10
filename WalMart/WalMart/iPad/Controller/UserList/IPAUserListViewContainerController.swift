@@ -147,19 +147,19 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: 342.0, height: 658.0))
         self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(true)
+        self.view.bringSubview(toFront: self.viewLoad!)
     }
     
     func removeLoadingView() {
-        let param = CustomBarViewController.retrieveParam("listUpdated")
-        let removeLoad = !UserCurrentSession.hasLoggedUser() || (param != nil && param!.value == "true")
-        if self.viewLoad != nil && removeLoad {
+        let param = CustomBarViewController.retrieveParam("listUpdated", forUser: UserCurrentSession.hasLoggedUser())
+        if self.viewLoad != nil && param != nil && param!.value == "true" {
             self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
         }
-         self.viewLoad = nil
     }
     
     func showBackground(_ show:Bool){
