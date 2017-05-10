@@ -257,7 +257,6 @@ class ShoppingCartAddProductsService : BaseService {
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-        
     }
     
     func statusForProduct() -> Int {

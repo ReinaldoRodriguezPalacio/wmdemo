@@ -201,6 +201,7 @@ class ShoppingCartProductsService : BaseService {
        // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
             successBlock!(returnDictionary)
+            UserCurrentSession.sharedInstance.itemsMG = returnDictionary
             //UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
         }
         UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
