@@ -120,8 +120,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.deleteall.frame = CGRect(x: self.editButton.frame.minX - 80, y: 12, width: 75, height: 22)
         self.titleView.frame = CGRect(x: 0, y: 0, width: self.viewSeparator.frame.maxX,height: self.viewHeader.frame.height)
         
-        tableShoppingCart.backgroundColor=WMColor.light_light_gray
-            }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
