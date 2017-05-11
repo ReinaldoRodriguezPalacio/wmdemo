@@ -883,7 +883,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             self.updateTotalItemsRow()
             
             if self.itemsInShoppingCart.count == 0 {
-                self.navigationController!.popToRootViewController(animated: true)
+                self.showLoadingView()
             }
             
         }, errorBlock: { (error: NSError) -> Void in
