@@ -40,20 +40,21 @@ protocol ShoppingCartViewControllerDelegate: class {
 
 class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate,AlertPickerViewDelegate {
     
+    @IBOutlet var viewContent: UIView!
+    weak var delegate: ShoppingCartViewControllerDelegate?
+    
     var viewLoad: WMLoadingView!
     var itemsInShoppingCart: [[String:Any]]! = []
     var subtotal: NSNumber!
     var ivaprod: NSNumber!
     var totalest: NSNumber!
     var deleteall: UIButton!
-    @IBOutlet var viewContent : UIView!
-    var viewHeader : UIView!
-    var viewShoppingCart : UITableView!
-    var viewFooter : UIView!
-    weak var delegate : ShoppingCartViewControllerDelegate?
-    var titleView : UILabel!
-    var buttonWishlist : UIButton!
-    var buttonAsociate : UIButton!
+    var viewHeader: UIView!
+    var viewShoppingCart: UITableView!
+    var viewFooter: UIView!
+    var titleView: UILabel!
+    var buttonWishlist: UIButton!
+    var buttonAsociate: UIButton!
     var beforeShopTag: Bool = false
     var isEmployeeDiscount: Bool = false
     var closeButton: UIButton!
@@ -331,7 +332,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         
         var wShop: CGFloat = self.viewFooter.frame.width - buttonWishlist.frame.maxX
         
-        wShop = wShop - (IS_IPAD ? 0.0 : 32.0)
+        wShop = wShop - (IS_IPAD ? 0.0: 32.0)
         
         if buttonShop == nil {
             buttonShop = UIButton(frame: CGRect(x: buttonWishlist.frame.maxX + 16, y: buttonWishlist.frame.minY, width: wShop, height: height))
@@ -353,6 +354,11 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance.itemsMG != nil {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [[String: Any]]!
+            self.itemsInShoppingCart = itemsInShoppingCart.sorted(by: { (first, second) -> Bool in
+                let firstString = first["description"] as! String
+                let secondString = second["description"] as! String
+                return firstString < secondString
+            })
         }
         
         if self.itemsInShoppingCart.count == 0 {
@@ -771,7 +777,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     return
                 }
 
-                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue: 5
                 if maxProducts >= Int(quantity) {
                     
                     let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
@@ -797,7 +803,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)": "\(maxProducts)"
                     self.selectQuantity!.updateQuantityBtn()
                 }
             }

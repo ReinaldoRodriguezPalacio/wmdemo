@@ -58,7 +58,6 @@ extension Notification.Name {
     static let addCLosePopCategorie = Notification.Name("kAddCLosePopCategorie")
     static let removePopSearch = Notification.Name("KremovePopSearch")
     static let userlistUpdated = Notification.Name("KuserlistUpdated")
-    static let userlistShowLoading = Notification.Name("KuserlistShowLoading")
 }
 
 
@@ -954,7 +953,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.helpView!.removeFromSuperview()
+                        self.helpView?.removeFromSuperview()
                         self.helpView = nil
                         //self.addOrUpdateParam("searchHelp", value: "false")
                         self.searchController?.field!.becomeFirstResponder()

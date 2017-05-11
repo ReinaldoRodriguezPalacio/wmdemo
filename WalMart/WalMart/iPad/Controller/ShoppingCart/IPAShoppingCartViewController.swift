@@ -31,14 +31,14 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-class IPAShoppingCartViewController : ShoppingCartViewController {
+class IPAShoppingCartViewController: ShoppingCartViewController {
     
-    var imagePromotion : UIImageView!
-    var totalsView : IPAShoppingCartTotalView!
-    var beforeLeave : IPAShoppingCartBeforeToLeave!
-    var viewSeparator : UIView!
-    var popup : UIPopoverController?
-    var onClose : ((_ isClose:Bool) -> Void)? = nil
+    var imagePromotion: UIImageView!
+    var totalsView: IPAShoppingCartTotalView!
+    var beforeLeave: IPAShoppingCartBeforeToLeave!
+    var viewSeparator: UIView!
+    var popup: UIPopoverController?
+    var onClose: ((_ isClose:Bool) -> Void)? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         print("Remove NotificationCenter Deinit")
         NotificationCenter.default.removeObserver(self)
     }
- 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -186,32 +185,37 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance.itemsMG != nil {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance.itemsMG!["items"] as! [[String : Any]]!
+            self.itemsInShoppingCart = itemsInShoppingCart.sorted(by: { (first, second) -> Bool in
+                let firstString = first["description"] as! String
+                let secondString = second["description"] as! String
+                return firstString < secondString
+            })
         }
+        
         if self.itemsInShoppingCart.count == 0 {
             let _ = self.navigationController?.popToRootViewController(animated: true)
         }
-
-        
+ 
         if self.itemsInShoppingCart.count == 0 {
             let _ = self.navigationController?.popToRootViewController(animated: true)
         }
         
-        if  self.itemsInShoppingCart.count > 0 {
+        if self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance.itemsMG!["subtotal"] as! NSNumber
             self.ivaprod = UserCurrentSession.sharedInstance.itemsMG!["ivaSubtotal"] as! NSNumber
             self.totalest = UserCurrentSession.sharedInstance.itemsMG!["totalEstimado"] as! NSNumber
-        }else{
+        } else {
             self.subtotal = NSNumber(value: 0 as Int32)
             self.ivaprod = NSNumber(value: 0 as Int32)
             self.totalest = NSNumber(value: 0 as Int32)
         }
-        
         
         let totalsItems = self.totalItems()
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
         let subTotalText = totalsItems["subtotal"] as String!
         let iva = totalsItems["iva"] as String!
+        
         if self.buttonShop != nil {
             self.updateShopButton(total!)
         }
@@ -220,12 +224,13 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.totalsView.setValues(subTotalText!, iva: iva!, total:total!,totalSaving:totalSaving!)
         }
         
-        self.viewShoppingCart.delegate = self
-        self.viewShoppingCart.dataSource = self
+        if viewShoppingCart.delegate == nil {
+            viewShoppingCart.delegate = self
+            viewShoppingCart.dataSource = self
+        }
+       
         self.viewShoppingCart.reloadData()
-        
         self.loadCrossSell()
-        
         
     }
     
@@ -347,7 +352,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = []
+                    self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC
                         arrayUPCS.sort(by: { (before, after) -> Bool in
