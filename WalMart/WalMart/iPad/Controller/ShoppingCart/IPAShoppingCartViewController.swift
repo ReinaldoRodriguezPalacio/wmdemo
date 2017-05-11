@@ -347,7 +347,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         isShowingBeforeLeave = true
                     }
                     
-                    self.itemsUPC = []
+                    self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC
                         arrayUPCS.sort(by: { (before, after) -> Bool in
