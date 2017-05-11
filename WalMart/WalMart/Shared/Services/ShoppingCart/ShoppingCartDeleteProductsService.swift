@@ -73,22 +73,9 @@ class ShoppingCartDeleteProductsService : BaseService {
             }
         }
         
-        if UserCurrentSession.hasLoggedUser() {
-            
-            delay(0.5, completion: {
-                UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-                }
-            })
-            
-            let shoppingService = ShoppingCartProductsService()
-            shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-            
-        } else {
-            let shoppingService = ShoppingCartProductsService()
-            shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-            NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
-        }
+        let shoppingService = ShoppingCartProductsService()
+        shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
+        NotificationCenter.default.post(name:  .successUpdateItemsInShoppingCart, object: nil, userInfo:nil)
     
     }
     
