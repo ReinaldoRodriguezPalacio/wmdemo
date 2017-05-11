@@ -147,11 +147,11 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: 342.0, height: 658.0))
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
         self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(true)
-        self.view.bringSubview(toFront: self.viewLoad!)
+        self.viewLoad!.layer.zPosition = 100
     }
     
     func removeLoadingView() {
