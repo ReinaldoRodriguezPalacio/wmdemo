@@ -297,6 +297,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     func deleteProductWishList(_ cell:IPAWishListProductCollectionViewCell) {
         
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("list.message.deleteProductToWishlist", comment:""))
+        
         let indexPath = self.wishlist.indexPath(for: cell)
         let itemWishlist = items[indexPath!.row] 
         let upc = itemWishlist["upc"] as! NSString
@@ -315,8 +318,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             self.editWishlist(self.editWishlist)
             self.deleteAllWishlist.isHidden = self.items.count == 0
             
+            alertView?.setMessage(NSLocalizedString("wishlist.deleted", comment:""))
+            alertView?.showDoneIcon()
+            
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
+                alertView?.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
         })
     }
     

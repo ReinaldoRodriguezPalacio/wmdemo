@@ -211,7 +211,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         collection?.register(LoadingProductCollectionViewCell.self, forCellWithReuseIdentifier: "loadCell")
         collection?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "landingImage")
         collection?.register(SectionHeaderSearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        collection?.allowsMultipleSelection = true
+        collection?.allowsMultipleSelection = false
         
         collection!.dataSource = self
         collection!.delegate = self

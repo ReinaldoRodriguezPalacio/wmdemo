@@ -483,7 +483,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
-        let itemWishlist = items[indexPath.row] 
+        
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("list.message.deleteProductToWishlist", comment:""))
+        
+        let itemWishlist = items[indexPath.row]
         let upc = itemWishlist["upc"] as! String
         let deleteWishListService = DeleteItemWishlistService()
         deleteWishListService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
@@ -497,13 +501,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
             
             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
-            
-            
-            //self.updateEditButton()
-            
-            
+            alertView?.setMessage(NSLocalizedString("wishlist.deleted", comment:""))
+            alertView?.showDoneIcon()
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
+                alertView?.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
         })
     }
     
