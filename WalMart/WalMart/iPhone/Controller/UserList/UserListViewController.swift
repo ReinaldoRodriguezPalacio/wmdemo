@@ -1814,13 +1814,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let user = UserCurrentSession.sharedInstance
         user.invokeWishListService()
         user.invokeGroceriesUserListService({ () -> Void in
-            print("Refresh")
             self.reloadList(success: nil, failure: nil)
-            refreshControl.endRefreshing()
+            delay(0.5, completion: {
+                refreshControl.endRefreshing()
+            })
         })
       }else{
-        delay(0.2, completion: {
-           self.reloadList(success: nil, failure: nil)
+        self.reloadList(success: nil, failure: nil)
+        delay(0.5, completion: {
            refreshControl.endRefreshing()
         })
        

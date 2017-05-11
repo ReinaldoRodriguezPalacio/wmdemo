@@ -962,11 +962,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         userWishListsService.callService({(result:[String:Any]) -> Void in
             print("Refresh")
             self.invokeWishlistService()
-            refreshControl.endRefreshing()
+            delay(0.5, completion: {
+                refreshControl.endRefreshing()
+            })
         },errorBlock: { (error:NSError) -> Void in
             print("Refresh Error")
             self.invokeWishlistService()
-            refreshControl.endRefreshing()
+            delay(0.5, completion: {
+                refreshControl.endRefreshing()
+            })
         })
     }
 }
