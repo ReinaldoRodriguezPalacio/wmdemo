@@ -1667,7 +1667,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
       
         self.filterButton?.alpha = 0
       
-        var maxY = self.collection!.frame.minY
+        var maxY = IS_IPAD ? self.header!.frame.maxY : self.collection!.frame.minY
       
         if self.idListFromSearch != "" && !IS_IPAD {
             maxY = maxY + 64
@@ -1679,14 +1679,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let heightEmpty = self.view.bounds.height - (44 + maxY)
 
         if self.emptyMGGR == nil {
-            let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            let frameEmpty = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - (maxY)) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty) // - 100
             self.emptyMGGR = IPOSearchResultEmptyView(frame: frameEmpty)
           self.emptyMGGR.isLarge = false
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
         } else {
-            self.emptyMGGR.frame = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - maxY) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
+            self.emptyMGGR.frame = IS_IPAD ? CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: self.view.bounds.height - (maxY)) : CGRect(x: 0, y: maxY, width: self.view.bounds.width, height: heightEmpty)
         }
 
         if model.contains("4") {
@@ -1704,6 +1704,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
       
         self.view.addSubview(self.emptyMGGR)
+      if self.idListFromSearch == ""{
+        self.view.addSubview(viewBgSelectorBtn)
+      }
         NotificationCenter.default.post(name: .clearSearch, object: nil)
     }
     
