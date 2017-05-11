@@ -137,7 +137,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: NSNotification.Name(rawValue: "ReloadListFormUpdate"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.updateListTable), name: .userlistUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.showLoadingView), name: .userlistShowLoading, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }

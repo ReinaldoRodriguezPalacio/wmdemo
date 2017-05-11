@@ -707,6 +707,7 @@ class UserCurrentSession : NSObject {
         //Update users lists on core data
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
         let userListsService = GRUserListService()
+        CustomBarViewController.addOrUpdateParam("listUpdated", value: "false",forUser: UserCurrentSession.hasLoggedUser())
         userListsService.manageListDataSuccess = success
         userListsService.callService([:],
             successBlock: { (result:[String:Any]) -> Void in
