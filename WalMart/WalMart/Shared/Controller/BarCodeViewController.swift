@@ -135,6 +135,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     if granted {
                         
                     }else {
+                      self.closeAlert()
                         return
                     }
                 })

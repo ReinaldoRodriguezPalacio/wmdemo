@@ -953,7 +953,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.helpView!.removeFromSuperview()
+                        self.helpView?.removeFromSuperview()
                         self.helpView = nil
                         //self.addOrUpdateParam("searchHelp", value: "false")
                         self.searchController?.field!.becomeFirstResponder()

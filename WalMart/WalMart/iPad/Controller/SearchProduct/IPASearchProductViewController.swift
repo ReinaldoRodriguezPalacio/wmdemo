@@ -448,13 +448,13 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.filterButton?.alpha = 0
         let buidHeader =  self.header!.frame.maxY > 46
         if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
         }else{
             self.empty.removeFromSuperview()
             self.empty =  nil
-            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRect(x: 0,y: 46, width: self.view.bounds.width, height: self.view.bounds.height))
         }
-        
+      
         self.empty.returnAction = { () in
          self.returnBack()
         }
@@ -479,6 +479,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.view.addSubview(self.emptyViewHeader!)
         }
         self.view.addSubview(self.empty)
+      
          self.loading?.stopAnnimating()
         self.filterButton?.alpha = 0
         NotificationCenter.default.post(name: .clearSearch, object: nil)
