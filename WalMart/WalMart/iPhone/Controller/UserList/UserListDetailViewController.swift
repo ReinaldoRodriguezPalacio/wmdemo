@@ -60,6 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var addProductsView : AddProductTolistView?
     var fromDelete  =  true
     var openEmpty =  false
+  var isEmptyLarge = false
     
     var retunrFromSearch =  false
     var isDeleting = false
@@ -753,11 +754,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.emptyView ==  nil {
             self.openEmpty = true
             let bounds = self.view.frame
-          let heightEmpty = heightView - self.header!.frame.maxY - 64.0 //(44)
+          let heightEmpty = heightView - self.header!.frame.maxY - 60.0 //(44)
           
           //self.view.frame.height - self.addProductsView!.frame.maxY
             if UserCurrentSession.hasLoggedUser() {
-                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: heightEmpty - 108.0))// se agrega 44
+                self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY + 64, width: bounds.width, height: heightEmpty - (isEmptyLarge ? 64.0 : 108.0)))// se agrega 44
             } else {
                 self.emptyView = UIView(frame: CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: heightEmpty))
             }
@@ -792,10 +793,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.emptyView!.addSubview(icon)
             
             let button = UIButton(type: .custom)
+          let yButton : CGFloat = 54.0 + 40.0 + 50.0 - (isEmptyLarge ? 46 : 0)
             if UserCurrentSession.hasLoggedUser() {
-                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.bounds.height - (54 + 40 + 50 + self.addProductsView!.frame.height), width: 160 , height: 40)
+                button.frame = CGRect(x: (bounds.width - 160.0)/2,y: self.emptyView!.bounds.height - (yButton + self.addProductsView!.frame.height), width: 160 , height: 40)
             }else{
-              button.frame = CGRect(x: (bounds.width - 160.0)/2, y:self.emptyView!.bounds.height - (54 + 40 + 50), width: 160 , height: 40)
+              button.frame = CGRect(x: (bounds.width - 160.0)/2, y:self.emptyView!.bounds.height - (yButton), width: 160 , height: 40)
             }
         
             button.backgroundColor = WMColor.light_blue

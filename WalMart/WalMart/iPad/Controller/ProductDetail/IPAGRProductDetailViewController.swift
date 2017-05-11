@@ -611,6 +611,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             vc.delegate = self
             vc.widthView = self.bannerImagesProducts.frame.width
             vc.addGestureLeft = true
+            vc.isEmptyLarge = true
             vc.searchInList = {(controller) in
                 self.navigationController?.pushViewController(controller, animated: false)
             }

@@ -1063,6 +1063,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             vc.listId = listEntity.idList
             vc.listName = name
             vc.listEntity = listEntity
+            vc.isEmptyLarge = true
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }
@@ -1071,6 +1072,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
             vc.listName = list.name
+            vc.isEmptyLarge = true
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }
