@@ -1264,6 +1264,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             vc.listId = listEntity.idList
             vc.listName = name
             vc.listEntity = listEntity
+            vc.isEmptyLarge = true
             vc.enableScrollUpdateByTabBar = false
             self.navigationController!.pushViewController(vc, animated: true)
         }

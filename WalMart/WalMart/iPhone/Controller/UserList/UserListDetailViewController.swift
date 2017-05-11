@@ -60,7 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var addProductsView : AddProductTolistView?
     var fromDelete  =  true
     var openEmpty =  false
-  var isEmptyLarge = false
+    var isEmptyLarge = false
     
     var retunrFromSearch =  false
     var isDeleting = false
