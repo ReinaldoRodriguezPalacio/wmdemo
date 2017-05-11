@@ -32,7 +32,7 @@ class IPAShoppingCartTotalView : UIView {
     func setup() {
         backgroundColor = WMColor.light_light_gray
         
-        let xPoint : CGFloat = 100
+        let xPoint : CGFloat = 90
         
         subtotalTitle = UILabel()
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
@@ -59,13 +59,13 @@ class IPAShoppingCartTotalView : UIView {
         totalSavingTitle.textAlignment = .right
         totalSavingTitle.frame = CGRect(x: xPoint, y: iva.frame.maxY + 13, width: 120, height: 18)
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRect(x: subtotalTitle.frame.maxX + 16, y: subtotalTitle.frame.minY, width: 90, height: 18))
+        valueSubtotal = CurrencyCustomLabel(frame: CGRect(x: subtotalTitle.frame.maxX + 16, y: subtotalTitle.frame.minY, width: 100, height: 18))
         valueSubtotal.textAlignment = .right
-        valueIva = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 16, y: iva.frame.minY, width: 90, height: 18))
+        valueIva = CurrencyCustomLabel(frame: CGRect(x: iva.frame.maxX + 16, y: iva.frame.minY, width: 100, height: 18))
         valueIva.textAlignment = .right
         valueTotal = CurrencyCustomLabel(frame: CGRect(x: total.frame.maxX + 16, y: total.frame.minY, width: 100, height: 18))
         valueTotal.textAlignment = .right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: totalSavingTitle.frame.maxX + 16, y: totalSavingTitle.frame.minY, width: 90, height: 18))
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRect(x: totalSavingTitle.frame.maxX + 16, y: totalSavingTitle.frame.minY, width: 100, height: 18))
         valueTotalSaving.textAlignment = .right
         //valueTotalSaving.backgroundColor = UIColor.blueColor()
 
