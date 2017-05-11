@@ -859,37 +859,31 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      */
     func didListChangeName(_ cell:ListTableViewCell, text:String?) {
         if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+            
+            changeNames = true
+            
             if self.listToUpdate == nil {
                 self.listToUpdate = [:]
             }
           
             let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
+            
             if let listItem = self.itemsUserList![idx] as? [String:Any] {
+                
                 let listId = listItem["id"] as! String
-                
-//                if text == nil || text!.isEmpty {
-//                    self.listToUpdate!.removeValueForKey(listId)
-//                    return
-//                }
-                
                 self.listToUpdate![listId] = text
-            }
-            else if let listEntity = self.itemsUserList![idx] as? List {
-              var entityId = listEntity.objectID.uriRepresentation().absoluteString
-                //let entityId = listEntity.objectID.uriRepresentation().absoluteString
-                //let entityId = listEntity.idList
+                
+            } else if let listEntity = self.itemsUserList![idx] as? List {
+                
+                var entityId = listEntity.objectID.uriRepresentation().absoluteString
+                
                 if UserCurrentSession.hasLoggedUser() {
                   entityId = listEntity.idList!
                 }
               
-              
-//                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
-//                    self.listToUpdate!.removeValueForKey(entityId!)
-//                }
-                
                 self.listToUpdate![entityId] = text
             }
-            //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
+            
         }
     }
     
