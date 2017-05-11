@@ -8,23 +8,27 @@
 
 import Foundation
 
-class TutorialHelpView : UIView, UIScrollViewDelegate{
+class TutorialHelpView: UIView, UIScrollViewDelegate {
     
-    var onClose : (() -> Void)!
+    var onClose: (() -> Void)!
     var pointSection: UIView? = nil
     var pointContainer: UIView? = nil
-    var labelTitle : UILabel! = nil
+    var labelTitle: UILabel! = nil
     var pointButtons: [UIButton]? = nil
-    var items : [[String:String]]? = nil
+    var items: [[String:String]]? = nil
     var currentItem: Int? = nil
-    var scrollHelp : UIScrollView!
-    var  logoImage : UIImageView!
+    var scrollHelp: UIScrollView!
+    var logoImage: UIImageView!
+    var buttonClose: UIButton!
     
-    var buttonClose : UIButton!
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+    }
     
-    init(frame: CGRect,properties:[[String:String]]) {
+    init(frame: CGRect, properties: [[String:String]]) {
         super.init(frame:frame)
-        self.items = properties
+        items = properties
         setup()
     }
 
@@ -33,93 +37,84 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         setup()
     }
     
-
     func setup() {
-        
         
         buttonClose = UIButton(frame: CGRect(x: 0, y: 20, width: 44, height: 44))
         buttonClose.setImage(UIImage(named:"tutorial_close"), for: UIControlState())
         buttonClose.addTarget(self, action: #selector(TutorialHelpView.removeHelp), for: UIControlEvents.touchUpInside)
-        self.addSubview(buttonClose)
+        addSubview(buttonClose)
         
+        logoImage = UIImageView(frame: CGRect(x: (frame.width / 2) - 55, y: 0, width: 110, height: 44))
+        logoImage.image = UIImage(named:"navBar_logo")
+        logoImage.contentMode = .center
+        addSubview(logoImage)
         
-        
-        labelTitle = UILabel(frame: CGRect(x: 30, y: (self.frame.height * 0.1652), width: self.frame.width - 60, height: 44))
+        labelTitle = UILabel()
         labelTitle.font = WMFont.fontMyriadProLightOfSize(16)
         labelTitle.textAlignment = .center
         labelTitle.textColor = UIColor.white
         labelTitle.text = ""
         labelTitle.numberOfLines = 2
-        self.addSubview(labelTitle)
+        addSubview(labelTitle)
         
-        //Logo
-        logoImage = UIImageView(frame: CGRect(x: (self.frame.width / 2) - 55, y: 0, width: 110, height: 44))
-        logoImage.image = UIImage(named:"navBar_logo")
-        logoImage.contentMode = .center
-        self.addSubview(logoImage)
+        scrollHelp = UIScrollView()
+        addSubview(scrollHelp)
         
-        scrollHelp = UIScrollView(frame:CGRect(x: 0, y: (self.frame.height * 0.2956), width: self.bounds.width, height: (self.frame.height * 0.4760)))
-            //self.bounds.height - buttonClose.frame.maxY))
-       self.addSubview(scrollHelp)
-        
-        self.pointSection = UIView()
-        self.pointSection?.backgroundColor = UIColor.clear
-        self.pointSection?.frame = CGRect(x: 0, y: (self.frame.height * 0.9347), width: self.frame.width, height: 20)
-        self.addSubview(self.pointSection!)
+        pointSection = UIView()
+        pointSection?.backgroundColor = UIColor.clear
+        addSubview(pointSection!)
 
-        
-        let first = self.items![0]
+        let first = items![0]
         labelTitle.text = first["details"] as String!
-        self.currentItem = 0
+        currentItem = 0
         
-         NotificationCenter.default.addObserver(self, selector: #selector(TutorialHelpView.removeHelp), name:NSNotification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
-    }
-    
-    deinit {
-        print("Remove NotificationCenter Deinit")
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(TutorialHelpView.removeHelp), name: NSNotification.Name(rawValue: "OPEN_TUTORIAL"), object: nil)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         if scrollHelp != nil && buttonClose != nil   {
-            self.buildViewImages()
             
-            labelTitle.frame = CGRect(x: 30, y: (self.frame.height * 0.1652), width: self.frame.width - 60, height: 44)
-            scrollHelp.frame = CGRect(x: 0, y: scrollHelp.frame.minY, width: self.bounds.width, height: scrollHelp.frame.height)
-            logoImage.frame = CGRect(x: (self.frame.width / 2) - 55, y: 20, width: 110, height: 44)
-            pointSection?.frame = CGRect(x: 0, y: (self.frame.height * 0.9347), width: self.frame.width, height: 20)
+            let yPosition: CGFloat = (IS_IPHONE_4_OR_LESS || IS_IPHONE_5) ? 0 : 20
+            
+            logoImage.frame = CGRect(x: (frame.width / 2) - 55, y: 20, width: 110, height: 44)
+            labelTitle.frame = CGRect(x: 30, y: logoImage.frame.maxY + yPosition, width: frame.width - 60, height: 44)
+            pointSection?.frame = CGRect(x: 0, y: frame.height - (40 + yPosition), width: frame.width, height: 20)
+            
+            let scrollHeight = (pointSection!.frame.minY - 20) - (labelTitle.frame.maxY + yPosition) - 20
+            scrollHelp.frame = CGRect(x: 0, y: labelTitle.frame.maxY + 20, width: bounds.width, height: scrollHeight)
+            
+            buildViewImages()
+            
         }
     }
 
-    
     func buildViewImages() {
         
         if buttonClose != nil {
+            
             for imageView in scrollHelp.subviews {
                 imageView.removeFromSuperview()
             }
             
             scrollHelp.delegate = self
-            var currentX : CGFloat = 0.0
-            var currentHeigth : CGFloat = 0.0
-            for itemTutorial in self.items! {
-                let imgHelp = UIImage(named:itemTutorial["image"] as String!)
+            var currentX: CGFloat = 0.0
+            
+            for itemTutorial in items! {
+                let imgHelp = UIImage(named: itemTutorial["image"] as String!)
                 let imageForHelp = UIImageView(image: imgHelp)
                 imageForHelp.contentMode = UIViewContentMode.center
-                imageForHelp.frame = CGRect(x: currentX , y: 0,width: self.frame.width , height: imgHelp!.size.height)
-                currentHeigth = imgHelp!.size.height
+                imageForHelp.frame = CGRect(x: currentX , y: (scrollHelp!.frame.height - imgHelp!.size.height) / 2, width: frame.width , height: imgHelp!.size.height)
                 scrollHelp.addSubview(imageForHelp)
                 scrollHelp.isPagingEnabled = true
-                currentX = currentX + self.frame.width
+                currentX = currentX + frame.width
             }
             
             let viewFinish = UIView()
-            viewFinish.frame = CGRect(x: currentX , y: 0,width: self.frame.width , height: 400)
+            viewFinish.frame = CGRect(x: currentX , y: 0,width: frame.width , height: 400)
             viewFinish.backgroundColor = UIColor.clear
             
-            
-            let labelDesc = UILabel(frame: CGRect(x: 30, y: 84, width: self.frame.width - 60, height: 44))
+            let labelDesc = UILabel(frame: CGRect(x: 30, y: 84, width: frame.width - 60, height: 44))
             labelDesc.font = WMFont.fontMyriadProLightOfSize(16)
             labelDesc.textAlignment = .center
             labelDesc.textColor = UIColor.white
@@ -127,8 +122,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             labelDesc.numberOfLines = 2
             viewFinish.addSubview(labelDesc)
             
-            let buttonFinish = UIButton(frame: CGRect(x: (self.frame.width / 2) - 80, y: 160, width: 160, height: 36))
-//            buttonFinish.setTitle("Entiendo", forState: UIControlState.Normal)
+            let buttonFinish = UIButton(frame: CGRect(x: (frame.width / 2) - 80, y: 160, width: 160, height: 36))
             buttonFinish.setTitle("Ok", for: UIControlState())
             buttonFinish.layer.cornerRadius = 18
             buttonFinish.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -136,12 +130,10 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             buttonFinish.addTarget(self, action: #selector(TutorialHelpView.finishRemoveHelp), for: UIControlEvents.touchUpInside)
             viewFinish.addSubview(buttonFinish)
 
-            
             scrollHelp.addSubview(viewFinish)
-            currentX = currentX + self.frame.width
+            currentX = currentX + frame.width
             
-            scrollHelp.frame = CGRect(x: 0, y: (self.frame.height * 0.2956), width: self.bounds.width, height: currentHeigth)
-            scrollHelp.contentSize = CGSize(width: currentX,height: scrollHelp.frame.height)
+            scrollHelp.contentSize = CGSize(width: currentX, height: scrollHelp.frame.height)
             scrollHelp.showsHorizontalScrollIndicator = false
             
             
@@ -158,7 +150,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         }
     }
     
-    func finishRemoveHelp(){
+    func finishRemoveHelp() {
         if onClose != nil {
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_END_TUTORIAL.rawValue, label: "")
             onClose()
@@ -166,65 +158,80 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     }
     
     func buildButtonSection() {
-        if let container = self.pointContainer {
+        
+        if let container = pointContainer {
             container.removeFromSuperview()
         }
-        self.pointContainer = UIView()
-        self.pointSection!.addSubview(self.pointContainer!)
+        
+        pointContainer = UIView()
+        pointSection!.addSubview(pointContainer!)
         
         var buttons = Array<UIButton>()
-        let size = self.items!.count + 1
+        let size = items!.count + 1
+        
         if size > 0 {
+            
             let bsize: CGFloat = 8.0
-            var x: CGFloat = 0.0
             let sep: CGFloat = 5.0
+            var x: CGFloat = 0.0
+            
             for idx in 0 ..< size {
+                
                 let point = UIButton(type: .custom)
                 point.frame = CGRect(x: x, y: 0, width: bsize, height: bsize)
                 point.setImage(UIImage(named: "control_help_inactivo"), for: UIControlState())
                 point.setImage(UIImage(named: "control_help_activo"), for: .selected)
                 point.setImage(UIImage(named: "control_help_activo"), for: .highlighted)
                 point.addTarget(self, action: #selector(TutorialHelpView.pointSelected(_:)), for: .touchUpInside)
-                point.isSelected = idx == self.currentItem!
+                point.isSelected = idx == currentItem!
+                
                 x = point.frame.maxX
+                
                 if idx < size {
                     x += sep
                 }
-                self.pointContainer!.addSubview(point)
+                
+                pointContainer!.addSubview(point)
                 buttons.append(point)
             }
-            let pbounds = self.pointSection!.frame
-            self.pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
+            
+            let pbounds = pointSection!.frame
+            pointContainer!.frame = CGRect(x: (pbounds.size.width - x)/2,  y: (20.0 - bsize)/2, width: x, height: 20.0)
         }
-        self.pointButtons = buttons
+        
+        pointButtons = buttons
     }
     
-    
-    func pointSelected(_ sender:UIButton) {
-        for button: UIButton in self.pointButtons! {
+    func pointSelected(_ sender: UIButton) {
+        
+        for button: UIButton in pointButtons! {
             button.isSelected = button === sender
         }
-        if (self.pointButtons!).index(of: sender) != nil {
-            self.scrollHelp!.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.frame.width, height: self.scrollHelp!.frame.height), animated: true)
+        
+        if (pointButtons!).index(of: sender) != nil {
+            scrollHelp!.scrollRectToVisible(CGRect(x: 0, y: 0, width: frame.width, height: scrollHelp!.frame.height), animated: true)
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
-        self.currentItem = Int(currentIndex)
-        let array = self.pointButtons! as [Any]
-        if let button = array[self.currentItem!] as? UIButton {
-            for inner: UIButton in self.pointButtons! {
+        
+        let currentIndex = scrollHelp!.contentOffset.x / scrollHelp!.frame.size.width
+        currentItem = Int(currentIndex)
+        let array = pointButtons! as [Any]
+        
+        if let button = array[currentItem!] as? UIButton {
+            for inner: UIButton in pointButtons! {
                 inner.isSelected = button === inner
             }
         }
-        if self.items?.count == self.currentItem! {
+        
+        if items?.count == currentItem! {
             labelTitle!.text = ""
         } else {
-            let first = self.items![self.currentItem!]
+            let first = items![currentItem!]
             labelTitle!.text = first["details"] as String!
         }
+        
     }
     
 }
-
