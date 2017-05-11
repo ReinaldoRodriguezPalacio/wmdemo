@@ -60,7 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var addProductsView : AddProductTolistView?
     var fromDelete  =  true
     var openEmpty =  false
-  var isEmptyLarge = false
+    var isEmptyLarge = false
     
     var retunrFromSearch =  false
     var isDeleting = false
@@ -1956,14 +1956,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let listID = self.listId {
             let listService = GRUserListService()
             listService.syncListData(listId: listID, successBlock: { () -> Void in
-                print("Refresh")
                 self.fromDelete = true
                 self.loadServiceItems(nil)
-                refreshControl.endRefreshing()
+                delay(0.5, completion: {
+                    refreshControl.endRefreshing()
+                })
             })
         } else {
-            delay(0.2, completion: {
-                self.loadServiceItems(nil)
+            self.loadServiceItems(nil)
+            delay(0.5, completion: {
                 refreshControl.endRefreshing()
             })
         }

@@ -1707,13 +1707,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     func handleRefresh(refreshControl: UIRefreshControl) {
         UserCurrentSession.sharedInstance.loadMGShoppingCart({ () -> Void in
             self.loadShoppingCartService()
-            print("Refresh")
-            refreshControl.endRefreshing()
-            self.viewShoppingCart?.reloadData()
-            
-            if self.itemsInShoppingCart.count == 0 {
-                self.navigationController?.popViewController(animated: true)
-            }
+            delay(0.5, completion: {
+                refreshControl.endRefreshing()
+            })
         })
     }
     

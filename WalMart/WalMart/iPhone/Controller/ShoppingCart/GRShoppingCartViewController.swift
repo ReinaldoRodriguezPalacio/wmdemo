@@ -1264,6 +1264,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             vc.listId = listEntity.idList
             vc.listName = name
             vc.listEntity = listEntity
+            vc.isEmptyLarge = true
             vc.enableScrollUpdateByTabBar = false
             self.navigationController!.pushViewController(vc, animated: true)
         }
@@ -1428,13 +1429,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     //MARK: RefreshControl
     func handleRefresh(refreshControl: UIRefreshControl) {
         UserCurrentSession.sharedInstance.loadGRShoppingCart { () -> Void in
-            self.loadGRShoppingCart()
-            print("Refresh")
-            refreshControl.endRefreshing()
             
+            self.loadGRShoppingCart()
             if self.itemsInCart.count == 0 {
                 self.navigationController?.popViewController(animated: true)
             }
+            
+            delay(0.5, completion: {
+                refreshControl.endRefreshing()
+            })
         }
     }
 }
