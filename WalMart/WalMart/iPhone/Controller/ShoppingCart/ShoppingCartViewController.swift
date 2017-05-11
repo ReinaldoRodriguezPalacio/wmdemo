@@ -101,11 +101,9 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = WMColor.light_light_gray
-        
         viewShoppingCart = UITableView(frame:CGRect(x: 0, y: 46 , width: self.viewContent.frame.width, height: viewContent.frame.height - (46 + 44)))
         viewShoppingCart.clipsToBounds = false
-        viewShoppingCart.backgroundColor =  WMColor.light_light_gray
+
         //self.navigationController?.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.clear
         self.view.clipsToBounds = true
