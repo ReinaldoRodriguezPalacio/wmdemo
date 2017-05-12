@@ -213,7 +213,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
             let isBundle = result["isBundle"] as? Bool ?? false
             if self.detailOf == "" {
-                fatalError("detailOf not seted")
+//                fatalError("detailOf not seted")
             }
             
             BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
@@ -935,7 +935,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         } catch let error1 as NSError {
             error = error1
         } catch {
-            fatalError()
+//            fatalError()
         }
         
         if error != nil {
@@ -950,7 +950,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         } catch let error1 as NSError {
             error = error1
         } catch {
-            fatalError()
+//            fatalError()
         }
         if error != nil {
             print(error!.localizedDescription)
@@ -999,7 +999,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         } catch let error1 as NSError {
             error = error1
         } catch {
-            fatalError()
+//            fatalError()
         }
         if error != nil {
             print(error!.localizedDescription)
@@ -1014,7 +1014,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         } catch let error1 as NSError {
             error = error1
         } catch {
-            fatalError()
+//            fatalError()
         }
         if error != nil {
             print(error!.localizedDescription)

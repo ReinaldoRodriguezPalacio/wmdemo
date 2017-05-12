@@ -339,7 +339,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                             } catch let error1 as NSError {
                                 error = error1
                             } catch {
-                                fatalError()
+//                                fatalError()
                             }
                         }
                         

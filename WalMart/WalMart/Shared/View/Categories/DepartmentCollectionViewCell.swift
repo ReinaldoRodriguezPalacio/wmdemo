@@ -250,7 +250,7 @@ class DepartmentCollectionViewCell: UICollectionViewCell {
                 } catch let error1 as NSError {
                     print(error1.description)
                 } catch {
-                    fatalError()
+//                    fatalError()
                 }
             }
             

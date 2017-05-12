@@ -36,7 +36,7 @@ class WalMartSqliteDB: NSObject {
         } catch var error1 as NSError {
             error = error1
         } catch {
-            fatalError()
+//            fatalError()
         }
 
         

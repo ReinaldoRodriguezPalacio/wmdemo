@@ -41,7 +41,7 @@ class UpdateUserProfileService : BaseService {
                         } catch let error1 as NSError {
                             print(error1.description)
                         } catch {
-                            fatalError()
+//                            fatalError()
                         }
                         UserCurrentSession.sharedInstance.userSigned = usr
                         successBlock!(resultCall)
