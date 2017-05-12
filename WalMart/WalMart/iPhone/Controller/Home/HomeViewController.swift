@@ -197,11 +197,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             if detailsButton ==  nil {
                 detailsButton =  UIButton()
+                detailsButton!.addTarget(self, action: #selector(HomeViewController.openDetailPleca), for: .touchUpInside)
             }
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", for:UIControlState())
-            detailsButton!.addTarget(self, action: #selector(HomeViewController.openDetailPleca), for: .touchUpInside)
             detailsButton!.setTitleColor(WMColor.light_light_gray, for: UIControlState())
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
