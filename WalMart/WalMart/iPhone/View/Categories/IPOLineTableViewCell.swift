@@ -66,16 +66,15 @@ class IPOLineTableViewCell : UITableViewCell {
         super.layoutSubviews()
         self.viewBgSel!.frame =  CGRect(x: 0.0, y: 0.0, width: bounds.width, height: bounds.height - 1.0)
 
-        titleLabel.frame = self.newFrame ? CGRect(x: 16, y: 0, width: 182, height: self.bounds.height) : self.oneLine ? CGRect(x: 16, y: 0, width: self.bounds.width - 32, height: self.bounds.height) : CGRect(x: 40, y: 0, width: self.bounds.width - 40, height: self.bounds.height)
-        label.frame = CGRect(x: titleLabel.frame.maxX + 5, y: 0, width: 40, height: self.bounds.height)
-        priceLabel?.frame =  CGRect(x: label.frame.maxX + 5, y: 0, width: 50, height: self.bounds.height)
-
+        priceLabel?.frame = CGRect(x: bounds.width - 58, y: 0, width: 50, height: self.bounds.height)
+        label.frame = CGRect(x: priceLabel!.frame.minX - 48, y: 0, width: 40, height: self.bounds.height)
+        titleLabel.frame = CGRect(x: 16, y: 0, width: label!.frame.minX - 8 - 16, height: self.bounds.height)
 
         if showSeparator {
             separator.alpha = 1
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
             separator.frame = CGRect(x: 0, y: self.bounds.height - widthAndHeightSeparator, width: self.bounds.width, height: widthAndHeightSeparator)
-        }else{
+        } else {
             separator.alpha = 0
         }
         

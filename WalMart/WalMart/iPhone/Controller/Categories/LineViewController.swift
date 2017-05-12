@@ -24,17 +24,13 @@ class LineViewController : FamilyViewController {
         familyTable.dataSource = self
         familyTable.frame = self.view.bounds
         
-        
         self.view.addSubview(familyTable)
     }
     
     override func viewDidLayoutSubviews() {
-        if IS_IPAD {
-            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(((self.families.count + 1 ) * 64) + 40))
-        }else{
-            familyTable.frame = CGRect(x: 0,y: 0,width: familyTable.frame.size.width,height: familyTable.frame.size.height - 80)
-            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(self.families.count * 46))
-        }
+        
+        familyTable.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.frame.height)
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int{

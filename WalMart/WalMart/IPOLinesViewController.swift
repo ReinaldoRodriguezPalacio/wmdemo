@@ -24,7 +24,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
       self.view.backgroundColor =  UIColor.white
 
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.left
+        imageBackground.contentMode = UIViewContentMode.scaleAspectFill
         imageBackground.clipsToBounds = true
         
         imageBackground.setImageWith(URL(string: "http://\(urlTicer!)")!, placeholderImage: UIImage(named: "header_default"))
@@ -41,18 +41,19 @@ class IPOLinesViewController : IPOCategoriesViewController {
         buttonClose.setImage(UIImage(named: "close"), for: UIControlState())
         buttonClose.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), for: UIControlEvents.touchUpInside)
         
-        self.view.addSubview(imageBackground)
-        self.view.addSubview(imageIcon)
-        self.view.addSubview(titleLabel)
-        self.view.addSubview(buttonClose)
-        
-        
-
         self.viewFamily = UIView()
         self.lineController = LineViewController()
         self.lineController.categoriesType = .categoryForMG
         self.addChildViewController(self.lineController)
-        self.viewFamily.addSubview(self.lineController.view)        
+        self.viewFamily.addSubview(self.lineController.view)
+        
+        self.view.addSubview(imageBackground)
+        self.view.addSubview(imageIcon)
+        self.view.addSubview(titleLabel)
+        self.view.addSubview(buttonClose)
+        self.view.addSubview(viewFamily)
+        
+        
         self.invokeServiceLine()
     }
     
@@ -67,13 +68,12 @@ class IPOLinesViewController : IPOCategoriesViewController {
 
 
     override func viewWillLayoutSubviews() {
-        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT)
-       // lineController.view.frame = viewFamily.frame
-        
-        self.imageBackground.frame = CGRect(x: 0,y: 0 ,width: self.view.frame.width , height: CELL_HEIGHT)
+        imageBackground.frame = CGRect(x: 0,y: 0 ,width: self.view.frame.width , height: CELL_HEIGHT)
         titleLabel.frame = CGRect(x: 0, y: 66, width: self.view.frame.width , height: 16)
         imageIcon.frame = CGRect(x: (self.view.frame.width / 2) - 14, y: 22 , width: 28, height: 28)
         buttonClose.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT - 44)
+        lineController.view.frame = viewFamily.bounds
     }
     
     
