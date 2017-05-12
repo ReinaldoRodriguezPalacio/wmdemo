@@ -100,11 +100,11 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
         self.viewContent.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         self.viewFooter.frame = CGRect(x: self.viewContent.frame.width - 341, y: viewContent.frame.height - 72 , width: 341 , height: 72)
         if itemsUPC.count > 0 {
-            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
+            self.viewShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
             self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
             self.beforeLeave.labelTitle!.alpha = 1.0
         }else {
-            self.viewShoppingCart.frame =  CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: self.view.frame.height - 44)
+            self.viewShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: self.view.frame.height - 44)
             self.beforeLeave.frame = CGRect(x: 0,y: 0,width: 0, height: 0)
             self.beforeLeave.labelTitle!.alpha = 0.0
         }
@@ -230,6 +230,11 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
         }
        
         self.viewShoppingCart.reloadData()
+        
+        if beforeLeave != nil {
+            beforeLeave.collection.reloadData()
+        }
+        
         self.loadCrossSell()
         
     }
@@ -341,46 +346,81 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
     }
 
     override func loadCrossSell() {
+        
         if self.itemsInShoppingCart.count >  0 {
-            let upcValue = getExpensive()
-            let crossService = CrossSellingProductService()
-            crossService.callService(upcValue, successBlock: { (result:[[String:Any]]?) -> Void in
-                if result != nil {
+            
+            if !crossSellInExecution {
+                
+                let upcValue = getExpensive()
+                let crossService = CrossSellingProductService()
+                
+                crossSellInExecution = true
+                
+                crossService.callService(upcValue, successBlock: { (result: [[String:Any]]?) -> Void in
                     
-                    var isShowingBeforeLeave = false
-                    if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
-                        isShowingBeforeLeave = true
-                    }
+                    self.crossSellInExecution = false
                     
-                    self.itemsUPC = result!
-                    if self.itemsUPC.count > 3 {
-                        var arrayUPCS = self.itemsUPC
-                        arrayUPCS.sort(by: { (before, after) -> Bool in
-                            let priceB = before["price"] as! NSString
-                            let priceA = after["price"] as! NSString
-                            return priceB.doubleValue < priceA.doubleValue
-                        })
-                        var resultArray : [Any] = []
-                        for item in arrayUPCS[0...2] {
-                            resultArray.append(item)
+                    if result != nil {
+                        
+                        self.itemsUPC = result!
+                        
+                        if self.itemsUPC.count > 3 {
+                            
+                            var arrayUPCS = self.itemsUPC
+                            arrayUPCS.sort(by: { (before, after) -> Bool in
+                                let priceB = before["price"] as! NSString
+                                let priceA = after["price"] as! NSString
+                                return priceB.doubleValue < priceA.doubleValue
+                            })
+                            
+                            var resultArray: [Any] = []
+                            for item in arrayUPCS[0...2] {
+                                resultArray.append(item)
+                            }
+                            
+                            self.itemsUPC = resultArray as! [[String : Any]]
+                            
                         }
-                        self.itemsUPC = resultArray as! [[String : Any]]
+                        
+                        if self.itemsInShoppingCart.count >  0  {
+                            if self.itemsUPC.count > 0 {
+                                self.beforeLeave.itemsUPC = self.itemsUPC
+                                self.beforeLeave.collection.reloadData()
+                            }
+                        }
+                        
+                        if !self.beforeShopTag {
+                            
+                            var position = 0
+                            var positionArray: [Int] = []
+                            
+                            for _ in self.itemsUPC {
+                                position += 1
+                                positionArray.append(position)
+                            }
+                            
+                            let listName = NSLocalizedString("shoppingcart.beforeleave", comment: "")
+                            let subCategory = ""
+                            let subSubCategory = ""
+                            
+                            BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                            self.beforeShopTag = true
+                        }
                         
                     }
-                    if self.itemsInShoppingCart.count >  0  {
-                        if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.beforeLeave.itemsUPC = self.itemsUPC
-                            self.beforeLeave.collection.reloadData()
-                        }
-                    }
-                    //self.collection.reloadData()
-                }
-                self.removeLoadingView()
-                }, errorBlock: { (error:NSError) -> Void in
-                    print("Termina sevicio app")
+                    
                     self.removeLoadingView()
-            })
+                    
+                }, errorBlock: { (error: NSError) -> Void in
+                    print("Termina sevicio app")
+                    self.crossSellInExecution = false
+                    self.removeLoadingView()
+                })
+                
+            }
+            
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
