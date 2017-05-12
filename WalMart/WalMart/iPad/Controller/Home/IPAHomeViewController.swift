@@ -184,6 +184,7 @@ class IPAHomeViewController : HomeViewController {
     
     override func showProductDetail(_ upcProduct:String,type:String){
         let controller = IPAProductDetailPageViewController()
+        controller.detailOf = "Banner"
         controller.itemsToShow = [["upc":upcProduct,"description":"","type":type]]
         
         //TODO: Delete
