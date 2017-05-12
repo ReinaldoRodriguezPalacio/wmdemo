@@ -191,7 +191,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         popover!.delegate = self
         popover!.present(from: CGRect(x: self.frameEnd.width / 2,y: 250, width: 0, height: 0), in: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.up, animated: true)
         lineController.familyTable.reloadData()
-        lineController.familyTable.contentSize =  CGSize(width: self.view.bounds.width, height: CGFloat((((self.linesCamp?.count)! + 1) * 64) + 40))
+        lineController.familyTable.contentSize =  CGSize(width: 320, height: CGFloat(((self.linesCamp?.count)!) * 46))
      
     }
     
