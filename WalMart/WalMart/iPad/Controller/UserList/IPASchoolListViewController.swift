@@ -175,9 +175,20 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     override func shareList() {
         //isShared = true
         if let image = self.buildImageToShare() {
+          
+          let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.header!.frame.width, height: 70.0))
+          let imageDetailHead = UIImage(named: "detail_HeaderMail")
+          imageView.image = imageDetailHead
+          let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
+          self.backButton?.isHidden = true
+          let headerCapture = UIImage(from: header)
+          self.backButton?.isHidden = false
+          
+          let imgResult = UIImage.verticalImage(from: [imageHead!, headerCapture!, image])
+          
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/")
             
-            let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
             //let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self

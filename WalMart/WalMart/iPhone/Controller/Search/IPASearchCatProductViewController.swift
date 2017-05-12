@@ -27,6 +27,11 @@ class IPASearchCatProductViewController: IPASearchProductViewController {
         }
         
         self.header?.removeFromSuperview()
+      if !self.isTextSearch || !self.isOriginalTextSearch {
+        searchAlertView!.alpha = 0
+        viewBgSelectorBtn.alpha = 0
+      }
+      
         self.collection!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         loading?.stopAnnimating()
         self.loading = WMLoadingView(frame: CGRect(x: 0, y: 216, width: self.view.bounds.width, height: self.view.bounds.height - 216))

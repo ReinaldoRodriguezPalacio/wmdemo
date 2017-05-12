@@ -30,9 +30,9 @@ class LineViewController : FamilyViewController {
     
     override func viewDidLayoutSubviews() {
         if IS_IPAD {
-            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(((self.families.count + 1 ) * 64) + 40))
+            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(((self.families.count + 1 ) * 64) + 95))
         }else{
-            familyTable.frame = CGRect(x: 0,y: 0,width: familyTable.frame.size.width,height: familyTable.frame.size.height - 80)
+            familyTable.frame = CGRect(x: 0,y: 0,width: familyTable.frame.size.width,height: familyTable.frame.size.height - 80 - 22)
             familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(self.families.count * 46))
         }
     }
