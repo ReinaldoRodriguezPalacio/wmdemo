@@ -165,7 +165,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        footerSection?.frame = CGRect(x: 0,  y: self.view.frame.height - 72 - 44, width: self.view.frame.width, height: 72)
+        footerSection?.frame = CGRect(x: 0,  y: self.view.frame.height - 116, width: self.view.frame.width, height: 72)
         tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - 44)
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2

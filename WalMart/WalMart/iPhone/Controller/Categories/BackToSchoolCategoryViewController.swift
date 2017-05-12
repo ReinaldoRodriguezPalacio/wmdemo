@@ -93,7 +93,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.separator.frame = CGRect(x: 0, y: self.searchView!.bounds.maxY - 1, width: self.view.frame.width, height: 1)
         self.clearButton!.frame = CGRect(x: self.searchView.frame.width - self.searchFieldSpace, y: 22, width: 55, height: 40)
         self.searchField.frame = CGRect(x: 16, y: 22, width: self.view.frame.width - (self.searchFieldSpace + 32), height: 40.0)
-        self.schoolsTable.frame = CGRect(x: 0, y: self.searchView!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.searchView!.frame.maxY)
+        self.schoolsTable.frame = CGRect(x: 0, y: self.searchView!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.searchView!.frame.maxY - 46)
     }
     
     
