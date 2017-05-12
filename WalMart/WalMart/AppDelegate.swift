@@ -278,7 +278,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             NSLog("Unresolved error \(error), \(error!.userInfo)")
             abort()
         } catch {
-            fatalError()
+//            fatalError()
         }
         return coordinator
     }()
