@@ -1385,7 +1385,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                     if result != nil {
                         
                         var isShowingBeforeLeave = false
-                        
                         if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
                             isShowingBeforeLeave = true
                         }
