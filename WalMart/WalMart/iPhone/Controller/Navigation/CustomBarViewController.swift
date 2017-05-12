@@ -1110,22 +1110,33 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
         let controllernav = self.currentController as? UINavigationController
-        let controllersInNavigation = controllernav?.viewControllers.count
-        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
-            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-        }
-        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
-            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-            controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
-        }
         
         if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
             self.onCloseSearch = {
                 let navController = self.currentController as? UINavigationController
-                navController?.pushViewController(controller, animated: true)
+                let controllersInNavigation = controllernav?.viewControllers.count
+                
+                if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+                    navController?.viewControllers.remove(at: controllersInNavigation! - 1)
                 }
+                if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
+                    navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                    navController?.viewControllers.remove(at: controllersInNavigation! - 2)
+                }
+                
+                navController?.pushViewController(controller, animated: true)
+            }
             self.closeSearch(false, sender: nil)
         }else{
+            let controllersInNavigation = controllernav?.viewControllers.count
+            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+            }
+            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? LandingPageViewController != nil){
+                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                controllernav?.viewControllers.remove(at: controllersInNavigation! - 3)
+            }
+            
             controllernav?.pushViewController(controller, animated: true)
         }
 //        self.btnSearch!.selected = false

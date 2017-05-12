@@ -98,7 +98,7 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        super.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
+        super.tableView?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height + 46))
     }
     
     /**
@@ -327,6 +327,11 @@ class SchoolListViewController : DefaultListDetailViewController {
                 self.removeSelector()
             }
             //self.quantitySelectorMg!.generateBlurImage(self.view, frame:CGRect(x: 0.0, y: 0.0, width: width, height: height))
+            if let quantity = item["quantity"] as? NSNumber {
+                quantitySelectorMg?.userSelectValue(quantity.stringValue)
+                quantitySelectorMg?.first = true
+            }
+            
             self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory : 5
                 if maxProducts >= Int(quantity) {

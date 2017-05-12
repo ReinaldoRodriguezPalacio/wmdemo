@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>31</string>
+	<string>32</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -1154,7 +1154,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
@@ -1168,7 +1168,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://dl.dropboxusercontent.com/s/dd1eodhv3b6ioma/configService.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>

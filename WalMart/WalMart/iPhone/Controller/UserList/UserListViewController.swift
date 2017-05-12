@@ -520,6 +520,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func showNewListField() {
         self.newListBtn!.isEnabled = false
         self.editBtn!.isEnabled = false
+        
+        for cell in self.tableuserlist!.visibleCells {
+            if let swipeCell = cell as? SWTableViewCell {
+                swipeCell.hideUtilityButtons(animated: true)
+            }
+        }
+        
         if !self.newListEnabled {
             if self.itemsUserList!.count >= 12{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
