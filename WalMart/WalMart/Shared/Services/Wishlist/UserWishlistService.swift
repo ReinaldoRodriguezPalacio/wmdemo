@@ -49,7 +49,7 @@ class UserWishlistService : BaseService {
                     } catch let error1 as NSError {
                         print(error1.description)
                     } catch {
-                        fatalError()
+//                        fatalError()
                     }
                     
                     var itemsInWishlist : [[String:Any]] = []
@@ -114,7 +114,7 @@ class UserWishlistService : BaseService {
                     } catch let error1 as NSError {
                         print(error1.description)
                     } catch {
-                        fatalError()
+//                        fatalError()
                     }
                     
                     successBlock!(result)
@@ -173,7 +173,7 @@ class UserWishlistService : BaseService {
                     } catch let error1 as NSError {
                         print(error1.description)
                     } catch {
-                        fatalError()
+//                        fatalError()
                     }
                     
                     

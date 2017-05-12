@@ -343,7 +343,7 @@ class GRUserListService : GRBaseService {
                                             } catch let error1 as NSError {
                                                 error = error1
                                             } catch {
-                                                fatalError()
+//                                                fatalError()
                                             }
                                             if error != nil {
                                                 print("error at delete details: \(error!.localizedDescription)")

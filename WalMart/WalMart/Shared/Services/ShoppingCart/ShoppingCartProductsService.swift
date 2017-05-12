@@ -50,7 +50,7 @@ class ShoppingCartProductsService : BaseService {
                         } catch let error as NSError {
                             print(error.localizedDescription)
                         } catch {
-                            fatalError()
+//                            fatalError()
                         }
                         
                         for shoppingCartProduct in itemsInShoppingCart {
@@ -125,7 +125,7 @@ class ShoppingCartProductsService : BaseService {
                         } catch let error as NSError {
                             print(error.localizedDescription)
                         } catch {
-                            fatalError()
+//                            fatalError()
                         }
                         
                         successBlock!(resultCall)
