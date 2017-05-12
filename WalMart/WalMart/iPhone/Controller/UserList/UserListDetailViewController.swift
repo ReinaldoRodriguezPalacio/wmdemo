@@ -616,7 +616,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     if let productPrice = checkedPrice {
                         totalPrice += Int(productPrice)
                     }
-                    params["orderByPiece"] = item.orderByPiece.boolValue
+                    params["orderByPiece"] = item.orderByPiece == nil ? true : item.orderByPiece.boolValue
                     if item.orderByPiece.boolValue {
                          params["pieces"] = item.pieces
                     }else{
