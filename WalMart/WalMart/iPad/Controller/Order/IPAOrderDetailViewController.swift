@@ -23,7 +23,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             self.backButton!.frame = CGRect(x: 0, y: 0  ,width: 46,height: 46)
         }
         
-        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 110)
         
         self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
         
