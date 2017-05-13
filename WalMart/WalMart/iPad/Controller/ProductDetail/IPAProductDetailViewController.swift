@@ -1259,7 +1259,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let isBundle = result["isBundle"] as? Bool ?? false
         if self.detailOf == "" {
-            fatalError("detailOf not seted")
+           // fatalError("detailOf not seted")
         }
         
         BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])

@@ -542,7 +542,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                             positionArray.append(position)
                         }
                         
-                        let listName = NSLocalizedString("shoppingcart.beforeleave", comment: "")
+                        let listName = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
                         let subCategory = ""
                         let subSubCategory = ""
                         BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)

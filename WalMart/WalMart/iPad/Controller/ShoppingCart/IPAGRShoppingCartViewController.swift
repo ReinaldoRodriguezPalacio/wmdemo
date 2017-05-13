@@ -281,6 +281,25 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                             self.beforeLeave?.collection.reloadData()
                         }
                     }
+                  
+                  if !self.beforeShopTag {
+                    var position = 0
+                    var positionArray: [Int] = []
+                    
+                    for _ in self.itemsUPC {
+                      position += 1
+                      positionArray.append(position)
+                    }
+                    
+                    let listName = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
+                    let subCategory = ""
+                    let subSubCategory = ""
+                    BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                    self.beforeShopTag = true
+                  }
+                  
+                  
+                  
                     //self.collection.reloadData()
                 }
             }, errorBlock: { (error:NSError) -> Void in

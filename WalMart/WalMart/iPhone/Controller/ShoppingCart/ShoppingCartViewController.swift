@@ -1427,7 +1427,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
                                 positionArray.append(position)
                             }
                             
-                            let listName =  NSLocalizedString("shoppingcart.beforeleave", comment: "")
+                            let listName =  NSLocalizedString("shoppingcart.beforeleave.mg", comment: "")
                             let subCategory = ""
                             let subSubCategory = ""
                             

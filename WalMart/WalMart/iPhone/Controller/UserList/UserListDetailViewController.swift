@@ -1728,7 +1728,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func searchByText(_ text: String) {
-        if text.isNumeric() {
+        if text.isNumeric() && text.length() >= 12 {
             let cero = text.length() < 13 ? "0":""
             self.findProdutFromUpc("\(cero)\(text)")
         }else{
