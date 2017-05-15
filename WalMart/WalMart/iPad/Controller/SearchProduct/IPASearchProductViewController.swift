@@ -195,12 +195,12 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         let pointPop =  self.filterButton!.convert(CGPoint(x: self.filterButton!.frame.minX,  y: self.filterButton!.frame.maxY / 2  ), to:self.view)
 
         //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
-        let controller = UIViewController()
-        controller.view.frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 390.0)
-        controller.view.addSubview(self.filterController!.view)
-        controller.view.backgroundColor = UIColor.clear
         
-        self.sharePopover = UIPopoverController(contentViewController: controller)
+        self.filterController!.modalPresentationStyle = .popover
+        self.filterController!.preferredContentSize = CGSize(width: 320, height: 322)
+        
+        self.sharePopover = UIPopoverController(contentViewController: filterController!)
+        
         self.sharePopover!.contentSize =  CGSize(width: 320.0, height: 390.0)
         self.sharePopover!.delegate = self
         self.sharePopover!.backgroundColor = UIColor.white
@@ -499,6 +499,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
   
     func closePop(){
       selectQuantityPopover?.dismiss(animated: false)
+      sharePopover?.dismiss(animated: false)
       self.sharePopover = nil
       self.selectQuantityOpen = false
     }
