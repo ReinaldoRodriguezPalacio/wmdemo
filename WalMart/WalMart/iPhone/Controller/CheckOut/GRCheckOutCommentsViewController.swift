@@ -244,7 +244,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.sectionTitleWine!.frame = CGRect(x: margin,y: self.comments!.frame.maxY + margin,width: width,height: 50)
 
         self.content!.contentSize = CGSize(width: self.view.frame.width, height: self.comments!.frame.maxY + 64)
-        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - 154)
+        self.content!.frame = CGRect(x: 0.0, y: 46.0, width: self.view.bounds.width, height: self.view.bounds.height - (110 + (IS_IPHONE ? 44 : 0)))
         self.layerLine.frame = CGRect(x: 0, y: self.content!.frame.maxY,  width: self.view.frame.width, height: 1)
         self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (8 + widthButton), y: self.layerLine.frame.maxY + 16, width: widthButton, height: 34)
         self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLine.frame.maxY + 16, width: widthButton, height: 34)

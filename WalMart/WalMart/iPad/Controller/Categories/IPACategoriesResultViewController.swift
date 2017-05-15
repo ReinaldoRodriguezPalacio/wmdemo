@@ -260,6 +260,6 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
   
     func closePop(){
       popover?.dismiss(animated: false)
-       searchProduct.dismissCategory()
+      searchProduct.dismissCategory()
     }
 }
