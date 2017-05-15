@@ -21,7 +21,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class BannerService : BaseService {
+class BannerService: BaseService {
     
     let fileName =  "banner.json"
     
@@ -32,35 +32,33 @@ class BannerService : BaseService {
     let JSON_BANNER_LANDINGCATEGORY = "landingcategory"
     let JSON_BANNER_PLECA = "pleca"
 
-    
-    
-    
-    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        print(params)
+    func callService(_ params: [String:Any], successBlock: (([String:Any]) -> Void)?, errorBlock: ((NSError) -> Void)?) {
+
         self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            self.saveDictionaryToFile(resultCall, fileName:self.fileName)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
             
+            self.saveDictionaryToFile(resultCall, fileName: self.fileName)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
             successBlock!(resultCall)
-            }) { (error:NSError) -> Void in
-                errorBlock!(error)
+            
+        }) { (error: NSError) -> Void in
+            errorBlock!(error)
         }
     }
     
-    
     func getBannerContent() -> [[String:String]] {
-        var bannerItems : [[String:String]] = []
+        
+        var bannerItems: [[String:String]] = []
         
         let values = getDataFromFile(fileName as NSString)
         if values == nil {
             return bannerItems
         }
         
-      
-        
         bannerItems = values![JSON_BANNER_EMBEDDEDLIST] as! [[String:String]]
+        
         if var moreBanner = values![JSON_BANNER_BANNERLIST] as? [[String:String]] {
-            moreBanner.sort(by: { (one:[String : String], second:[String : String]) -> Bool in
+            
+            moreBanner.sort(by: { (one: [String:String], second: [String:String]) -> Bool in
                 let firstString = one["order"] as String?
                 let secondString = second["order"] as String?
                 return Int(firstString!) < Int(secondString!)
@@ -102,8 +100,11 @@ class BannerService : BaseService {
             for banner in moreBanner {
                 bannerItems.append(banner)
             }
+            
         }
-        //LANDINGCAMPANA
+        
+        // LANDING CAMPANA
+        
         if let moreBanner = values![JSON_BANNER_LANDINGCAMPANA] as? [[String:String]] {
             for banner in moreBanner {
                 bannerItems.append(banner)
@@ -116,11 +117,35 @@ class BannerService : BaseService {
             }
         }
 
-        
-        
         return bannerItems
     }
     
+    func getBanners() -> [Banner] {
+        
+        let bannerContent = getBannerContent()
+        var banners = [Banner]()
+        
+        var banner = Banner()
+        var position = 1
+        
+        for bannerDictionary in bannerContent {
+            
+            if let eventCode = bannerDictionary["eventCode"] {
+                banner.id = eventCode
+                banner.name = eventCode
+            } else {
+                banner.id = bannerDictionary["eventUrl"]! as String
+                banner.name = bannerDictionary["eventUrl"]! as String
+            }
+            
+            banner.creative = bannerDictionary["type"]! as String
+            banner.position = "\(position)"
+            banners.append(banner)
+            position += 1
+        }
+            
+        return banners
+    }
     
     func getLanding() -> [[String:String]]? {
         
@@ -128,9 +153,11 @@ class BannerService : BaseService {
         if values == nil {
             return nil
         }
+        
         if let landingItem = values![JSON_BANNER_LANDING] as? [[String:String]] {
             return landingItem
         }
+        
         return nil
     }
     
@@ -140,14 +167,15 @@ class BannerService : BaseService {
         if values == nil {
             return nil
         }
+        
         if let landingItem = values![JSON_BANNER_PLECA] as? [[String:String]] {
             if landingItem.count == 0{
                 return [:]
             }
             return landingItem[0] as [String:Any]
         }
+        
         return nil
     }
-    
     
 }

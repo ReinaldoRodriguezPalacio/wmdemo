@@ -75,56 +75,23 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         collection.register(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
         collection.register(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
+        collection!.clipsToBounds = true
+        view.clipsToBounds = true
         
-        //Read a banner list
-        let serviceBanner = BannerService()
-        self.bannerItems = serviceBanner.getBannerContent()
-        self.plecaItems = serviceBanner.getPleca()
-      
-
-    
         Timer.scheduledTimer(timeInterval: 20.0, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: false)
         
-        self.recommendItems = []
-        
-        self.categories = getCategories()
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updatecontent(_:)), name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
-        
-        self.view.clipsToBounds = true
-        collection!.clipsToBounds = true
-        
+        // Read a banner list
+        let serviceBanner = BannerService()
         let servicecarousel = CarouselService()
+        
+        self.bannerItems = serviceBanner.getBannerContent()
+        self.banners = serviceBanner.getBanners()
+        self.plecaItems = serviceBanner.getPleca()
         self.recommendItems = servicecarousel.getCarouselContent()
+        self.recommendItems = []
+        self.categories = getCategories()
         
         BaseController.setOpenScreenTagManager(titleScreen: "Home", screenName: self.getScreenGAIName())
-        
-        if let bannersDictionary = bannerItems {
-            var banner = Banner()
-            var position = 1
-            for bannerDictionary in bannersDictionary {
-                
-                if let eventCode = bannerDictionary["eventCode"] {
-                    banner.id = eventCode
-                    banner.name = eventCode
-                } else {
-                    banner.id = bannerDictionary["eventUrl"]! as String
-                    banner.name = bannerDictionary["eventUrl"]! as String
-                }
-                
-                banner.creative = bannerDictionary["type"]! as String
-                banner.position = "\(position)"
-                banners.append(banner)
-                position += 1
-            }
-            
-            let delay = 2.0 * Double(NSEC_PER_SEC)
-            let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                BaseController.sendAnalyticsBanners(self.banners)
-            })
-            
-           
-        }
         
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
@@ -132,6 +99,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }else if !IS_IPAD{
             addLongTouch(view:collection!)
         }
+        
+        if banners.count > 0 {
+            delay(2.0) {
+                BaseController.sendAnalyticsBanners(self.banners)
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updatecontent(_:)), name: NSNotification.Name(rawValue: UpdateNotification.HomeUpdateServiceEnd.rawValue), object: nil)
     }
     
     deinit {
@@ -650,13 +625,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     func updatecontent(_ sender:AnyObject) {
-        //Read a banner list
+        
+        // Read a banner list
+        
         let serviceBanner = BannerService()
-        self.bannerItems = serviceBanner.getBannerContent()
-        self.plecaItems = serviceBanner.getPleca()
         let servicecarousel = CarouselService()
+        
+        self.bannerItems = serviceBanner.getBannerContent()
+        self.banners = serviceBanner.getBanners()
+        self.plecaItems = serviceBanner.getPleca()
         self.recommendItems = servicecarousel.getCarouselContent()
         self.categories = getCategories()
+        
         collection.reloadData()
     }
     
