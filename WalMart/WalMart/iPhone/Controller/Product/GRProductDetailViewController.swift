@@ -237,8 +237,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             
             },errorBlock: { (error:NSError) -> Void in              
-                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.heightDetail))
+                let empty = IPOGenericEmptyView(frame:CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46 - 44))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"") as NSString
+                empty.isLarge = false
                 empty.returnAction = { () in
                     self.navigationController!.popViewController(animated: true)
                 }
