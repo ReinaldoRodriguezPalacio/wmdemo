@@ -54,8 +54,13 @@ extension NSString {
 }
 
 extension String {
-    func toDouble() -> Double? {
-        return NumberFormatter().number(from: self)?.doubleValue
+    func toDouble() -> Double {
+        
+        guard let double = NumberFormatter().number(from: self)?.doubleValue else {
+            return 0.0
+        }
+        
+        return double
     }
     
     func toIntNoDecimals() -> Int? {

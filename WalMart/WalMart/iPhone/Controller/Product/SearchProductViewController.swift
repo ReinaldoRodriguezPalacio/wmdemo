@@ -2204,7 +2204,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             prodQuantity =  quantity == 0 ? "100" : "\(quantity)"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
             selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
             selectQuantityGR.btnNoteN.isHidden =  !hasUPC
         }else{
