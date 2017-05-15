@@ -296,7 +296,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
         
-        self.content!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - (self.header!.frame.height + footerHeight + 44))
+        self.content!.frame = CGRect(x: 0.0, y: self.header!.frame.maxY, width: bounds.width, height: bounds.height - (self.header!.frame.height + footerHeight + (IS_IPHONE ? 44 : 0)))
         if self.showOnilePayments {
             self.sectionPaypalTitle.frame = CGRect(x: 16,y: 16.0, width: self.view.frame.width, height: lheight)
             if self.showPayPalFuturePayment {
