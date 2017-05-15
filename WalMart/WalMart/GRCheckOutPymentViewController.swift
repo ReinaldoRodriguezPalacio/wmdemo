@@ -366,9 +366,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.confirmOrderView?.showDetail()
         self.generateOrderPaymentType =  self.paymentString
         
-        self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
-        let amoutnShip = self.paramsToConfirm!["shipmentAmount"] as? String
-        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + (self.isFistShip ? 0 : (amoutnShip!.toDouble()!)))"
+        self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" : self.paramsToConfirm!["shipmentAmount"]
+        
+        var amountShip = "0.0"
+        if let amount = self.paramsToConfirm!["shipmentAmount"] as? String {
+            amountShip = amount
+        }
+        
+        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble() + (self.isFistShip ? 0 : (amountShip.toDouble())))"
         self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
