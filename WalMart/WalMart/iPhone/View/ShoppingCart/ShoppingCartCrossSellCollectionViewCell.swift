@@ -66,7 +66,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[indexPath.row] 
         let upc = itemUPC["upc"] as! String
         var shoppingCartItems : [Any]! = []
-        UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave", comment: "")
+        UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
         if esGR {
              shoppingCartItems  = UserCurrentSession.sharedInstance.itemsGR!["items"] as? [Any]
         }else{

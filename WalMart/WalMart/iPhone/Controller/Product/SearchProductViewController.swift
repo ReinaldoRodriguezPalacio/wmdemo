@@ -123,7 +123,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var idSort:String?
     var maxResult: Int = 20
     var brandText: String? = ""
-    
+  
+  
     var bannerView : UIImageView!
     var maxYBanner: CGFloat = 46.0
     var isLandingPage = false
@@ -833,7 +834,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
-            let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : (self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!))
+            let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : ((self.textToSearch != nil && self.textToSearch != "" ) ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!))
           
             controller.detailOf = listName
             return controller
@@ -1113,7 +1114,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.isFromPromotiosCenter =  true
                         }
                       
-                        let nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                        let nameListToTag = (self.textToSearch != nil &&  self.textToSearch != "") ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                       
                       
                         let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
@@ -1238,7 +1239,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                       self.isFromPromotiosCenter =  true
                     }
                   
-                    let nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                    let nameListToTag = (self.textToSearch != nil && self.textToSearch != "")   ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
                   
                   
                     UserCurrentSession.sharedInstance.nameListToTag = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag

@@ -28,6 +28,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                     let landingType = landing["type"]
                     if landingType != nil && landingType! == "mg" {
                         landingItem = landing
+                        BaseController.sendLandingAnalitycs(landing: landing)
                     }
                 }
             }
@@ -79,6 +80,14 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         var currentItem = indexPath.row
         if indexPath.row == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
+          var banner =  Banner()
+          
+          banner.id = landingItem!["eventCode"]!+""
+          banner.name = landingItem!["eventCode"]!+""
+          banner.creative = landingItem!["type"] ?? ""
+          banner.position = "1"
+          
+          BaseController.sendAnalyticsClickBanner(banner)
             self.handleLandingEvent(eventUrl!)
             return
         }

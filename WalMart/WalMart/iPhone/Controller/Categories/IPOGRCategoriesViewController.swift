@@ -42,7 +42,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     let landingType = landing["type"]
                     if landingType != nil && landingType! == "groceries" {
                         landingItem = landing
-                      self.sendAnalitycs(landing: landing)
+                      BaseController.sendLandingAnalitycs(landing: landing)
                     }
                 }
             }
@@ -89,31 +89,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         canfigData = svcConfig.getConfoigContent()
     }
   
-    func sendAnalitycs(landing:[String:String]){
-      
-      var banners = [Banner]()
-      var banner = Banner()
-        
-        if let eventCode = landing["eventCode"] {
-          banner.id = eventCode
-          banner.name = eventCode
-        } else {
-          banner.id = landing["eventUrl"]! as String
-          banner.name = landing["eventUrl"]! as String
-        }
-        
-        banner.creative = landing["type"]! as String
-        banner.position = "1"
-        banners.append(banner)
-      
-      let delay = 2.0 * Double(NSEC_PER_SEC)
-      let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-      DispatchQueue.main.asyncAfter(deadline: time, execute: {
-        BaseController.sendAnalyticsBanners(banners)
-      })
 
-    
-    }
   
     override func setup() {
         self.hiddenBack = true
@@ -267,8 +243,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
           
           var banner =  Banner()
           
-          banner.id = landingItem!["eventCode"] ?? ""
-          banner.name = landingItem!["eventCode"] ?? ""
+          banner.id = landingItem!["eventCode"]!+""
+          banner.name = landingItem!["eventCode"]!+"" 
           banner.creative = landingItem!["type"] ?? ""
           banner.position = "1"
           
