@@ -160,7 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         
         //TAGManager
         let GTM = TAGManager.instance()
-        GTM?.logger.setLogLevel(kTAGLoggerLogLevelNone)
+        GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
     
         //TODO Cambiar a produccion 
        // TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
@@ -482,8 +482,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                
                 var banner =  Banner()
                 
-                banner.id = value
-                banner.name = value
+                banner.id = "push_"+value
+                banner.name = "push_"+value
                 banner.creative = bussines
                 banner.position = "1"
                 
@@ -491,7 +491,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
                 {
                     customBar.helpView?.removeFromSuperview()
                     let _ = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
-                    
+                    let banners = [banner]
+                    BaseController.sendAnalyticsBanners(banners)
                     BaseController.sendAnalyticsClickBanner(banner)
                     
                 }else{
