@@ -1595,7 +1595,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "": self.buttonSelected(self.buttonList[0])
         case "UPC", "upc": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
         case "TXT", "txt": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
-        case "LIN", "lin": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? "Centro de promociones": "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
+        case "LIN", "lin": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:name == "CP" ? PROMOTION_CENTER: "Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG )
         case "FAM", "fam": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
         case "CAT", "cat": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .withCategoryForGR : .withCategoryForMG)
         case "CF", "cf": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
