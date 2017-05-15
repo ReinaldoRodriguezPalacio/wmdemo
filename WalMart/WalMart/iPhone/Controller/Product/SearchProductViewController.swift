@@ -179,6 +179,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var preview: PreviewModalView? = nil
     
     var filterMedida : Bool! = false
+    var isFromPromotiosCenter = false
    
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -356,7 +357,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else
         {
             self.titleLabel?.text = titleHeader
-            if  self.searchContextType == SearchServiceContextType.withCategoryForMG && titleHeader != "Recomendados" &&  titleHeader != "Centro de promociones" && IS_IPAD {
+            if  self.searchContextType == SearchServiceContextType.withCategoryForMG && titleHeader != "Recomendados" &&  titleHeader != PROMOTION_CENTER && IS_IPAD {
                 self.titleLabel?.text = ""
             }
            
@@ -832,7 +833,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(newIndexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
-            controller.detailOf = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+            let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : (self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!))
+          
+            controller.detailOf = listName
             return controller
         }
         return nil
@@ -1105,13 +1108,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.position += 1
                             positionArray.append(self.position)
                         }
-                        UserCurrentSession.sharedInstance.nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
-                        
-                        let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                      
+                        if self.titleHeader == PROMOTION_CENTER{
+                            self.isFromPromotiosCenter =  true
+                        }
+                      
+                        let nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                      
+                      
+                        let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
                         let category = self.eventCode != nil ? "banner" : ""
                         let subCategory = self.idFamily != nil ? self.idFamily!.replacingOccurrences(of: "_", with: "") : ""
                         let subSubCategory = self.idLine != nil ? self.idLine!.replacingOccurrences(of: "_", with: "") : ""
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName!, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
+                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
                     }
                 }
                 
@@ -1224,13 +1233,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         self.position += 1
                         positionArray.append(self.position)
                     }
-                    UserCurrentSession.sharedInstance.nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
-                    
-                    let listName = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode : self.titleHeader)
+                  
+                    if self.titleHeader == PROMOTION_CENTER{
+                      self.isFromPromotiosCenter =  true
+                    }
+                  
+                    let nameListToTag = self.textToSearch != nil ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                  
+                  
+                    UserCurrentSession.sharedInstance.nameListToTag = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
+                  
+                    let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
                     let category = self.eventCode != nil ? "banner" : ""
                     let subCategory = self.idFamily != nil ? self.idFamily!.replacingOccurrences(of: "_", with: "") : ""
                     let subSubCategory = self.idLine != nil ? self.idLine!.replacingOccurrences(of: "_", with: "") : ""
-                    BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName!, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(grArrayProducts, positionArray: positionArray, listName: listName, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
                 }
             }
             
@@ -2187,7 +2204,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             prodQuantity =  quantity == 0 ? "100" : "\(quantity)"
             let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
             
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence!)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(value: (cell.price as NSString).doubleValue as Double),quantity:Int(prodQuantity),equivalenceByPiece:NSNumber(value: Int(equivalence)),upcProduct:cell.upc,startY:startY, isSearchProductView: true)
             selectQuantityGR.btnNoteQuantity.isHidden =  !hasUPC
             selectQuantityGR.btnNoteN.isHidden =  !hasUPC
         }else{

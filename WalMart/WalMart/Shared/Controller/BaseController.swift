@@ -31,7 +31,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-//import Tune
+let PROMOTION_CENTER = "Centro de promociones"
 
 struct Banner {
     var id:String = ""
