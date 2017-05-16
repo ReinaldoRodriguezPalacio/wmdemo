@@ -308,7 +308,7 @@ class OrderConfirmDetailView : UIView {
             animation.repeatCount = 1
             animation.values = [0, 1.3,1]
             self.iconLoadingDone.layer.add(animation, forKey: "grow")
-
+            
             
         }) 
         
