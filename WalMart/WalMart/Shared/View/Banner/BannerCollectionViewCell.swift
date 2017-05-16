@@ -102,6 +102,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             self.addSubview(buttonTerms)
             self.reloadTermsAndPages()
             
+        } else if banners?.count != pointButtons?.count {
+            buildButtonSection()
         }
         
     }
