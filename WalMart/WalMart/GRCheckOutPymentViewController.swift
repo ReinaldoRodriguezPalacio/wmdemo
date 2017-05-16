@@ -494,6 +494,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             let storeId = slot["storeId"]! as AnyObject
             let purchaseId = slot["orderId"]! as AnyObject
             let shipmentAmount = self.paramsToConfirm!["shipmentAmount"] as! String
+          
+          
+          
             
             
            BaseController.sendAnalyticsPurchase(storeId, paymentType: paymentTypeString, deliveryType: deliveryType!, deliveryDate: deliveryDate as String, deliveryHour: hour, purchaseId: purchaseId, affiliation: "Groceries", revenue: String(describing: total), tax: "", shipping: shipmentAmount, coupon: "")
@@ -1130,7 +1133,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             
             self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
-            
+            //
+            let deliveryType = self.paramsToOrder!["deliveryType"] as? String ?? ""
+            let addresId  =  self.paramsToOrder!["AddressID"]  as?  String ?? ""
+            let shipmentAmount = self.paramsToConfirm!["shipmentAmount"] as! String
+          
+            BaseController.sendAnalyticsPurchase(addresId as AnyObject, paymentType: self.paymentString, deliveryType: deliveryType, deliveryDate: deliveryDate as String, deliveryHour: slotH as String, purchaseId: trackingNumber, affiliation: "Groceries", revenue: String(describing: total), tax: "", shipping: shipmentAmount, coupon: "")
+          
+          
             UserDefaults.standard.removeObject(forKey:  "paypalinprocess")
             UserDefaults.standard.synchronize()
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
