@@ -288,6 +288,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let velue = showRating == nil ? "" :showRating?.value
         
         if UserCurrentSession.sharedInstance.isReviewActive && (velue == "" ||  velue == "true") {
+            
+            mgCheckOutComplete = false
+            
             let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
             alert!.isCustomAlert = true
             alert!.spinImage.isHidden =  true
@@ -403,7 +406,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
         
         ShoppingCartService.shouldupdate = true
-        
+        NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
         
         URLCache.shared.removeAllCachedResponses()
         

@@ -511,6 +511,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 
             }
             
+            NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
             
             //self.buttonShop?.enabled = false
             
@@ -520,7 +521,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 
                 //  self.buttonShop?.enabled = true
                 // println("Error \(error)")
-                
+                NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                 if error.code == -400 {
                     self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
                 }
