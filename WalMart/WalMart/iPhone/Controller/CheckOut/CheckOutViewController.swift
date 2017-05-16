@@ -403,7 +403,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
         
         ShoppingCartService.shouldupdate = true
-        
+        NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
         
         URLCache.shared.removeAllCachedResponses()
         
