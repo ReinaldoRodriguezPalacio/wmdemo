@@ -142,43 +142,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if self.loading != nil {
             self.loading!.stopAnnimating()
         }
-        //super.viewWillAppear(animated)
-        if UserCurrentSession.hasLoggedUser() {
-            self.showLoadingView()
-            self.invokeDetailListService({ () -> Void in
-                self.loading?.stopAnnimating()
-                self.loading = nil
-                self.reminderButton!.isHidden = false
-                if self.products == nil || self.products!.count == 0  {
-                    self.selectedItems = []
-                } else {
-                    if self.fromDelete || self.selectedItems == nil {
-                        self.fromDelete =  false
-                        self.selectedItems = NSMutableArray()
-                        for i in 0...self.products!.count - 1 {
-                            self.selectedItems?.add(i)
-                        }
-                    }
-                self.updateTotalLabel()
-                }
-                
-            }, reloadList: false)
-        }
-        else {
-            self.retrieveProductsLocally(false)
-            if self.products == nil  || self.products!.count == 0  {
-                self.selectedItems = []
-            } else {
-            self.selectedItems = NSMutableArray()
-            for i in 0...self.products!.count - 1 {
-                self.selectedItems?.add(i)
-            }
-            }
-            self.updateTotalLabel()
-        }
+        
+        self.loadServiceItems(nil)
     }
 
     /*
