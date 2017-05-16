@@ -507,7 +507,14 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             
         }
         
-        return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
+        var txtAfterUpdate : NSString = textView.text! as String as NSString
+        txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: text) as NSString
+        
+        if !self.validateComments(text: txtAfterUpdate as String) {
+            return false
+        }
+        
+        return true
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -565,6 +572,25 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.layer.borderColor = WMColor.light_light_gray.cgColor
         self.phoneField!.layer.borderWidth = 0.0
         self.resetPhoneField()
+    }
+    
+    func validateComments(text:String) -> Bool {
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú ,./$%#]{0,200}$";
+        
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern:regString, options: NSRegularExpression.Options.caseInsensitive)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatches(in: text, options: [], range: NSMakeRange(0, text.characters.count))
+        
+        if matches > 0 {
+           return true
+        }
+        
+        return false
     }
     
     //MARK: -Scroll
