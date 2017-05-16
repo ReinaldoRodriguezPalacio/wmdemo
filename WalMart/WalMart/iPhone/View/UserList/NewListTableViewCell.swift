@@ -147,7 +147,16 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             return false
         }
-        
+      
+        let regString : String = "^[ñÑÁáÉéÍíÓóÚúàèìòùÀÈÌÒÙäëïöüÄËÏÖÜâêîôûÂÊÎÔÛ]{0,100}[._-]{0,2}$";
+        if length == 2 && IPASearchView.validateRegEx(regString,toValidate:trimmedString){
+          let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+            UIImage(named:"noAvaliable"))
+          alert!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
+          alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+          return false
+        }
+      
         let alphanumericset = CharacterSet(charactersIn: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").inverted
         let cleanedName = (trimmedString.components(separatedBy: alphanumericset) as NSArray).componentsJoined(by: "")
         if trimmedString != cleanedName {

@@ -287,7 +287,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 
                 UIView.animate(withDuration: 0.25,
                     animations: {
-                        self.table.frame = CGRect(x: 0.0, y: 73, width: bounds.width, height: bounds.height - self.header!.frame.maxY)
+                        self.table.frame = CGRect(x: 0.0, y: 73, width: bounds.width, height: bounds.height - self.header!.frame.maxY - 44.0)
                     },completion: {(bool : Bool) in
                         if bool {
                             
