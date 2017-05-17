@@ -80,8 +80,8 @@
 "shoppingcart.total" = "Total Estimado";
 "shoppingcart.saving" = "Total Ahorrado";
 "shoppingcart.beforeleave" = "Antes de irte";
-"shoppingcart.beforeleave.gr" = "Antes de irte gr";
-"shoppingcart.beforeleave.mg" = "Antes de irte mg";
+"shoppingcart.beforeleave.gr" = "Antes de irte_GR";
+"shoppingcart.beforeleave.mg" = "Antes de irte_MG";
 "shoppingcart.additemswishlist" = "Agregando todos los artículos disponibles de tu lista";
 "shoppingcart.shop" = "Comprar ";
 "shoppingcart.loading" = "Actualizando carrito";
