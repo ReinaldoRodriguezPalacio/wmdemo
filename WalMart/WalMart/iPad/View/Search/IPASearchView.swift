@@ -99,6 +99,13 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         
         self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
         self.tiresBarView?.isHidden = !self.tiresSearch
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    deinit {
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func layoutSubviews() {
@@ -527,5 +534,19 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         delegate?.showTiresSearch()
         self.closeSearch()
         closePopOver()
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
+        if self.tiresSearch {
+            self.tiresBarView!.isHidden = false
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.tiresBarView!.frame = CGRect(x: 0, y: 454, width: 474, height: 46)
+        if self.tiresSearch {
+            self.tiresBarView!.isHidden = false
+        }
     }
 }
