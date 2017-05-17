@@ -56,6 +56,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var tiresButton: UIButton?
     var scanLabel: UILabel?
     var camLabel: UILabel?
+    var tiresLabel: UILabel?
     var cancelButton: UIButton?
     var clearButton: UIButton?
     var viewTapClose: UIView?
@@ -69,6 +70,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var all: Bool = false
     var cancelSearch: Bool = true
     var dataBase : FMDatabaseQueue! = WalMartSqliteDB.instance.dataBase
+    var tiresSearch: Bool = false
+    var tireIcon: UIImageView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_OPTIONSEARCHPRODUCT.rawValue
@@ -158,12 +161,25 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.view!.addSubview(self.tiresBarView!)
             
         self.tiresButton = UIButton(type: .custom)
-        self.tiresButton!.setTitle("Llantas", for: .normal)
-        self.tiresButton!.layer.cornerRadius = 10
+        self.tiresButton!.setTitle(NSLocalizedString("home_help.search",comment: ""), for: .normal)
+        self.tiresButton!.layer.cornerRadius = 11
         self.tiresButton!.setTitleColor(UIColor.white, for: .normal)
-        self.tiresButton!.backgroundColor = WMColor.blue
+        self.tiresButton!.backgroundColor = WMColor.green
+        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.tiresButton!.addTarget(self, action: #selector(SearchViewController.showTiresSearch), for: UIControlEvents.touchUpInside)
         self.tiresBarView!.addSubview(self.tiresButton!)
+        
+        self.tiresLabel = UILabel()
+        self.tiresLabel!.textColor = UIColor.white
+        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.tiresLabel!.numberOfLines = 2
+        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí"
+        self.tiresBarView!.addSubview(self.tiresLabel!)
+        
+        self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
+        self.tiresBarView!.addSubview(self.tireIcon!)
+        
+        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
         
         self.camLabel = UILabel()
         self.camLabel!.textAlignment = .center
@@ -256,8 +272,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }
         
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  56, width: self.view.frame.width, height: 56)
-        self.tiresButton!.frame = CGRect(x: self.view.frame.width - 86, y: 8, width: 70, height: 40)
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  46, width: self.view.frame.width, height: 46)
+        self.tiresButton!.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
+        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.view.frame.width - 123, height: 46)
+        self.tireIcon!.frame = CGRect(x: 16, y: 11, width:24, height: 24)
    }
     
     
@@ -804,10 +822,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            
-            self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 56), width: self.view.frame.width, height: 56)
-            self.tiresButton!.frame = CGRect(x: self.view.frame.width - 86, y: 8, width: 70, height: 40)
-            self.tiresBarView!.isHidden = false
+            self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
+            if self.tiresSearch {
+                self.tiresBarView!.isHidden = false
+            }
         }
     }
     

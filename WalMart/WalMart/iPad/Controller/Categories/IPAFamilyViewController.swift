@@ -27,8 +27,7 @@ class IPAFamilyViewController : FamilyViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0  {
             super.tableView(tableView, didSelectRowAt: indexPath)
-        }else
-        {
+        }else{
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["line"] as! [Any]
             let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
@@ -50,7 +49,7 @@ class IPAFamilyViewController : FamilyViewController {
             delegate?.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
             
         }
-    }
+     }
     
     }
     

@@ -13,7 +13,7 @@ enum IPACustomBarNotification : String {
     case ShowBar = "kIPACustomBarShowBarNotification"
 }*/
 
-class IPACustomBarViewController :  CustomBarViewController {
+class IPACustomBarViewController :  CustomBarViewController, IPASearchTiresIniControllerDelegate {
     @IBOutlet var logoImageView: UIImageView!
     
     var vcWishlist : IPAWishlistViewController!
@@ -647,6 +647,20 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.parentNavigationController = controllernav
         controllernav?.pushViewController(controller, animated: true)
         
+    }
+    
+    override  func showTiresSearch() {
+        
+//        let controller = IPASearchTiresIniViewController()
+//        controller.delegate = self
+//        present(controller, animated: true, completion: nil)
+    }
+    
+    //MARK: IPASearchTiresIniControllerDelegate
+    func searchTires(family:String, line:String, idDepartment : String, name: String, medida : String){
+//        delegate?.filterMedida=true
+//        delegate?.medidaToSearch=medida
+//        delegate?.didSelectLine(idDepartment, family: family, line: line, name: name)
     }
 
     func showHomeSelected(){

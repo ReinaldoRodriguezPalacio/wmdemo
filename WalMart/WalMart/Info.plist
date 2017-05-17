@@ -1296,6 +1296,8 @@
 	<false/>
 	<key>showCamFind</key>
 	<true/>
+	<key>showTiresSearchButton</key>
+	<true/>
 	<key>useSignalsServices</key>
 	<true/>
 </dict>

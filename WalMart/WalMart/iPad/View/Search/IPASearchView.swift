@@ -24,7 +24,12 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     var camLabel: UILabel?
     var scanButton: UIButton?
     var scanLabel: UILabel?
-    var camfine: Bool = false 
+    var tiresButton: UIButton?
+    var tiresBarView: UIView?
+    var tireIcon: UIImageView?
+    var tiresLabel: UILabel?
+    var camfine: Bool = false
+    var tiresSearch: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -68,6 +73,32 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         
         viewContent.addSubview(field)
         field.becomeFirstResponder()
+        
+        self.tiresBarView = UIView()
+        self.tiresBarView?.backgroundColor = WMColor.light_blue
+        self.tiresBarView?.isHidden = true
+        self.addSubview(self.tiresBarView!)
+        
+        self.tiresButton = UIButton(type: .custom)
+        self.tiresButton!.setTitle(NSLocalizedString("home_help.search",comment: ""), for: .normal)
+        self.tiresButton!.layer.cornerRadius = 11
+        self.tiresButton!.setTitleColor(UIColor.white, for: .normal)
+        self.tiresButton!.backgroundColor = WMColor.green
+        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.tiresButton!.addTarget(self, action: #selector(SearchViewController.showTiresSearch), for: UIControlEvents.touchUpInside)
+        self.tiresBarView!.addSubview(self.tiresButton!)
+        
+        self.tiresLabel = UILabel()
+        self.tiresLabel!.textColor = UIColor.white
+        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.tiresLabel!.numberOfLines = 2
+        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí"
+        self.tiresBarView!.addSubview(self.tiresLabel!)
+        
+        self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
+        self.tiresBarView!.addSubview(self.tireIcon!)
+        
+        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
     }
     
     override func layoutSubviews() {
@@ -86,6 +117,11 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             self.scanButton!.frame = CGRect(x: (self.frame.width + 64) / 2, y: 110.0, width: 64, height: 64)
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.maxY + 16, width: 120, height: 34)
         }
+        
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.frame.height -  46, width: self.frame.width, height: 46)
+        self.tiresButton!.frame = CGRect(x: self.frame.width - 71, y: 12, width: 55, height: 22)
+        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.frame.width - 123, height: 46)
+        self.tireIcon!.frame = CGRect(x: 16, y: 11, width:24, height: 24)
     }
     
     func setPopOver() {
@@ -482,5 +518,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             return false
         }
         return true
+    }
+    
+    func showTiresSearch() {
+        delegate?.showTiresSearch()
     }
 }
