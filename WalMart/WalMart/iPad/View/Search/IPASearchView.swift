@@ -97,7 +97,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
         self.tiresBarView!.addSubview(self.tireIcon!)
         
-        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
+        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButtonIpad") as! Bool
         self.tiresBarView?.isHidden = !self.tiresSearch
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
