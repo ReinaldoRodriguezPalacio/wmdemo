@@ -66,11 +66,16 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let itemUPC = itemsUPC[indexPath.row] 
         let upc = itemUPC["upc"] as! String
         var shoppingCartItems : [Any]! = []
-        UserCurrentSession.sharedInstance.nameListToTag = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
+        var listNameFromBussines = ""
+        UserCurrentSession.sharedInstance.nameListToTag = ""//NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")Peticion- Abaco
+      
+      
         if esGR {
              shoppingCartItems  = UserCurrentSession.sharedInstance.itemsGR!["items"] as? [Any]
+             listNameFromBussines = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
         }else{
              shoppingCartItems  = UserCurrentSession.sharedInstance.itemsMG!["items"] as? [Any]
+             listNameFromBussines = NSLocalizedString("shoppingcart.beforeleave.mg", comment: "")
         }
         
         for itemInCart in shoppingCartItems! {
@@ -129,6 +134,9 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             
             //EVENT
             ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_BEFORE_TO_GO.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(desc) - \(upc)")
+          
+            BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": listNameFromBussines],"products":[["name": desc,"id": upc,"price": price,"brand": "", "category": "","variant": "pieza","dimension21":"","dimension22": "","dimension23": "","dimension24": "false","dimension25": ""]]]]])
+          
             let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1", comments: "", onHandInventory: numOnHandInventory, type: type, pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
             NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
         }else {

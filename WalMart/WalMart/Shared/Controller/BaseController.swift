@@ -300,10 +300,10 @@ extension BaseController {
             let dimensions21 = "" // sku bundle
             let dimensions22 = subCategory // sub categoría del producto
             let dimensions23 = subSubCategory // sub sub categoría del producto
-            let dimensions24 = "" // big item o no big item
+            let dimensions24 = "false" // big item o no big item
             let dimensions25 = "" // super, exclusivo o compartido
             
-            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
+            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25,"metric1":""]
             impressions.append(impression)
         }
         
@@ -345,10 +345,10 @@ extension BaseController {
             let dimensions21 = "" // sku bundle
             let dimensions22 = subCategory // sub categoría del producto
             let dimensions23 = subSubCategory // sub sub categoría del producto
-            let dimensions24 = "" // big item o no big item
+            let dimensions24 = "false" // big item o no big item
             let dimensions25 = "" // super, exclusivo o compartido
             
-            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25]
+            let impression = ["name": name, "id": id, "price": "\(price)", "brand": brand, "category": category, "variant": variant, "list": list, "position": position, "dimesions21": dimensions21, "dimesions22": dimensions22, "dimesions23": dimensions23, "dimesions24": dimensions24, "dimesions25": dimensions25,"metric1":""]
             impressions.append(impression)
         }
         

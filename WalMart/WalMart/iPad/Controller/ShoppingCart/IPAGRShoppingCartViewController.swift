@@ -294,7 +294,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     let listName = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
                     let subCategory = ""
                     let subSubCategory = ""
-                    BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory:NSLocalizedString("shoppingcart.beforeleave.gr", comment: ""), subCategory: subCategory, subSubCategory: subSubCategory)
+                    BaseController.sendAnalyticsTagImpressions(self.itemsUPC, positionArray: positionArray, listName: listName, mainCategory:"", subCategory: subCategory, subSubCategory: subSubCategory)
                     self.beforeShopTag = true
                   }
                   
