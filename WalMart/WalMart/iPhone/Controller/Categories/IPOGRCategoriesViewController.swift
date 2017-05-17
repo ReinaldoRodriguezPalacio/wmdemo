@@ -52,7 +52,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
         self.categoriesTable.register(IPOGRDepartmentSpecialTableViewCell.self, forCellReuseIdentifier: "cellspecials")
         self.categoriesTable.separatorStyle = .none
-
         
         let buttonCollapse = UIButton(frame: CGRect(x: self.view.frame.width - 69, y: 10, width: 72, height: 24))
         let imageCheckBlue = UIImage(named:"check_blue")
