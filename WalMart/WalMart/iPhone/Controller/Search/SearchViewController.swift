@@ -173,7 +173,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.tiresLabel!.textColor = UIColor.white
         self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.tiresLabel!.numberOfLines = 2
-        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí"
+        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí."
         self.tiresBarView!.addSubview(self.tiresLabel!)
         
         self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))

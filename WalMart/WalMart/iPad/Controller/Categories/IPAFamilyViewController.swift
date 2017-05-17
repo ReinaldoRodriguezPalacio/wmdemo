@@ -58,7 +58,6 @@ class IPAFamilyViewController : FamilyViewController {
         let controller = IPASearchTiresIniViewController()
         controller.delegate=self
         present(controller, animated: true, completion: nil)
-        
     }
 
     func searchTires(family:String, line:String, idDepartment : String, name: String, medida : String){

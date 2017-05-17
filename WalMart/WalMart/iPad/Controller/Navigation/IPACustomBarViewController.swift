@@ -651,9 +651,14 @@ class IPACustomBarViewController :  CustomBarViewController, IPASearchTiresIniCo
     
     override  func showTiresSearch() {
         
-//        let controller = IPASearchTiresIniViewController()
-//        controller.delegate = self
-//        present(controller, animated: true, completion: nil)
+        let controller = IPASearchTiresIniViewController()
+        controller.delegate = nil
+        
+        let controllernav = self.currentController as? UINavigationController
+        controllernav?.pushViewController(controller, animated: true)
+        
+        self.btnSearch!.isSelected = true
+        self.closeSearch(false, sender: nil)
     }
     
     //MARK: IPASearchTiresIniControllerDelegate

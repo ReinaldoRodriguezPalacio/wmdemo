@@ -75,30 +75,30 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         field.becomeFirstResponder()
         
         self.tiresBarView = UIView()
-        self.tiresBarView?.backgroundColor = WMColor.light_blue
-        self.tiresBarView?.isHidden = true
-        self.addSubview(self.tiresBarView!)
+        self.tiresBarView?.backgroundColor = WMColor.dark_blue
+        self.tiresBarView?.clipsToBounds = true
         
         self.tiresButton = UIButton(type: .custom)
         self.tiresButton!.setTitle(NSLocalizedString("home_help.search",comment: ""), for: .normal)
         self.tiresButton!.layer.cornerRadius = 11
         self.tiresButton!.setTitleColor(UIColor.white, for: .normal)
         self.tiresButton!.backgroundColor = WMColor.green
-        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.tiresButton!.addTarget(self, action: #selector(SearchViewController.showTiresSearch), for: UIControlEvents.touchUpInside)
         self.tiresBarView!.addSubview(self.tiresButton!)
         
         self.tiresLabel = UILabel()
         self.tiresLabel!.textColor = UIColor.white
-        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.tiresLabel!.numberOfLines = 2
-        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí"
+        self.tiresLabel!.text = "Encuentra las llantas perfectas para tu automóvil aquí."
         self.tiresBarView!.addSubview(self.tiresLabel!)
         
         self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
         self.tiresBarView!.addSubview(self.tireIcon!)
         
         self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
+        self.tiresBarView?.isHidden = !self.tiresSearch
     }
     
     override func layoutSubviews() {
@@ -118,9 +118,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.maxY + 16, width: 120, height: 34)
         }
         
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.frame.height -  46, width: self.frame.width, height: 46)
-        self.tiresButton!.frame = CGRect(x: self.frame.width - 71, y: 12, width: 55, height: 22)
-        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.frame.width - 123, height: 46)
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
+        self.tiresButton!.frame = CGRect(x: self.tiresBarView!.frame.width - 71, y: 12, width: 55, height: 22)
+        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.tiresBarView!.frame.width - 123, height: 46)
         self.tireIcon!.frame = CGRect(x: 16, y: 11, width:24, height: 24)
     }
     
@@ -132,6 +132,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             searchctrl.modalPresentationStyle = .popover
             searchctrl.preferredContentSize = CGSize(width: 474, height: 500)
             searchctrl.table.alpha = 0
+            searchctrl.view.clipsToBounds = true
             searchctrl.afterselect = {() in
                 self.field.resignFirstResponder()
                 self.closePopOver()
@@ -172,6 +173,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             self.scanLabel!.textColor = UIColor.white
             self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
             searchctrl.view!.addSubview(self.scanLabel!)
+            
+            searchctrl.view!.addSubview(self.tiresBarView!)
         }
         
         if popover == nil {
@@ -522,5 +525,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     
     func showTiresSearch() {
         delegate?.showTiresSearch()
+        self.closeSearch()
+        closePopOver()
     }
 }
