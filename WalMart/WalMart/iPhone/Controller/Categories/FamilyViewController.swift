@@ -17,7 +17,7 @@ enum CategoriesType {
 class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableViewDelegate {
     
     var selectedFamily : IndexPath! = nil
-    
+    var isSchool = false
     var familyTable: UITableView!
     var departmentId : String = ""
     var families : [[String:Any]] = []
@@ -45,7 +45,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bounds = self.view.bounds
-        familyTable.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width, height: bounds.height - (IS_IPAD ? 0 : 44 ))
+        familyTable.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.width, height: bounds.height)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int{
