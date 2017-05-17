@@ -267,6 +267,7 @@ class GRUserListService : GRBaseService {
                                         let parentList = self.findListById(listId)
                                         if parentList == nil {
                                             print("User list not founded \(listId)")
+                                            self.updateLists(listIds: newListIds)
                                             return
                                         }
                                         
