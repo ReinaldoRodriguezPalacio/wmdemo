@@ -653,12 +653,13 @@ class IPACustomBarViewController :  CustomBarViewController, IPASearchTiresIniCo
         
         let controller = IPASearchTiresIniViewController()
         controller.delegate = nil
-        
-        let controllernav = self.currentController as? UINavigationController
-        controllernav?.pushViewController(controller, animated: true)
-        
+        controller.modalPresentationStyle = .overCurrentContext
+    
         self.btnSearch!.isSelected = true
         self.closeSearch(false, sender: nil)
+        
+        let controllernav = self.currentController as? UINavigationController
+        controllernav?.present(controller, animated: false, completion: nil)
     }
     
     //MARK: IPASearchTiresIniControllerDelegate

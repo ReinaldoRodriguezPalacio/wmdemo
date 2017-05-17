@@ -381,7 +381,6 @@ class IPASearchTiresIniViewController :  BaseController, UIDynamicAnimatorDelega
     func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
         
         self.view.isUserInteractionEnabled = true
-        
         self.finishAnimation?()
         
     }
@@ -758,6 +757,7 @@ class IPASearchTiresIniViewController :  BaseController, UIDynamicAnimatorDelega
         }
         )
     }
+    
     func getVersionsArray(arrayVersions:[String]){
         
         if arrayVersions.count > 0 {
