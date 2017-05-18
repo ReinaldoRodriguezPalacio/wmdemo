@@ -160,7 +160,7 @@ class ShoppingCartProductsService : BaseService {
             }
             
         } else {
-            errorBlock!(NSError(domain: "", code: -1, userInfo: nil))
+            errorBlock!(NSError(domain: "", code: -888, userInfo: nil))
         }
         
     }

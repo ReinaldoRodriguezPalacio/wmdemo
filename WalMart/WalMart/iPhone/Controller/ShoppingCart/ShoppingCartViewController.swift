@@ -360,8 +360,14 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
         
         if self.itemsInShoppingCart.count == 0 {
-            let _ = self.navigationController?.popToRootViewController(animated: true)
+            
+            delay(1.0, completion: {
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            })
+            
+            return
         }
+
         
         if self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance.itemsMG!["subtotal"] as! NSNumber
