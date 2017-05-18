@@ -152,7 +152,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         if length == 2 && IPASearchView.validateRegEx(regString,toValidate:trimmedString){
           let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
             UIImage(named:"noAvaliable"))
-          alert!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
+          alert!.setMessage(NSLocalizedString("list.new.validation.name.tiny", comment:""))
           alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
           return false
         }
