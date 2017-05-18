@@ -341,7 +341,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
-            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
+            //CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
                 let firstString = first as! List
                 let secondString = second as! List
@@ -1786,9 +1786,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         defaultlist.callService({ (result:[String:Any]) -> Void in
             print("Call DefaultListService sucess")
             self.updateNumberOfDefaultList()
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
+            self.removeLoadingView()
         }, errorBlock: { (error:NSError) -> Void in
             print("Call DefaultListService error \(error)")
             self.updateNumberOfDefaultList()
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
+            self.removeLoadingView()
         })
     }
     
