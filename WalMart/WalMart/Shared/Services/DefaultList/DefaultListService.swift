@@ -40,7 +40,14 @@ class DefaultListService : GRBaseService {
         let values = self.getDataFromFile(self.fileName as NSString)
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [Any]
+        }else{
+          self.callService({ (responses:[String : Any]) in
+            response = self.getDefaultContent()
+          }, errorBlock: { (error:NSError) in
+            
+          })
         }
+      
         return response
     }
 
