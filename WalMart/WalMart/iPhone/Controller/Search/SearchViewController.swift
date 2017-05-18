@@ -248,7 +248,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }
         
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 46), width: self.view.frame.width, height: 46)
    }
     
     
@@ -796,9 +796,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.keyboardHeight = keyboardSize.height
-            self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
+            self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 46), width: self.view.frame.width, height: 46)
             if self.tiresBarView!.tiresSearch {
                 self.tiresBarView!.isHidden = false
             }
