@@ -237,6 +237,7 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
         }
         
         self.loadCrossSell()
+        self.removeLoadingView()
         
     }
     
@@ -257,10 +258,7 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
             self.itemsInShoppingCart.remove(at: indexPath.row)
             self.viewShoppingCart.reloadData()
             self.updateTotalItemsRow()
-            
-            if self.itemsInShoppingCart.count == 0 {
-                self.showLoadingView()
-            }
+            self.showLoadingView()
             
         }, errorBlock: { (error:NSError) -> Void in
             print("delete pressed Errro \(error)")
