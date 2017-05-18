@@ -323,7 +323,7 @@ class IPAUserListViewController: UserListViewController {
             return
         }
         else {
-            
+            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in

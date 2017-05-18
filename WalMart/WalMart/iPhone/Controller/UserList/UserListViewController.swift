@@ -161,6 +161,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if stateEdit {
             self.cancelNewList()
         }
+      
+      if self.searchField!.text != "" {
+        let searchText = self.searchField!.text
+        self.itemsUserList = self.searchForItems(searchText!)
+        self.tableuserlist!.reloadData()
+        self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
+      }
         
     }
     
