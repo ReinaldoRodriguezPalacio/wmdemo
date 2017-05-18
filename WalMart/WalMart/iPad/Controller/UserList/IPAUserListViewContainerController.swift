@@ -28,6 +28,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
         self.separatorView = UIView()
         self.separatorView!.backgroundColor = WMColor.light_light_gray
+        self.separatorView!.layer.zPosition = 100
         self.view.addSubview(self.separatorView!)
         
         self.backgroundView = UIView()
@@ -100,7 +101,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
         self.addChildViewController(navController)
         self.view.addSubview(navController.view)
-        self.view.bringSubview(toFront: self.separatorView!)
+        //self.view.bringSubview(toFront: self.separatorView!)
         navController.didMove(toParentViewController: self)
         self.currentListId = nil
         self.currentEntity = nil

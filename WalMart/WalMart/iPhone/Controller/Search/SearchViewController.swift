@@ -806,7 +806,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - 92, width: self.view.frame.width, height: 46)
+        self.keyboardHeight = 46.0
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 46), width: self.view.frame.width, height: 46)
         if self.tiresBarView!.tiresSearch {
             self.tiresBarView!.isHidden = false
         }

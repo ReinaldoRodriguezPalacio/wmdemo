@@ -323,7 +323,7 @@ class IPAUserListViewController: UserListViewController {
             return
         }
         else {
-            CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
+            //CustomBarViewController.addOrUpdateParam("listUpdated", value: "true",forUser: false)
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
             self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
@@ -504,6 +504,14 @@ class IPAUserListViewController: UserListViewController {
         default:
             print("other pressed")
         }
+    }
+    
+    override func updateNumberOfDefaultList() {
+        let defaultListSvc = DefaultListService()
+        numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        self.tableuserlist?.reloadData()
+        selectedItem = IndexPath(row: 0, section: 0)
+        self.selectRowIfNeeded()
     }
     
 }
