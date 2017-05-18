@@ -512,7 +512,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             keyword = ""
         }
         
-        self.searchProductKeywords(keyword)
+        //self.searchProductKeywords(keyword) //por peticionwm
         self.showClearButtonIfNeeded(forTextValue: keyword)
             
         return true

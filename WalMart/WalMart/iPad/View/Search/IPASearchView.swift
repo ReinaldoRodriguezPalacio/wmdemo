@@ -233,7 +233,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         let strNSString : NSString = textField.text! as NSString
         let keyword = strNSString.replacingCharacters(in: range, with: string)
         if keyword.length() >= 2 {
-            setPopOver()
+            //setPopOver() //por peticionwm
         }
         if !camfine{
         if keyword.length() > 51{
@@ -241,7 +241,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             }
         }
         self.field!.text = keyword;
-        searchctrl.searchProductKeywords(keyword)
+        self.closePopOver()
+        //searchctrl.searchProductKeywords(keyword) //por peticionwm
         self.showClearButtonIfNeeded(forTextValue: keyword)
         return false
     }
@@ -475,7 +476,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             if popover != nil{
                 self.closePopOver()
             }
-            return true;
+            return true
         }
         return true
         
