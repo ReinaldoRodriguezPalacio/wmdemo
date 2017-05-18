@@ -24,12 +24,8 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     var camLabel: UILabel?
     var scanButton: UIButton?
     var scanLabel: UILabel?
-    var tiresButton: UIButton?
-    var tiresBarView: UIView?
-    var tireIcon: UIImageView?
-    var tiresLabel: UILabel?
+    var tiresBarView: SearchTiresBarView?
     var camfine: Bool = false
-    var tiresSearch: Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -74,31 +70,10 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         viewContent.addSubview(field)
         field.becomeFirstResponder()
         
-        self.tiresBarView = UIView()
-        self.tiresBarView?.backgroundColor = WMColor.dark_blue
-        self.tiresBarView?.clipsToBounds = true
+        self.tiresBarView = SearchTiresBarView()
+        self.tiresBarView?.delegate = self
+        self.tiresBarView?.isHidden = !self.tiresBarView!.tiresSearch
         
-        self.tiresButton = UIButton(type: .custom)
-        self.tiresButton!.setTitle(NSLocalizedString("home_help.search",comment: ""), for: .normal)
-        self.tiresButton!.layer.cornerRadius = 11
-        self.tiresButton!.setTitleColor(UIColor.white, for: .normal)
-        self.tiresButton!.backgroundColor = WMColor.green
-        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.tiresButton!.addTarget(self, action: #selector(SearchViewController.showTiresSearch), for: UIControlEvents.touchUpInside)
-        self.tiresBarView!.addSubview(self.tiresButton!)
-        
-        self.tiresLabel = UILabel()
-        self.tiresLabel!.textColor = UIColor.white
-        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.tiresLabel!.numberOfLines = 2
-        self.tiresLabel!.text = "Encuentra las llantas perfectas para tu automóvil aquí."
-        self.tiresBarView!.addSubview(self.tiresLabel!)
-        
-        self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
-        self.tiresBarView!.addSubview(self.tireIcon!)
-        
-        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButtonIpad") as! Bool
-        self.tiresBarView?.isHidden = !self.tiresSearch
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -126,9 +101,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         }
         
         self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
-        self.tiresButton!.frame = CGRect(x: self.tiresBarView!.frame.width - 71, y: 12, width: 55, height: 22)
-        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.tiresBarView!.frame.width - 123, height: 46)
-        self.tireIcon!.frame = CGRect(x: 16, y: 11, width:24, height: 24)
     }
     
     func setPopOver() {
@@ -530,23 +502,25 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return true
     }
     
-    func showTiresSearch() {
-        delegate?.showTiresSearch()
-        self.closeSearch()
-        closePopOver()
-    }
-    
     func keyboardWillShow(notification: NSNotification) {
         self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
-        if self.tiresSearch {
+        if self.tiresBarView!.tiresSearch {
             self.tiresBarView!.isHidden = false
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         self.tiresBarView!.frame = CGRect(x: 0, y: 454, width: 474, height: 46)
-        if self.tiresSearch {
+        if self.tiresBarView!.tiresSearch {
             self.tiresBarView!.isHidden = false
         }
+    }
+}
+
+extension IPASearchView: SearchTiresBarViewDelegate {
+    func showTiresSearch() {
+        delegate?.showTiresSearch()
+        self.closeSearch()
+        closePopOver()
     }
 }

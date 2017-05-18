@@ -53,15 +53,13 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     weak var delegate:SearchViewControllerDelegate?
     var scanButton: UIButton?
     var camButton: UIButton?
-    var tiresButton: UIButton?
     var scanLabel: UILabel?
     var camLabel: UILabel?
-    var tiresLabel: UILabel?
     var cancelButton: UIButton?
     var clearButton: UIButton?
     var viewTapClose: UIView?
     var viewBackground: UIView?
-    var tiresBarView: UIView?
+    var tiresBarView: SearchTiresBarView?
     var upsSearch: Bool? = false
     var labelHelpScan : UILabel?
     var headerTable: UIView?
@@ -70,8 +68,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var all: Bool = false
     var cancelSearch: Bool = true
     var dataBase : FMDatabaseQueue! = WalMartSqliteDB.instance.dataBase
-    var tiresSearch: Bool = false
-    var tireIcon: UIImageView?
+    var keyboardHeight: CGFloat = 0.0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_OPTIONSEARCHPRODUCT.rawValue
@@ -154,32 +151,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.camButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), for: UIControlEvents.touchUpInside)
         self.view!.addSubview(self.camButton!)
         
-        
-        self.tiresBarView = UIView()
-        self.tiresBarView?.backgroundColor = WMColor.light_blue
+        self.tiresBarView = SearchTiresBarView()
         self.tiresBarView?.isHidden = true
+        self.tiresBarView?.delegate = self
         self.view!.addSubview(self.tiresBarView!)
-            
-        self.tiresButton = UIButton(type: .custom)
-        self.tiresButton!.setTitle(NSLocalizedString("home_help.search",comment: ""), for: .normal)
-        self.tiresButton!.layer.cornerRadius = 11
-        self.tiresButton!.setTitleColor(UIColor.white, for: .normal)
-        self.tiresButton!.backgroundColor = WMColor.green
-        self.tiresButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.tiresButton!.addTarget(self, action: #selector(SearchViewController.showTiresSearch), for: UIControlEvents.touchUpInside)
-        self.tiresBarView!.addSubview(self.tiresButton!)
-        
-        self.tiresLabel = UILabel()
-        self.tiresLabel!.textColor = UIColor.white
-        self.tiresLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.tiresLabel!.numberOfLines = 2
-        self.tiresLabel!.text = "Encuentra las llantas perfectas\npara tu automóvil aquí."
-        self.tiresBarView!.addSubview(self.tiresLabel!)
-        
-        self.tireIcon = UIImageView(image:UIImage(named: "tire_icon"))
-        self.tiresBarView!.addSubview(self.tireIcon!)
-        
-        self.tiresSearch = Bundle.main.object(forInfoDictionaryKey: "showTiresSearchButton") as! Bool
         
         self.camLabel = UILabel()
         self.camLabel!.textAlignment = .center
@@ -216,6 +191,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.clearSearch()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     deinit {
@@ -272,10 +248,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }
         
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  46, width: self.view.frame.width, height: 46)
-        self.tiresButton!.frame = CGRect(x: self.view.frame.width - 71, y: 12, width: 55, height: 22)
-        self.tiresLabel!.frame = CGRect(x: 52, y: 0, width:self.view.frame.width - 123, height: 46)
-        self.tireIcon!.frame = CGRect(x: 16, y: 11, width:24, height: 24)
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
    }
     
     
@@ -521,7 +494,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.scanButton!.alpha = 1;
                 self.camLabel!.alpha = 1;
                 self.scanLabel!.alpha = 1;
-                self.tiresBarView!.alpha = self.tiresSearch ? 1.0 : 0.0
+                self.tiresBarView!.alpha = self.tiresBarView!.tiresSearch ? 1.0 : 0.0
             })
         }
         
@@ -676,7 +649,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.camLabel!.alpha = 1
                 self.scanLabel!.alpha = 1
                 self.viewBackground!.alpha = 1
-                self.tiresBarView!.alpha = self.tiresSearch ? 1.0 : 0.0
+                self.tiresBarView!.alpha = self.tiresBarView!.tiresSearch ? 1.0 : 0.0
             })
         }
     }
@@ -824,16 +797,24 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight = keyboardSize.height
+            self.keyboardHeight = keyboardSize.height
             self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
-            if self.tiresSearch {
+            if self.tiresBarView!.tiresSearch {
                 self.tiresBarView!.isHidden = false
             }
         }
     }
     
+    func keyboardWillHide(notification: NSNotification) {
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - 92, width: self.view.frame.width, height: 46)
+        if self.tiresBarView!.tiresSearch {
+            self.tiresBarView!.isHidden = false
+        }
+    }
+}
+
+extension SearchViewController: SearchTiresBarViewDelegate {
     func showTiresSearch() {
         delegate?.showTiresSearch()
     }
-    
 }
