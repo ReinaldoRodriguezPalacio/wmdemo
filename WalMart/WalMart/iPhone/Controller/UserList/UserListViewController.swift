@@ -925,9 +925,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     //No hay que generar acciones adicionales para este caso
                     //                    self.reloadList(success: nil, failure: nil)
                     self.reloadWithoutTableReload(success: nil, failure: nil)
-                    self.tableuserlist!.beginUpdates()
-                    self.tableuserlist!.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
-                    self.tableuserlist!.endUpdates()
+                    //self.tableuserlist!.beginUpdates()
+                    //self.tableuserlist!.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+                    //self.tableuserlist!.endUpdates()
                     
                     //EXTRA SI NO HAY MAS LISTAS
                     if self.itemsUserList!.count == 0 && self.isEditingUserList {
