@@ -193,11 +193,12 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
         }
         
         if self.itemsInShoppingCart.count == 0 {
-            let _ = self.navigationController?.popToRootViewController(animated: true)
-        }
- 
-        if self.itemsInShoppingCart.count == 0 {
-            let _ = self.navigationController?.popToRootViewController(animated: true)
+            
+            delay(1.0, completion: {
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            })
+            
+            return
         }
         
         if self.itemsInShoppingCart.count > 0 {
@@ -253,16 +254,12 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
             
-            if self.itemsInShoppingCart.count > indexPath.row {
-                self.itemsInShoppingCart.remove(at: indexPath.row)
-                
-                if self.itemsInShoppingCart.count > 0 {
-                    self.viewShoppingCart.reloadData()
-                    self.updateTotalItemsRow()
-                } else {
-                    self.onClose?(true)
-                    let _ = self.navigationController?.popViewController(animated: true)
-                }
+            self.itemsInShoppingCart.remove(at: indexPath.row)
+            self.viewShoppingCart.reloadData()
+            self.updateTotalItemsRow()
+            
+            if self.itemsInShoppingCart.count == 0 {
+                self.showLoadingView()
             }
             
         }, errorBlock: { (error:NSError) -> Void in
