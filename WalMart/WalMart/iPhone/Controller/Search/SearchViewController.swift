@@ -68,6 +68,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var all: Bool = false
     var cancelSearch: Bool = true
     var dataBase : FMDatabaseQueue! = WalMartSqliteDB.instance.dataBase
+    var keyboardHeight: CGFloat = 0.0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_OPTIONSEARCHPRODUCT.rawValue
@@ -190,6 +191,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.clearSearch()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     deinit {
@@ -246,7 +248,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
         }
         
-        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  46, width: self.view.frame.width, height: 46)
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
    }
     
     
@@ -795,11 +797,18 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight = keyboardSize.height
+            self.keyboardHeight = keyboardSize.height
             self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height -  (keyboardHeight + 46), width: self.view.frame.width, height: 46)
             if self.tiresBarView!.tiresSearch {
                 self.tiresBarView!.isHidden = false
             }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - 92, width: self.view.frame.width, height: 46)
+        if self.tiresBarView!.tiresSearch {
+            self.tiresBarView!.isHidden = false
         }
     }
 }
