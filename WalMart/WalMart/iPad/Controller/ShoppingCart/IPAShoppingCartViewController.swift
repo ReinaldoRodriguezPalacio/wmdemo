@@ -103,7 +103,7 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
             self.viewShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: 434)
             self.beforeLeave.frame = CGRect(x: 0,y: self.viewShoppingCart.frame.maxY,width: self.viewContent.frame.width - 341, height: viewContent.frame.height - self.viewShoppingCart.frame.maxY)
             self.beforeLeave.labelTitle!.alpha = 1.0
-        }else {
+        } else {
             self.viewShoppingCart.frame = CGRect(x: 0, y: self.viewHeader.frame.maxY , width: self.viewContent.frame.width - 341, height: self.view.frame.height - 44)
             self.beforeLeave.frame = CGRect(x: 0,y: 0,width: 0, height: 0)
             self.beforeLeave.labelTitle!.alpha = 0.0
@@ -381,6 +381,7 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
                             if self.itemsUPC.count > 0 {
                                 self.beforeLeave.itemsUPC = self.itemsUPC
                                 self.beforeLeave.collection.reloadData()
+                                self.view.setNeedsLayout()
                             }
                         }
                         
@@ -404,12 +405,9 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
                         
                     }
                     
-                    self.removeLoadingView()
-                    
                 }, errorBlock: { (error: NSError) -> Void in
                     print("Termina sevicio app")
                     self.crossSellInExecution = false
-                    self.removeLoadingView()
                 })
                 
             }
