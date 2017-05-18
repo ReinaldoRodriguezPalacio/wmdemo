@@ -521,6 +521,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.scanButton!.alpha = 1;
                 self.camLabel!.alpha = 1;
                 self.scanLabel!.alpha = 1;
+                self.tiresBarView!.alpha = self.tiresSearch ? 1.0 : 0.0
             })
         }
         
@@ -665,6 +666,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.camLabel!.alpha = 0
                 self.scanLabel!.alpha = 0
                 self.viewBackground!.alpha = 0
+                self.tiresBarView!.alpha =  0.0
             })
         } else {
             UIView.animate(withDuration: 0.5, animations: {
@@ -674,6 +676,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.camLabel!.alpha = 1
                 self.scanLabel!.alpha = 1
                 self.viewBackground!.alpha = 1
+                self.tiresBarView!.alpha = self.tiresSearch ? 1.0 : 0.0
             })
         }
     }
