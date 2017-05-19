@@ -92,14 +92,22 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
        // if self.detailController is UINavigationController {
             //return
        // }
-        
+     
         let defaultListController = IPADefaultListViewController()
         defaultListController.delegate = self
         let navController = UINavigationController(rootViewController: defaultListController)
+        navController.view.tag = 101
         navController.isNavigationBarHidden = true
         self.listController?.selectedItem = IndexPath(row: 0, section: 0)
-        
+      
+        for view in self.view.subviews {
+          if view.tag == 101 {
+            view.removeFromSuperview()
+          }
+        }
+      
         self.addChildViewController(navController)
+      
         self.view.addSubview(navController.view)
         //self.view.bringSubview(toFront: self.separatorView!)
         navController.didMove(toParentViewController: self)

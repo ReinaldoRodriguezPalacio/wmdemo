@@ -9,13 +9,17 @@
 import Foundation
 
 class IPADefaultListViewController : DefaultListViewController {
-    
-    
+  
+    var empty : UIImageView!
+    var isEmpty =  false
+  
     weak var delegate : IPADefaultListDetailViewControllerDelegate?
     
     override func viewDidLoad() {
         self.hiddenBack = true
+        self.empty  = UIImageView(image: UIImage(named:"empty_recent"))
         super.viewDidLoad()
+    
         
     }
     
@@ -36,12 +40,29 @@ class IPADefaultListViewController : DefaultListViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.viewLoad?.center =  CGPoint(x: self.view.center.x, y: self.view.center.y + self.header!.frame.maxY)
-        
+      self.viewLoad?.center =  CGPoint(x: self.view.center.x, y: self.view.center.y + self.header!.frame.maxY)
+      if isEmpty {
+        self.empty.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: self.view.frame.maxX, height: self.view.frame.height - (self.header!.frame.height))
+      }
     }
+  
+  override func showEmptyView(){
+    self.isEmpty =  true
+    let bounds = self.view.bounds
+    self.empty.frame =  CGRect(x: 0, y: self.header!.frame.maxY , width: bounds.maxX, height: bounds.height - (self.header!.frame.height ))
+
+    self.view.addSubview(self.empty!)
     
-    
-    
-    
-    
+  }
+  
+  override func removeEmptyView(){
+    self.isEmpty =  false
+    self.empty?.removeFromSuperview()
+    self.empty =  nil
+  }
+  
+  
+  
+  
+  
 }

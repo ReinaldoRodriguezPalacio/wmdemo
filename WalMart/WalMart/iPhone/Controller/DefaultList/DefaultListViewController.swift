@@ -50,6 +50,11 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.showLoadingView()
         let defaultListService = DefaultListService()
         self.itemsLists = defaultListService.getDefaultContent()
+        if self.itemsLists.count == 0 {
+          self.showEmptyView()
+        }else{
+          self.removeEmptyView()
+        }
         self.tableView?.reloadData()
         self.removeLoadingView()
     }
@@ -116,5 +121,11 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 108
     }
+  
+    func showEmptyView(){
+    }
+    func removeEmptyView(){
+    }
+  
     
 }
