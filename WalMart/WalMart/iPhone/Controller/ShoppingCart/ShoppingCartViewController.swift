@@ -1626,7 +1626,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
             
             visibleLabel = true
             
-            imageView =  UIView(frame:CGRect(x: (self.view.frame.width/2) - 150 ,  y: viewFooter.frame.minY - 90, width: 190, height: 38))
+            imageView =  UIView(frame:CGRect(x: (self.view.frame.width/2) - 180 ,  y: viewFooter.frame.minY - 50, width: 190, height: 38))
             viewContents = UIView(frame: imageView!.bounds)
             viewContents!.layer.cornerRadius = 5.0
             viewContents!.backgroundColor = WMColor.light_blue
