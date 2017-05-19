@@ -370,6 +370,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.checkEditBtn()
             success?()
         }
+        self.updateNumberOfDefaultList()
     }
     
     /**
@@ -1134,7 +1135,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
     }
     
-
     
     func removeWishlistHelp(_ recognizer:UITapGestureRecognizer){
         UIView.animate(withDuration: 0.5,
