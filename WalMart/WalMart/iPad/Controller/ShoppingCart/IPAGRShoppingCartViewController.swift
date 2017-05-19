@@ -189,7 +189,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance.estimateTotalGR())")
                  }
                 } else {
-                    self.navigationController!.popViewController(animated: true)
+                    self.navigationController?.popViewController(animated: true)
                     self.onClose?(true)
                     
                 }
