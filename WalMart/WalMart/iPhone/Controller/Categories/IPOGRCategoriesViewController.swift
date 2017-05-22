@@ -202,7 +202,20 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if landingItem != nil && indexPath.section == 0 {
-            return  IS_IPHONE_6P ? 240 : 215
+          
+          var headerHeight: CGFloat = 0.0
+          
+          if IS_IPHONE_4_OR_LESS || IS_IPHONE_5 {
+            headerHeight = 217
+          } else if IS_IPHONE_6 {
+            headerHeight = 254
+          } else if IS_IPHONE_6P {
+            headerHeight = 280
+          } else {
+            headerHeight = 217
+          }
+          
+          return headerHeight
         }
         
         if indexPath.row % 2 == 0 || collapsed {
