@@ -109,6 +109,9 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
     var detailOf: String! = ""
     var baseUomcd : String = ""
     
+    var hasProvider: Bool = false
+    var providerInfo: [String:Any]? = nil
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
     }
@@ -135,8 +138,8 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         detailCollectionView.register(ProductDetailCrossSellCollectionViewCell.self, forCellWithReuseIdentifier: "crossSellCell")
         
         if let layout = detailCollectionView.collectionViewLayout as? CSStickyHeaderFlowLayout {
-            layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: 314)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: self.view.frame.size.width, height: 314)
+            layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: 364)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: self.view.frame.size.width, height: 364)
             layout.itemSize = CGSize(width: self.view.frame.size.width, height: layout.itemSize.height)
             layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
             layout.disableStickyHeaders = false
@@ -438,6 +441,10 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
                     }
                    
                 }
+                
+                // TODO: Validar con servicio
+                self.hasProvider = true
+                self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
                 //--Tag manager 
                  let linea = result["linea"] as? String ?? ""
                  let isBundle = result["isBundle"] as? Bool ?? false
@@ -756,6 +763,8 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             view.colors = self.colorItems
             view.sizes = self.sizesItems
             view.colorsViewDelegate = self
+            view.hasProviders = self.hasProvider
+            view.providerInfo = self.providerInfo
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)

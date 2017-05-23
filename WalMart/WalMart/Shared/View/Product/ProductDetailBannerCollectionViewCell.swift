@@ -39,6 +39,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
     var sizesView: ProductDetailColorSizeView!
+    var providerView: ProductDetailProviderView!
     var items: [Any]! = []
     var colors: [Any]? = []
     var sizes: [Any]? = []
@@ -59,8 +60,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var imagePresale : UIImageView!
     //var imageLowStock : UIImageView!
     var lowStock : UILabel?
-    
     var imageIconView: UIImageView!
+    var hasProviders: Bool = false
+    var providerInfo: [String:Any]? = nil 
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -146,8 +148,11 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imageIconView = UIImageView()
         imageIconView.image = UIImage(named:"promocion_detail")
         imageIconView.frame =  CGRect(x: 100, y: 100, width: 70, height: 70)
-        
         self.addSubview(imageIconView)
+        
+        self.providerView = ProductDetailProviderView(frame: CGRect(x: 0, y: self.pointSection!.frame.maxY,  width: self.frame.width, height: 60))
+        self.providerView.alpha = 0.0
+        self.addSubview(providerView)
         
     }
     
@@ -287,18 +292,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         }
         
         self.buildColorsAndSizesView()
+        self.buildProviderView()
         
-        self.priceBefore.frame = CGRect(x: 0,  y: self.bounds.height - 54   , width: self.frame.width, height: 15.0)
-        self.price.frame = CGRect(x: 0, y: self.bounds.height - 39  , width: self.frame.width, height: 24.0)
-        self.saving.frame = CGRect(x: 0, y: self.bounds.height - 15  , width: self.frame.width, height: 15.0)
         self.lowStock?.frame = CGRect(x: 16, y: 8, width: self.frame.width - 32, height: 14.0)
-        
         self.imageIconView.frame =  CGRect(x: self.bounds.width - 86, y: self.bounds.height - 144 ,width: 70 ,height: 70)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.buildButtonSection()
         self.buildColorsAndSizesView()
+        self.buildProviderView()
         return items.count
     }
     
@@ -332,18 +335,20 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     }
     
     func buildColorsAndSizesView(){
+        let bottomSpace: CGFloat = self.hasProviders ? 124 : 54.0
+        
         if colors?.count != 0 || sizes?.count != 0{
             if colors?.count != 0 && sizes?.count != 0{
                 self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
-                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 174, width: self.bounds.width, height: 20)
-                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 154, width: self.frame.width, height: 40.0)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 120), width: self.bounds.width, height: 20)
+                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 100), width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
                 self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView.alpha = 1.0
-                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
+                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 60), width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
                 self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
@@ -352,8 +357,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
-                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 134, width: self.bounds.width, height: 20)
-                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 80), width: self.bounds.width, height: 20)
+                self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 60), width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
@@ -361,16 +366,36 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 200)
-                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 134, width: self.bounds.width, height: 20)
-                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - 114, width: self.frame.width, height: 40.0)
+                self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 80), width: self.bounds.width, height: 20)
+                self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 60), width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()
             }
         }else{
             self.colorsView.alpha = 0
             self.sizesView.alpha = 0
-            self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - 74   , width: self.bounds.width, height: 20)
+            let frame = collection.frame
+            self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 20), width: self.bounds.width, height: 20)
+            self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: self.bounds.height - (bottomSpace + 30))
         }
     }
+    
+    func buildProviderView() {
+        
+        var bottomPossition: CGFloat = 0.0
+        if self.hasProviders {
+            self.providerView.frame = CGRect(x: 0, y: self.bounds.height - 60, width: self.bounds.width, height: 70)
+            self.providerView.alpha = 1.0
+            self.providerView.setValues(provider: self.providerInfo!)
+            bottomPossition = 70.0
+        }else{
+            self.providerView.alpha = 0.0
+        }
+        
+        self.priceBefore.frame = CGRect(x: 0,  y: self.bounds.height - (bottomPossition + 54)   , width: self.frame.width, height: 15.0)
+        self.price.frame = CGRect(x: 0, y: self.bounds.height - (bottomPossition + 39)  , width: self.frame.width, height: 24.0)
+        self.saving.frame = CGRect(x: 0, y: self.bounds.height - (bottomPossition + 15)  , width: self.frame.width, height: 15.0)
+    }
+
     
     //MARK: ProductDetailColorSizeDelegate
     
