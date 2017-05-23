@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserListViewController : UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, NewListTableViewCellDelegate, SWTableViewCellDelegate, UITextFieldDelegate, ListTableViewCellDelegate, BarCodeViewControllerDelegate, UserListDetailViewControllerDelegate,UIScrollViewDelegate {
+class UserListViewController : UserListNavigationBaseViewController {
     
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
@@ -106,7 +106,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn!.layer.cornerRadius = 11.0
         self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
         self.header!.addSubview(self.editBtn!)
-
         
         self.searchContainer!.backgroundColor = UIColor.white
         
@@ -237,8 +236,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             })
         }
     }
-    
-    
     
     //MARK: - List Utilities
     var listSelectedDuplicate : IndexPath?
@@ -626,364 +623,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 )
             }
     }
-    
-    //MARK: - NewListTableViewCellDelegate
-    
-    /**
-        Remove field to add more list
-     */
-    func cancelNewList() {
-        self.showNewListField()
-    }
-    
-    /**
-     Call Service to add new list, and reload user list
-     
-     - parameter value: name new list
-     */
-    func createNewList(_ value:String) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
-        
-        let svcList = GRSaveUserListService()
-        svcList.callService(svcList.buildParams(value),
-            successBlock: { (result:[String:Any]) -> Void in
-                
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
-                
-                self.checkEditBtn()
-                self.newListEnabled = false
-                self.isShowingWishList  = true
-                self.isShowingSuperlists = true
-                
-                self.newListBtn!.isSelected = false
-                self.newListBtn!.backgroundColor = WMColor.green
-                self.reloadList(
-                    success: { () -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
-                        self.alertView!.showDoneIcon()
-                        var count = 0
-                        
-                        if UserCurrentSession.hasLoggedUser() {
-                            self.newListEnabled = true
-                            self.cancelNewList()
-
-                            for itemList in self.itemsUserList! as! [List] {
-                                if itemList.name == value {
-                                    self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
-                                    return
-                                }
-                                count += 1
-                            }
-                        }
-                        self.newListEnabled = true
-                        self.cancelNewList()
-                    },
-                    failure: { (error) -> Void in
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                    }
-                )
-            },
-            errorBlock: { (error:NSError) -> Void in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-            }
-        )
-    }
-    
-    /**
-     Present barcode controller, to scan ticket
-     */
-    func scanTicket() {
-        let barCodeController = BarCodeViewController()
-        barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
-        barCodeController.delegate = self
-        barCodeController.searchProduct = false
-        barCodeController.useDelegate = true
-        barCodeController.onlyCreateList = true
-        self.present(barCodeController, animated: true, completion: nil)
-    }
-    
-    //MARK: - ListTableViewCellDelegate
-    /**
-        Call service to doubles list from cell selected
-     
-     - parameter cell: cell or list doubles,
-     */
-    func duplicateList(_ cell:ListTableViewCell) {
-      let service = GRUserListService()
-      self.itemsUserList = service.retrieveUserList()
-      self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
-            let firstString = first as! List
-            let secondString = second as! List
-            return firstString.name < secondString.name
-            
-        })
-
-      if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-        if self.itemsUserList!.count >= 12 {
-          if self.alertView != nil{
-            self.alertView!.close()
-            self.alertView = nil
-          }
-          self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-          self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
-          self.alertView!.showErrorIcon("Ok")
-          return
-        }
-        else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-          let listId = listItem["id"] as! String
-          let listName = listItem["name"] as! String
-          
-        
-
-          self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
-            self.newListEnabled = false
-            self.isShowingWishList  = !self.isEditingUserList
-            self.isShowingSuperlists = !self.isEditingUserList
-            self.newListBtn!.isSelected = false
-            self.newListBtn!.backgroundColor = WMColor.green
-            
-            self.reloadList(
-              success: { () -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                self.alertView!.showDoneIcon()
-                //---
-                self.newListEnabled = true
-                self.cancelNewList()
-                self.listSelectedDuplicate = nil
-                //---
-            },
-              failure: { (error) -> Void in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.listSelectedDuplicate = nil
-            })
-            
-          })
-        }else if let listItem = self.itemsUserList![indexPath.row] as? List {
-         
-          
-          if UserCurrentSession.hasLoggedUser() {//Con session
-           
-            let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
-
-            self.invokeSaveListToDuplicateService(forListId: listItem.idList!, andName: copyName, successDuplicateList: { () -> Void in
-              self.newListEnabled = false
-              self.isShowingWishList  = !self.isEditingUserList
-              self.isShowingSuperlists = !self.isEditingUserList
-              self.newListBtn!.isSelected = false
-              self.newListBtn!.backgroundColor = WMColor.green
-              
-              self.reloadList(
-                success: { () -> Void in
-                  self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                  self.alertView!.showDoneIcon()
-                  //---
-                  self.newListEnabled = true
-                  self.cancelNewList()
-                self.listSelectedDuplicate = nil
-                  //---
-              },
-                failure: { (error) -> Void in
-                  self.alertView!.setMessage(error.localizedDescription)
-                  self.alertView!.showErrorIcon("Ok")
-                self.listSelectedDuplicate = nil
-              })
-              
-            })
-            
-          }else{//Sin sessión
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-            self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
-            
-            let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
-            let clist = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
-            clist!.name = copyName
-            clist!.registryDate = Date()
-            clist!.countItem = NSNumber(value: 0 as Int)
-            
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
-            fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
-            var result: [Product]? = nil
-            do{
-              result = try self.managedContext!.fetch(fetchRequest) as? [Product]
-            }catch{
-              print("Error executeFetchRequest")
-            }
-            if result != nil && result!.count > 0 {
-              clist!.countItem = NSNumber(value: result!.count as Int)
-              for idx in 0 ..< result!.count {
-                let item = result![idx]
-                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
-                detail!.upc = item.upc
-                detail!.type = item.type
-                detail!.img = item.img
-                detail!.desc = item.desc
-                detail!.price = item.price
-                detail!.quantity = item.quantity
-                detail!.stock = item.stock
-                detail!.promoDescription = item.promoDescription
-                detail!.pieces = item.pieces
-                detail!.orderByPiece = item.orderByPiece
-                detail!.equivalenceByPiece = item.equivalenceByPiece
-                detail!.list = clist!
-                
-                
-                // 360 Event
-                BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
-              }
-            }
-            
-            self.saveContext()
-            self.newListEnabled = false
-            self.isShowingWishList  = !self.isEditingUserList
-            self.isShowingSuperlists = !self.isEditingUserList
-            
-            self.newListBtn!.isSelected = false
-            self.newListBtn!.backgroundColor = WMColor.green
-            self.reloadList(
-              success: { () -> Void in
-                self.alertView?.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
-                self.alertView?.showDoneIcon()
-                //---
-                self.newListEnabled = true
-                self.cancelNewList()
-                self.listSelectedDuplicate = nil
-                //---
-            },
-              failure: { (error) -> Void in
-                self.alertView?.setMessage(error.localizedDescription)
-                self.alertView?.showErrorIcon("Ok")
-                self.listSelectedDuplicate = nil
-            })
-            
-          }
-          
-        }
-      }
-    }
   
-    /**
-     change name to list
-   
-     - parameter cell: cell to edit
-     - parameter text: name list
-     */
-    func didListChangeName(_ cell:ListTableViewCell, text:String?) {
-        if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-            
-            changeNames = true
-            
-            if self.listToUpdate == nil {
-                self.listToUpdate = [:]
-            }
-          
-            let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
-            
-            if let listItem = self.itemsUserList![idx] as? [String:Any] {
-                
-                let listId = listItem["id"] as! String
-                self.listToUpdate![listId] = text
-                
-            } else if let listEntity = self.itemsUserList![idx] as? List {
-                
-                var entityId = listEntity.objectID.uriRepresentation().absoluteString
-                
-                if UserCurrentSession.hasLoggedUser() {
-                  entityId = listEntity.idList!
-                }
-              
-                self.listToUpdate![entityId] = text
-            }
-            
-        }
-    }
-    
-    func didListChangeNameFailed(){
-        changeNames =  false
-    }
-    
-    func editCell(_ cell: SWTableViewCell) {
-      self.cellEditing = cell
-    }
-    
-    //MARK: - SWTableViewCellDelegate
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-        switch index {
-        case 0://Duplicate list
-            if let cellList = cell as? ListTableViewCell {
-                cellList.duplicate()
-            }
-        case 1://Delete list
-            if let indexPath = self.tableuserlist!.indexPath(for: cell) {
-                if  UserCurrentSession.hasLoggedUser() {
-                    if let listEntity = self.itemsUserList![indexPath.row] as? List {
-                        let listId = listEntity.idList
-                        self.invokeDeleteListService(listId!)
-                    }
-                }
-                    //Si existe como entidad solo debe eliminarse de la BD
-                else if let listEntity = self.itemsUserList![indexPath.row] as? List {
-                    self.managedContext!.delete(listEntity)
-                    self.saveContext()
-                    //No hay que generar acciones adicionales para este caso
-                    //                    self.reloadList(success: nil, failure: nil)
-                    self.reloadWithoutTableReload(success: nil, failure: nil)
-                    //self.tableuserlist!.beginUpdates()
-                    //self.tableuserlist!.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
-                    //self.tableuserlist!.endUpdates()
-                    
-                    //EXTRA SI NO HAY MAS LISTAS
-                    if self.itemsUserList!.count == 0 && self.isEditingUserList {
-                        self.showEditionMode()
-                    }
-                    self.checkEditBtn()
-                    self.reloadList(success: { () -> Void in
-                        
-                        }, failure: { (error) -> Void in
-                            
-                    })
-                }
-            }
-        default:
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
-        switch index {
-        case 0:
-            cell.showRightUtilityButtons(animated: true)
-        default :
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-        switch state {
-        case SWCellState.cellStateLeft:
-            return self.isEditingUserList
-        case SWCellState.cellStateRight:
-            if self.isEditingUserList { return true }
-            if let validateCanDelete = cell as? ListTableViewCell {
-                return validateCanDelete.canDelete
-            } else {
-                return true
-            }
-        case SWCellState.cellStateCenter:
-            return !self.isEditingUserList
-        //default:
-        //    return !self.isEditingUserList
-        }
-    }
-    
-    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
-        return !self.isEditingUserList
-    }
     
     // MARK: - Actions
     
@@ -1112,29 +752,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    /**
-     Open WishList and generate tag of Analytics
-     */
-    func showWishlist() {
-        WishlistService.shouldupdate = true
-        let vc = storyboard!.instantiateViewController(withIdentifier: "wishlitsItemVC")
-        self.navigationController!.pushViewController(vc, animated: true)
-        
-        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_WISHLIST.rawValue, label: "")
-        
-    }
-    
-    /**
-     Open super list controller and generate tag of Analytics
-     */
-    func showDefaultLists() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "defaultListVC")
-        self.navigationController!.pushViewController(vc, animated: true)
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
-        
-    }
-    
+  
     
     func removeWishlistHelp(_ recognizer:UITapGestureRecognizer){
         UIView.animate(withDuration: 0.5,
@@ -1177,178 +795,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showListDetail" {
-            if let controller = segue.destination as? UserListDetailViewController {
-                controller.itemsUserList = self.itemsUserList
-                controller.listId = self.selectedListId
-                controller.listName = self.selectedListName
-                controller.listEntity = self.selectedEntityList
-                controller.detailDelegate = self
-            }
-        }
-    }
-    
-    //MARK: - UITableViewDataSource
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 1 {
-            return self.itemsUserList!.count
-        }
-        var size = (self.newListEnabled ? 1 : 0)
-        size = size + (self.isShowingWishList && needsToShowWishList ? 1 : 0)
-        size = size + (self.isShowingSuperlists ? 1 : 0)
-        return size
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        //WishList
-        if  indexPath.section == 0 {
-            
-            if indexPath.row == 0 && self.newListEnabled {
-                let listCell = tableView.dequeueReusableCell(withIdentifier: self.NEWCELL_ID) as! NewListTableViewCell
-                listCell.delegate = self
-                listCell.accessoryView = nil
-                let _ = searchField?.resignFirstResponder()
-                Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(UserListViewController.become(timer:)), userInfo: listCell, repeats: false)
-                
-                return listCell
-            }
-            var currentRow = (self.newListEnabled ? 1 : 0)
-            
-            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID) as! ListTableViewCell
-            listCell.delegate = self
-            listCell.listDelegate = self
-            
-            if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
-                listCell.setValues(name: NSLocalizedString("wishlist.title", comment: ""), count: "\(UserCurrentSession.sharedInstance.userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
-                listCell.canDelete = false
-                listCell.enableDuplicateList(self.newListEnabled)
-                listCell.shouldChangeState = !self.isEditingUserList
-                listCell.setEditing(self.isEditingUserList, animated: false)
-                listCell.showLeftUtilityButtons(animated: false)
-                listCell.enableEditList(self.isEditingUserList)
-                listCell.accessoryView = nil
-                listCell.selectionStyle = .none
-                return listCell
-            }
-            
-            currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
-            if (indexPath.row == 0 && self.isShowingSuperlists ) || (indexPath.row == 1 && self.isShowingSuperlists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingSuperlists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingSuperlists && self.newListEnabled)  {
-                listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
-                listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
-                listCell.canDelete = false
-                listCell.enableDuplicateList(self.newListEnabled)
-                listCell.shouldChangeState = !self.isEditingUserList
-                listCell.setEditing(self.isEditingUserList, animated: false)
-                listCell.showLeftUtilityButtons(animated: false)
-                listCell.enableEditList(self.isEditingUserList)
-                listCell.accessoryView = UIImageView(image:UIImage(named:"practilist_gooo"))
-                
-                return listCell
-            }
-        }
-        
-        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID) as! ListTableViewCell
-        listCell.delegate = self
-        listCell.listDelegate = self
-        
-        if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-            listCell.setValues(listObject:listItem)
-        } else if let listEntity = self.itemsUserList![indexPath.row] as? List {
-            listCell.setValues(listEntity: listEntity)
-        }
-        listCell.canDelete = true
-        listCell.enableDuplicateList(self.newListEnabled)
-        listCell.shouldChangeState = !self.isEditingUserList
-        listCell.setEditing(self.isEditingUserList, animated: false)
-        listCell.showLeftUtilityButtons(animated: false)
-        listCell.enableEditList(self.isEditingUserList)
-        if self.isEditingUserList {
-            listCell.showLeftUtilityButtons(animated: false)
-        }
-        listCell.accessoryView = nil
-        listCell.selectionStyle = .none
-        return listCell
-    }
-    
-    func become(timer:Timer){
-      let cell =  timer.userInfo as? NewListTableViewCell
-       if (cell?.inputNameList?.isFirstResponder)! {
-            cell?.inputNameList?.becomeFirstResponder()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64.0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.section == 0 {
-            if indexPath.row == 0 && self.newListEnabled {
-                return
-            }
-            if !self.newListEnabled {
-                if indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList {
-                    showWishlist()
-                    return
-                }
-                else if indexPath.row == 1 && self.isShowingSuperlists {
-                    showDefaultLists()
-                    return
-                }
-            }
-            return
-        }
-        if indexPath.section != 0  && !self.isShowingWishList {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            return
-        }
-        
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
-        
-        if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
-            if let listId = listItem["id"] as? String {
-                self.selectedListId = listId
-                self.selectedListName = listItem["name"] as? String
-                self.selectedIndex = indexPath
-
-                self.performSegue(withIdentifier: "showListDetail", sender: self)
-            }
-        }
-        else if let listEntity = self.itemsUserList![indexPath.row] as? List {
-            self.selectedEntityList = listEntity
-            self.selectedListId = listEntity.idList
-            self.selectedListName = listEntity.name
-            self.selectedIndex = indexPath
-            
-            self.performSegue(withIdentifier: "showListDetail", sender: self)
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let newCell = cell as? NewListTableViewCell {
-            newCell.inputNameList!.text = ""
-            if self.enabledHelpView {
-                self.showHelpTicketView()
-            }
-            if self.helpView == nil && !newCell.scanning {
-                newCell.inputNameList!.becomeFirstResponder()
-            }
-        }
-    }
-    
+  
     
     //MARK: - Utils
     /**
@@ -1530,9 +977,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                   print("Error \(error.localizedDescription)")
                   self.alertView?.setMessage(error.localizedDescription)
                   self.alertView?.showErrorIcon("Ok")
-            
             })
-
         }
     }
     
@@ -1567,127 +1012,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         return true
     }
     
-    //MARK: - BarCodeViewControllerDelegate
-    func barcodeCaptured(_ value:String?) {
-        if value == nil {
-            return
-        }
-        print("Code \(value)")
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        let service = GRProductByTicket()
-        service.callService(service.buildParams(value!),
-            successBlock: { (result: [String:Any]) -> Void in
-                if let items = result["items"] as? [Any] {
-                    
-                    if items.count == 0 {
-                        self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
-                        self.alertView!.showErrorIcon("Ok")
-                        return
-                    }
-                    
-                    let saveService = GRSaveUserListService()
-                    
-                    self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
-                    
-                    var products:[Any] = []
-                    for idx in 0 ..< items.count {
-                        var item = items[idx] as! [String:Any]
-                        let upc = item["upc"] as! String
-                        let quantity = item["quantity"] as! NSNumber
-                        var baseUomcd = "EA"
-                        if let baseUcd = item["baseUomcd"] as? String {
-                            baseUomcd = baseUcd
-                        }
-                        
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:baseUomcd )//send baseUomcd
-                        products.append(param)
-                        
-                        guard let name = item["description"] as? String,
-                            let id = item["upc"] as? String,
-                            let price = item["price"] else {
-                                return
-                        }
-                        
-                        // 360 Event
-                        BaseController.sendAnalyticsProductToList(id, desc: name, price: "\(price as! Int)")
-                    }
-                    
-                    let fmt = DateFormatter()
-                    fmt.dateFormat = "MMM d"
-                    var name = fmt.string(from: Date())
-                    var number = 0;
-                    
-                    if self.itemsUserList != nil {
-                        for item in  self.itemsUserList! as! [List]{
-                          
-                            if let nameList = item.name as? String {
-                                if nameList.uppercased().hasPrefix(name.uppercased()) {
-                                    number = number+1
-                                }
-                            }
-                        }
-                    }
-                    
-                    if number > 0 {
-                        name = "\(name) \(number)"
-                    }
-                    
-                    
-                    saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:[String:Any]) -> Void in
-
-                            if let cell = self.tableuserlist!.cellForRow(at: IndexPath(row: 0, section:0)) as? NewListTableViewCell {
-                                cell.scanning = false
-                            }
-                            self.newListEnabled = false
-                            self.isShowingWishList  = true
-                            self.isShowingSuperlists = true
-                            
-                            self.newListBtn!.isSelected = false
-                            self.newListBtn!.backgroundColor = WMColor.green
-                            self.reloadList(
-                                success: { () -> Void in
-                                    self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicketDone", comment:""))
-                                    self.alertView!.showDoneIcon()
-                                },
-                                failure: { (error) -> Void in
-                                    self.alertView!.setMessage(error.localizedDescription)
-                                    self.alertView!.showErrorIcon("Ok")
-                                }
-                            )
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                            self.alertView!.setMessage(error.localizedDescription)
-                            self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-            }
-        )
-    }
- 
-    //MARK: - UITextFieldDelegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        var txtAfterUpdate : NSString = textField.text! as String as NSString
-        txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
-        
-        self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
-        self.tableuserlist!.reloadData()
-        self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
-        
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
+  
+  
     
     //MARK: - Notifications
     
@@ -1761,10 +1087,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.view.endEditing(true)
-        
-    }
+  
     
     func searchForItems(_ textUpdate:String) -> [List]? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
@@ -1841,3 +1164,709 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
   }
 }
 
+
+//MARK: - UITableViewDataSource
+extension UserListViewController : UITableViewDataSource{
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 2
+  }
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if section == 1 {
+      return self.itemsUserList!.count
+    }
+    var size = (self.newListEnabled ? 1 : 0)
+    size = size + (self.isShowingWishList && needsToShowWishList ? 1 : 0)
+    size = size + (self.isShowingSuperlists ? 1 : 0)
+    return size
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    //WishList
+    if  indexPath.section == 0 {
+      
+      if indexPath.row == 0 && self.newListEnabled {
+        let listCell = tableView.dequeueReusableCell(withIdentifier: self.NEWCELL_ID) as! NewListTableViewCell
+        listCell.delegate = self
+        listCell.accessoryView = nil
+        let _ = searchField?.resignFirstResponder()
+        Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(UserListViewController.become(timer:)), userInfo: listCell, repeats: false)
+        
+        return listCell
+      }
+      var currentRow = (self.newListEnabled ? 1 : 0)
+      
+      let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID) as! ListTableViewCell
+      listCell.delegate = self
+      listCell.listDelegate = self
+      
+      if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
+        listCell.setValues(name: NSLocalizedString("wishlist.title", comment: ""), count: "\(UserCurrentSession.sharedInstance.userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
+        listCell.canDelete = false
+        listCell.enableDuplicateList(self.newListEnabled)
+        listCell.shouldChangeState = !self.isEditingUserList
+        listCell.setEditing(self.isEditingUserList, animated: false)
+        listCell.showLeftUtilityButtons(animated: false)
+        listCell.enableEditList(self.isEditingUserList)
+        listCell.accessoryView = nil
+        listCell.selectionStyle = .none
+        return listCell
+      }
+      
+      currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
+      if (indexPath.row == 0 && self.isShowingSuperlists ) || (indexPath.row == 1 && self.isShowingSuperlists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingSuperlists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingSuperlists && self.newListEnabled)  {
+        listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
+        listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
+        listCell.canDelete = false
+        listCell.enableDuplicateList(self.newListEnabled)
+        listCell.shouldChangeState = !self.isEditingUserList
+        listCell.setEditing(self.isEditingUserList, animated: false)
+        listCell.showLeftUtilityButtons(animated: false)
+        listCell.enableEditList(self.isEditingUserList)
+        listCell.accessoryView = UIImageView(image:UIImage(named:"practilist_gooo"))
+        
+        return listCell
+      }
+    }
+    
+    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID) as! ListTableViewCell
+    listCell.delegate = self
+    listCell.listDelegate = self
+    
+    if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
+      listCell.setValues(listObject:listItem)
+    } else if let listEntity = self.itemsUserList![indexPath.row] as? List {
+      listCell.setValues(listEntity: listEntity)
+    }
+    listCell.canDelete = true
+    listCell.enableDuplicateList(self.newListEnabled)
+    listCell.shouldChangeState = !self.isEditingUserList
+    listCell.setEditing(self.isEditingUserList, animated: false)
+    listCell.showLeftUtilityButtons(animated: false)
+    listCell.enableEditList(self.isEditingUserList)
+    if self.isEditingUserList {
+      listCell.showLeftUtilityButtons(animated: false)
+    }
+    listCell.accessoryView = nil
+    listCell.selectionStyle = .none
+    return listCell
+  }
+  
+  func become(timer:Timer){
+    let cell =  timer.userInfo as? NewListTableViewCell
+    if (cell?.inputNameList?.isFirstResponder)! {
+      cell?.inputNameList?.becomeFirstResponder()
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 64.0
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if let newCell = cell as? NewListTableViewCell {
+      newCell.inputNameList!.text = ""
+      if self.enabledHelpView {
+        self.showHelpTicketView()
+      }
+      if self.helpView == nil && !newCell.scanning {
+        newCell.inputNameList!.becomeFirstResponder()
+      }
+    }
+  }
+}
+
+
+//MARK: - UITableViewDelegate
+extension UserListViewController : UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    if indexPath.section == 0 {
+      if indexPath.row == 0 && self.newListEnabled {
+        return
+      }
+      if !self.newListEnabled {
+        if indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList {
+          showWishlist()
+          return
+        }
+        else if indexPath.row == 1 && self.isShowingSuperlists {
+          showDefaultLists()
+          return
+        }
+      }
+      return
+    }
+    if indexPath.section != 0  && !self.isShowingWishList {
+      let cell = tableView.cellForRow(at: indexPath)
+      cell?.isSelected = false
+      return
+    }
+    
+    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
+    
+    if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
+      if let listId = listItem["id"] as? String {
+        self.selectedListId = listId
+        self.selectedListName = listItem["name"] as? String
+        self.selectedIndex = indexPath
+        
+        self.performSegue(withIdentifier: "showListDetail", sender: self)
+      }
+    }
+    else if let listEntity = self.itemsUserList![indexPath.row] as? List {
+      self.selectedEntityList = listEntity
+      self.selectedListId = listEntity.idList
+      self.selectedListName = listEntity.name
+      self.selectedIndex = indexPath
+      
+      self.performSegue(withIdentifier: "showListDetail", sender: self)
+    }
+  }
+  
+  
+  /**
+   Open WishList and generate tag of Analytics
+   */
+  func showWishlist() {
+    WishlistService.shouldupdate = true
+    let vc = storyboard!.instantiateViewController(withIdentifier: "wishlitsItemVC")
+    self.navigationController!.pushViewController(vc, animated: true)
+    
+    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_WISHLIST.rawValue, label: "")
+    
+  }
+  
+  /**
+   Open super list controller and generate tag of Analytics
+   */
+  func showDefaultLists() {
+    let vc = storyboard!.instantiateViewController(withIdentifier: "defaultListVC")
+    self.navigationController!.pushViewController(vc, animated: true)
+    
+    //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
+  }
+}
+
+
+//MARK: - NewListTableViewCellDelegate
+extension UserListViewController : NewListTableViewCellDelegate{
+  /**
+   Remove field to add more list
+   */
+  func cancelNewList() {
+    self.showNewListField()
+  }
+  
+  /**
+   Call Service to add new list, and reload user list
+   
+   - parameter value: name new list
+   */
+  func createNewList(_ value:String) {
+    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+    self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+    
+    let svcList = GRSaveUserListService()
+    svcList.callService(svcList.buildParams(value),
+                        successBlock: { (result:[String:Any]) -> Void in
+                          
+                          //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                          
+                          self.checkEditBtn()
+                          self.newListEnabled = false
+                          self.isShowingWishList  = true
+                          self.isShowingSuperlists = true
+                          
+                          self.newListBtn!.isSelected = false
+                          self.newListBtn!.backgroundColor = WMColor.green
+                          self.reloadList(
+                            success: { () -> Void in
+                              self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
+                              self.alertView!.showDoneIcon()
+                              var count = 0
+                              
+                              if UserCurrentSession.hasLoggedUser() {
+                                self.newListEnabled = true
+                                self.cancelNewList()
+                                
+                                for itemList in self.itemsUserList! as! [List] {
+                                  if itemList.name == value {
+                                    self.tableView(self.tableuserlist!, didSelectRowAt: IndexPath(row:count,section:1))
+                                    return
+                                  }
+                                  count += 1
+                                }
+                              }
+                              self.newListEnabled = true
+                              self.cancelNewList()
+                          },
+                            failure: { (error) -> Void in
+                              self.alertView!.setMessage(error.localizedDescription)
+                              self.alertView!.showErrorIcon("Ok")
+                          }
+                          )
+    },
+                        errorBlock: { (error:NSError) -> Void in
+                          self.alertView!.setMessage(error.localizedDescription)
+                          self.alertView!.showErrorIcon("Ok")
+    }
+    )
+  }
+  
+  /**
+   Present barcode controller, to scan ticket
+   */
+  func scanTicket() {
+    let barCodeController = BarCodeViewController()
+    barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
+    barCodeController.delegate = self
+    barCodeController.searchProduct = false
+    barCodeController.useDelegate = true
+    barCodeController.onlyCreateList = true
+    self.present(barCodeController, animated: true, completion: nil)
+  }
+}
+
+
+//MARK: - ListTableViewCellDelegate
+extension UserListViewController : ListTableViewCellDelegate {
+  /**
+   Call service to doubles list from cell selected
+   
+   - parameter cell: cell or list doubles,
+   */
+  func duplicateList(_ cell:ListTableViewCell) {
+    let service = GRUserListService()
+    self.itemsUserList = service.retrieveUserList()
+    self.itemsUserList =  self.itemsUserList?.sorted(by: { (first:Any, second:Any) -> Bool in
+      let firstString = first as! List
+      let secondString = second as! List
+      return firstString.name < secondString.name
+      
+    })
+    
+    if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+      if self.itemsUserList!.count >= 12 {
+        if self.alertView != nil{
+          self.alertView!.close()
+          self.alertView = nil
+        }
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+        self.alertView!.showErrorIcon("Ok")
+        return
+      }
+      else if let listItem = self.itemsUserList![indexPath.row] as? [String:Any] {
+        let listId = listItem["id"] as! String
+        let listName = listItem["name"] as! String
+        
+        
+        
+        self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
+          self.newListEnabled = false
+          self.isShowingWishList  = !self.isEditingUserList
+          self.isShowingSuperlists = !self.isEditingUserList
+          self.newListBtn!.isSelected = false
+          self.newListBtn!.backgroundColor = WMColor.green
+          
+          self.reloadList(
+            success: { () -> Void in
+              self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+              self.alertView!.showDoneIcon()
+              //---
+              self.newListEnabled = true
+              self.cancelNewList()
+              self.listSelectedDuplicate = nil
+              //---
+          },
+            failure: { (error) -> Void in
+              self.alertView!.setMessage(error.localizedDescription)
+              self.alertView!.showErrorIcon("Ok")
+              self.listSelectedDuplicate = nil
+          })
+          
+        })
+      }else if let listItem = self.itemsUserList![indexPath.row] as? List {
+        
+        
+        if UserCurrentSession.hasLoggedUser() {//Con session
+          
+          let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+          
+          self.invokeSaveListToDuplicateService(forListId: listItem.idList!, andName: copyName, successDuplicateList: { () -> Void in
+            self.newListEnabled = false
+            self.isShowingWishList  = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
+            self.newListBtn!.isSelected = false
+            self.newListBtn!.backgroundColor = WMColor.green
+            
+            self.reloadList(
+              success: { () -> Void in
+                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                self.alertView!.showDoneIcon()
+                //---
+                self.newListEnabled = true
+                self.cancelNewList()
+                self.listSelectedDuplicate = nil
+                //---
+            },
+              failure: { (error) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+                self.listSelectedDuplicate = nil
+            })
+            
+          })
+          
+        }else{//Sin sessión
+          self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+          self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+          
+          let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+          let clist = NSEntityDescription.insertNewObject(forEntityName: "List", into: self.managedContext!) as? List
+          clist!.name = copyName
+          clist!.registryDate = Date()
+          clist!.countItem = NSNumber(value: 0 as Int)
+          
+          let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+          fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Product", in: self.managedContext!)
+          fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
+          var result: [Product]? = nil
+          do{
+            result = try self.managedContext!.fetch(fetchRequest) as? [Product]
+          }catch{
+            print("Error executeFetchRequest")
+          }
+          if result != nil && result!.count > 0 {
+            clist!.countItem = NSNumber(value: result!.count as Int)
+            for idx in 0 ..< result!.count {
+              let item = result![idx]
+              let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: self.managedContext!) as? Product
+              detail!.upc = item.upc
+              detail!.type = item.type
+              detail!.img = item.img
+              detail!.desc = item.desc
+              detail!.price = item.price
+              detail!.quantity = item.quantity
+              detail!.stock = item.stock
+              detail!.promoDescription = item.promoDescription
+              detail!.pieces = item.pieces
+              detail!.orderByPiece = item.orderByPiece
+              detail!.equivalenceByPiece = item.equivalenceByPiece
+              detail!.list = clist!
+              
+              
+              // 360 Event
+              BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: detail!.price as String)
+            }
+          }
+          
+          self.saveContext()
+          self.newListEnabled = false
+          self.isShowingWishList  = !self.isEditingUserList
+          self.isShowingSuperlists = !self.isEditingUserList
+          
+          self.newListBtn!.isSelected = false
+          self.newListBtn!.backgroundColor = WMColor.green
+          self.reloadList(
+            success: { () -> Void in
+              self.alertView?.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
+              self.alertView?.showDoneIcon()
+              //---
+              self.newListEnabled = true
+              self.cancelNewList()
+              self.listSelectedDuplicate = nil
+              //---
+          },
+            failure: { (error) -> Void in
+              self.alertView?.setMessage(error.localizedDescription)
+              self.alertView?.showErrorIcon("Ok")
+              self.listSelectedDuplicate = nil
+          })
+          
+        }
+        
+      }
+    }
+  }
+  
+  /**
+   change name to list
+   
+   - parameter cell: cell to edit
+   - parameter text: name list
+   */
+  func didListChangeName(_ cell:ListTableViewCell, text:String?) {
+    if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+      
+      changeNames = true
+      
+      if self.listToUpdate == nil {
+        self.listToUpdate = [:]
+      }
+      
+      let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
+      
+      if let listItem = self.itemsUserList![idx] as? [String:Any] {
+        
+        let listId = listItem["id"] as! String
+        self.listToUpdate![listId] = text
+        
+      } else if let listEntity = self.itemsUserList![idx] as? List {
+        
+        var entityId = listEntity.objectID.uriRepresentation().absoluteString
+        
+        if UserCurrentSession.hasLoggedUser() {
+          entityId = listEntity.idList!
+        }
+        
+        self.listToUpdate![entityId] = text
+      }
+      
+    }
+  }
+  
+  func didListChangeNameFailed(){
+    changeNames =  false
+  }
+  
+  func editCell(_ cell: SWTableViewCell) {
+    self.cellEditing = cell
+  }
+}
+
+// MARK: - UserListDetailViewControllerDelegate
+extension UserListViewController : UserListDetailViewControllerDelegate{
+  
+  // MARK: - Navigation
+  // In a storyboard-based application, you will often want to do a little preparation before navigation
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showListDetail" {
+      if let controller = segue.destination as? UserListDetailViewController {
+        controller.itemsUserList = self.itemsUserList
+        controller.listId = self.selectedListId
+        controller.listName = self.selectedListName
+        controller.listEntity = self.selectedEntityList
+        controller.detailDelegate = self
+      }
+    }
+  }
+}
+
+
+
+//MARK: - BarCodeViewControllerDelegate
+extension UserListViewController : BarCodeViewControllerDelegate{
+  func barcodeCaptured(_ value:String?) {
+    if value == nil {
+      return
+    }
+    print("Code \(value)")
+    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+    self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
+    let service = GRProductByTicket()
+    service.callService(service.buildParams(value!),
+                        successBlock: { (result: [String:Any]) -> Void in
+                          if let items = result["items"] as? [Any] {
+                            
+                            if items.count == 0 {
+                              self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
+                              self.alertView!.showErrorIcon("Ok")
+                              return
+                            }
+                            
+                            let saveService = GRSaveUserListService()
+                            
+                            self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
+                            
+                            var products:[Any] = []
+                            for idx in 0 ..< items.count {
+                              var item = items[idx] as! [String:Any]
+                              let upc = item["upc"] as! String
+                              let quantity = item["quantity"] as! NSNumber
+                              var baseUomcd = "EA"
+                              if let baseUcd = item["baseUomcd"] as? String {
+                                baseUomcd = baseUcd
+                              }
+                              
+                              let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.intValue,baseUomcd:baseUomcd )//send baseUomcd
+                              products.append(param)
+                              
+                              guard let name = item["description"] as? String,
+                                let id = item["upc"] as? String,
+                                let price = item["price"] else {
+                                  return
+                              }
+                              
+                              // 360 Event
+                              BaseController.sendAnalyticsProductToList(id, desc: name, price: "\(price as! Int)")
+                            }
+                            
+                            let fmt = DateFormatter()
+                            fmt.dateFormat = "MMM d"
+                            var name = fmt.string(from: Date())
+                            var number = 0;
+                            
+                            if self.itemsUserList != nil {
+                              for item in  self.itemsUserList! as! [List]{
+                                
+                                if let nameList = item.name as? String {
+                                  if nameList.uppercased().hasPrefix(name.uppercased()) {
+                                    number = number+1
+                                  }
+                                }
+                              }
+                            }
+                            
+                            if number > 0 {
+                              name = "\(name) \(number)"
+                            }
+                            
+                            
+                            saveService.callService(saveService.buildParams(name, items: products),
+                                                    successBlock: { (result:[String:Any]) -> Void in
+                                                      
+                                                      if let cell = self.tableuserlist!.cellForRow(at: IndexPath(row: 0, section:0)) as? NewListTableViewCell {
+                                                        cell.scanning = false
+                                                      }
+                                                      self.newListEnabled = false
+                                                      self.isShowingWishList  = true
+                                                      self.isShowingSuperlists = true
+                                                      
+                                                      self.newListBtn!.isSelected = false
+                                                      self.newListBtn!.backgroundColor = WMColor.green
+                                                      self.reloadList(
+                                                        success: { () -> Void in
+                                                          self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicketDone", comment:""))
+                                                          self.alertView!.showDoneIcon()
+                                                      },
+                                                        failure: { (error) -> Void in
+                                                          self.alertView!.setMessage(error.localizedDescription)
+                                                          self.alertView!.showErrorIcon("Ok")
+                                                      }
+                                                      )
+                            },
+                                                    errorBlock: { (error:NSError) -> Void in
+                                                      self.alertView!.setMessage(error.localizedDescription)
+                                                      self.alertView!.showErrorIcon("Ok")
+                            }
+                            )
+                          }
+    }, errorBlock: { (error:NSError) -> Void in
+      self.alertView!.setMessage(error.localizedDescription)
+      self.alertView!.showErrorIcon("Ok")
+    }
+    )
+  }
+}
+
+
+//MARK: - UIScrollViewDelegate
+extension UserListViewController : UIScrollViewDelegate{
+  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    self.view.endEditing(true)
+  }
+}
+
+
+//MARK: - SWTableViewCellDelegate
+extension UserListViewController : SWTableViewCellDelegate {
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+    switch index {
+    case 0://Duplicate list
+      if let cellList = cell as? ListTableViewCell {
+        cellList.duplicate()
+      }
+    case 1://Delete list
+      if let indexPath = self.tableuserlist!.indexPath(for: cell) {
+        if  UserCurrentSession.hasLoggedUser() {
+          if let listEntity = self.itemsUserList![indexPath.row] as? List {
+            let listId = listEntity.idList
+            self.invokeDeleteListService(listId!)
+          }
+        }
+          //Si existe como entidad solo debe eliminarse de la BD
+        else if let listEntity = self.itemsUserList![indexPath.row] as? List {
+          self.managedContext!.delete(listEntity)
+          self.saveContext()
+          //No hay que generar acciones adicionales para este caso
+          //                    self.reloadList(success: nil, failure: nil)
+          self.reloadWithoutTableReload(success: nil, failure: nil)
+          //self.tableuserlist!.beginUpdates()
+          //self.tableuserlist!.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+          //self.tableuserlist!.endUpdates()
+          
+          //EXTRA SI NO HAY MAS LISTAS
+          if self.itemsUserList!.count == 0 && self.isEditingUserList {
+            self.showEditionMode()
+          }
+          self.checkEditBtn()
+          self.reloadList(success: { () -> Void in
+            
+          }, failure: { (error) -> Void in
+            
+          })
+        }
+      }
+    default:
+      print("other pressed")
+    }
+  }
+  
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+    switch index {
+    case 0:
+      cell.showRightUtilityButtons(animated: true)
+    default :
+      print("other pressed")
+    }
+  }
+  
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+    switch state {
+    case SWCellState.cellStateLeft:
+      return self.isEditingUserList
+    case SWCellState.cellStateRight:
+      if self.isEditingUserList { return true }
+      if let validateCanDelete = cell as? ListTableViewCell {
+        return validateCanDelete.canDelete
+      } else {
+        return true
+      }
+    case SWCellState.cellStateCenter:
+      return !self.isEditingUserList
+      //default:
+      //    return !self.isEditingUserList
+    }
+  }
+  
+  func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
+    return !self.isEditingUserList
+  }
+}
+
+
+//MARK: - UITextFieldDelegate
+extension UserListViewController : UITextFieldDelegate {
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+    var txtAfterUpdate : NSString = textField.text! as String as NSString
+    txtAfterUpdate = txtAfterUpdate.replacingCharacters(in: range, with: string) as NSString
+    
+    self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
+    self.tableuserlist!.reloadData()
+    self.editBtn!.isHidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
+    
+    return true
+  }
+  
+  
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
+}

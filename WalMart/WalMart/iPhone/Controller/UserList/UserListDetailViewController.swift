@@ -13,7 +13,7 @@ protocol UserListDetailViewControllerDelegate: class {
     func duplicateListDelegate()
 }
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate, UIActivityItemSource {
+class UserListDetailViewController: UserListNavigationBaseViewController {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -110,8 +110,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.isHidden = true
         self.header!.addSubview(self.editBtn!)
-        
-
+      
         self.deleteAllBtn = UIButton(type: .custom)
         self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), for: UIControlState())
         self.deleteAllBtn!.backgroundColor = WMColor.red
@@ -226,8 +225,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        
         if products != nil && !analyticsSent {
             
             var position = 0
@@ -273,8 +270,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 46.0)
-        
-        
+      
         if !self.isSharing {
             if showReminderButton {
                 self.reminderButton?.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: 23.0)
@@ -295,8 +291,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if UserCurrentSession.hasLoggedUser() {
             self.addProductsView!.frame = CGRect(x: 0, y: openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, width: self.view.frame.width, height: 64.0)
         }
-        
-        
+      
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
 //            self.layoutTitleLabel()
 //        }
@@ -308,8 +303,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.editBtn!.frame = CGRect(x: headerBounds.width - (buttonWidth + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
             self.deleteAllBtn!.frame = CGRect(x: self.editBtn!.frame.minX - (90.0 + 8.0), y: (headerBounds.height - buttonHeight)/2, width: 90.0, height: buttonHeight)
         }
-        
-        
     }
 
     /**
@@ -436,7 +429,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         self.isEdditing = !self.isEdditing
         self.editBtn!.isSelected = self.isEdditing
-        
     }
 
     /**
@@ -475,51 +467,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
 
-    //MARK: activityViewControllerDelegate
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
-        return "Walmart"
-    }
-    
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail {
-            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
-        }
-        return ""
-    }
-    
-    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
-        if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance.userSigned == nil {
-                return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
-            } else {
-                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
-            }
-        }
-        return ""
-    }
-    //----
-
-    /**
-     Builds view image to share
-     
-     - returns: UIImage
-     */
-    func buildImageToShare() -> UIImage? {
-        self.isSharing = true
-        let oldFrame : CGRect = self.tableView!.frame
-        var frame : CGRect = self.tableView!.frame
-        frame.size.height = self.tableView!.contentSize.height + 50.0
-        self.tableView!.frame = frame
-        
-        UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
-        self.tableView!.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        self.isSharing = false
-        self.tableView!.frame = oldFrame
-        return saveImage
-    }
+  
 
     /**
      Adds list products to shopping cart
@@ -680,9 +628,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.showEmptyView()
                 self.reloadTableListUser()
             }
-            
-            
-            
         }
     }
     
@@ -746,6 +691,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
         }
     }
+  
     
     /**
      Show Empty View
@@ -827,7 +773,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             } )
         }
-
     }
     
     /**
@@ -949,252 +894,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //            self.titleLabel!.center = CGPointMake(self.header!.frame.width/2, self.header!.frame.height/2)
 //        }
 //    }
-    
-    //MARK: - UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var size = 0
-        if self.products != nil {
-            size = self.products!.count
-            if size > 0 {
-                size += 1
-            }
-        }
-        return size
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == self.products!.count {
-            let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! GRShoppingCartTotalsTableViewCell
-            let total = self.calculateTotalAmount()
-            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds: "")
-            return totalCell
-        }
-
-        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
-        listCell.productImage!.image = nil
-        listCell.productImage!.cancelImageDownloadTask()
-        listCell.defaultList = false
-        listCell.detailDelegate = self
-        listCell.delegate = self
-        
-        if let item = self.products![indexPath.row] as? [String : AnyObject] {
-            listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
-        } else if let item = self.products![indexPath.row] as? Product {
-          if item.img != "" {
-             listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
-          }else{
-             self.loadServiceItems(nil)
-          }
-        }
-        
-        if self.isEdditing {
-            listCell.rightUtilityButtons = nil
-            listCell.showLeftUtilityButtons(animated: false)
-        } else {
-            if listCell.rightUtilityButtons == nil {
-                delay(0.5, completion: {
-                    listCell.setDeleteButton()
-                })
-            }
-        }
-
-        return listCell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == self.products!.count ? 80 : 109.0
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        if cell!.isKind(of: DetailListViewCell.self) {
-
-            let controller = self.getDetailController(index:indexPath)
-            self.navigationController!.pushViewController(controller!, animated: true)
-        }
-    }
-    
-    func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
-        let cell = tableView!.cellForRow(at: index)
-        if cell!.isKind(of: DetailListViewCell.self) {
-            let controller = ProductDetailPageViewController()
-            var productsToShow:[Any] = []
-            for idx in 0 ..< self.products!.count {
-                if let product = self.products![idx] as? [String:Any] {
-                    let upc = product["upc"] as! String
-                    let description = product["description"] as! String
-                
-                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                }
-                else if let product = self.products![idx] as? Product {
-                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                }
-            }
-        
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
-        
-            if index.row < productsToShow.count {
-                controller.itemsToShow = productsToShow
-                controller.ixSelected = index.row
-                controller.completeDeleteItem = {() in
-                    print("completeDelete")
-                    self.fromDelete =  true
-                }
-                controller.detailOf = self.listName!
-            }
-
-            return controller
-        }
-        return nil
-    }
-    
-    //MARK: - SWTableViewCellDelegate
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-        if index == 0{
-            self.deleteFromCellUtilityButton(cell)
-        }
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
-        if index == 0{
-            cell.rightUtilityButtons = getRightButtonOnlyDelete()
-            cell.showRightUtilityButtons(animated: true)
-        }
-    }
-    
-    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
-        return !isEdditing
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-        switch state {
-        case SWCellState.cellStateLeft:
-            return isEdditing
-        case SWCellState.cellStateRight:
-            return true
-        case SWCellState.cellStateCenter:
-            return !isEdditing
-        //default:
-           // return !isEdditing && !self.isSelectingProducts
-          //  return !isEdditing
-        }
-    }
-    
-    //MARK: - DetailListViewCellDelegate
-    func didChangeQuantity(_ cell: DetailListViewCell) {
-        if self.isEdditing {
-            return
-        }
-        if self.quantitySelector == nil {
-            
-            let indexPath = self.tableView!.indexPath(for: cell)
-            if indexPath == nil {
-                return
-            }
-            var isPesable = false
-            
-            var price: NSNumber? = nil
-            var equivalence : NSNumber = 0
-            var quantity : Int = 1
-            var orderByPiece: Int = 0
-            
-            if let item = self.products![indexPath!.row] as? [String:Any] {
-                if let pesable = item["type"] as? NSString {
-                    isPesable = pesable.intValue == 1
-                }
-                price = item["price"] as? NSNumber
-                quantity = (item["quantity"] as? Int)!
-                
-            }
-            else if let item = self.products![indexPath!.row] as? Product {
-                isPesable = item.type.boolValue
-                price = NSNumber(value: item.price.doubleValue as Double)
-                equivalence = item.equivalenceByPiece
-                quantity = Int(item.quantity)
-                orderByPiece = item.orderByPiece.intValue
-            }
-
-            let width:CGFloat = self.view.frame.width
-            let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 46.0
-       
-            let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
-            
-            if isPesable {
-                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!,isSearchProductView: false)
-            }
-            else {
-                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
-            }
-          
-            self.quantitySelector?.isUpcInList = true
-            self.view.addSubview(self.quantitySelector!)
-            self.quantitySelector!.closeAction = { () in
-                self.removeSelector()
-            }
-            
-            if let item = self.products![indexPath!.row] as? [String:Any] {
-                // TODO: cast values from response
-                 quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
-            } else if let item = self.products![indexPath!.row] as? Product {
-                quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
-            }
-            self.quantitySelector?.setQuantity(quantity: quantity, orderByPiece: orderByPiece)
-            self.quantitySelector!.isFromList =  true
-            self.quantitySelector!.addToCartAction = { (quantity:String) in
-                
-                if quantity == "00" {
-                    self.deleteFromCellUtilityButton(cell)
-                    return
-                }
-              
-                if let item = self.products![indexPath!.row] as? [String:Any] {
-                    let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
-                    //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
-                } else if let item = self.products![indexPath!.row] as? Product {
-                    
-                    item.quantity = NSNumber(value: Int(quantity)! as Int)
-                    item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-                    item.pieces = NSNumber(value:Int(quantity)!)
-                    
-                    if UserCurrentSession.hasLoggedUser() {
-                        self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
-                    } else {
-                        self.saveContext()
-                        self.retrieveProductsLocally(true)
-                    }
-                    
-                    self.removeSelector()
-                }
-            }
-            
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
-            })
-            
-        }
-        else {
-            self.removeSelector()
-        }
-    }
-    
-    func removeSelector() {
-        if   self.quantitySelector != nil {
-            UIView.animate(withDuration: 0.5,
-                animations: { () -> Void in
-                    let width:CGFloat = self.view.frame.width
-                    let height:CGFloat = self.view.frame.height - self.header!.frame.height
-                    self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
-                },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.quantitySelector!.removeFromSuperview()
-                        self.quantitySelector = nil
-                    }
-                }
-            )
-        }
-    }
+  
 
     //MARK: - Services
     func invokeDetailListService(_ action:(()->Void)? , reloadList : Bool) {
@@ -1270,6 +970,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
         )
     }
+  
     
     func invokeDeleteProductFromListService(_ product:Product,succesDelete:@escaping (()->Void)) {
         if !self.deleteProductServiceInvoked {
@@ -1322,9 +1023,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.alertView?.showErrorIcon("Ok")
                     self.deleteProductServiceInvoked = false
             })
-            
-            
-           
         }
     }
     
@@ -1401,7 +1099,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
         }
-        
     }
     
     //MARK: - DB
@@ -1414,7 +1111,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         self.listEntity =  dateList == nil ? nil : self.listEntity
-       
         
         if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
@@ -1475,8 +1171,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.removeEmpyView()
         }
         self.reloadTableListUser()
-      
-        
     }
 
     
@@ -1531,7 +1225,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         containerEditName?.addSubview(nameField!)
         self.view.addSubview(containerEditName!)
         containerEditName?.alpha = 0
-        
     }
     
     
@@ -1556,8 +1249,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
           self.detailDelegate?.duplicateListDelegate()
         }
     }
-    
-
+  
     
     
     func updateLustName() {
@@ -1653,125 +1345,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         return savecontinue
-        
     }
+  
     
-    //MAR: - UITextFieldDelegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text! as NSString
-        let newString = strNSString.replacingCharacters(in: range, with: string)
-      if string == "" {
-        return true
-      }
-        return (newString.characters.count > 25) ? false : true
-    }
-    
-    
-    func backEmpty() {
-        super.back()
-    }
-
-    override func back() {
-        super.back()
-    }
-    
-    //MARK: - Reminder
-    
-    func setReminderSelected(_ selected:Bool){
-        self.reminderButton?.isSelected = selected
-        if selected{
-            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", for: .selected)
-            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", for: UIControlState())
-        }else{
-            self.reminderButton!.setTitle("Crear recordatorio para esta lista", for: UIControlState())
-        }
-    }
-    
-    func addReminder(){
-        let selected = self.reminderButton!.isSelected
-        let reminderViewController = ReminderViewController()
-        reminderViewController.listId = self.listId!
-        reminderViewController.listName = self.listName!
-        reminderViewController.delegate = self
-        if  selected {
-            reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
-            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? Date
-        }
-        self.navigationController?.pushViewController(reminderViewController, animated: true)
-    }
-    
-    func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
-
-        if self.reminderService!.existNotificationForCurrentList() || value{
-            setReminderSelected(true)
-        }else{
-            setReminderSelected(false)
-        }
-    }
-    
-    //MARK: AddProductTolistViewDelegate
-    func scanCode() {
-        let barCodeController = BarCodeViewController()
-        barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
-        barCodeController.delegate = self
-        barCodeController.searchProduct = true
-        barCodeController.useDelegate = true
-        barCodeController.isAnyActionFromCode =  true
-        self.present(barCodeController, animated: true, completion: nil)
-    }
-    
-    func showCamera() {
-        let cameraController = CameraViewController()
-        cameraController.delegate = self
-        self.present(cameraController, animated: true, completion: nil)
-    }
-    
-    func searchByText(_ text: String) {
-        if text.isNumeric() && text.length() >= 12 {
-            let cero = text.length() < 13 ? "0":""
-            self.findProdutFromUpc("\(cero)\(text)")
-        }else{
-            
-            let message = self.validateText(text)
-            if message != ""{
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
-                    UIImage(named:"noAvaliable"))
-                self.alertView!.setMessage(message)
-                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-                self.addProductsView?.changeFrame = false
-                return
-            }
-            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .withText,searchServiceFromContext:.fromSearchText )
-        }
-        
-    }
-    
-    
-    //MARK: BarCodeViewControllerDelegate
-    func barcodeCaptured(_ value: String?) {
-        print(value ?? "")
-    }
-    
-    func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {
-        
-        if isUpcSearch {
-            self.findProdutFromUpc(value!)
-        }else{
-            self.invokeServicefromTicket(value!)
-        }
-    }
-    
-    //MARK: CameraViewControllerDelegate
-    func photoCaptured(_ value: String?, upcs: [String]?, done: (() -> Void)) {
-        if value !=  nil {
-            if value != "" {
-                self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .withTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
-            }
-        }
-    }
-    
-    //MARK:  Actions
+    //MARK: - Actions
     func findProdutFromUpc(_ upc:String){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("Agregando el producto a tu lista", comment:""))
@@ -1822,7 +1399,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.idListFromSearch =  self.listId
         
         self.navigationController?.pushViewController(controller, animated: true)
-        
     }
     
     
@@ -1862,7 +1438,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 print("Error at add product to list: \(error.localizedDescription)")
                 self.alertView?.setMessage(error.localizedDescription)
                 self.alertView?.showErrorIcon("Ok")
-               
             }
         )
     }
@@ -1950,7 +1525,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
    
-    //MARK: RefreshControl
+    //MARK: - RefreshControl
     func handleRefresh(refreshControl: UIRefreshControl) {
         
         if let listID = self.listId {
@@ -1971,6 +1546,360 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 }
 
+
+//MARK: - SWTableViewCellDelegate
+extension UserListDetailViewController : SWTableViewCellDelegate {
+  
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+    if index == 0{
+      self.deleteFromCellUtilityButton(cell)
+    }
+  }
+  
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+    if index == 0{
+      cell.rightUtilityButtons = getRightButtonOnlyDelete()
+      cell.showRightUtilityButtons(animated: true)
+    }
+  }
+  
+  func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
+    return !isEdditing
+  }
+  
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+    switch state {
+    case SWCellState.cellStateLeft:
+      return isEdditing
+    case SWCellState.cellStateRight:
+      return true
+    case SWCellState.cellStateCenter:
+      return !isEdditing
+      //default:
+      // return !isEdditing && !self.isSelectingProducts
+      //  return !isEdditing
+    }
+  }
+  
+}
+
+
+//MARK: - UITableViewDataSource
+extension UserListDetailViewController : UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    var size = 0
+    if self.products != nil {
+      size = self.products!.count
+      if size > 0 {
+        size += 1
+      }
+    }
+    return size
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return indexPath.row == self.products!.count ? 80 : 109.0
+  }
+}
+
+
+//MARK: - UITableViewDelegate
+extension UserListDetailViewController : UITableViewDelegate{
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if indexPath.row == self.products!.count {
+      let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! GRShoppingCartTotalsTableViewCell
+      let total = self.calculateTotalAmount()
+      totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds: "")
+      return totalCell
+    }
+    
+    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
+    listCell.productImage!.image = nil
+    listCell.productImage!.cancelImageDownloadTask()
+    listCell.defaultList = false
+    listCell.detailDelegate = self
+    listCell.delegate = self
+    
+    if let item = self.products![indexPath.row] as? [String : AnyObject] {
+      listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+    } else if let item = self.products![indexPath.row] as? Product {
+      if item.img != "" {
+        listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+      }else{
+        self.loadServiceItems(nil)
+      }
+    }
+    
+    if self.isEdditing {
+      listCell.rightUtilityButtons = nil
+      listCell.showLeftUtilityButtons(animated: false)
+    } else {
+      if listCell.rightUtilityButtons == nil {
+        delay(0.5, completion: {
+          listCell.setDeleteButton()
+        })
+      }
+    }
+    
+    return listCell
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let cell = tableView.cellForRow(at: indexPath)
+    if cell!.isKind(of: DetailListViewCell.self) {
+      
+      let controller = self.getDetailController(index:indexPath)
+      self.navigationController!.pushViewController(controller!, animated: true)
+    }
+  }
+  
+  func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
+    let cell = tableView!.cellForRow(at: index)
+    if cell!.isKind(of: DetailListViewCell.self) {
+      let controller = ProductDetailPageViewController()
+      var productsToShow:[Any] = []
+      for idx in 0 ..< self.products!.count {
+        if let product = self.products![idx] as? [String:Any] {
+          let upc = product["upc"] as! String
+          let description = product["description"] as! String
+          
+          productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+        }
+        else if let product = self.products![idx] as? Product {
+          productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+        }
+      }
+      
+      //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+      
+      if index.row < productsToShow.count {
+        controller.itemsToShow = productsToShow
+        controller.ixSelected = index.row
+        controller.completeDeleteItem = {() in
+          print("completeDelete")
+          self.fromDelete =  true
+        }
+        controller.detailOf = self.listName!
+      }
+      
+      return controller
+    }
+    return nil
+  }
+  
+}
+
+
+//MARK: - BarCodeViewControllerDelegate
+extension UserListDetailViewController : BarCodeViewControllerDelegate {
+  func barcodeCaptured(_ value: String?) {
+    print(value ?? "")
+  }
+  
+  
+  func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {
+    
+    if isUpcSearch {
+      self.findProdutFromUpc(value!)
+    }else{
+      self.invokeServicefromTicket(value!)
+    }
+  }
+}
+
+
+//MARK: - CameraViewControllerDelegate
+extension UserListDetailViewController : CameraViewControllerDelegate {
+  
+  func photoCaptured(_ value: String?, upcs: [String]?, done: (() -> Void)) {
+    if value !=  nil {
+      if value != "" {
+        self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .withTextForCamFind,searchServiceFromContext: .fromSearchCamFind)
+      }
+    }
+  }
+  
+}
+
+
+
+//MARK: - DetailListViewCellDelegate
+extension UserListDetailViewController : DetailListViewCellDelegate{
+  
+  func didChangeQuantity(_ cell: DetailListViewCell) {
+    if self.isEdditing {
+      return
+    }
+    if self.quantitySelector == nil {
+      
+      let indexPath = self.tableView!.indexPath(for: cell)
+      if indexPath == nil {
+        return
+      }
+      var isPesable = false
+      
+      var price: NSNumber? = nil
+      var equivalence : NSNumber = 0
+      var quantity : Int = 1
+      var orderByPiece: Int = 0
+      
+      if let item = self.products![indexPath!.row] as? [String:Any] {
+        if let pesable = item["type"] as? NSString {
+          isPesable = pesable.intValue == 1
+        }
+        price = item["price"] as? NSNumber
+        quantity = (item["quantity"] as? Int)!
+        
+      }
+      else if let item = self.products![indexPath!.row] as? Product {
+        isPesable = item.type.boolValue
+        price = NSNumber(value: item.price.doubleValue as Double)
+        equivalence = item.equivalenceByPiece
+        quantity = Int(item.quantity)
+        orderByPiece = item.orderByPiece.intValue
+      }
+      
+      let width:CGFloat = self.view.frame.width
+      let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 46.0
+      
+      let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
+      
+      if isPesable {
+        self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!,isSearchProductView: false)
+      }
+      else {
+        self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
+      }
+      
+      self.quantitySelector?.isUpcInList = true
+      self.view.addSubview(self.quantitySelector!)
+      self.quantitySelector!.closeAction = { () in
+        self.removeSelector()
+      }
+      
+      if let item = self.products![indexPath!.row] as? [String:Any] {
+        // TODO: cast values from response
+        quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
+      } else if let item = self.products![indexPath!.row] as? Product {
+        quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
+      }
+      self.quantitySelector?.setQuantity(quantity: quantity, orderByPiece: orderByPiece)
+      self.quantitySelector!.isFromList =  true
+      self.quantitySelector!.addToCartAction = { (quantity:String) in
+        
+        if quantity == "00" {
+          self.deleteFromCellUtilityButton(cell)
+          return
+        }
+        
+        if let item = self.products![indexPath!.row] as? [String:Any] {
+          let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
+          //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
+        } else if let item = self.products![indexPath!.row] as? Product {
+          
+          item.quantity = NSNumber(value: Int(quantity)! as Int)
+          item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
+          item.pieces = NSNumber(value:Int(quantity)!)
+          
+          if UserCurrentSession.hasLoggedUser() {
+            self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
+          } else {
+            self.saveContext()
+            self.retrieveProductsLocally(true)
+          }
+          
+          self.removeSelector()
+        }
+      }
+      
+      UIView.animate(withDuration: 0.5, animations: { () -> Void in
+        self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
+      })
+      
+    }
+    else {
+      self.removeSelector()
+    }
+  }
+  
+  func removeSelector() {
+    if   self.quantitySelector != nil {
+      UIView.animate(withDuration: 0.5,
+                     animations: { () -> Void in
+                      let width:CGFloat = self.view.frame.width
+                      let height:CGFloat = self.view.frame.height - self.header!.frame.height
+                      self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
+      },
+                     completion: { (finished:Bool) -> Void in
+                      if finished {
+                        self.quantitySelector!.removeFromSuperview()
+                        self.quantitySelector = nil
+                      }
+      }
+      )
+    }
+  }
+}
+
+
+//MARK: - Reminder
+extension UserListDetailViewController : ReminderViewControllerDelegate{
+  func setReminderSelected(_ selected:Bool){
+    self.reminderButton?.isSelected = selected
+    if selected{
+      self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", for: .selected)
+      self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", for: UIControlState())
+    }else{
+      self.reminderButton!.setTitle("Crear recordatorio para esta lista", for: UIControlState())
+    }
+  }
+  
+  func addReminder(){
+    let selected = self.reminderButton!.isSelected
+    let reminderViewController = ReminderViewController()
+    reminderViewController.listId = self.listId!
+    reminderViewController.listName = self.listName!
+    reminderViewController.delegate = self
+    if  selected {
+      reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
+      reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? Date
+    }
+    self.navigationController?.pushViewController(reminderViewController, animated: true)
+  }
+  
+  func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
+    
+    if self.reminderService!.existNotificationForCurrentList() || value{
+      setReminderSelected(true)
+    }else{
+      setReminderSelected(false)
+    }
+  }
+}
+
+
+//MARK: - UITextFieldDelegate
+extension UserListDetailViewController : UITextFieldDelegate{
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    let strNSString : NSString = textField.text! as NSString
+    let newString = strNSString.replacingCharacters(in: range, with: string)
+    if string == "" {
+      return true
+    }
+    return (newString.characters.count > 25) ? false : true
+  }
+  
+  func backEmpty() {
+    super.back()
+  }
+  
+  override func back() {
+    super.back()
+  }
+}
+
+//MARK: - UIViewControllerPreviewingDelegate
 extension UserListDetailViewController: UIViewControllerPreviewingDelegate {
     //registerForPreviewingWithDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -1983,15 +1912,16 @@ extension UserListDetailViewController: UIViewControllerPreviewingDelegate {
         }
         return nil
     }
-    
+  
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         self.navigationController!.pushViewController(viewControllerToCommit, animated: true)
         //present(viewControllerToCommit, animated: true, completion: nil)
     }
 }
 
+
+//MARK: - UIGestureRecognizerDelegate
 extension UserListDetailViewController: UIGestureRecognizerDelegate {
-    
     func addLongTouch(view:UIView) {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(UserListDetailViewController.handleLongPress(gestureReconizer:)))
         longPressGesture.minimumPressDuration = 0.6 // 1 second press
@@ -2028,4 +1958,91 @@ extension UserListDetailViewController: UIGestureRecognizerDelegate {
             }
         }
     }
+}
+
+//MARK: - AddProductTolistViewDelegate
+extension UserListDetailViewController : AddProductTolistViewDelegate{
+  func scanCode() {
+    let barCodeController = BarCodeViewController()
+    barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
+    barCodeController.delegate = self
+    barCodeController.searchProduct = true
+    barCodeController.useDelegate = true
+    barCodeController.isAnyActionFromCode =  true
+    self.present(barCodeController, animated: true, completion: nil)
+  }
+  
+  func showCamera() {
+    let cameraController = CameraViewController()
+    cameraController.delegate = self
+    self.present(cameraController, animated: true, completion: nil)
+  }
+  
+  func searchByText(_ text: String) {
+    if text.isNumeric() && text.length() >= 12 {
+      let cero = text.length() < 13 ? "0":""
+      self.findProdutFromUpc("\(cero)\(text)")
+    }else{
+      
+      let message = self.validateText(text)
+      if message != ""{
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+          UIImage(named:"noAvaliable"))
+        self.alertView!.setMessage(message)
+        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+        self.addProductsView?.changeFrame = false
+        return
+      }
+      self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .withText,searchServiceFromContext:.fromSearchText )
+    }
+    
+  }
+}
+
+//MARK: - UIActivityItemSource
+extension UserListDetailViewController: UIActivityItemSource {
+  func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+    return "Walmart"
+  }
+  
+  func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+    if activityType == UIActivityType.mail {
+      return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+    }
+    return ""
+  }
+  
+  func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+    if activityType == UIActivityType.mail {
+      if UserCurrentSession.sharedInstance.userSigned == nil {
+        return "Hola te quiero enseñar mi lista de www.walmart.com.mx"
+      } else {
+        return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su lista de www.walmart.com.mx"
+      }
+    }
+    return ""
+  }
+  //----
+  
+  /**
+   Builds view image to share
+   
+   - returns: UIImage
+   */
+  func buildImageToShare() -> UIImage? {
+    self.isSharing = true
+    let oldFrame : CGRect = self.tableView!.frame
+    var frame : CGRect = self.tableView!.frame
+    frame.size.height = self.tableView!.contentSize.height + 50.0
+    self.tableView!.frame = frame
+    
+    UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
+    self.tableView!.layer.render(in: UIGraphicsGetCurrentContext()!)
+    let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    
+    self.isSharing = false
+    self.tableView!.frame = oldFrame
+    return saveImage
+  }
 }

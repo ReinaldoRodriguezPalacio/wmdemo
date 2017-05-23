@@ -42,7 +42,7 @@ class ProductTableViewCell : SWTableViewCell {
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.textColor =  WMColor.gray
         
-        productPriceLabel = CurrencyCustomLabel(frame: CGRect.zero)
+        productPriceLabel = CurrencyCustomLabel(frame: .zero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
         //productPriceLabel!.textColor = WMColor.orange
         
@@ -50,6 +50,7 @@ class ProductTableViewCell : SWTableViewCell {
         self.contentView.addSubview(productShortDescriptionLabel!)
         self.contentView.addSubview(productPriceLabel!)
     }
+  
     /**
      Set image in cell from url, price and product description
      
@@ -67,12 +68,7 @@ class ProductTableViewCell : SWTableViewCell {
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }
     deinit {
-        //print("deinit")
         self.cellScrollView.delegate = nil
     }
-    
-    
-    
-    
-    
+  
 }

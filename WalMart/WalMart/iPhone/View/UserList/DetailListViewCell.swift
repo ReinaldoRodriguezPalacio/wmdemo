@@ -70,10 +70,10 @@ class DetailListViewCell: ProductTableViewCell {
         
         
         self.check = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 109))
-        self.check?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
-        self.check?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
-        self.check?.addTarget(self, action: #selector(DetailListViewCell.checked(_:)), for: UIControlEvents.touchUpInside)
-        self.check?.isSelected = true
+        self.check!.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.check!.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.check!.addTarget(self, action: #selector(DetailListViewCell.checked(_:)), for: UIControlEvents.touchUpInside)
+        self.check!.isSelected = true
         self.contentView.addSubview(self.check!)
 
         var buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 64, height: 109))
@@ -87,7 +87,6 @@ class DetailListViewCell: ProductTableViewCell {
         buttonDelete.backgroundColor = WMColor.light_gray
         
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
-        
     }
 
     /**
@@ -141,7 +140,6 @@ class DetailListViewCell: ProductTableViewCell {
             if let orderPiece = product["baseUomcd"] as? String {
                 orderByPiece = (orderPiece == "EA"  ) //TODO: quitar pieces
             }
-
             
             if Int(type)! == 0 { //Piezas
                 
@@ -343,8 +341,6 @@ class DetailListViewCell: ProductTableViewCell {
         }
 
         self.separator!.frame = CGRect(x: x, y: 108,width: self.frame.width - 16, height: 1.0)
-        
-        
     }
     
     /**
@@ -378,7 +374,6 @@ class DetailListViewCell: ProductTableViewCell {
         sender.isSelected = !sender.isSelected
         checkDisabled(!sender.isSelected)
         detailDelegate?.didDisable(!sender.isSelected,cell:self)
-        
     }
     
     /**
@@ -388,14 +383,14 @@ class DetailListViewCell: ProductTableViewCell {
      - returns: image in grayScale
      */
     func convertImageToGrayScale(_ image:UIImage) -> UIImage {
-        let imageRect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        let colorSpace = CGColorSpaceCreateDeviceGray()
-        let context = CGContext(data: nil, width: Int(image.size.width),  height: Int(image.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: CGBitmapInfo().rawValue)
-        context?.draw(image.cgImage!, in: imageRect)
-        let imageRef = context?.makeImage()
-        let newImage = UIImage(cgImage: imageRef!)
-        return newImage
-        
+      let imageRect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+      let colorSpace = CGColorSpaceCreateDeviceGray()
+      let context = CGContext(data: nil, width: Int(image.size.width),  height: Int(image.size.height), bitsPerComponent: 8, bytesPerRow: 0, space: colorSpace, bitmapInfo: CGBitmapInfo().rawValue)
+      context?.draw(image.cgImage!, in: imageRect)
+      let imageRef = context?.makeImage()
+      let newImage = UIImage(cgImage: imageRef!)
+      
+      return newImage
     }
     
     /**
