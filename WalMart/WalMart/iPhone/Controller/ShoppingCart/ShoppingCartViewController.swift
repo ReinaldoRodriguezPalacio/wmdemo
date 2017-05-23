@@ -38,7 +38,7 @@ protocol ShoppingCartViewControllerDelegate: class {
     func returnToView()
 }
 
-class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate,AlertPickerViewDelegate {
+class ShoppingCartViewController: BaseController {
     
     @IBOutlet var viewContent: UIView!
     weak var delegate: ShoppingCartViewControllerDelegate?
@@ -340,7 +340,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
 
     }
     
-    
     /**
      Load items in shopping cart, anda create cell width totals, 
      if no containt items back to shopping cart
@@ -495,165 +494,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         
     }
     
-    
-    //MARK: TableviewDelegate
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if itemsInShoppingCart.count > 0{
-            if itemsUPC.count > 0 {
-                return itemsInShoppingCart.count + 2
-            }else {
-                return itemsInShoppingCart.count + 1
-            }
-        }
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell? = nil
-        if itemsInShoppingCart.count > indexPath.row {
-            let cellProduct = viewShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ProductShoppingCartTableViewCell
-            cellProduct.delegateProduct = self
-            cellProduct.delegate = self
-            cellProduct.rightUtilityButtons = getRightButtonDelete()
-            cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] 
-            let upc = shoppingCartProduct["upc"] as! String
-            let desc = shoppingCartProduct["description"] as! String
-            let price = shoppingCartProduct["price"] as! String
-            let quantity = shoppingCartProduct["quantity"] as! NSString
-            
-            var onHandInventory = "0"
-            if let inventory = shoppingCartProduct["onHandInventory"] as? String {
-                onHandInventory = inventory
-            }
-            
-            var isPreorderable = "false"
-            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
-                isPreorderable = preorderable
-            }
-
-
-            let imageArray = shoppingCartProduct["imageUrl"] as! [Any]
-            var imageUrl = ""
-            if imageArray.count > 0 {
-                imageUrl = imageArray[0] as! String
-            }
-            
-            let savingIndex = shoppingCartProduct.index(forKey: "saving")
-            var savingVal = "0.0"
-            if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as! String
-            }
-            
-            var productDeparment = ""
-            if let category = shoppingCartProduct["category"] as? String{
-                productDeparment = category
-            }
-            
-            //updateItemSavingForUPC(indexPath,upc:upc)
-            
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment)
-            //
-            //cellProduct.priceSelector.closeBand()
-            //cellProduct.endEdditingQuantity()
-            if isEdditing == true {
-                cellProduct.setEditing(true, animated: false)
-                cellProduct.showLeftUtilityButtons(animated: false)
-                cellProduct.moveRightImagePresale(false)
-            }else{
-                cellProduct.setEditing(false, animated: false)
-                cellProduct.hideUtilityButtons(animated: false)
-                cellProduct.moveRightImagePresale(false)
-                
-            }
-            
-            cell = cellProduct
-        } else {
-            
-            if itemsInShoppingCart.count == indexPath.row  {
-                let cellTotals = viewShoppingCart.dequeueReusableCell(withIdentifier: "productTotalsCell", for: indexPath) as! ShoppingCartTotalsTableViewCell
-                
-                let totalsItems = totalItems()
-                
-                let subTotalText = totalsItems["subtotal"] as String!
-                let iva = totalsItems["iva"] as String!
-                let total = totalsItems["total"] as String!
-                let totalSaving = totalsItems["totalSaving"] as String!
-                
-                updateShopButton(total!)
-                
-                 var newTotal  = total
-                 var newTotalSavings = totalSaving
-                if self.isEmployeeDiscount {
-                    newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
-                    newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
-                }
-                
-                cellTotals.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
-                cell = cellTotals
-            }
-            
-            if itemsInShoppingCart.count < indexPath.row  {
-                
-                let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
-                cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = itemsUPC
-                cellPromotion!.collection.reloadData()
-                cell = cellPromotion
-            }
-
-        }
-        
-        cell?.selectionStyle = UITableViewCellSelectionStyle.none
-        
-        return cell!
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
-            let controller = self.getProductDetailController(indexPath: indexPath)
-            
-            if self.navigationController != nil {
-                 self.navigationController?.view.backgroundColor =  UIColor.white
-                self.navigationController!.pushViewController(controller!, animated: true)
-                
-            }
-        }
-        /*if isSelectingProducts {
-            if let cell = viewShoppingCart.cellForRowAtIndexPath(indexPath) as? ProductShoppingCartTableViewCell {
-                cell.priceSelector.removeBand()
-            }
-        }*/
-    }
-    
-    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
-        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [Any]
-            controller.ixSelected = indexPath.row
-            controller.detailOf = "Shopping Cart"
-            return controller
-        }
-        
-        return nil
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if itemsInShoppingCart.count > indexPath.row {
-            return 110
-        }else{
-            if itemsInShoppingCart.count == indexPath.row  {
-                return 100
-            }
-            if itemsInShoppingCart.count < indexPath.row  {
-                return 207
-            }
-        }
-        return 0
-    }
-    
     /**
      Generate Right buttons delete
      
@@ -740,158 +580,7 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
     }
     
-    
-    //MARK: ProductShoppingCartTableViewCellDelegate
-    
-    func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell) {
-        let indexPath: IndexPath = self.viewShoppingCart.indexPath(for: cell)!
-        
-        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] 
-        itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
-        self.itemsInShoppingCart[indexPath.row] = itemByUpc
-        
-        //viewLoad.stopAnnimating()
-        self.updateTotalItemsRow()
-    }
-    
-    func deleteProduct(_ cell:ProductShoppingCartTableViewCell) {
-        let toUseCellIndex = self.viewShoppingCart.indexPath(for: cell)
-        if toUseCellIndex != nil {
-            let indexPath: IndexPath = toUseCellIndex!
-            deleteRowAtIndexPath(indexPath)
-        }
-    }
-    
-    func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell) {
-        if self.isEdditing == false {
-            let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
-            let text = String(cell.quantity).characters.count < 2 ? "0": ""
-            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity!)"
-            self.selectQuantity!.updateQuantityBtn()
-            selectQuantity!.closeAction = { () in
-                self.selectQuantity!.removeFromSuperview()
-            }
-            selectQuantity!.addToCartAction = { (quantity:String) in
-                
-                if quantity == "00" {
-                    self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
-                    self.reloadShoppingCart()
-                    self.selectQuantity!.closeAction()
-                    return
-                }
-
-                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue: 5
-                if maxProducts >= Int(quantity) {
-                    
-                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
-                    alertView!.setMessage(NSLocalizedString("shoppingcart.additem", comment:""))
-                    
-                    let updateService = ShoppingCartUpdateProductsService()
-                    updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
-                        
-                        delay(0.5, completion: {
-                            alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
-                            alertView!.showDoneIcon()
-                        })
-                        
-                    },errorBlock: nil)
-                    self.reloadShoppingCart()
-                    self.selectQuantity!.closeAction()
-                } else {
-                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    
-                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
-                    alert!.setMessage(msgInventory)
-                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)": "\(maxProducts)"
-                    self.selectQuantity!.updateQuantityBtn()
-                }
-            }
-            self.view.addSubview(selectQuantity!)
-        }
-    }
-    
-    
-    //MARK: SWTableViewCellDelegate
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-        switch index {
-        case 0:
-
-            let indexPath = self.viewShoppingCart.indexPath(for: cell)
-            if indexPath != nil {
-                deleteRowAtIndexPath(indexPath!)
-            }
-        default:
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
-        switch index {
-        case 0:
-            //let indexPath: NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
-            //deleteRowAtIndexPath(indexPath)
-            let index = self.viewShoppingCart.indexPath(for: cell)
-            let superCell = self.viewShoppingCart.cellForRow(at: index!) as! ProductShoppingCartTableViewCell
-            superCell.moveRightImagePresale(false)
-             cell.showRightUtilityButtons(animated: true)
-        default:
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
-        return !isEdditing
-    }
-
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-        switch state {
-            case SWCellState.cellStateLeft:
-                return isEdditing
-            case SWCellState.cellStateRight:
-                return true
-            case SWCellState.cellStateCenter:
-                return !isEdditing
-            //default:
-            //   return !isEdditing && !self.isSelectingProducts
-        }
-    }
-    
-    
     //MARK: Actions
-    
-    /**
-     Delete item in car from indexpath selected
-     
-     - parameter indexPath: selected row
-     */
-    func deleteRowAtIndexPath(_ indexPath: IndexPath) {
-        
-        let itemWishlist = itemsInShoppingCart[indexPath.row]
-        let upc = itemWishlist["upc"] as! String
-        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        
-        if !UserCurrentSession.hasLoggedUser() {
-            BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
-        }
-        
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
-            
-            self.itemsInShoppingCart.remove(at: indexPath.row)
-            self.viewShoppingCart.reloadData()
-            self.updateTotalItemsRow()
-            self.showLoadingView()
-            
-        }, errorBlock: { (error: NSError) -> Void in
-            print("delete pressed Errro \(error)")
-        })
-        
-    }
     
     /**
      Update totals view in case, delete or update itmes
@@ -1027,24 +716,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         }
         upcItems.append("]")
         return upcItems
-    }
-
-    /**
-     Present product detail controller
-     
-     - parameter upc:          upc product
-     - parameter items:        all items in cart
-     - parameter index:        select item
-     - parameter imageProduct: image product
-     - parameter point:        point of start animation if use
-     - parameter idList:       id list if requiered in detail
-     */
-    func goTODetailProduct(_ upc: String, items: [[String: String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
-        let controller = ProductDetailPageViewController()
-        controller.itemsToShow = items as [Any]
-        controller.ixSelected = index
-        controller.detailOf = "Shopping Cart"
-        self.navigationController!.pushViewController(controller, animated: true)
     }
     
      /**
@@ -1511,110 +1182,6 @@ class ShoppingCartViewController: BaseController ,UITableViewDelegate,UITableVie
         return CheckOutViewController()
     }
     
-    
-    //MARK: AlertPickerViewDelegate
-    
-    func didSelectOption(_ picker: AlertPickerView, indexPath: IndexPath, selectedStr: String) {
-        
-        let paramsDic = picker.textboxValues!
-        let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
-        let dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
-        let determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"user_error"))
-        self.alertView?.setMessage("Validando datos del asociado")
-        
-        validateAssociate(associateNumber, dateAdmission:dateAdmission , determinant:determinant,completion: { (result:String) -> Void in
-            delay(1.0, completion: {
-                if result == ""{
-                    let service = ValidateAssociateService()
-                    service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
-                                        succesBlock: { (response:[String:Any]) -> Void in
-                                            print(response)
-                                            if response["codeMessage"] as? Int == 0 {
-                                                //Mostrar alerta y continua
-                                                self.alertView?.setMessage("Datos correctos")
-                                                self.buttonAsociate.isHighlighted =  true
-                                                self.alertView?.close()
-                                                self.isEmployeeDiscount =  true
-                                                self.loadShoppingCartService()
-                                                self.viewShoppingCart.reloadData()
-                                                self.updateTotalItemsRow()
-                                                //self.showloginshop()
-                                            }else{
-                                                self.isEmployeeDiscount =  false
-                                                self.alertView?.setMessage("Error en los datos del asociado")
-                                                self.alertView!.showErrorIcon("Ok")
-                                                self.buttonAsociate.isHighlighted =  false
-                                            }
-                                            
-                    }) { (error:NSError) -> Void in
-                        // mostrar alerta de error de info
-                        self.isEmployeeDiscount =  false
-                        self.alertView?.setMessage("Error en los datos del asociado")
-                        self.alertView!.showErrorIcon("Ok")
-                        self.buttonAsociate.isHighlighted =  false
-                        print(error)
-                    }
-                }else{
-                    self.isEmployeeDiscount =  false
-                    self.alertView?.setMessage("Error en los datos del asociado\(result)")
-                    self.alertView!.showErrorIcon("Ok")
-                    self.buttonAsociate.isHighlighted =  false
-                }
-
-            })
-        })
-    
-    }
-    
-    func closeAlertPk() {
-        self.buttonAsociate.isHighlighted =  isEmployeeDiscount
-    }
-    
-    /**
-     Validate info associate
-     
-     - parameter associateNumber: number asociate
-     - parameter dateAdmission:   date admission
-     - parameter determinant:     determinat
-     - parameter completion:      block validate
-     */
-    func validateAssociate(_ associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (_ result:String) -> Void) {
-        var message = ""
-        
-        if associateNumber == nil ||  associateNumber?.trim() == "" {
-             message =  ", Número de asociado requerido"
-        }
-        else if dateAdmission == nil ||  dateAdmission?.trim() == ""{
-             message =  ", Fecha de ingreso requerida"
-        }
-        else if determinant == nil || determinant?.trim() == ""{
-             message =  ", Determinante requerido"
-        }
-        
-        completion(message)
-        
-    }
-  
-    func didDeSelectOption(_ picker:AlertPickerView) {
-    }
-    
-    func viewReplaceContent(_ frame: CGRect) -> UIView! {
-        let view: UIView! =  UIView(frame: self.view.frame)
-        
-        return view
-        
-    }
-
-    func saveReplaceViewSelected() {
-        
-    }
-    
-    func buttomViewSelected(_ sender: UIButton) {
-        
-    }
-    
     /**
      Present view if discount associate mg is active, 
      width message.
@@ -1773,5 +1340,453 @@ extension ShoppingCartViewController: UIGestureRecognizerDelegate {
             }
         }
     }
+}
+
+//MARK: UITableViewDelegate
+extension ShoppingCartViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
+            let controller = self.getProductDetailController(indexPath: indexPath)
+            
+            if self.navigationController != nil {
+                self.navigationController?.view.backgroundColor =  UIColor.white
+                self.navigationController!.pushViewController(controller!, animated: true)
+                
+            }
+        }
+        /*if isSelectingProducts {
+         if let cell = viewShoppingCart.cellForRowAtIndexPath(indexPath) as? ProductShoppingCartTableViewCell {
+         cell.priceSelector.removeBand()
+         }
+         }*/
+    }
+    
+    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
+        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
+            let controller = ProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems() as [Any]
+            controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
+            return controller
+        }
+        
+        return nil
+    }
+    
+    /**
+     Delete item in car from indexpath selected
+     
+     - parameter indexPath: selected row
+     */
+    func deleteRowAtIndexPath(_ indexPath: IndexPath) {
+        
+        let itemWishlist = itemsInShoppingCart[indexPath.row]
+        let upc = itemWishlist["upc"] as! String
+        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemWishlist], isAdd: false)
+        }
+        
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:[String:Any]) -> Void in
+            
+            self.itemsInShoppingCart.remove(at: indexPath.row)
+            self.viewShoppingCart.reloadData()
+            self.updateTotalItemsRow()
+            self.showLoadingView()
+            
+        }, errorBlock: { (error: NSError) -> Void in
+            print("delete pressed Errro \(error)")
+        })
+        
+    }
+
+
+}
+
+//MARK: UITableViewDelegate
+extension ShoppingCartViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if itemsInShoppingCart.count > 0{
+            if itemsUPC.count > 0 {
+                return itemsInShoppingCart.count + 2
+            }else {
+                return itemsInShoppingCart.count + 1
+            }
+        }
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell? = nil
+        if itemsInShoppingCart.count > indexPath.row {
+            let cellProduct = viewShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! ProductShoppingCartTableViewCell
+            cellProduct.delegateProduct = self
+            cellProduct.delegate = self
+            cellProduct.rightUtilityButtons = getRightButtonDelete()
+            cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
+            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row]
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
+            let price = shoppingCartProduct["price"] as! String
+            let quantity = shoppingCartProduct["quantity"] as! NSString
+            
+            var onHandInventory = "0"
+            if let inventory = shoppingCartProduct["onHandInventory"] as? String {
+                onHandInventory = inventory
+            }
+            
+            var isPreorderable = "false"
+            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
+                isPreorderable = preorderable
+            }
+            
+            
+            let imageArray = shoppingCartProduct["imageUrl"] as! [Any]
+            var imageUrl = ""
+            if imageArray.count > 0 {
+                imageUrl = imageArray[0] as! String
+            }
+            
+            let savingIndex = shoppingCartProduct.index(forKey: "saving")
+            var savingVal = "0.0"
+            if savingIndex != nil {
+                savingVal = shoppingCartProduct["saving"]  as! String
+            }
+            
+            var productDeparment = ""
+            if let category = shoppingCartProduct["category"] as? String{
+                productDeparment = category
+            }
+            
+            //updateItemSavingForUPC(indexPath,upc:upc)
+            
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment)
+            //
+            //cellProduct.priceSelector.closeBand()
+            //cellProduct.endEdditingQuantity()
+            if isEdditing == true {
+                cellProduct.setEditing(true, animated: false)
+                cellProduct.showLeftUtilityButtons(animated: false)
+                cellProduct.moveRightImagePresale(false)
+            }else{
+                cellProduct.setEditing(false, animated: false)
+                cellProduct.hideUtilityButtons(animated: false)
+                cellProduct.moveRightImagePresale(false)
+                
+            }
+            
+            cell = cellProduct
+        } else {
+            
+            if itemsInShoppingCart.count == indexPath.row  {
+                let cellTotals = viewShoppingCart.dequeueReusableCell(withIdentifier: "productTotalsCell", for: indexPath) as! ShoppingCartTotalsTableViewCell
+                
+                let totalsItems = totalItems()
+                
+                let subTotalText = totalsItems["subtotal"] as String!
+                let iva = totalsItems["iva"] as String!
+                let total = totalsItems["total"] as String!
+                let totalSaving = totalsItems["totalSaving"] as String!
+                
+                updateShopButton(total!)
+                
+                var newTotal  = total
+                var newTotalSavings = totalSaving
+                if self.isEmployeeDiscount {
+                    newTotal = "\((total! as NSString).doubleValue - ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+                    newTotalSavings = "\((totalSaving! as NSString).doubleValue + ((total! as NSString).doubleValue *  UserCurrentSession.sharedInstance.porcentageAssociate))"
+                }
+                
+                cellTotals.setValues(subTotalText!, iva: iva!, total:newTotal!,totalSaving:newTotalSavings!)
+                cell = cellTotals
+            }
+            
+            if itemsInShoppingCart.count < indexPath.row  {
+                
+                let cellPromotion = viewShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
+                cellPromotion!.delegate = self
+                cellPromotion!.itemsUPC = itemsUPC
+                cellPromotion!.collection.reloadData()
+                cell = cellPromotion
+            }
+            
+        }
+        
+        cell?.selectionStyle = UITableViewCellSelectionStyle.none
+        
+        return cell!
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if itemsInShoppingCart.count > indexPath.row {
+            return 110
+        }else{
+            if itemsInShoppingCart.count == indexPath.row  {
+                return 100
+            }
+            if itemsInShoppingCart.count < indexPath.row  {
+                return 207
+            }
+        }
+        return 0
+    }
+}
+
+
+//MARK: ProductShoppingCartTableViewCellDelegate
+extension ShoppingCartViewController: ProductShoppingCartTableViewCellDelegate {
+    
+    func endUpdatingShoppingCart(_ cell:ProductShoppingCartTableViewCell) {
+        let indexPath: IndexPath = self.viewShoppingCart.indexPath(for: cell)!
+        
+        var itemByUpc  = self.itemsInShoppingCart![indexPath.row]
+        itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
+        self.itemsInShoppingCart[indexPath.row] = itemByUpc
+        
+        //viewLoad.stopAnnimating()
+        self.updateTotalItemsRow()
+    }
+    
+    func deleteProduct(_ cell:ProductShoppingCartTableViewCell) {
+        let toUseCellIndex = self.viewShoppingCart.indexPath(for: cell)
+        if toUseCellIndex != nil {
+            let indexPath: IndexPath = toUseCellIndex!
+            deleteRowAtIndexPath(indexPath)
+        }
+    }
+    
+    func userShouldChangeQuantity(_ cell:ProductShoppingCartTableViewCell) {
+        if self.isEdditing == false {
+            let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),upcProduct:cell.upc as String)
+            let text = String(cell.quantity).characters.count < 2 ? "0": ""
+            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity!)"
+            self.selectQuantity!.updateQuantityBtn()
+            selectQuantity!.closeAction = { () in
+                self.selectQuantity!.removeFromSuperview()
+            }
+            selectQuantity!.addToCartAction = { (quantity:String) in
+                
+                if quantity == "00" {
+                    self.deleteRowAtIndexPath(self.viewShoppingCart.indexPath(for: cell)!)
+                    self.reloadShoppingCart()
+                    self.selectQuantity!.closeAction()
+                    return
+                }
+                
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue: 5
+                if maxProducts >= Int(quantity) {
+                    
+                    let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                    alertView!.setMessage(NSLocalizedString("shoppingcart.additem", comment:""))
+                    
+                    let updateService = ShoppingCartUpdateProductsService()
+                    updateService.isInCart = true
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
+                        
+                        delay(0.5, completion: {
+                            alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
+                            alertView!.showDoneIcon()
+                        })
+                        
+                    },errorBlock: nil)
+                    self.reloadShoppingCart()
+                    self.selectQuantity!.closeAction()
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)": "\(maxProducts)"
+                    self.selectQuantity!.updateQuantityBtn()
+                }
+            }
+            self.view.addSubview(selectQuantity!)
+        }
+    }
     
 }
+
+//MARK: SWTableViewCellDelegate
+extension ShoppingCartViewController: SWTableViewCellDelegate{
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+        switch index {
+        case 0:
+            
+            let indexPath = self.viewShoppingCart.indexPath(for: cell)
+            if indexPath != nil {
+                deleteRowAtIndexPath(indexPath!)
+            }
+        default:
+            print("other pressed")
+        }
+    }
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+        switch index {
+        case 0:
+            //let indexPath: NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
+            //deleteRowAtIndexPath(indexPath)
+            let index = self.viewShoppingCart.indexPath(for: cell)
+            let superCell = self.viewShoppingCart.cellForRow(at: index!) as! ProductShoppingCartTableViewCell
+            superCell.moveRightImagePresale(false)
+            cell.showRightUtilityButtons(animated: true)
+        default:
+            print("other pressed")
+        }
+    }
+    
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
+        return !isEdditing
+    }
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+        switch state {
+        case SWCellState.cellStateLeft:
+            return isEdditing
+        case SWCellState.cellStateRight:
+            return true
+        case SWCellState.cellStateCenter:
+            return !isEdditing
+            //default:
+            //   return !isEdditing && !self.isSelectingProducts
+        }
+    }
+}
+
+//MARK: ProductDetailCrossSellViewDelegate
+extension ShoppingCartViewController: ProductDetailCrossSellViewDelegate {
+    /**
+     Present product detail controller
+     
+     - parameter upc:          upc product
+     - parameter items:        all items in cart
+     - parameter index:        select item
+     - parameter imageProduct: image product
+     - parameter point:        point of start animation if use
+     - parameter idList:       id list if requiered in detail
+     */
+    func goTODetailProduct(_ upc: String, items: [[String: String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+        let controller = ProductDetailPageViewController()
+        controller.itemsToShow = items as [Any]
+        controller.ixSelected = index
+        controller.detailOf = "Shopping Cart"
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+}
+
+//MARK: AlertPickerViewDelegate
+extension ShoppingCartViewController: AlertPickerViewDelegate {
+    
+    func didSelectOption(_ picker: AlertPickerView, indexPath: IndexPath, selectedStr: String) {
+        
+        let paramsDic = picker.textboxValues!
+        let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+        let dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+        let determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"user_error"))
+        self.alertView?.setMessage("Validando datos del asociado")
+        
+        validateAssociate(associateNumber, dateAdmission:dateAdmission , determinant:determinant,completion: { (result:String) -> Void in
+            delay(1.0, completion: {
+                if result == ""{
+                    let service = ValidateAssociateService()
+                    service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
+                                        succesBlock: { (response:[String:Any]) -> Void in
+                                            print(response)
+                                            if response["codeMessage"] as? Int == 0 {
+                                                //Mostrar alerta y continua
+                                                self.alertView?.setMessage("Datos correctos")
+                                                self.buttonAsociate.isHighlighted =  true
+                                                self.alertView?.close()
+                                                self.isEmployeeDiscount =  true
+                                                self.loadShoppingCartService()
+                                                self.viewShoppingCart.reloadData()
+                                                self.updateTotalItemsRow()
+                                                //self.showloginshop()
+                                            }else{
+                                                self.isEmployeeDiscount =  false
+                                                self.alertView?.setMessage("Error en los datos del asociado")
+                                                self.alertView!.showErrorIcon("Ok")
+                                                self.buttonAsociate.isHighlighted =  false
+                                            }
+                                            
+                    }) { (error:NSError) -> Void in
+                        // mostrar alerta de error de info
+                        self.isEmployeeDiscount =  false
+                        self.alertView?.setMessage("Error en los datos del asociado")
+                        self.alertView!.showErrorIcon("Ok")
+                        self.buttonAsociate.isHighlighted =  false
+                        print(error)
+                    }
+                }else{
+                    self.isEmployeeDiscount =  false
+                    self.alertView?.setMessage("Error en los datos del asociado\(result)")
+                    self.alertView!.showErrorIcon("Ok")
+                    self.buttonAsociate.isHighlighted =  false
+                }
+                
+            })
+        })
+        
+    }
+    
+    func closeAlertPk() {
+        self.buttonAsociate.isHighlighted =  isEmployeeDiscount
+    }
+    
+    /**
+     Validate info associate
+     
+     - parameter associateNumber: number asociate
+     - parameter dateAdmission:   date admission
+     - parameter determinant:     determinat
+     - parameter completion:      block validate
+     */
+    func validateAssociate(_ associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (_ result:String) -> Void) {
+        var message = ""
+        
+        if associateNumber == nil ||  associateNumber?.trim() == "" {
+            message =  ", Número de asociado requerido"
+        }
+        else if dateAdmission == nil ||  dateAdmission?.trim() == ""{
+            message =  ", Fecha de ingreso requerida"
+        }
+        else if determinant == nil || determinant?.trim() == ""{
+            message =  ", Determinante requerido"
+        }
+        
+        completion(message)
+        
+    }
+    
+    func didDeSelectOption(_ picker:AlertPickerView) {
+    }
+    
+    func viewReplaceContent(_ frame: CGRect) -> UIView! {
+        let view: UIView! =  UIView(frame: self.view.frame)
+        
+        return view
+        
+    }
+    
+    func saveReplaceViewSelected() {
+        
+    }
+    
+    func buttomViewSelected(_ sender: UIButton) {
+        
+    }
+    
+}
+
+

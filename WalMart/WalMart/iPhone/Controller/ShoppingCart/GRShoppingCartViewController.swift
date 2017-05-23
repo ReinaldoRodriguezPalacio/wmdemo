@@ -33,7 +33,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITableViewDataSource,UIViewControllerTransitioningDelegate, GRProductShoppingCartTableViewCellDelegate, SWTableViewCellDelegate, ListSelectorDelegate, UIActivityItemSource {
+class GRShoppingCartViewController : BaseController, UIViewControllerTransitioningDelegate {
 
    
 
@@ -280,173 +280,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
-    
-    //MARK: - Table View Data Source
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if itemsInCart.count > 0{
-            if itemsUPC.count > 0 {
-                return itemsInCart.count + 2
-            }else {
-                return itemsInCart.count + 1
-            }
-        }
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell : UITableViewCell? = nil
-        if indexPath.row == itemsInCart.count {
-            let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
-            let subtotal = UserCurrentSession.sharedInstance.estimateTotalGR()
-            let saving = UserCurrentSession.sharedInstance.estimateSavingGR()
-            
-            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "", total: "\(subtotal - saving)", totalSaving: "\(saving)", numProds:"\(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
-            
-            return tblTotalCell
-        }
-        if itemsInCart.count < indexPath.row  {
-            
-            let cellPromotion = tableShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
-            //cellPromotion!.delegate = self
-            cellPromotion!.itemsUPC = itemsUPC
-            cellPromotion!.collection.reloadData()
-            cell = cellPromotion
-            
-            return cell!
-        }
-
-        let tblShoppingCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! GRProductShoppingCartTableViewCell
-        
-        tblShoppingCell.selectionStyle = UITableViewCellSelectionStyle.none
-        tblShoppingCell.rightUtilityButtons = getRightButton()
-        tblShoppingCell.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-        
-        let itemProduct = itemsInCart[indexPath.row] 
-        
-        let upc = itemProduct["upc"] as! String
-        
-        var quantity: Int = 0
-        if let qIntProd = itemProduct["quantity"] as? Int {
-            quantity = qIntProd
-        }
-        
-        if let qIntProd = itemProduct["quantity"] as? NSString {
-            quantity = qIntProd.integerValue
-        }
-        
-        let imgUrl = itemProduct["imageUrl"] as! String
-        var price : Double = 0.0
-        
-        if  let qIntProd = itemProduct["price"] as? Double {
-            price = qIntProd
-        }
-        
-        if  let qIntProd = itemProduct["price"] as? NSString {
-            price = qIntProd.doubleValue
-        }
-        
-        var saving = ""
-        if let savingProd = itemProduct["promoDescription"] as? String {
-            saving = savingProd
-        }
-        
-        let description = itemProduct["description"] as! String
-        
-        let priceStr = "\(price)"
-        var typeProdVal : Int = 0
-        
-        if let typeProd = itemProduct["type"] as? NSString {
-            typeProdVal = typeProd.integerValue
-        }
-        
-        var equivalenceByPiece = NSNumber(value: 0 as Int32)
-        if let equivalence = itemProduct["equivalenceByPiece"] as? NSNumber {
-            equivalenceByPiece = equivalence
-        }
-        
-        if let equivalence = itemProduct["equivalenceByPiece"] as? NSString {
-            if equivalence != "" {
-                equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
-            }
-        }
-
-        let comments = itemProduct["comments"] as? String
-        
-        var orderByPiece = false
-        if let orderPiece = itemProduct["baseUomcd"] as? String {
-            orderByPiece = (orderPiece == "EA")
-        }
-        
-        var totalPieces = 0
-        if orderByPiece {
-            if let pieces = itemProduct["quantity"] as? Int {
-                totalPieces = pieces
-            }
-            if let pieces = itemProduct["quantity"] as? NSString {
-                totalPieces = pieces.integerValue
-            }
-        }
-
-        tblShoppingCell.delegateQuantity = self
-        tblShoppingCell.delegate = self
-        
-        if typeProdVal != 1 {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
-        } else {
-            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
-        }
-        
-        if isEdditing == true {
-            tblShoppingCell.setEditing(true, animated: false)
-            tblShoppingCell.showLeftUtilityButtons(animated: false)
-        } else {
-            tblShoppingCell.setEditing(false, animated: false)
-            tblShoppingCell.hideUtilityButtons(animated: true)
-        }
-
-        return tblShoppingCell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if itemsInCart.count > indexPath.row {
-            return 110
-        }else{
-            if itemsInCart.count == indexPath.row  {
-                return 80
-            }
-            if itemsInCart.count < indexPath.row  {
-                return 207
-            }
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if itemsInCart.count > indexPath.row  && !isSelectingProducts {
-            
-            let controller = self.getProductDetailController(indexPath: indexPath)
-            if self.navigationController  != nil {
-                self.navigationController!.pushViewController(controller!, animated: true)
-            }
-            
-        }
-    }
-    
-    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
-    
-        if itemsInCart.count > indexPath.row   {
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems() as [Any]
-            controller.ixSelected = indexPath.row
-            controller.detailOf = "Shopping Cart"
-        
-            return controller
-        }
-        
-        return nil
-    }
-    
     func showshoppingcart() {
         
         self.buttonShop!.isEnabled = false
@@ -576,121 +409,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         return upc
     }
-
-    func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
-        
-        if self.isEdditing == false {
-            
-            let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
-            
-            if cell.typeProd == 1 {
-                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity!,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc, isSearchProductView: false)
-            } else {
-                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
-            }
-            
-            if cell.orderByPieces {
-                selectQuantityGR?.validateOrderByPiece(orderByPiece: cell.orderByPieces, quantity: Double(cell.quantity), pieces: cell.pieces)
-            } else {
-                selectQuantityGR?.userSelectValue(String(cell.quantity))
-                selectQuantityGR?.first = true
-            }
-            
-            selectQuantityGR?.addToCartAction = { (quantity:String) in
-                if quantity ==  "00"{
-                    self.selectQuantityGR?.closeAction()
-                    self.deleteRowAtIndexPath(self.tableShoppingCart.indexPath(for: cell)!)
-                    return
-                }
-                
-                if quantity ==  "00"{
-                    self.selectQuantityGR?.closeAction()
-                    self.deleteRowAtIndexPath(self.tableShoppingCart.indexPath(for: cell)!)
-                    return
-                }
-
-                
-                if cell.onHandInventory.integerValue >= Int(quantity) {
-                    self.selectQuantityGR?.closeAction()
-                    
-                    cell.orderByPieces = self.selectQuantityGR!.orderByPiece
-                    cell.pieces = Int(quantity)!
-                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
-                    
-                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
-                    
-                } else {
-                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    
-                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                    
-                    var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                    
-                    if cell.pesable {
-                        secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
-                    }
-                    
-                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
-                    alert!.setMessage(msgInventory)
-                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                }
-                
-            }
-            
-            selectQuantityGR?.addUpdateNote = {() in
-                    let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
-                    let frame = vc!.view.frame
-                    let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
-                    addShopping.params = paramsToSC
-                    vc!.addChildViewController(addShopping)
-                    addShopping.view.frame = frame
-                    vc!.view.addSubview(addShopping.view)
-                    addShopping.didMove(toParentViewController: vc!)
-                    addShopping.typeProduct = ResultObjectType.Groceries
-                    addShopping.comments = cell.comments
-                    addShopping.goToShoppingCart = {() in }
-                    addShopping.removeSpinner()
-                    addShopping.addActionButtons()
-                    addShopping.addNoteToProduct(nil)
-            }
-
-            selectQuantityGR?.userSelectValue(String(cell.quantity!))
-            selectQuantityGR?.first = true
-//            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
-//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
-//            }else {
-//                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
-//            }
-//            selectQuantityGR?.showNoteButtonComplete()
-            selectQuantityGR?.closeAction = { () in
-                self.selectQuantityGR.removeFromSuperview()
-            }
-            
-            delay(0.2, completion: {
-                self.view.addSubview(self.selectQuantityGR)
-            })
-            
-            
-        } else {
-            let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
-            let frame = vc!.view.frame
-            let addShopping = ShoppingCartUpdateController()
-            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
-            addShopping.params = params
-            vc!.addChildViewController(addShopping)
-            addShopping.view.frame = frame
-            vc!.view.addSubview(addShopping.view)
-            addShopping.didMove(toParentViewController: vc!)
-            addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.comments = cell.comments
-            addShopping.goToShoppingCart = {() in }
-            addShopping.removeSpinner()
-            addShopping.addActionButtons()
-            addShopping.addNoteToProduct(nil)
-        }
-        
-    }
     
     func buildParamsUpdateShoppingCart(_ cell: GRProductShoppingCartTableViewCell,quantity:String) -> [String:Any] {
         let pesable = cell.pesable ? "1" : "0"
@@ -767,116 +485,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
 
     }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-        switch index {
-        case 0:
-           
-            let indexPath = self.tableShoppingCart.indexPath(for: cell)
-            if self.isEdditing {
-                if indexPath != nil {
-                    deleteRowAtIndexPath(indexPath!)
-                   // self.
-                }
-            } else {
-                if let cellSC = cell as? GRProductShoppingCartTableViewCell {
-                    
-                    let vc: UIViewController? = UIApplication.shared.keyWindow!.rootViewController
-                    let frame = vc!.view.frame
-                    let addShopping = ShoppingCartUpdateController()
-                    let params = self.buildParamsUpdateShoppingCart(cellSC,quantity: "\(cellSC.quantity!)")
-                    
-                    addShopping.params = params
-                    vc!.addChildViewController(addShopping)
-                    addShopping.view.frame = frame
-                    vc!.view.addSubview(addShopping.view)
-                    addShopping.didMove(toParentViewController: vc!)
-                    addShopping.typeProduct = ResultObjectType.Groceries
-                    addShopping.comments = cellSC.comments
-                    addShopping.goToShoppingCart = {() in }
-                    addShopping.removeSpinner()
-                    addShopping.addActionButtons()
-                    addShopping.addNoteToProduct(nil)
-                }
-            }
-            
-        case 1:
-             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "")
-            let indexPath = self.tableShoppingCart.indexPath(for: cell)
-            if indexPath != nil {
-                deleteRowAtIndexPath(indexPath!)
-            }
-        default :
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
-        switch index {
-        case 0:
-            cell.rightUtilityButtons = getRightButtonOnlyDelete()
-            cell.showRightUtilityButtons(animated: true)
-
-        default :
-            print("other pressed")
-        }
-    }
-    
-    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
-        return !isEdditing
-    }
-    
-    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-        switch state {
-        case SWCellState.cellStateLeft:
-            return isEdditing
-        case SWCellState.cellStateRight:
-            return true
-        case SWCellState.cellStateCenter:
-            return !isEdditing
-        //default:
-        //    return !isEdditing
-        }
-    }
-    
-    func getRightButton() -> [UIButton] {
-        var toReturn : [UIButton] = []
-        
-        let buttonNote = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
-        buttonNote.setTitle(NSLocalizedString("shoppingcart.note",comment:""), for: UIControlState())
-        buttonNote.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonNote.backgroundColor = WMColor.light_blue
-        toReturn.append(buttonNote)
-        
-        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
-        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.red
-        toReturn.append(buttonDelete)
-        
-        return toReturn
-    }
-    
-    func getRightButtonOnlyDelete() -> [UIButton] {
-        var toReturn : [UIButton] = []
-
-        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
-        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
-        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.red
-        toReturn.append(buttonDelete)
-        
-        return toReturn
-    }
-    
-    func getLeftDelete() -> [UIButton] {
-        var toReturn : [UIButton] = []
-        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 109))
-        buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
-        buttonDelete.backgroundColor = WMColor.light_gray
-        toReturn.append(buttonDelete)
-        return toReturn
-    }
 
     func getUPCItems() -> [[String:String]] {
         var upcItems : [[String:String]] = []
@@ -899,7 +507,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         return upcItems
     }
 
-    
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(_ indexPath : IndexPath){
@@ -1035,30 +642,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
-    //MARK: activityViewControllerDelegate
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
-        return "Walmart"
-    }
-    
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail {
-            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
-        }
-        return ""
-    }
-    
-    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
-        if activityType == UIActivityType.mail {
-            if UserCurrentSession.sharedInstance.userSigned == nil {
-                return "Hola te quiero enseñar mi carrito de www.walmart.com.mx"
-            } else {
-                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su carrito de www.walmart.com.mx"
-            }
-        }
-        return ""
-    }
-    //----
-    
     //MARK: - Actions List Selector
     
     func addCartToList() {
@@ -1123,225 +706,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             )
         }
-    }
-    
-    
-    //MARK: - ListSelectorDelegate
-    
-    func listSelectorDidClose() {
-        self.removeListSelector(action: nil)
-    }
-    
-    internal func listSelectorDidAddProduct(inList listId: String) {
-        listSelectorDidAddProduct(inList:listId,included:false)
-    }
-    
-    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
-        self.addItemsfromcarToList(inList: listId, included: included, finishAdd: true)
-    }
-    
-    func listSelectorDidAddProductLocally(inList list:List) {
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
-        
-        
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-
-        for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] 
-            
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? Int {
-                quantity = qIntProd
-            }else if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            
-            var price: Double = 0.0
-            if  let qIntProd = item["price"] as? NSNumber {
-                price = qIntProd.doubleValue
-            }
-            if  let qIntProd = item["price"] as? NSString {
-                price = qIntProd.doubleValue
-            }
-            
-            var typeProdVal: Int = 0
-            if let typeProd = item["type"] as? NSString {
-                typeProdVal = typeProd.integerValue
-            }
-            var equivalenceByPiece : NSNumber = 0
-            if let equiva = item["equivalenceByPiece"] as? NSNumber {
-                equivalenceByPiece =  equiva
-            }else if let equiva = item["equivalenceByPiece"] as? Int {
-                equivalenceByPiece =  NSNumber(value: equiva)
-            }else if let equiva = item["equivalenceByPiece"] as? String {
-                equivalenceByPiece =   NSNumber(value:Int(equiva)!)
-            }
-           
-            var addInList = true
-            for prod  in list.products {
-                let myprod = prod as! Product
-                let orderByPiece = item["orderByPieces"] as! NSNumber
-                if  myprod.upc == item["upc"] as! String {
-                    addInList =  false
-                    if myprod.orderByPiece ==  orderByPiece {
-                        var quantitySum = myprod.quantity.int64Value + quantity
-                        
-                        if orderByPiece.intValue == 0 {
-                            quantitySum = quantitySum > 20000 ? 20000 : quantitySum
-                        }else{
-                             quantitySum = quantitySum > 99 ? 99 : quantitySum
-                        }
-                        
-                        myprod.quantity = NSNumber(value: quantitySum)
-                        myprod.orderByPiece = orderByPiece
-                        myprod.pieces = NSNumber(value: quantity as Int)
-                        break
-                    }else{
-                        myprod.quantity = NSNumber(value: quantity)
-                        myprod.orderByPiece = orderByPiece
-                        myprod.equivalenceByPiece =  equivalenceByPiece
-                        myprod.pieces = NSNumber(value: quantity as Int)
-                        break
-                    }
-                }
-            }
-            
-            if addInList {
-                print(item["description"] as! String)
-                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
-                detail!.upc = item["upc"] as! String
-                detail!.desc = item["description"] as! String
-                detail!.price = "\(price)" as NSString
-                detail!.quantity = NSNumber(value: quantity as Int)
-                detail!.type = NSNumber(value: typeProdVal as Int)
-                detail!.list = list
-                detail!.img = item["imageUrl"] as! String
-                detail?.orderByPiece = item["orderByPieces"] as! NSNumber
-                detail?.equivalenceByPiece =  equivalenceByPiece
-                detail!.pieces = NSNumber(value: quantity as Int)
-                detail!.stock = item["stock"] as? Bool ?? true
-              
-                // 360 Event
-                BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
-            }
-            
-           
-        }
-        
-        do {
-            try context.save()
-        } catch  {
-            print("Error save context listSelectorDidAddProductLocally")
-        }
-
-        let count:Int = list.products.count
-        list.countItem = NSNumber(value: count as Int)
-        do {
-            try context.save()
-        } catch {
-           print("Error save context listSelectorDidAddProductLocally")
-        }
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-        self.alertView!.showDoneIcon()
-        self.alertView!.afterRemove = {
-            self.removeListSelector(action: nil)
-        }
-
-    }
-    
-    func listSelectorDidDeleteProductLocally(inList list:List) {
-    }
-
-    func listSelectorDidDeleteProduct(inList listId:String) {
-    }
-  
-    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
-        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listId = listEntity.idList
-            vc.listName = name
-            vc.listEntity = listEntity
-            vc.isEmptyLarge = true
-            vc.enableScrollUpdateByTabBar = false
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
-    }
-    
-    func listSelectorDidShowListLocally(_ list: List) {
-        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
-            vc.listEntity = list
-            vc.listName = list.name
-            vc.enableScrollUpdateByTabBar = false
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
-    }
-
-    func shouldDelegateListCreation() -> Bool {
-        return true
-    }
-    
-    func listSelectorDidCreateList(_ name:String) {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
-        
-        let service = GRSaveUserListService()
-        
-        var products: [Any] = []
-        for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] 
-            
-            let upc = item["upc"] as! String
-            var quantity: Int = 0
-            if  let qIntProd = item["quantity"] as? NSNumber {
-                quantity = qIntProd.intValue
-            }
-            else if  let qIntProd = item["quantity"] as? NSString {
-                quantity = qIntProd.integerValue
-            }
-            var price: String? = nil
-            if  let priceNum = item["price"] as? NSNumber {
-                price = "\(priceNum)"
-            }
-            else if  let priceTxt = item["price"] as? String {
-                price = priceTxt
-            }
-
-            let imgUrl = item["imageUrl"] as? String
-            let description = item["description"] as? String
-            let type = item["type"] as? String
-            let baseUomcd = item["baseUomcd"] as? String
-            var equivalenceByPiece : NSNumber =  0
-            let stock = item["stock"] as? Bool ?? true
-            
-            if let equivalence = item["equivalenceByPiece"] as? NSNumber {
-                equivalenceByPiece = equivalence
-            }else if let equivalence = item["equivalenceByPiece"] as? NSString {
-                if equivalence != "" {
-                   equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
-                }
-            }
-            
-
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: equivalenceByPiece,stock: stock)//baseUomcd and equivalenceByPiece
-            products.append(serviceItem as AnyObject)
-        }
-        
-        service.callService(service.buildParams(name, items: products),
-            successBlock: { (result:[String:Any]) -> Void in
-                self.listSelectorController!.loadLocalList()
-                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.removeListSelector(action: nil)
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print(error)
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-            }
-        )
     }
     
     //AddItem from car to n list
@@ -1442,6 +806,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
 }
 
+//MARK: UIViewControllerPreviewingDelegate
 extension GRShoppingCartViewController: UIViewControllerPreviewingDelegate {
     //registerForPreviewingWithDelegate
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -1461,6 +826,7 @@ extension GRShoppingCartViewController: UIViewControllerPreviewingDelegate {
     }
 }
 
+//MARK: UIGestureRecognizerDelegate
 extension GRShoppingCartViewController: UIGestureRecognizerDelegate {
     
     func addLongTouch(view:UIView) {
@@ -1497,5 +863,657 @@ extension GRShoppingCartViewController: UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+}
+
+//MARK: UITableViewDelegate
+extension GRShoppingCartViewController:  UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if itemsInCart.count > indexPath.row  && !isSelectingProducts {
+            
+            let controller = self.getProductDetailController(indexPath: indexPath)
+            if self.navigationController  != nil {
+                self.navigationController!.pushViewController(controller!, animated: true)
+            }
+            
+        }
+    }
+    
+    func getProductDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
+        
+        if itemsInCart.count > indexPath.row   {
+            let controller = ProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems() as [Any]
+            controller.ixSelected = indexPath.row
+            controller.detailOf = "Shopping Cart"
+            
+            return controller
+        }
+        
+        return nil
+    }
+
+}
+
+//MARK: UITableViewDataSource
+extension GRShoppingCartViewController: UITableViewDataSource {
+   
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if itemsInCart.count > 0{
+            if itemsUPC.count > 0 {
+                return itemsInCart.count + 2
+            }else {
+                return itemsInCart.count + 1
+            }
+        }
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell : UITableViewCell? = nil
+        if indexPath.row == itemsInCart.count {
+            let tblTotalCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "totals", for: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let subtotal = UserCurrentSession.sharedInstance.estimateTotalGR()
+            let saving = UserCurrentSession.sharedInstance.estimateSavingGR()
+            
+            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "", total: "\(subtotal - saving)", totalSaving: "\(saving)", numProds:"\(UserCurrentSession.sharedInstance.numberOfArticlesGR())")
+            
+            return tblTotalCell
+        }
+        if itemsInCart.count < indexPath.row  {
+            
+            let cellPromotion = tableShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
+            //cellPromotion!.delegate = self
+            cellPromotion!.itemsUPC = itemsUPC
+            cellPromotion!.collection.reloadData()
+            cell = cellPromotion
+            
+            return cell!
+        }
+        
+        let tblShoppingCell = tableShoppingCart.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! GRProductShoppingCartTableViewCell
+        
+        tblShoppingCell.selectionStyle = UITableViewCellSelectionStyle.none
+        tblShoppingCell.rightUtilityButtons = getRightButton()
+        tblShoppingCell.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
+        
+        let itemProduct = itemsInCart[indexPath.row]
+        
+        let upc = itemProduct["upc"] as! String
+        
+        var quantity: Int = 0
+        if let qIntProd = itemProduct["quantity"] as? Int {
+            quantity = qIntProd
+        }
+        
+        if let qIntProd = itemProduct["quantity"] as? NSString {
+            quantity = qIntProd.integerValue
+        }
+        
+        let imgUrl = itemProduct["imageUrl"] as! String
+        var price : Double = 0.0
+        
+        if  let qIntProd = itemProduct["price"] as? Double {
+            price = qIntProd
+        }
+        
+        if  let qIntProd = itemProduct["price"] as? NSString {
+            price = qIntProd.doubleValue
+        }
+        
+        var saving = ""
+        if let savingProd = itemProduct["promoDescription"] as? String {
+            saving = savingProd
+        }
+        
+        let description = itemProduct["description"] as! String
+        
+        let priceStr = "\(price)"
+        var typeProdVal : Int = 0
+        
+        if let typeProd = itemProduct["type"] as? NSString {
+            typeProdVal = typeProd.integerValue
+        }
+        
+        var equivalenceByPiece = NSNumber(value: 0 as Int32)
+        if let equivalence = itemProduct["equivalenceByPiece"] as? NSNumber {
+            equivalenceByPiece = equivalence
+        }
+        
+        if let equivalence = itemProduct["equivalenceByPiece"] as? NSString {
+            if equivalence != "" {
+                equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
+            }
+        }
+        
+        let comments = itemProduct["comments"] as? String
+        
+        var orderByPiece = false
+        if let orderPiece = itemProduct["baseUomcd"] as? String {
+            orderByPiece = (orderPiece == "EA")
+        }
+        
+        var totalPieces = 0
+        if orderByPiece {
+            if let pieces = itemProduct["quantity"] as? Int {
+                totalPieces = pieces
+            }
+            if let pieces = itemProduct["quantity"] as? NSString {
+                totalPieces = pieces.integerValue
+            }
+        }
+        
+        tblShoppingCell.delegateQuantity = self
+        tblShoppingCell.delegate = self
+        
+        if typeProdVal != 1 {
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "99",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
+        } else {
+            tblShoppingCell.setValues(upc, productImageURL: imgUrl, productShortDescription: description, productPrice: priceStr as NSString, saving: saving as NSString, quantity: quantity, onHandInventory: "20000",typeProd:typeProdVal, comments:comments == nil ? "" : comments! as NSString,equivalenceByPiece:equivalenceByPiece, orderByPiece: orderByPiece, pieces: totalPieces)
+        }
+        
+        if isEdditing == true {
+            tblShoppingCell.setEditing(true, animated: false)
+            tblShoppingCell.showLeftUtilityButtons(animated: false)
+        } else {
+            tblShoppingCell.setEditing(false, animated: false)
+            tblShoppingCell.hideUtilityButtons(animated: true)
+        }
+        
+        return tblShoppingCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if itemsInCart.count > indexPath.row {
+            return 110
+        }else{
+            if itemsInCart.count == indexPath.row  {
+                return 80
+            }
+            if itemsInCart.count < indexPath.row  {
+                return 207
+            }
+        }
+        return 0
+    }
+}
+
+//MARK: GRProductShoppingCartTableViewCellDelegate
+extension GRShoppingCartViewController: GRProductShoppingCartTableViewCellDelegate {
+    
+    func userShouldChangeQuantity(_ cell: GRProductShoppingCartTableViewCell) {
+        
+        if self.isEdditing == false {
+            
+            let frameDetail = CGRect(x: 0,y: 0, width: self.view.frame.width,height: self.view.frame.height)
+            
+            if cell.typeProd == 1 {
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity!,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc, isSearchProductView: false)
+            } else {
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: cell.price.doubleValue as Double),quantity:cell.quantity,upcProduct:cell.upc)
+            }
+            
+            if cell.orderByPieces {
+                selectQuantityGR?.validateOrderByPiece(orderByPiece: cell.orderByPieces, quantity: Double(cell.quantity), pieces: cell.pieces)
+            } else {
+                selectQuantityGR?.userSelectValue(String(cell.quantity))
+                selectQuantityGR?.first = true
+            }
+            
+            selectQuantityGR?.addToCartAction = { (quantity:String) in
+                if quantity ==  "00"{
+                    self.selectQuantityGR?.closeAction()
+                    self.deleteRowAtIndexPath(self.tableShoppingCart.indexPath(for: cell)!)
+                    return
+                }
+                
+                if quantity ==  "00"{
+                    self.selectQuantityGR?.closeAction()
+                    self.deleteRowAtIndexPath(self.tableShoppingCart.indexPath(for: cell)!)
+                    return
+                }
+                
+                
+                if cell.onHandInventory.integerValue >= Int(quantity) {
+                    self.selectQuantityGR?.closeAction()
+                    
+                    cell.orderByPieces = self.selectQuantityGR!.orderByPiece
+                    cell.pieces = Int(quantity)!
+                    let params = self.buildParamsUpdateShoppingCart(cell, quantity: quantity)
+                    
+                    NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
+                    
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    
+                    var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    
+                    if cell.pesable {
+                        secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    }
+                    
+                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                
+            }
+            
+            selectQuantityGR?.addUpdateNote = {() in
+                let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+                let frame = vc!.view.frame
+                let addShopping = ShoppingCartUpdateController()
+                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
+                addShopping.params = paramsToSC
+                vc!.addChildViewController(addShopping)
+                addShopping.view.frame = frame
+                vc!.view.addSubview(addShopping.view)
+                addShopping.didMove(toParentViewController: vc!)
+                addShopping.typeProduct = ResultObjectType.Groceries
+                addShopping.comments = cell.comments
+                addShopping.goToShoppingCart = {() in }
+                addShopping.removeSpinner()
+                addShopping.addActionButtons()
+                addShopping.addNoteToProduct(nil)
+            }
+            
+            selectQuantityGR?.userSelectValue(String(cell.quantity!))
+            selectQuantityGR?.first = true
+            //            if cell.comments.trimmingCharacters(in: CharacterSet.whitespaces) != "" {
+            //                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+            //            }else {
+            //                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+            //            }
+            //            selectQuantityGR?.showNoteButtonComplete()
+            selectQuantityGR?.closeAction = { () in
+                self.selectQuantityGR.removeFromSuperview()
+            }
+            
+            delay(0.2, completion: {
+                self.view.addSubview(self.selectQuantityGR)
+            })
+            
+            
+        } else {
+            let vc : UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+            let frame = vc!.view.frame
+            let addShopping = ShoppingCartUpdateController()
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity!)")
+            addShopping.params = params
+            vc!.addChildViewController(addShopping)
+            addShopping.view.frame = frame
+            vc!.view.addSubview(addShopping.view)
+            addShopping.didMove(toParentViewController: vc!)
+            addShopping.typeProduct = ResultObjectType.Groceries
+            addShopping.comments = cell.comments
+            addShopping.goToShoppingCart = {() in }
+            addShopping.removeSpinner()
+            addShopping.addActionButtons()
+            addShopping.addNoteToProduct(nil)
+        }
+        
+    }
+}
+
+//MARK: SWTableViewCellDelegate
+extension GRShoppingCartViewController: SWTableViewCellDelegate{
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+        switch index {
+        case 0:
+            
+            let indexPath = self.tableShoppingCart.indexPath(for: cell)
+            if self.isEdditing {
+                if indexPath != nil {
+                    deleteRowAtIndexPath(indexPath!)
+                    // self.
+                }
+            } else {
+                if let cellSC = cell as? GRProductShoppingCartTableViewCell {
+                    
+                    let vc: UIViewController? = UIApplication.shared.keyWindow!.rootViewController
+                    let frame = vc!.view.frame
+                    let addShopping = ShoppingCartUpdateController()
+                    let params = self.buildParamsUpdateShoppingCart(cellSC,quantity: "\(cellSC.quantity!)")
+                    
+                    addShopping.params = params
+                    vc!.addChildViewController(addShopping)
+                    addShopping.view.frame = frame
+                    vc!.view.addSubview(addShopping.view)
+                    addShopping.didMove(toParentViewController: vc!)
+                    addShopping.typeProduct = ResultObjectType.Groceries
+                    addShopping.comments = cellSC.comments
+                    addShopping.goToShoppingCart = {() in }
+                    addShopping.removeSpinner()
+                    addShopping.addActionButtons()
+                    addShopping.addNoteToProduct(nil)
+                }
+            }
+            
+        case 1:
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "")
+            let indexPath = self.tableShoppingCart.indexPath(for: cell)
+            if indexPath != nil {
+                deleteRowAtIndexPath(indexPath!)
+            }
+        default :
+            print("other pressed")
+        }
+    }
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+        switch index {
+        case 0:
+            cell.rightUtilityButtons = getRightButtonOnlyDelete()
+            cell.showRightUtilityButtons(animated: true)
+            
+        default :
+            print("other pressed")
+        }
+    }
+    
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
+        return !isEdditing
+    }
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+        switch state {
+        case SWCellState.cellStateLeft:
+            return isEdditing
+        case SWCellState.cellStateRight:
+            return true
+        case SWCellState.cellStateCenter:
+            return !isEdditing
+            //default:
+            //    return !isEdditing
+        }
+    }
+    
+    func getRightButton() -> [UIButton] {
+        var toReturn : [UIButton] = []
+        
+        let buttonNote = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
+        buttonNote.setTitle(NSLocalizedString("shoppingcart.note",comment:""), for: UIControlState())
+        buttonNote.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonNote.backgroundColor = WMColor.light_blue
+        toReturn.append(buttonNote)
+        
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
+        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDelete.backgroundColor = WMColor.red
+        toReturn.append(buttonDelete)
+        
+        return toReturn
+    }
+    
+    func getRightButtonOnlyDelete() -> [UIButton] {
+        var toReturn : [UIButton] = []
+        
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 80, height: 109))
+        buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), for: UIControlState())
+        buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDelete.backgroundColor = WMColor.red
+        toReturn.append(buttonDelete)
+        
+        return toReturn
+    }
+    
+    func getLeftDelete() -> [UIButton] {
+        var toReturn : [UIButton] = []
+        let buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 109))
+        buttonDelete.setImage(UIImage(named:"myList_delete"), for: UIControlState())
+        buttonDelete.backgroundColor = WMColor.light_gray
+        toReturn.append(buttonDelete)
+        return toReturn
+    }
+}
+
+//MARK: ListSelectorDelegate
+extension GRShoppingCartViewController: ListSelectorDelegate {
+    
+    func listSelectorDidClose() {
+        self.removeListSelector(action: nil)
+    }
+    
+    internal func listSelectorDidAddProduct(inList listId: String) {
+        listSelectorDidAddProduct(inList:listId,included:false)
+    }
+    
+    func listSelectorDidAddProduct(inList listId:String, included: Bool) {
+        self.addItemsfromcarToList(inList: listId, included: included, finishAdd: true)
+    }
+    
+    func listSelectorDidAddProductLocally(inList list:List) {
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        
+        
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        
+        for idx in 0 ..< self.itemsInCart.count {
+            let item = self.itemsInCart[idx]
+            
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? Int {
+                quantity = qIntProd
+            }else if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            
+            var price: Double = 0.0
+            if  let qIntProd = item["price"] as? NSNumber {
+                price = qIntProd.doubleValue
+            }
+            if  let qIntProd = item["price"] as? NSString {
+                price = qIntProd.doubleValue
+            }
+            
+            var typeProdVal: Int = 0
+            if let typeProd = item["type"] as? NSString {
+                typeProdVal = typeProd.integerValue
+            }
+            var equivalenceByPiece : NSNumber = 0
+            if let equiva = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece =  equiva
+            }else if let equiva = item["equivalenceByPiece"] as? Int {
+                equivalenceByPiece =  NSNumber(value: equiva)
+            }else if let equiva = item["equivalenceByPiece"] as? String {
+                equivalenceByPiece =   NSNumber(value:Int(equiva)!)
+            }
+            
+            var addInList = true
+            for prod  in list.products {
+                let myprod = prod as! Product
+                let orderByPiece = item["orderByPieces"] as! NSNumber
+                if  myprod.upc == item["upc"] as! String {
+                    addInList =  false
+                    if myprod.orderByPiece ==  orderByPiece {
+                        var quantitySum = myprod.quantity.int64Value + quantity
+                        
+                        if orderByPiece.intValue == 0 {
+                            quantitySum = quantitySum > 20000 ? 20000 : quantitySum
+                        }else{
+                            quantitySum = quantitySum > 99 ? 99 : quantitySum
+                        }
+                        
+                        myprod.quantity = NSNumber(value: quantitySum)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }else{
+                        myprod.quantity = NSNumber(value: quantity)
+                        myprod.orderByPiece = orderByPiece
+                        myprod.equivalenceByPiece =  equivalenceByPiece
+                        myprod.pieces = NSNumber(value: quantity as Int)
+                        break
+                    }
+                }
+            }
+            
+            if addInList {
+                print(item["description"] as! String)
+                let detail = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as? Product
+                detail!.upc = item["upc"] as! String
+                detail!.desc = item["description"] as! String
+                detail!.price = "\(price)" as NSString
+                detail!.quantity = NSNumber(value: quantity as Int)
+                detail!.type = NSNumber(value: typeProdVal as Int)
+                detail!.list = list
+                detail!.img = item["imageUrl"] as! String
+                detail?.orderByPiece = item["orderByPieces"] as! NSNumber
+                detail?.equivalenceByPiece =  equivalenceByPiece
+                detail!.pieces = NSNumber(value: quantity as Int)
+                detail!.stock = item["stock"] as? Bool ?? true
+                
+                // 360 Event
+                BaseController.sendAnalyticsProductToList(detail!.upc, desc: detail!.desc, price: "\(detail!.price)")
+            }
+            
+            
+        }
+        
+        do {
+            try context.save()
+        } catch  {
+            print("Error save context listSelectorDidAddProductLocally")
+        }
+        
+        let count:Int = list.products.count
+        list.countItem = NSNumber(value: count as Int)
+        do {
+            try context.save()
+        } catch {
+            print("Error save context listSelectorDidAddProductLocally")
+        }
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+        self.alertView!.showDoneIcon()
+        self.alertView!.afterRemove = {
+            self.removeListSelector(action: nil)
+        }
+        
+    }
+    
+    func listSelectorDidDeleteProductLocally(inList list:List) {
+    }
+    
+    func listSelectorDidDeleteProduct(inList listId:String) {
+    }
+    
+    func listSelectorDidShowList(_ listEntity: List, andName name:String) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
+            vc.listId = listEntity.idList
+            vc.listName = name
+            vc.listEntity = listEntity
+            vc.isEmptyLarge = true
+            vc.enableScrollUpdateByTabBar = false
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func listSelectorDidShowListLocally(_ list: List) {
+        if let vc = storyboard!.instantiateViewController(withIdentifier: "listDetailVC") as? UserListDetailViewController {
+            vc.listEntity = list
+            vc.listName = list.name
+            vc.enableScrollUpdateByTabBar = false
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func shouldDelegateListCreation() -> Bool {
+        return true
+    }
+    
+    func listSelectorDidCreateList(_ name:String) {
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
+        
+        let service = GRSaveUserListService()
+        
+        var products: [Any] = []
+        for idx in 0 ..< self.itemsInCart.count {
+            let item = self.itemsInCart[idx]
+            
+            let upc = item["upc"] as! String
+            var quantity: Int = 0
+            if  let qIntProd = item["quantity"] as? NSNumber {
+                quantity = qIntProd.intValue
+            }
+            else if  let qIntProd = item["quantity"] as? NSString {
+                quantity = qIntProd.integerValue
+            }
+            var price: String? = nil
+            if  let priceNum = item["price"] as? NSNumber {
+                price = "\(priceNum)"
+            }
+            else if  let priceTxt = item["price"] as? String {
+                price = priceTxt
+            }
+            
+            let imgUrl = item["imageUrl"] as? String
+            let description = item["description"] as? String
+            let type = item["type"] as? String
+            let baseUomcd = item["baseUomcd"] as? String
+            var equivalenceByPiece : NSNumber =  0
+            let stock = item["stock"] as? Bool ?? true
+            
+            if let equivalence = item["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece = equivalence
+            }else if let equivalence = item["equivalenceByPiece"] as? NSString {
+                if equivalence != "" {
+                    equivalenceByPiece =  NSNumber(value: equivalence.intValue as Int32)
+                }
+            }
+            
+            
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,baseUomcd:baseUomcd,equivalenceByPiece: equivalenceByPiece,stock: stock)//baseUomcd and equivalenceByPiece
+            products.append(serviceItem as AnyObject)
+        }
+        
+        service.callService(service.buildParams(name, items: products),
+                            successBlock: { (result:[String:Any]) -> Void in
+                                self.listSelectorController!.loadLocalList()
+                                self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                                self.removeListSelector(action: nil)
+        },
+                            errorBlock: { (error:NSError) -> Void in
+                                print(error)
+                                self.alertView!.setMessage(error.localizedDescription)
+                                self.alertView!.showErrorIcon("Ok")
+        }
+        )
+    }
+}
+
+//MARK: UIActivityItemSource
+extension GRShoppingCartViewController: UIActivityItemSource {
+    
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
+        return "Walmart"
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
+            return "Hola,\nMira estos productos que encontré en Walmart. ¡Te los recomiendo!"
+        }
+        return ""
+    }
+    
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        if activityType == UIActivityType.mail {
+            if UserCurrentSession.sharedInstance.userSigned == nil {
+                return "Hola te quiero enseñar mi carrito de www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance.userSigned!.profile.name) \(UserCurrentSession.sharedInstance.userSigned!.profile.lastName) te quiere enseñar su carrito de www.walmart.com.mx"
+            }
+        }
+        return ""
     }
 }

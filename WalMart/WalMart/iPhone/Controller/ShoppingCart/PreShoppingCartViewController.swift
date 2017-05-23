@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegate  {
+class PreShoppingCartViewController: IPOBaseController  {
 
     let optionsShoppingCart = ["Walmart Súper","Tecnología, Hogar y Más"]
     
@@ -144,10 +144,13 @@ class PreShoppingCartViewController: IPOBaseController, UIDynamicAnimatorDelegat
         
         UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
     }
+}
+
+//MARK: UIDynamicAnimatorDelegate
+extension PreShoppingCartViewController: UIDynamicAnimatorDelegate {
     
     func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
         self.view.isUserInteractionEnabled = true
         self.finishAnimation?()
     }
-    
 }
