@@ -96,6 +96,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
     var type : ResultObjectType!
     var cellRelated : UICollectionViewCell? = nil
     var cellCharacteristics : UICollectionViewCell? = nil
+    var cellProviders : UICollectionViewCell? = nil
     var facets: [[String:Any]]? = nil
     var facetsDetails: [String:Any]? = nil
     var selectedDetailItem: [String:String]? = nil
@@ -884,9 +885,13 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         var cell : UICollectionViewCell? = nil
         switch point {
         case (0,0) :
-            if hasProvider {
-                let cellProvider = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "providersCell", for: indexPath) as? ProductDetailProviderCollectionViewCell
-                cellProvider!.itemsProvider = self.providerArray!
+            if hasProvider  {
+                if cellProviders == nil {
+                    let cellProvider = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "providersCell", for: indexPath) as? ProductDetailProviderCollectionViewCell
+                    cellProvider!.itemsProvider = self.providerArray!
+                    cellProviders = cellProvider
+                }
+                cell = self.cellProviders
             } else {
                 return cellForPoint((indexPath.section,1),indexPath: indexPath)
             }

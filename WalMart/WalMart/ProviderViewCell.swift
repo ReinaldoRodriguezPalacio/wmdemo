@@ -16,6 +16,17 @@ class ProviderViewCell : UICollectionViewCell {
     var priceProduct : NSString!
     var productPriceLabel : CurrencyCustomLabel? = nil
     
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                layer.borderColor = WMColor.light_blue.cgColor
+                layer.borderWidth = 2.0
+            } else {
+                layer.borderColor = WMColor.light_light_gray.cgColor
+                layer.borderWidth = 0.0
+            }
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -31,6 +42,8 @@ class ProviderViewCell : UICollectionViewCell {
         
         self.backgroundColor = WMColor.light_gray
         self.layer.cornerRadius = 5
+        
+        //self.selectionStyle = .none
         
         deliveryLabel.font = WMFont.fontMyriadProLightOfSize(11)
         deliveryLabel.textColor = WMColor.gray
@@ -75,4 +88,6 @@ class ProviderViewCell : UICollectionViewCell {
            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
         }
     }
+    
+    
 }
