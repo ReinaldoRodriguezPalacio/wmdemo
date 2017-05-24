@@ -14,6 +14,7 @@ class ProductDetailProviderView: UIView {
     var ratingLabel: UILabel!
     var deliberyLabel:UILabel!
     var otherProvidersLabel: UILabel!
+    var bottomBorder: CALayer!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -29,6 +30,7 @@ class ProductDetailProviderView: UIView {
         
         providerLabel = UILabel()
         providerLabel.textColor = WMColor.light_blue
+        providerLabel.text = ""
         providerLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         providerLabel.textAlignment = .center
         self.addSubview(providerLabel!)
@@ -54,12 +56,16 @@ class ProductDetailProviderView: UIView {
         ratingLabel.clipsToBounds = true
         self.addSubview(ratingLabel!)
         
+        self.bottomBorder = CALayer()
+        self.bottomBorder.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(bottomBorder, at: 99)
+        
     }
     
     func setValues(provider: [String:Any]){
         
         if let providerName = provider["name"] as? String {
-            providerLabel.text = "Vendido por \(providerName)                "
+            providerLabel.text = "Vendido por \(providerName)"
         }
         
         if let delibery = provider["deliberyTime"] as? String {
@@ -67,21 +73,39 @@ class ProductDetailProviderView: UIView {
         }
         
         if let otherProviders = provider["otherProviders"] as? String {
-            otherProvidersLabel.text = "Disponible en otros precios y otros \(otherProviders) proveedores"
+            
+            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
+            let attrsBlue = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName: WMColor.light_blue] as [String : Any]
+            
+            let messageString = NSMutableAttributedString(string: "Disponible en otros precios y otros ", attributes: attrs)
+            let boldString = NSMutableAttributedString(string:"\(otherProviders) proveedores", attributes:attrsBlue)
+            
+            messageString.append(boldString)
+
+            otherProvidersLabel.attributedText = messageString
         }
         
         if let rating = provider["rating"] as? Double {
-            ratingLabel.text = "\(rating) de 5 *"
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "rating_star")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(9)]
+            var string = NSMutableAttributedString(string:"\(rating) de 5 ", attributes:attrs)
+            string.append(attachmentString)
+            
+            ratingLabel.attributedText = string
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        providerLabel.frame = CGRect(x: 0.0, y: 0.0, width: self.frame.width, height: 22)
-        deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 22)
-        otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 22)
-        ratingLabel.frame = CGRect(x: self.frame.width - 172.0 , y: 3.0, width: 50, height: 16)
+        self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 2, width: self.frame.size.width, height: 1)
+        let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
+        let providerWidth = providerSize.width + 66
+        providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 0.0, width: providerSize.width, height: 18)
+        deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 18)
+        otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 18)
+        ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 1.0, width: 50, height: 16)
     }
 
 }

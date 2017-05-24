@@ -62,7 +62,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var lowStock : UILabel?
     var imageIconView: UIImageView!
     var hasProviders: Bool = false
-    var providerInfo: [String:Any]? = nil 
+    var providerInfo: [String:Any]? = nil
+    var border: CALayer!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -153,6 +154,10 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.providerView = ProductDetailProviderView(frame: CGRect(x: 0, y: self.pointSection!.frame.maxY,  width: self.frame.width, height: 60))
         self.providerView.alpha = 0.0
         self.addSubview(providerView)
+        
+        self.border = CALayer()
+        self.border.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(border, at: 99)
         
     }
     
@@ -394,6 +399,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.priceBefore.frame = CGRect(x: 0,  y: self.bounds.height - (bottomPossition + 54)   , width: self.frame.width, height: 15.0)
         self.price.frame = CGRect(x: 0, y: self.bounds.height - (bottomPossition + 39)  , width: self.frame.width, height: 24.0)
         self.saving.frame = CGRect(x: 0, y: self.bounds.height - (bottomPossition + 15)  , width: self.frame.width, height: 15.0)
+        self.border.frame = CGRect(x: 0, y: self.bounds.height - (bottomPossition)  , width: self.frame.width, height: 1)
     }
 
     

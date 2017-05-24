@@ -111,6 +111,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
     
     var hasProvider: Bool = false
     var providerInfo: [String:Any]? = nil
+    var providerArray: [[String:Any]]? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -136,6 +137,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         detailCollectionView.register(ProductDetailCharacteristicsCollectionViewCell.self, forCellWithReuseIdentifier: "cellCharacteristics")
         detailCollectionView.register(ProductDetailBundleCollectionViewCell.self, forCellWithReuseIdentifier: "cellBundleitems")
         detailCollectionView.register(ProductDetailCrossSellCollectionViewCell.self, forCellWithReuseIdentifier: "crossSellCell")
+        detailCollectionView.register(ProductDetailProviderCollectionViewCell.self, forCellWithReuseIdentifier: "providersCell")
         
         if let layout = detailCollectionView.collectionViewLayout as? CSStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: 364)
@@ -445,6 +447,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
                 // TODO: Validar con servicio
                 self.hasProvider = true
                 self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
+                self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
                 //--Tag manager 
                  let linea = result["linea"] as? String ?? ""
                  let isBundle = result["isBundle"] as? Bool ?? false
@@ -719,10 +722,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         var rowChose = indexPath.row
         switch point {
         case (0,0) :
-            if bundleItems.count == 0 {rowChose += 1}
+            if !hasProvider {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,1) :
-            if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,2) :
@@ -730,6 +732,10 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,3) :
+            if msi.count == 0 {rowChose += 1}
+            if bundleItems.count == 0 {rowChose += 1}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (0,4) :
             if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
@@ -805,6 +811,45 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         }
         return reusableView!
     }
+    
+    /**
+     Returns the size for indexPath
+     
+     - parameter point:     point
+     - parameter indexPath: tableViewIndexPath
+     
+     - returns: CGFloat
+     */
+    func sizeForIndexPath (_ point:(Int,Int),indexPath: IndexPath!)  -> CGFloat {
+        switch point {
+        case (0,0) :
+            if  hasProvider {
+                return 180.0
+            }
+            return sizeForIndexPath ((indexPath.section,1),indexPath: indexPath)
+        case (0,1) :
+            if  bundleItems.count != 0 {
+                return 170.0
+            }
+            return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
+        case (0,2):
+            if  msi.count != 0 {
+                return (CGFloat(msi.count) * 14) + 84.0
+            }
+            return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
+        case (0,3) :
+            if characteristics.count != 0 {
+                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.view.frame.width - 30,values:characteristics)
+                return size + 50
+            }
+            return sizeForIndexPath ((indexPath.section,4),indexPath: indexPath)
+        case (0,4) :
+            return 210
+        default :
+            return 210
+        }
+    }
+
 }
 
     //MARK: - UICollectionViewDelegate
@@ -816,7 +861,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         var rowChose = indexPath.row
         switch point {
         case (0,0) :
-            if bundleItems.count == 0 {rowChose += 1}
+            if !hasProvider {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,1) :
             if bundleItems.count == 0 {rowChose += 1}
@@ -839,6 +884,14 @@ extension ProductDetailViewController: UICollectionViewDelegate {
         var cell : UICollectionViewCell? = nil
         switch point {
         case (0,0) :
+            if hasProvider {
+                let cellProvider = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "providersCell", for: indexPath) as? ProductDetailProviderCollectionViewCell
+                cellProvider!.itemsProvider = self.providerArray!
+            } else {
+                return cellForPoint((indexPath.section,1),indexPath: indexPath)
+            }
+
+        case (0,1) :
             if bundleItems.count != 0 {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellBundleitems", for: indexPath) as? ProductDetailBundleCollectionViewCell
                 cellPromotion!.delegate = self
@@ -846,27 +899,27 @@ extension ProductDetailViewController: UICollectionViewDelegate {
                 cellPromotion!.type = "MG"
                 //cell = cellPromotion
             } else {
-                return cellForPoint((indexPath.section,1),indexPath: indexPath)
+                return cellForPoint((indexPath.section,2),indexPath: indexPath)
             }
-        case (0,1) :
+        case (0,2) :
             if  msi.count != 0 {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "msiCell", for: indexPath) as! ProductDetailMSICollectionViewCell
                 cellPromotion.priceProduct = self.price
                 cellPromotion.setValues(msi)
                 cell = cellPromotion
             }else {
-                return cellForPoint((indexPath.section,2),indexPath: indexPath)
+                return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
-        case (0,2) :
+        case (0,3) :
             if characteristics.count != 0 {
                 let cellCharacteristics = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "cellCharacteristics", for: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
                 cellCharacteristics.setValues(characteristics)
                 cellCharacteristics.superview?.isUserInteractionEnabled = true
                 cell = cellCharacteristics
             }else{
-                return cellForPoint((indexPath.section,3),indexPath: indexPath)
+                return cellForPoint((indexPath.section,4),indexPath: indexPath)
             }
-        case (0,3) :
+        case (0,4) :
             if cellRelated == nil {
                 let cellPromotion = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "crossSellCell", for: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
@@ -1201,39 +1254,6 @@ extension ProductDetailViewController: ProductDetailCrossSellViewDelegate {
     //MARK: TableViewDelegate
     func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
-    }
-    
-    /**
-     Returns the size for indexPath
-     
-     - parameter point:     point
-     - parameter indexPath: tableViewIndexPath
-     
-     - returns: CGFloat
-     */
-    func sizeForIndexPath (_ point:(Int,Int),indexPath: IndexPath!)  -> CGFloat {
-        switch point {
-        case (0,0) :
-            if  bundleItems.count != 0 {
-                return 170.0
-            }
-            return sizeForIndexPath ((indexPath.section,1),indexPath: indexPath)
-        case (0,1):
-            if  msi.count != 0 {
-                return (CGFloat(msi.count) * 14) + 84.0
-            }
-            return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
-        case (0,2) :
-            if characteristics.count != 0 {
-                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.view.frame.width - 30,values:characteristics)
-                return size + 50
-            }
-            return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
-        case (0,3) :
-            return 210
-        default :
-            return 210
-        }
     }
     
     func tableView(_ tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
