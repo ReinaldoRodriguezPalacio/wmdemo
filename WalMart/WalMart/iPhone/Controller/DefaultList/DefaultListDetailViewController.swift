@@ -221,7 +221,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == self.detailItems!.count ? 56.0 : 109.0
+        return indexPath.row == self.detailItems!.count ? 56.0 : 126.0
     }
     
     //MARK: Delegate item cell

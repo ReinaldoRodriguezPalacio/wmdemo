@@ -44,7 +44,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.textColor = WMColor.green
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
         self.promoDescription!.numberOfLines = 2
-        self.promoDescription!.textAlignment = .center
+        self.promoDescription!.textAlignment = .left
         self.contentView.addSubview(self.promoDescription!)
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
@@ -331,26 +331,25 @@ class DetailListViewCell: ProductTableViewCell {
         let bounds = self.frame.size
         let sep: CGFloat = 16.0
 
-        self.productImage!.frame = CGRect(x: self.check!.frame.maxX, y: 0.0, width: 80.0, height: bounds.height)
-        let x:CGFloat = self.productImage!.frame.maxX + sep
-        self.productShortDescriptionLabel!.frame = CGRect(x: x, y: sep, width: bounds.width - (x + sep), height: 28.0)
-        if self.quantityIndicator!.isEnabled {
+        self.productImage!.frame = CGRect(x: self.check!.frame.maxX + 16.0, y: 19.0, width: 76.0, height: 89.0)
+        let x:CGFloat = self.productImage!.frame.maxX + 17.0
+        self.productShortDescriptionLabel!.frame = CGRect(x: x, y: 19.0, width: bounds.width - (x + 15.0), height: 28.0)
+        /*if self.quantityIndicator!.isEnabled {
             var size = self.sizeForButton(self.quantityIndicator!)
             size.width = (size.width + (sep*2))
-            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + size.width), y: bounds.height - (32.0 + sep), width: size.width, height: 32.0)
-        }else {
-            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 102), y: bounds.height - (32.0 + sep), width: 102, height: 32.0)
-        }
+            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + size.width), y: bounds.height - (37.0 + 19.0), width: size.width, height: 37.0)
+        }else {*/
+            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 98), y: bounds.height - (37.0 + 19.0), width: 98, height: 37.0)
+        //}
       
         self.providerLBL!.frame =  CGRect(x: x, y: self.productShortDescriptionLabel!.frame.maxY + 13.0, width: 24.0, height: 11.0)
         self.productPriceLabel!.frame = CGRect(x: x, y: self.providerLBL!.frame.maxY, width: 100.0, height: 19.0)
-        if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
+        /*if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
             self.productPriceLabel!.center = CGPoint(x: self.productPriceLabel!.center.x, y: self.quantityIndicator!.center.y)
             self.promoDescription!.frame = CGRect.zero
-        }
-        else {
-            self.promoDescription!.frame = CGRect(x: x, y: self.productPriceLabel!.frame.maxY, width: 80.0, height: 26.0)
-        }
+        } else {*/
+            self.promoDescription!.frame = CGRect(x: x, y: self.productPriceLabel!.frame.maxY, width: 80.0, height: 14.0)
+        //}
 
         self.separator!.frame = CGRect(x: x, y: 108,width: self.frame.width - 16, height: 1.0)
     }
