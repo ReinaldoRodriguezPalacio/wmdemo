@@ -1852,7 +1852,7 @@ class SearchProductViewController: NavigationViewController {
             equivalenceByPiece = equivalence
         }
         
-        
+      
         
         cell.setValues(upc,
                        productImageURL: imageUrl!,
@@ -1870,7 +1870,8 @@ class SearchProductViewController: NavigationViewController {
                        isLowStock:isLowStock,
                        category:productDeparment,
                        equivalenceByPiece: equivalenceByPiece,
-                       position:self.isAplyFilter ? "" : "\(indexPath.row)"
+                       position:self.isAplyFilter ? "" : "\(indexPath.row)",
+                       providers: productDeparment == "" ? false : true
         )
         cell.delegate = self
         return cell

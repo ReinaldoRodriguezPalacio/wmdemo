@@ -13,6 +13,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
   var borderViewTop : UIView!
   var iconDiscount : UIImageView!
   var imagePresale : UIImageView!
+  var providerLBL : UILabel!
   
   override func setup() {
     super.setup()
@@ -35,6 +36,14 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
     self.productShortDescriptionLabel!.textAlignment = .center
     self.productShortDescriptionLabel!.numberOfLines = 3
     
+    providerLBL = UILabel()
+    providerLBL!.font = WMFont.fontMyriadProRegularOfSize(9)
+    providerLBL!.numberOfLines = 1
+    providerLBL!.textColor =  WMColor.orange
+    providerLBL!.isHidden = true
+    providerLBL!.text = "Desde"
+    self.addSubview(providerLBL)
+    
     let widthAndHeightSeparator: CGFloat = 1
     
     let borderView = UIView(frame: CGRect(x: self.frame.width - widthAndHeightSeparator, y: 0, width: widthAndHeightSeparator, height: self.frame.height))
@@ -48,7 +57,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
   
   
   //MARK: - Action
-  func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool ) {
+  func setValues(_ productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool, providers:Bool) {
     super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
     
     iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
@@ -58,13 +67,30 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
     if  saving != "" && saving != "null"  {
       productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.green, interLine: false)
       productPriceLabel?.label1?.lineBreakMode = .byTruncatingTail
+      providerLBL!.textColor = WMColor.green
+    }
+    
+    if providers {
+      providerLBL!.isHidden = !providers
+      let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
+      
+      let productWidth = (self.frame.width - (priceWidth + 24.0 + 4.0)) / 2
+      providerLBL!.frame =  CGRect(x: productWidth, y: self.productPriceLabel!.frame.minY + 2.0, width: 24.0, height: 9.0)
+      self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 4, y: self.productImage!.frame.maxY  , width: priceWidth, height: 14)
+      
+      if  !(saving != "" && saving != "null") {
+        let formatedPrice = CurrencyCustomLabel.formatString("\(productPrice)" as NSString)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
+        providerLBL!.textColor = WMColor.orange
+      }
+      
     }
     
     if listPrice {
       productPriceLabel!.label1?.textColor = WMColor.green
       productPriceLabel!.label2?.textColor = WMColor.green
+      providerLBL!.textColor = providers ? WMColor.green : WMColor.orange
     }
-    
   }
   
 }

@@ -588,7 +588,8 @@ extension IPALandingPageViewController: UICollectionViewDataSource, UICollection
                        isLowStock:isLowStock,
                        category:productDeparment,
                        equivalenceByPiece: equivalenceByPiece,
-                       position:"\(indexPath.row)"
+                       position:"\(indexPath.row)",
+                       providers: false
         )
         cell.delegate = self
         return cell

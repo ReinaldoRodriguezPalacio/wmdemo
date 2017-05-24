@@ -29,6 +29,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
   var presale : UILabel!
   var imagePresale : UIImageView!
   var productDeparment:String = ""
+  var providerLBL : UILabel!
   
   weak var delegate: SearchProductCollectionViewCellDelegate?
   
@@ -59,6 +60,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     self.contentView.addSubview(productPriceThroughLabel!)
     
+    providerLBL = UILabel()
+    providerLBL!.font = WMFont.fontMyriadProRegularOfSize(12)
+    providerLBL!.numberOfLines = 1
+    providerLBL!.textColor =  WMColor.orange
+    providerLBL!.isHidden = true
+    providerLBL!.text = "Desde"
+    self.addSubview(providerLBL)
+    
     self.layer.borderWidth = 0.6
     self.layer.borderColor = WMColor.light_light_gray.cgColor
     
@@ -72,22 +81,33 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (100 / 2),y: 14 , width: 95, height: 95)
     self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 44, y: 0, width: 44 , height: 44)
-    self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 18)
+    self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 19)
     self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY, width: self.bounds.width - 16 , height: 12)
     self.productShortDescriptionLabel!.frame = CGRect(x: 8,  y: self.productPriceThroughLabel!.frame.maxY, width: self.frame.width - 16 , height: 46)
     
     if IS_IPAD {
       self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (100 / 2),y: 22, width: 95, height: 95)
       self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 52, y: 8, width: 44 , height: 44)
-      self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 16, width: self.bounds.width - 16 , height: 18)
+      self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 16, width: self.bounds.width - 16 , height: 19)
       self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY + 8, width: self.bounds.width - 16 , height: 12)
       self.productShortDescriptionLabel!.frame = CGRect(x: 40,  y: self.productPriceThroughLabel!.frame.maxY + 16, width: self.frame.width - 80 , height: 46)
+    }
+    
+    if !providerLBL!.isHidden {
+      let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
+      
+      let productWidth = (self.frame.width - (priceWidth + 32.0 + 8.0)) / 2
+      providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
+      self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productPriceLabel!.frame.minY, width: priceWidth, height: 19)
+      
+      let formatedPrice = CurrencyCustomLabel.formatString(self.price as NSString)
+      self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
     }
   }
   
   
   //MARK: - SetValues
-  func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
+  func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String, providers:Bool) {
     
     super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
     self.positionSelected = position
@@ -103,7 +123,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     }
     
     let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
+    
     self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
+    providerLBL!.isHidden = !providers
     
     var savingPrice = ""
     if productPriceThrough != "" && type == ResultObjectType.Groceries.rawValue {

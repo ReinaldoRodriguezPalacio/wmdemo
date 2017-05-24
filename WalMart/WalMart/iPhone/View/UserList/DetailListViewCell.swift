@@ -33,6 +33,7 @@ class DetailListViewCell: ProductTableViewCell {
     var productDeparment: String = ""
     var orderByPieces: Bool = true
     var pieces = 1
+    var providerLBL : UILabel!
     
     override func setup() {
         super.setup()
@@ -67,7 +68,14 @@ class DetailListViewCell: ProductTableViewCell {
         self.separator = UIView(frame:CGRect(x: 16, y: bounds.height - 1.0,width: self.frame.width - 16, height: 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
-        
+      
+        providerLBL = UILabel()
+        providerLBL!.font = WMFont.fontMyriadProRegularOfSize(9)
+        providerLBL!.numberOfLines = 1
+        providerLBL!.textColor =  WMColor.orange
+        providerLBL!.isHidden = true
+        providerLBL!.text = "Desde"
+        self.addSubview(providerLBL)
         
         self.check = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 109))
         self.check!.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
@@ -132,6 +140,8 @@ class DetailListViewCell: ProductTableViewCell {
             var text: String? = ""
             var total: Double = 0.0
             var orderByPiece = false
+          
+            self.providerLBL.isHidden = false //TODO:product["provider"] as! Bool
             
 //            if let order = product["orderByPiece"] as? Bool {
 //                orderByPiece = order
@@ -247,6 +257,7 @@ class DetailListViewCell: ProductTableViewCell {
         
         let quantity = product.quantity
         let price = product.price.doubleValue
+      self.providerLBL.isHidden = false //TODO: proveedores
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
@@ -330,8 +341,9 @@ class DetailListViewCell: ProductTableViewCell {
         }else {
             self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 102), y: bounds.height - (32.0 + sep), width: 102, height: 32.0)
         }
-        
-        self.productPriceLabel!.frame = CGRect(x: x, y: self.quantityIndicator!.frame.minY, width: 100.0, height: 19.0)
+      
+        self.providerLBL!.frame =  CGRect(x: x, y: self.productShortDescriptionLabel!.frame.maxY + 13.0, width: 24.0, height: 11.0)
+        self.productPriceLabel!.frame = CGRect(x: x, y: self.providerLBL!.frame.maxY, width: 100.0, height: 19.0)
         if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
             self.productPriceLabel!.center = CGPoint(x: self.productPriceLabel!.center.x, y: self.quantityIndicator!.center.y)
             self.promoDescription!.frame = CGRect.zero
