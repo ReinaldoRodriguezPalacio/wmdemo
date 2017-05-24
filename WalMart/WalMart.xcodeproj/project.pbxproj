@@ -452,6 +452,8 @@
 		6C933C4B1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C933C4A1DA2BD23003EF62E /* MyriadPro-SemiboldIt.otf */; };
 		6CA591A11E76F43800216A38 /* SetDeliveryTypesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA591A01E76F43800216A38 /* SetDeliveryTypesService.swift */; };
 		6CBAC4681ED4C8DF00555A3D /* ProductDetailProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBAC4671ED4C8DF00555A3D /* ProductDetailProviderView.swift */; };
+		6CBAC46A1ED5E47A00555A3D /* ProductDetailProviderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBAC4691ED5E47A00555A3D /* ProductDetailProviderCollectionViewCell.swift */; };
+		6CBAC46C1ED5E84D00555A3D /* ProviderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBAC46B1ED5E84D00555A3D /* ProviderViewCell.swift */; };
 		6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */; };
 		6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */; };
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
@@ -1089,6 +1091,8 @@
 		6C933C4C1DA2C8EE003EF62E /* MyriadPro-SemiboldIt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MyriadPro-SemiboldIt.otf"; path = "WalMart/Shared/Resources/Fonts/MyriadPro-SemiboldIt.otf"; sourceTree = "<group>"; };
 		6CA591A01E76F43800216A38 /* SetDeliveryTypesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SetDeliveryTypesService.swift; path = Shared/Services/checkout/SetDeliveryTypesService.swift; sourceTree = "<group>"; };
 		6CBAC4671ED4C8DF00555A3D /* ProductDetailProviderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailProviderView.swift; path = Shared/View/Product/ProductDetailProviderView.swift; sourceTree = "<group>"; };
+		6CBAC4691ED5E47A00555A3D /* ProductDetailProviderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailProviderCollectionViewCell.swift; path = Shared/View/Product/ProductDetailProviderCollectionViewCell.swift; sourceTree = "<group>"; };
+		6CBAC46B1ED5E84D00555A3D /* ProviderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderViewCell.swift; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -2033,6 +2037,8 @@
 				56BB629C1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift */,
 				6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */,
 				6CBAC4671ED4C8DF00555A3D /* ProductDetailProviderView.swift */,
+				6CBAC4691ED5E47A00555A3D /* ProductDetailProviderCollectionViewCell.swift */,
+				6CBAC46B1ED5E84D00555A3D /* ProviderViewCell.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -3764,6 +3770,7 @@
 				5698842D1BE1B1A700FEF4FA /* PromotionsMgService.swift in Sources */,
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
+				6CBAC46C1ED5E84D00555A3D /* ProviderViewCell.swift in Sources */,
 				5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */,
 				4AEBFBB41C9B082C00A47C5B /* GRCheckOutPymentViewController.swift in Sources */,
 				6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */,
@@ -3837,6 +3844,7 @@
 				4A5A9D531C84A99B00A2A7F4 /* ABViewPool.m in Sources */,
 				5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */,
 				5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */,
+				6CBAC46A1ED5E47A00555A3D /* ProductDetailProviderCollectionViewCell.swift in Sources */,
 				56AD99171BED1CE800B0EB5D /* ValidateActiveReferedService.swift in Sources */,
 				569607A119B5139D005D20DC /* ProductDetailBannerMediaCollectionViewCell.swift in Sources */,
 				6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */,
