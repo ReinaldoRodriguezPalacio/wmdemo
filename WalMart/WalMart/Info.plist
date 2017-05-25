@@ -601,7 +601,19 @@
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getInfoByZipCode</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -725,6 +737,18 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 		</dict>
 	</dict>
 	<key>WMURLSignalsServices</key>
@@ -1139,7 +1163,19 @@
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getInfoByZipCode</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -1265,6 +1301,18 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/updateRfc</string>
 		</dict>
 	</dict>
 	<key>clusterWMURLSignalsServices</key>

@@ -33,6 +33,7 @@ class FiscalAddressPersonF: AddressView {
         self.name!.minLength = 2
         self.name!.maxLength = 25
         self.name!.nameField = NSLocalizedString("profile.address.person.name",comment:"")
+        self.name!.tag=100
         
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
@@ -41,6 +42,7 @@ class FiscalAddressPersonF: AddressView {
         self.lastName!.minLength = 2
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.address.person.lastName",comment:"")
+        self.lastName!.tag=101
         
         self.lastName2 = FormFieldView()
         self.lastName2!.isRequired = false
@@ -49,6 +51,7 @@ class FiscalAddressPersonF: AddressView {
         self.lastName2!.minLength = 2
         self.lastName2!.maxLength = 25
         self.lastName2!.nameField = NSLocalizedString("profile.address.person.lastName2",comment:"")
+        self.lastName2!.tag=102
         
         self.rfc = FormFieldView()
         self.rfc!.isRequired = true
@@ -58,6 +61,7 @@ class FiscalAddressPersonF: AddressView {
         self.rfc!.maxLength = 13
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")
+        self.rfc!.tag=103
         
         self.ieps = FormFieldView()
         self.ieps!.isRequired = false
@@ -68,6 +72,7 @@ class FiscalAddressPersonF: AddressView {
         self.ieps!.keyboardType = UIKeyboardType.numberPad
         self.ieps!.inputAccessoryView = self.keyboardBar
         self.ieps!.nameField = NSLocalizedString("profile.address.ieps",comment:"")
+        self.ieps!.tag=104
         
         self.email = FormFieldView()
         self.email!.isRequired = true
@@ -75,6 +80,7 @@ class FiscalAddressPersonF: AddressView {
         self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
         self.email!.maxLength = 45
+        self.email!.tag=105
         
         self.addSubview(name!)
         self.addSubview(lastName!)

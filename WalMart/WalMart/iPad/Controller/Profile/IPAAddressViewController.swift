@@ -44,8 +44,6 @@ class IPAAddressViewController: AddressViewController {
         }
     }
     
-    
-    
     override func setContentSize(){
         super.setContentSize()
         if addFRomMg{

@@ -160,7 +160,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         let cell = self.tableView?.cellForRow(at: self.selected!)
         cell?.isSelected = false
         
-        if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind) || (indexPath.section == 1 && indexPath.row == 3 && self.showCamfind)) {
             self.openLoginOrProfile()
             self.selected = IndexPath(row: 0, section: 2)
             self.tableView?.selectRow(at: self.selected!, animated: false, scrollPosition: .bottom)

@@ -265,7 +265,7 @@ class UserCurrentSession : NSObject {
         UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
         UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
 
-        
+
         UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
         UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
         UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString

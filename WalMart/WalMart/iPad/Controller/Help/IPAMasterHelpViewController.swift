@@ -99,13 +99,14 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             return
         case 6:
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
-            let webCtrl = IPOWebViewController()
+            /*let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.present(webCtrl,animated:true,completion:nil)
             let recent = IPAHelpViewController()
-            self.navigation.pushViewController(recent, animated: false)
-      
-            
+            self.navigation.pushViewController(recent, animated: false)*/
+            let invoiceController = self.storyboard!.instantiateViewController(withIdentifier: "invoiceVC")
+            //let invoiceController = IPAInvoiceViewControllerPpal()
+            self.navigation.pushViewController(invoiceController, animated: true)
         case 7:
             //Notifica
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")

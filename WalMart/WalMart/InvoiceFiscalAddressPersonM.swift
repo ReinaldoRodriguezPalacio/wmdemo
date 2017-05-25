@@ -1,20 +1,22 @@
 //
-//  FiscalAddressPersonM.swift
+//  InvoiceFiscalAddressPersonM.swift
 //  WalMart
 //
-//  Created by Everardo Trejo Garcia on 23/09/14.
-//  Copyright (c) 2014 BCG Inc. All rights reserved.
+//  Created by Vantis on 15/05/17.
+//  Copyright © 2017 BCG Inc. All rights reserved.
 //
 
 import UIKit
 
-class FiscalAddressPersonM: AddressView {
-
+class InvoiceFiscalAddressPersonM: AddressView {
+    
     var corporateName : FormFieldView? = nil
     var rfc : FormFieldView? = nil
+    var folioAddress : String! = ""
+    var idCliente : String! = ""
     
-    override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
-        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
+    override init(frame: CGRect, isLogin: Bool, isIpad:Bool, isFromInvoice: Bool) {
+        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad, isFromInvoice: isFromInvoice )
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +31,7 @@ class FiscalAddressPersonM: AddressView {
         self.corporateName!.isRequired = true
         self.corporateName!.typeField = TypeField.name
         self.corporateName!.minLength = 2
-        self.corporateName!.maxLength = 20
+        self.corporateName!.maxLength = 40
         self.corporateName!.nameField = NSLocalizedString("profile.address.person.name.moral",comment:"")
         self.corporateName!.tag=100
         
@@ -41,7 +43,9 @@ class FiscalAddressPersonM: AddressView {
         self.rfc!.maxLength = 12
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
+        self.rfc!.isEnabled = false
         self.rfc!.tag=101
+        
         
         self.ieps = FormFieldView()
         self.ieps!.isRequired = false
@@ -62,11 +66,12 @@ class FiscalAddressPersonM: AddressView {
         self.email!.maxLength = 45
         self.email!.tag=103
         
+        
+        
         self.addSubview(corporateName!)
         self.addSubview(rfc!)
         self.addSubview(ieps!)
         self.addSubview(email!)
-        self.addSubview(telephone!)
         
         self.backgroundColor = UIColor.white
     }
@@ -77,22 +82,24 @@ class FiscalAddressPersonM: AddressView {
         self.rfc?.frame = CGRect(x: leftRightPadding,  y: corporateName!.frame.maxY + 8, width: (self.corporateName!.frame.width / 2) - 5 , height: fieldHeight)
         self.ieps?.frame = CGRect(x: self.rfc!.frame.maxX + 10 , y: self.rfc!.frame.minY,   width: self.outdoornumber!.frame.width  , height: fieldHeight)
         self.email?.frame = CGRect(x: leftRightPadding, y: self.ieps!.frame.maxY + 8, width: self.corporateName!.frame.width , height: fieldHeight)
-         self.telephone?.frame = CGRect(x: leftRightPadding,  y: email!.frame.maxY + 8, width: self.shortNameField!.frame.width, height: fieldHeight)
-        self.viewAddress.frame = CGRect(x: 0, y: self.telephone!.frame.maxY + 8, width: self.bounds.width, height: showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
-        
+        self.viewAddress.frame = CGRect(x: 0,  y: email!.frame.maxY + 8, width: self.corporateName!.frame.width, height:  showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
+        let titulo = self.viewAddress!.viewWithTag(200) as? UILabel
+        let nombreCorto = self.viewAddress!.viewWithTag(201) as? FormFieldView
+        nombreCorto?.removeFromSuperview()
+        let calle = self.viewAddress!.viewWithTag(202) as? FormFieldView
+        calle?.frame = CGRect(x: leftRightPadding, y: (titulo?.frame.maxY)!, width: self.viewAddress.bounds.width - (leftRightPadding*2), height: fieldHeight)
     }
     
     override func setItemWithDictionary(_ itemValues: [String:Any]) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.corporateName!.text = self.item!["corporateName"] as? String
+            self.corporateName!.text = self.item!["nombre"] as? String
             self.rfc!.text = self.item!["rfc"] as? String
-            self.ieps!.text = self.item!["ieps"] as? String
-            self.email!.text = self.item!["rfcEmail"] as? String
-            self.telephone!.text = self.item!["phoneNumber"] as? String
+            self.ieps!.text = self.item!["rfcIeps"] as? String
+            self.email!.text = self.item!["correoElectronico"] as? String
         }
     }
- 
+    
     override func validateAddress() -> Bool{
         var error = viewError(corporateName!)
         if !error{
@@ -104,33 +111,23 @@ class FiscalAddressPersonM: AddressView {
         if !error{
             error = viewError(email!)
         }
-        if !error{
-            error = viewError(telephone!)
-            let toValidate : NSString = telephone!.text!.trimmingCharacters(in: CharacterSet.whitespaces) as NSString
-            if toValidate.length > 2 {
-                if toValidate == "0000000000" || toValidate.substring(to: 2) == "00" {
-                    error = self.viewError(telephone!, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
-                }
-            }
-           
-        }
         if error{
             return false
         }
-        return super.validateAddress()
+        return super.validateFiscalAddress()
     }
     
     override func getParams() -> [String:Any]{
-        var paramsAddress : [String:Any] =   super.getParams()
-        let userParams = ["profile":["lastName2":"" ,"name":"Empresa" ,"lastName":"" ]]
-        paramsAddress.updateValue(userParams, forKey: "user")
-        paramsAddress.updateValue(self.rfc!.text!, forKey: "rfc")
-        paramsAddress.updateValue(self.email!.text!, forKey: "rfcEmail")
-        paramsAddress.updateValue(self.ieps!.text!, forKey: "ieps")
-        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
-        paramsAddress.updateValue(self.corporateName!.text!, forKey: "corporateName")
-       // paramsAddress.updateValue("Empresa", forKey: "name")
+        var paramsAddress : [String:Any] = ["nombre":self.corporateName!.text! ,"rfc":self.rfc!.text!]
+        
+        var domicilioData =   super.getParams()
+        //let userParams = ["cliente":["nombre":self.name!.text! ,"rfc":self.rfc!.text!]]
+        //paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
+        paramsAddress.updateValue(self.email!.text!, forKey: "correoElectronico")
+        paramsAddress.updateValue(self.ieps!.text!, forKey: "rfcIeps")
+        paramsAddress.updateValue(domicilioData, forKey: "domicilio")
         return paramsAddress
+        
+        
     }
-    
 }
