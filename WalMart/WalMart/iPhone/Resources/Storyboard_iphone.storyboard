@@ -459,7 +459,6 @@
         <!--Invoice View Controller Ppal-->
         <scene sceneID="jMA-rh-H9m">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nNd-tW-Mvb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="pWH-gL-NgY" customClass="InvoiceViewControllerPpal" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TDG-Vh-y6d"/>
@@ -477,6 +476,7 @@
                         <segue destination="Kf9-BZ-G2L" kind="push" identifier="invoiceDataController" id="Txn-SK-Hu2"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nNd-tW-Mvb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2192" y="4453.5"/>
         </scene>
@@ -1203,8 +1203,7 @@
         <!--Invoice Data View Controller-->
         <scene sceneID="eff-6q-Ve2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rga-00-WcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="Kf9-BZ-G2L" customClass="InvoiceDataViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="invoiceDataController" id="Kf9-BZ-G2L" customClass="InvoiceDataViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fmC-eI-yYY"/>
                         <viewControllerLayoutGuide type="bottom" id="h8d-0B-qvJ"/>
@@ -1218,6 +1217,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rga-00-WcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2638" y="4454"/>
         </scene>

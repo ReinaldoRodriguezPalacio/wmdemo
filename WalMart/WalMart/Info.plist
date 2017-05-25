@@ -202,7 +202,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -212,7 +212,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -300,7 +300,7 @@
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -505,11 +505,11 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -561,9 +561,9 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -579,17 +579,17 @@
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.TiresAniosService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
 			<key>WalmartMG.TiresMarcasService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getBrands</string>
 			<key>WalmartMG.TiresMedidasSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
 			<key>WalmartMG.TiresModelsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getModelByBrand</string>
 			<key>WalmartMG.TiresSizeSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getAllMedidas</string>
 			<key>WalmartMG.TiresVersionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -608,7 +608,7 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResend</key>
+			<key>WalmartMG.InvoiceResendService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
@@ -743,7 +743,7 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResend</key>
+			<key>WalmartMG.InvoiceResendService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
@@ -788,7 +788,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AuthorizationService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -876,7 +876,7 @@
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
@@ -1052,7 +1052,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1074,11 +1074,11 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1132,7 +1132,7 @@
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -1148,17 +1148,17 @@
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.TiresAniosService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
 			<key>WalmartMG.TiresMarcasService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getBrands</string>
 			<key>WalmartMG.TiresMedidasSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
 			<key>WalmartMG.TiresModelsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getModelByBrand</string>
 			<key>WalmartMG.TiresSizeSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getAllMedidas</string>
 			<key>WalmartMG.TiresVersionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -1177,7 +1177,7 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResend</key>
+			<key>WalmartMG.InvoiceResendService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
@@ -1314,7 +1314,7 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResend</key>
+			<key>WalmartMG.InvoiceResendService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/saveRfc</string>

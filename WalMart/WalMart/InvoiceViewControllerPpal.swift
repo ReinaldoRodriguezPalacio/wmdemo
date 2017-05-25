@@ -14,14 +14,15 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     
     var content: TPKeyboardAvoidingScrollView!
 
-    var alertView: IPOWMAlertInfoViewController?
-    var txtRfc: FormFieldView?
+    var alertView: IPOWMAlertViewController?
+    var txtRfcEmail: FormFieldView?
     var txtTicketNumber: FormFieldView?
-    
+    var errorView: FormFieldErrorView?
     var lblSelectionTitle : UILabel!
-    var lblRfcTitle : UILabel!
+    var lblRfcEmailTitle : UILabel!
     var lblTicketTitle : UILabel!
     var infoMessage: UILabel!
+    var viewLoad : WMLoadingView!
     
     var btnNewInvoice: UIButton?
     var btnResendInvoice: UIButton?
@@ -30,8 +31,10 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     var btnCancel: UIButton?
     var btnInfoTicketButton: UIButton?
     
-    var modalView: AlertModalView?
+    var byScan : Bool! = false
+    var folioInvoice : Int! = 0
     
+    var modalView: AlertModalView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_INVOICE.rawValue
@@ -121,30 +124,33 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         placeholder.append(NSAttributedString(string: NSLocalizedString("invoice.field.ticketnumber",comment:"")
             , attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
         self.txtTicketNumber!.setCustomAttributedPlaceholder(placeholder)
-        self.txtTicketNumber!.typeField = TypeField.string
+        self.txtTicketNumber!.typeField = TypeField.number
         self.txtTicketNumber!.nameField = "ticketNumber"
-        //self.txtTicketNumber!.maxLength = 13
+        self.txtTicketNumber!.minLength = 20
+        self.txtTicketNumber!.maxLength = 21
+        //self.txtTicketNumber!.delegate = self
         self.content.addSubview(self.txtTicketNumber!)
         
         //SECCION RFC
         fheight = (section3Bottom - section3Top)/6
-        //SECCION TICKET
-        self.lblRfcTitle = self.buildSectionTitle(NSLocalizedString("invoice.field.turfc",comment:""), frame: CGRect(x: margin, y: section3Top + fheight, width: sectionWidth, height: fheight))
-        self.lblRfcTitle.sizeToFit()
-        self.content.addSubview(lblRfcTitle)
+        //SECCION RFC EMAIL
+        self.lblRfcEmailTitle = self.buildSectionTitle(NSLocalizedString("invoice.field.turfc",comment:""), frame: CGRect(x: margin, y: section3Top + fheight, width: sectionWidth, height: fheight))
+        self.lblRfcEmailTitle.sizeToFit()
+        self.content.addSubview(lblRfcEmailTitle)
         
         
         //CAPTURA RFC
-        self.txtRfc = FormFieldView(frame: CGRect(x: margin, y: lblRfcTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2.5*fheight))
-        self.txtRfc!.isRequired = true
+        self.txtRfcEmail = FormFieldView(frame: CGRect(x: margin, y: lblRfcEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2.5*fheight))
+        self.txtRfcEmail!.isRequired = true
         let placeholder2 = NSMutableAttributedString()
         placeholder2.append(NSAttributedString(string: NSLocalizedString("invoice.field.rfcejemplo",comment:"")
             , attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
-        self.txtRfc!.setCustomAttributedPlaceholder(placeholder2)
-        self.txtRfc!.typeField = TypeField.rfc
-        self.txtRfc!.nameField = "rfc"
-        //self.txtRfc!.maxLength = 13
-        self.content.addSubview(self.txtRfc!)
+        self.txtRfcEmail!.setCustomAttributedPlaceholder(placeholder2)
+        self.txtRfcEmail!.typeField = TypeField.rfc
+        self.txtRfcEmail!.nameField = "rfc"
+        self.txtRfcEmail!.autocapitalizationType = .allCharacters
+        //self.txtRfcEmail!.maxLength = 13
+        self.content.addSubview(self.txtRfcEmail!)
         
         
         //SECCION DE BOTONES
@@ -181,10 +187,22 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         super.viewWillLayoutSubviews()
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
-
-        self.content.contentSize = CGSize(width: self.view.frame.width, height: self.txtRfc!.frame.maxY + 5.0)
-
-}
+        self.content.contentSize = CGSize(width: self.view.frame.width, height: self.txtRfcEmail!.frame.maxY + 5.0)
+    }
+    
+    /*func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if !byScan{
+            viewLoad = WMLoadingView(frame: self.content.bounds)
+            viewLoad.backgroundColor = UIColor.white
+            self.alertView = nil
+            self.content.addSubview(viewLoad)
+            self.viewLoad!.startAnnimating(true)
+            self.barcodeCaptured(textField.text)
+            byScan = false
+        }
+        return true
+    }*/
+    
     
    /* func showInfoAlert(){
         let message = NSMutableAttributedString()
@@ -213,9 +231,35 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         }
         if sender == self.btnNewInvoice{
             self.btnResendInvoice!.isSelected = false
+           
+            self.lblRfcEmailTitle.text = NSLocalizedString("invoice.field.turfc",comment:"")
+            self.lblRfcEmailTitle.sizeToFit()
+            //CAPTURA RFC
+            let placeholder2 = NSMutableAttributedString()
+            placeholder2.append(NSAttributedString(string: NSLocalizedString("invoice.field.rfcejemplo",comment:"")
+                , attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+            self.txtRfcEmail!.setCustomAttributedPlaceholder(placeholder2)
+            self.txtRfcEmail!.typeField = TypeField.rfc
+            self.txtRfcEmail!.nameField = "rfc"
+            self.txtRfcEmail!.autocapitalizationType = .allCharacters
+            //self.txtRfcEmail!.maxLength = 13
+            self.txtRfcEmail?.text=""
         }else{
-            self.btnNewInvoice!.isSelected = false
+             self.btnNewInvoice!.isSelected = false
+            self.lblRfcEmailTitle.text = NSLocalizedString("invoice.section.emailTitle",comment:"")
+            self.lblRfcEmailTitle.sizeToFit()
+            //CAPTURA RFC
+            self.txtRfcEmail!.typeField = TypeField.email
+            self.txtRfcEmail!.nameField = "email"
+            self.txtRfcEmail?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
+            self.txtRfcEmail!.autocapitalizationType = .none
+            self.txtRfcEmail!.placeholder = "Escriba un correo para el envío de la factura"
+
         }
+        if self.errorView != nil{
+            self.errorView?.removeFromSuperview()
+        }
+
         sender.isSelected = !(sender.isSelected)
     }
     
@@ -235,17 +279,172 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         barCodeController.delegate = self
         barCodeController.useDelegate=true
         barCodeController.onlyCreateList=true
+        //byScan = true
         self.present(barCodeController, animated: true, completion: nil)
     }
     
     //MARK: BarCodeViewControllerDelegate
     func barcodeCaptured(_ value: String?) {
-        self.txtTicketNumber!.text = value
+        if value != nil {
+        viewLoad = WMLoadingView(frame: self.view.bounds)
+        viewLoad.backgroundColor = UIColor.white
+        self.alertView = nil
+        self.view.superview?.addSubview(viewLoad)
+        viewLoad.startAnnimating(false)
+
+        
+        let ticketService = InvoiceFolioService()
+        ticketService.callService(params: ["ticket":value], successBlock: { (resultCall:[String:Any]) -> Void in
+            var responseOk : String! = ""
+            if let headerData = resultCall["headerResponse"] as? [String:Any]{
+                // now val is not nil and the Optional has been unwrapped, so use it
+                responseOk = headerData["responseCode"] as! String
+                
+            if responseOk == "OK"{
+                    
+            let businessData = resultCall["businessResponse"] as? [String:Any]
+            
+
+            self.txtTicketNumber!.text = businessData?["ticketTC"] as? String
+            
+            self.folioInvoice = Int((businessData?["folioInvoice"] as? String)!)
+            print("sucess, Folio: \(self.folioInvoice)")
+            if self.viewLoad != nil{
+                self.viewLoad.stopAnnimating()
+            }
+            self.viewLoad = nil
+            }else{
+                let errorMess = headerData["reasons"] as! [[String:Any]]
+                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView!.setMessage(errorMess[0]["description"] as! String)
+                self.alertView!.showDoneIcon()
+                if self.viewLoad != nil{
+                    self.viewLoad.stopAnnimating()
+                }
+                self.viewLoad = nil
+                print("error")
+                }
+            }
+        }, errorBlock: { (error:NSError) -> Void in
+            if self.viewLoad != nil{
+                self.viewLoad.stopAnnimating()
+            }
+            self.viewLoad = nil
+            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showDoneIconWithoutClose()
+            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+        })
+        }
     }
 
-    func next(_ sender:UIButton){
-        self.performSegue(withIdentifier: "invoiceDataController", sender: self)
+    func resendInvoice(){
+        
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.white
+            self.alertView = nil
+            self.view.superview?.addSubview(viewLoad)
+            self.viewLoad!.startAnnimating(true)
+            
+            let ticketService = InvoiceResendService()
+            ticketService.callService(params: ["ticket":self.txtTicketNumber?.text, "email":self.txtRfcEmail?.text], successBlock: { (resultCall:[String:Any]) -> Void in
+                var responseOk : String! = ""
+                if let headerData = resultCall["headerResponse"] as? [String:Any]{
+                    // now val is not nil and the Optional has been unwrapped, so use it
+                responseOk = headerData["responseCode"] as! String
+                    
+                if responseOk == "OK"{
+                    
+                if self.viewLoad != nil{
+                    self.viewLoad.stopAnnimating()
+                }
+                self.viewLoad = nil
+                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaResend",comment:"") + "\n\n" + NSLocalizedString("invoice.message.facturaResendEmail",comment:"") + "\n" + (self.txtRfcEmail?.text)!)
+                self.alertView!.showDoneIconWithoutClose()
+                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                    self.checkSelected(self.btnNewInvoice!)
+                    self.txtRfcEmail?.text = ""
+                    self.txtTicketNumber?.text = ""
+                }else{
+                    let errorMess = headerData["responseDescription"] as! String
+                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    self.alertView!.setMessage(errorMess)
+                    self.alertView!.showErrorIcon("Fallo")
+                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                    }
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                if self.viewLoad != nil{
+                    self.viewLoad.stopAnnimating()
+                }
+                self.viewLoad = nil
+                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showDoneIconWithoutClose()
+                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+            })
     }
+    
+    func next(_ sender:UIButton){
+        if validateData(){
+            if self.errorView != nil{
+                self.errorView?.removeFromSuperview()
+            }
+            if self.btnResendInvoice!.isSelected{
+                self.resendInvoice()
+            }else{
+                if IS_IPAD{
+                    let controller = storyboard?.instantiateViewController(withIdentifier: "invoiceDataController") as! IPAInvoiceDataViewController
+                    controller.RFCEscrito = txtRfcEmail?.text
+                    controller.TicketEscrito = txtTicketNumber?.text
+                    controller.isFromPpal = true
+                    if self.btnResendInvoice!.isSelected{
+                        controller.tipoFacturacion = .resendInvoice
+                    }else{
+                        controller.tipoFacturacion = .newInvoice
+                    }
+                    self.txtTicketNumber?.text = ""
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }else{
+                self.performSegue(withIdentifier: "invoiceDataController", sender: self)
+                }
+
+                
+            }
+        }
+    }
+    
+    
+    func validateData() -> Bool{
+        var error = viewError(txtTicketNumber!)
+        if !error{
+            error = viewError(txtRfcEmail!)
+            if error{
+                txtRfcEmail?.typeField = .rfcm
+                error = viewError(txtRfcEmail!)
+                txtRfcEmail?.typeField = .rfc
+            }
+        }
+        if error{
+            return false
+        }
+        return true
+    }
+    
+    func viewError(_ field: FormFieldView)-> Bool{
+        let message = field.validate()
+        if message != nil{
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field,  nameField:"" , message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
+            return true
+        }
+        let _ = field.resignFirstResponder()
+        return false
+    }
+    
     
     // MARK: - Navigation
 
@@ -253,13 +452,17 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let controller = segue.destination as! InvoiceDataViewController
-        if self.btnResendInvoice!.isSelected{
-            controller.tipoFacturacion = .resendInvoice
-        }else{
-            controller.tipoFacturacion = .newInvoice
-        }
         
+            let controller = segue.destination as! InvoiceDataViewController
+            controller.RFCEscrito = txtRfcEmail?.text
+            controller.TicketEscrito = txtTicketNumber?.text
+            controller.isFromPpal = true
+            if self.btnResendInvoice!.isSelected{
+                controller.tipoFacturacion = .resendInvoice
+            }else{
+                controller.tipoFacturacion = .newInvoice
+            }
+        self.txtTicketNumber?.text = ""
         
     }
  
@@ -269,5 +472,6 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
     }
+
 
 }

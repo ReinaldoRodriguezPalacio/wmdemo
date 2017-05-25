@@ -101,7 +101,12 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
 //        if !actionLabel.isEmpty {
 //            //BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
 //        }
-        super.back()
+        if (self.presentingViewController != nil){
+            dismiss(animated: true, completion: nil)
+        }else{
+            super.back()
+        }
+        
     }
     
 }

@@ -17,6 +17,7 @@ enum TypeAddress {
 
 class AddressViewController: NavigationViewController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate , AddressViewDelegate{
 
+
     var content: TPKeyboardAvoidingScrollView!
     var addressShipingButton: UIButton?
     var addressFiscalButton: UIButton?
@@ -594,7 +595,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     }else{
                         addresService = UpdateShippingAddressService()
                     }
-                    
                 }
             case .fiscalPerson:
                 if self.viewAddressFisical!.validateAddress(){

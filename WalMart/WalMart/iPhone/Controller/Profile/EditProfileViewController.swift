@@ -103,7 +103,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             }
         })
         
-        
         let calendar = Calendar(identifier: .gregorian)
         let currentDate = Date()
         var comps = DateComponents()

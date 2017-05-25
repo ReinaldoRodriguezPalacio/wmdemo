@@ -14,16 +14,22 @@ enum TypeFiscalAddress {
     case fiscalMoral
 }
 
+protocol InvoiceNewAddressViewControllerDelegate: class {
+    func refreshData(isFromUpdate:Bool!)
+}
+
+
 class InvoiceNewAddressViewController: NavigationViewController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate , AddressViewDelegate{
     
+    weak var delegate : AlertPickerViewSections?
     var content: TPKeyboardAvoidingScrollView!
     var addressShipingButton: UIButton?
     var addressFiscalButton: UIButton?
     var addressFiscalPersonButton: UIButton?
     var addressFiscalMoralButton: UIButton?
     var viewAddress: AddressView? = nil
-    var viewAddressFisical: AddressView? = nil
-    var viewAddressMoral: AddressView? = nil
+    var viewAddressFisical: InvoiceFiscalAddressPersonF? = nil
+    var viewAddressMoral: InvoiceFiscalAddressPersonM? = nil
     var item: [String:Any]? = nil
     var allAddress: [Any]! = []
     var viewTypeAdress: UIView? = nil
@@ -32,6 +38,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
     var deleteButton: UIButton?
     var typeAddress: TypeFiscalAddress = TypeFiscalAddress.fiscalPerson
     var idAddress: NSString? = nil
+    var folioAddress: NSString? = nil
     var defaultPrefered = false
     var viewLoad : WMLoadingView!
     var successCallBack : (() -> Void)? = nil
@@ -45,9 +52,10 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
     var addressShippingCont: Int! = 0
     var addressFiscalCount: Int! = 0
     var validateZip =  false
-    
+    var widthAnt : CGFloat!
+    var heightAnt : CGFloat!
     var addFRomMg : Bool = false
-    
+    var isReadOnly : Bool = false
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
     }
@@ -61,7 +69,6 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         self.content.delegate = self
         self.content.scrollDelegate = self
         self.view.addSubview(self.content)
-        
         //let iconImage = UIImage(named:"button_bg")
         //let iconSelected = UIImage(named:"button_bg_active")
         
@@ -69,17 +76,37 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         self.bounds = self.view.bounds
         switch (typeAddress ) {
         case .fiscalPerson:
-            self.viewAddressFisical = FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin , isIpad: isIpad)
-            self.viewAddressFisical!.allAddress = self.allAddress
-            let name: FormFieldView = self.viewAddressFisical!.viewWithTag(100) as! FormFieldView
-            let lastName: FormFieldView = self.viewAddressFisical!.viewWithTag(101) as! FormFieldView
-            let lastName2: FormFieldView = self.viewAddressFisical!.viewWithTag(102) as! FormFieldView
-            let rfc: FormFieldView = self.viewAddressFisical!.viewWithTag(103) as! FormFieldView
-            let ieps: FormFieldView = self.viewAddressFisical!.viewWithTag(104) as! FormFieldView
-            let email: FormFieldView = self.viewAddressFisical!.viewWithTag(105) as! FormFieldView
+            self.viewAddressFisical = InvoiceFiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin , isIpad: isIpad, isFromInvoice: true)
             
-            lastName.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastNameShort",comment:""))
-            lastName2.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName2Short",comment:""))
+            let name: FormFieldView = self.viewAddressFisical!.viewWithTag(100) as! FormFieldView
+            let rfc: FormFieldView = self.viewAddressFisical!.viewWithTag(101) as! FormFieldView
+            let ieps: FormFieldView = self.viewAddressFisical!.viewWithTag(102) as! FormFieldView
+            let email: FormFieldView = self.viewAddressFisical!.viewWithTag(103) as! FormFieldView
+            
+            if idAddress != nil{
+                name.text = item?["nombre"] as! String
+                rfc.text = item?["rfc"] as! String
+                ieps.text = item?["rfcIeps"] as! String
+                email.text = item?["correoElectronico"] as! String
+                let domicilio = item?["domicilio"] as! [String:Any]
+                self.viewAddressFisical!.idCliente = idAddress! as String
+                self.viewAddressFisical!.street?.text = domicilio["calle"] as! String
+                self.viewAddressFisical!.outdoornumber?.text = domicilio["numeroExterior"] as! String
+                self.viewAddressFisical!.indoornumber?.text = domicilio["numeroInterior"] as! String
+                self.viewAddressFisical!.zipcode?.text = domicilio["codigoPostal"] as! String
+                self.viewAddressFisical!.folioAddress = domicilio["domicilioId"] as! String
+                self.viewAddressFisical!.suburb?.isHidden = false
+                self.viewAddressFisical!.suburb?.text = domicilio["colonia"] as! String
+                self.viewAddressFisical!.municipality?.isHidden = false
+                self.viewAddressFisical!.municipality?.text = domicilio["delegacionMunicipio"] as! String
+                self.viewAddressFisical!.city?.isHidden = false
+                self.viewAddressFisical!.city?.text = domicilio["ciudadEstado"] as! String
+                self.viewAddressFisical!.shortNameField?.text = domicilio["referencia"] as! String
+            }else{
+                rfc.text = item?["rfc"] as! String
+            }
+
+            
             ieps.setCustomPlaceholder(NSLocalizedString("profile.address.iepsShort",comment:""))
 
             self.content!.addSubview(self.viewAddressFisical!)
@@ -87,18 +114,52 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
             self.viewAddressFisical!.delegate = self
             
         case .fiscalMoral:
-            self.viewAddressMoral = FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:isIpad)
+            self.viewAddressMoral = InvoiceFiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:isIpad, isFromInvoice:true)
+            let companyName: FormFieldView = self.viewAddressMoral!.viewWithTag(100) as! FormFieldView
+            let rfc: FormFieldView = self.viewAddressMoral!.viewWithTag(101) as! FormFieldView
+            let ieps: FormFieldView = self.viewAddressMoral!.viewWithTag(102) as! FormFieldView
+            let email: FormFieldView = self.viewAddressMoral!.viewWithTag(103) as! FormFieldView
+            
+            if idAddress != nil{
+                companyName.text = item?["nombre"] as! String
+                rfc.text = item?["rfc"] as! String
+                ieps.text = item?["rfcIeps"] as! String
+                email.text = item?["correoElectronico"] as! String
+                let domicilio = item?["domicilio"] as! [String:Any]
+                self.viewAddressMoral!.idCliente = idAddress as! String
+                self.viewAddressMoral!.street?.text = domicilio["calle"] as! String
+                self.viewAddressMoral!.outdoornumber?.text = domicilio["numeroExterior"] as! String
+                self.viewAddressMoral!.indoornumber?.text = domicilio["numeroInterior"] as! String
+                self.viewAddressMoral!.zipcode?.text = domicilio["codigoPostal"] as! String
+                self.viewAddressMoral!.folioAddress = domicilio["domicilioId"] as! String
+                self.viewAddressMoral!.suburb?.isHidden = false
+                self.viewAddressMoral!.suburb?.text = domicilio["colonia"] as! String
+                self.viewAddressMoral!.municipality?.isHidden = false
+                self.viewAddressMoral!.municipality?.text = domicilio["delegacionMunicipio"] as! String
+                self.viewAddressMoral!.city?.isHidden = false
+                self.viewAddressMoral!.city?.text = domicilio["ciudadEstado"] as! String
+                self.viewAddressMoral!.shortNameField?.text = domicilio["referencia"] as! String
+            }else{
+            rfc.text = item?["rfc"] as! String
+            }
+            
+            ieps.setCustomPlaceholder(NSLocalizedString("profile.address.iepsShort",comment:""))
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral?.defaultPrefered = self.defaultPrefered
             self.content!.addSubview(self.viewAddressMoral!)
             self.viewAddressMoral!.delegate = self
+            
+
             // default:
             //     break
         }
         
         if self.item == nil {
             self.titleLabel!.text = NSLocalizedString("profile.address.new.title", comment: "")
+        }else{
+            self.titleLabel!.text = NSLocalizedString("profile.address.update.title", comment: "")
         }
+        
         BaseController.setOpenScreenTagManager(titleScreen: "Direcciones", screenName: self.getScreenGAIName())
     }
     
@@ -137,15 +198,10 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
             
             if typeAddress == TypeFiscalAddress.fiscalMoral{
                 self.addressFiscalMoralButton!.isSelected = true
-                if self.idAddress != nil {
-                    self.addressFiscalPersonButton!.isEnabled = false
-                }
-                
+                self.addressFiscalPersonButton!.isEnabled = false
             }else{
                 addressFiscalPersonButton!.isSelected = true
-                if self.idAddress != nil {
-                    self.addressFiscalMoralButton!.isEnabled = false
-                }
+                self.addressFiscalMoralButton!.isEnabled = false
             }
             
             titleLabel = UILabel()
@@ -215,11 +271,6 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         //let leftRightPadding  : CGFloat = CGFloat(15)
         var left : CGFloat = 87
         
-        if self.idAddress != nil{
-            self.deleteButton!.frame = CGRect( x: bounds.maxX - 54, y: 0 , width: 54, height: self.header!.frame.height)
-            left = left + 30
-        }
-        
         
         self.titleLabel!.frame = CGRect(x: 16, y: 0, width: (bounds.width - 32), height: self.header!.frame.maxY)
         let viewFooter = UIView(frame: CGRect(x: 0, y: self.view.frame.size.height - 64, width: self.view.frame.size.width, height: 64))
@@ -236,8 +287,6 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
 
         
         viewFooter.addSubview(self.saveButton!)
-        
-        
         
         self.view.addSubview(viewFooter)
         
@@ -286,7 +335,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         switch (typeDest ) {
         case .fiscalPerson:
             if self.viewAddressFisical == nil{
-                self.viewAddressFisical =   FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad)
+                self.viewAddressFisical =   InvoiceFiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, isFromInvoice: true)
                 self.viewAddressFisical!.delegate = self
             }
             self.viewAddressFisical!.allAddress = self.allAddress
@@ -295,14 +344,34 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                 self.viewAddressFisical!.allAddress = self.allAddress
                 self.viewAddressFisical!.frame = CGRect(x: 0, y: self.viewTypeAdressFiscal!.frame.maxY, width: self.view.bounds.width , height: 610)
             let name: FormFieldView = self.viewAddressFisical!.viewWithTag(100) as! FormFieldView
-            let lastName: FormFieldView = self.viewAddressFisical!.viewWithTag(101) as! FormFieldView
-            let lastName2: FormFieldView = self.viewAddressFisical!.viewWithTag(102) as! FormFieldView
-            let rfc: FormFieldView = self.viewAddressFisical!.viewWithTag(103) as! FormFieldView
-            let ieps: FormFieldView = self.viewAddressFisical!.viewWithTag(104) as! FormFieldView
-            let email: FormFieldView = self.viewAddressFisical!.viewWithTag(105) as! FormFieldView
+            let rfc: FormFieldView = self.viewAddressFisical!.viewWithTag(101) as! FormFieldView
+            let ieps: FormFieldView = self.viewAddressFisical!.viewWithTag(102) as! FormFieldView
+            let email: FormFieldView = self.viewAddressFisical!.viewWithTag(103) as! FormFieldView
             
-            lastName.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastNameShort",comment:""))
-            lastName2.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName2Short",comment:""))
+            if idAddress != nil{
+                name.text = item?["nombre"] as! String
+                rfc.text = item?["rfc"] as! String
+                ieps.text = item?["rfcIeps"] as! String
+                email.text = item?["correoElectronico"] as! String
+                let domicilio = item?["domicilio"] as! [String:Any]
+                self.viewAddressFisical!.idCliente = idAddress as! String
+                self.viewAddressFisical!.street?.text = domicilio["calle"] as! String
+                self.viewAddressFisical!.outdoornumber?.text = domicilio["numeroExterior"] as! String
+                self.viewAddressFisical!.indoornumber?.text = domicilio["numeroInterior"] as! String
+                self.viewAddressFisical!.zipcode?.text = domicilio["codigoPostal"] as! String
+                self.viewAddressFisical!.folioAddress = domicilio["domicilioId"] as! String
+                self.viewAddressFisical!.suburb?.isHidden = false
+                self.viewAddressFisical!.suburb?.text = domicilio["colonia"] as! String
+                self.viewAddressFisical!.municipality?.isHidden = false
+                self.viewAddressFisical!.municipality?.text = domicilio["delegacionMunicipio"] as! String
+                self.viewAddressFisical!.city?.isHidden = false
+                self.viewAddressFisical!.city?.text = domicilio["ciudadEstado"] as! String
+                self.viewAddressFisical!.shortNameField?.text = domicilio["referencia"] as! String
+            }else{
+                rfc.text = item?["rfc"] as! String
+            }
+
+            
             ieps.setCustomPlaceholder(NSLocalizedString("profile.address.iepsShort",comment:""))
             
                 self.content!.addSubview(self.viewAddressFisical!)
@@ -314,12 +383,18 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                         self.viewAddressMoral!.removeFromSuperview()
                         self.typeAddress = typeDest
                         self.setContentSize()
+                        if self.isReadOnly{
+                            self.viewAddressFisical?.setItemWithDictionary(self.item!)
+                            for control in (self.viewAddressFisical?.subviews)!{
+                                print(String(describing: control.self))
+                            }
+                        }
                     }
                 })
             
         case .fiscalMoral:
             if self.viewAddressMoral == nil{
-                self.viewAddressMoral =   FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:self.isIpad)
+                self.viewAddressMoral =   InvoiceFiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:self.isIpad, isFromInvoice: true)
                 self.viewAddressMoral!.delegate = self
             }
             self.viewAddressMoral!.allAddress = self.allAddress
@@ -328,6 +403,30 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
             let rfc: FormFieldView = self.viewAddressMoral!.viewWithTag(101) as! FormFieldView
             let ieps: FormFieldView = self.viewAddressMoral!.viewWithTag(102) as! FormFieldView
             let email: FormFieldView = self.viewAddressMoral!.viewWithTag(103) as! FormFieldView
+            
+            if idAddress != nil{
+                companyName.text = item?["nombre"] as! String
+                rfc.text = item?["rfc"] as! String
+                ieps.text = item?["rfcIeps"] as! String
+                email.text = item?["correoElectronico"] as! String
+                let domicilio = item?["domicilio"] as! [String:Any]
+                self.viewAddressMoral!.idCliente = idAddress as! String
+                self.viewAddressMoral!.street?.text = domicilio["calle"] as! String
+                self.viewAddressMoral!.outdoornumber?.text = domicilio["numeroExterior"] as! String
+                self.viewAddressMoral!.indoornumber?.text = domicilio["numeroInterior"] as! String
+                self.viewAddressMoral!.zipcode?.text = domicilio["codigoPostal"] as! String
+                self.viewAddressMoral!.folioAddress = domicilio["domicilioId"] as! String
+                self.viewAddressMoral!.suburb?.isHidden = false
+                self.viewAddressMoral!.suburb?.text = domicilio["colonia"] as! String
+                self.viewAddressMoral!.municipality?.isHidden = false
+                self.viewAddressMoral!.municipality?.text = domicilio["delegacionMunicipio"] as! String
+                self.viewAddressMoral!.city?.isHidden = false
+                self.viewAddressMoral!.city?.text = domicilio["ciudadEstado"] as! String
+                self.viewAddressMoral!.shortNameField?.text = domicilio["referencia"] as! String
+            }else{
+                rfc.text = item?["rfc"] as! String
+            }
+
             
             ieps.setCustomPlaceholder(NSLocalizedString("profile.address.iepsShort",comment:""))
             
@@ -342,6 +441,10 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                     self.viewAddressFisical?.removeFromSuperview()
                     self.typeAddress = typeDest
                     self.setContentSize()
+                    if self.isReadOnly{
+                        self.viewAddressMoral?.setItemWithDictionary(self.item!)
+                        
+                    }
                 }
             })
             //default:
@@ -424,11 +527,11 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
     
     func save(_ sender:UIButton) {
         //self.performSegue(withIdentifier: "invoiceDataController", sender: self)
-        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-        self.alertView!.setMessage(NSLocalizedString("profile.address.add.ok",comment:""))
-        self.alertView!.showDoneIcon()
-        self.back()
-        
+        if self.idAddress == nil{
+        self.saveAddress()
+        }else{
+        self.updateAddress()
+        }
         
     }
     
@@ -445,6 +548,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                 }else{
                     addresService = UpdateFiscalAddressService()
                 }
+                
             }
         case .fiscalMoral:
             if self.viewAddressMoral!.validateAddress(){
@@ -511,33 +615,189 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         }
     }
     
-    func deleteAddress(_ sender:UIButton){
-        let service = DeleteAddressesByUserService()
-        service.buildParams(self.idAddress! as String)
-        self.view.endEditing(true)
-        if sender.tag == 100 {
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
-        }else{
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+    func saveAddress(){
+        var params : [String:Any]? = nil
+        
+        switch (typeAddress) {
+        case .fiscalPerson:
+            if self.viewAddressFisical!.validateAddress(){
+                params = self.viewAddressFisical?.getParams()
+                params?.updateValue("true", forKey: "avisoLegalAceptado")
+                params?.updateValue("2017-04-15T18:23:15.820Z", forKey: "fechaAvisoLegal")
+
+            }
+        case .fiscalMoral:
+            if self.viewAddressMoral!.validateAddress(){
+                params = self.viewAddressMoral?.getParams()
+                params?.updateValue("true", forKey: "avisoLegalAceptado")
+                params?.updateValue("2017-04-15T18:23:15.820Z", forKey: "fechaAvisoLegal")
+            }
+            //default:
+            //    break
+        }
+        var addresService =  InvoiceSaveRfcService()
+        
+        if params != nil{
+            let parametros = ["cliente":params] as! [String:Any]
+            self.view.endEditing(true)
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.white
+            self.alertView = nil
+            self.view.superview?.addSubview(viewLoad)
+            self.viewLoad!.startAnnimating(true)
+            
+            addresService.callService(params: parametros, successBlock:{ (resultCall:[String:Any]?) in
+                var responseOk : String! = ""
+                if let headerData = resultCall?["headerResponse"] as? [String:Any]{
+                    // now val is not nil and the Optional has been unwrapped, so use it
+                    responseOk = headerData["responseCode"] as! String
+                    
+                    if responseOk == "OK"{
+                        
+                        let businessData = resultCall?["businessResponse"] as? [String:Any]
+                        
+                            
+            
+                        if self.viewLoad != nil{
+                            self.viewLoad.stopAnnimating()
+                        }
+                        self.viewLoad = nil
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView!.setMessage(headerData["responseDescription"] as! String)
+                        self.alertView!.showDoneIconWithoutClose()
+                        self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                        self.delegate?.refreshData(isFromUpdate: false)
+                        self.back()
+                        
+                        
+                    }else{
+                        let errorMess = headerData["responseDescription"] as! String
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                        self.alertView!.setMessage(errorMess)
+                        self.alertView!.showErrorIcon("Fallo")
+                        self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                        if self.viewLoad != nil{
+                            self.viewLoad.stopAnnimating()
+                        }
+                        self.viewLoad = nil
+                        print("error")
+                    }
+                }
+            }
+                , errorBlock: {(error: NSError) in
+                    self.alertView?.setMessage(error.localizedDescription)
+                    self.alertView?.showErrorIcon("Ok")
+            })
         }
         
-        self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service.callService([String:Any](), successBlock:{ (resultCall:[String:Any]?) in
-            if let message = resultCall!["message"] as? String {
-                self.alertView!.setMessage("\(message)")
-                self.alertView!.showDoneIcon()
-            }//if let message = resultCall!["message"] as? String {
-            self.navigationController!.popViewController(animated: true)
+        
+
+    }
+    
+    func updateAddress(){
+        var params : [String:Any]? = nil
+        
+        switch (typeAddress) {
+        case .fiscalPerson:
+            if self.viewAddressFisical!.validateAddress(){
+                params = self.viewAddressFisical?.getParams()
+                params?.updateValue(idAddress as! String, forKey: "id")
+                var domicilio = params?["domicilio"] as! [String:Any]
+                domicilio["domicilioId"] = self.folioAddress
+                params?.updateValue(domicilio, forKey: "domicilio")
+                params?.updateValue("true", forKey: "avisoLegalAceptado")
+            }
+        case .fiscalMoral:
+            if self.viewAddressMoral!.validateAddress(){
+                params = self.viewAddressMoral?.getParams()
+                params?.updateValue(idAddress as! String, forKey: "id")
+                var domicilio = params?["domicilio"] as! [String:Any]
+                domicilio["domicilioId"] = self.folioAddress
+                params?.updateValue(domicilio, forKey: "domicilio")
+                params?.updateValue("true", forKey: "avisoLegalAceptado")
+            }
+            //default:
+            
+            //    break
         }
-            , errorBlock: {(error: NSError) in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-        })
+        
+        
+        if params != nil{
+            let parametros = ["cliente":params] as! [String:Any]
+            self.view.endEditing(true)
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.white
+            self.alertView = nil
+            self.view.superview?.addSubview(viewLoad)
+            self.viewLoad!.startAnnimating(true)
+            
+            let addresService = InvoiceUpdateRfcService()
+            addresService.callService(params: parametros, successBlock:{ (resultCall:[String:Any]?) in
+                
+                if let headerData = resultCall?["headerResponse"] as? [String:Any]{
+                    // now val is not nil and the Optional has been unwrapped, so use it
+                    if let responseOk = headerData["responseCode"] as? String {
+                    
+                    if responseOk == "OK"{
+                        
+                        let businessData = resultCall?["businessResponse"] as? [String:Any]
+                        if let message = businessData!["message"] as? String {
+                            if self.viewLoad != nil{
+                                self.viewLoad.stopAnnimating()
+                            }
+                            self.viewLoad = nil
+                            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                            self.alertView!.setMessage(message)
+                            self.alertView!.showDoneIconWithoutClose()
+                            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                            self.delegate?.refreshData(isFromUpdate: true)
+                            self.back()
+                        }
+                    }else{
+                        let errorMess = headerData["reasons"] as! [[String:Any]]
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView!.setMessage(errorMess[0]["description"] as! String)
+                        self.alertView!.showDoneIcon()
+                        if self.viewLoad != nil{
+                            self.viewLoad.stopAnnimating()
+                        }
+                        self.viewLoad = nil
+                        print("error")
+                        }
+                    }else{
+                        let operCode = headerData["operationCode"] as? String
+                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView!.setMessage(operCode!)
+                        self.alertView!.showDoneIcon()
+                        if self.viewLoad != nil{
+                            self.viewLoad.stopAnnimating()
+                        }
+                        self.viewLoad = nil
+                        print("error")
+
+                    }
+                }
+            }
+                , errorBlock: {(error: NSError) in
+                    self.alertView?.setMessage(error.localizedDescription)
+                    self.alertView?.showErrorIcon("Ok")
+            })
+        }
+
     }
     
     override func back() {
-        UIView.transition(with: self.view.superview!, duration: 0.5, options: UIViewAnimationOptions.transitionFlipFromRight,
-                        animations: {self.view.removeFromSuperview()}, completion: nil)
+        
+        
+       UIView.animate(withDuration: 0.5, animations: { () -> Void in
+         self.view.alpha = 0
+         self.view.superview!.frame = CGRect(x: 0, y: 0, width: self.widthAnt, height: self.heightAnt)
+         self.view.superview!.center = self.view.superview!.superview!.center
+        
+        }, completion: { (complete:Bool) -> Void in
+            self.view.removeFromSuperview()
+        })
+
     }
     
     override func swipeHandler(swipe: UISwipeGestureRecognizer) {
