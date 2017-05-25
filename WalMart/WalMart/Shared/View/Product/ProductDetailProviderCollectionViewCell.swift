@@ -47,6 +47,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         switchBtn.backgroundColor = WMColor.light_blue
         switchBtn.layer.cornerRadius = 8.0
         switchBtn.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
+        switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
         self.bringSubview(toFront: switchBtn)
         self.addSubview(switchBtn)
         
@@ -65,7 +66,6 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
         titleLabel.frame = CGRect(x: 16, y: 16, width: self.bounds.width - 32, height: 16)
         collection.frame = CGRect(x: 16, y: 56.0, width: self.bounds.width - 32, height: 92)
     }
@@ -74,9 +74,11 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         if self.switchBtn.isSelected {
            switchBtn.setTitle("reacondicionados", for: .normal)
            titleLabel.text = "Artículo nuevo vendido por"
+           switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
         }else{
             switchBtn.setTitle("nuevos", for: .normal)
             titleLabel.text = "Artículo reacondicionado vendido por"
+            switchBtn.frame = CGRect(x: self.bounds.width - 76, y: 16, width: 60, height: 16.0)
         }
         
         self.switchBtn.isSelected = !self.switchBtn.isSelected

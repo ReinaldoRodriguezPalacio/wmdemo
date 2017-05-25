@@ -15,6 +15,7 @@ class ProductDetailProviderView: UIView {
     var deliberyLabel:UILabel!
     var otherProvidersLabel: UILabel!
     var bottomBorder: CALayer!
+    var topBorder: CALayer!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -60,6 +61,10 @@ class ProductDetailProviderView: UIView {
         self.bottomBorder.backgroundColor = WMColor.light_light_gray.cgColor
         self.layer.insertSublayer(bottomBorder, at: 99)
         
+        self.topBorder = CALayer()
+        self.topBorder.backgroundColor = WMColor.light_light_gray.cgColor
+        self.layer.insertSublayer(topBorder, at: 99)
+        
     }
     
     func setValues(provider: [String:Any]){
@@ -99,13 +104,14 @@ class ProductDetailProviderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.topBorder.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 1)
         self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 2, width: self.frame.size.width, height: 1)
         let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
         let providerWidth = providerSize.width + 66
-        providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 0.0, width: providerSize.width, height: 18)
+        providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
         deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 18)
         otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 18)
-        ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 1.0, width: 50, height: 16)
+        ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 50, height: 16)
     }
 
 }
