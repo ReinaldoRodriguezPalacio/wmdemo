@@ -383,9 +383,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             var headerHeight: CGFloat = 0.0
             
             if IS_IPHONE_6P {
-                headerHeight = 138
+                headerHeight = 142
             } else {
-                headerHeight = 146
+                headerHeight = 152
             }
             
             return CGSize(width: rowWidth, height: headerHeight)
