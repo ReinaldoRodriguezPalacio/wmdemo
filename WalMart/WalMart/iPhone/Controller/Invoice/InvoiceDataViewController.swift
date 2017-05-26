@@ -245,16 +245,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         }
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
+        
     func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
@@ -398,15 +389,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             if formFieldObj ==  txtAddress! {
                 txtAddress!.text = ""
                 //medidaLlanta.text="---/"+aspecto.text!+"R"+diametro.text!
-            }/*
-            if formFieldObj ==  aspecto! {
-                aspecto!.text = ""
-                medidaLlanta.text=anchura.text!+"/--R"+diametro.text!
             }
-            if formFieldObj ==  diametro! {
-                diametro!.text = ""
-                medidaLlanta.text=anchura.text!+"/"+aspecto.text!+"R--"
-            }*/
         }
     }
     
