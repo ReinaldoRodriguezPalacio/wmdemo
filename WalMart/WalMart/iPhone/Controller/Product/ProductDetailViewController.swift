@@ -867,7 +867,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,1) :
             if bundleItems.count == 0 {rowChose += 1}
-            if msi.count == 0 {rowChose += 1}
+            //if msi.count == 0 {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,2) :
             if msi.count == 0 {rowChose += 1}
@@ -1679,7 +1679,7 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
     func showOtherProvidersView() {
         let controller = ProviderListViewController()
         controller.providerItems = self.providerArray
-        controller.productImageUrl = self.imageUrl.first! as! String
+        controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productType = "Articulo reacondicionado"
         self.navigationController?.pushViewController(controller, animated: true)

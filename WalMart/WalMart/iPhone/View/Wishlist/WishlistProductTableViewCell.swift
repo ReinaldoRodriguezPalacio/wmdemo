@@ -33,6 +33,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     var iconDiscount : UIImageView!
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
+    var providerLBL : UILabel!
     
     override func setup() {
         super.setup()
@@ -55,7 +56,15 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         btnShoppingCart = UIButton(frame: CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32))
         btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
         btnShoppingCart.addTarget(self, action: #selector(WishlistProductTableViewCell.addToShoppingCart), for: UIControlEvents.touchUpInside)
-        
+      
+        providerLBL = UILabel()
+        providerLBL!.font = WMFont.fontMyriadProRegularOfSize(11)
+        providerLBL!.numberOfLines = 1
+        providerLBL!.textColor =  WMColor.light_blue
+        providerLBL!.isHidden = true
+        providerLBL!.text = "Vendido por "
+        self.addSubview(providerLBL)
+      
         self.separatorView = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         
@@ -72,15 +81,16 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         super.layoutSubviews()
         
         self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
-        
-        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
+      
+        self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 6.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0 , height: 11.0)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL!.frame.maxY + 7.0, width: 100 , height: 19)
          self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
         self.btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
     }
     
   
   //MARK: - SetValues
-  func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString) {
+  func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString, provider:String) {
     imagePresale.isHidden = !isPreorderable
     
     self.upc = upc
@@ -116,6 +126,9 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         btnShoppingCart.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
       }
     }
+    
+    self.providerLBL.text = self.providerLBL.text! + provider
+    self.providerLBL.isHidden = provider != "" ? false : true
   }
   
   

@@ -1460,10 +1460,15 @@ extension ShoppingCartViewController: UITableViewDataSource {
             if let category = shoppingCartProduct["category"] as? String{
                 productDeparment = category
             }
+          
+          var providerTxt = "Acme dos"
+          if let preordeable  = shoppingCartProduct["provider"] as? NSString {
+            providerTxt = preordeable as String
+          }
             
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment, provider: providerTxt)
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()

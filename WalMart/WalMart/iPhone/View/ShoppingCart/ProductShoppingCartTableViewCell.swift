@@ -33,6 +33,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var isPreorderable : String = ""
     var imagePresale : UIImageView!
     var productDeparment: String = ""
+  var providerLBL : UILabel!
     
     override func setup() {
         super.setup()
@@ -47,8 +48,17 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         productShortDescriptionLabel!.numberOfLines = 2
         
         
-        productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
-        
+        productImage!.frame = CGRect(x: 16, y: 15, width: 76, height: 72)
+      
+        providerLBL = UILabel()
+        providerLBL!.font = WMFont.fontMyriadProRegularOfSize(11)
+        providerLBL!.numberOfLines = 1
+        providerLBL!.textColor =  WMColor.light_blue
+        providerLBL!.isHidden = true
+        providerLBL!.text = "Vendido por "
+        self.addSubview(providerLBL)
+      
+      
         self.productPriceLabel!.textAlignment = NSTextAlignment.left
         
         self.productPriceLabel!.isHidden = false
@@ -71,14 +81,18 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
-        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
+        self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 15, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
+      
+        self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 3.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0, height: 11.0)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL!.frame.maxY + 7.0, width: 100 , height: 19)
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
-        self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
+        self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + 4.0, width: 100 , height: 10)
+      
+      self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  98.0, y: self.productPriceLabel!.frame.minY, width: 98.0, height: 30)
         
     }
     
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, provider:String) {
         imagePresale.isHidden = isPreorderable == "true" ? false : true
         
         self.priceProduct = productPrice.doubleValue
@@ -92,6 +106,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.isPreorderable = isPreorderable
         
         priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
+      
+      self.providerLBL.text = self.providerLBL.text! + provider
+      self.providerLBL.isHidden = provider != "" ? false : true
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -110,14 +127,14 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProRegularOfSize(12), color:  WMColor.green, interLine: false)
             productPriceSavingLabel.isHidden = false
         }else{
             self.savingProduct = 0
             productPriceSavingLabel.isHidden = true
         }
-        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity, pesable: false, hasNote: false, orderByPieces: false, pieces: 0)
-        self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
+        //let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity, pesable: false, hasNote: false, orderByPieces: false, pieces: 0)
+        //self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  size.width, y: self.productPriceLabel!.frame.minY, width: size.width, height: 30)
     }
     
     func addProductQuantity(_ quantity:Int) {
