@@ -64,8 +64,8 @@ class ProviderProductTableViewCell : UITableViewCell {
         super.layoutSubviews()
         
         providerNameLabel.frame = CGRect(x:16, y:16, width: self.bounds.width - 16, height: 15.0)
-        deliveryLabel.frame = CGRect(x: 16, y: 65, width: self.bounds.width - 16, height: 12)
-        productPriceLabel!.frame = CGRect(x:16, y: 40 , width: self.bounds.width - 16, height: 20)
+        deliveryLabel.frame = CGRect(x: 16, y:40 , width: self.bounds.width - 16, height: 12)
+        productPriceLabel!.frame = CGRect(x:16, y: 65 , width: self.bounds.width - 16, height: 20)
         shopButton.frame = CGRect(x: self.frame.width - 112, y: self.frame.height - 46, width: 96, height: 32)
         bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
     }

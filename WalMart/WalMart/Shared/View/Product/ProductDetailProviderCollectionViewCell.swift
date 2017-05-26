@@ -18,6 +18,8 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var itemsProvider: [[String:Any]] = [] {
         didSet {
             collection.reloadData()
+            let cell = collection.cellForItem(at: IndexPath(row: 0, section: 0))
+            cell?.isSelected = true
         }
     }
     

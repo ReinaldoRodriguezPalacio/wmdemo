@@ -55,13 +55,15 @@ class ProviderProductHeaderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        productImage.frame = CGRect(x: 16, y: 16, width: 56, height: 56)
+        
         let productDescriptionSize = productDescriptionLabel.text!.size(attributes: [NSFontAttributeName: productDescriptionLabel!.font])
         let productDescriptionWidth: CGFloat = self.frame.width - (productImage.frame.maxX + 32)
         let productDescriptionHeight: CGFloat = (productDescriptionWidth - productDescriptionSize.width) > 0 ? 15 : 30
-        productImage.frame = CGRect(x: 16, y: 16, width: 56, height: 56)
+        
         productDescriptionLabel.frame = CGRect(x: productImage.frame.maxX + 16, y: 22, width: productDescriptionWidth, height: productDescriptionHeight)
         productTypeLabel.frame = CGRect(x: productImage.frame.maxX + 16, y: productDescriptionLabel.frame.maxY + 4, width: self.frame.width - (productImage.frame.maxX + 32), height: 15)
-        self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
+        bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
     }
     
     
