@@ -33,7 +33,6 @@ class DetailListViewCell: ProductTableViewCell {
     var productDeparment: String = ""
     var orderByPieces: Bool = true
     var pieces = 1
-    var providerLBL : UILabel!
     
     override func setup() {
         super.setup()
@@ -68,14 +67,6 @@ class DetailListViewCell: ProductTableViewCell {
         self.separator = UIView(frame:CGRect(x: 16, y: bounds.height - 1.0,width: self.frame.width - 16, height: 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
-      
-        providerLBL = UILabel()
-        providerLBL!.font = WMFont.fontMyriadProRegularOfSize(9)
-        providerLBL!.numberOfLines = 1
-        providerLBL!.textColor =  WMColor.orange
-        providerLBL!.isHidden = true
-        providerLBL!.text = "Desde"
-        self.addSubview(providerLBL)
         
         self.check = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 109))
         self.check!.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
@@ -140,12 +131,6 @@ class DetailListViewCell: ProductTableViewCell {
             var text: String? = ""
             var total: Double = 0.0
             var orderByPiece = false
-          
-            self.providerLBL.isHidden = false //TODO:product["provider"] as! Bool
-            
-//            if let order = product["orderByPiece"] as? Bool {
-//                orderByPiece = order
-//            }
             
             if let orderPiece = product["baseUomcd"] as? String {
                 orderByPiece = (orderPiece == "EA"  ) //TODO: quitar pieces
@@ -257,7 +242,6 @@ class DetailListViewCell: ProductTableViewCell {
         
         let quantity = product.quantity
         let price = product.price.doubleValue
-      self.providerLBL.isHidden = false //TODO: proveedores
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
@@ -334,22 +318,21 @@ class DetailListViewCell: ProductTableViewCell {
         self.productImage!.frame = CGRect(x: self.check!.frame.maxX + 16.0, y: 19.0, width: 76.0, height: 89.0)
         let x:CGFloat = self.productImage!.frame.maxX + 17.0
         self.productShortDescriptionLabel!.frame = CGRect(x: x, y: 19.0, width: bounds.width - (x + 15.0), height: 28.0)
-        /*if self.quantityIndicator!.isEnabled {
+        if self.quantityIndicator!.isEnabled {
             var size = self.sizeForButton(self.quantityIndicator!)
             size.width = (size.width + (sep*2))
             self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + size.width), y: bounds.height - (37.0 + 19.0), width: size.width, height: 37.0)
-        }else {*/
+        }else {
             self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 98), y: bounds.height - (37.0 + 19.0), width: 98, height: 37.0)
-        //}
+        }
       
-        self.providerLBL!.frame =  CGRect(x: x, y: self.productShortDescriptionLabel!.frame.maxY + 13.0, width: 24.0, height: 11.0)
-        self.productPriceLabel!.frame = CGRect(x: x, y: self.providerLBL!.frame.maxY, width: 100.0, height: 19.0)
-        /*if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
+        self.productPriceLabel!.frame = CGRect(x: x, y: self.quantityIndicator!.frame.minY, width: 100.0, height: 19.0)
+        if self.promoDescription!.text == nil || self.promoDescription!.text!.isEmpty {
             self.productPriceLabel!.center = CGPoint(x: self.productPriceLabel!.center.x, y: self.quantityIndicator!.center.y)
             self.promoDescription!.frame = CGRect.zero
-        } else {*/
+        } else {
             self.promoDescription!.frame = CGRect(x: x, y: self.productPriceLabel!.frame.maxY, width: 80.0, height: 14.0)
-        //}
+        }
 
         self.separator!.frame = CGRect(x: x, y: 108,width: self.frame.width - 16, height: 1.0)
     }

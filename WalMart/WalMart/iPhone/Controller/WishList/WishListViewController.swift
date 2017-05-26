@@ -846,12 +846,17 @@ extension WishListViewController: UITableViewDataSource {
         if  let preordeable  = itemWishlist["isPreorderable"] as? NSString {
             isPreorderable = "true" == preordeable
         }
-        
+      
+      var providerTxt = "Acme 1"
+      if let preordeable  = itemWishlist["provider"] as? NSString {
+        providerTxt = preordeable as String
+      }
+      
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
         
         let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         cell.moveRightImagePresale(isPreorderable)
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString, provider: providerTxt)
         
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
         
