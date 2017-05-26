@@ -31,6 +31,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     var btnCancel: UIButton?
     var btnInfoTicketButton: UIButton?
     
+    var rfcUserDefault : String! = ""
     var byScan : Bool! = false
     var folioInvoice : Int! = 0
     
@@ -174,7 +175,10 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         self.btnNext!.addTarget(self, action: #selector(self.next(_:)), for: UIControlEvents.touchUpInside)
         self.content.addSubview(btnNext!)
 
-        
+        if self.isKeyPresentInUserDefaults(key: "last_rfc"){
+            rfcUserDefault = UserDefaults.standard.value(forKey: "last_rfc") as? String
+            txtRfcEmail?.text = rfcUserDefault
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -242,10 +246,11 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             self.txtRfcEmail!.typeField = TypeField.rfc
             self.txtRfcEmail!.nameField = "rfc"
             self.txtRfcEmail!.autocapitalizationType = .allCharacters
-            //self.txtRfcEmail!.maxLength = 13
-            self.txtRfcEmail?.text=""
+            self.txtRfcEmail!.minLength = 12
+            self.txtRfcEmail!.maxLength = 13
+            self.txtRfcEmail?.text = rfcUserDefault
         }else{
-             self.btnNewInvoice!.isSelected = false
+            self.btnNewInvoice!.isSelected = false
             self.lblRfcEmailTitle.text = NSLocalizedString("invoice.section.emailTitle",comment:"")
             self.lblRfcEmailTitle.sizeToFit()
             //CAPTURA RFC
@@ -254,6 +259,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             self.txtRfcEmail?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
             self.txtRfcEmail!.autocapitalizationType = .none
             self.txtRfcEmail!.placeholder = "Escriba un correo para el envío de la factura"
+            self.txtRfcEmail!.maxLength = 45
 
         }
         if self.errorView != nil{
@@ -397,6 +403,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                 if IS_IPAD{
                     let controller = storyboard?.instantiateViewController(withIdentifier: "invoiceDataController") as! IPAInvoiceDataViewController
                     controller.RFCEscrito = txtRfcEmail?.text
+                    UserDefaults.standard.set(txtRfcEmail?.text, forKey: "last_rfc")
                     controller.TicketEscrito = txtTicketNumber?.text
                     controller.isFromPpal = true
                     if self.btnResendInvoice!.isSelected{
@@ -455,6 +462,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         
             let controller = segue.destination as! InvoiceDataViewController
             controller.RFCEscrito = txtRfcEmail?.text
+        UserDefaults.standard.set(txtRfcEmail?.text, forKey: "last_rfc")
             controller.TicketEscrito = txtTicketNumber?.text
             controller.isFromPpal = true
             if self.btnResendInvoice!.isSelected{
@@ -471,6 +479,10 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     func contentSizeForScrollView(_ sender:Any) -> CGSize {
         let val = CGSize(width: self.view.frame.width, height: self.content.contentSize.height)
         return val
+    }
+
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
     }
 
 

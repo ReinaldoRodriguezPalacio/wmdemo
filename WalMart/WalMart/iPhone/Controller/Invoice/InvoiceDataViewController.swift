@@ -51,6 +51,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     var idEmptySelected : String! = ""
     
     var isFromPpal : Bool! = false
+    var idClienteDefault : String! = ""
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_INVOICE.rawValue
     }
@@ -218,6 +219,10 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.showPicker()
         }
         
+        if self.isKeyPresentInUserDefaults(key: "last_idCliente"){
+            idClienteDefault = UserDefaults.standard.value(forKey: "last_idCliente") as! String
+        }
+
         /*"invoice.section.addressTitle" = "Dirección de Facturación";
           "invoice.field.address" = "Agregar nueva dirección de facturación";
           "invoice.button.noaddress" = "Agregar nueva dirección de facturación";*/
@@ -273,7 +278,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             if idClienteSelected == ""{
                 saveEmptyAddress()
             }else{
-        
+        UserDefaults.standard.set(idClienteSelected, forKey:"last_idCliente")
         let ticketService = InvoiceResendService()
         ticketService.callService(params: ["ticket":self.TicketEscrito, "email":self.txtEmail?.text, "idCliente":self.idClienteSelected], successBlock: { (resultCall:[String:Any]) -> Void in
             var responseOk : String! = ""
@@ -434,6 +439,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             self.arrayAddressFiscalService = [[:]]
             self.arrayAddressFiscalServiceNotEmpty = [[:]]
             self.direccionesFromService = []
+            self.idClienteSelected = ""
             var responseOk : String! = ""
             if let headerData = resultCall["headerResponse"] as? [String:Any]{
                 // now val is not nil and the Optional has been unwrapped, so use it
@@ -442,34 +448,48 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 if responseOk == "OK"{
 
                 let businessData = resultCall["businessResponse"] as? [String:Any]
+            
             if let fiscalAddress = businessData?["clienteList"] as? [[String:Any]] {
                 self.arrayAddressFiscalService = fiscalAddress
             }
-            
-                    let dir1 = self.arrayAddressFiscalService[0]
-                    let domicilio = dir1["domicilio"] as! [String:Any]
-                    let calle = domicilio["calle"] as! String
-                    if calle == ""{
-                        self.checkSelected(self.btnNoAddress!)
-                        self.idEmptySelected = dir1["id"] as! String
-                    }else{
-                        self.txtAddress?.text = calle
-                        self.txtIeps?.text = dir1["rfcIeps"] as? String
-                    }
-                    self.idClienteSelected = dir1["id"] as! String
-                    self.txtEmail?.text = dir1["correoElectronico"] as? String
                 
+                    
             for register in self.arrayAddressFiscalService{
-                let domicilio = register["domicilio"] as! [String:Any]
-                let calle = domicilio["calle"] as! String
-                if calle == ""{
-                    self.idEmptySelected = register["id"] as! String
-                }else{
-                    self.direccionesFromService.append(calle)
-                    self.arrayAddressFiscalServiceNotEmpty.append(register)
+                
+                    let domicilio = register["domicilio"] as! [String:Any]
+                    let calle = domicilio["calle"] as! String
+                    
+                        if calle == ""{
+                            self.idEmptySelected = register["id"] as! String
+                        }else{
+                            self.direccionesFromService.append(calle)
+                            self.arrayAddressFiscalServiceNotEmpty.append(register)
+                        }
+                    if self.idClienteDefault == register["id"] as? String{
+                        self.txtAddress?.text = calle
+                        self.txtIeps?.text = register["rfcIeps"] as? String
+                        self.idClienteSelected = self.idClienteDefault
+                        self.txtEmail?.text = register["correoElectronico"] as? String
+                    }
                 }
-            }
+                
             self.arrayAddressFiscalServiceNotEmpty.remove(at: 0)
+                    if self.idClienteSelected == ""{
+                        let dir1 = self.arrayAddressFiscalServiceNotEmpty[0]
+                        let domicilio = dir1["domicilio"] as! [String:Any]
+                        let calle = domicilio["calle"] as! String
+                        if calle == ""{
+                            self.checkSelected(self.btnNoAddress!)
+                            self.idEmptySelected = dir1["id"] as! String
+                        }else{
+                            self.txtAddress?.text = calle
+                            self.txtIeps?.text = dir1["rfcIeps"] as? String
+                        }
+                        self.idClienteSelected = dir1["id"] as! String
+                        self.txtEmail?.text = dir1["correoElectronico"] as? String
+                    }
+                    
+
             print("sucess")
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
@@ -655,5 +675,8 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         
     }
 
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
 
 }
