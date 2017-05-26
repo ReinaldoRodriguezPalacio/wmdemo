@@ -74,7 +74,6 @@ class ProviderViewCell : UICollectionViewCell {
     
     func setValues(_ provider:[String:Any]){
         
-        
         if let providerName = provider["name"] as? String {
             titleLabel.text = providerName
         }

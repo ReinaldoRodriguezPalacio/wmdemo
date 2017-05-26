@@ -772,6 +772,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             view.colorsViewDelegate = self
             view.hasProviders = self.hasProvider
             view.providerInfo = self.providerInfo
+            view.providerView?.delegate = self
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
@@ -1667,5 +1668,20 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
             })
             
         }
+    }
+}
+//MARK: ProductDetailProviderViewDelegate
+extension ProductDetailViewController: ProductDetailProviderViewDelegate {
+    func showProviderInfoView() {
+        
+    }
+    
+    func showOtherProvidersView() {
+        let controller = ProviderListViewController()
+        controller.providerItems = self.providerArray
+        controller.productImageUrl = self.imageUrl.first! as! String
+        controller.productDescription = self.name as String
+        controller.productType = "Articulo reacondicionado"
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }

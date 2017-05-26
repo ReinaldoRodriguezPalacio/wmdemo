@@ -627,10 +627,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
     
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        
-        
-       
-        
+
         var strType = ""
         if shortcutItem.type == "com.bcg.opensearch" {
            strType = "SH"

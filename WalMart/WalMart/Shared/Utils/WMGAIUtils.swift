@@ -84,6 +84,7 @@ enum WMGAIUtils : String {
     case SCREEN_GRADESLIST = "GradesList"
     case SCREEN_LANDINGPAGE = "LandingPage"
     case SCREEN_SEARCHTEXTRESULT = "SearchTextResult"
+    case SCREEN_PROVIDERSLIST = "ProvidersList"
 //
 ////MARK - CATEGORY
 //    case GR_CATEGORY_BANNER_COLLECTION_VIEW =  "C_GrbannerCollectionView"

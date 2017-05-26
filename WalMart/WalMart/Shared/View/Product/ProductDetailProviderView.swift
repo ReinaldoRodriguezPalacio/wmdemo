@@ -8,14 +8,22 @@
 
 import Foundation
 
+protocol ProductDetailProviderViewDelegate: class {
+    func showProviderInfoView()
+    func showOtherProvidersView()
+}
+
+
 class ProductDetailProviderView: UIView {
     
+    var providerRatingView: UIView!
     var providerLabel: UILabel!
     var ratingLabel: UILabel!
     var deliberyLabel:UILabel!
     var otherProvidersLabel: UILabel!
     var bottomBorder: CALayer!
     var topBorder: CALayer!
+    var delegate: ProductDetailProviderViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -29,12 +37,21 @@ class ProductDetailProviderView: UIView {
     
     func setup() {
         
+        let infoViewRecognizer = UITapGestureRecognizer(target: self, action: #selector(showProviderInfoView))
+        let otherProvidersRecognizer = UITapGestureRecognizer(target: self, action: #selector(showOtherProvidersView))
+        
+        providerRatingView = UIView()
+        providerRatingView.backgroundColor = UIColor.clear
+        providerRatingView.isUserInteractionEnabled = true
+        providerRatingView.addGestureRecognizer(infoViewRecognizer)
+        self.addSubview(providerRatingView!)
+        
         providerLabel = UILabel()
         providerLabel.textColor = WMColor.light_blue
         providerLabel.text = ""
         providerLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         providerLabel.textAlignment = .center
-        self.addSubview(providerLabel!)
+        self.providerRatingView.addSubview(providerLabel!)
         
         deliberyLabel = UILabel()
         deliberyLabel.textColor = WMColor.gray
@@ -46,6 +63,8 @@ class ProductDetailProviderView: UIView {
         otherProvidersLabel.textColor = WMColor.gray
         otherProvidersLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         otherProvidersLabel.textAlignment = .center
+        otherProvidersLabel.isUserInteractionEnabled = true
+        otherProvidersLabel.addGestureRecognizer(otherProvidersRecognizer)
         self.addSubview(otherProvidersLabel!)
         
         ratingLabel = UILabel()
@@ -55,7 +74,7 @@ class ProductDetailProviderView: UIView {
         ratingLabel.layer.cornerRadius = 2
         ratingLabel.textAlignment = .center
         ratingLabel.clipsToBounds = true
-        self.addSubview(ratingLabel!)
+        self.providerRatingView.addSubview(ratingLabel!)
         
         self.bottomBorder = CALayer()
         self.bottomBorder.backgroundColor = WMColor.light_light_gray.cgColor
@@ -78,15 +97,12 @@ class ProductDetailProviderView: UIView {
         }
         
         if let otherProviders = provider["otherProviders"] as? String {
-            
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
             let attrsBlue = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName: WMColor.light_blue] as [String : Any]
             
             let messageString = NSMutableAttributedString(string: "Disponible en otros precios y otros ", attributes: attrs)
             let boldString = NSMutableAttributedString(string:"\(otherProviders) proveedores", attributes:attrsBlue)
-            
             messageString.append(boldString)
-
             otherProvidersLabel.attributedText = messageString
         }
         
@@ -108,10 +124,21 @@ class ProductDetailProviderView: UIView {
         self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 2, width: self.frame.size.width, height: 1)
         let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
         let providerWidth = providerSize.width + 66
+        providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
         providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
-        deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 18)
-        otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 18)
         ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 50, height: 16)
+        
+        deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 16)
+        otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 22)
+    }
+    
+    
+    func showProviderInfoView() {
+        delegate?.showProviderInfoView()
+    }
+    
+    func showOtherProvidersView() {
+        delegate?.showOtherProvidersView()
     }
 
 }
