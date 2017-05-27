@@ -1673,8 +1673,11 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
 //MARK: ProductDetailProviderViewDelegate
 extension ProductDetailViewController: ProductDetailProviderViewDelegate {
     func showProviderInfoView() {
-        
-    }
+      let controller = ProviderDetailViewController()
+      controller.nameProvider = "Acme"
+      controller.rating = 2.5
+      self.navigationController!.pushViewController(controller, animated: true)
+  }
     
     func showOtherProvidersView() {
         let controller = ProviderListViewController()
