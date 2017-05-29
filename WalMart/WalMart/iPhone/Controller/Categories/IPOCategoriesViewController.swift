@@ -52,7 +52,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT - 44)
+        viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT )
         categories!.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         familyController.view.frame = viewFamily.bounds
     }
