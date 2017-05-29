@@ -63,6 +63,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var imageIconView: UIImageView!
     var hasProviders: Bool = false
     var providerInfo: [String:Any]? = nil
+    var heightView: CGFloat = 314.0
     
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,7 +84,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        let detailBanner = ProductDetailBannerCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 314))
+        let detailBanner = ProductDetailBannerCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.heightView))
         
         return detailBanner
     }
@@ -263,7 +264,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var widthNew = self.bounds.width + self.bounds.height - 314
+        var widthNew = self.bounds.width + self.bounds.height - self.heightView
         if widthNew <= self.bounds.width {
             widthNew = self.bounds.width
         }

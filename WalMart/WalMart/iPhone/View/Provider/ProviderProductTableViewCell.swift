@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol ProviderProductTableViewCellDelegate: class {
+    func selectQuantityForItem(cell:ProviderProductTableViewCell,productInCart:Cart?)
+}
+
 class ProviderProductTableViewCell : UITableViewCell {
     
     var providerNameLabel: UILabel!
@@ -15,6 +19,11 @@ class ProviderProductTableViewCell : UITableViewCell {
     var productPriceLabel: CurrencyCustomLabel!
     var shopButton: UIButton!
     var bottomBorder: CALayer!
+    var delegate: ProviderProductTableViewCellDelegate?
+    var upc: String! = ""
+    var productPrice: NSNumber?
+    var quantity: NSNumber! = 0
+    var onHandInventory: NSNumber! = 99
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,7 +57,8 @@ class ProviderProductTableViewCell : UITableViewCell {
         shopButton.layer.cornerRadius = 15
         shopButton.setTitleColor(UIColor.white, for: .normal)
         shopButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        shopButton.setTitle("Agregar", for: .normal)
+        shopButton.setTitle(NSLocalizedString("productdetail.shop",comment:""), for: .normal)
+        shopButton.addTarget(self, action: #selector(selectQuantity), for: .touchUpInside)
         
         self.bottomBorder = CALayer()
         self.bottomBorder.backgroundColor = WMColor.light_light_gray.cgColor
@@ -70,6 +80,11 @@ class ProviderProductTableViewCell : UITableViewCell {
         bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
     }
     
+    func selectQuantity() {
+        let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(upc)
+        delegate?.selectQuantityForItem(cell: self, productInCart: productincar)
+    }
+    
     func setValues(_ provider:[String:Any]){
         
         if let providerName = provider["name"] as? String {
@@ -80,9 +95,30 @@ class ProviderProductTableViewCell : UITableViewCell {
             deliveryLabel.text = "entrega entre \(delibery)"
         }
         
-        if let price = provider["price"] as? String {
-            let formatedPrice = CurrencyCustomLabel.formatString(price as NSString)
+        if let price = provider["price"] as? NSString {
+            self.productPrice = price.doubleValue as NSNumber
+            let formatedPrice = CurrencyCustomLabel.formatString(price)
             self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
         }
+        
+        if let price = provider["onHandInventory"] as? NSString {
+            self.onHandInventory = price.intValue as NSNumber
+        }
+        
+        let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(upc)
+        var text = NSLocalizedString("productdetail.shop",comment:"")
+        quantity = 0
+        
+        if productincar != nil && productincar?.quantity != 0 {
+            quantity = productincar!.quantity
+            if quantity.int32Value == 1 {
+                text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
+            }
+            else {
+                text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+                
+            }
+        }
+        shopButton.setTitle(text, for: .normal)
     }
 }

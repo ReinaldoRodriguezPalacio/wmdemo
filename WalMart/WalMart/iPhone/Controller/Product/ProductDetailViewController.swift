@@ -89,6 +89,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
     var isContainerHide : Bool = true
     var containerinfo : UIView!
     var heightDetail : CGFloat = 360
+    var collectionHeight: CGFloat = 314
     var headerView : UIView!
     var buttonBk: UIButton!
     var currentHeaderView : UIView!
@@ -140,13 +141,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         detailCollectionView.register(ProductDetailCrossSellCollectionViewCell.self, forCellWithReuseIdentifier: "crossSellCell")
         detailCollectionView.register(ProductDetailProviderCollectionViewCell.self, forCellWithReuseIdentifier: "providersCell")
         
-        if let layout = detailCollectionView.collectionViewLayout as? CSStickyHeaderFlowLayout {
-            layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: 364)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: self.view.frame.size.width, height: 364)
-            layout.itemSize = CGSize(width: self.view.frame.size.width, height: layout.itemSize.height)
-            layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
-            layout.disableStickyHeaders = false
-        }
+        self.setCollectionLayout()
         
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 46))
         headerView.backgroundColor = WMColor.light_light_gray
@@ -194,6 +189,23 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         self.detailCollectionView.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 90)
     }
     
+    func setCollectionLayout() {
+        if self.hasProvider {
+            heightDetail = 360
+            collectionHeight = 314
+        }else{
+            heightDetail = 420
+            collectionHeight = 364
+        }
+        
+        if let layout = detailCollectionView.collectionViewLayout as? CSStickyHeaderFlowLayout {
+            layout.parallaxHeaderReferenceSize = CGSize(width: self.view.frame.size.width, height: collectionHeight)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: self.view.frame.size.width, height: collectionHeight)
+            layout.itemSize = CGSize(width: self.view.frame.size.width, height: layout.itemSize.height)
+            layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
+            layout.disableStickyHeaders = false
+        }
+    }
     /**
      Close or show action view if is necesary
      */
@@ -425,7 +437,13 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
                 
-                 NSLog("ProductDetailService successBlock ", "ProductDetailViewController")
+                NSLog("ProductDetailService successBlock ", "ProductDetailViewController")
+                // TODO: Validar con servicio
+                self.hasProvider = true
+                self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
+                self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
+                self.setCollectionLayout()
+
                 self.reloadViewWithData(result)
                 
                 if let facets = result["facets"] as? [[String:Any]] {
@@ -445,11 +463,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
                    
                 }
                 
-                // TODO: Validar con servicio
-                self.hasProvider = true
-                self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
-                self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
-                //--Tag manager 
+                //--Tag manager
                  let linea = result["linea"] as? String ?? ""
                  let isBundle = result["isBundle"] as? Bool ?? false
                 // Remove "event": "ecommerce",
@@ -490,7 +504,6 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             self.isGift = isGift
         }
         
-        
         if let savingResult = result["saving"] as? NSString {
             if savingResult != "" {
                 let doubleVaule = NSString(string: savingResult).doubleValue
@@ -501,8 +514,6 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
                 }
             }
         }
-        print(self.saving)
-        
         
         self.listPrice = result["original_listprice"] as! NSString
         self.characteristics = []
@@ -708,6 +719,9 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         if !isHideCrossSell {
             inCountRows += 1
         }
+        if hasProvider {
+            inCountRows += 1
+        }
         return inCountRows
     }
     
@@ -726,17 +740,21 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             if !hasProvider {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,1) :
+            if !hasProvider {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,2) :
+            if !hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,3) :
+            if !hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (0,4) :
+            if !hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
@@ -764,7 +782,7 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             if self.isLowStock {
                 view.lowStock?.isHidden = false
             }
-            
+            view.heightView = self.collectionHeight
             view.items = self.imageUrl
             view.delegate = self
             view.colors = self.colorItems
@@ -866,15 +884,23 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             if !hasProvider {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,1) :
+            if !hasProvider {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
-            //if msi.count == 0 {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,2) :
+            if !hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 1}
-            if characteristics.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,3) :
+            if !hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 1}
+            if bundleItems.count == 0 {rowChose += 1}
+            hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (0,4) :
+            if !hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 1}
+            if bundleItems.count == 0 {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         default :
             hForCell = 0
@@ -1681,10 +1707,13 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
     
     func showOtherProvidersView() {
         let controller = ProviderListViewController()
+        controller.upcProduct = self.upc as String
         controller.providerItems = self.providerArray
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
+        controller.productDeparment = self.productDeparment
         controller.productType = "Articulo reacondicionado"
+        controller.strisPreorderable = self.strisPreorderable
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
