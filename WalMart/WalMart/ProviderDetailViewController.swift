@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ProviderDetailViewController : BaseController, UITableViewDataSource, UITableViewDelegate {
+class ProviderDetailViewController : BaseController {
   
   var titlelbl : UILabel!
   var headerView : UIView!
@@ -18,9 +18,11 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
   var buttonAdd : UIButton!
   
   var providerTable: UITableView!
-  var providers : [[String:Any]] = []
+  var providerDetails : [[String:Any]] = []
   var nameProvider : String = ""
   var rating : Double = 0.0
+  
+
   
   
   override func getScreenGAIName() -> String {
@@ -63,6 +65,11 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
     
     viewAdd = UIView(frame: CGRect(x: 0, y: self.view.frame.height - self.headerView!.frame.maxY - 46.0, width: self.view.frame.width, height: 64))
     viewAdd.backgroundColor = UIColor.white
+    
+    let separatorViewAdd = UIView(frame:CGRect(x: 0, y: 1.0, width: viewAdd.frame.width, height: 1.0))
+    separatorViewAdd.backgroundColor = WMColor.light_light_gray
+    viewAdd.addSubview(separatorViewAdd)
+    
     buttonAdd = UIButton(frame: CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34))
     buttonAdd!.backgroundColor = WMColor.yellow
     buttonAdd!.setTitle("Agregar", for:UIControlState())
@@ -112,8 +119,26 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
     providerTable.frame =  CGRect(x: 0,  y: self.headerView!.frame.maxY , width: bounds.width, height: bounds.height - self.headerView!.frame.maxY - self.viewAdd!.frame.height - 46.0)
   }
   
+  //MARK: - Actions
+  func back () {
+    self.navigationController!.popViewController(animated: true)
+  }
   
-  //MARK: TableviewDelegate
+  func addProvider() {
+    
+  }
+  
+  func showRating() {
+    
+  }
+  
+  //MARK: - Services
+  
+  
+}
+
+//MARK: TableViewDataSource
+extension ProviderDetailViewController : UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
@@ -139,7 +164,7 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
     
     let viewRating = UIView(frame: CGRect(x: 16.0, y: 14.0, width: 64.0, height: 18.0))
     viewRating.backgroundColor = WMColor.blue
-    viewRating.layer.cornerRadius = 10.0
+    viewRating.layer.cornerRadius = 4.0
     
     let titleRating = UILabel(frame: CGRect(x: 6.0, y: 0.0, width: viewRating.frame.width - 7.0, height: 18.0))
     titleRating.textColor = UIColor.white
@@ -173,21 +198,19 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
     
     return header
   }
-  
-  
+}
+
+//MARK: TableviewDelegate
+extension ProviderDetailViewController : UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     var cell : UITableViewCell! = nil
     
     //Provider detail
     let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerDetailIdentifier(), for: indexPath) as! DetailProvidertableViewCell
-    //let selectedSection = providers[indexPath.section]
-    //let linesArr = selectedSection["line"] as! [Any]
-    //let itemLine = linesArr[indexPath.row - 1] as! [String:Any]
-    if indexPath.row == 0 {
-      cellProvider.setValues("Acerca de Acme", detailTxt: "En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. ")
-    } else {
-      cellProvider.setValues("Devoluciones", detailTxt: "En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. ")
-    }
+    
+    let infoDetail = self.providerDetails[indexPath.row]
+    let titleCell = indexPath.row == 0 ? "Acerca de \(nameProvider)" : "Devoluciones"
+    cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
     
     cell = cellProvider
     //cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -204,21 +227,5 @@ class ProviderDetailViewController : BaseController, UITableViewDataSource, UITa
   func providerDetailIdentifier()  -> String {
     return "providerDetailInfo"
   }
-  
-  
-  func back () {
-    self.navigationController!.popViewController(animated: true)
-  }
-  
-  func addProvider() {
-    
-  }
-  
-  func showRating() {
-    
-  }
-  
-  //MARK: - Services
-  
-  
+
 }
