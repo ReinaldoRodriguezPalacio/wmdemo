@@ -121,7 +121,7 @@ class ProductDetailProviderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.topBorder.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 1)
-        self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 2, width: self.frame.size.width, height: 1)
+        self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
         let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
         let providerWidth = providerSize.width + 66
         providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
