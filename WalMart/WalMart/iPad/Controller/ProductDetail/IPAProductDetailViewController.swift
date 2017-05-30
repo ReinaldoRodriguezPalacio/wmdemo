@@ -384,7 +384,7 @@ class IPAProductDetailViewController : UIViewController {
         productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
             
             // TODO: Validar con servicio
-            self.hasProvider = false
+            self.hasProvider = true
             self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
             self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
             
@@ -673,7 +673,7 @@ class IPAProductDetailViewController : UIViewController {
                 cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 16,align:NSTextAlignment.left)
                 cell = cellPromotion
             }else {
-                return cellForPoint((indexPath.section,2),indexPath: indexPath)
+                return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
         case (1,2) :
             if  msi.count != 0 {
@@ -693,7 +693,7 @@ class IPAProductDetailViewController : UIViewController {
                 cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.left)
                 cell = cellBundleItemsTitle
             } else {
-                return cellForPoint((indexPath.section,4),indexPath: indexPath)
+                return cellForPoint((indexPath.section,5),indexPath: indexPath)
             }
             
         case (1,4) :
@@ -704,7 +704,7 @@ class IPAProductDetailViewController : UIViewController {
                 cellPromotion!.itemsUPC = bundleItems as [[String:Any]]
                 cell = cellPromotion
             } else {
-                return cellForPoint((indexPath.section,5),indexPath: indexPath)
+                return cellForPoint((indexPath.section,6),indexPath: indexPath)
             }
         case (1,5) :
             if characteristics.count != 0 {
@@ -976,6 +976,7 @@ extension IPAProductDetailViewController: UITableViewDataSource {
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (1,1) :
             var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 2}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         case (1,2) :
