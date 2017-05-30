@@ -1,14 +1,14 @@
 //
-//  ProductDetailProviderCollectionViewCell.swift
+//  ProducDetailProviderTableViewCell.swift
 //  WalMart
 //
-//  Created by Luis Alonso Salcido Martinez on 24/05/17.
+//  Created by Luis Alonso Salcido Martinez on 30/05/17.
 //  Copyright © 2017 BCG Inc. All rights reserved.
 //
 
 import Foundation
 
-class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
+class ProducDetailProviderTableViewCell : UITableViewCell {
     
     
     var titleLabel = UILabel()
@@ -24,13 +24,13 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         setup()
     }
     
@@ -80,9 +80,9 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     
     func switchProviders() {
         if self.switchBtn.isSelected {
-           switchBtn.setTitle("reacondicionados", for: .normal)
-           titleLabel.text = "Artículo nuevo vendido por"
-           switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
+            switchBtn.setTitle("reacondicionados", for: .normal)
+            titleLabel.text = "Artículo nuevo vendido por"
+            switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
         }else{
             switchBtn.setTitle("nuevos", for: .normal)
             titleLabel.text = "Artículo reacondicionado vendido por"
@@ -100,7 +100,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
 }
 
 
-extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
+extension ProducDetailProviderTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemsProvider.count
@@ -124,13 +124,13 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 8
     }
-
+    
 }
 
-extension ProductDetailProviderCollectionViewCell: UICollectionViewDelegate {
+extension ProducDetailProviderTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
+        
     }
 }
 

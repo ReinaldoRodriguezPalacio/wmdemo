@@ -12,6 +12,7 @@ import Foundation
 class ProviderListViewController: NavigationViewController {
     var providerTable: UITableView!
     var switchButton: UIButton!
+    var headerView: ProviderProductHeaderView?
     var providerItems: [[String:Any]]! = []
     var viewLoad: WMLoadingView?
     var productImageUrl: String?
@@ -44,6 +45,7 @@ class ProviderListViewController: NavigationViewController {
         self.switchButton.setTitleColor(UIColor.white, for: .normal)
         self.switchButton.setTitle("nuevos", for: .normal)
         self.switchButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.switchButton.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
         self.header?.addSubview(switchButton)
         NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
@@ -53,11 +55,24 @@ class ProviderListViewController: NavigationViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
         self.switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
+    }
+    
+    func switchProviders() {
+        if self.switchButton.isSelected {
+            switchButton.setTitle("reacondicionados", for: .normal)
+            headerView?.productTypeLabel.text = "Artículo nuevo"
+            switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
+        }else{
+            switchButton.setTitle("nuevos", for: .normal)
+            headerView?.productTypeLabel.text = "Artículo reacondicionado"
+            switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
+        }
+        
+        self.switchButton.isSelected = !self.switchButton.isSelected
     }
     
     func endUpdatingShoppingCart() {
@@ -94,9 +109,10 @@ extension ProviderListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       let headerView = ProviderProductHeaderView()
-        headerView.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
-        return headerView
+       let header = ProviderProductHeaderView()
+        header.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
+        self.headerView = header
+        return header
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

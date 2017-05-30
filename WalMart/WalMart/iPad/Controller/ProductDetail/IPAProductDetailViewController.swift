@@ -44,7 +44,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class IPAProductDetailViewController : UIViewController, UITableViewDelegate , UITableViewDataSource,UINavigationControllerDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate,UIActivityItemSource ,ProductDetailBannerCollectionViewDelegate, ProductDetailColorSizeDelegate{
+class IPAProductDetailViewController : UIViewController {
     
     var listSelectorController: ListsSelectorViewController?
     var listSelectorContainer: UIView?
@@ -116,6 +116,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isInWishList: Bool = false
     let heightDetail : CGFloat = 388
     
+    var hasProvider: Bool = false
+    var providerInfo: [String:Any]? = nil
+    var providerArray: [[String:Any]]? = nil
+    var providerInfoCell: ProductDetailProviderView?
+    var cellProviders : UITableViewCell? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -158,6 +164,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tabledetail.register(ProductDetailCharacteristicsTableViewCell.self, forCellReuseIdentifier: "cellCharacteristics")
         tabledetail.register(IPAProductDetailBundleTableViewCell.self, forCellReuseIdentifier: "cellBundleitems")
         tabledetail.register(UITableViewCell.self, forCellReuseIdentifier: "colorsCell")
+        tabledetail.register(UITableViewCell.self, forCellReuseIdentifier: "providerInfoCell")
+        tabledetail.register(ProducDetailProviderTableViewCell.self, forCellReuseIdentifier: "producDetailProviderTableViewCell")
 
         tabledetail.separatorStyle = UITableViewCellSeparatorStyle.none
         
@@ -221,7 +229,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
    
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tabledetail.frame = CGRect(x: bannerImagesProducts.frame.maxX, y: self.headerView.frame.maxY, width: self.view.bounds.width - productCrossSell.frame.width, height: self.view.bounds.height - heigthHeader )
@@ -229,666 +236,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         titlelbl.frame = CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: heigthHeader)
         
     }
-    
-    func loadCrossSell() {
-        let crossService = CrossSellingProductService()
-        crossService.callService(self.upc as String, successBlock: { (result:[[String:Any]]?) -> Void in
-            if result != nil {
-                self.itemsCrossSellUPC = result!
-                if self.itemsCrossSellUPC.count > 0{
-                    self.productCrossSell.reloadWithData(self.itemsCrossSellUPC, upc: self.upc as String)
-                }
-                
-                var position = 0
-                var positionArray: [Int] = []
-                
-                for _ in self.itemsCrossSellUPC {
-                    position += 1
-                    positionArray.append(position)
-                }
-                
-                let listName = "CrossSell"
-                let subCategory = ""
-                let subSubCategory = ""
-                BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
-                
-            }
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Termina sevicio app")
-        })
-    }
-    
-    //MARK : Table view
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            if !self.isContainerHide {
-                return 6
-            }
-            return 5
-            
-        case 1:
-            var inCountRows = 0
-            if msi.count != 0
-            {
-                inCountRows += 2
-            }
-            if bundleItems.count != 0
-            {
-                inCountRows += 2
-            }
-            if characteristics.count != 0
-            {
-                inCountRows += 2
-            }
-         
-            return inCountRows
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        NSLog("\(indexPath)")
-        NSLog("PD 1")
-        var cell : UITableViewCell? = nil
-        let point = (indexPath.section,indexPath.row)
-        if isLoading {
-            cell = cellForPoint((0,4), indexPath: indexPath)
-            return cell!
-        }
-        NSLog("PD 2")
-        switch point {
-        case (0,0) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (0,1) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (0,2) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (0,3) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (0,4) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (0,5) :
-            cell = cellForPoint(point, indexPath: indexPath)
-        case (1,0) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,1) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,2) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if bundleItems.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,3) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if bundleItems.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,4) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if bundleItems.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        case (1,5) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if bundleItems.count == 0 {rowChose += 2}
-            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
-        default :
-            cell = nil
-        }
-        NSLog("PD 3")
-        if cell != nil {
-            cell!.selectionStyle = UITableViewCellSelectionStyle.none
-        }
-        NSLog("PD 4")
-        return cell!
-        
-    }
-    
-    func cellForPoint(_ point:(Int,Int),indexPath: IndexPath) -> UITableViewCell? {
-        var cell : UITableViewCell? = nil
-        switch point {
-        case (0,0) :
-            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-            cell = cellSpace
-        case (0,1) :
-            if self.colorItems.count > 0 || self.sizeItems.count > 0{
-                let cellColors = tabledetail.dequeueReusableCell(withIdentifier: "colorsCell", for: indexPath)
-                if colorSizeViewCell == nil {
-                    self.buildColorSizeCell(cellColors.frame.width)
-                    //self.clearView(cellColors)
-                    cellColors.addSubview(self.colorSizeViewCell!)
-                }
-                cell = cellColors
-            }else{
-                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-                cell = cellSpace
-            }
-        case (0,2) :
-            if self.saving.doubleValue > 0{
-                let cellListPrice = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
-                let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
-                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.gray, interLine: true)
-                cell = cellListPrice
-            }else{
-                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-                cell = cellSpace
-            }
-            
-        case (0,3) :
-            let cellPrice = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
-            let formatedValue = CurrencyCustomLabel.formatString(self.price.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: "") as NSString)
-            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.orange, interLine: false)
-            cell = cellPrice
-        case (0,4) :
-            if self.saving != ""{
-                if self.saving.doubleValue > 0{
-                    let cellAhorro = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
-                    var savingSend = self.saving
-                    let doubleVaule = self.saving.doubleValue
-                    if doubleVaule > 0 {
-                        let savingStr = NSLocalizedString("price.saving",comment:"")
-                        let formated = CurrencyCustomLabel.formatString("\(savingSend)" as NSString)
-                        savingSend = "\(savingStr) \(formated)" as NSString
-                    }
-                    
-                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
-                    cell = cellAhorro
-                }else {
-                    let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-                    cell = cellSpace
-                }
-            } else{
-                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-                cell = cellSpace
-            }
-        case (0,5) :
-            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-            cell = cellSpace
-        case (0,6) :
-            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-            cell = cellSpace
-        case (1,0) :
-            if  msi.count != 0 {
-                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
-                let msiText = NSLocalizedString("productdetail.msitext",comment:"")
-                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 16,align:NSTextAlignment.left)
-                cell = cellPromotion
-            }else {
-                return cellForPoint((indexPath.section,2),indexPath: indexPath)
-            }
-        case (1,1) :
-            if  msi.count != 0 {
-                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "msiCell", for: indexPath) as? ProductDetailMSITableViewCell
-
-                cellPromotion!.priceProduct = self.price
-                cellPromotion!.setValues(msi)
-                cell = cellPromotion
-            }else {
-                return cellForPoint((indexPath.section,3),indexPath: indexPath)
-            }
-        case (1,2) :
-            
-            if bundleItems.count != 0 {
-                let cellBundleItemsTitle = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
-                let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
-                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.left)
-                cell = cellBundleItemsTitle
-            } else {
-                return cellForPoint((indexPath.section,4),indexPath: indexPath)
-            }
-            
-        case (1,3) :
-            if bundleItems.count != 0 {
-                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "cellBundleitems", for: indexPath) as? IPAProductDetailBundleTableViewCell
-                cellBundle = cellPromotion
-                cellPromotion!.delegate = self
-                cellPromotion!.itemsUPC = bundleItems as [[String:Any]]
-                cell = cellPromotion
-            } else {
-                return cellForPoint((indexPath.section,5),indexPath: indexPath)
-            }
-        case (1,4) :
-            if characteristics.count != 0 {
-                let cellCharacteristicsTitle = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
-                //self.clearView(cellCharacteristicsTitle!)
-                let charText = NSLocalizedString("productdetail.characteristics",comment:"")
-                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.left)
-                cell = cellCharacteristicsTitle
-            }else{
-                return nil
-            }
-        case (1,5) :
-            if characteristics.count != 0 {
-                let cellCharacteristics = tabledetail.dequeueReusableCell(withIdentifier: "cellCharacteristics", for: indexPath) as? ProductDetailCharacteristicsTableViewCell
-                //self.clearView(cellCharacteristics!)
-                cellCharacteristics!.setValues(characteristics)
-                cell = cellCharacteristics
-            }else{
-                return nil
-            }
-        case (1,6) :
-            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
-            cell = cellSpace
-        default :
-            cell = nil
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let point = (indexPath.section,indexPath.row)
-        switch point {
-        case (0,0) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (0,1) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (0,2) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (0,3) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (0,4) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (0,5) :
-            return sizeForIndexPath(point,indexPath:indexPath)
-        case (1,0) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,1) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,2) :
-            var rowChose = indexPath.row
-            if bundleItems.count == 0 {rowChose += 2}
-            if msi.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,3):
-            var rowChose = indexPath.row
-            if bundleItems.count == 0 {rowChose += 2}
-            if msi.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,4) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if characteristics.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        case (1,5) :
-            var rowChose = indexPath.row
-            if msi.count == 0 {rowChose += 2}
-            if characteristics.count == 0 {rowChose += 2}
-            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
-        default :
-            return 0
-        }
-    }
-    
-    func sizeForIndexPath (_ point:(Int,Int),indexPath: IndexPath!)  -> CGFloat {
-        var colorSizeHeight:CGFloat = 40.0
-        if self.colorItems.count == 0 && self.sizeItems.count == 0 {
-            colorSizeHeight = 5.0
-        }
-        else if self.colorItems.count > 0 && self.sizeItems.count != 0 {
-            colorSizeHeight = 80.0
-        }
-        switch point {
-        case (0,0) :
-            return 15.0
-        case (0,1) :
-            return colorSizeHeight
-        case (0,3) :
-            return 36.0
-        case (0,2),(0,4) :
-            return 15.0
-        case (0,5) :
-            return 302.0
-        case (0,6) :
-            return 222.0
-        case (1,0) :
-            if  msi.count != 0 {
-                return 36.0
-            }
-            return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
-        case (1,1):
-            if  msi.count != 0 {
-                return (CGFloat(msi.count) * 17) + 22.0
-            }
-            return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
-        case (1,2) :
-            if  bundleItems.count != 0 {
-                return 40.0
-            }
-            return sizeForIndexPath ((indexPath.section,4),indexPath: indexPath)
-        case (1,3):
-            if  bundleItems.count != 0 {
-                return 130.0
-            }
-            return sizeForIndexPath ((indexPath.section,5),indexPath: indexPath)
-        case (1,4) :
-            if characteristics.count != 0 {
-                return 36.0
-            }
-            return sizeForIndexPath ((indexPath.section,6),indexPath: indexPath)
-        case (1,5) :
-            if characteristics.count != 0 {
-                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
-                return size + 126
-            }
-            return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
-        default :
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        //let headerView = UIView()
-        switch section {
-        case 0:
-          return nil
-        default:
-            
-            if isLoading {
-                return UIView()
-            }
-            
-            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 64.0),spaceBetweenButtons:8,widthButtons:63)
-            productDetailButton!.upc = self.upc as String
-            productDetailButton!.desc = self.name as String
-            productDetailButton!.price = self.price as String
-            productDetailButton!.onHandInventory = self.onHandInventory as String
-            productDetailButton!.isActive = self.strisActive as String
-            productDetailButton!.isPreorderable = self.strisPreorderable as String
-            productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.reloadButton()
-            productDetailButton!.listButton.isSelected = self.isInWishList
-            productDetailButton!.listButton.isEnabled = !self.isGift
-            productDetailButton!.productDepartment = self.productDeparment
-            var imageUrl = ""
-            if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as! NSString as String
-            }
-            productDetailButton!.image = imageUrl
-            productDetailButton!.delegate = self
-            return productDetailButton!
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0:
-            return 0.0
-        default:
-            return 64.0
-        }
-    }
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-//        if animationController == nil {
-//            return nil
-//        }
-//        
-//        switch (operation) {
-//        case UINavigationControllerOperation.push:
-//            
-//            animationController.type = AnimationType.present;
-//            return  animationController;
-//        case UINavigationControllerOperation.pop:
-//            animationController.type = AnimationType.dismiss;
-//            return animationController;
-//        default: return nil;
-//        }
-        
-        return nil
-        
-    }
-    
-  
-    // MARK: Product crosssell delegate
-
-    func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
-        
-        let paginatedProductDetail = IPAProductDetailPageViewController()
-        paginatedProductDetail.ixSelected = index
-        paginatedProductDetail.idListSeleted = idList //TODO List
-        paginatedProductDetail.itemsToShow = []
-        for product  in items {
-            let upc : NSString = product["upc"]! as NSString
-            let desc : NSString = product["description"]! as NSString
-            var type : NSString = "mg"
-            if let newtype = product["type"] as String! {
-                type = newtype as NSString
-            }
-            paginatedProductDetail.detailOf =   isBundle ? "Bundle" : "CrossSell"
-            paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
-        }
-        
-      
-        //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
-        paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
-        paginatedProductDetail.animationController.originPoint =  point
-        paginatedProductDetail.animationController.setImage(imageProduct!)
-        
-        self.navigationController?.delegate = paginatedProductDetail
-        self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
-    }
-    
-    func reloadSelectedCell() {
-
-        //self.tabledetail.reloadRowsAtIndexPaths([NSIndexPath(forRow:3,inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
-        if self.cellBundle != nil {
-            self.cellBundle!.collection.reloadData()
-        }
-        self.productCrossSell.reloadWithData()
-    }
-
-    func showProductDetail() {
-        if !isShowProductDetail {
-            if isContainerHide {
-                self.openProductDetail()
-            }else {
-                self.closeContainer({ () -> Void in
-                    }, completeClose: { () -> Void in
-                        self.openProductDetail()
-                }, closeRow:false)
-            }
-        }else {
-            self.closeContainer({ () -> Void in
-                },completeClose:{() in
-                    self.isShowProductDetail = false
-                    self.productDetailButton!.deltailButton.isSelected = false
-            }, closeRow:true)
-        }
-    }
-
-    func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ) {
-         if !self.isShowShoppingCart {
-            let openShoppingCart = { () -> Void in
-                self.isShowShoppingCart = true
-                if self.listSelectorController != nil {
-                    self.closeContainer({ () -> Void in
-                        self.productDetailButton!.reloadShoppinhgButton()
-                        }, completeClose: { () -> Void in
-                         self.addToShoppingCart(upc,desc:desc,price:price,imageURL:imageURL, comments:comments)
-                    }, closeRow:false)
-                    return
-                }else {
-                    self.addToShoppingCart(upc,desc:desc,price:price,imageURL:imageURL, comments:comments)
-                }
-            }
-        
-            if isContainerHide {
-                openShoppingCart()
-            }else {
-                self.closeContainer({ () -> Void in
-                    self.productDetailButton?.reloadShoppinhgButton()
-                    }, completeClose: { () -> Void in
-                        openShoppingCart()
-                }, closeRow:false)
-            }
-         }else{
-            self.closeContainer({ () -> Void in
-                self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-            }, closeRow:true)
-        }
-        
-    }
-    
-    func openProductDetail() {
-        isShowProductDetail = true
-        let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
-        viewDetail  = ProductDetailTextDetailView(frame: frameDetail)
-        viewDetail?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
-        viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -heightDetail, width: self.tabledetail.frame.width, height: heightDetail)
-        viewDetail?.setTextDetail(self.detail as String)
-        viewDetail?.closeDetail = {() in
-            self.closeContainer({ () -> Void in
-                },completeClose:{() in
-                    self.isShowProductDetail = false
-                    self.productDetailButton!.deltailButton.isSelected = false
-            }, closeRow:true)
-        }
-        opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
-            self.viewDetail?.imageBlurView.frame = frameDetail
-            self.productDetailButton!.deltailButton.isSelected = true
-            self.productDetailButton?.reloadShoppinhgButton()
-            },additionalAnimationClose:{ () -> Void in
-                self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
-                self.productDetailButton!.deltailButton.isSelected = true
-            })
-    }
-    
-    func deleteFromCart() {
-        //Add Alert
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
-        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
-        
-        
-        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
-        if !UserCurrentSession.hasLoggedUser() {
-            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
-        }
-        let upc = itemToDelete["upc"] as! String
-        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
-        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
-            UserCurrentSession.sharedInstance.loadMGShoppingCart {
-                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
-                alertView?.showDoneIcon()
-                alertView?.afterRemove = {
-                    self.closeContainer({ () -> Void in
-                        self.productDetailButton?.reloadShoppinhgButton()
-                    }, completeClose: { () -> Void in
-                        self.tabledetail.reloadData()
-                    }, closeRow:true )
-                }
-            }
-        }) { (error) in
-            print("delete pressed Errro \(error)")
-        }
-    }
-    
-    func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
-        
-        let isInCart = self.productDetailButton?.detailProductCart != nil 
-        if !isInCart {
-            self.tabledetail.reloadData()
-            self.isShowShoppingCart = false
-            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
-            params.updateValue(comments, forKey: "comments")
-            params.updateValue(self.type, forKey: "type")
-            NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
-            return
-        }
-        
-        let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
-        
-        self.tabledetail.reloadData()
-        
-        if self.isPesable {
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
-        }
-         else {
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
-        }
-        
-        selectQuantity?.closeAction = { () in
-            self.productDetailButton!.isOpenQuantitySelector = false
-            self.closeContainer({ () -> Void in
-                self.productDetailButton?.reloadShoppinhgButton()
-            }, completeClose: { () -> Void in
-                self.isShowShoppingCart = false
-                self.tabledetail.reloadData()
-            }, closeRow:true)
-        }
-        //selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
-        selectQuantity?.addToCartAction = { (quantity:String) in
-            if quantity == "00" {
-                self.deleteFromCart()
-                return
-            }
-            
-            let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
-            if maxProducts >= Int(quantity) {
-                self.closeContainer({ () -> Void in
-                    self.productDetailButton?.reloadShoppinhgButton()
-                }, completeClose: { () -> Void in
-                    self.tabledetail.reloadData()
-                    self.isShowShoppingCart = false
-
-                    var params  =  self.buildParamsUpdateShoppingCart(quantity,orderByPiece: false,pieces: Int(quantity)!,equivalenceByPiece:0)
-                    params.updateValue(comments, forKey: "comments")
-                    params.updateValue(self.type, forKey: "type")
-                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
-                }, closeRow:true )
-            } else {
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
-                let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
-                alert!.setMessage(msgInventory)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                self.selectQuantity?.first = true
-                self.selectQuantity?.userSelectValue("\(maxProducts)")
-            }
-        }
-      
-        if productDetailButton!.detailProductCart?.quantity != nil {
-          self.productDetailButton?.reloadShoppinhgButton()
-          selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
-          selectQuantity?.first = true
-        }
-      
-        opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
-            self.selectQuantity?.imageBlurView.frame = frameDetail
-            self.productDetailButton!.addToShoppingCartButton.isSelected = true
-            self.productDetailButton?.reloadShoppinhgButton()
-            self.tabledetail.reloadData()
-        },additionalAnimationClose:{ () -> Void in
-            self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
-            self.productDetailButton!.addToShoppingCartButton.isSelected = true
-        },additionalAnimationFinish: { () -> Void in
-            self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
-            self.productDetailButton?.setOpenQuantitySelector()
-        })
-        
-        self.productDetailButton?.reloadButton()
-    }
-
     
     //MARK: Shopping cart
     /**
@@ -1002,70 +349,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }, closeRow:isShowProductDetail)
     }
     
-    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
-        
-        self.isWishListProcess = true
-        
-        self.addOrRemoveToWishListBlock = {() in
-            if addItem {
-                let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
-                    added(true)
-                    
-                    //Event
-                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
-                    self.showMessageWishList(NSLocalizedString("wishlist.ready",comment:""))
-                    self.tabledetail!.reloadData()
-                    self.isInWishList = true
-                }) { (error:NSError) -> Void in
-                    self.isWishListProcess = false
-                    if error.code != -100 {
-                        added(false)
-                        self.showMessageWishList(error.localizedDescription)
-                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
-                        self.productDetailButton!.listButton.isSelected = self.isInWishList
-                    }
-                }
-            } else {
-                let serviceWishListDelete = DeleteItemWishlistService()
-                serviceWishListDelete.callService(upc, successBlock: { (result:[String:Any]) -> Void in
-                    added(true)
-                    
-                    //Event
-                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
-                    self.showMessageWishList(NSLocalizedString("wishlist.deleted",comment:""))
-                    self.tabledetail!.reloadData()
-                    self.isInWishList = false
-                }, errorBlock: { (error:NSError) -> Void in
-                    self.isWishListProcess = false
-                    added(false)
-                    if error.code != -100 {
-                        self.showMessageWishList(error.localizedDescription)
-                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
-                        self.productDetailButton!.listButton.isSelected = self.isInWishList
-                    }
-                })
-            }
-        }
-        
-        if !isContainerHide {
-            closeContainer({ () -> Void in
-            }, completeClose: { () -> Void in
-                
-                self.tabledetail.isScrollEnabled = false
-                //gestureCloseDetail.enabled = true
-//                if  self.tabledetail.contentOffset.y != 0.0 {
-//                    self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
-//                }
-
-                self.addOrRemoveToWishListBlock!()
-
-            }, closeRow:true)
-        }else{
-            self.addOrRemoveToWishListBlock!()
-        }
-    }
-    
     func showMessageWishList(_ message:String) {
         let addedAlertWL = WishlistAddProductStatus(frame: CGRect(x: self.tabledetail.frame.minX, y: self.tabledetail.frame.minY +  96, width: self.tabledetail.frame.width, height: 0))
         addedAlertWL.generateBlurImage(self.view,frame:CGRect(x: self.tabledetail.frame.minX, y: -96, width: self.tabledetail.frame.width, height: 96))
@@ -1088,7 +371,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
        
     }
     
-    
     //MARK: Load service 
     
     func loadDataFromService() {
@@ -1100,6 +382,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
+            
+            // TODO: Validar con servicio
+            self.hasProvider = true
+            self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
+            self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
+            
             self.reloadViewWithData(result)
             
             if let facets = result["facets"] as? [[String:Any]] {
@@ -1265,9 +553,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
         
         ///BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
-        
-
-        
     }
     
     func removeListSelector(action:(()->Void)?, closeRow: Bool ) {
@@ -1297,14 +582,519 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
     
+    //MARK: Cell for point
+    func cellForPoint(_ point:(Int,Int),indexPath: IndexPath) -> UITableViewCell? {
+        var cell : UITableViewCell? = nil
+        switch point {
+        case (0,0) :
+            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+            cell = cellSpace
+        case (0,1) :
+            if self.colorItems.count > 0 || self.sizeItems.count > 0{
+                let cellColors = tabledetail.dequeueReusableCell(withIdentifier: "colorsCell", for: indexPath)
+                if colorSizeViewCell == nil {
+                    self.buildColorSizeCell(cellColors.frame.width)
+                    //self.clearView(cellColors)
+                    cellColors.addSubview(self.colorSizeViewCell!)
+                }
+                cell = cellColors
+            }else{
+                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+                cell = cellSpace
+            }
+        case (0,2) :
+            if self.saving.doubleValue > 0{
+                let cellListPrice = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
+                let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
+                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.gray, interLine: true)
+                cell = cellListPrice
+            }else{
+                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+                cell = cellSpace
+            }
+            
+        case (0,3) :
+            let cellPrice = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
+            let formatedValue = CurrencyCustomLabel.formatString(self.price.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\r", with: "") as NSString)
+            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.orange, interLine: false)
+            cell = cellPrice
+        case (0,4) :
+            if self.saving != ""{
+                if self.saving.doubleValue > 0{
+                    let cellAhorro = tabledetail.dequeueReusableCell(withIdentifier: "priceCell", for: indexPath) as? ProductDetailCurrencyCollectionView
+                    var savingSend = self.saving
+                    let doubleVaule = self.saving.doubleValue
+                    if doubleVaule > 0 {
+                        let savingStr = NSLocalizedString("price.saving",comment:"")
+                        let formated = CurrencyCustomLabel.formatString("\(savingSend)" as NSString)
+                        savingSend = "\(savingStr) \(formated)" as NSString
+                    }
+                    
+                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
+                    cell = cellAhorro
+                }else {
+                    let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+                    cell = cellSpace
+                }
+            } else{
+                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+                cell = cellSpace
+            }
+        case (0,5) :
+            if self.hasProvider {
+                let providerInfoCell = tabledetail.dequeueReusableCell(withIdentifier: "providerInfoCell", for: indexPath)
+                if colorSizeViewCell == nil {
+                    self.buildProviderInfoView(providerInfoCell.frame.width)
+                    providerInfoCell.addSubview(self.providerInfoCell!)
+                }
+                cell = providerInfoCell
+            }else{
+                let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+                cell = cellSpace
+            }
+        case (0,6) :
+            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+            cell = cellSpace
+        case (1,0) :
+            if  self.hasProvider {
+                if cellProviders == nil {
+                    let cellProvider = tabledetail.dequeueReusableCell(withIdentifier: "producDetailProviderTableViewCell", for: indexPath) as? ProducDetailProviderTableViewCell
+                    cellProvider!.itemsProvider = self.providerArray!
+                    cellProviders = cellProvider
+                }
+                cell = cellProviders
+            }else {
+                return cellForPoint((indexPath.section,1),indexPath: indexPath)
+            }
+        case (1,1) :
+            if  msi.count != 0 {
+                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
+                let msiText = NSLocalizedString("productdetail.msitext",comment:"")
+                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 16,align:NSTextAlignment.left)
+                cell = cellPromotion
+            }else {
+                return cellForPoint((indexPath.section,3),indexPath: indexPath)
+            }
+        case (1,2) :
+            if  msi.count != 0 {
+                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "msiCell", for: indexPath) as? ProductDetailMSITableViewCell
+                
+                cellPromotion!.priceProduct = self.price
+                cellPromotion!.setValues(msi)
+                cell = cellPromotion
+            }else {
+                return cellForPoint((indexPath.section,3),indexPath: indexPath)
+            }
+        case (1,3) :
+            
+            if bundleItems.count != 0 {
+                let cellBundleItemsTitle = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
+                let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
+                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.left)
+                cell = cellBundleItemsTitle
+            } else {
+                return cellForPoint((indexPath.section,5),indexPath: indexPath)
+            }
+            
+        case (1,4) :
+            if bundleItems.count != 0 {
+                let cellPromotion = tabledetail.dequeueReusableCell(withIdentifier: "cellBundleitems", for: indexPath) as? IPAProductDetailBundleTableViewCell
+                cellBundle = cellPromotion
+                cellPromotion!.delegate = self
+                cellPromotion!.itemsUPC = bundleItems as [[String:Any]]
+                cell = cellPromotion
+            } else {
+                return cellForPoint((indexPath.section,6),indexPath: indexPath)
+            }
+        case (1,5) :
+            if characteristics.count != 0 {
+                let cellCharacteristicsTitle = tabledetail.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as? ProductDetailLabelCollectionView
+                //self.clearView(cellCharacteristicsTitle!)
+                let charText = NSLocalizedString("productdetail.characteristics",comment:"")
+                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.left)
+                cell = cellCharacteristicsTitle
+            }else{
+                return nil
+            }
+        case (1,6) :
+            if characteristics.count != 0 {
+                let cellCharacteristics = tabledetail.dequeueReusableCell(withIdentifier: "cellCharacteristics", for: indexPath) as? ProductDetailCharacteristicsTableViewCell
+                //self.clearView(cellCharacteristics!)
+                cellCharacteristics!.setValues(characteristics)
+                cell = cellCharacteristics
+            }else{
+                return nil
+            }
+        case (1,7) :
+            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+            cell = cellSpace
+        default :
+            cell = nil
+        }
+        return cell
+    }
+}
+
+//MARK: UITableViewDelegate
+extension IPAProductDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let point = (indexPath.section,indexPath.row)
+        switch point {
+        case (0,0) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,1) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,2) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,3) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,4) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,5) :
+            return sizeForIndexPath(point,indexPath:indexPath)
+        case (1,0) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,1) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,2) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,3) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if bundleItems.count == 0 {rowChose += 2}
+            if msi.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,4):
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if bundleItems.count == 0 {rowChose += 2}
+            if msi.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,5) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if characteristics.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        case (1,6) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if characteristics.count == 0 {rowChose += 2}
+            return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
+        default :
+            return 0
+        }
+    }
     
-    //MARK: Share product
+    func sizeForIndexPath (_ point:(Int,Int),indexPath: IndexPath!)  -> CGFloat {
+        var colorSizeHeight:CGFloat = 40.0
+        if self.colorItems.count == 0 && self.sizeItems.count == 0 {
+            colorSizeHeight = 5.0
+        }
+        else if self.colorItems.count > 0 && self.sizeItems.count != 0 {
+            colorSizeHeight = 80.0
+        }
+        switch point {
+        case (0,0) :
+            return 15.0
+        case (0,1) :
+            return colorSizeHeight
+        case (0,3) :
+            return 36.0
+        case (0,2),(0,4) :
+            return 15.0
+        case (0,5) :
+            if self.hasProvider {
+                return 70
+            }
+            return 302.0
+        case (0,6) :
+            if self.hasProvider {
+                return 302.0
+            }
+            return 222.0
+        case (1,0) :
+            if  self.hasProvider {
+                return 180
+            }
+            return sizeForIndexPath ((indexPath.section,1),indexPath: indexPath)
+        case (1,1) :
+            if  msi.count != 0 {
+                return 36.0
+            }
+            return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
+        case (1,2):
+            if  msi.count != 0 {
+                return (CGFloat(msi.count) * 17) + 22.0
+            }
+            return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
+        case (1,3) :
+            if  bundleItems.count != 0 {
+                return 40.0
+            }
+            return sizeForIndexPath ((indexPath.section,4),indexPath: indexPath)
+        case (1,4):
+            if  bundleItems.count != 0 {
+                return 130.0
+            }
+            return sizeForIndexPath ((indexPath.section,5),indexPath: indexPath)
+        case (1,5) :
+            if characteristics.count != 0 {
+                return 36.0
+            }
+            return sizeForIndexPath ((indexPath.section,6),indexPath: indexPath)
+        case (1,6) :
+            if characteristics.count != 0 {
+                let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
+                return size + 126
+            }
+            return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
+        default :
+            return 0
+        }
+    }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        //let headerView = UIView()
+        switch section {
+        case 0:
+            return nil
+        default:
+            
+            if isLoading {
+                return UIView()
+            }
+            
+            productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 64.0),spaceBetweenButtons:8,widthButtons:63)
+            productDetailButton!.upc = self.upc as String
+            productDetailButton!.desc = self.name as String
+            productDetailButton!.price = self.price as String
+            productDetailButton!.onHandInventory = self.onHandInventory as String
+            productDetailButton!.isActive = self.strisActive as String
+            productDetailButton!.isPreorderable = self.strisPreorderable as String
+            productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButton!.reloadButton()
+            productDetailButton!.listButton.isSelected = self.isInWishList
+            productDetailButton!.listButton.isEnabled = !self.isGift
+            productDetailButton!.productDepartment = self.productDeparment
+            var imageUrl = ""
+            if self.imageUrl.count > 0 {
+                imageUrl = self.imageUrl[0] as! NSString as String
+            }
+            productDetailButton!.image = imageUrl
+            productDetailButton!.delegate = self
+            return productDetailButton!
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0:
+            return 0.0
+        default:
+            return 64.0
+        }
+    }
+
+}
+
+//MARK: UITableViewDataSource
+extension IPAProductDetailViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            if !self.isContainerHide {
+                return  self.hasProvider ? 7 : 6
+            }
+            return  self.hasProvider ? 6 : 5
+            
+        case 1:
+            var inCountRows = 0
+            if self.hasProvider {
+                inCountRows += 1
+            }
+            if msi.count != 0
+            {
+                inCountRows += 2
+            }
+            if bundleItems.count != 0
+            {
+                inCountRows += 2
+            }
+            if characteristics.count != 0
+            {
+                inCountRows += 2
+            }
+            
+            return inCountRows
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        NSLog("\(indexPath)")
+        NSLog("PD 1")
+        var cell : UITableViewCell? = nil
+        let point = (indexPath.section,indexPath.row)
+        if isLoading {
+            cell = cellForPoint((0,4), indexPath: indexPath)
+            return cell!
+        }
+        NSLog("PD 2")
+        switch point {
+        case (0,0) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (0,1) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (0,2) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (0,3) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (0,4) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (0,5) :
+            cell = cellForPoint(point, indexPath: indexPath)
+        case (1,0) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,1) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,2) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,3) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,4) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,5) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        case (1,6) :
+            var rowChose = indexPath.row
+            if !self.hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
+            cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
+        default :
+            cell = nil
+        }
+        NSLog("PD 3")
+        if cell != nil {
+            cell!.selectionStyle = UITableViewCellSelectionStyle.none
+        }
+        NSLog("PD 4")
+        return cell!
+        
+    }
+}
+
+//MARK: ProductDetailCrossSellViewDelegate
+extension IPAProductDetailViewController: ProductDetailCrossSellViewDelegate {
+    func goTODetailProduct(_ upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String, isBundle: Bool) {
+        
+        let paginatedProductDetail = IPAProductDetailPageViewController()
+        paginatedProductDetail.ixSelected = index
+        paginatedProductDetail.idListSeleted = idList //TODO List
+        paginatedProductDetail.itemsToShow = []
+        for product  in items {
+            let upc : NSString = product["upc"]! as NSString
+            let desc : NSString = product["description"]! as NSString
+            var type : NSString = "mg"
+            if let newtype = product["type"] as String! {
+                type = newtype as NSString
+            }
+            paginatedProductDetail.detailOf =   isBundle ? "Bundle" : "CrossSell"
+            paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
+        }
+        
+        
+        //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
+        paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
+        paginatedProductDetail.animationController.originPoint =  point
+        paginatedProductDetail.animationController.setImage(imageProduct!)
+        
+        self.navigationController?.delegate = paginatedProductDetail
+        self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
+    }
+    
+    func reloadSelectedCell() {
+        
+        //self.tabledetail.reloadRowsAtIndexPaths([NSIndexPath(forRow:3,inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
+        if self.cellBundle != nil {
+            self.cellBundle!.collection.reloadData()
+        }
+        self.productCrossSell.reloadWithData()
+    }
+    
+    func loadCrossSell() {
+        let crossService = CrossSellingProductService()
+        crossService.callService(self.upc as String, successBlock: { (result:[[String:Any]]?) -> Void in
+            if result != nil {
+                self.itemsCrossSellUPC = result!
+                if self.itemsCrossSellUPC.count > 0{
+                    self.productCrossSell.reloadWithData(self.itemsCrossSellUPC, upc: self.upc as String)
+                }
+                
+                var position = 0
+                var positionArray: [Int] = []
+                
+                for _ in self.itemsCrossSellUPC {
+                    position += 1
+                    positionArray.append(position)
+                }
+                
+                let listName = "CrossSell"
+                let subCategory = ""
+                let subSubCategory = ""
+                BaseController.sendAnalyticsTagImpressions(self.itemsCrossSellUPC, positionArray: positionArray, listName: listName, mainCategory: "", subCategory: subCategory, subSubCategory: subSubCategory)
+                
+            }
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Termina sevicio app")
+        })
+    }
+}
+
+//MARK: ProductDetailButtonBarCollectionViewCellDelegate
+extension IPAProductDetailViewController: ProductDetailButtonBarCollectionViewCellDelegate {
     func shareProduct() {
-      let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.headerView.frame.width, height: 70.0))
-      let image = UIImage(named: "detail_HeaderMail")
-      imageView.image = image
-      let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
+        let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: self.headerView.frame.width, height: 70.0))
+        let image = UIImage(named: "detail_HeaderMail")
+        imageView.image = image
+        let imageHead = UIImage(from: imageView) //(named:"detail_HeaderMail") //
         // Build header title to share
         let tmpheaderView = UIView(frame:CGRect(x: 0, y: 0, width: self.bannerImagesProducts.frame.width, height: heigthHeader))
         tmpheaderView.backgroundColor = WMColor.light_light_gray
@@ -1352,6 +1142,267 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
     
+    func showProductDetail() {
+        if !isShowProductDetail {
+            if isContainerHide {
+                self.openProductDetail()
+            }else {
+                self.closeContainer({ () -> Void in
+                }, completeClose: { () -> Void in
+                    self.openProductDetail()
+                }, closeRow:false)
+            }
+        }else {
+            self.closeContainer({ () -> Void in
+            },completeClose:{() in
+                self.isShowProductDetail = false
+                self.productDetailButton!.deltailButton.isSelected = false
+            }, closeRow:true)
+        }
+    }
+    
+    func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String ) {
+        if !self.isShowShoppingCart {
+            let openShoppingCart = { () -> Void in
+                self.isShowShoppingCart = true
+                if self.listSelectorController != nil {
+                    self.closeContainer({ () -> Void in
+                        self.productDetailButton!.reloadShoppinhgButton()
+                    }, completeClose: { () -> Void in
+                        self.addToShoppingCart(upc,desc:desc,price:price,imageURL:imageURL, comments:comments)
+                    }, closeRow:false)
+                    return
+                }else {
+                    self.addToShoppingCart(upc,desc:desc,price:price,imageURL:imageURL, comments:comments)
+                }
+            }
+            
+            if isContainerHide {
+                openShoppingCart()
+            }else {
+                self.closeContainer({ () -> Void in
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }, completeClose: { () -> Void in
+                    openShoppingCart()
+                }, closeRow:false)
+            }
+        }else{
+            self.closeContainer({ () -> Void in
+                self.productDetailButton?.reloadShoppinhgButton()
+            }, completeClose: { () -> Void in
+            }, closeRow:true)
+        }
+        
+    }
+    
+    func openProductDetail() {
+        isShowProductDetail = true
+        let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
+        viewDetail  = ProductDetailTextDetailView(frame: frameDetail)
+        viewDetail?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
+        viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -heightDetail, width: self.tabledetail.frame.width, height: heightDetail)
+        viewDetail?.setTextDetail(self.detail as String)
+        viewDetail?.closeDetail = {() in
+            self.closeContainer({ () -> Void in
+            },completeClose:{() in
+                self.isShowProductDetail = false
+                self.productDetailButton!.deltailButton.isSelected = false
+            }, closeRow:true)
+        }
+        opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
+            self.viewDetail?.imageBlurView.frame = frameDetail
+            self.productDetailButton!.deltailButton.isSelected = true
+            self.productDetailButton?.reloadShoppinhgButton()
+        },additionalAnimationClose:{ () -> Void in
+            self.viewDetail?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
+            self.productDetailButton!.deltailButton.isSelected = true
+        })
+    }
+    
+    func deleteFromCart() {
+        //Add Alert
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"remove_cart"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"preCart_mg_icon"))
+        alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductAlert", comment:""))
+        
+        
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0 )
+        if !UserCurrentSession.hasLoggedUser() {
+            BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
+        }
+        let upc = itemToDelete["upc"] as! String
+        let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        deleteShoppingCartService.callCoreDataService(upc, successBlock: { (response) in
+            UserCurrentSession.sharedInstance.loadMGShoppingCart {
+                UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+                alertView?.setMessage(NSLocalizedString("shoppingcart.deleteProductDone", comment:""))
+                alertView?.showDoneIcon()
+                alertView?.afterRemove = {
+                    self.closeContainer({ () -> Void in
+                        self.productDetailButton?.reloadShoppinhgButton()
+                    }, completeClose: { () -> Void in
+                        self.tabledetail.reloadData()
+                    }, closeRow:true )
+                }
+            }
+        }) { (error) in
+            print("delete pressed Errro \(error)")
+        }
+    }
+    
+    func addToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String) {
+        
+        let isInCart = self.productDetailButton?.detailProductCart != nil
+        if !isInCart {
+            self.tabledetail.reloadData()
+            self.isShowShoppingCart = false
+            var params  =  self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0 )//equivalenceByPiece
+            params.updateValue(comments, forKey: "comments")
+            params.updateValue(self.type, forKey: "type")
+            NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
+            return
+        }
+        
+        let frameDetail = CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail)
+        
+        self.tabledetail.reloadData()
+        
+        if self.isPesable {
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
+        }
+        else {
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(value: self.price.doubleValue as Double),upcProduct:self.upc as String)
+        }
+        
+        selectQuantity?.closeAction = { () in
+            self.productDetailButton!.isOpenQuantitySelector = false
+            self.closeContainer({ () -> Void in
+                self.productDetailButton?.reloadShoppinhgButton()
+            }, completeClose: { () -> Void in
+                self.isShowShoppingCart = false
+                self.tabledetail.reloadData()
+            }, closeRow:true)
+        }
+        //selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRect(x: 0,y: 0, width: self.tabledetail.frame.width, height: heightDetail))
+        selectQuantity?.addToCartAction = { (quantity:String) in
+            if quantity == "00" {
+                self.deleteFromCart()
+                return
+            }
+            
+            let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
+            if maxProducts >= Int(quantity) {
+                self.closeContainer({ () -> Void in
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }, completeClose: { () -> Void in
+                    self.tabledetail.reloadData()
+                    self.isShowShoppingCart = false
+                    
+                    var params  =  self.buildParamsUpdateShoppingCart(quantity,orderByPiece: false,pieces: Int(quantity)!,equivalenceByPiece:0)
+                    params.updateValue(comments, forKey: "comments")
+                    params.updateValue(self.type, forKey: "type")
+                    NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
+                }, closeRow:true )
+            } else {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                alert!.setMessage(msgInventory)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                self.selectQuantity?.first = true
+                self.selectQuantity?.userSelectValue("\(maxProducts)")
+            }
+        }
+        
+        if productDetailButton!.detailProductCart?.quantity != nil {
+            self.productDetailButton?.reloadShoppinhgButton()
+            selectQuantity?.userSelectValue(productDetailButton!.detailProductCart!.quantity.stringValue)
+            selectQuantity?.first = true
+        }
+        
+        opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
+            self.selectQuantity?.imageBlurView.frame = frameDetail
+            self.productDetailButton!.addToShoppingCartButton.isSelected = true
+            self.productDetailButton?.reloadShoppinhgButton()
+            self.tabledetail.reloadData()
+        },additionalAnimationClose:{ () -> Void in
+            self.selectQuantity?.imageBlurView.frame =  CGRect(x: 0, y: -self.heightDetail, width: self.tabledetail.frame.width, height: self.heightDetail)
+            self.productDetailButton!.addToShoppingCartButton.isSelected = true
+        },additionalAnimationFinish: { () -> Void in
+            self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, for: UIControlState())
+            self.productDetailButton?.setOpenQuantitySelector()
+        })
+        
+        self.productDetailButton?.reloadButton()
+    }
+    
+    func addOrRemoveToWishList(_ upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:@escaping (Bool) -> Void) {
+        
+        self.isWishListProcess = true
+        
+        self.addOrRemoveToWishListBlock = {() in
+            if addItem {
+                let serviceWishList = AddItemWishlistService()
+                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
+                    added(true)
+                    
+                    //Event
+                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
+                    self.showMessageWishList(NSLocalizedString("wishlist.ready",comment:""))
+                    self.tabledetail!.reloadData()
+                    self.isInWishList = true
+                }) { (error:NSError) -> Void in
+                    self.isWishListProcess = false
+                    if error.code != -100 {
+                        added(false)
+                        self.showMessageWishList(error.localizedDescription)
+                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                        self.productDetailButton!.listButton.isSelected = self.isInWishList
+                    }
+                }
+            } else {
+                let serviceWishListDelete = DeleteItemWishlistService()
+                serviceWishListDelete.callService(upc, successBlock: { (result:[String:Any]) -> Void in
+                    added(true)
+                    
+                    //Event
+                    ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
+                    self.showMessageWishList(NSLocalizedString("wishlist.deleted",comment:""))
+                    self.tabledetail!.reloadData()
+                    self.isInWishList = false
+                }, errorBlock: { (error:NSError) -> Void in
+                    self.isWishListProcess = false
+                    added(false)
+                    if error.code != -100 {
+                        self.showMessageWishList(error.localizedDescription)
+                        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+                        self.productDetailButton!.listButton.isSelected = self.isInWishList
+                    }
+                })
+            }
+        }
+        
+        if !isContainerHide {
+            closeContainer({ () -> Void in
+            }, completeClose: { () -> Void in
+                
+                self.tabledetail.isScrollEnabled = false
+                //gestureCloseDetail.enabled = true
+                //                if  self.tabledetail.contentOffset.y != 0.0 {
+                //                    self.tabledetail.scrollRectToVisible(CGRect(x: 0, y: 0, width: self.tabledetail.frame.width,  height: self.tabledetail.frame.height ), animated: true)
+                //                }
+                
+                self.addOrRemoveToWishListBlock!()
+                
+            }, closeRow:true)
+        }else{
+            self.addOrRemoveToWishListBlock!()
+        }
+    }
+}
+
+//MARK: UIActivityItemSource
+extension IPAProductDetailViewController: UIActivityItemSource {
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any{
         return "Walmart"
     }
@@ -1368,7 +1419,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         //let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
         //let urlss  = NSURL(string: "walmartmexicoapp://bussines_mg/type_UPC/value_\(self.upc)")//NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
         //let urlapp  = url?.absoluteURL
-
+        
         if activityType == UIActivityType.mail {
             return "Hola, Me gustó este producto de Walmart. ¡Te lo recomiendo!\n\(self.name) \nSiempre encuentra todo y pagas menos\n"
         }else if activityType == UIActivityType.postToTwitter ||  activityType == UIActivityType.postToVimeo ||  activityType == UIActivityType.postToFacebook  {
@@ -1387,166 +1438,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         return ""
     }
+}
 
-    
-    // MARK Color Size Functions
-    /**
-     Gets details objects from facets
-     
-     - returns: dictionary wit facet details
-     */
-    func getFacetsDetails() -> [String:Any]{
-        var facetsDetails : [String:Any] = [String:Any]()
-        self.selectedDetailItem = [:]
-        for product in self.facets! {
-            let productUpc =  product["upc"] as! String
-            let selected = productUpc == self.upc as String
-            let details = product["details"] as! [[String:Any]]
-            var itemDetail = [String:String]()
-            itemDetail["upc"] = product["upc"] as? String
-            var count = 0
-            for detail in details{
-                let label = detail["description"] as! String
-                let unit = detail["unit"] as! String
-                var values = facetsDetails[label] as? [[String:Any]]
-                if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
-                if !values!.contains(where: { return $0["value"] as! String == itemToAdd["value"] as! String && $0["enabled"] as! Int == itemToAdd["enabled"] as! Int && $0["type"] as! String == itemToAdd["type"] as! String && $0["selected"] as! Bool == itemToAdd["selected"] as! Bool}) {
-                    values!.append(itemToAdd)
-                }
-                facetsDetails[label] = values
-                itemDetail[label] = detail["unit"] as? String
-                count += 1
-                if selected {
-                    self.selectedDetailItem![label] = unit
-                }
-            }
-            var detailsValues = facetsDetails["itemDetails"] as? [Any]
-            if detailsValues == nil{ detailsValues = []}
-            detailsValues!.append(itemDetail as AnyObject)
-            facetsDetails["itemDetails"] = detailsValues
-        }
-        return self.marckSelectedDetails(facetsDetails)
-    }
-    
-    /**
-     Mark as selected the Details of the first upc
-     
-     - parameter facetsDetails: dictionary wit facet details
-     
-     - returns: dictionary wit facet details
-     */
-    func marckSelectedDetails(_ facetsDetails: [String:Any]) -> [String:Any] {
-        var selectedDetails: [String:Any] = [:]
-        let filteredKeys = self.getFilteredKeys(facetsDetails)
-        // Primer elemento
-        if filteredKeys.count > 0 {
-        let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
-        let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
-        var values: [Any] = []
-        for item in itemsFirst{
-            let label = item["type"] as! String
-            let unit = item["value"] as! String
-            values.append(["value":unit, "enabled": 1, "type": label,"selected": (unit == selecteFirst)])
-        }
-        selectedDetails[selecteFirst] = values
-           
-            if filteredKeys.count > 1 {
-                let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
-                let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
-                
-                let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
-                var findObj: [String] = []
-                for item in itemDetails!{
-                    if(item[filteredKeys.first!] as! String == selecteFirst)
-                    {
-                        findObj.append(item[filteredKeys.last!] as! String)
-                    }
-                }
-                
-                var valuesSecond: [Any] = []
-                for item in itemsSecond{
-                    let label = item["type"] as! String
-                    let unit = item["value"] as! String
-                    let enabled = findObj.contains(selectedSecond)
-                    valuesSecond.append(["value":unit, "enabled": enabled ? 1 : 0, "type": label,"selected": (unit == selectedSecond)])
-                }
-                selectedDetails[selectedSecond] = valuesSecond
-            }
-            selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
-        
-        }
-        return selectedDetails
-    }
-    
-    /**
-     Returns Dictionary keys in order
-     
-     - parameter facetsDetails: facetsDetails Dictionary
-     
-     - returns: String array with keys in order
-     */
-    func getFilteredKeys(_ facetsDetails: [String:Any]) -> [String] {
-        let keys = Array(facetsDetails.keys)
-        var filteredKeys = keys.filter(){
-            return ($0 as String) != "itemDetails"
-        }
-        filteredKeys = filteredKeys.sorted(by: {
-            if $0 == "Color" {
-                return true
-            } else {
-                return  $0 < $1
-            }
-            
-        })
-        return filteredKeys
-    }
-
-    func getUpc(_ itemsSelected: [String:String]) -> String {
-        var upc = ""
-        var isSelected = false
-        let details: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
-        for item in details {
-            isSelected = false
-            for selectItem in itemsSelected{
-                if item[selectItem.0] as! String == selectItem.1{
-                    isSelected = true
-                }
-                else{
-                    isSelected = false
-                    break
-                }
-            }
-            if isSelected{
-                upc = item["upc"] as! String
-            }
-        }
-        return upc
-    }
-    
-    func getFacetWithUpc(_ upc:String) -> [String:Any] {
-        var facet = self.facets!.first
-        for product in self.facets! {
-            if (product["upc"] as! String) == upc {
-                facet = product
-                break
-            }
-        }
-        return facet!
-    }
-    
-    func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
-        let itemDetails: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
-        var findObj: [String] = []
-        for item in itemDetails{
-            if(item[key] as! String == value)
-            {
-                findObj.append(item[keyToFind] as! String)
-            }
-        }
-        return findObj
-    }
-    
+//MARK: ProductDetailBannerCollectionViewDelegate
+extension IPAProductDetailViewController: ProductDetailBannerCollectionViewDelegate {
     func sleectedImage(_ indexPath:IndexPath){
         let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
@@ -1557,15 +1452,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         
     }
-    
-    func clearView(_ view: UIView){
-        for subview in view.subviews{
-            subview.removeFromSuperview()
-        }
-    }
-    
-    //MARK: ProductDetailColorSizeDelegate
-    
+}
+
+//MARK: ProductDetailColorSizeDelegate
+extension IPAProductDetailViewController: ProductDetailColorSizeDelegate {
     func selectDetailItem(_ selected: String, itemType: String) {
         var detailOrderCount = 0
         let keys = Array(self.facetsDetails!.keys)
@@ -1667,5 +1557,189 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
     
+    // MARK Color Size Functions
+    /**
+     Gets details objects from facets
+     
+     - returns: dictionary wit facet details
+     */
+    func getFacetsDetails() -> [String:Any]{
+        var facetsDetails : [String:Any] = [String:Any]()
+        self.selectedDetailItem = [:]
+        for product in self.facets! {
+            let productUpc =  product["upc"] as! String
+            let selected = productUpc == self.upc as String
+            let details = product["details"] as! [[String:Any]]
+            var itemDetail = [String:String]()
+            itemDetail["upc"] = product["upc"] as? String
+            var count = 0
+            for detail in details{
+                let label = detail["description"] as! String
+                let unit = detail["unit"] as! String
+                var values = facetsDetails[label] as? [[String:Any]]
+                if values == nil{ values = []}
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false] as [String : Any]
+                if !values!.contains(where: { return $0["value"] as! String == itemToAdd["value"] as! String && $0["enabled"] as! Int == itemToAdd["enabled"] as! Int && $0["type"] as! String == itemToAdd["type"] as! String && $0["selected"] as! Bool == itemToAdd["selected"] as! Bool}) {
+                    values!.append(itemToAdd)
+                }
+                facetsDetails[label] = values
+                itemDetail[label] = detail["unit"] as? String
+                count += 1
+                if selected {
+                    self.selectedDetailItem![label] = unit
+                }
+            }
+            var detailsValues = facetsDetails["itemDetails"] as? [Any]
+            if detailsValues == nil{ detailsValues = []}
+            detailsValues!.append(itemDetail as AnyObject)
+            facetsDetails["itemDetails"] = detailsValues
+        }
+        return self.marckSelectedDetails(facetsDetails)
+    }
+    
+    /**
+     Mark as selected the Details of the first upc
+     
+     - parameter facetsDetails: dictionary wit facet details
+     
+     - returns: dictionary wit facet details
+     */
+    func marckSelectedDetails(_ facetsDetails: [String:Any]) -> [String:Any] {
+        var selectedDetails: [String:Any] = [:]
+        let filteredKeys = self.getFilteredKeys(facetsDetails)
+        // Primer elemento
+        if filteredKeys.count > 0 {
+            let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
+            let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
+            var values: [Any] = []
+            for item in itemsFirst{
+                let label = item["type"] as! String
+                let unit = item["value"] as! String
+                values.append(["value":unit, "enabled": 1, "type": label,"selected": (unit == selecteFirst)])
+            }
+            selectedDetails[selecteFirst] = values
+            
+            if filteredKeys.count > 1 {
+                let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
+                let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
+                
+                let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+                var findObj: [String] = []
+                for item in itemDetails!{
+                    if(item[filteredKeys.first!] as! String == selecteFirst)
+                    {
+                        findObj.append(item[filteredKeys.last!] as! String)
+                    }
+                }
+                
+                var valuesSecond: [Any] = []
+                for item in itemsSecond{
+                    let label = item["type"] as! String
+                    let unit = item["value"] as! String
+                    let enabled = findObj.contains(selectedSecond)
+                    valuesSecond.append(["value":unit, "enabled": enabled ? 1 : 0, "type": label,"selected": (unit == selectedSecond)])
+                }
+                selectedDetails[selectedSecond] = valuesSecond
+            }
+            selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+            
+        }
+        return selectedDetails
+    }
+    
+    /**
+     Returns Dictionary keys in order
+     
+     - parameter facetsDetails: facetsDetails Dictionary
+     
+     - returns: String array with keys in order
+     */
+    func getFilteredKeys(_ facetsDetails: [String:Any]) -> [String] {
+        let keys = Array(facetsDetails.keys)
+        var filteredKeys = keys.filter(){
+            return ($0 as String) != "itemDetails"
+        }
+        filteredKeys = filteredKeys.sorted(by: {
+            if $0 == "Color" {
+                return true
+            } else {
+                return  $0 < $1
+            }
+            
+        })
+        return filteredKeys
+    }
+    
+    func getUpc(_ itemsSelected: [String:String]) -> String {
+        var upc = ""
+        var isSelected = false
+        let details: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
+        for item in details {
+            isSelected = false
+            for selectItem in itemsSelected{
+                if item[selectItem.0] as! String == selectItem.1{
+                    isSelected = true
+                }
+                else{
+                    isSelected = false
+                    break
+                }
+            }
+            if isSelected{
+                upc = item["upc"] as! String
+            }
+        }
+        return upc
+    }
+    
+    func getFacetWithUpc(_ upc:String) -> [String:Any] {
+        var facet = self.facets!.first
+        for product in self.facets! {
+            if (product["upc"] as! String) == upc {
+                facet = product
+                break
+            }
+        }
+        return facet!
+    }
+    
+    func getDetailsWithKey(_ key: String, value: String, keyToFind: String) -> [String]{
+        let itemDetails: [[String:Any]] = self.facetsDetails!["itemDetails"] as! [[String : Any]]
+        var findObj: [String] = []
+        for item in itemDetails{
+            if(item[key] as! String == value)
+            {
+                findObj.append(item[keyToFind] as! String)
+            }
+        }
+        return findObj
+    }
+    
+    func clearView(_ view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
+}
+
+extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
+    func buildProviderInfoView(_ width: CGFloat) {
+        if self.providerInfoCell != nil {
+            self.clearView(self.providerInfoCell!)
+        }
+        
+        self.providerInfoCell = ProductDetailProviderView(frame: CGRect(x:0, y:0, width: width,height: 70))
+        self.providerInfoCell?.delegate = self
+        self.providerInfoCell?.setValues(provider: self.providerInfo!)
+        self.providerInfoCell?.bottomBorder.removeFromSuperlayer()
+    }
+    
+    func showProviderInfoView() {
+        
+    }
+    
+    func showOtherProvidersView() {
+        
+    }
 }
 

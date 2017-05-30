@@ -1132,7 +1132,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         controller.ixSelected = index
         controller.itemsToShow = products
         controller.detailOf = listName
-        self.pagerController!.navigationController?.delegate = self
+        //self.pagerController!.navigationController?.delegate = self
         self.pagerController!.navigationController?.pushViewController(controller, animated: true)
     }
 
