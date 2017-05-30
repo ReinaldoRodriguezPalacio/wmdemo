@@ -404,6 +404,7 @@
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
 		657F8E941EDDBE250034BF81 /* RatingQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */; };
+		657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */; };
 		658950F71ED8F8F50031B8BB /* ProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */; };
 		658950F91ED8F9900031B8BB /* DetailProviderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658950F81ED8F9900031B8BB /* DetailProviderTableViewCell.swift */; };
 		65A6FCEC1DA2FD9100AB70FE /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A6FCEB1DA2FD9100AB70FE /* LandingPageViewController.swift */; };
@@ -1044,6 +1045,7 @@
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
 		657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingQuestionTableViewCell.swift; sourceTree = "<group>"; };
+		657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingStarsTableViewCell.swift; sourceTree = "<group>"; };
 		658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailViewController.swift; sourceTree = "<group>"; };
 		658950F81ED8F9900031B8BB /* DetailProviderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProviderTableViewCell.swift; sourceTree = "<group>"; };
 		65A6FCEB1DA2FD9100AB70FE /* LandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
@@ -2908,6 +2910,7 @@
 				6CA167271ED8A2DA00801824 /* ProviderProductHeaderView.swift */,
 				658950F81ED8F9900031B8BB /* DetailProviderTableViewCell.swift */,
 				657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */,
+				657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */,
 			);
 			name = Provider;
 			sourceTree = "<group>";
@@ -3630,6 +3633,7 @@
 				5673D13C1A9D500400DCD20B /* RSCornersLayer.swift in Sources */,
 				56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */,
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
+				657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
 				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
 				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,

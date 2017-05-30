@@ -46,21 +46,24 @@ class RatingQuestionTableViewCell : UITableViewCell {
     self.addSubview(ratingGreenView)
   }
   
-  func setValues(_ titleTxt:String, detailTxt:String){
+  func setValues(_ questionData:[String:Any], totalQuestion:Int){
     questionLbl.frame = CGRect(x: 16.0, y: 0.0, width: (self.bounds.width - (16.0 * 2)) , height: 46.0)
-    //questionLbl.text  = titleTxt
-    questionLbl.text = "¿El articulo cumple con las caracteristicas y la descripcion publicada?"
+    questionLbl.text = questionData["question"] as? String
     self.clearView(questionLbl)
     self.addSubview(questionLbl)
     
+    let numbAprobed = questionData["approved"] as? Int
+    
     self.ratingView.frame = CGRect(x: 16.0, y: self.questionLbl.frame.maxY + 8.0, width: 248.0, height: 8.0)
     
-    let percentageRating = (self.ratingView.frame.width * 75) / 100
-    self.ratingGreenView.frame = CGRect(x: 16.0, y: self.ratingView.frame.minY, width: percentageRating, height: 8.0)
+    
+    let widthDoub = Double(self.ratingView.frame.width)
+    let rango = (Double(numbAprobed!) / Double(totalQuestion)) * 100
+    let percentageRating : Double = (widthDoub * (rango) ) / 100.0
+    self.ratingGreenView.frame = CGRect(x: 16.0, y: self.ratingView.frame.minY, width: CGFloat(percentageRating), height: 8.0)
     
     percentageLbl.frame = CGRect(x: self.ratingView.frame.maxX + 8.0, y: self.ratingView.frame.minY, width: (self.bounds.width - (self.ratingView.frame.maxX + 8.0 + 16.0)), height: 11.0)
-    //percentageLbl.text  = detailTxt
-    percentageLbl.text  = "100% (1548 / 1548)"
+    percentageLbl.text  = "\(String(format: "%.2f", rango))% ( \(numbAprobed!)) / \(totalQuestion))"
     self.clearView(percentageLbl)
     self.addSubview(percentageLbl)
   }

@@ -19,10 +19,12 @@ class ProviderDetailViewController : BaseController {
   
   var providerTable: UITableView!
   var providerDetails : [[String:Any]] = []
+  var questions : [[String:Any]] = []
   var nameProvider : String = ""
   var rating : Double = 0.0
   
   var satisfactionPorc : Double = 0.0
+  var totalQuestion : Int = 0
 
   
   
@@ -59,6 +61,7 @@ class ProviderDetailViewController : BaseController {
     providerTable.dataSource = self
     providerTable.register(DetailProvidertableViewCell.self, forCellReuseIdentifier: "providerDetailInfo")
     providerTable.register(RatingQuestionTableViewCell.self, forCellReuseIdentifier: "providerRatingQuestion")
+    providerTable.register(RatingStarsTableViewCell.self, forCellReuseIdentifier: "providerRatingStars")
     providerTable.backgroundColor = UIColor.white
     providerTable.separatorStyle = .none
     providerTable.autoresizingMask = UIViewAutoresizing()
@@ -147,12 +150,12 @@ extension ProviderDetailViewController : UITableViewDataSource {
   
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return section == 0 ? 3 : 2
+    return section == 0 ? questions.count + 1 : 2
   }
   
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return indexPath.section == 0 ? 86.0: 140//indexPath.row == 0 ? 140 : 140
+    return indexPath.section == 0 ? (indexPath.row == 0 ? 97.0 : 86.0) : 140
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -186,7 +189,6 @@ extension ProviderDetailViewController : UITableViewDataSource {
       header.addSubview(separatorView)
     }
     
-    
     return header
   }
 }
@@ -198,13 +200,24 @@ extension ProviderDetailViewController : UITableViewDelegate {
     
     
     if indexPath.section == 0 {
-      let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
       
-      let infoDetail = self.providerDetails[0]//[indexPath.row]
-      let titleCell = indexPath.row == 0 ? "Acerca de " : "Devoluciones"
-      cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
+      if indexPath.row == 0 {
+        //cell rating Stars
+        let cellProviderStars = providerTable.dequeueReusableCell(withIdentifier: providerRatingStarsIdentifier(), for: indexPath) as! RatingStarsTableViewCell
+        
+        cellProviderStars.setValues(self.totalQuestion)
+        cell = cellProviderStars
+        
+      } else {
+        //cell questions
+        let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
+        //cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
+        let dataQuestion = self.questions[indexPath.row - 1]
+        cellProvider.setValues(dataQuestion, totalQuestion: self.totalQuestion)
+        
+        cell = cellProvider
+      }
       
-      cell = cellProvider
     } else {
       //Provider detail
       let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerDetailIdentifier(), for: indexPath) as! DetailProvidertableViewCell
@@ -234,6 +247,10 @@ extension ProviderDetailViewController : UITableViewDelegate {
   
   func providerRatingQIdentifier()  -> String {
     return "providerRatingQuestion"
+  }
+  
+  func providerRatingStarsIdentifier()  -> String {
+    return "providerRatingStars"
   }
 
 }
