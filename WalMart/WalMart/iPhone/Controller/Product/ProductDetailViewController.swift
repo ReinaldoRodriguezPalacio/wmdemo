@@ -1702,6 +1702,7 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
       let controller = ProviderDetailViewController()
       controller.nameProvider = "Acme"
       controller.rating = 2.5
+      controller.satisfactionPorc = 89.0
       controller.providerDetails = [["title":"Acerca de ACME 1", "description": "0En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. "], ["title":"Devoluciones", "description": "1En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. "]]
       self.navigationController!.pushViewController(controller, animated: true)
   }
