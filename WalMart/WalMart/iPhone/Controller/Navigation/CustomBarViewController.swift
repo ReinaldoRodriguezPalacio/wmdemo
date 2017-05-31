@@ -1133,7 +1133,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeSearch(false, sender: nil)
     }
     
-    
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
         let controller = SearchProductViewController()
         controller.searchContextType = searchContextType
@@ -1227,7 +1226,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.onCloseSearch = nil
         }
     }
-    
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
     }
@@ -1437,7 +1435,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }
     
-    
     func returnToView() {
         if shoppingCartVC != nil {
             self.btnShopping!.isSelected = false
@@ -1482,9 +1479,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         buttonSelected(self.buttonList[3])
          NotificationCenter.default.post(name: Notification.Name(rawValue: "ReloadListFormUpdate"), object: self)
     }
-        
-        
-    
     
     func showBadge() {
         if badgeShoppingCart == nil {
@@ -1586,7 +1580,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
     }
     
-    
     func logoTap(){
         self.buttonSelected(self.buttonList[0])
         self.closeShoppingCart()
@@ -1602,8 +1595,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.badgeShoppingCart.alpha = 1
         }
     }
-    
-    
     
     func handleNotification(_ type:String,name:String,value:String,bussines:String) -> Bool {
         //Se elimina el badge de notificaciones
