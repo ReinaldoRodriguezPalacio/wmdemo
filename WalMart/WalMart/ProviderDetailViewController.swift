@@ -119,9 +119,13 @@ class ProviderDetailViewController : BaseController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    let bounds = self.view.bounds
-    viewAdd.frame = CGRect(x: 0, y: bounds.height - self.headerView!.frame.maxY - 64.0, width: self.view.frame.width, height: 64)
-    providerTable.frame =  CGRect(x: 0,  y: self.headerView!.frame.maxY , width: bounds.width, height: bounds.height - self.headerView!.frame.maxY - self.viewAdd!.frame.height - 46.0)
+    //let bounds = self.view.bounds
+    let heighViewAd : CGFloat = IS_IPAD ? 66 : 64
+    
+    titlelbl.frame = CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: 46)
+    viewAdd.frame = CGRect(x: 0, y: self.view.frame.height - heighViewAd - (IS_IPAD ? 0.0 : 46.0), width: self.view.frame.width, height: heighViewAd)
+    buttonAdd.frame = CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34)
+    providerTable.frame =  CGRect(x: 0,  y: self.headerView!.frame.maxY , width: self.view.frame.width, height: self.view.frame.height - self.headerView!.frame.maxY - heighViewAd - (IS_IPAD ? 0.0 : 46.0))
   }
   
   //MARK: - Actions
@@ -160,7 +164,19 @@ extension ProviderDetailViewController : UITableViewDataSource {
   
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return indexPath.section == 0 ? (indexPath.row == 0 ? 97.0 : 86.0) : 140
+    
+    if indexPath.section == 0 {
+      return indexPath.row == 0 ? 97.0 : 86.0
+    } else {
+      
+      let infoDetail = self.providerDetails[indexPath.row]
+      let textCell = infoDetail["description"] as! String
+      let size = DetailProvidertableViewCell.sizeText(textCell, width: self.view.frame.width - (32.0))
+      
+      return size + 60.0
+    }
+    
+    return 0
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -216,7 +232,6 @@ extension ProviderDetailViewController : UITableViewDelegate {
       } else {
         //cell questions
         let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
-        //cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
         let dataQuestion = self.questions[indexPath.row - 1]
         cellProvider.setValues(dataQuestion, totalQuestion: self.totalQuestion)
         

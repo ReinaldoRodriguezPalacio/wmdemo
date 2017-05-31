@@ -36,6 +36,7 @@ class RatingQuestionTableViewCell : UITableViewCell {
     percentageLbl.font = WMFont.fontMyriadProRegularOfSize(11.0)
     percentageLbl.numberOfLines = 1
     percentageLbl.textColor = WMColor.gray
+    percentageLbl.textAlignment = .right
     
     ratingView = UIView(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
     ratingView.backgroundColor = WMColor.light_gray
@@ -54,16 +55,21 @@ class RatingQuestionTableViewCell : UITableViewCell {
     
     let numbAprobed = questionData["approved"] as? Int
     
-    self.ratingView.frame = CGRect(x: 16.0, y: self.questionLbl.frame.maxY + 8.0, width: 248.0, height: 8.0)
+    let whdthRating : CGFloat = self.bounds.width - 32 - (IS_IPAD ? 93.0 : 95.0)
     
+    if IS_IPAD {
+      self.ratingView.frame = CGRect(x: 16.0, y: self.questionLbl.frame.maxY + 7.0, width: whdthRating, height: 10.0)
+    } else {
+      self.ratingView.frame = CGRect(x: 16.0, y: self.questionLbl.frame.maxY + 8.0, width: whdthRating, height: 8.0)
+    }
     
     let widthDoub = Double(self.ratingView.frame.width)
     let rango = (Double(numbAprobed!) / Double(totalQuestion)) * 100
     let percentageRating : Double = (widthDoub * (rango) ) / 100.0
-    self.ratingGreenView.frame = CGRect(x: 16.0, y: self.ratingView.frame.minY, width: CGFloat(percentageRating), height: 8.0)
+    self.ratingGreenView.frame = CGRect(x: 16.0, y: self.ratingView.frame.minY, width: CGFloat(percentageRating), height: self.ratingView.frame.height)
     
-    percentageLbl.frame = CGRect(x: self.ratingView.frame.maxX + 8.0, y: self.ratingView.frame.minY, width: (self.bounds.width - (self.ratingView.frame.maxX + 8.0 + 16.0)), height: 11.0)
-    percentageLbl.text  = "\(String(format: "%.2f", rango))% ( \(numbAprobed!)) / \(totalQuestion))"
+    percentageLbl.frame = CGRect(x: self.bounds.width - 16.0 - (IS_IPAD ? 90.0 : 91.0), y: self.ratingView.frame.minY, width: IS_IPAD ? 90.0 : 91.0 , height: 11.0)
+    percentageLbl.text  = "\(String(format: "%.0f", rango))% (\(numbAprobed!) / \(totalQuestion))"
     self.clearView(percentageLbl)
     self.addSubview(percentageLbl)
   }

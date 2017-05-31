@@ -46,7 +46,9 @@ class DetailProvidertableViewCell : UITableViewCell {
     self.clearView(titleLabel)
     self.addSubview(titleLabel)
     
-    detailLabel.frame = CGRect(x: 16.0, y: self.titleLabel.frame.maxY + 15.0, width: (self.bounds.width - (16.0 * 2)), height: 75.0)
+    
+    let size = DetailProvidertableViewCell.sizeText(detailTxt, width: self.bounds.width - (32.0))
+    detailLabel.frame = CGRect(x: 16.0, y: self.titleLabel.frame.maxY + 15.0, width: (self.bounds.width - (16.0 * 2)), height: size)
     detailLabel.text  = detailTxt
     self.clearView(detailLabel)
     self.addSubview(detailLabel)
@@ -58,6 +60,13 @@ class DetailProvidertableViewCell : UITableViewCell {
     for subview in view.subviews{
       subview.removeFromSuperview()
     }
+  }
+  
+  class func sizeText(_ text:String,width:CGFloat) -> CGFloat {
+    let attrStringLab = NSAttributedString(string:text, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14.0),NSForegroundColorAttributeName:WMColor.gray])
+    let rectSize = attrStringLab.boundingRect(with: CGSize(width: width, height: 150), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+    return rectSize.height
+    
   }
   
 }
