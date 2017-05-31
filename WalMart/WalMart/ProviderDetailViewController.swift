@@ -126,7 +126,12 @@ class ProviderDetailViewController : BaseController {
   
   //MARK: - Actions
   func back () {
-    self.navigationController!.popViewController(animated: true)
+    if IS_IPAD {
+        self.dismiss(animated: true, completion: nil)
+    }else{
+       self.navigationController!.popViewController(animated: true) 
+    }
+    
   }
   
   func buyAction() {

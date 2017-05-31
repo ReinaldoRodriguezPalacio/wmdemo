@@ -1735,11 +1735,30 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
     }
     
     func showProviderInfoView() {
-        
+        let controller = ProviderDetailViewController()
+        controller.nameProvider = "Acme"
+        controller.rating = 2.5
+        controller.satisfactionPorc = 89.0
+        controller.providerDetails = [["title":"Acerca de ACME 1", "description": "0En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. "], ["title":"Devoluciones", "description": "1En DOBA desarrollamos proyectos, diseños, asesoría, venta, instalación y mantenimiento de todo lo relacionado con los mas avanzados sistemas tecnológicos en audio, video, control de iluminación, automatización y tecnología para el hogar, profesional y comercial. "]]
+        controller.totalQuestion = 1548
+        controller.questions = [["question": "¿El artículo cumple con las características y la descripción publicada?", "approved":1548],["question": "¿Tu pedido fue entregado en la fecha estimada?", "approved":1280],["question": "¿Tu paquete llegó en buenas condiciones?", "approved":689]]
+        controller.preferredContentSize = CGSize(width: 352, height: 525)
+        controller.modalPresentationStyle = .formSheet
+        self.navigationController?.present(controller, animated: true, completion: nil)
     }
     
     func showOtherProvidersView() {
-        
+        let controller = ProviderListViewController()
+        controller.upcProduct = self.upc as String
+        controller.providerItems = self.providerArray
+        controller.productImageUrl = self.imageUrl.first! as? String
+        controller.productDescription = self.name as String
+        controller.productDeparment = self.productDeparment
+        controller.productType = "Articulo reacondicionado"
+        controller.strisPreorderable = self.strisPreorderable as String
+        controller.preferredContentSize = CGSize(width: 352, height: 468)
+        controller.modalPresentationStyle = .formSheet
+        self.navigationController?.present(controller, animated: true, completion: nil)
     }
 }
 

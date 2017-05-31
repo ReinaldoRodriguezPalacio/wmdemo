@@ -78,6 +78,14 @@ class ProviderListViewController: NavigationViewController {
     func endUpdatingShoppingCart() {
         self.providerTable.reloadData()
     }
+    
+    override func back() {
+        if IS_IPAD {
+            self.dismiss(animated: true, completion: nil)
+        }else{
+            super.back()
+        }
+    }
 }
 
 //MARK: UITableViewDelegate
