@@ -1091,6 +1091,7 @@
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C83F6B91E5B7A92008FA966 /* PreviewModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewModalView.swift; path = iPhone/View/AlertPickerView/PreviewModalView.swift; sourceTree = "<group>"; };
+		6C880FB01EDF780800016A31 /* WalMart3.31. 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 7.xcdatamodel"; sourceTree = "<group>"; };
 		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
 		6C8977831DA7F1D900BABE85 /* IPALandingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALandingPageViewController.swift; path = iPad/Controller/SearchProduct/IPALandingPageViewController.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
@@ -4334,6 +4335,7 @@
 		4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6C880FB01EDF780800016A31 /* WalMart3.31. 7.xcdatamodel */,
 				6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */,
 				6C3CB1051E5F69F800AD6116 /* WalMart3.31. 5.xcdatamodel */,
 				16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */,
@@ -4343,7 +4345,7 @@
 				4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */,
 				4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */,
 			);
-			currentVersion = 6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */;
+			currentVersion = 6C880FB01EDF780800016A31 /* WalMart3.31. 7.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

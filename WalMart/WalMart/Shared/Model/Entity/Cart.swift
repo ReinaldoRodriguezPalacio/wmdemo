@@ -26,5 +26,7 @@ class Cart : NSManagedObject {
     @NSManaged var quantity: NSNumber
     @NSManaged var type : String
     @NSManaged var note: String?
+    @NSManaged var offerId : String?
+    @NSManaged var sellerId : String?
     
 }
