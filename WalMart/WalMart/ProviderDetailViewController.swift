@@ -133,7 +133,7 @@ class ProviderDetailViewController : BaseController {
     if IS_IPAD {
         self.dismiss(animated: true, completion: nil)
     }else{
-       self.navigationController!.popViewController(animated: true) 
+       self.navigationController!.popViewController(animated: true)
     }
     
   }

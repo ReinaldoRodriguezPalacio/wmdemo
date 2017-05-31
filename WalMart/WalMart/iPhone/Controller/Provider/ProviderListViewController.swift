@@ -32,6 +32,10 @@ class ProviderListViewController: NavigationViewController {
         self.titleLabel?.text = "Otros proveedores"
         self.titleLabel?.textAlignment = .left
         
+        if IS_IPAD {
+            self.backButton?.setImage(UIImage(named:"detail_close"), for: .normal)
+        }
+        
         self.providerTable = UITableView()
         self.providerTable.delegate = self
         self.providerTable.dataSource = self
@@ -135,6 +139,10 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
         if productInCart?.quantity == nil {
             let params = self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue)
             NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
+            if IS_IPAD {
+                back()
+            }
+            return
         }
         
         if self.quantitySelector == nil {
@@ -184,6 +192,9 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
                         self.quantitySelector?.first = true
                         self.quantitySelector?.userSelectValue("\(maxProducts)")
                     }
+                    if IS_IPAD {
+                        self.back()
+                    }
             }
             
             if productInCart?.quantity != nil {
@@ -199,6 +210,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
         else {
             self.removeSelector()
         }
+        
     }
     
     func removeSelector() {
@@ -242,6 +254,10 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
             }
         }) { (error) in
             print("delete pressed Errro \(error)")
+        }
+        
+        if IS_IPAD {
+            self.back()
         }
     }
     

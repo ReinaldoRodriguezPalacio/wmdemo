@@ -290,6 +290,7 @@ class IPAProductDetailViewController : UIViewController {
             })
             
         })
+        
         if self.tabledetail.numberOfRows(inSection: 0) <= 5 {
             self.tabledetail.beginUpdates()
             self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
@@ -326,10 +327,10 @@ class IPAProductDetailViewController : UIViewController {
                     
                 })
                
-                
-                if self.tabledetail.numberOfRows(inSection: 0) >= 5 && closeRow {
+                let row = self.hasProvider ? 6 : 5
+                if self.tabledetail.numberOfRows(inSection: 0) >= row && closeRow {
                     self.tabledetail.beginUpdates()
-                    self.tabledetail.deleteRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.top)
+                    self.tabledetail.deleteRows(at: [IndexPath(row: row, section: 0)], with: UITableViewRowAnimation.top)
                     self.tabledetail.endUpdates()
                     
                     self.pagerController!.enabledGesture(true)
@@ -643,7 +644,7 @@ class IPAProductDetailViewController : UIViewController {
         case (0,5) :
             if self.hasProvider {
                 let providerInfoCell = tabledetail.dequeueReusableCell(withIdentifier: "providerInfoCell", for: indexPath)
-                if colorSizeViewCell == nil {
+                if self.providerInfoCell == nil {
                     self.buildProviderInfoView(providerInfoCell.frame.width)
                     providerInfoCell.addSubview(self.providerInfoCell!)
                 }
@@ -653,6 +654,9 @@ class IPAProductDetailViewController : UIViewController {
                 cell = cellSpace
             }
         case (0,6) :
+            let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+            cell = cellSpace
+        case (0,7) :
             let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
             cell = cellSpace
         case (1,0) :
@@ -752,6 +756,8 @@ extension IPAProductDetailViewController: UITableViewDelegate {
             return sizeForIndexPath(point,indexPath:indexPath)
         case (0,5) :
             return sizeForIndexPath(point,indexPath:indexPath)
+        case (0,6) :
+            return sizeForIndexPath(point,indexPath:indexPath)
         case (1,0) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
@@ -819,7 +825,7 @@ extension IPAProductDetailViewController: UITableViewDelegate {
             return 302.0
         case (0,6) :
             if self.hasProvider {
-                return 302.0
+                return 232.0
             }
             return 222.0
         case (1,0) :
@@ -970,6 +976,8 @@ extension IPAProductDetailViewController: UITableViewDataSource {
             cell = cellForPoint(point, indexPath: indexPath)
         case (0,5) :
             cell = cellForPoint(point, indexPath: indexPath)
+        case (0,6) :
+            cell = cellForPoint(point, indexPath: indexPath)
         case (1,0) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
@@ -1009,7 +1017,7 @@ extension IPAProductDetailViewController: UITableViewDataSource {
             if bundleItems.count == 0 {rowChose += 2}
             cell = cellForPoint((indexPath.section,rowChose), indexPath: indexPath)
         default :
-            cell = nil
+            cell = cellForPoint((indexPath.section,7), indexPath: indexPath)
         }
         NSLog("PD 3")
         if cell != nil {
