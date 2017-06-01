@@ -44,6 +44,11 @@ class ProviderDetailViewController : BaseController {
     buttonBk.addTarget(self, action: #selector(ProviderDetailViewController.back), for: UIControlEvents.touchUpInside)
     headerView.addSubview(buttonBk)
     
+    if IS_IPAD {
+        self.buttonBk?.setImage(UIImage(named:"detail_close"), for: .normal)
+    }
+
+    
     titlelbl = UILabel(frame: CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: 46))
     titlelbl.textAlignment = .center
     titlelbl.text = nameProvider
