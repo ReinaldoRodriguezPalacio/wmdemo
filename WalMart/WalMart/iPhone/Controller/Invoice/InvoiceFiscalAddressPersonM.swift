@@ -31,7 +31,7 @@ class InvoiceFiscalAddressPersonM: AddressView {
         self.corporateName!.isRequired = true
         self.corporateName!.typeField = TypeField.name
         self.corporateName!.minLength = 2
-        self.corporateName!.maxLength = 40
+        self.corporateName!.maxLength = 90
         self.corporateName!.nameField = NSLocalizedString("profile.address.person.name.moral",comment:"")
         self.corporateName!.tag=100
         
@@ -63,7 +63,7 @@ class InvoiceFiscalAddressPersonM: AddressView {
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
-        self.email!.maxLength = 45
+        self.email!.maxLength = 100
         self.email!.tag=103
         
         

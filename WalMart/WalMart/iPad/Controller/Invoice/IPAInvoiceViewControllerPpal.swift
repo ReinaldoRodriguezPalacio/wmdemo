@@ -64,8 +64,10 @@ class IPAInvoiceViewControllerPpal : InvoiceViewControllerPpal{
         fheight = (section4Bottom - section4Top)/3
         //CANCEL
         self.btnCancel?.frame = CGRect(x: margin, y: section4Top + 2*fheight, width: (sectionWidth - 2*margin)/2 - margin/2, height: fheight)
+        
         //NEXT
-        self.btnNext?.frame = CGRect(x: btnCancel!.frame.maxX + margin, y: section4Top + 2*fheight, width: (sectionWidth - 2*margin)/2 - margin/2, height: fheight)
+        self.btnNext?.frame = CGRect(x: sectionWidth/2 - (self.btnCancel?.frame.size.width)!/2 , y: section4Top + 2*fheight, width: (sectionWidth - 2*margin)/2 - margin/2, height: fheight)
+        self.btnCancel?.removeFromSuperview()
         
     }
     

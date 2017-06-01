@@ -29,7 +29,7 @@ class InvoiceFiscalAddressPersonF: AddressView {
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name",comment:""))
         self.name!.typeField = TypeField.name
         self.name!.minLength = 2
-        self.name!.maxLength = 40
+        self.name!.maxLength = 90
         self.name!.nameField = NSLocalizedString("profile.address.person.name",comment:"")
         self.name!.tag=100
         
@@ -61,7 +61,7 @@ class InvoiceFiscalAddressPersonF: AddressView {
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
-        self.email!.maxLength = 45
+        self.email!.maxLength = 100
         self.email!.tag=103
         
         self.addSubview(name!)

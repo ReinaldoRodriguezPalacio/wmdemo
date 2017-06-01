@@ -627,6 +627,7 @@
 "invoice.message.facturaResendEmail" = "Te la hemos enviado a";
 "invoice.field.zipcode" = "Código Postal";
 "invoice.section.purchase.data" = "Datos de tu compra";
+"invoice.validate.terms.conditions" = " Para facturar debes aceptar los términos y condiciones";
 "invoice.button.scan" = "Ingresar datos escaneando tu ticket";
 "invoice.section.write" = "O ingresa manualmente los datos";
 "invoice.field.ticketnumber" = "Ingresa TC#";
@@ -638,10 +639,12 @@
 "invoice.message.exit" = "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados";
 "invoice.message.continue" = "Continuar";
 "invoice.advice" = "Avisos";
+"invoice.info.message" = "Seleccione una opción y capture los datos solicitados";
 "invoice.info.validity" = "Vigencia: ";
-"invoice.info.validity.desc" = "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket)";
+"invoice.info.validity.desc2" = "Para facturar debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra y le sugerimos conservar su ticket para cualquier consulta o modificación en su factura.";
+"invoice.info.validity.desc" = "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket).";
 "invoice.info.guard" = "\n \n Resguardo: ";
-"invoice.info.guard.desc" = "Para poder realizar su factura o cualquier modificación o consulta, es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.";
+"invoice.info.guard.desc" = "Es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.";
 
 //Refered
 "refered.title" = "Mis Referidos";

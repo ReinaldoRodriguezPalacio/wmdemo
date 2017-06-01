@@ -116,7 +116,7 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
         
         titleLabel = UILabel(frame: CGRect(x: self.closeButton!.frame.maxX + 10, y: 12, width: headerView.frame.size.width - 100, height: 22))
         titleLabel.textColor =  WMColor.light_blue
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabel.font = WMFont.fontMyriadProLightOfSize(14)
         titleLabel.textAlignment = .center
         headerView.addSubview(titleLabel)
         
@@ -220,7 +220,7 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
             let lblTitulo=UILabel(frame: CGRect(x: 8, y: 5, width: tableView.bounds.size.width, height: 30))
             lblTitulo.textColor=WMColor.light_blue
             lblTitulo.textAlignment = .left
-            lblTitulo.font = UIFont.systemFont(ofSize: 13)
+            lblTitulo.font = WMFont.fontMyriadProLightOfSize(13)
             /*if section==0{
                 lblTitulo.text = "En App"
             }else if section==1{

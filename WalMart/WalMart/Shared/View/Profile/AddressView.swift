@@ -137,7 +137,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         outdoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
         self.outdoornumber!.typeField = TypeField.numAddress
         self.outdoornumber!.minLength = 0
-        self.outdoornumber!.maxLength = 5
+        self.outdoornumber!.maxLength = 15
         self.outdoornumber!.nameField = NSLocalizedString("profile.address.outdoornumber",comment:"")
         
         indoornumber = FormFieldView()
@@ -145,7 +145,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
         self.indoornumber!.typeField = TypeField.numAddress
         self.indoornumber!.minLength = 0
-        self.indoornumber!.maxLength = 5
+        self.indoornumber!.maxLength = 15
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
         
         self.zipcode = FormFieldView()

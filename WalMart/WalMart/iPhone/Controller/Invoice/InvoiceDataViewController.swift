@@ -27,6 +27,8 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     var lblIepsTitle : UILabel!
     var lblEmailTitle : UILabel!
     var lblPrivacyTitle : UILabel!
+    var lblVigencia : UILabel!
+    var lblResguardo : UILabel!
     
     var btnNoAddress : UIButton?
     var btnNoIeps : UIButton?
@@ -92,7 +94,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(lblAddressTitle)
 
         //CAPTURA RFC
-        self.txtAddress = FormFieldView(frame: CGRect(x: margin, y: lblAddressTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight))
+        self.txtAddress = FormFieldView(frame: CGRect(x: margin, y: lblAddressTitle.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight))
         self.txtAddress!.isRequired = true
         let placeholder = NSMutableAttributedString()
         placeholder.append(NSAttributedString(string: NSLocalizedString("invoice.field.address",comment:"")
@@ -104,14 +106,14 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         //self.txtAddress!.maxLength = 13
         self.content.addSubview(self.txtAddress!)
         
-        self.lblIepsTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.iepsTitle",comment:""), frame: CGRect(x: margin, y: txtAddress!.frame.maxY + fheight, width: sectionWidth, height: fheight))
+        self.lblIepsTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.iepsTitle",comment:""), frame: CGRect(x: margin, y: txtAddress!.frame.maxY + fheight/2, width: sectionWidth, height: fheight))
         
         self.lblIepsTitle.sizeToFit()
         self.content.addSubview(lblIepsTitle)
         //SECCION 2
         fheight = (section2Bottom - section2Top)/6
         //CAPTURA RFC
-        self.txtIeps = FormFieldView(frame: CGRect(x: margin, y: section2Top + fheight, width: sectionWidth - 2*margin, height: 2*fheight))
+        self.txtIeps = FormFieldView(frame: CGRect(x: margin, y: section2Top, width: sectionWidth - 2*margin, height: 2*fheight))
         
         let placeholder2 = NSMutableAttributedString()
         placeholder2.append(NSAttributedString(string: NSLocalizedString("invoice.field.ieps",comment:"")
@@ -138,7 +140,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
 
         //SECCION 3
         fheight = (section3Bottom - section3Top)/6
-        self.lblEmailTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.emailTitle",comment:""), frame: CGRect(x: margin, y: section3Top, width: sectionWidth, height: fheight))
+        self.lblEmailTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.emailTitle",comment:""), frame: CGRect(x: margin, y: btnNoAddress!.frame.maxY + fheight, width: sectionWidth, height: fheight))
         self.lblEmailTitle.sizeToFit()
         self.content.addSubview(lblEmailTitle)
         
@@ -151,7 +153,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.txtEmail!)
         
         
-        self.btnPrivacity = UIButton(frame: CGRect(x: margin, y: txtEmail!.frame.maxY + fheight, width: fheight, height: fheight))
+        self.btnPrivacity = UIButton(frame: CGRect(x: margin, y: txtEmail!.frame.maxY + fheight/2, width: fheight, height: fheight))
         btnPrivacity!.setImage(checkEmpty, for: UIControlState())
         btnPrivacity!.setImage(checkFull, for: UIControlState.selected)
         btnPrivacity!.addTarget(self, action: #selector(self.checkSelected(_:)), for: UIControlEvents.touchUpInside)
@@ -161,7 +163,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.btnPrivacity!)
 
         
-        self.lblPrivacyTitle = UILabel(frame: CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight/2, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight))
+        self.lblPrivacyTitle = UILabel(frame: CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight/8, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
@@ -183,6 +185,25 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         
         self.content.addSubview(lblPrivacyTitle)
 
+        
+        self.lblResguardo = UILabel(frame: CGRect(x: margin, y: btnPrivacity!.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight))
+        self.lblResguardo.text = NSLocalizedString("invoice.info.guard.desc",comment:"")
+        self.lblResguardo.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.lblResguardo.textColor = WMColor.dark_gray
+        self.lblResguardo.numberOfLines = 0
+        self.lblResguardo.sizeToFit()
+        self.content.addSubview(lblResguardo)
+        
+        self.lblVigencia = UILabel(frame: CGRect(x: margin, y: lblResguardo!.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight))
+        self.lblVigencia.text = NSLocalizedString("invoice.info.validity.desc2",comment:"")
+        self.lblVigencia.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.lblVigencia.textColor = WMColor.dark_gray
+        self.lblVigencia.numberOfLines = 0
+        self.lblVigencia.sizeToFit()
+        self.content.addSubview(lblVigencia)
+        
+       
+        
         //SECCION DE BOTONES
         fheight = (section4Bottom - section4Top)/3
         //CANCEL
@@ -481,6 +502,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             }else{
                 let errorMess = headerData["reasons"] as! [[String:Any]]
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView?.bgView.frame = self.view.bounds
                 self.alertView!.setMessage(errorMess[0]["description"] as! String)
                 self.alertView!.showDoneIcon()
                     if self.viewLoad != nil{
@@ -560,7 +582,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             if self.errorView == nil {
                 self.errorView = FormFieldErrorView()
             }
-            self.presentMessageTerms(self.btnPrivacity!, message: NSLocalizedString("signup.validate.terms.conditions", comment: ""), errorView: self.errorView!)
+            self.presentMessageTerms(self.btnPrivacity!, message: NSLocalizedString("invoice.validate.terms.conditions", comment: ""), errorView: self.errorView!)
             
             // Event -- Error Registration
             BaseController.sendAnalyticsUnsuccesfulRegistrationWithError("Términos y condiciones no aceptados", stepError: "Información legal")

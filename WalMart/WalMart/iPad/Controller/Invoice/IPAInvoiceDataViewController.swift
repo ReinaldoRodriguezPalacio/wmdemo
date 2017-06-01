@@ -61,10 +61,18 @@ class IPAInvoiceDataViewController : InvoiceDataViewController{
         //CAPTURA RFC
         self.txtEmail!.frame = CGRect(x: margin, y: lblEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight)
         
-        self.btnPrivacity?.frame = CGRect(x: margin, y: txtEmail!.frame.maxY + fheight, width: fheight, height: fheight)
+        self.btnPrivacity?.frame = CGRect(x: margin, y: txtEmail!.frame.maxY + fheight/2, width: fheight, height: fheight)
         
-        self.lblPrivacyTitle.frame = CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight)
+        self.lblPrivacyTitle.frame = CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight/2, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight)
         self.lblPrivacyTitle.sizeToFit()
+        
+        self.lblResguardo.frame = CGRect(x: margin, y: btnPrivacity!.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight)
+        self.lblResguardo.numberOfLines = 0
+        self.lblResguardo.sizeToFit()
+        
+        self.lblVigencia.frame = CGRect(x: margin, y: lblResguardo!.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight)
+        self.lblVigencia.numberOfLines = 0
+        self.lblVigencia.sizeToFit()
         
         //SECCION DE BOTONES
         fheight = (section4Bottom - section4Top)/3
