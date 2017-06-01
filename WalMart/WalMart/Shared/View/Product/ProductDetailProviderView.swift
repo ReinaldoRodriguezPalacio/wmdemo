@@ -23,6 +23,7 @@ class ProductDetailProviderView: UIView {
     var otherProvidersLabel: UILabel!
     var bottomBorder: CALayer!
     var topBorder: CALayer!
+    var offersCount: Int = 0
     var delegate: ProductDetailProviderViewDelegate?
     
     override init(frame: CGRect) {
@@ -92,18 +93,8 @@ class ProductDetailProviderView: UIView {
             providerLabel.text = "Vendido por \(providerName)"
         }
         
-        if let delibery = provider["deliberyTime"] as? String {
-            deliberyLabel.text = "entrega entre \(delibery)"
-        }
-        
-        if let otherProviders = provider["otherProviders"] as? String {
-            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
-            let attrsBlue = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName: WMColor.light_blue] as [String : Any]
-            
-            let messageString = NSMutableAttributedString(string: "Disponible en otros precios y otros ", attributes: attrs)
-            let boldString = NSMutableAttributedString(string:"\(otherProviders) proveedores", attributes:attrsBlue)
-            messageString.append(boldString)
-            otherProvidersLabel.attributedText = messageString
+        if let delibery = provider["shipping"] as? String {
+            deliberyLabel.text = delibery
         }
         
         if let rating = provider["rating"] as? Double {
@@ -116,6 +107,14 @@ class ProductDetailProviderView: UIView {
             
             ratingLabel.attributedText = string
         }
+        
+        let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
+        let attrsBlue = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName: WMColor.light_blue] as [String : Any]
+        
+        let messageString = NSMutableAttributedString(string: "Disponible en otros precios y otros ", attributes: attrs)
+        let boldString = NSMutableAttributedString(string:"\(offersCount) proveedores", attributes:attrsBlue)
+        messageString.append(boldString)
+        otherProvidersLabel.attributedText = messageString
     }
     
     override func layoutSubviews() {

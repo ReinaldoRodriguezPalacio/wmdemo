@@ -438,10 +438,13 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
                 
                 NSLog("ProductDetailService successBlock ", "ProductDetailViewController")
-                // TODO: Validar con servicio
-                self.hasProvider = true
-                self.providerInfo = ["name":"ACME", "deliberyTime": "2 y 5 días", "otherProviders": "5", "rating": 3.8]
-                self.providerArray = [["name":"ACME", "deliberyTime": "2 y 5 días", "price": "10500.00"],["name":"Pepe y Toño", "deliberyTime": "2 y 5 días", "price": "10800.00"],["name":"Otra", "deliberyTime": "2 y 5 días", "price": "10900.00"],["name":"ACME 4", "deliberyTime": "2 y 5 días", "price": "10100.00"],["name":"ACME 5", "deliberyTime": "2 y 5 días", "price": "10500.00"]]
+                let offerDommy = [["offerId": "00001556110217_001","name": "seller 1","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 2","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 3","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 4","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 5","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 6","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 7","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 8","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 9","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 10","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"]]
+                
+                if let offers = offerDommy as? [[String:Any]] { //result["offers"] as? [[String:Any]] {
+                    self.hasProvider = offers.count > 0
+                    self.providerInfo =  offers.count > 0 ? offers.first! : [:]
+                    self.providerArray = offers
+                }
                 self.setCollectionLayout()
 
                 self.reloadViewWithData(result)

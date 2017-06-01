@@ -78,8 +78,8 @@ class ProviderViewCell : UICollectionViewCell {
             titleLabel.text = providerName
         }
         
-        if let delibery = provider["deliberyTime"] as? String {
-            deliveryLabel.text = "entrega entre \(delibery)"
+        if let delibery = provider["shipping"] as? String {
+            deliveryLabel.text = delibery
         }
         
         if let price = provider["price"] as? String {

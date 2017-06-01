@@ -13,7 +13,16 @@ class ProviderListViewController: NavigationViewController {
     var providerTable: UITableView!
     var switchButton: UIButton!
     var headerView: ProviderProductHeaderView?
-    var providerItems: [[String:Any]]! = []
+    
+    var providerItems: [[String:Any]]! = [] {
+        didSet {
+            self.grupProvidersByType()
+            //self.providerTable.reloadData()
+        }
+    }
+    
+    var providerNewItems: [[String:Any]]! = []
+    var providerReconditionedItems: [[String:Any]]! = []
     var viewLoad: WMLoadingView?
     var productImageUrl: String?
     var productDescription: String?
@@ -22,6 +31,7 @@ class ProviderListViewController: NavigationViewController {
     var upcProduct: String!
     var productDeparment: String!
     var strisPreorderable : String! = "false"
+    var showNewItems = true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PROVIDERSLIST.rawValue
@@ -47,10 +57,11 @@ class ProviderListViewController: NavigationViewController {
         self.switchButton.backgroundColor = WMColor.light_blue
         self.switchButton.layer.cornerRadius = 11
         self.switchButton.setTitleColor(UIColor.white, for: .normal)
-        self.switchButton.setTitle("nuevos", for: .normal)
+        self.switchButton.setTitle("reacondicionados", for: .normal)
         self.switchButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.switchButton.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
         self.header?.addSubview(switchButton)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
     
@@ -62,7 +73,7 @@ class ProviderListViewController: NavigationViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
-        self.switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
+        self.switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
     }
     
     func switchProviders() {
@@ -70,17 +81,34 @@ class ProviderListViewController: NavigationViewController {
             switchButton.setTitle("reacondicionados", for: .normal)
             headerView?.productTypeLabel.text = "Artículo nuevo"
             switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
+            showNewItems = true
         }else{
             switchButton.setTitle("nuevos", for: .normal)
             headerView?.productTypeLabel.text = "Artículo reacondicionado"
             switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
+            showNewItems = false
         }
         
         self.switchButton.isSelected = !self.switchButton.isSelected
+        self.providerTable.reloadData()
     }
     
     func endUpdatingShoppingCart() {
         self.providerTable.reloadData()
+    }
+    
+    func grupProvidersByType(){
+        self.providerNewItems = []
+        self.providerReconditionedItems = []
+        
+        for offer in providerItems {
+            let condiiton = offer["condition"] as! Int
+            if condiiton == 0 {
+                self.providerNewItems.append(offer)
+            }else{
+                self.providerReconditionedItems.append(offer)
+            }
+        }
     }
     
     override func back() {
@@ -102,7 +130,7 @@ extension ProviderListViewController: UITableViewDelegate {
 //MARK: UITableViewDataSource
 extension ProviderListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.providerItems.count
+        return    showNewItems ? self.providerNewItems.count : self.providerReconditionedItems.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -112,7 +140,7 @@ extension ProviderListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "providerProductCell", for: indexPath) as! ProviderProductTableViewCell
         
-        let providerInfo = self.providerItems[indexPath.row]
+        let providerInfo = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         cell.selectionStyle = .none
         cell.delegate = self
         cell.upc = self.upcProduct
@@ -121,10 +149,12 @@ extension ProviderListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       let header = ProviderProductHeaderView()
-        header.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
-        self.headerView = header
-        return header
+        if self.headerView == nil {
+            let header = ProviderProductHeaderView()
+            header.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
+            self.headerView = header
+        }
+        return self.headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

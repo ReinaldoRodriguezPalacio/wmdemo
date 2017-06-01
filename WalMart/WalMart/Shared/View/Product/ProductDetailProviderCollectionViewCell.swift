@@ -15,9 +15,13 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var switchBtn = UIButton()
     var collection: UICollectionView!
     var border: CALayer!
+    var providerNewItems: [[String:Any]]! = []
+    var providerReconditionedItems: [[String:Any]]! = []
+    var showNewItems = true
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
+            self.grupProvidersByType()
             collection.reloadData()
             let cell = collection.cellForItem(at: IndexPath(row: 0, section: 0))
             cell?.isSelected = true
@@ -83,13 +87,30 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
            switchBtn.setTitle("reacondicionados", for: .normal)
            titleLabel.text = "Artículo nuevo vendido por"
            switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
+            showNewItems = true
         }else{
             switchBtn.setTitle("nuevos", for: .normal)
             titleLabel.text = "Artículo reacondicionado vendido por"
             switchBtn.frame = CGRect(x: self.bounds.width - 76, y: 16, width: 60, height: 16.0)
+            showNewItems = false
         }
         
+        self.collection.reloadData()
         self.switchBtn.isSelected = !self.switchBtn.isSelected
+    }
+    
+    func grupProvidersByType(){
+        self.providerNewItems = []
+        self.providerReconditionedItems = []
+        
+        for offer in itemsProvider {
+            let condiiton = offer["condition"] as! Int
+            if condiiton == 0 {
+                self.providerNewItems.append(offer)
+            }else{
+                self.providerReconditionedItems.append(offer)
+            }
+        }
     }
     
     func removeSubViews() {
@@ -103,12 +124,12 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
 extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return itemsProvider.count
+        return showNewItems ? self.providerNewItems.count : self.providerReconditionedItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "providerViewCell", for: indexPath) as! ProviderViewCell
-        let provider = itemsProvider[indexPath.row]
+        let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         cell.setValues(provider)
         return cell
     }
