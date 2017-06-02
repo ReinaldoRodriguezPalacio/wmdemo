@@ -565,7 +565,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
         if params != nil{
             self.view.endEditing(true)
             if self.showSaveAlert {
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 
             }
             
@@ -662,7 +662,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                             self.viewLoad.stopAnnimating()
                         }
                         self.viewLoad = nil
-                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                         self.alertView!.setMessage(headerData["responseDescription"] as! String)
                         self.alertView!.showDoneIconWithoutClose()
                         self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -672,7 +672,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                         
                     }else{
                         let errorMess = headerData["responseDescription"] as! String
-                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                         self.alertView!.setMessage(errorMess)
                         self.alertView!.showErrorIcon("Fallo")
                         self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -746,7 +746,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                                 self.viewLoad.stopAnnimating()
                             }
                             self.viewLoad = nil
-                            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                             self.alertView!.setMessage(message)
                             self.alertView!.showDoneIconWithoutClose()
                             self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -755,7 +755,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                         }
                     }else{
                         let errorMess = headerData["reasons"] as! [[String:Any]]
-                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                         self.alertView!.setMessage(errorMess[0]["description"] as! String)
                         self.alertView!.showDoneIcon()
                         if self.viewLoad != nil{
@@ -766,7 +766,7 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                         }
                     }else{
                         let operCode = headerData["operationCode"] as? String
-                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                         self.alertView!.setMessage(operCode!)
                         self.alertView!.showDoneIcon()
                         if self.viewLoad != nil{

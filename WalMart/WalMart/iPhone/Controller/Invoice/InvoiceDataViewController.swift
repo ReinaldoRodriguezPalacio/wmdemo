@@ -13,11 +13,11 @@ enum TypeSend{
     case resendInvoice
 }
 
-class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewSectionsDelegate{
+class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewSectionsDelegate,UITextFieldDelegate{
     
     let headerHeight: CGFloat = 46
     
-    var content: TPKeyboardAvoidingScrollView!
+    var content: UIScrollView!
     
     var txtAddress: FormFieldView?
     var txtIeps: FormFieldView?
@@ -65,10 +65,9 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         
         picker = AlertPickerViewSections.initPickerWithDefaultNewAddressButton()
         
-        self.content = TPKeyboardAvoidingScrollView()
+        self.content = UIScrollView()
         self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
-        self.content.scrollDelegate = self
         self.content.backgroundColor = UIColor.white
         self.view.addSubview(self.content)
         
@@ -145,10 +144,11 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(lblEmailTitle)
         
         //CAPTURA RFC
-        self.txtEmail = FormFieldView(frame: CGRect(x: margin, y: lblEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight))
+        self.txtEmail = FormFieldView(frame: CGRect(x: margin, y: lblEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight + 5))
         self.txtEmail!.isRequired = true
         self.txtEmail!.typeField = TypeField.email
         self.txtEmail!.nameField = "email"
+        self.txtEmail!.delegate = self
         self.txtEmail?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
         self.content.addSubview(self.txtEmail!)
         
@@ -163,7 +163,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.btnPrivacity!)
 
         
-        self.lblPrivacyTitle = UILabel(frame: CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight/8, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight))
+        self.lblPrivacyTitle = UILabel(frame: CGRect(x: btnPrivacity!.frame.maxX + 5, y: txtEmail!.frame.maxY + fheight/8, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
@@ -256,7 +256,9 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+        self.content = TPKeyboardAvoidingScrollView()
+        self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.bounds.width, height: self.view.bounds.height - (headerHeight + 120))
+        self.content.contentSize = CGSize(width: self.view.frame.width, height: self.txtEmail!.frame.maxY + 50.0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -266,6 +268,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         }
         
     }
+
         
     func buildSectionTitle(_ title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
@@ -300,18 +303,19 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 
                 if responseOk == "OK"{
                     
+                    
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaOk",comment:"") + "\n" + (self.txtEmail?.text)!)
+                    self.alertView!.showDoneIconWithoutClose()
+                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                     if self.viewLoad != nil{
                         self.viewLoad.stopAnnimating()
                     }
                     self.viewLoad = nil
-                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                    self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaOk",comment:"") + "\n" + (self.txtEmail?.text)!)
-                    self.alertView!.showDoneIconWithoutClose()
-                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                     self.back()
                 }else{
                     let errorMess = headerData["reasons"] as! [[String:Any]]
-                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                     self.alertView!.setMessage(errorMess[0]["description"] as! String)
                     self.alertView!.showDoneIcon()
                     if self.viewLoad != nil{
@@ -322,14 +326,15 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
             }
         }, errorBlock: { (error:NSError) -> Void in
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showDoneIconWithoutClose()
+            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
             }
             self.viewLoad = nil
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(error.localizedDescription)
-            self.alertView!.showDoneIconWithoutClose()
-            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
         })
             }
         
@@ -345,6 +350,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func showPrivacyNotice(_ sender:UIButton){
+        self.view.endEditing(true)
         let previewHelp = PreviewHelpViewController()
         previewHelp.titleText = NSLocalizedString("help.item.privacy.notice", comment: "") as NSString!
         previewHelp.resource = "privacy"
@@ -428,7 +434,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         if IS_IPAD{
             viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46))
         }else{
-            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 46, width: self.content.frame.size.width, height: self.view.frame.height - 46))
         }
         
         //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
@@ -478,7 +484,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
                 
             self.arrayAddressFiscalServiceNotEmpty.remove(at: 0)
-                    if self.idClienteSelected == ""{
+                    if self.idClienteSelected == "" && self.arrayAddressFiscalServiceNotEmpty.count>0{
                         let dir1 = self.arrayAddressFiscalServiceNotEmpty[0]
                         let domicilio = dir1["domicilio"] as! [String:Any]
                         let calle = domicilio["calle"] as! String
@@ -491,18 +497,19 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                         }
                         self.idClienteSelected = dir1["id"] as! String
                         self.txtEmail?.text = dir1["correoElectronico"] as? String
+                    }else{
+                    self.checkSelected(self.btnNoAddress!)
                     }
                     
 
             print("sucess")
-            if self.viewLoad != nil{
-                self.viewLoad.stopAnnimating()
-            }
-                self.viewLoad = nil
+                    if self.viewLoad != nil{
+                        self.viewLoad.stopAnnimating()
+                    }
+                    self.viewLoad = nil
             }else{
                 let errorMess = headerData["reasons"] as! [[String:Any]]
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                self.alertView?.bgView.frame = self.view.bounds
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 self.alertView!.setMessage(errorMess[0]["description"] as! String)
                 self.alertView!.showDoneIcon()
                     if self.viewLoad != nil{
@@ -514,7 +521,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
             }
         }, errorBlock: { (error:NSError) -> Void in
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage("Error en la conexión de datos, por favor intente mas tarde")
             self.alertView!.showDoneIcon()
             if self.viewLoad != nil{
@@ -633,14 +640,14 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                                         self.viewLoad.stopAnnimating()
                                     }
                                     self.viewLoad = nil
-                                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                                     self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaOk",comment:"") + "\n" + (self.txtEmail?.text)!)
                                     self.alertView!.showDoneIconWithoutClose()
                                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                                     self.back()
                                 }else{
                                     let errorMess = headerData["responseDescription"] as! String
-                                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                                     self.alertView!.setMessage(errorMess)
                                     self.alertView!.showErrorIcon("Fallo")
                                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -651,14 +658,14 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                                 self.viewLoad.stopAnnimating()
                             }
                             self.viewLoad = nil
-                            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                             self.alertView!.setMessage(error.localizedDescription)
                             self.alertView!.showDoneIconWithoutClose()
                             self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                         })
                     }else{
                         let errorMess = headerData["responseDescription"] as! String
-                        self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                         self.alertView!.setMessage(errorMess)
                         self.alertView!.showErrorIcon("Fallo")
                         self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -675,13 +682,47 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     self.alertView?.showErrorIcon("Ok")
             })
         }
-        
-        
-        
     }
 
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
     }
 
+    // Start Editing The Text Field
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if IS_IPAD{
+        moveTextField(textField, moveDistance: -150, up: true)
+        }else{
+        moveTextField(textField, moveDistance: -60, up: true)
+        }
+        
+    }
+    
+    // Finish Editing The Text Field
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if IS_IPAD{
+        moveTextField(textField, moveDistance: -150, up: false)
+        }else{
+        moveTextField(textField, moveDistance: -60, up: false)
+        }
+        
+    }
+    
+    // Hide the keyboard when the return key pressed
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Move the text field in a pretty animation!
+    func moveTextField(_ textField: UITextField, moveDistance: Int, up: Bool) {
+        let moveDuration = 0.3
+        let movement: CGFloat = CGFloat(up ? moveDistance : -moveDistance)
+        
+        UIView.beginAnimations("animateTextField", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(moveDuration)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
+    }
 }

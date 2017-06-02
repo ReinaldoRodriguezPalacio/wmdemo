@@ -17,7 +17,7 @@ class IPAInvoiceDataViewController : InvoiceDataViewController{
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.content = TPKeyboardAvoidingScrollView()
+        self.content = UIScrollView()
         self.content.frame = CGRect(x: 0.0, y: headerHeight, width: self.view.frame.size.width, height: self.view.bounds.height - (headerHeight + 120))
         self.content.contentSize = CGSize(width: self.view.frame.size.width, height: self.txtEmail!.frame.maxY + 5.0)
         
@@ -59,11 +59,11 @@ class IPAInvoiceDataViewController : InvoiceDataViewController{
         self.lblEmailTitle.sizeToFit()
         
         //CAPTURA RFC
-        self.txtEmail!.frame = CGRect(x: margin, y: lblEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight)
+        self.txtEmail!.frame = CGRect(x: margin, y: lblEmailTitle.frame.maxY + fheight, width: sectionWidth - 2*margin, height: 2*fheight + 5)
         
         self.btnPrivacity?.frame = CGRect(x: margin, y: txtEmail!.frame.maxY + fheight/2, width: fheight, height: fheight)
         
-        self.lblPrivacyTitle.frame = CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + fheight/2, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight)
+        self.lblPrivacyTitle.frame = CGRect(x: btnPrivacity!.frame.maxX + 4, y: txtEmail!.frame.maxY + 3*fheight/4, width: sectionWidth - 2*margin - btnPrivacity!.frame.size.width, height: 2*fheight)
         self.lblPrivacyTitle.sizeToFit()
         
         self.lblResguardo.frame = CGRect(x: margin, y: btnPrivacity!.frame.maxY + fheight/2, width: sectionWidth - 2*margin, height: 2*fheight)

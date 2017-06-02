@@ -283,8 +283,8 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
-        barCodeController.useDelegate=true
-        barCodeController.onlyCreateList=true
+        barCodeController.useDelegate = true
+        barCodeController.onlyCreateList = true
         //byScan = true
         self.present(barCodeController, animated: true, completion: nil)
     }
@@ -321,14 +321,15 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             self.viewLoad = nil
             }else{
                 let errorMess = headerData["reasons"] as! [[String:Any]]
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                self.alertView!.setMessage(errorMess[0]["description"] as! String)
-                self.alertView!.showDoneIcon()
                 if self.viewLoad != nil{
                     self.viewLoad.stopAnnimating()
                 }
                 self.viewLoad = nil
                 print("error")
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView!.setMessage(errorMess[0]["description"] as! String)
+                self.alertView!.showDoneIcon()
+
                 }
             }
         }, errorBlock: { (error:NSError) -> Void in
@@ -336,7 +337,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                 self.viewLoad.stopAnnimating()
             }
             self.viewLoad = nil
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(error.localizedDescription)
             self.alertView!.showDoneIconWithoutClose()
             self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -365,7 +366,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                     self.viewLoad.stopAnnimating()
                 }
                 self.viewLoad = nil
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaResend",comment:"") + "\n\n" + NSLocalizedString("invoice.message.facturaResendEmail",comment:"") + "\n" + (self.txtRfcEmail?.text)!)
                 self.alertView!.showDoneIconWithoutClose()
                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -374,7 +375,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                     self.txtTicketNumber?.text = ""
                 }else{
                     let errorMess = headerData["responseDescription"] as! String
-                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                     self.alertView!.setMessage(errorMess)
                     self.alertView!.showErrorIcon("Fallo")
                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -385,7 +386,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                     self.viewLoad.stopAnnimating()
                 }
                 self.viewLoad = nil
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showDoneIconWithoutClose()
                 self.alertView!.showOkButton("Ok", colorButton: WMColor.green)

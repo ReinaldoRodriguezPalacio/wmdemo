@@ -191,8 +191,10 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     // Delegate AVFoundation
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        
         for obj in metadataObjects {
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
+                DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion:{ (Void) -> Void in
                 if self.isAnyActionFromCode {
                     self.searchProduct(metaObj)
@@ -276,7 +278,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     }
                     
                 }
-              })
+                })
+                })
             }
         }
     }
