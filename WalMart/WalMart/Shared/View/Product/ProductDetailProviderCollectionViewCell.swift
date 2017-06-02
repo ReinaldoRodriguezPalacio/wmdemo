@@ -18,6 +18,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var providerNewItems: [[String:Any]]! = []
     var providerReconditionedItems: [[String:Any]]! = []
     var showNewItems = true
+    var selectedOfferId: String = ""
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
@@ -131,6 +132,11 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "providerViewCell", for: indexPath) as! ProviderViewCell
         let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         cell.setValues(provider)
+        if provider["offerId"] as! String == selectedOfferId {
+            cell.isSelected = true
+        }else{
+            cell.isSelected = false
+        }
         return cell
     }
     
@@ -151,7 +157,9 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
 extension ProductDetailProviderCollectionViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
+        let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
+        self.selectedOfferId = provider["offerId"] as! String
+        collection.reloadData()
     }
 }
 
