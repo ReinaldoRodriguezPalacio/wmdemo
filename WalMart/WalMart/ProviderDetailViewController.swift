@@ -25,7 +25,6 @@ class ProviderDetailViewController : BaseController {
   
   var satisfactionPorc : Double = 0.0
   var totalQuestion : Int = 0
-
   
   
   override func getScreenGAIName() -> String {
@@ -47,7 +46,6 @@ class ProviderDetailViewController : BaseController {
     if IS_IPAD {
         self.buttonBk?.setImage(UIImage(named:"detail_close"), for: .normal)
     }
-
     
     titlelbl = UILabel(frame: CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: 46))
     titlelbl.textAlignment = .center
@@ -194,13 +192,15 @@ extension ProviderDetailViewController : UITableViewDataSource {
     header.backgroundColor = UIColor.white
     
     if section == 0 {
-      let attrStringLab = NSAttributedString(string:"\(satisfactionPorc)% ", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(20),NSForegroundColorAttributeName:WMColor.light_blue])
+      let porcStrn = String(format: "%.0f", satisfactionPorc)
+      
+      let attrStringLab = NSAttributedString(string:"\(porcStrn)% ", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(20),NSForegroundColorAttributeName:WMColor.light_blue])
       let size = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
       
       let numberPercentage = UILabel(frame: CGRect(x: 16.0, y:12.0, width: size.width, height: 20.0))
       numberPercentage.textColor = WMColor.light_blue
       numberPercentage.font = WMFont.fontMyriadProRegularOfSize(20)
-      numberPercentage.text = "\(satisfactionPorc)% "
+      numberPercentage.text = "\(porcStrn)% "
       
       let titleSatisfaction = UILabel(frame: CGRect(x: numberPercentage.frame.maxX, y: 14.0, width: header.frame.width - numberPercentage.frame.maxX, height: 16.0))
       titleSatisfaction.textColor = WMColor.light_blue
@@ -224,14 +224,13 @@ extension ProviderDetailViewController : UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     var cell : UITableViewCell! = nil
     
-    
     if indexPath.section == 0 {
       
       if indexPath.row == 0 {
         //cell rating Stars
         let cellProviderStars = providerTable.dequeueReusableCell(withIdentifier: providerRatingStarsIdentifier(), for: indexPath) as! RatingStarsTableViewCell
         
-        cellProviderStars.setValues(self.totalQuestion)
+        cellProviderStars.setValues("3.5", totalQuestion: self.totalQuestion)
         cell = cellProviderStars
         
       } else {
@@ -253,7 +252,6 @@ extension ProviderDetailViewController : UITableViewDelegate {
       
       cell = cellProvider
     }
-    
     
     cell.selectionStyle = UITableViewCellSelectionStyle.none
     return cell
