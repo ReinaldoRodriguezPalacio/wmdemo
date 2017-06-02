@@ -438,7 +438,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
                 
                 NSLog("ProductDetailService successBlock ", "ProductDetailViewController")
-                let offerDommy = [["offerId": "00001556110217_001","name": "seller 1","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 2","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 3","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 4","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 5","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 6","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 7","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 8","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 9","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 10","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"]]
+                let offerDommy = [["offerId": "00001556110217_002","name": "seller 1","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_003","name": "seller 2","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_004","name": "seller 3","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_005","name": "seller 4","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_006","name": "seller 5","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_001","name": "seller 6","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_007","name": "seller 7","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_010","name": "seller 8","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_008","name": "seller 9","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 0,"shipping":"Envío de 1 a semanas","onHandInventory": "2"],["offerId": "00001556110217_009","name": "seller 10","sellerId": "1234567","price": "5319.00","rating": 4.8,"condition": 1,"shipping":"Envío de 1 a semanas","onHandInventory": "2"]]
                 
                 if let offers = offerDommy as? [[String:Any]] { //result["offers"] as? [[String:Any]] {
                     self.hasProvider = offers.count > 0
@@ -793,7 +793,8 @@ extension ProductDetailViewController: UICollectionViewDataSource {
             view.colorsViewDelegate = self
             view.hasProviders = self.hasProvider
             view.providerInfo = self.providerInfo
-            view.providerView?.delegate = self
+            view.providerView.offersCount = self.providerArray != nil ?  self.providerArray!.count : 0
+            view.providerView?.delegate = self   
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
@@ -919,6 +920,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
                 if cellProviders == nil {
                     let cellProvider = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "providersCell", for: indexPath) as? ProductDetailProviderCollectionViewCell
                     cellProvider!.itemsProvider = self.providerArray!
+                    cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
                     cellProviders = cellProvider
                 }
                 cell = self.cellProviders
@@ -1719,7 +1721,7 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productDeparment = self.productDeparment
-        controller.productType = "Articulo reacondicionado"
+        controller.productType = "Articulo nuevo"
         controller.strisPreorderable = self.strisPreorderable
         self.navigationController?.pushViewController(controller, animated: true)
     }
