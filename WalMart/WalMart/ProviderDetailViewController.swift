@@ -18,8 +18,9 @@ class ProviderDetailViewController : BaseController {
   var buttonAdd : UIButton!
   
   var providerTable: UITableView!
-  var providerDetails : [[String:Any]] = []
-  var questions : [[String:Any]] = []
+  var provider : [String:Any]?
+  var providerDetails : [[String:Any]]?
+  var questions : [[String:Any]]?
   var nameProvider : String = ""
   var rating : Double = 0.0
   
@@ -155,26 +156,23 @@ class ProviderDetailViewController : BaseController {
     let service =  ProviderDetailService()
     let params = service.buildParams("id001")
     service.callService(params, successBlock: { (response:[String:Any]) -> Void in
-      let grades  =  response["responseArray"] as! [Any]
-      print(grades)
-      //self.gradesList = grades as? [[String : AnyObject]]
+      let responseArray  =  response["responseArray"] as! [Any]
+      //print(responseArray)
+      self.provider = responseArray[0] as? [String:Any]
       
-      /*if  self.gradesList.count == 0 {
-        self.loading?.stopAnnimating()
-        self.showEmptyView()
-      }else{
-        self.gradesTable.reloadData()
-        self.loading?.stopAnnimating()
-      }*/
+      self.rating = self.provider!["rating"] as! Double
+      self.satisfactionPorc = self.provider!["satisfactionPorc"] as! Double
+      self.providerDetails = self.provider!["Info"] as? [[String : Any]]
+      self.totalQuestion = self.provider!["totalQuestion"] as! Int
+      self.questions = self.provider!["questions"] as? [[String : Any]]
+      
+      self.providerTable!.reloadData()
       
     }, errorBlock: { (error:NSError) -> Void in
       print("Error")
-      //self.loading?.stopAnnimating()
-      //self.showEmptyView()
+      
     })
   }
-  
-  
 }
 
 //MARK: TableViewDataSource
@@ -185,7 +183,11 @@ extension ProviderDetailViewController : UITableViewDataSource {
   
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return section == 0 ? questions.count + 1 : 2
+    if self.provider != nil {
+      return section == 0 ? questions!.count + 1 : 2
+    } else {
+      return 0
+    }
   }
   
   
@@ -194,12 +196,13 @@ extension ProviderDetailViewController : UITableViewDataSource {
     if indexPath.section == 0 {
       return indexPath.row == 0 ? 97.0 : 86.0
     } else {
-      
-      let infoDetail = self.providerDetails[indexPath.row]
-      let textCell = infoDetail["description"] as! String
-      let size = DetailProvidertableViewCell.sizeText(textCell, width: self.view.frame.width - (32.0))
-      
-      return size + 60.0
+      if self.provider != nil {
+        let infoDetail = self.providerDetails![indexPath.row]
+        let textCell = infoDetail["description"] as! String
+        let size = DetailProvidertableViewCell.sizeText(textCell, width: self.view.frame.width - (32.0))
+        
+        return size + 60.0
+      }
     }
     
     return 0
@@ -246,35 +249,37 @@ extension ProviderDetailViewController : UITableViewDataSource {
 extension ProviderDetailViewController : UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     var cell : UITableViewCell! = nil
-    
-    if indexPath.section == 0 {
-      
-      if indexPath.row == 0 {
-        //cell rating Stars
-        let cellProviderStars = providerTable.dequeueReusableCell(withIdentifier: providerRatingStarsIdentifier(), for: indexPath) as! RatingStarsTableViewCell
+    if self.provider != nil {
+      if indexPath.section == 0 {
         
-        cellProviderStars.setValues("3.5", totalQuestion: self.totalQuestion)
-        cell = cellProviderStars
+        if indexPath.row == 0 {
+          //cell rating Stars
+          let cellProviderStars = providerTable.dequeueReusableCell(withIdentifier: providerRatingStarsIdentifier(), for: indexPath) as! RatingStarsTableViewCell
+          
+          cellProviderStars.setValues("3.5", totalQuestion: self.totalQuestion)
+          cell = cellProviderStars
+          
+        } else {
+          //cell questions
+          let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
+          let dataQuestion = self.questions![indexPath.row - 1]
+          cellProvider.setValues(dataQuestion, totalQuestion: self.totalQuestion)
+          
+          cell = cellProvider
+          }
         
       } else {
-        //cell questions
-        let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
-        let dataQuestion = self.questions[indexPath.row - 1]
-        cellProvider.setValues(dataQuestion, totalQuestion: self.totalQuestion)
+        //Provider detail
+        let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerDetailIdentifier(), for: indexPath) as! DetailProvidertableViewCell
+        
+        let infoDetail = self.providerDetails![indexPath.row]
+        let titleCell = indexPath.row == 0 ? "Acerca de \(nameProvider)" : "Devoluciones"
+        cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
         
         cell = cellProvider
       }
-      
-    } else {
-      //Provider detail
-      let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerDetailIdentifier(), for: indexPath) as! DetailProvidertableViewCell
-      
-      let infoDetail = self.providerDetails[indexPath.row]
-      let titleCell = indexPath.row == 0 ? "Acerca de \(nameProvider)" : "Devoluciones"
-      cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
-      
-      cell = cellProvider
     }
+    
     
     cell.selectionStyle = UITableViewCellSelectionStyle.none
     return cell
