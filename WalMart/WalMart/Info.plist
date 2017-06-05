@@ -510,6 +510,8 @@
 			<string>http://10.30.13.213:9084/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getUpsell</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -633,6 +635,8 @@
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1046,6 +1050,8 @@
 			<string>http://10.30.13.213:9084/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getUpsell</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1171,6 +1177,8 @@
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
