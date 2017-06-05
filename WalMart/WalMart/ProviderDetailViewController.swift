@@ -89,6 +89,8 @@ class ProviderDetailViewController : BaseController {
     viewAdd.addSubview(buttonAdd)
     
     self.view.addSubview(viewAdd)
+    
+    self.invokeServiceProviderDetail()
   }
   
   
@@ -145,11 +147,32 @@ class ProviderDetailViewController : BaseController {
     
   }
   
-  func showRating() {
-    
-  }
-  
   //MARK: - Services
+  /**
+   Gets product detail info from service
+   */
+  func invokeServiceProviderDetail() {
+    let service =  ProviderDetailService()
+    let params = service.buildParams("id001")
+    service.callService(params, successBlock: { (response:[String:Any]) -> Void in
+      let grades  =  response["responseArray"] as! [Any]
+      print(grades)
+      //self.gradesList = grades as? [[String : AnyObject]]
+      
+      /*if  self.gradesList.count == 0 {
+        self.loading?.stopAnnimating()
+        self.showEmptyView()
+      }else{
+        self.gradesTable.reloadData()
+        self.loading?.stopAnnimating()
+      }*/
+      
+    }, errorBlock: { (error:NSError) -> Void in
+      print("Error")
+      //self.loading?.stopAnnimating()
+      //self.showEmptyView()
+    })
+  }
   
   
 }

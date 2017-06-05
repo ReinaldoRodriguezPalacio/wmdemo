@@ -403,6 +403,7 @@
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
+		656663AB1EE223F8005B6AA6 /* ProviderDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */; };
 		657F8E941EDDBE250034BF81 /* RatingQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */; };
 		657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */; };
 		658950F71ED8F8F50031B8BB /* ProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */; };
@@ -1045,6 +1046,7 @@
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
+		656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailService.swift; sourceTree = "<group>"; };
 		657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingStarsTableViewCell.swift; sourceTree = "<group>"; };
 		658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailViewController.swift; sourceTree = "<group>"; };
@@ -3121,6 +3123,7 @@
 				049CC7CB1A9BAAE000DE2C8D /* LinesForSearchService.swift */,
 				5686DA541B59A67B004D4211 /* SearchItemsByUPCService.swift */,
 				0C0ABCCD1E89C0A100B9E624 /* CrossSellingGRProductService.swift */,
+				656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -3743,6 +3746,7 @@
 				56152F7F19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift in Sources */,
 				04448A391A9E74AF006AFEC4 /* IPAUserListViewController.swift in Sources */,
 				6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */,
+				656663AB1EE223F8005B6AA6 /* ProviderDetailService.swift in Sources */,
 				5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */,
 				5606BC2C19BA63ED002A70ED /* ShoppingCartUpdateController.swift in Sources */,
 				569BB3121B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
