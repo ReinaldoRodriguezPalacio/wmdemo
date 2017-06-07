@@ -433,6 +433,8 @@
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
 		6C5774D01DDF774F000019B3 /* walmartmx.cer in Resources */ = {isa = PBXBuildFile; fileRef = 6C5774CF1DDF774F000019B3 /* walmartmx.cer */; };
+		6C5AC10B1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5AC10A1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift */; };
+		6C5AC10D1EE894F900A8D8A3 /* ReportProblemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5AC10C1EE894F900A8D8A3 /* ReportProblemViewController.swift */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */; };
 		6C6AC1F21CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */; };
@@ -1080,6 +1082,8 @@
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
 		6C5774CF1DDF774F000019B3 /* walmartmx.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = walmartmx.cer; sourceTree = "<group>"; };
+		6C5AC10A1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderProviderDetailViewController.swift; path = iPhone/Controller/Order/OrderProviderDetailViewController.swift; sourceTree = "<group>"; };
+		6C5AC10C1EE894F900A8D8A3 /* ReportProblemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportProblemViewController.swift; path = iPhone/Controller/Order/ReportProblemViewController.swift; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyByCategoryService.swift; path = Shared/Services/BackToSchool/FamilyByCategoryService.swift; sourceTree = "<group>"; };
 		6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackToSchoolCategoryViewController.swift; path = iPhone/Controller/Categories/BackToSchoolCategoryViewController.swift; sourceTree = "<group>"; };
@@ -3152,10 +3156,12 @@
 		AC6AAE9A19CCC368004081C4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				6C5AC10A1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift */,
 				AC6AAE9B19CCC3AC004081C4 /* OrderViewController.swift */,
 				56253D8819D211A5002E128A /* OrderDetailViewController.swift */,
 				567023321AB255D100FDCD91 /* IPOWebViewController.swift */,
 				657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */,
+				6C5AC10C1EE894F900A8D8A3 /* ReportProblemViewController.swift */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -3534,6 +3540,7 @@
 				5680A0971A48CCAE009C5515 /* GRProductDetailService.swift in Sources */,
 				65A6FCEC1DA2FD9100AB70FE /* LandingPageViewController.swift in Sources */,
 				5614A6531A683AA70048B71A /* GRShoppingCartAddProductsService.swift in Sources */,
+				6C5AC10B1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift in Sources */,
 				6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */,
 				56AE80E019D9CBBF00D5DDA4 /* ProductDetailBundleTableViewCell.swift in Sources */,
 				04D2A39D1A2FDB15008DAE37 /* Store.swift in Sources */,
@@ -3712,6 +3719,7 @@
 				5674E08D1A672B3A00249017 /* IPAGRProductDetailViewController.swift in Sources */,
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
 				4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */,
+				6C5AC10D1EE894F900A8D8A3 /* ReportProblemViewController.swift in Sources */,
 				04D7C0411AA63BD300A780D8 /* IPAStoreView.swift in Sources */,
 				561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */,
 				56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */,

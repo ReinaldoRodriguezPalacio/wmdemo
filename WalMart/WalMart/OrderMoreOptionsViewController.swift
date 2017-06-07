@@ -8,10 +8,11 @@
 
 import UIKit
 
-class OrderMoreOptionsViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate {
+class OrderMoreOptionsViewController: NavigationViewController {
   
   var tableOptions : UITableView!
   var itemsOptions = ["Enviar Factura","Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
+  var orderItems:[[String:Any]]! = []
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -42,39 +43,9 @@ class OrderMoreOptionsViewController: NavigationViewController,UITableViewDataSo
     self.tableOptions.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 92)
   }
   
-  
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
-  }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 5
-  }
-  
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 46.0
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableOptions.dequeueReusableCell(withIdentifier: "optionsOrder") as! OrderOptionsTableViewCell
-    cell.selectionStyle = .none
-    cell.setValues(self.itemsOptions[indexPath.row])
-    
-    return cell
-  }
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    switch indexPath.row {
-    case 0:
-      print("Envia Factura")
-    case 2:
-      print("Contactar al proveedor")
-      let controller = ContactProviderViewController()
-      self.navigationController!.pushViewController(controller, animated: true)
-    default:
-      print("")
-    }
   }
   
   override func back() {
@@ -82,4 +53,42 @@ class OrderMoreOptionsViewController: NavigationViewController,UITableViewDataSo
     super.back()
   }
   
+}
+
+//MARK: UITableViewDataSource
+extension OrderMoreOptionsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableOptions.dequeueReusableCell(withIdentifier: "optionsOrder") as! OrderOptionsTableViewCell
+        cell.selectionStyle = .none
+        cell.setValues(self.itemsOptions[indexPath.row])
+        
+        return cell
+    }
+    
+}
+
+//MARK: UITableViewDelegate
+extension OrderMoreOptionsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 46.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = itemsOptions[indexPath.row]
+        
+        if item == "Reportar un problema" {
+            let controller = ReportProblemViewController()
+            controller.orderItems = self.orderItems
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+      
+      if item == "Contactar al proveedor" {
+        let controller = ContactProviderViewController()
+        self.navigationController!.pushViewController(controller, animated: true)
+      }
+    }
 }

@@ -105,10 +105,14 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
     }
     
     class func buildAttributtedString(_ key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
+        return ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(key, value: value, colorKey: colorKey, colorValue: colorValue, size: size, separator: ":")
+    }
+    
+    class func buildAttributtedString(_ key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat, separator: String) -> NSAttributedString {
         //var valueItem = NSMutableAttributedString()
         let valuesDescItem = NSMutableAttributedString()
         if key != ""{
-            let attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
+            let attrStringLab = NSAttributedString(string:"\(key)\(separator) ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
             valuesDescItem.append(attrStringLab)
         }
         let attrStringVal = NSAttributedString(string:"\(value)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(size),NSForegroundColorAttributeName:colorValue])

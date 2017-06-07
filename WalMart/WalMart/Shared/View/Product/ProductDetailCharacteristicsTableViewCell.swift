@@ -113,7 +113,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     }
     
     class func heightCharacteristic() -> CGFloat {
-        return 10.0
+        return 14.0
     }
     
 }

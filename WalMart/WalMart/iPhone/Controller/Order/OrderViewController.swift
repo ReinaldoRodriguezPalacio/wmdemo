@@ -113,10 +113,10 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.items[indexPath.row] 
-        let detailController = OrderDetailViewController()
-        
+        let item = self.items[indexPath.row]
+
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
+            let detailController = OrderProviderDetailViewController()
             detailController.type = ResultObjectType.Mg
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
@@ -133,6 +133,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             
             
         } else {
+            let detailController = OrderDetailViewController()
             detailController.type = ResultObjectType.Groceries
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
