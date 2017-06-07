@@ -32,7 +32,6 @@ class OrderDetailViewController : NavigationViewController {
     var listSelectorController: ListsSelectorViewController?
     var addToListButton: UIButton?
     var alertView: IPOWMAlertViewController?
-    
     var emptyOrder: IPOSearchResultEmptyView!
     
     var timmer : Timer!
@@ -49,7 +48,7 @@ class OrderDetailViewController : NavigationViewController {
         
         self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = trackingNumber
-        
+      
         tableDetailOrder = UITableView()
        
         tableDetailOrder.register(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
@@ -505,6 +504,7 @@ class OrderDetailViewController : NavigationViewController {
             )
         }
     }
+    
     /**
      Present loader in screen list
      */

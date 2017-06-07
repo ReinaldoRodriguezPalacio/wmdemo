@@ -87,6 +87,7 @@ class OrderProviderDetailViewController : NavigationViewController {
         self.optionsButton?.layer.cornerRadius = 11
         self.optionsButton?.backgroundColor = WMColor.light_blue
         self.optionsButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.optionsButton?.addTarget(self, action: #selector(showOptionsView), for: .touchUpInside)
         self.header?.addSubview(optionsButton!)
         
         showLoadingView()
@@ -414,6 +415,11 @@ class OrderProviderDetailViewController : NavigationViewController {
     
     func reloadViewDetail() {
         self.tableDetailOrder.reloadData()
+    }
+    
+    func showOptionsView() {
+        let controller = OrderMoreOptionsViewController()
+        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     override func back() {
