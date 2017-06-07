@@ -26,9 +26,7 @@ class OrderMoreOptionsViewController: NavigationViewController,UITableViewDataSo
     tableOptions = UITableView()
     tableOptions.dataSource = self
     tableOptions.delegate = self
-    
     tableOptions.register(OrderOptionsTableViewCell.self, forCellReuseIdentifier: "optionsOrder")
-    
     tableOptions.separatorStyle = UITableViewCellSeparatorStyle.none
     
     self.view.addSubview(tableOptions)
@@ -67,7 +65,16 @@ class OrderMoreOptionsViewController: NavigationViewController,UITableViewDataSo
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+    switch indexPath.row {
+    case 0:
+      print("Envia Factura")
+    case 2:
+      print("Contactar al proveedor")
+      let controller = ContactProviderViewController()
+      self.navigationController!.pushViewController(controller, animated: true)
+    default:
+      print("")
+    }
   }
   
   override func back() {
