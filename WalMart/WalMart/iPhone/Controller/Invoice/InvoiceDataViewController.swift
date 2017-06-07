@@ -284,15 +284,20 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             if self.errorView != nil{
                 self.errorView?.removeFromSuperview()
             }
-        viewLoad = WMLoadingView(frame: self.view.bounds)
+        /*viewLoad = WMLoadingView(frame: self.view.bounds)
         viewLoad.backgroundColor = UIColor.white
-        self.alertView = nil
         self.view.superview?.addSubview(viewLoad)
-        self.viewLoad!.startAnnimating(true)
+        self.viewLoad!.startAnnimating(true)*/
+        
+            
             
             if idClienteSelected == ""{
                 saveEmptyAddress()
             }else{
+                self.alertView = nil
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView!.setMessage("Generando Factura...")
+                
         UserDefaults.standard.set(idClienteSelected, forKey:"last_idCliente")
         let ticketService = InvoiceResendService()
         ticketService.callService(params: ["ticket":self.TicketEscrito, "email":self.txtEmail?.text, "idCliente":self.idClienteSelected], successBlock: { (resultCall:[String:Any]) -> Void in
@@ -304,7 +309,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 if responseOk == "OK"{
                     
                     
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                     self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaOk",comment:"") + "\n" + (self.txtEmail?.text)!)
                     self.alertView!.showDoneIconWithoutClose()
                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -315,9 +320,10 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     self.back()
                 }else{
                     let errorMess = headerData["reasons"] as! [[String:Any]]
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                     self.alertView!.setMessage(errorMess[0]["description"] as! String)
-                    self.alertView!.showDoneIcon()
+                    self.alertView!.showErrorIcon("Fallo")
+                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                     if self.viewLoad != nil{
                         self.viewLoad.stopAnnimating()
                     }
@@ -326,15 +332,13 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
             }
         }, errorBlock: { (error:NSError) -> Void in
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(error.localizedDescription)
-            self.alertView!.showDoneIconWithoutClose()
-            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
             }
             self.viewLoad = nil
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showErrorIcon("Fallo")
+            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
         })
             }
         
@@ -361,15 +365,35 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     
     func checkSelected(_ sender:UIButton) {
         sender.isSelected = !(sender.isSelected)
-        
+        self.view.endEditing(true)
         if sender == self.btnNoAddress{
             txtAddress?.isEnabled = !(sender.isSelected)
-            txtIeps?.isEnabled = !(sender.isSelected)
             if sender.isSelected{
                 txtAddress?.text = ""
                 txtIeps?.text = ""
                 idClienteSelected = idEmptySelected
-            }
+                if self.errorView != nil {
+                    self.errorView?.removeFromSuperview()
+                }
+            }else{
+                    if self.arrayAddressFiscalServiceNotEmpty.count > 0{
+                        if self.direccionesFromService.count > 0{
+                            txtAddress?.text = self.direccionesFromService[0]
+                            txtIeps?.text = self.arrayAddressFiscalServiceNotEmpty[0]["rfcIeps"] as? String
+                        }else{
+                            txtAddress?.text = ""
+                            txtIeps?.text = ""
+                            if self.errorView != nil {
+                                self.errorView?.removeFromSuperview()
+                            }
+                        }
+                        idClienteSelected = self.arrayAddressFiscalServiceNotEmpty[0]["id"] as? String
+                    }else{
+                        txtAddress?.text = ""
+                        txtIeps?.text = ""
+                        idClienteSelected = ""
+                    }
+                }
         }else if sender == self.btnPrivacity {
             if sender.isSelected{
                 if self.errorView != nil {
@@ -471,6 +495,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     
                         if calle == ""{
                             self.idEmptySelected = register["id"] as! String
+                            self.txtEmail?.text = register["correoElectronico"] as? String
                         }else{
                             self.direccionesFromService.append(calle)
                             self.arrayAddressFiscalServiceNotEmpty.append(register)
@@ -484,21 +509,32 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
                 
             self.arrayAddressFiscalServiceNotEmpty.remove(at: 0)
-                    if self.idClienteSelected == "" && self.arrayAddressFiscalServiceNotEmpty.count>0{
-                        let dir1 = self.arrayAddressFiscalServiceNotEmpty[0]
-                        let domicilio = dir1["domicilio"] as! [String:Any]
-                        let calle = domicilio["calle"] as! String
-                        if calle == ""{
-                            self.checkSelected(self.btnNoAddress!)
-                            self.idEmptySelected = dir1["id"] as! String
+                    if self.arrayAddressFiscalServiceNotEmpty.count>0{
+                        
+                        let dir0 = self.arrayAddressFiscalServiceNotEmpty[0]
+                        let domicilio0 = dir0["domicilio"] as! [String:Any]
+                        let calle0 = domicilio0["calle"] as! String
+                        if calle0 == ""{
+                            if self.direccionesFromService.count > 0{
+                                let dir1 = self.arrayAddressFiscalServiceNotEmpty[1]
+                                let domicilio1 = dir1["domicilio"] as! [String:Any]
+                                let calle1 = domicilio1["calle"] as! String
+                                self.txtAddress?.text = calle1
+                                self.txtIeps?.text = dir1["rfcIeps"] as? String
+                                self.idClienteSelected = dir1["id"] as! String
+                                self.txtEmail?.text = dir1["correoElectronico"] as? String
+                            }else{
+                                self.checkSelected(self.btnNoAddress!)
+                                self.idEmptySelected = dir0["id"] as! String
+                            }
                         }else{
-                            self.txtAddress?.text = calle
-                            self.txtIeps?.text = dir1["rfcIeps"] as? String
+                            self.txtAddress?.text = calle0
+                            self.txtIeps?.text = dir0["rfcIeps"] as? String
+                            self.idClienteSelected = dir0["id"] as! String
+                            self.txtEmail?.text = dir0["correoElectronico"] as? String
                         }
-                        self.idClienteSelected = dir1["id"] as! String
-                        self.txtEmail?.text = dir1["correoElectronico"] as? String
                     }else{
-                    self.checkSelected(self.btnNoAddress!)
+                        self.checkSelected(self.btnNoAddress!)
                     }
                     
 
@@ -601,6 +637,10 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     }
 
     func saveEmptyAddress(){
+        self.alertView = nil
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        self.alertView!.setMessage("Generando Factura...")
+        
         var paramsAddress : [String:Any]? = nil
         paramsAddress = ["rfc":self.RFCEscrito]
         paramsAddress?.updateValue(self.txtEmail!.text!, forKey: "correoElectronico")
@@ -640,14 +680,12 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                                         self.viewLoad.stopAnnimating()
                                     }
                                     self.viewLoad = nil
-                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                                     self.alertView!.setMessage(NSLocalizedString("invoice.message.facturaOk",comment:"") + "\n" + (self.txtEmail?.text)!)
                                     self.alertView!.showDoneIconWithoutClose()
                                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                                     self.back()
                                 }else{
                                     let errorMess = headerData["responseDescription"] as! String
-                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                                     self.alertView!.setMessage(errorMess)
                                     self.alertView!.showErrorIcon("Fallo")
                                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -658,14 +696,12 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                                 self.viewLoad.stopAnnimating()
                             }
                             self.viewLoad = nil
-                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                             self.alertView!.setMessage(error.localizedDescription)
                             self.alertView!.showDoneIconWithoutClose()
                             self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                         })
                     }else{
                         let errorMess = headerData["responseDescription"] as! String
-                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                         self.alertView!.setMessage(errorMess)
                         self.alertView!.showErrorIcon("Fallo")
                         self.alertView!.showOkButton("Ok", colorButton: WMColor.green)

@@ -16,11 +16,11 @@ class InvoiceDataCPService : BaseService {
         self.callPOSTService(parameters,
                              successBlock: { (resultCall:[String:Any]) -> Void in
                                 let values = resultCall["findColoniesByPostalCodeResponse"] as! [String:Any]
-                                let headerData = values["headerResponse"] as! [String:Any]
-                                let businessData = values["businessResponse"] as! [String:Any]
+                                //let headerData = values["headerResponse"] as! [String:Any]
+                                //let businessData = values["businessResponse"] as! [String:Any]
                                 
-                                print(headerData)
-                                print(businessData)
+                                //print(headerData)
+                                //print(businessData)
                                 successBlock?(values)
                                 return
         }, errorBlock: { (error:NSError) -> Void in

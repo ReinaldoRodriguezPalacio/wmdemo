@@ -111,7 +111,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             self.shortNameField!.typeField = TypeField.none
             self.shortNameField!.minLength = 3
             self.shortNameField!.maxLength = 50
-            self.shortNameField!.isRequired = true
+            self.shortNameField!.isRequired = false
             self.shortNameField!.nameField = NSLocalizedString("profile.address.shortName",comment:"")
             self.shortNameField!.setCustomPlaceholder(NSLocalizedString("invoice.field.referencia",comment:""))
         }else{
@@ -476,11 +476,11 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         let service = InvoiceDataCPService()
         //self.addSubview(viewLoad)
-        self.superview?.addSubview(viewLoad)
-        viewLoad.startAnnimating(false)
+        //self.superview?.addSubview(viewLoad)
+        //viewLoad.startAnnimating(false)
         
         service.callService(params: ["postalCode":zipCode],  successBlock:{ (resultCall:[String:Any]?) in
-            self.viewLoad.stopAnnimating()
+          //  self.viewLoad.stopAnnimating()
             var responseOk : String! = ""
             if let headerData = resultCall!["headerResponse"] as? [String:Any]{
                 // now val is not nil and the Optional has been unwrapped, so use it
@@ -516,9 +516,28 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.pickerSuburb!.reloadAllComponents()                }
             else{
                 let errorMess = headerData["responseDescription"] as! String
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                self.alertView!.setMessage(errorMess)
-                self.alertView!.showDoneIcon()
+                self.listSuburb = []
+                self.pickerSuburb!.reloadAllComponents()
+                self.idSuburb = ""
+                self.city!.text = ""
+                self.municipality!.text = ""
+                self.state!.text = ""
+                self.suburb!.text = ""
+                self.viewLoad.stopAnnimating()
+                if showError {
+                    
+                    self.validateShowField()
+                    
+                    if self.errorView == nil{
+                        self.errorView = FormFieldErrorView()
+                    }
+                    let stringToShow : NSString = errorMess as NSString
+                    let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
+                    SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
+                }
+                else{
+                    let _ = self.zipcode?.resignFirstResponder()
+                }
                 }
             }
         }, errorBlock: {(error: NSError) in
@@ -676,9 +695,6 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
         if !error{
             error = viewError(indoornumber!)
-        }
-        if !error{
-            error = viewError(shortNameField!)
         }
         if !error{
             error = viewError(zipcode!)
