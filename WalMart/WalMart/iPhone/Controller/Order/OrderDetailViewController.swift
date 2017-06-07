@@ -32,6 +32,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     var listSelectorController: ListsSelectorViewController?
     var addToListButton: UIButton?
     var alertView: IPOWMAlertViewController?
+  
+    var optionsBtn : UIButton? = nil
     
     var emptyOrder: IPOSearchResultEmptyView!
     
@@ -49,7 +51,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         self.view.backgroundColor = UIColor.white
         self.titleLabel!.text = trackingNumber
-        
+      
+      self.optionsBtn = UIButton(frame:CGRect(x: (self.view.bounds.width - 68.0 - 16.0), y: 12.0, width: 68.0, height: 22))
+      self.optionsBtn!.backgroundColor = WMColor.blue
+      self.optionsBtn!.layer.cornerRadius = 10.0
+      self.optionsBtn!.setTitle("opciones", for: UIControlState())
+      self.optionsBtn!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+      self.optionsBtn!.titleLabel?.textColor = UIColor.white
+      self.optionsBtn!.addTarget(self, action: #selector(OrderDetailViewController.showOptionsView), for: .touchUpInside)
+      self.header?.addSubview(self.optionsBtn!)
+      
         tableDetailOrder = UITableView()
        
         tableDetailOrder.register(PreviousDetailTableViewCell.self, forCellReuseIdentifier: "detailOrder")
@@ -733,8 +744,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             )
         }
     }
-    
-       
+  
+  
+  
+  func showOptionsView() {
+    let controller = OrderMoreOptionsViewController()
+    self.navigationController!.pushViewController(controller, animated: true)
+  }
     
     /**
      Present loader in screen list

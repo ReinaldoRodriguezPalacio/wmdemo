@@ -404,6 +404,8 @@
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
 		656663AB1EE223F8005B6AA6 /* ProviderDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */; };
+		657A738A1EE84DEA00B993BD /* OrderMoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */; };
+		657A738C1EE858C800B993BD /* OrderOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A738B1EE858C800B993BD /* OrderOptionsTableViewCell.swift */; };
 		657F8E941EDDBE250034BF81 /* RatingQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */; };
 		657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */; };
 		658950F71ED8F8F50031B8BB /* ProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */; };
@@ -1047,6 +1049,8 @@
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
 		656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailService.swift; sourceTree = "<group>"; };
+		657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderMoreOptionsViewController.swift; sourceTree = "<group>"; };
+		657A738B1EE858C800B993BD /* OrderOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderOptionsTableViewCell.swift; sourceTree = "<group>"; };
 		657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingStarsTableViewCell.swift; sourceTree = "<group>"; };
 		658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailViewController.swift; sourceTree = "<group>"; };
@@ -1616,6 +1620,7 @@
 				56253D8619D20963002E128A /* PreviousOrdersTableViewCell.swift */,
 				56253D8C19D21883002E128A /* PreviousDetailTableViewCell.swift */,
 				56253D9019D2242B002E128A /* OrderProductTableViewCell.swift */,
+				657A738B1EE858C800B993BD /* OrderOptionsTableViewCell.swift */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -3147,6 +3152,7 @@
 				AC6AAE9B19CCC3AC004081C4 /* OrderViewController.swift */,
 				56253D8819D211A5002E128A /* OrderDetailViewController.swift */,
 				567023321AB255D100FDCD91 /* IPOWebViewController.swift */,
+				657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -3609,6 +3615,7 @@
 				5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */,
 				22FC6B5D1E11E8C00019D375 /* NumericKeyboardView.swift in Sources */,
 				0C000E5C1E79EBF1007BEFBF /* TiresMarcasService.swift in Sources */,
+				657A738A1EE84DEA00B993BD /* OrderMoreOptionsViewController.swift in Sources */,
 				5614A65A1A68674B0048B71A /* GRAddressesByIDService.swift in Sources */,
 				56C2118A1A25049F002D1C91 /* IPAGroceriesView.swift in Sources */,
 				AC59118319DE0D2400EB095C /* FMDatabaseQueue.m in Sources */,
@@ -3983,6 +3990,7 @@
 				56DFE4D319D057C9001811F5 /* SWUtilityButtonView.m in Sources */,
 				AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */,
 				2262E7291E78B92600114C63 /* Extensions.swift in Sources */,
+				657A738C1EE858C800B993BD /* OrderOptionsTableViewCell.swift in Sources */,
 				5673D1431A9D500400DCD20B /* RSUPCEGenerator.swift in Sources */,
 				04203FDB1A6F019400008366 /* GRUserListDetailService.swift in Sources */,
 				56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */,
