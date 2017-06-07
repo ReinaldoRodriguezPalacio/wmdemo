@@ -467,6 +467,7 @@
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
+		6CD6F3171EE8543400820C85 /* OrderProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD6F3161EE8543400820C85 /* OrderProviderDetailViewController.swift */; };
 		6CD8F55A1ECDE345008A12DC /* SearchTiresBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD8F5591ECDE344008A12DC /* SearchTiresBarView.swift */; };
 		6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11851B8B7D880013FE44 /* AdSupport.framework */; };
 		6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6CAE71BF2C9900026689F /* ReferedForm.swift */; };
@@ -1115,6 +1116,7 @@
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
+		6CD6F3161EE8543400820C85 /* OrderProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderProviderDetailViewController.swift; path = iPhone/Controller/Order/OrderProviderDetailViewController.swift; sourceTree = "<group>"; };
 		6CD8F5591ECDE344008A12DC /* SearchTiresBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTiresBarView.swift; path = iPhone/View/SearhResult/SearchTiresBarView.swift; sourceTree = "<group>"; };
 		6CEB11851B8B7D880013FE44 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6CF6CAE71BF2C9900026689F /* ReferedForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedForm.swift; path = iPhone/View/Refered/ReferedForm.swift; sourceTree = "<group>"; };
@@ -3147,6 +3149,7 @@
 				AC6AAE9B19CCC3AC004081C4 /* OrderViewController.swift */,
 				56253D8819D211A5002E128A /* OrderDetailViewController.swift */,
 				567023321AB255D100FDCD91 /* IPOWebViewController.swift */,
+				6CD6F3161EE8543400820C85 /* OrderProviderDetailViewController.swift */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -3729,6 +3732,7 @@
 				AC536D4619DB4DB6007D2D42 /* ForgotPasswordService.swift in Sources */,
 				560BE7A51A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift in Sources */,
 				041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */,
+				6CD6F3171EE8543400820C85 /* OrderProviderDetailViewController.swift in Sources */,
 				56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */,
 				56E54E4119EC3C480004161C /* IPAFamilyViewController.swift in Sources */,
 				04B640D41A8C14A300D5835E /* DetailListViewCell.swift in Sources */,
