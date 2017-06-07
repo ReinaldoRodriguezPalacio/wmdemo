@@ -12,6 +12,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
   
   var tableOptions : UITableView!
   var itemsOptions = ["Enviar Factura","Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
+  var orderItems:[[String:Any]]! = []
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -82,7 +83,9 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
         let item = itemsOptions[indexPath.row]
         
         if item == "Reportar un problema" {
-            
+            let controller = ReportProblemViewController()
+            controller.orderItems = self.orderItems
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }
