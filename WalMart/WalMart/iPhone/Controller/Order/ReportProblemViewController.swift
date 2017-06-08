@@ -15,6 +15,11 @@ class ReportProblemViewController: NavigationViewController {
     var mesageLabel: UILabel!
     var reasonLabel: UILabel!
     var reasonField: FormFieldView!
+    var saveButton: UIButton!
+    var cancelButton: UIButton!
+    var layerLineMessage: CALayer!
+    var layerLinefooter: CALayer!
+
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -49,19 +54,49 @@ class ReportProblemViewController: NavigationViewController {
 //        self.tableProducts.delegate = self
 //        self.tableProducts.dataSource = self
         
+        self.layerLineMessage = CALayer()
+        layerLineMessage.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLineMessage, at: 1000)
+        
+        self.layerLinefooter = CALayer()
+        layerLinefooter.backgroundColor = WMColor.light_light_gray.cgColor
+        self.view.layer.insertSublayer(layerLinefooter, at: 999)
+        
+        self.cancelButton = UIButton()
+        self.cancelButton.setTitle(NSLocalizedString("productdetail.cancel", comment:""), for:UIControlState())
+        self.cancelButton.titleLabel!.textColor = WMColor.light_blue
+        self.cancelButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.cancelButton.backgroundColor = WMColor.empty_gray_btn
+        self.cancelButton.layer.cornerRadius = 17
+        self.cancelButton.addTarget(self, action: Selector("back"), for: UIControlEvents.touchUpInside)
+        
+        self.saveButton = UIButton()
+        self.saveButton.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), for:UIControlState())
+        self.saveButton.titleLabel!.textColor = UIColor.white
+        self.saveButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.saveButton.backgroundColor = WMColor.light_blue
+        self.saveButton.layer.cornerRadius = 17
+       // self.saveButton.addTarget(self, action: #selector(nextStep), for: UIControlEvents.touchUpInside)
+        
         self.view.addSubview(self.mesageLabel)
         self.view.addSubview(self.reasonLabel)
         self.view.addSubview(self.reasonField)
         self.view.addSubview(self.tableProducts)
+        self.view.addSubview(self.cancelButton)
+        self.view.addSubview(self.saveButton)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         self.mesageLabel.frame = CGRect(x:16, y: self.header!.frame.maxY, width:self.view.frame.width - 32, height: 64)
+        self.layerLineMessage.frame = CGRect(x:0, y: self.mesageLabel.frame.maxY, width: self.view.frame.width, height: 1)
         self.reasonLabel.frame = CGRect(x:16, y: self.mesageLabel.frame.maxY, width:self.view.frame.width - 32, height: 46)
         self.reasonField.frame = CGRect(x:16, y: self.reasonLabel.frame.maxY, width:self.view.frame.width - 32, height: 40)
         self.tableProducts.frame = CGRect(x:0, y: self.reasonField.frame.maxY + 16, width:self.view.frame.width, height: self.view.frame.height - (110))
+        self.layerLinefooter.frame = CGRect(x:0, y: self.tableProducts.frame.maxY, width: self.view.frame.width, height: 1)
+        self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (172), y: self.layerLinefooter.frame.maxY + 16, width: 164, height: 34)
+        self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLinefooter.frame.maxY + 16, width: 164, height: 34)
         
     }
     
