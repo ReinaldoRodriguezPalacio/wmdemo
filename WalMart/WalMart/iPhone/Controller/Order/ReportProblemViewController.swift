@@ -20,7 +20,6 @@ class ReportProblemViewController: NavigationViewController {
     var layerLineMessage: CALayer!
     var layerLinefooter: CALayer!
 
-    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
     }
@@ -51,8 +50,10 @@ class ReportProblemViewController: NavigationViewController {
         
         self.tableProducts = UITableView()
         self.tableProducts.backgroundColor = UIColor.white
-//        self.tableProducts.delegate = self
-//        self.tableProducts.dataSource = self
+        self.tableProducts.delegate = self
+        self.tableProducts.dataSource = self
+        self.tableProducts.separatorStyle = .none
+        self.tableProducts.register(ProductReportProblemTableViewCell.self, forCellReuseIdentifier: "orderCell")
         
         self.layerLineMessage = CALayer()
         layerLineMessage.backgroundColor = WMColor.light_light_gray.cgColor
@@ -71,10 +72,10 @@ class ReportProblemViewController: NavigationViewController {
         self.cancelButton.addTarget(self, action: Selector("back"), for: UIControlEvents.touchUpInside)
         
         self.saveButton = UIButton()
-        self.saveButton.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), for:UIControlState())
+        self.saveButton.setTitle("Enviar", for:UIControlState())
         self.saveButton.titleLabel!.textColor = UIColor.white
         self.saveButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.saveButton.backgroundColor = WMColor.light_blue
+        self.saveButton.backgroundColor = WMColor.green
         self.saveButton.layer.cornerRadius = 17
        // self.saveButton.addTarget(self, action: #selector(nextStep), for: UIControlEvents.touchUpInside)
         
@@ -93,7 +94,7 @@ class ReportProblemViewController: NavigationViewController {
         self.layerLineMessage.frame = CGRect(x:0, y: self.mesageLabel.frame.maxY, width: self.view.frame.width, height: 1)
         self.reasonLabel.frame = CGRect(x:16, y: self.mesageLabel.frame.maxY, width:self.view.frame.width - 32, height: 46)
         self.reasonField.frame = CGRect(x:16, y: self.reasonLabel.frame.maxY, width:self.view.frame.width - 32, height: 40)
-        self.tableProducts.frame = CGRect(x:0, y: self.reasonField.frame.maxY + 16, width:self.view.frame.width, height: self.view.frame.height - (110))
+        self.tableProducts.frame = CGRect(x:0, y: self.reasonField.frame.maxY + 16, width:self.view.frame.width, height: self.view.frame.height - ( self.reasonField.frame.maxY + 126))
         self.layerLinefooter.frame = CGRect(x:0, y: self.tableProducts.frame.maxY, width: self.view.frame.width, height: 1)
         self.cancelButton!.frame = CGRect(x: (self.view.frame.width/2) - (172), y: self.layerLinefooter.frame.maxY + 16, width: 164, height: 34)
         self.saveButton!.frame = CGRect(x: (self.view.frame.width/2) + 8 , y: self.layerLinefooter.frame.maxY + 16, width: 164, height: 34)
@@ -101,3 +102,58 @@ class ReportProblemViewController: NavigationViewController {
     }
     
 }
+
+//MARK: - UITableViewDelegate
+extension ReportProblemViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.orderItems!.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell: UITableViewCell? = nil
+        let cellOrderProduct = tableView.dequeueReusableCell(withIdentifier: "orderCell", for: indexPath) as! ProductReportProblemTableViewCell
+        cellOrderProduct.frame = CGRect(x: 0, y: 0, width: self.tableProducts.frame.width, height: cellOrderProduct.frame.height)
+        
+        let dictProduct = self.orderItems![indexPath.row] 
+        
+        let descript = dictProduct["description"] as! String
+        var quantityStr = ""
+        if let quantityProd = dictProduct["quantity"] as? String {
+            quantityStr = quantityProd
+        }
+        if let quantityProd = dictProduct["quantity"] as? NSNumber {
+            quantityStr = quantityProd.stringValue
+        }
+        var urlImage = ""
+        if let imageURLArray = dictProduct["imageUrl"] as? [Any] {
+            if imageURLArray.count > 0 {
+                urlImage = imageURLArray[0] as! String
+            }
+        }
+        if let imageURLArray = dictProduct["imageUrl"] as? NSString {
+            urlImage = imageURLArray as String
+        }
+        var priceStr = ""
+        if let price = dictProduct["price"] as? NSString {
+            priceStr = price as String
+        }
+        if let price = dictProduct["price"] as? NSNumber {
+            priceStr = price.stringValue
+        }
+    
+        cellOrderProduct.setValues(productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr as NSString,provider: "ACME")
+        cell = cellOrderProduct
+        cell!.selectionStyle = UITableViewCellSelectionStyle.none
+
+        return cell!
+
+    }
+}
+
+//MARK: - UITableViewDataSource
+extension ReportProblemViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 108
+    }
+}
+

@@ -419,7 +419,10 @@ class OrderProviderDetailViewController : NavigationViewController {
     
     func showOptionsView() {
         let controller = OrderMoreOptionsViewController()
-        controller.orderItems = self.itemDetailProducts
+        let arrayProductsFed = itemDetailProducts[0]
+        let productsArray = arrayProductsFed["items"] as! [[String:Any]]
+        
+        controller.orderItems = productsArray
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
