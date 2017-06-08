@@ -78,17 +78,21 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = itemsOptions[indexPath.row]
         
-        if item == "Reportar un problema" {
+        switch indexPath.row {
+        case 0:
+            print("Envia Factura")
+        case 2:
+            print("Contactar al proveedor")
+            let controller = ContactProviderViewController()
+            self.navigationController!.pushViewController(controller, animated: true)
+        case 3:
+            print("Reportar un problema")
             let controller = ReportProblemViewController()
             controller.orderItems = self.orderItems
             self.navigationController?.pushViewController(controller, animated: true)
+        default:
+            print("")
         }
-      
-      if item == "Contactar al proveedor" {
-        let controller = ContactProviderViewController()
-        self.navigationController!.pushViewController(controller, animated: true)
-      }
     }
 }

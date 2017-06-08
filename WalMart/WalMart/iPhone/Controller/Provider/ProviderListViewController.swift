@@ -11,7 +11,7 @@ import Foundation
 
 class ProviderListViewController: NavigationViewController {
     var providerTable: UITableView!
-    var switchButton: UIButton!
+    var switchButton: UIButton = UIButton()
     var headerView: ProviderProductHeaderView?
     
     var providerItems: [[String:Any]]! = [] {
@@ -53,7 +53,6 @@ class ProviderListViewController: NavigationViewController {
         self.providerTable.register(ProviderProductTableViewCell.self, forCellReuseIdentifier: "providerProductCell")
         self.view.addSubview(providerTable)
         
-        self.switchButton = UIButton()
         self.switchButton.backgroundColor = WMColor.light_blue
         self.switchButton.layer.cornerRadius = 11
         self.switchButton.setTitleColor(UIColor.white, for: .normal)
@@ -102,12 +101,22 @@ class ProviderListViewController: NavigationViewController {
         self.providerReconditionedItems = []
         
         for offer in providerItems {
-            let condiiton = offer["condition"] as! Int
-            if condiiton == 0 {
+            let condiiton = offer["condition"] as! String
+            if condiiton == "0" {
                 self.providerNewItems.append(offer)
             }else{
                 self.providerReconditionedItems.append(offer)
             }
+        }
+        
+        if providerReconditionedItems.count == 0 {
+            self.switchButton.isHidden = true
+            self.showNewItems = true
+        }
+        
+        if providerNewItems.count == 0 {
+            self.switchButton.isHidden = true
+            self.showNewItems = false
         }
     }
     
