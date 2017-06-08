@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import MessageUI
 
-class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidingScrollViewDelegate {
+class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, MFMailComposeViewControllerDelegate{
   
   var scrollContact : TPKeyboardAvoidingScrollView!
   var viewGral : UIView!
@@ -29,6 +30,8 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
   var callLbl : UILabel!
   var emailLbl : UILabel!
   
+  var emailProvider : String!
+  var numberPhoneProvider : String!
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -39,6 +42,9 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     
     self.view.backgroundColor = UIColor.white
     self.titleLabel!.text = "Contactar al Proveedor"//NSLocalizedString("profile.myOrders", comment: "")
+    
+    self.emailProvider = "contacto_acme@gmail.com"//cambiar a correo de proveedor
+    self.numberPhoneProvider = "5523456789"
     
     
     self.viewGral = UIView(frame: CGRect(x: 0, y: 46, width: self.view.frame.width, height: 72))
@@ -64,14 +70,14 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.phoneTitleLbl.text = "Teléfono"
     
     self.phoneDescrLbl = self.labelContact(false)
-    self.phoneDescrLbl.text = "55 1234 7890"
+    self.phoneDescrLbl.text = self.numberPhoneProvider
     self.phoneDescrLbl.textColor = WMColor.light_blue
     
     self.emailTitleLbl = self.labelContact(true)
     self.emailTitleLbl.text = "Correo electrónico"
     
     self.emailDescrLbl = self.labelContact(false)
-    self.emailDescrLbl.text = "contacto_acme@gmail.com"
+    self.emailDescrLbl.text = self.emailProvider
     self.emailDescrLbl.textColor = WMColor.light_blue
     
     self.fiscalDataTitleLbl = self.labelContact(true)
@@ -85,9 +91,9 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.callBtn = UIButton()
     self.emailBtn = UIButton()
     
-    self.callBtn.setImage(UIImage(named:"support-call"), for: UIControlState())
-    self.callBtn.setImage(UIImage(named:"support-call."), for: UIControlState.selected)
-    self.callBtn.imageEdgeInsets = UIEdgeInsetsMake(7,17, 0, 0)
+    self.callBtn.setImage(UIImage(named:"call_provider"), for: UIControlState())
+    self.callBtn.setImage(UIImage(named:"call_provider"), for: UIControlState.selected)
+    self.callBtn.imageEdgeInsets = UIEdgeInsets(top: 7,left: 17,bottom: 6,right: 126)
     self.callBtn.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0);
     self.callBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     self.callBtn.titleLabel?.textColor = UIColor.white
@@ -96,29 +102,31 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.callBtn.addTarget(self , action: #selector(ContactProviderViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
     self.callBtn.backgroundColor = WMColor.green
     
-    self.emailBtn.setImage(UIImage(named:"support-email"), for: UIControlState())
-    self.emailBtn.setImage(UIImage(named:"support-email"), for: UIControlState.selected)
+    self.emailBtn.setImage(UIImage(named:"message_provider"), for: UIControlState())
+    self.emailBtn.setImage(UIImage(named:"message_provider"), for: UIControlState.selected)
     self.emailBtn.imageEdgeInsets = UIEdgeInsets(top: 7,left: 17,bottom: 6,right: 126)
     self.emailBtn.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0);
     self.emailBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     self.emailBtn.titleLabel?.textColor = UIColor.white
     self.emailBtn.setTitle("Escríbenos", for: UIControlState())
     self.emailBtn.layer.cornerRadius = 15
-    self.emailBtn.addTarget(self , action: #selector(ContactProviderViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
+    self.emailBtn.addTarget(self , action: #selector(ContactProviderViewController.sendEmailProvider), for:UIControlEvents.touchUpInside)
     self.emailBtn.backgroundColor = WMColor.green
+    
+    
     
     
     self.callLbl = UILabel()
     self.callLbl.font = WMFont.fontMyriadProRegularOfSize(12.0)
     self.callLbl.textColor = WMColor.gray
     self.callLbl.textAlignment = .center
-    self.callLbl.text = "55 2345 6789"
+    self.callLbl.text = self.numberPhoneProvider
     
     self.emailLbl = UILabel()
     self.emailLbl.font = WMFont.fontMyriadProRegularOfSize(12.0)
     self.emailLbl.textColor = WMColor.gray
     self.emailLbl.textAlignment = .center
-    self.emailLbl.text = "contacto_acme@gmail.com"
+    self.emailLbl.text = self.emailProvider
     
     
     self.viewGral.addSubview(self.notificationLabel)
@@ -145,7 +153,6 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     scrollContact.contentSize = CGSize( width: self.view.bounds.width, height: 720)
     scrollContact.addSubview(viewGral)
     self.view.addSubview(scrollContact)
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -190,6 +197,7 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     super.back()
   }
   
+  
   func labelContact(_ isTitle:Bool) -> UILabel {
     let labelTitleItem = UILabel(frame: CGRect.zero)
     labelTitleItem.font = isTitle ? WMFont.fontMyriadProSemiboldSize(16.0) : WMFont.fontMyriadProRegularOfSize(16.0)
@@ -199,21 +207,44 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
   }
   
   func selectecButton(_ sender:UIButton){
-    /*if sender == self.callBtn{
+    if sender == self.callBtn{
       self.emailBtn.isSelected = false
       print("Selected call", terminator: "")
       if IS_IPHONE == true {
-        let strTel = "telprompt://018009256278"
+        let strTel = "telprompt://018009256278" //self.numberPhoneProvider
         if UIApplication.shared.canOpenURL(URL(string: strTel)!) {
           UIApplication.shared.openURL(URL(string: strTel)!)
         }
       }
       
-    }else{
-      self.callBtn.isSelected = false
-      //self.pikerBtn!.showPicker()
-    }*/
+    }
+  }
+  
+  //MARK: - MFMailComposeViewControllerDelegate
+  func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  func sendEmailProvider(){
     
+    print("email provider", terminator: "")
+    
+    let subject = "Titulo de Correo"
+    
+    if  MFMailComposeViewController.canSendMail(){
+      let mc: MFMailComposeViewController = MFMailComposeViewController()
+      mc.mailComposeDelegate = self
+      mc.setSubject(subject)//Titulo de ,correo
+      mc.setMessageBody("message Body", isHTML: false)
+      mc.setToRecipients([self.emailProvider])
+      
+      self.present(mc, animated: true, completion: nil)
+    }
+    else{
+      let alert = IPOWMAlertViewController.showAlert(UIImage(named:"alert_ups"),imageDone: UIImage(named:"alert_ups"), imageError: UIImage(named:"alert_ups"))
+      alert!.setMessage("No se encontro una cuenta de correo configurada")
+      alert!.showErrorIcon("Ok")
+    }
   }
   
 }

@@ -1387,7 +1387,7 @@ extension ProductDetailViewController: ProductDetailCrossSellViewDelegate {
     }
 }
 
-extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellDelegate {
+extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellDelegate, ProviderDetailViewControllerDelegate {
     /**
      Builds an image to share
      */
@@ -1706,6 +1706,13 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
     func showProviderInfoView() {
       let controller = ProviderDetailViewController()
       controller.nameProvider = "Acme"
+      controller.prodUpc = self.upc as String
+      controller.prodImageUrl = self.imageUrl.first! as? String
+      controller.prodDescription = self.name as String
+      controller.prodPrice = self.price as String
+      
+      controller.delegate = self
+      controller.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0
       self.navigationController!.pushViewController(controller, animated: true)
   }
     
