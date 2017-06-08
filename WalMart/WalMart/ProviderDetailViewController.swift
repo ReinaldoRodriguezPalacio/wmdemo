@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol ProviderDetailViewControllerDelegate: class {
+  func addProductToShoppingCart(_ upc:String,desc:String,price:String,imageURL:String, comments:String)
+}
+
 class ProviderDetailViewController : BaseController {
   
   var titlelbl : UILabel!
@@ -15,7 +19,7 @@ class ProviderDetailViewController : BaseController {
   var buttonBk: UIButton!
   var currentHeaderView : UIView!
   var viewAdd : UIView!
-  var buttonAdd : UIButton!
+  var buttonShop : UIButton!
   
   var providerTable: UITableView!
   var provider : [String:Any]?
@@ -24,9 +28,20 @@ class ProviderDetailViewController : BaseController {
   var nameProvider : String = ""
   var rating : Double = 0.0
   
+  var prodUpc : String! = ""
+  var prodImageUrl: String! = ""
+  var prodDescription: String! = ""
+  var prodPrice : String! = ""
+  var prodComments : String! = ""
+  
+  
+  var quantity: NSNumber! = 0
+  var isAviableToShoppingCart : Bool = true 
+  
   var satisfactionPorc : Double = 0.0
   var totalQuestion : Int = 0
   
+  weak var delegate : ProviderDetailViewControllerDelegate?
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -79,18 +94,18 @@ class ProviderDetailViewController : BaseController {
     separatorViewAdd.backgroundColor = WMColor.light_light_gray
     viewAdd.addSubview(separatorViewAdd)
     
-    buttonAdd = UIButton(frame: CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34))
-    buttonAdd!.backgroundColor = WMColor.yellow
-    buttonAdd!.setTitle("Comprar", for:UIControlState())
-    buttonAdd!.titleLabel!.textColor = UIColor.white
-    buttonAdd!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-    buttonAdd!.titleLabel!.textColor = UIColor.white
-    buttonAdd!.layer.cornerRadius = 17
-    buttonAdd!.addTarget(self, action: #selector(ProviderDetailViewController.buyAction), for: UIControlEvents.touchUpInside)
-    viewAdd.addSubview(buttonAdd)
+    buttonShop = UIButton(frame: CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34))
+    buttonShop!.backgroundColor = WMColor.yellow
+    buttonShop!.titleLabel!.textColor = UIColor.white
+    buttonShop!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+    buttonShop!.titleLabel!.textColor = UIColor.white
+    buttonShop!.layer.cornerRadius = 17
+    buttonShop!.addTarget(self, action: #selector(ProviderDetailViewController.buyAction), for: UIControlEvents.touchUpInside)
+    viewAdd.addSubview(buttonShop)
+    
+    self.reloadBtnShop()
     
     self.view.addSubview(viewAdd)
-    
     self.invokeServiceProviderDetail()
   }
   
@@ -130,7 +145,7 @@ class ProviderDetailViewController : BaseController {
     
     titlelbl.frame = CGRect(x: 46, y: 0, width: self.view.frame.width - (46 * 2), height: 46)
     viewAdd.frame = CGRect(x: 0, y: self.view.frame.height - heighViewAd - (IS_IPAD ? 0.0 : 46.0), width: self.view.frame.width, height: heighViewAd)
-    buttonAdd.frame = CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34)
+    buttonShop.frame = CGRect(x: (viewAdd.frame.width - 188.0) / 2, y: (viewAdd.frame.height - 34) / 2, width: 188.0, height: 34)
     providerTable.frame =  CGRect(x: 0,  y: self.headerView!.frame.maxY , width: self.view.frame.width, height: self.view.frame.height - self.headerView!.frame.maxY - heighViewAd - (IS_IPAD ? 0.0 : 46.0))
   }
   
@@ -145,7 +160,38 @@ class ProviderDetailViewController : BaseController {
   }
   
   func buyAction() {
+    delegate?.addProductToShoppingCart(self.prodUpc, desc: self.prodDescription, price:self.prodPrice, imageURL: self.prodImageUrl, comments:"")
+    self.reloadBtnShop()
+  }
+  
+  func reloadBtnShop() {
+    let productincar = UserCurrentSession.sharedInstance.userHasQuantityUPCShoppingCart(self.prodUpc)
+    var text = NSLocalizedString("productdetail.shop",comment:"")
+    quantity = 0
     
+    if isAviableToShoppingCart  {
+      if productincar != nil && productincar?.quantity != 0 {
+        quantity = productincar!.quantity
+        if quantity.int32Value == 1 {
+          text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
+        }
+        else {
+          text = String(format: NSLocalizedString("list.detail.quantity.pieces", comment:""), quantity)
+        }
+      }
+    }else {
+      text = NSLocalizedString("productdetail.shopna",comment:"")
+      
+      buttonShop!.setTitle(text, for: UIControlState())
+      buttonShop!.setTitleColor(WMColor.light_blue, for: UIControlState())
+      
+      buttonShop!.setTitle(text, for: UIControlState.selected)
+      buttonShop!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
+      
+      buttonShop!.backgroundColor = WMColor.light_gray
+    }
+    
+    buttonShop.setTitle(text, for: .normal)
   }
   
   //MARK: - Services
