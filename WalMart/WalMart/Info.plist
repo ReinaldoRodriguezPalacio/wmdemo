@@ -513,7 +513,7 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getCrossSelling</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -563,7 +563,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -738,7 +738,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
@@ -1053,7 +1053,7 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getCrossSelling</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
@@ -1093,7 +1093,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -1103,7 +1103,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getSearchingByUpcs</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
@@ -1282,7 +1282,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
