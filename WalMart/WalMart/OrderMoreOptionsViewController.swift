@@ -27,9 +27,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
     tableOptions = UITableView()
     tableOptions.dataSource = self
     tableOptions.delegate = self
-    
     tableOptions.register(OrderOptionsTableViewCell.self, forCellReuseIdentifier: "optionsOrder")
-    
     tableOptions.separatorStyle = UITableViewCellSeparatorStyle.none
     
     self.view.addSubview(tableOptions)
@@ -87,5 +85,10 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
             controller.orderItems = self.orderItems
             self.navigationController?.pushViewController(controller, animated: true)
         }
+      
+      if item == "Contactar al proveedor" {
+        let controller = ContactProviderViewController()
+        self.navigationController!.pushViewController(controller, animated: true)
+      }
     }
 }

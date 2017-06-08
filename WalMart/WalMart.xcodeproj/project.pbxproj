@@ -406,6 +406,7 @@
 		656663AB1EE223F8005B6AA6 /* ProviderDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */; };
 		657A738A1EE84DEA00B993BD /* OrderMoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */; };
 		657A738C1EE858C800B993BD /* OrderOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A738B1EE858C800B993BD /* OrderOptionsTableViewCell.swift */; };
+		657A738E1EE8748D00B993BD /* ContactProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A738D1EE8748D00B993BD /* ContactProviderViewController.swift */; };
 		657F8E941EDDBE250034BF81 /* RatingQuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */; };
 		657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */; };
 		658950F71ED8F8F50031B8BB /* ProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */; };
@@ -1053,6 +1054,7 @@
 		656663AA1EE223F8005B6AA6 /* ProviderDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailService.swift; sourceTree = "<group>"; };
 		657A73891EE84DEA00B993BD /* OrderMoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderMoreOptionsViewController.swift; sourceTree = "<group>"; };
 		657A738B1EE858C800B993BD /* OrderOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderOptionsTableViewCell.swift; sourceTree = "<group>"; };
+		657A738D1EE8748D00B993BD /* ContactProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactProviderViewController.swift; sourceTree = "<group>"; };
 		657F8E931EDDBE250034BF81 /* RatingQuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingQuestionTableViewCell.swift; sourceTree = "<group>"; };
 		657F8E951EDDDB120034BF81 /* RatingStarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingStarsTableViewCell.swift; sourceTree = "<group>"; };
 		658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderDetailViewController.swift; sourceTree = "<group>"; };
@@ -2914,6 +2916,7 @@
 			children = (
 				6CA167211ED88CD400801824 /* ProviderListViewController.swift */,
 				658950F61ED8F8F50031B8BB /* ProviderDetailViewController.swift */,
+				657A738D1EE8748D00B993BD /* ContactProviderViewController.swift */,
 			);
 			name = Provider;
 			sourceTree = "<group>";
@@ -3804,6 +3807,7 @@
 				565E5B5A19C0BF2F00444DF7 /* UserCurrentSession.swift in Sources */,
 				AC37F6C519B917C7000BB80D /* AddFiscalAddressService.swift in Sources */,
 				AC37F6B619B907D9000BB80D /* SignUpService.swift in Sources */,
+				657A738E1EE8748D00B993BD /* ContactProviderViewController.swift in Sources */,
 				04B3BA091A93C720008FDD56 /* GRProductByTicket.swift in Sources */,
 				6C4DAC851D2D7817005CFE22 /* IPAHelpHomeView.swift in Sources */,
 				56527DE219AFE7BB008032C6 /* CategoryCollectionViewCell .swift in Sources */,
