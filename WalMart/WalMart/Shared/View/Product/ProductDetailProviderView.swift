@@ -106,6 +106,10 @@ class ProductDetailProviderView: UIView {
             string.append(attachmentString)
             
             ratingLabel.attributedText = string
+            ratingLabel.isHidden = false
+        }else {
+            ratingLabel.text = ""
+            ratingLabel.isHidden = true
         }
         
         let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12)]
@@ -121,11 +125,21 @@ class ProductDetailProviderView: UIView {
         super.layoutSubviews()
         self.topBorder.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 1)
         self.bottomBorder.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
-        let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
-        let providerWidth = providerSize.width + 66
-        providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
-        providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
-        ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 50, height: 16)
+        
+        if ratingLabel.isHidden {
+            let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
+            let providerWidth = providerSize.width
+            providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
+            providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
+            ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 0, height: 0)
+        }else{
+            let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
+            let providerWidth = providerSize.width + 66
+            providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
+            providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
+            ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 50, height: 16)
+        }
+        
         
         deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 16)
         otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 22)

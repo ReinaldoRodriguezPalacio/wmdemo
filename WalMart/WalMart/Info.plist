@@ -736,7 +736,7 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/2/getItemByUpc</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -745,7 +745,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemByUpc</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
@@ -1091,7 +1091,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getItemByUpc</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
@@ -1280,7 +1280,7 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/2/getItemByUpc</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>

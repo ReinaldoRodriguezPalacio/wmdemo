@@ -48,6 +48,11 @@ class ReportProblemViewController: NavigationViewController {
         self.tableProducts.backgroundColor = UIColor.white
 //        self.tableProducts.delegate = self
 //        self.tableProducts.dataSource = self
+        
+        self.view.addSubview(self.mesageLabel)
+        self.view.addSubview(self.reasonLabel)
+        self.view.addSubview(self.reasonField)
+        self.view.addSubview(self.tableProducts)
     }
     
     override func viewWillLayoutSubviews() {
@@ -55,7 +60,7 @@ class ReportProblemViewController: NavigationViewController {
         
         self.mesageLabel.frame = CGRect(x:16, y: self.header!.frame.maxY, width:self.view.frame.width - 32, height: 64)
         self.reasonLabel.frame = CGRect(x:16, y: self.mesageLabel.frame.maxY, width:self.view.frame.width - 32, height: 46)
-        self.reasonField.frame = CGRect(x:16, y: self.reasonLabel.frame.maxY + 110, width:self.view.frame.width - 32, height: 40)
+        self.reasonField.frame = CGRect(x:16, y: self.reasonLabel.frame.maxY, width:self.view.frame.width - 32, height: 40)
         self.tableProducts.frame = CGRect(x:0, y: self.reasonField.frame.maxY + 16, width:self.view.frame.width, height: self.view.frame.height - (110))
         
     }

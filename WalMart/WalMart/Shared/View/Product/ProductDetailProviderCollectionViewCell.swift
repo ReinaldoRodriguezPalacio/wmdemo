@@ -105,12 +105,22 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         self.providerReconditionedItems = []
         
         for offer in itemsProvider {
-            let condiiton = offer["condition"] as! Int
-            if condiiton == 0 {
+            let condiiton = offer["condition"] as! String
+            if condiiton == "0" {
                 self.providerNewItems.append(offer)
             }else{
                 self.providerReconditionedItems.append(offer)
             }
+        }
+        
+        if providerReconditionedItems.count == 0 {
+            self.switchBtn.isHidden = true
+            self.showNewItems = true
+        }
+        
+        if providerNewItems.count == 0 {
+            self.switchBtn.isHidden = true
+            self.showNewItems = false
         }
     }
     
