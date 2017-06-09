@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol ProducDetailProviderTableViewCellDelegate: class {
+    func selectOffer(offer: [String:Any])
+}
+
 class ProducDetailProviderTableViewCell : UITableViewCell {
     
     
@@ -19,6 +23,7 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
     var providerReconditionedItems: [[String:Any]]! = []
     var showNewItems = true
     var selectedOfferId: String = ""
+    weak var delegate: ProducDetailProviderTableViewCellDelegate?
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
@@ -170,6 +175,7 @@ extension ProducDetailProviderTableViewCell: UICollectionViewDelegate {
         let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         self.selectedOfferId = provider["offerId"] as! String
         collection.reloadData()
+        delegate?.selectOffer(offer: provider)
     }
 }
 

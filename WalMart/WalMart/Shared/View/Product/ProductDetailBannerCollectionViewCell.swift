@@ -387,6 +387,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.providerView.frame = CGRect(x: 0, y: self.bounds.height - 60, width: self.bounds.width, height: 70)
             self.providerView.alpha = 1.0
             self.providerView.setValues(provider: self.providerInfo!)
+            let price = self.providerInfo!["price"] as! String
+            let formatedValue = "\(CurrencyCustomLabel.formatString(price as NSString))"
+            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             bottomPossition = 70.0
         }else{
             self.providerView.alpha = 0.0

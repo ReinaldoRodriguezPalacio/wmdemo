@@ -8,8 +8,11 @@
 
 import Foundation
 
+protocol ProductDetailProviderCollectionViewCellDelegate: class {
+    func selectOffer(offer: [String:Any])
+}
+
 class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
-    
     
     var titleLabel = UILabel()
     var switchBtn = UIButton()
@@ -19,6 +22,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var providerReconditionedItems: [[String:Any]]! = []
     var showNewItems = true
     var selectedOfferId: String = ""
+    weak var delegate: ProductDetailProviderCollectionViewCellDelegate?
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
@@ -170,6 +174,7 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDelegate {
         let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         self.selectedOfferId = provider["offerId"] as! String
         collection.reloadData()
+        delegate?.selectOffer(offer: provider)
     }
 }
 

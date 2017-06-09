@@ -81,14 +81,21 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
         let itemUPC = itemsUPC[indexPath.row] 
         
         let desc = itemUPC["description"] as! String
-        let price = itemUPC["price"] as! String
+        
+        var productPrice = ""
+        if let price = itemUPC["price"] as? String{
+            productPrice = price
+        }else if let price = itemUPC["price"] as? NSNumber{
+            productPrice = price.stringValue
+        }
+        
         let imageArray = itemUPC["imageUrl"] as! [Any]
         var imageUrl = ""
         if imageArray.count > 0 {
             imageUrl = imageArray[0] as! String
         }
         
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price)
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: productPrice)
         
         
         
