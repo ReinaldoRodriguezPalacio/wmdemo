@@ -13,6 +13,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
   var tableOptions : UITableView!
   var itemsOptions = ["Enviar Factura","Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
   var orderItems:[[String:Any]]! = []
+  var alertView : IPOWMAlertViewController? = nil
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -53,6 +54,67 @@ class OrderMoreOptionsViewController: NavigationViewController {
     super.back()
   }
   
+  
+  func returnItems() {
+    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_returnItems"),imageDone:UIImage(named:"alert_returnItems"),imageError:UIImage(named:"alert_returnItems"))
+    self.alertView?.btnFrame = true
+    self.alertView?.showicon(UIImage(named: "alert_returnItems"))
+    self.alertView?.setMessage("Para solicitar la devolución de tus artículos ponte en contacto con el vendedor.")
+    
+    self.alertView?.addActionButtonsWithCustomText("Contactar vendedor", leftAction: {(void) in
+      self.alertView?.close()
+      let controller = ContactProviderViewController()
+      self.navigationController!.pushViewController(controller, animated: true)
+    }, rightText: NSLocalizedString("list.endedit",comment:""), rightAction: { (void) in
+      self.alertView?.close()
+    },isNewFrame: false)
+  }
+  
+  
+  func sendInvoice() {
+    self.alertView = IPOWMAlertViewController.showAlert(self, imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"alert_done"), imageError:UIImage(named:"alert_done"))
+    
+    //Service
+    /*
+    let service = GRAddressAddService()
+    service.callService(requestParams: dictSend!, successBlock: { (resultCall:[String:Any]) -> Void  in
+      print("Se envia factura")
+      //let _ = self.navigationController?.popViewController(animated: true)
+      
+      self.alertView!.showDoneIcon()
+      
+    }) { (error:NSError) -> Void in
+      self.alertView!.setMessage(error.localizedDescription)
+      self.alertView!.showErrorIcon("Ok")
+    }*/
+    
+    self.alertView!.showDoneIconWithoutClose()
+    //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+      //UIImage(named:"noAvaliable"))
+    self.alertView?.showicon(UIImage(named: "alert_done"))
+    self.alertView?.btnFrame = true
+    self.alertView?.setMessage("La factura ha sido enviada a: contacto_acme@gmail.com")
+    self.alertView?.showErrorIcon(NSLocalizedString("Ok", comment:""))
+  }
+  
+  
+  func refill(){
+    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_refill"),imageDone:UIImage(named:"alert_refill"),imageError:UIImage(named:"alert_refill"))
+    self.alertView?.btnFrame = true
+    self.alertView?.showicon(UIImage(named: "alert_refill"))
+    self.alertView?.setMessage("Para refacturar ingresa al sitio Web facturacion.walmartmexico.com.mx")
+    
+    self.alertView?.addActionButtonsWithCustomText("Ir al sitio Web", leftAction: {(void) in
+      self.alertView?.close()
+      let webCtrl = IPOWebViewController()
+      webCtrl.openURLFactura()
+      self.present(webCtrl,animated:true,completion:nil)
+    }, rightText: NSLocalizedString("list.endedit",comment:""), rightAction: { (void) in
+      self.alertView?.close()
+    },isNewFrame: false)
+  }
+  
+  
 }
 
 //MARK: UITableViewDataSource
@@ -60,7 +122,7 @@ extension OrderMoreOptionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
-    
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableOptions.dequeueReusableCell(withIdentifier: "optionsOrder") as! OrderOptionsTableViewCell
         cell.selectionStyle = .none
@@ -82,6 +144,10 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             print("Envia Factura")
+            self.sendInvoice()
+        case 1:
+            print("Refacturar")
+            self.refill()
         case 2:
             print("Contactar al proveedor")
             let controller = ContactProviderViewController()
@@ -91,6 +157,9 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
             let controller = ReportProblemViewController()
             controller.orderItems = self.orderItems
             self.navigationController?.pushViewController(controller, animated: true)
+        case 4:
+            print("Devolver estos articulos")
+            self.returnItems()
         default:
             print("")
         }
