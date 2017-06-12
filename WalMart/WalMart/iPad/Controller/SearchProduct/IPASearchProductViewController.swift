@@ -435,13 +435,13 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         
     }
     
-    override func apply(_ order:String, upcs: [String]) {
-        super.apply(order, upcs: upcs)
-        if upcs.count == 0 && !filterMedida {
-         self.showEmptyView()
-        }
-        
-    }
+//    override func apply(_ order:String, upcs: [String]) {
+//        super.apply(order, upcs: upcs)
+//        if upcs.count == 0 && !filterMedida {
+//         self.showEmptyView()
+//        }
+//        
+//    }
     
     override func showEmptyView(){
         

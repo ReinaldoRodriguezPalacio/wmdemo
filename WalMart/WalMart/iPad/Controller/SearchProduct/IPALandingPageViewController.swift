@@ -784,23 +784,23 @@ extension IPALandingPageViewController: FilterProductsViewControllerDelegate {
         
     }
     
-    func apply(_ order:String, upcs: [String]) {
+    func apply(_ order:String, price: String?, toPrice: String?, brand: [String]) {
         print("apply - upcs ")
        
         showLoadingIfNeeded(false)
         
         self.collection?.alpha = 100
-        if upcs.count == 0 {
-            self.allProducts = []
-            //self.mgResults?.totalResults = 0
-            self.collection?.reloadData()
-            self.collection?.alpha = 0
-        
-        }
-        
+//        if upcs.count == 0 {
+//            self.allProducts = []
+//            //self.mgResults?.totalResults = 0
+//            self.collection?.reloadData()
+//            self.collection?.alpha = 0
+//        
+//        }
+//        
         
         let svcSearch = SearchItemsByUPCService()
-        svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
+        svcSearch.callService(brand, successJSONBlock: { (result:JSON) -> Void in
             if self.originalSearchContextType != .withTextForCamFind {
                 self.allProducts? = []
             }

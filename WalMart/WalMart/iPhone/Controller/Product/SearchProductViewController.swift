@@ -181,6 +181,7 @@ class SearchProductViewController: NavigationViewController {
     
     var filterMedida : Bool! = false
     var isFromPromotiosCenter = false
+    var invokeServiceUpc =  false
    
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -653,166 +654,171 @@ class SearchProductViewController: NavigationViewController {
         }
         
         print("Invoking MG Search")
-        let startOffSet = self.mgResults!.resultsInResponse
-        
-        //TODO: Signals
-        let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
-        let service = ProductbySearchService(dictionary:signalsDictionary)
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         if self.searchContextType! == .withCategoryForTiresSearch{
             filterMedida=true
         }
-        service.callService(params!,
-            successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
-                self.priority = resultDic["priority"] as? String ?? ""
-                let landingMg = resultDic["landingPage"] as! [String:Any]
-                self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
-                if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0 {// && self.btnTech.selected {
-                    self.showLandingPage()
-                    return
+        self.invokeProductbySearchService(lowPrice: nil,highPrice:nil,brands:nil,actionSuccess: actionSuccess, actionError: actionError)
+    }
+    
+    func invokeProductbySearchService(lowPrice:String?,highPrice:String?,brands:[String]?,actionSuccess:(() -> Void)?, actionError:(() -> Void)?){
+        let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
+        let searchService = ProductbySearchService(dictionary:signalsDictionary)
+        let params = searchService.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: self.mgResults!.resultsInResponse, maxResult: self.maxResult,lowPrice:lowPrice,highPrice:highPrice,brands:brands)
+
+        searchService.callService(params!,
+                            successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
+                                self.priority = resultDic["priority"] as? String ?? ""
+                                let landingMg = resultDic["landingPage"] as! [String:Any]
+                                self.landingPageMG = landingMg.count > 0 ? landingMg : self.landingPageMG
+                                if self.landingPageMG != nil && self.landingPageMG!.count > 0 && arrayProduct!.count == 0 {// && self.btnTech.selected {
+                                    self.showLandingPage()
+                                    return
+                                }
+                                
+                                if arrayProduct != nil && arrayProduct!.count > 0 {
+                                    let item = arrayProduct![0]
+                                    print(item)
+                                    //TODO: VAlidar conn servicio
+//                                    if let results = item["resultsInResponse"] as? NSString {
+//                                    self.mgResults!.resultsInResponse += results.integerValue
+//                                    }
+//                                    if let total = item["totalResults"] as? NSString {
+//                                    self.mgResults!.totalResults = total.integerValue
+//                                    }
+                                    
+                                    //TODO: VAlidar conn servicio y quitar estas dos lineas
+                                    self.mgResults!.resultsInResponse = 20
+                                    self.mgResults!.totalResults = 20
+                                    
+                                    self.mgResponceDic = resultDic
+                                    
+                                    if self.landingPageMG?.count > 0{ // > 0 TODO cambiar
+                                        //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
+                                        let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
+                                        self.bannerView.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named: "header_default"))
+                                        self.isLandingPage = true
+                                        self.btnTech.isSelected = true
+                                        self.showAlertView = false
+                                    }
+                                    if self.filterMedida! {
+                                        let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
+                                        self.mgResults!.resultsInResponse = arrayFilter.count
+                                        self.mgResults!.totalResults = arrayFilter.count
+                                        self.mgResults!.addResults(arrayFilter)
+                                        
+                                        if arrayFilter.count == 0{
+                                            self.finsihService =  true
+                                            self.removeEmpty =  false
+                                            self.showEmptyView()//Iphone
+                                            if IS_IPAD{
+                                                self.collection?.reloadData()//Ipad
+                                            }
+                                            actionError?()
+                                            return
+                                        }//
+                                        
+                                    } else{
+                                        self.mgResults!.addResults(arrayProduct!)
+                                    }
+                                    var sortFacet = facet
+                                    sortFacet.sort { (item, seconditem) -> Bool in
+                                        var firstOrder = "0"
+                                        if let firstOrderVal = item["order"] as? String {
+                                            firstOrder = firstOrderVal
+                                        }
+                                        var secondOrder = "0"
+                                        if let secondOrderVal = seconditem["order"] as? String {
+                                            secondOrder = secondOrderVal
+                                        }
+                                        return Int(firstOrder) < Int(secondOrder)
+                                    }
+                                    self.facet = sortFacet
+                                    //
+                                    
+                                    
+                                    //                    if self.allProducts != nil {
+                                    //                        self.allProducts = self.allProducts!.arrayByAddingObjectsFromArray(arrayProduct!)
+                                    //                    }
+                                    //                    else {
+                                    //                        self.allProducts = arrayProduct
+                                    //                    }
+                                    
+                                    //Gogle 360 falta departamento
+                                    if self.textToSearch != nil {
+                                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults]) //TODO quitar:_IOS
+                                    }
+                                }
+                                else {
+                                    self.mgResults!.resultsInResponse = 0
+                                    if self.mgResults!.products == nil {
+                                        self.mgResults!.totalResults = 0
+                                    }
+                                }
+                                self.mgServiceIsInvike =  false
+                                actionSuccess?()
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
+                                
+                                // Event -- Product Impressions
+                                if let mgArrayProducts = arrayProduct {
+                                    if mgArrayProducts.count > 0 {
+                                        
+                                        var positionArray: [Int] = []
+                                        
+                                        for _ in mgArrayProducts {
+                                            self.position += 1
+                                            positionArray.append(self.position)
+                                        }
+                                        
+                                        if self.titleHeader == PROMOTION_CENTER{
+                                            self.isFromPromotiosCenter =  true
+                                        }
+                                        
+                                        let nameListToTag = (self.textToSearch != nil &&  self.textToSearch != "") ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
+                                        
+                                        
+                                        let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
+                                        let category = self.eventCode != nil ? "banner" : ""
+                                        let subCategory = self.idFamily != nil ? self.idFamily!.replacingOccurrences(of: "_", with: "") : ""
+                                        let subSubCategory = self.idLine != nil ? self.idLine!.replacingOccurrences(of: "_", with: "") : ""
+                                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
+                                    }
+                                }
+                                
+        }, errorBlock: {(error: NSError) in
+            
+            
+            print(error)
+            //No se encontraron resultados para la búsqueda
+            if error.code == 1 {
+                self.mgResults!.resultsInResponse = 0
+                self.mgResults!.totalResults = 0
+                self.finsihService =   self.btnSuper.isSelected
+                self.removeEmpty =  false
+                if self.btnSuper.isSelected {
+                    self.showEmptyView()//Iphone
                 }
-                
-                if arrayProduct != nil && arrayProduct!.count > 0 {
-                    
-                    let item = arrayProduct![0]
-                        //println(item)
-                    if let results = item["resultsInResponse"] as? NSString {
-                        self.mgResults!.resultsInResponse += results.integerValue
-                    }
-                    if let total = item["totalResults"] as? NSString {
-                        self.mgResults!.totalResults = total.integerValue
-                    }
-                    
-                    self.mgResponceDic = resultDic
-                    
-                    if self.landingPageMG?.count > 0{ // > 0 TODO cambiar
-                        //let imageURL = "www.walmart.com.mx/images/farmacia.jpg"
-                        let imageURL = IS_IPAD ? self.landingPageMG!["imgipad"] as! String : self.landingPageMG!["imgiphone"] as! String
-                        self.bannerView.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named: "header_default"))
-                        self.isLandingPage = true
-                        self.btnTech.isSelected = true
-                        self.showAlertView = false
-                    }
-                    if self.filterMedida! {
-                        let arrayFilter = arrayProduct!.filter { $0.description.contains(self.textToSearch!) }
-                        self.mgResults!.resultsInResponse = arrayFilter.count
-                        self.mgResults!.totalResults = arrayFilter.count
-                    self.mgResults!.addResults(arrayFilter)
-                    
-                        if arrayFilter.count == 0{
-                            self.finsihService =  true
-                            self.removeEmpty =  false
-                            self.showEmptyView()//Iphone
-                            if IS_IPAD{
-                            self.collection?.reloadData()//Ipad
-                            }
-                            actionError?()
-                            return
-                        }//
-                        
-                    } else{
-                    self.mgResults!.addResults(arrayProduct!)
-                    }
-                    var sortFacet = facet
-                        sortFacet.sort { (item, seconditem) -> Bool in
-                            var firstOrder = "0"
-                            if let firstOrderVal = item["order"] as? String {
-                                firstOrder = firstOrderVal
-                            }
-                            var secondOrder = "0"
-                            if let secondOrderVal = seconditem["order"] as? String {
-                                secondOrder = secondOrderVal
-                            }
-                            return Int(firstOrder) < Int(secondOrder)
-                        }
-                        self.facet = sortFacet
-                    //
-                    
-                    
-                    //                    if self.allProducts != nil {
-                    //                        self.allProducts = self.allProducts!.arrayByAddingObjectsFromArray(arrayProduct!)
-                    //                    }
-                    //                    else {
-                    //                        self.allProducts = arrayProduct
-                    //                    }
-                    
-                    //Gogle 360 falta departamento
-                    if self.textToSearch != nil {
-                        BaseController.sendAnalyticsPush(["event": "searchResult", "searchCategory" : "enter", "searchTerm" :self.textToSearch!,"searchNumberResults" :  self.mgResults!.totalResults]) //TODO quitar:_IOS
-                    }
+                self.collection?.reloadData()//Ipad
+                actionError?()
+            }else if error.code == 9 {
+                self.finsihService =  true
+                self.removeEmpty =  false
+                self.showEmptyView()//Iphone
+                if IS_IPAD{
+                    self.collection?.reloadData()//Ipad
                 }
-                else {
-                    self.mgResults!.resultsInResponse = 0
-                    if self.mgResults!.products == nil {
-                        self.mgResults!.totalResults = 0
-                    }
-                }
+                actionError?()
+            }else{
+                print("MG Search ERROR!!!")
                 self.mgServiceIsInvike =  false
+                self.mgResults!.totalResults = self.allProducts!.count
+                self.mgResults!.resultsInResponse = self.mgResults!.totalResults
                 actionSuccess?()
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "FINISH_SEARCH"), object: nil)
-                
-                // Event -- Product Impressions
-                if let mgArrayProducts = arrayProduct {
-                    if mgArrayProducts.count > 0 {
-                        
-                        var positionArray: [Int] = []
-                        
-                        for _ in mgArrayProducts {
-                            self.position += 1
-                            positionArray.append(self.position)
-                        }
-                      
-                        if self.titleHeader == PROMOTION_CENTER{
-                            self.isFromPromotiosCenter =  true
-                        }
-                      
-                        let nameListToTag = (self.textToSearch != nil &&  self.textToSearch != "") ? "Search Results" : (self.eventCode != nil ? self.eventCode! : self.titleHeader!)
-                      
-                      
-                        let listName = self.isFromPromotiosCenter ? PROMOTION_CENTER : nameListToTag
-                        let category = self.eventCode != nil ? "banner" : ""
-                        let subCategory = self.idFamily != nil ? self.idFamily!.replacingOccurrences(of: "_", with: "") : ""
-                        let subSubCategory = self.idLine != nil ? self.idLine!.replacingOccurrences(of: "_", with: "") : ""
-                        BaseController.sendAnalyticsTagImpressions(mgArrayProducts, positionArray: positionArray, listName: listName, mainCategory: category, subCategory: subCategory, subSubCategory: subSubCategory)
-                    }
-                }
-                
-            }, errorBlock: {(error: NSError) in
-                
-                
-                    print(error)
-                    //No se encontraron resultados para la búsqueda
-                    if error.code == 1 {
-                        self.mgResults!.resultsInResponse = 0
-                        self.mgResults!.totalResults = 0
-                        self.finsihService =   self.btnSuper.isSelected
-                        self.removeEmpty =  false
-                        if self.btnSuper.isSelected {
-                            self.showEmptyView()//Iphone
-                        }
-                        self.collection?.reloadData()//Ipad
-                        actionError?()
-                    }else if error.code == 9 {
-                        self.finsihService =  true
-                        self.removeEmpty =  false
-                        self.showEmptyView()//Iphone
-                        if IS_IPAD{
-                            self.collection?.reloadData()//Ipad
-                        }
-                        actionError?()
-                    }else{
-                        print("MG Search ERROR!!!")
-                        self.mgServiceIsInvike =  false
-                        self.mgResults!.totalResults = self.allProducts!.count
-                        self.mgResults!.resultsInResponse = self.mgResults!.totalResults
-                        actionSuccess?()
-                        //self.mgResults!.resultsInResponse = 0
-                        //self.mgResults!.totalResults = 0
-                        print(error)
-                        actionError?()
-                    }
-                })
-        
+                //self.mgResults!.resultsInResponse = 0
+                //self.mgResults!.totalResults = 0
+                print(error)
+                actionError?()
+            }
+        })
     }
     
     func invokeSearchProductsInGroceries(actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
@@ -1527,8 +1533,6 @@ class SearchProductViewController: NavigationViewController {
         self.collection?.reloadData()
     }
     
-    var invokeServiceUpc =  false
-    
     func invokeSearchUPCSCMG() {
         if self.findUpcsMg?.count > 0 {
              self.filterButton?.alpha = 0
@@ -1852,6 +1856,10 @@ class SearchProductViewController: NavigationViewController {
             equivalenceByPiece = equivalence
         }
         
+        var hasProviders = false
+        if let providerArray = item["offers"] as? [Any] {
+            hasProviders = (providerArray.count > 0)
+        }
       
         
         cell.setValues(upc,
@@ -1871,7 +1879,7 @@ class SearchProductViewController: NavigationViewController {
                        category:productDeparment,
                        equivalenceByPiece: equivalenceByPiece,
                        position:self.isAplyFilter ? "" : "\(indexPath.row)",
-                       providers: productDeparment == "" ? false : true
+                       providers: hasProviders
         )
         cell.delegate = self
         return cell
@@ -2156,7 +2164,7 @@ class SearchProductViewController: NavigationViewController {
         
     }
     
-    func apply(_ order:String, upcs: [String]) {
+    func apply(_ order:String, price: String?, toPrice: String?, brand: [String]) {
         
         if filterMedida{
             self.applyFilterTiresSearch(order)
@@ -2168,123 +2176,95 @@ class SearchProductViewController: NavigationViewController {
         } else {
             showLoadingIfNeeded(false)
         }
-        
         self.collection?.alpha = 100
-        if upcs.count == 0 {
-            self.allProducts = []
-            self.mgResults?.totalResults = 0
-            self.collection?.reloadData()
-            self.collection?.alpha = 0
-            //            if self.empty == nil {
-            //                self.viewBgSelectorBtn.alpha = 0
-            //                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
-            //                self.empty.returnAction = { () in
-            //                    self.viewBgSelectorBtn.alpha = 1
-            //                    self.returnBack()
-            //                }
-            //            }
-            //            //self.empty.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
-            //
-            //            self.view.addSubview(self.empty)
-            //            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
-            self.finsihService =  true
-            return
-        } else {
-            if self.empty != nil {
-                self.removeEmptyView()
-            }
+        let succesBlock : (() -> Void) = { () -> Void in
+            self.applyOrder(order: order)
+        }
+        
+        self.invokeProductbySearchService(lowPrice: price, highPrice: toPrice, brands: brand, actionSuccess: succesBlock, actionError: nil)
+    }
+    
+    func applyOrder(order: String) {
+        //self.mgResults?.totalResults = self.allProducts!.count
+        self.idSort = order
+        switch (FilterType(rawValue: self.idSort!)!) {
+        case .descriptionAsc :
+            //println("descriptionAsc")
+            self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                let description1:String = dictionary1["description"] as! String
+                let description2:String = dictionary2["description"] as! String
+                
+                if description1 < description2 {
+                    return true
+                }
+                else if (description1 > description2) {
+                    return false
+                }
+                else {
+                    return false
+                }
+                
+            })
+        case .descriptionDesc :
+            //println("descriptionDesc")
+            self.allProducts!.sort(by:{ (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                let description1:String = dictionary1["description"] as! String
+                let description2:String = dictionary2["description"] as! String
+                
+                if description1 < description2 {
+                    return false
+                }
+                else if (description1 > description2) {
+                    return true
+                }
+                else {
+                    return false
+                }
+                
+            })
+        case .priceAsc :
+            //println("priceAsc")
+            self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                let priceOne:Double = self.priceValueFrom(dictionary1)
+                let priceTwo:Double = self.priceValueFrom(dictionary2)
+                
+                if priceOne < priceTwo {
+                    return true
+                }
+                else if (priceOne > priceTwo) {
+                    return false
+                }
+                else {
+                    return false
+                }
+                
+            })
+        case .none : print("Not sorted")
+        case .priceDesc :
+            //println("priceDesc")
+            self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
+                let priceOne:Double = self.priceValueFrom(dictionary1)
+                let priceTwo:Double = self.priceValueFrom(dictionary2)
+                
+                if priceOne > priceTwo {
+                    return false
+                }
+                else if (priceOne < priceTwo) {
+                    return true
+                }
+                else {
+                    return false
+                }
+                
+            })
+        default :
+            print("default")
         }
         
         
-        let svcSearch = SearchItemsByUPCService()
-        svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
-            if self.originalSearchContextType != .withTextForCamFind {
-                self.allProducts? = []
-            }
-            self.allProducts?.append(array: result.arrayObject! as! [[String:Any]])
-            self.mgResults?.totalResults = self.allProducts!.count
-            self.idSort = order
-            switch (FilterType(rawValue: self.idSort!)!) {
-            case .descriptionAsc :
-                //println("descriptionAsc")
-                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let description1:String = dictionary1["description"] as! String
-                    let description2:String = dictionary2["description"] as! String
-                    
-                    if description1 < description2 {
-                        return true
-                    }
-                    else if (description1 > description2) {
-                        return false
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            case .descriptionDesc :
-                //println("descriptionDesc")
-                self.allProducts!.sort(by:{ (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let description1:String = dictionary1["description"] as! String
-                    let description2:String = dictionary2["description"] as! String
-                    
-                    if description1 < description2 {
-                        return false
-                    }
-                    else if (description1 > description2) {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            case .priceAsc :
-                //println("priceAsc")
-                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let priceOne:Double = self.priceValueFrom(dictionary1)
-                    let priceTwo:Double = self.priceValueFrom(dictionary2)
-                    
-                    if priceOne < priceTwo {
-                        return true
-                    }
-                    else if (priceOne > priceTwo) {
-                        return false
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            case .none : print("Not sorted")
-            case .priceDesc :
-                //println("priceDesc")
-                self.allProducts!.sort(by: { (dictionary1:[String:Any], dictionary2:[String:Any]) -> Bool in
-                    let priceOne:Double = self.priceValueFrom(dictionary1)
-                    let priceTwo:Double = self.priceValueFrom(dictionary2)
-                    
-                    if priceOne > priceTwo {
-                        return false
-                    }
-                    else if (priceOne < priceTwo) {
-                        return true
-                    }
-                    else {
-                        return false
-                    }
-                    
-                })
-            default :
-                print("default")
-            }
-            
-            
-            self.finsihService =  true
-            self.collection?.reloadData()
-            self.showLoadingIfNeeded(true)
-        }) { (error:NSError) -> Void in
-            print(error)
-        }
+        self.finsihService =  true
+        self.collection?.reloadData()
+        self.showLoadingIfNeeded(true)
     }
     
     func removeSelectedFilters(){

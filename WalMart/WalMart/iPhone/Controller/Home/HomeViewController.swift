@@ -349,8 +349,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     listPrice = savingVal != "0.0" ? true : false
                 }
 
+                var hasProviders = false
+                if let offers = recommendProduct["offers"] as? [Any] {
+                    hasProviders = (offers.count > 0)
+                }
                 
-                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice, providers: true)
+                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice, providers: hasProviders)
                
                 cell = productCell
         }

@@ -21,7 +21,7 @@ class ProductbySearchService : BaseService {
         self.useSignals = self.useSignalsServices
     }
     
-    func buildParamsForSearch(text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:Any]! {
+    func buildParamsForSearch(text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, lowPrice: String?,highPrice:String?,brands:[String]?) -> [String:Any]! {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
@@ -29,6 +29,16 @@ class ProductbySearchService : BaseService {
             if searchText == ""{
                 parameter = ["category":idLine!,"eventtype": "categoryview","collection":"mg","channel": channel]
             }
+            
+            if lowPrice != nil && highPrice != nil {
+                parameter["price"] = lowPrice
+                parameter["toPrice"] = highPrice
+            }
+            
+            if brands != nil && brands!.count > 0 {
+                parameter["brand"] = brands!.joined(separator: ",")
+            }
+            
             return [
                 JSON_KEY_TEXT:(text != nil ? text! : ""),
                 JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""),
@@ -48,6 +58,10 @@ class ProductbySearchService : BaseService {
             JSON_KEY_STARTOFFSET:"\(startOffSet)",
             JSON_KEY_MAXRESULTS:"\(max)",
         ]
+    }
+    
+    func buildParamsForSearch(text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:Any]! {
+         return self.buildParamsForSearch(text: text, family: idFamily, line: idLine, sort: idSort, departament: idDepartment, start: startOffSet, maxResult: max, lowPrice: nil, highPrice: nil, brands: nil)
     }
     
     

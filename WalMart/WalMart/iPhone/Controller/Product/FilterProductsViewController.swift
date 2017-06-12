@@ -34,13 +34,13 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 protocol FilterProductsViewControllerDelegate: class {
     func apply(_ order:String, filters:[String:Any]?, isForGroceries flag:Bool)
-    func apply(_ order:String, upcs: [String])
+    func apply(_ order:String, price: String?, toPrice:String?, brand: [String])
     func removeFilters()
     func removeSelectedFilters()
     func sendBrandFilter(_ brandFilter:String)
 }
 
-class FilterProductsViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, FilterOrderViewCellDelegate,SliderTableViewCellDelegate {
+class FilterProductsViewController: NavigationViewController {
 
     let ORDERCELL_ID = "orderCellId"
     let CELL_ID = "cellId"
@@ -74,12 +74,17 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var backFilter : (() -> Void)? = nil
     
     var prices: [Double]?
-    var upcPrices: [[String]]?
-    var upcByPrice: [String]?
     var brandFacets: [String] = []
+    var selectedBrands: [String] = []
+    var lowPrice: String! = ""
+    var higtPrice: String! = ""
     var isTextSearch: Bool = false
     var needsToValidateData = true
     var facet: [[String:Any]]? = nil
+    
+    var filterDepto  = ""
+    var filterFamily  = ""
+    var filterLine  = ""
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
@@ -172,7 +177,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
     
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let headerBounds = self.header!.frame.size
@@ -218,21 +222,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         //Filtros de MG Funcionan diferente
         if self.originalSearchContext != nil && (self.originalSearchContext! == SearchServiceContextType.withCategoryForMG || self.originalSearchContext! == SearchServiceContextType.withCategoryForTiresSearch) && facet != nil {
             //self.successCallBack!()
-            
-            //var intIx = 0
-            var upcs : [String] = []
+            selectedBrands = []
             for selElement in self.selectedElementsFacet!.keys {
                 let valSelected =  self.selectedElementsFacet?[selElement]
                 if valSelected! {
-                    if selElement.row == 0 && upcByPrice == nil {
-                        self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
-                        if successCallBack != nil {
-                            self.successCallBack!()
-                        }else {
-                            self.navigationController!.popViewController(animated: true)
-                        }
-                        return
-                    }
                     let itemFacet = self.facet![selElement.section - 1] 
                     if  let typeFacet = itemFacet["type"] as? String {
                         if typeFacet == "check" {
@@ -240,28 +233,15 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                             
                             if selElement.row  > 0 {
                                 let facet = allnameFacets[selElement.row - 1]
-                                let allUpcs = facet["upcs"] as! [String]
-                                for upcVal in allUpcs {
-                                    if upcByPrice != nil {
-                                        if  self.upcByPrice!.contains(where: {return $0 == upcVal})  {
-                                            upcs.append(upcVal)
-                                        }
-                                    }else {
-                                        upcs.append(upcVal)
-                                    }
-                                }
-                            }
-                            else {
-                                for upcVal in self.upcByPrice! {
-                                      upcs.append(upcVal )
-                                }
+                                let facetName = facet["itemName"] as! String
+                                selectedBrands.append(facetName)
                             }
                         }
                     }
                 }
             }
             
-            self.delegate?.apply(self.selectedOrder!, upcs: upcs)
+            self.delegate?.apply(self.selectedOrder!, price: self.lowPrice, toPrice: self.higtPrice, brand: self.selectedBrands)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
             if successCallBack != nil {
                 self.successCallBack!()
@@ -305,9 +285,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
        self.delegate?.removeSelectedFilters()
         
     }
-    
 
-    
     func removeFilters() {
         self.delegate?.removeFilters()
         if successCallBack != nil {
@@ -317,424 +295,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
     }
  
-    //MARK: - UITableViewDelegate
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        
-        if self.originalSearchContext != nil && self.isTextSearch {
-                 return 2
-        }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil && facet?.count > 0 && !isFromTiresSearch {
-            return 1 + facet!.count
-        }
-        
-        if self.facetGr != nil && self.facetGr?.count > 0 {// new
-            return 2
-        }
-        return 1
-        
-
-        
-    }
-
-
-   
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        if self.originalSearchContext != nil && self.isTextSearch {
-            return self.tableElements != nil ? self.tableElements!.count : 0
-        }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
-            let itemFacet = self.facet![section - 1] 
-            if  let typeFacet = itemFacet["type"] as? String {
-                if typeFacet == "check" {
-                    let allnameFacets = itemFacet["itemsFacet"] as! [[String:Any]]
-                    return allnameFacets.count + 1
-                }
-                if typeFacet == JSON_SLIDER {
-                    return 1
-                }
-            }
-           
-        }
-        
-        if self.facetGr != nil {
-            return self.facetGr != nil ? self.facetGr!.count + 1: 0
-        }
-        
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: self.ORDERCELL_ID, for: indexPath) as! FilterOrderViewCell
-            cell.delegate = self
-            cell.setValues(self.selectedOrder!)
-            return cell
-        }
-        
-        
-        if self.facetGr != nil{
-            
-            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
-            
-            var item :String = ""
-            if indexPath.row > 0 {
-                item = self.facetGr![indexPath.row - 1] as! String
-            }else{
-                item = ""//self.facetGr![indexPath.row ] as! String
-            }
-            
-            
-            var selected = false
-            let valSelected =  self.selectedFacetGr?[item]
-            if ((valSelected) != nil) {
-                selected = valSelected!
-            }
-            
-            
-            if indexPath.row > 0 {
-                 item = self.facetGr![indexPath.row - 1] as! String
-                let _ = selectedFacetGr?.updateValue(selected,forKey: item)
-                listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
-                
-            }else{
-                
-                if self.selectedFacetGr!.count == 0  {
-                    self.selectedFacetGr!.updateValue(true, forKey: item)
-                    selected = true
-                } else {
-                    selected = false
-                }
-                
-                listCell.setValuesSelectAll(selected)
-            }
-            
-            return listCell
-        }
-        
-        
-        
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
-            let facetInfo = facet![indexPath.section - 1] 
-            
-            if  let typeFacet = facetInfo["type"] as? String {
-                if typeFacet == "check" {
-                    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
-
-                    var selected = false
-                    let valSelected =  self.selectedElementsFacet?[indexPath]
-                    if ((valSelected) != nil) {
-                        selected = valSelected!
-                    }
-                    
-                    if indexPath.row > 0 {
-                        let facetitem = facetInfo["itemsFacet"] as! [[String:Any]]
-                        let item = facetitem[indexPath.row - 1]
-                        self.addBrandFacet(item["itemName"] as! String)
-                        listCell.setValuesFacets(item,nameBrand:"", selected: selected)
-                    } else {
-                        if self.selectedElementsFacet!.count == 0  {
-                            self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
-                            selected = true
-                        } else {
-                            selected = false
-                            if ((valSelected) != nil) {
-                                selected = valSelected!
-                            }
-                        }
-                        listCell.setValuesSelectAll(selected)
-                    }
-                    return listCell
-                    
-                }
-                if typeFacet == JSON_SLIDER {
-                    
-                    //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
-                    
-                    self.processPriceFacet(facetInfo)
-                    let cell = tableView.dequeueReusableCell(withIdentifier: self.sliderCellId) as! SliderTableViewCell
-                    let sliderCell : SliderTableViewCell = cell as SliderTableViewCell
-                    if self.prices != nil {
-                        sliderCell.setValuesSlider(self.prices!)
-                        sliderCell.delegate = self
-                    }
-                    //sliderCell.delegate = self
-                    return sliderCell
-                }
-            }
-            
-        } else {
-            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
-            if self.selectedElements != nil {
-                let selected = self.selectedElements![indexPath.row]
-                let item = self.tableElements![indexPath.row] 
-                listCell.setValues(item, selected:selected)
-            }
-            return listCell
-        }
-        return UITableViewCell()
-    }
-    
-    
-    func processPriceFacet(_ fitem:[String:Any]) {
-        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? [Any] {
-            var array = Array<Double>()
-            var mirror = Array<[String]>()
-            for idx in 0 ..< itemsFacet.count {
-                let item = itemsFacet[idx] as! [String:Any]
-                if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
-                    var values = value.components(separatedBy: "-")
-                    if idx == itemsFacet.count - 1 {
-                        let price = values[0] as NSString
-                        let lastPrice = values[1] as NSString
-                        array.append(price.doubleValue)
-                        array.append(lastPrice.doubleValue)
-                    }
-                    else {
-                        let price = values[0] as NSString
-                        array.append(price.doubleValue)
-                    }
-                }
-                mirror.append(item[JSON_KEY_FACET_UPCS] as! [String])
-            }
-            self.prices = array
-            self.upcPrices = mirror
-        }
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 103.0
-        }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
-            let itemFacet = self.facet![indexPath.section - 1] 
-            if  let typeFacet = itemFacet["type"] as? String {
-                if typeFacet == JSON_SLIDER {
-                    return 73.0
-                }
-            }
-            
-        }
-
-
-
-        return 36.0
-    }
-    
-    var filterDepto  = ""
-    var filterFamily  = ""
-    var filterLine  = ""
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            return
-        }
-        
-        if self.facetGr != nil {
-            if indexPath.row == 0 {
-                self.selectedFacetGr = [:]
-                self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.fade)
-                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
-                return
-            }
-            
-            let item = self.facetGr![indexPath.row - 1] as? String
-            var currentVal = true
-            for items in self.selectedFacetGr! {
-                if items.1 == true{
-                    self.selectedFacetGr!.updateValue(false, forKey: items.0)
-                    break
-                }
-            }
-            
-            if let savedVal = self.selectedFacetGr![item!] {
-                currentVal = !savedVal
-            }
-            
-            self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
-            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
-            return
-        }
-        
-        //Filtros de MG Funcionan diferente
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
-            //self.selectedElements![indexPath.row] = true
-            if indexPath.row == 0 {
-                self.selectedElementsFacet = [:]
-                self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.fade)
-                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
-                return
-            }
-            
-            var currentVal = true
-            var countselected = 0
-            var ixSelected : IndexPath? = nil
-            for items in self.selectedElementsFacet! {
-                if items.1 == true{
-                    countselected += 1
-                    ixSelected  = items.0
-                }
-            }
-            
-            if countselected == 1 && ixSelected == indexPath {
-                return
-            }
-            
-            if let savedVal = self.selectedElementsFacet![indexPath] {
-                currentVal = !savedVal
-            }
-            
-           
-            self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
-            for keyObj in self.selectedElementsFacet!.keys {
-                if keyObj.row == 0 {
-                    let _ = self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
-                }
-            }
-            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
-            
-            self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
-            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
-            //self.removeButton!.hidden = false
-            
-            return
-        }
-        
-        let isAlreadyOpen = self.selectedElements![indexPath.row]
-        if isAlreadyOpen {
-            return
-        }
-        
-        var visibleCells = tableView.visibleCells
-        for idx in 0 ..< visibleCells.count {
-            if let cell = visibleCells[idx] as? FilterCategoryViewCell {
-                cell.check!.isHighlighted = false
-            }
-        }
-        
-        var item = self.tableElements![indexPath.row] 
-        let itemLevel = (item["level"] as! NSNumber).intValue
-        let itemId = item["id"] as! String
-        let itemIdNew = " \(item["id"] as! String)"
-        let itemParentId = item["parentId"] as! String
-       
-        
-        if itemLevel == 0 {
-            self.filterDepto = itemId
-            self.filterFamily = ""
-        }
-      
-        if itemIdNew.contains(" f-") ||  itemLevel == 1{
-            self.filterFamily = itemId
-             self.filterLine = ""
-        }
-        if itemIdNew.contains(" l-") ||  itemLevel == 2{
-            self.filterLine = itemId
-        }
-        
-         print(" \(self.filterDepto) -- \(self.filterFamily) \(self.filterLine)")
-        
-        if itemLevel != 2 {
-            var indexes:[IndexPath] = []
-            var filteredElements:[[String:Any]] = []
-            for idx in 0 ..< self.tableElements!.count {
-                var element = self.tableElements![idx] 
-                let elementId = element["id"] as! String
-                let elementParentId = element["parentId"] as! String
-                let level = (element["level"] as! NSNumber).intValue
-                
-                if level == 0 || itemId == elementId || itemParentId == elementParentId {
-                    filteredElements.append(element)
-                    continue
-                }
-                if self.itemIsContained(item, node: element) {
-                    filteredElements.append(element)
-                    continue
-                }
-                
-                if level > 0 {
-                    indexes.append(IndexPath(row: idx, section: 1))
-                }
-            }
-            self.tableElements = filteredElements
-            
-            self.selectedElements = [Bool](repeating: false, count: self.tableElements!.count)
-            tableView.deleteRows(at: indexes, with: .automatic)
-            
-            var updatedIndex:IndexPath? = nil
-            for idx in 0 ..< self.tableElements!.count {
-                var element = self.tableElements![idx] 
-                let elementId = element["id"] as! String
-                if self.itemIsContained(item, node: element) {
-                    self.selectedElements![idx] = true
-                }
-                if itemId == elementId {
-                    updatedIndex = IndexPath(row: idx, section: 1)
-                    self.selectedElements![idx] = true
-                }
-            }
-            
-            if let family = item["families"] as? [String:Any] {
-                self.insertItems(family, atIndexPath: updatedIndex!)
-            }
-                
-            else if let line = item["lines"] as? [String:Any] {
-                self.insertItems(line, atIndexPath: updatedIndex!)
-            }
-        }
-        else {
-            self.selectedElements![indexPath.row] = true
-        }
-
-        for idx in 0 ..< self.selectedElements!.count {
-            if self.selectedElements![idx] {
-                if let cell = tableView.cellForRow(at: IndexPath(row: idx, section: 1)) as? FilterCategoryViewCell {
-                    cell.check!.isHighlighted = true
-                }
-            }
-        }
-
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 36.0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 36.0))
-        header.backgroundColor = WMColor.light_gray
-        
-        let title = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: self.view.frame.width - 32.0, height: 36.0))
-        //title.backgroundColor = WMColor.light_light_gray
-        title.textColor = WMColor.gray
-        title.font = WMFont.fontMyriadProRegularOfSize(11)
-        if section == 0 {
-            title.text = NSLocalizedString("filter.section.order", comment:"")
-        }
-        else {
-            if self.originalSearchContext != nil && self.isTextSearch {
-                title.text = NSLocalizedString("filter.section.categories", comment:"")
-            }
-            if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
-                let facetName = facet![section - 1] 
-                title.text = facetName["name"] as? String
-            }
-            if self.facetGr !=  nil {
-                title.text = "Marca"
-            }
-            
-        }
-        header.addSubview(title)
-        
-        return header
-    }
-    
     //MARK: - Utils
     
     func insertItems(_ items:[String:Any], atIndexPath indexPath:IndexPath) {
@@ -935,8 +495,427 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         )
     }
     
-    //MARK: - FilterOrderViewCellDelegate
+    override func back() {
+        super.back()
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
+        self.backFilter?()
+    }
+}
+
+//MARK: UITableViewDataSource
+extension FilterProductsViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        if self.originalSearchContext != nil && self.isTextSearch {
+            return 2
+        }
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil && facet?.count > 0 && !isFromTiresSearch {
+            return 1 + facet!.count
+        }
+        
+        if self.facetGr != nil && self.facetGr?.count > 0 {// new
+            return 2
+        }
+        return 1
+        
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        }
+        if self.originalSearchContext != nil && self.isTextSearch {
+            return self.tableElements != nil ? self.tableElements!.count : 0
+        }
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+            let itemFacet = self.facet![section - 1]
+            if  let typeFacet = itemFacet["type"] as? String {
+                if typeFacet == "check" {
+                    let allnameFacets = itemFacet["itemsFacet"] as! [[String:Any]]
+                    return allnameFacets.count + 1
+                }
+                if typeFacet == JSON_SLIDER {
+                    return 1
+                }
+            }
+            
+        }
+        
+        if self.facetGr != nil {
+            return self.facetGr != nil ? self.facetGr!.count + 1: 0
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.ORDERCELL_ID, for: indexPath) as! FilterOrderViewCell
+            cell.delegate = self
+            cell.setValues(self.selectedOrder!)
+            return cell
+        }
+        
+        
+        if self.facetGr != nil{
+            
+            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
+            
+            var item :String = ""
+            if indexPath.row > 0 {
+                item = self.facetGr![indexPath.row - 1] as! String
+            }else{
+                item = ""//self.facetGr![indexPath.row ] as! String
+            }
+            
+            
+            var selected = false
+            let valSelected =  self.selectedFacetGr?[item]
+            if ((valSelected) != nil) {
+                selected = valSelected!
+            }
+            
+            
+            if indexPath.row > 0 {
+                item = self.facetGr![indexPath.row - 1] as! String
+                let _ = selectedFacetGr?.updateValue(selected,forKey: item)
+                listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
+                
+            }else{
+                
+                if self.selectedFacetGr!.count == 0  {
+                    self.selectedFacetGr!.updateValue(true, forKey: item)
+                    selected = true
+                } else {
+                    selected = false
+                }
+                
+                listCell.setValuesSelectAll(selected)
+            }
+            
+            return listCell
+        }
+        
+        
+        
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+            let facetInfo = facet![indexPath.section - 1]
+            
+            if  let typeFacet = facetInfo["type"] as? String {
+                if typeFacet == "check" {
+                    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
+                    
+                    var selected = false
+                    let valSelected =  self.selectedElementsFacet?[indexPath]
+                    if ((valSelected) != nil) {
+                        selected = valSelected!
+                    }
+                    
+                    if indexPath.row > 0 {
+                        let facetitem = facetInfo["itemsFacet"] as! [[String:Any]]
+                        let item = facetitem[indexPath.row - 1]
+                        self.addBrandFacet(item["itemName"] as! String)
+                        listCell.setValuesFacets(item,nameBrand:"", selected: selected)
+                    } else {
+                        if self.selectedElementsFacet!.count == 0  {
+                            self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                            selected = true
+                        } else {
+                            selected = false
+                            if ((valSelected) != nil) {
+                                selected = valSelected!
+                            }
+                        }
+                        listCell.setValuesSelectAll(selected)
+                    }
+                    return listCell
+                    
+                }
+                if typeFacet == JSON_SLIDER {
+                    
+                    //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                    
+                    self.processPriceFacet(facetInfo)
+                    let cell = tableView.dequeueReusableCell(withIdentifier: self.sliderCellId) as! SliderTableViewCell
+                    let sliderCell : SliderTableViewCell = cell as SliderTableViewCell
+                    if self.prices != nil {
+                        sliderCell.setValuesSlider(self.prices!)
+                        sliderCell.delegate = self
+                    }
+                    //sliderCell.delegate = self
+                    return sliderCell
+                }
+            }
+            
+        } else {
+            let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! FilterCategoryViewCell
+            if self.selectedElements != nil {
+                let selected = self.selectedElements![indexPath.row]
+                let item = self.tableElements![indexPath.row]
+                listCell.setValues(item, selected:selected)
+            }
+            return listCell
+        }
+        return UITableViewCell()
+    }
+    
+    func processPriceFacet(_ fitem:[String:Any]) {
+        if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? [Any] {
+            var array = Array<Double>()
+            var mirror = Array<[String]>()
+            for idx in 0 ..< itemsFacet.count {
+                let item = itemsFacet[idx] as! [String:Any]
+                if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
+                    var values = value.components(separatedBy: "-")
+                    if idx == itemsFacet.count - 1 {
+                        let price = values[0] as NSString
+                        let lastPrice = values[1] as NSString
+                        array.append(price.doubleValue)
+                        array.append(lastPrice.doubleValue)
+                    }
+                    else {
+                        let price = values[0] as NSString
+                        array.append(price.doubleValue)
+                    }
+                }
+                // mirror.append(item[JSON_KEY_FACET_UPCS] as! [String])
+            }
+            self.prices = array
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 36.0))
+        header.backgroundColor = WMColor.light_gray
+        
+        let title = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: self.view.frame.width - 32.0, height: 36.0))
+        //title.backgroundColor = WMColor.light_light_gray
+        title.textColor = WMColor.gray
+        title.font = WMFont.fontMyriadProRegularOfSize(11)
+        if section == 0 {
+            title.text = NSLocalizedString("filter.section.order", comment:"")
+        }
+        else {
+            if self.originalSearchContext != nil && self.isTextSearch {
+                title.text = NSLocalizedString("filter.section.categories", comment:"")
+            }
+            if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+                let facetName = facet![section - 1]
+                title.text = facetName["name"] as? String
+            }
+            if self.facetGr !=  nil {
+                title.text = "Marca"
+            }
+            
+        }
+        header.addSubview(title)
+        
+        return header
+    }
+}
+
+//MARK: UITableViewDelegate
+extension FilterProductsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 103.0
+        }
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+            let itemFacet = self.facet![indexPath.section - 1]
+            if  let typeFacet = itemFacet["type"] as? String {
+                if typeFacet == JSON_SLIDER {
+                    return 73.0
+                }
+            }
+            
+        }
+        return 36.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            return
+        }
+        
+        if self.facetGr != nil {
+            if indexPath.row == 0 {
+                self.selectedFacetGr = [:]
+                self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.fade)
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                return
+            }
+            
+            let item = self.facetGr![indexPath.row - 1] as? String
+            var currentVal = true
+            for items in self.selectedFacetGr! {
+                if items.1 == true{
+                    self.selectedFacetGr!.updateValue(false, forKey: items.0)
+                    break
+                }
+            }
+            
+            if let savedVal = self.selectedFacetGr![item!] {
+                currentVal = !savedVal
+            }
+            
+            self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
+            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
+            return
+        }
+        
+        //Filtros de MG Funcionan diferente
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.withCategoryForMG && facet != nil {
+            //self.selectedElements![indexPath.row] = true
+            if indexPath.row == 0 {
+                self.selectedElementsFacet = [:]
+                self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.fade)
+                ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                return
+            }
+            
+            var currentVal = true
+            var countselected = 0
+            var ixSelected : IndexPath? = nil
+            for items in self.selectedElementsFacet! {
+                if items.1 == true{
+                    countselected += 1
+                    ixSelected  = items.0
+                }
+            }
+            
+            if countselected == 1 && ixSelected == indexPath {
+                return
+            }
+            
+            if let savedVal = self.selectedElementsFacet![indexPath] {
+                currentVal = !savedVal
+            }
+            
+            
+            self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
+            for keyObj in self.selectedElementsFacet!.keys {
+                if keyObj.row == 0 {
+                    let _ = self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
+                }
+            }
+            ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
+            
+            self.tableView?.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
+            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            //self.removeButton!.hidden = false
+            
+            return
+        }
+        
+        let isAlreadyOpen = self.selectedElements![indexPath.row]
+        if isAlreadyOpen {
+            return
+        }
+        
+        var visibleCells = tableView.visibleCells
+        for idx in 0 ..< visibleCells.count {
+            if let cell = visibleCells[idx] as? FilterCategoryViewCell {
+                cell.check!.isHighlighted = false
+            }
+        }
+        
+        var item = self.tableElements![indexPath.row]
+        let itemLevel = (item["level"] as! NSNumber).intValue
+        let itemId = item["id"] as! String
+        let itemIdNew = " \(item["id"] as! String)"
+        let itemParentId = item["parentId"] as! String
+        
+        
+        if itemLevel == 0 {
+            self.filterDepto = itemId
+            self.filterFamily = ""
+        }
+        
+        if itemIdNew.contains(" f-") ||  itemLevel == 1{
+            self.filterFamily = itemId
+            self.filterLine = ""
+        }
+        if itemIdNew.contains(" l-") ||  itemLevel == 2{
+            self.filterLine = itemId
+        }
+        
+        print(" \(self.filterDepto) -- \(self.filterFamily) \(self.filterLine)")
+        
+        if itemLevel != 2 {
+            var indexes:[IndexPath] = []
+            var filteredElements:[[String:Any]] = []
+            for idx in 0 ..< self.tableElements!.count {
+                var element = self.tableElements![idx]
+                let elementId = element["id"] as! String
+                let elementParentId = element["parentId"] as! String
+                let level = (element["level"] as! NSNumber).intValue
+                
+                if level == 0 || itemId == elementId || itemParentId == elementParentId {
+                    filteredElements.append(element)
+                    continue
+                }
+                if self.itemIsContained(item, node: element) {
+                    filteredElements.append(element)
+                    continue
+                }
+                
+                if level > 0 {
+                    indexes.append(IndexPath(row: idx, section: 1))
+                }
+            }
+            self.tableElements = filteredElements
+            
+            self.selectedElements = [Bool](repeating: false, count: self.tableElements!.count)
+            tableView.deleteRows(at: indexes, with: .automatic)
+            
+            var updatedIndex:IndexPath? = nil
+            for idx in 0 ..< self.tableElements!.count {
+                var element = self.tableElements![idx]
+                let elementId = element["id"] as! String
+                if self.itemIsContained(item, node: element) {
+                    self.selectedElements![idx] = true
+                }
+                if itemId == elementId {
+                    updatedIndex = IndexPath(row: idx, section: 1)
+                    self.selectedElements![idx] = true
+                }
+            }
+            
+            if let family = item["families"] as? [String:Any] {
+                self.insertItems(family, atIndexPath: updatedIndex!)
+            }
+                
+            else if let line = item["lines"] as? [String:Any] {
+                self.insertItems(line, atIndexPath: updatedIndex!)
+            }
+        }
+        else {
+            self.selectedElements![indexPath.row] = true
+        }
+        
+        for idx in 0 ..< self.selectedElements!.count {
+            if self.selectedElements![idx] {
+                if let cell = tableView.cellForRow(at: IndexPath(row: idx, section: 1)) as? FilterCategoryViewCell {
+                    cell.check!.isHighlighted = true
+                }
+            }
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 36.0
+    }
+}
+
+//MARK: FilterOrderViewCellDelegate
+extension FilterProductsViewController:  FilterOrderViewCellDelegate {
+
     func didChangeOrder(_ order:String) {
         var result = order
         if (self.originalSearchContext! == SearchServiceContextType.withCategoryForGR || self.searchContext! == SearchServiceContextType.withCategoryForGR ) && order == "popularity"{
@@ -944,44 +923,20 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         self.selectedOrder = result
     }
-
-    
-    func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
-        self.filterProductsByPrice(forLowPrice: low, andHighPrice: high)
-        ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
-    }
-    
-    func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
-        //En caso de que el rango sea completo, no se filtran los upcs
-        let count = (self.prices!.count - 1)
-        if low == 0 && high == count {
-            self.upcByPrice = nil
-            return
-        }
-        var array = Array<String>()
-        for idx in low ..< high {
-            let upcs = self.upcPrices![idx]
-            for upc in upcs {
-                let string = upc
-                array.append(string)
-                //if  array.count > 100 {
-                //    break
-                //}
-            }
-        }
-        self.upcByPrice = array
-    }
     
     func addBrandFacet(_ brand:String){
         if !self.brandFacets.contains(brand){
             self.brandFacets.append(brand)
         }
     }
+}
+
+//MARK: SliderTableViewCellDelegate
+extension FilterProductsViewController: SliderTableViewCellDelegate {
     
-    override func back() {
-        super.back()
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
-        self.backFilter?()
+    func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
+        self.lowPrice = "\(self.prices![low])"
+        self.higtPrice = "\(self.prices![high])"
+        ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
     }
-    
 }
