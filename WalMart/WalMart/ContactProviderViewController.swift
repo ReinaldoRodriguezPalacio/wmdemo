@@ -174,13 +174,21 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.fiscalDataTitleLbl.frame = CGRect(x: 16.0, y: self.emailDescrLbl.frame.maxY + 16.0, width: (self.view.frame.width - 32.0), height: 14.0)
     self.fiscalDataDescrLbl.frame = CGRect(x: 16.0, y: self.fiscalDataTitleLbl.frame.maxY + 4.5, width: (self.view.frame.width - 32.0), height: 64.0)
     
-    self.callBtn.frame = CGRect(x: 16.0, y: self.fiscalDataDescrLbl.frame.maxY + 48.0, width: (self.view.frame.width / 2) - 24.0, height: 34.0)
-    self.emailBtn.frame = CGRect(x: self.callBtn.frame.maxX + 8.0, y: self.callBtn.frame.minY, width: (self.view.frame.width / 2) - 24.0, height: 34.0)
-    self.callLbl.frame = CGRect(x: 16.0, y: self.callBtn.frame.maxY + 8.0, width: self.callBtn.frame.width, height: 12.0)
-    self.emailLbl.frame = CGRect(x: self.emailBtn.frame.minX, y: self.callLbl.frame.minY, width: self.callBtn.frame.width, height: 12.0)
+    if IS_IPHONE {
+        self.callBtn.frame = CGRect(x: 16.0, y: self.fiscalDataDescrLbl.frame.maxY + 48.0, width: (self.view.frame.width / 2) - 24.0, height: 34.0)
+        self.emailBtn.frame = CGRect(x: self.callBtn.frame.maxX + 8.0, y: self.callBtn.frame.minY, width: (self.view.frame.width / 2) - 24.0, height: 34.0)
+        self.callLbl.frame = CGRect(x: 16.0, y: self.callBtn.frame.maxY + 8.0, width: self.callBtn.frame.width, height: 12.0)
+        self.emailLbl.frame = CGRect(x: self.emailBtn.frame.minX, y: self.callLbl.frame.minY, width: self.callBtn.frame.width, height: 12.0)
+    } else {
+        
+        self.callBtn.isHidden = true
+        self.callLbl.isHidden = true
+        let widthBtns = (self.view.frame.width / 2) - 32.0
+        self.emailBtn.frame = CGRect(x: (self.view.frame.width - widthBtns - 16) / 2, y: self.fiscalDataDescrLbl.frame.maxY + 48.0, width: widthBtns, height: 34.0)
+        self.emailLbl.frame = CGRect(x: self.emailBtn.frame.minX, y: self.emailBtn.frame.maxY + 8.0, width: widthBtns, height: 12.0)
+    }
     
-    
-    self.viewGral.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.callLbl.frame.maxY + 16.0)
+    self.viewGral.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.emailLbl.frame.maxY + 16.0)
     
     scrollContact.contentSize = CGSize( width: self.view.bounds.width, height: self.viewGral.frame.height)
     scrollContact.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - self.header!.frame.maxY - 44)

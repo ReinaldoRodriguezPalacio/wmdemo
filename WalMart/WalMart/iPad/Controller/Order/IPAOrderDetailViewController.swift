@@ -44,8 +44,8 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         
         let x = self.shareButton!.frame.maxX + 16.0
         addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//self.footerSection!.frame.width - (x + 16.0)
-
- 
+      
+        self.optionsButton!.frame = CGRect(x: self.view.frame.width - 84, y: 12, width: 68, height: 22)
     }
     
     
@@ -130,6 +130,13 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
 
     }
-    
+  
+  func showOptionsView() {
+    let controller = OrderMoreOptionsViewController()
+    let productsArray = detailsOrderGroceries["items"] as! [[String:Any]]
+    controller.orderItems = productsArray
+    self.navigationController!.pushViewController(controller, animated: true)
+  }
+  
 }
-    
+

@@ -72,7 +72,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
   
   
   func sendInvoice() {
-    self.alertView = IPOWMAlertViewController.showAlert(self, imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"alert_done"), imageError:UIImage(named:"alert_done"))
+    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"alert_done"),imageError:UIImage(named:"alert_done"))
     
     //Service
     /*
