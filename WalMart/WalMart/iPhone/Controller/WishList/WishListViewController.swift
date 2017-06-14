@@ -847,9 +847,12 @@ extension WishListViewController: UITableViewDataSource {
             isPreorderable = "true" == preordeable
         }
       
-      var providerTxt = "Acme 1"
-      if let preordeable  = itemWishlist["provider"] as? NSString {
-        providerTxt = preordeable as String
+      var providerTxt = ""
+      if let providerArray = itemWishlist["offers"] as? [Any] {
+        if (providerArray.count > 0) {
+          let offerData = providerArray[0] as? [String:Any]
+          providerTxt = offerData!["name"] as! String
+        }
       }
       
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString

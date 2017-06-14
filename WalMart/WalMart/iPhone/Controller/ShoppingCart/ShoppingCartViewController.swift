@@ -1461,10 +1461,13 @@ extension ShoppingCartViewController: UITableViewDataSource {
                 productDeparment = category
             }
           
-          var providerTxt = "Acme dos"
-          if let preordeable  = shoppingCartProduct["provider"] as? NSString {
-            providerTxt = preordeable as String
-          }
+            var providerTxt = ""
+            if let providerArray = shoppingCartProduct["offers"] as? [Any] {
+              if (providerArray.count > 0) {
+                let offerData = providerArray[0] as? [String:Any]
+                providerTxt = offerData!["name"] as! String
+              }
+            }
             
             //updateItemSavingForUPC(indexPath,upc:upc)
             
