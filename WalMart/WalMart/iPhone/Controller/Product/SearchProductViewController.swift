@@ -226,9 +226,7 @@ class SearchProductViewController: NavigationViewController {
             self.idSort =  FilterType.rankingASC.rawValue
         }
         
-        
         //bannerView.backgroundColor = WMColor.empty_gray
-        
         
         self.filterButton = UIButton(type: .custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
@@ -657,13 +655,13 @@ class SearchProductViewController: NavigationViewController {
         if self.searchContextType! == .withCategoryForTiresSearch{
             filterMedida=true
         }
-        self.invokeProductbySearchService(lowPrice: nil,highPrice:nil,brands:nil,actionSuccess: actionSuccess, actionError: actionError)
+        self.invokeProductbySearchService(lowPrice: nil,highPrice:nil,brands:nil,startOffset: self.mgResults!.resultsInResponse,actionSuccess: actionSuccess, actionError: actionError)
     }
     
-    func invokeProductbySearchService(lowPrice:String?,highPrice:String?,brands:[String]?,actionSuccess:(() -> Void)?, actionError:(() -> Void)?){
+    func invokeProductbySearchService(lowPrice:String?,highPrice:String?,brands:[String]?,startOffset:Int,actionSuccess:(() -> Void)?, actionError:(() -> Void)?){
         let signalsDictionary : [String:Any] = ["signals" :GRBaseService.getUseSignalServices()]
         let searchService = ProductbySearchService(dictionary:signalsDictionary)
-        let params = searchService.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: self.mgResults!.resultsInResponse, maxResult: self.maxResult,lowPrice:lowPrice,highPrice:highPrice,brands:brands)
+        let params = searchService.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffset, maxResult: self.maxResult,lowPrice:lowPrice,highPrice:highPrice,brands:brands)
 
         searchService.callService(params!,
                             successBlock:{ (arrayProduct:[[String:Any]]?,facet:[[String:Any]],resultDic:[String:Any]) in
@@ -678,17 +676,13 @@ class SearchProductViewController: NavigationViewController {
                                 if arrayProduct != nil && arrayProduct!.count > 0 {
                                     let item = arrayProduct![0]
                                     print(item)
-                                    //TODO: VAlidar conn servicio
-//                                    if let results = item["resultsInResponse"] as? NSString {
-//                                    self.mgResults!.resultsInResponse += results.integerValue
-//                                    }
-//                                    if let total = item["totalResults"] as? NSString {
-//                                    self.mgResults!.totalResults = total.integerValue
-//                                    }
-                                    
-                                    //TODO: VAlidar conn servicio y quitar estas dos lineas
-                                    self.mgResults!.resultsInResponse = 20
-                                    self.mgResults!.totalResults = 20
+
+                                    if let results = item["resultsInResponse"] as? NSString {
+                                    self.mgResults!.resultsInResponse += results.integerValue
+                                    }
+                                    if let total = item["totalResults"] as? NSString {
+                                    self.mgResults!.totalResults = total.integerValue
+                                    }
                                     
                                     self.mgResponceDic = resultDic
                                     
@@ -2181,7 +2175,7 @@ class SearchProductViewController: NavigationViewController {
             self.applyOrder(order: order)
         }
         
-        self.invokeProductbySearchService(lowPrice: price, highPrice: toPrice, brands: brand, actionSuccess: succesBlock, actionError: nil)
+        self.invokeProductbySearchService(lowPrice: price, highPrice: toPrice, brands: brand,startOffset: 0,actionSuccess: succesBlock, actionError: nil)
     }
     
     func applyOrder(order: String) {

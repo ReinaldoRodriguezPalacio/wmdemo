@@ -485,7 +485,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/addItemToWishlist</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
@@ -517,7 +517,7 @@
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/deleteWishlistItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
@@ -547,13 +547,13 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderById</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getItemByUpc</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -561,19 +561,19 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/reviewShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/addItemToShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/deleteShoppingCartItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getShoppingCartByUser</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getShoppingCartByUser</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/updateShoppingCartItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/userRegistry</string>
 			<key>WalmartMG.Splash</key>
@@ -599,7 +599,7 @@
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getWishlistByUser</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getWishlistByUser</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
@@ -610,7 +610,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/addItemToWishlist</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
@@ -638,11 +638,11 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/deleteWishlistItem</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
@@ -672,13 +672,13 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderById</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -686,19 +686,19 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/reviewCartToShop</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/addItemToShoppingCart</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/deleteShoppingCartItem</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getShoppingCartByUser</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/getShoppingCartByUser</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateShoppingCartItem</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
@@ -724,7 +724,7 @@
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getWishlistByUser</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/getWishlistByUser</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
@@ -747,7 +747,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
@@ -1025,7 +1025,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/addItemToWishlist</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
@@ -1057,7 +1057,7 @@
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/deleteWishlistItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
@@ -1087,7 +1087,7 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderById</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
@@ -1101,7 +1101,7 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/reviewShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewShoppingCart</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -1109,13 +1109,13 @@
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/addItemToShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/deleteShoppingCartItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getShoppingCartByUser</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getShoppingCartByUser</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/updateShoppingCartItem</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
@@ -1141,7 +1141,7 @@
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getWishlistByUser</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getWishlistByUser</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
@@ -1152,7 +1152,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
@@ -1180,11 +1180,11 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>https://dl.dropboxusercontent.com/s/uin6wiz0ed3rgp4/providerDetail.txt?dl=0</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteWishlistItem</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
@@ -1214,13 +1214,13 @@
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderById</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemByUpc</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
@@ -1228,21 +1228,21 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/reviewCartToShop</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getSearchingByUpcs</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToShoppingCart</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShoppingCartItem</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getShoppingCartByUser</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/getShoppingCartByUser</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
@@ -1268,7 +1268,7 @@
 			<key>WalmartMG.UpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getWishlistByUser</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/getWishlistByUser</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
@@ -1289,9 +1289,9 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
