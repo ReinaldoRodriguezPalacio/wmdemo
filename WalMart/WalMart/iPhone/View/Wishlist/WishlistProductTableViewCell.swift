@@ -83,7 +83,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
       
         self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 6.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0 , height: 11.0)
-        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL!.frame.maxY + 7.0, width: 100 , height: 19)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceSavingLabel.isHidden ? (self.providerLBL!.frame.maxY + 7.0) : (productShortDescriptionLabel!.frame.maxY + 16), width: 100 , height: 19)
          self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
         self.btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
     }

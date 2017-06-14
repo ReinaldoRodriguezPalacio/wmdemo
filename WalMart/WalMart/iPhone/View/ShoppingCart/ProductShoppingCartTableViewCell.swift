@@ -33,7 +33,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var isPreorderable : String = ""
     var imagePresale : UIImageView!
     var productDeparment: String = ""
-  var providerLBL : UILabel!
+    var providerLBL : UILabel!
     
     override func setup() {
         super.setup()
@@ -84,12 +84,11 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 15, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
       
         self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 3.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0, height: 11.0)
-        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL!.frame.maxY + 7.0, width: 100 , height: 19)
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL.isHidden ? (productShortDescriptionLabel!.frame.maxY + 16) :  (self.providerLBL!.frame.maxY + 7.0) , width: 100 , height: 19)
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
-        self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + 4.0, width: 100 , height: 10)
+        self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + (self.providerLBL.isHidden ? 0 : 4.0), width: 100 , height: self.providerLBL.isHidden ? 19 : 10)
       
-      self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  98.0, y: self.productPriceLabel!.frame.minY, width: 98.0, height: 30)
-        
+        self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  98.0, y: self.productPriceLabel!.frame.minY, width: 98.0, height: 30)
     }
     
     func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, provider:String) {
