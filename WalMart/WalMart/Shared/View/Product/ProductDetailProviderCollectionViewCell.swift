@@ -14,8 +14,9 @@ protocol ProductDetailProviderCollectionViewCellDelegate: class {
 
 class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     
-    var titleLabel = UILabel()
-    var switchBtn = UIButton()
+//    var titleLabel = UILabel()
+//    var switchBtn = UIButton()
+    var segmentedControl = UISegmentedControl()
     var collection: UICollectionView!
     var border: CALayer!
     var providerNewItems: [[String:Any]]! = []
@@ -46,22 +47,37 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     func setup() {
         self.removeSubViews()
         
-        titleLabel.text = "Artículo nuevo vendido por" //NSLocalizedString("productdetail.related",comment:"")
-        titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
-        titleLabel.numberOfLines = 1
-        titleLabel.textAlignment = .left
-        titleLabel.textColor = WMColor.light_blue
-        self.addSubview(titleLabel)
+//        titleLabel.text = "Artículo nuevo vendido por" //NSLocalizedString("productdetail.related",comment:"")
+//        titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
+//        titleLabel.numberOfLines = 1
+//        titleLabel.textAlignment = .left
+//        titleLabel.textColor = WMColor.light_blue
+//        self.addSubview(titleLabel)
+//        
+//        switchBtn.setTitle("reacondicionados", for: .normal)
+//        switchBtn.titleLabel?.font =  WMFont.fontMyriadProLightOfSize(12)
+//        switchBtn.setTitleColor(UIColor.white, for: .normal)
+//        switchBtn.backgroundColor = WMColor.light_blue
+//        switchBtn.layer.cornerRadius = 8.0
+//        switchBtn.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
+//        switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
+//        self.bringSubview(toFront: switchBtn)
+//        self.addSubview(switchBtn)
         
-        switchBtn.setTitle("reacondicionados", for: .normal)
-        switchBtn.titleLabel?.font =  WMFont.fontMyriadProLightOfSize(12)
-        switchBtn.setTitleColor(UIColor.white, for: .normal)
-        switchBtn.backgroundColor = WMColor.light_blue
-        switchBtn.layer.cornerRadius = 8.0
-        switchBtn.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
-        switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
-        self.bringSubview(toFront: switchBtn)
-        self.addSubview(switchBtn)
+        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12)] as [String : Any]
+        segmentedControl = UISegmentedControl(items: ["Nuevos", "Reacondicionados"])
+        segmentedControl.backgroundColor = UIColor.white
+        segmentedControl.tintColor = WMColor.light_blue
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(switchProviders), for: .valueChanged)
+        segmentedControl.layer.cornerRadius = 11
+        segmentedControl.layer.borderWidth = 1.0
+        segmentedControl.layer.borderColor = WMColor.light_blue.cgColor
+        segmentedControl.layer.masksToBounds = true
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: UIControlState())
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
+        self.addSubview(segmentedControl)
         
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
@@ -82,26 +98,40 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleLabel.frame = CGRect(x: 16, y: 16, width: self.bounds.width - 32, height: 16)
+//        titleLabel.frame = CGRect(x: 16, y: 16, width: self.bounds.width - 32, height: 16)
+        segmentedControl.frame = CGRect(x: self.frame.width - 226, y: 16, width: 210, height: 23)
         collection.frame = CGRect(x: 16, y: 56.0, width: self.bounds.width - 32, height: 92)
         border.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
     }
     
+//    func switchProviders() {
+//        if self.switchBtn.isSelected {
+//           switchBtn.setTitle("reacondicionados", for: .normal)
+//           titleLabel.text = "Artículo nuevo vendido por"
+//           switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
+//            showNewItems = true
+//        }else{
+//            switchBtn.setTitle("nuevos", for: .normal)
+//            titleLabel.text = "Artículo reacondicionado vendido por"
+//            switchBtn.frame = CGRect(x: self.bounds.width - 76, y: 16, width: 60, height: 16.0)
+//            showNewItems = false
+//        }
+//        
+//        self.collection.reloadData()
+//        self.switchBtn.isSelected = !self.switchBtn.isSelected
+//    }
+    
     func switchProviders() {
-        if self.switchBtn.isSelected {
-           switchBtn.setTitle("reacondicionados", for: .normal)
-           titleLabel.text = "Artículo nuevo vendido por"
-           switchBtn.frame = CGRect(x: self.bounds.width - 120, y: 16, width: 104, height: 16.0)
+        switch segmentedControl.selectedSegmentIndex{
+        case 0:
             showNewItems = true
-        }else{
-            switchBtn.setTitle("nuevos", for: .normal)
-            titleLabel.text = "Artículo reacondicionado vendido por"
-            switchBtn.frame = CGRect(x: self.bounds.width - 76, y: 16, width: 60, height: 16.0)
+        case 1:
             showNewItems = false
+        default:
+            showNewItems = true
         }
         
         self.collection.reloadData()
-        self.switchBtn.isSelected = !self.switchBtn.isSelected
     }
     
     func grupProvidersByType(){
@@ -118,12 +148,12 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         }
         
         if providerReconditionedItems.count == 0 {
-            self.switchBtn.isHidden = true
+//            self.switchBtn.isHidden = true
             self.showNewItems = true
         }
         
         if providerNewItems.count == 0 {
-            self.switchBtn.isHidden = true
+//            self.switchBtn.isHidden = true
             self.showNewItems = false
         }
     }

@@ -668,6 +668,7 @@ class IPAProductDetailViewController : UIViewController {
                     cellProvider!.itemsProvider = self.providerArray!
                     cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
                     cellProviders = cellProvider
+                    cellProvider?.delegate = self
                 }
                 cell = cellProviders
             }else {
@@ -1766,6 +1767,15 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.preferredContentSize = CGSize(width: 352, height: 468)
         controller.modalPresentationStyle = .formSheet
         self.navigationController?.present(controller, animated: true, completion: nil)
+    }
+}
+
+//MARK: ProductDetailProviderCollectionViewCellDelegate
+extension IPAProductDetailViewController: ProducDetailProviderTableViewCellDelegate {
+    func selectOffer(offer: [String:Any]) {
+        self.providerInfo = offer
+        self.tabledetail.reloadData()
+        self.upc = providerInfo!["offerId"] as! NSString
     }
 }
 

@@ -20,7 +20,6 @@ class OrderDetailViewController : NavigationViewController {
     var viewFooter : UIView!
     var shareButton: UIButton?
     var addToCartButton: UIButton?
-    var optionsButton: UIButton?
     var showFedexGuide : Bool = false
     
     var itemDetail : [String:Any]!
@@ -89,17 +88,6 @@ class OrderDetailViewController : NavigationViewController {
         //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), for: .touchUpInside)
         self.viewFooter!.addSubview(self.addToCartButton!)
-        
-        if IS_IPAD {
-            self.optionsButton = UIButton()
-            self.optionsButton?.setTitleColor(UIColor.white, for: .normal)
-            self.optionsButton?.setTitle("opciones", for: .normal)
-            self.optionsButton?.layer.cornerRadius = 11
-            self.optionsButton?.backgroundColor = WMColor.light_blue
-            self.optionsButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-            self.optionsButton?.addTarget(self, action: #selector(IPAOrderDetailViewController.showOptionsView), for: .touchUpInside)
-            self.header?.addSubview(optionsButton!)
-        }
         
         self.view.addSubview(tableDetailOrder)
         self.view.addSubview(viewFooter)

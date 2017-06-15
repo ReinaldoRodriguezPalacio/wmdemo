@@ -448,6 +448,7 @@
 		6C6AC2041CF90C760072FBB7 /* IPABackToSchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC2031CF90C760072FBB7 /* IPABackToSchoolViewController.swift */; };
 		6C747C301C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */; };
 		6C747C321C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */; };
+		6C7D706C1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7D706B1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift */; };
 		6C7E3FC91D11B74C00E814AC /* CMSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */; };
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
@@ -1099,6 +1100,7 @@
 		6C745B371EA91AD10076E32E /* WalMart3.31. 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 6.xcdatamodel"; sourceTree = "<group>"; };
 		6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = GRCheckOutDeliveryViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutDeliveryViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutCommentsViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutCommentsViewController.swift; sourceTree = "<group>"; };
+		6C7D706B1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAOrderProviderDetailViewController.swift; path = iPad/Controller/Order/IPAOrderProviderDetailViewController.swift; sourceTree = "<group>"; };
 		6C7E3FC71D11B74C00E814AC /* CMSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMSwitchView.h; path = Lib/CMSwitchView/CMSwitchView.h; sourceTree = "<group>"; };
 		6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMSwitchView.m; path = Lib/CMSwitchView/CMSwitchView.m; sourceTree = "<group>"; };
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
@@ -3227,6 +3229,7 @@
 			children = (
 				AC8793EA19F56E17001BF077 /* IPAOrderViewController.swift */,
 				8BAC82471AC222E100D7191F /* IPAOrderDetailViewController.swift */,
+				6C7D706B1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift */,
 			);
 			name = Order;
 			sourceTree = "<group>";
@@ -3820,6 +3823,7 @@
 				AC37F6C719B91907000BB80D /* UpdateFiscalAddressService.swift in Sources */,
 				ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */,
 				0C0ABCCE1E89C0A100B9E624 /* CrossSellingGRProductService.swift in Sources */,
+				6C7D706C1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift in Sources */,
 				4A5A9D4E1C84A99B00A2A7F4 /* ABCalendarPickerDefaultSeasonedMonthsProvider.m in Sources */,
 				56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */,
 				56253D8D19D21883002E128A /* PreviousDetailTableViewCell.swift in Sources */,

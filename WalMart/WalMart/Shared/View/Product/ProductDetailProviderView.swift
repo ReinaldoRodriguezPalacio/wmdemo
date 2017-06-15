@@ -140,7 +140,6 @@ class ProductDetailProviderView: UIView {
             ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 50, height: 16)
         }
         
-        
         deliberyLabel.frame = CGRect(x: 0.0, y: providerLabel.frame.maxY, width: self.frame.width, height: 16)
         otherProvidersLabel.frame = CGRect(x: 0.0, y: deliberyLabel.frame.maxY, width: self.frame.width, height: 22)
     }
