@@ -72,6 +72,12 @@
 "priceDESC" = "$$$ - $";
 "popularity" = "Por Popularidad";
 
+//Provider Detail
+"provider.satisfaction" = "de satisfacción de los clientes";
+"provider.about" = "Acerca de %@";
+"provider.returns" = "Devoluciones";
+"provider.valuations" = "valoraciones";
+
 //Shoping cart
 "shoppingcart.title" = "Carrito";
 "shoppingcart.return" = "Regresar";

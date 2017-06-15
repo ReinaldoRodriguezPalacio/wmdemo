@@ -36,7 +36,7 @@ class RatingStarsTableViewCell : UITableViewCell {
   
   func setValues(_ numberStars:String, totalQuestion:Int){
     ratingLbl.frame = CGRect(x: 16.0, y: 16.0, width: (self.bounds.width - (16.0 * 2)) , height: 15.0)
-    ratingLbl.text = "(\(numberStars) / 5 ) \(totalQuestion) valoraciones"
+    ratingLbl.text = "(\(numberStars) / 5 ) \(totalQuestion)  " + NSLocalizedString("provider.valuations",comment:"")
     self.clearView(ratingLbl)
     self.addSubview(ratingLbl)
     
