@@ -100,7 +100,7 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 //        titleLabel.frame = CGRect(x: 16, y: 16, width: self.bounds.width - 32, height: 16)
-        segmentedControl.frame = CGRect(x: self.frame.width - 196, y: 16, width: 210, height: 23)
+        segmentedControl.frame = CGRect(x: self.frame.width - 220, y: 16, width: 204, height: 22)
         collection.frame = CGRect(x: 16, y: 56.0, width: self.bounds.width - 32, height: 92)
         border.frame = CGRect(x: 0.0, y: self.frame.height - 1, width: self.frame.size.width, height: 1)
     }
@@ -150,11 +150,13 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
         
         if providerReconditionedItems.count == 0 {
 //            self.switchBtn.isHidden = true
+            segmentedControl.isHidden = true
             self.showNewItems = true
         }
         
         if providerNewItems.count == 0 {
 //            self.switchBtn.isHidden = true
+            segmentedControl.isHidden = true
             self.showNewItems = false
         }
     }

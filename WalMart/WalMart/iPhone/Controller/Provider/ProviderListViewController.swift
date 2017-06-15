@@ -11,7 +11,7 @@ import Foundation
 
 class ProviderListViewController: NavigationViewController {
     var providerTable: UITableView!
-    var switchButton: UIButton = UIButton()
+    //var switchButton: UIButton = UIButton()
     var headerView: ProviderProductHeaderView?
     
     var providerItems: [[String:Any]]! = [] {
@@ -40,7 +40,7 @@ class ProviderListViewController: NavigationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel?.text = "Otros proveedores"
-        self.titleLabel?.textAlignment = .left
+        self.titleLabel?.textAlignment = .center
         
         if IS_IPAD {
             self.backButton?.setImage(UIImage(named:"detail_close"), for: .normal)
@@ -53,13 +53,13 @@ class ProviderListViewController: NavigationViewController {
         self.providerTable.register(ProviderProductTableViewCell.self, forCellReuseIdentifier: "providerProductCell")
         self.view.addSubview(providerTable)
         
-        self.switchButton.backgroundColor = WMColor.light_blue
-        self.switchButton.layer.cornerRadius = 11
-        self.switchButton.setTitleColor(UIColor.white, for: .normal)
-        self.switchButton.setTitle("reacondicionados", for: .normal)
-        self.switchButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.switchButton.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
-        self.header?.addSubview(switchButton)
+//        self.switchButton.backgroundColor = WMColor.light_blue
+//        self.switchButton.layer.cornerRadius = 11
+//        self.switchButton.setTitleColor(UIColor.white, for: .normal)
+//        self.switchButton.setTitle("reacondicionados", for: .normal)
+//        self.switchButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+//        self.switchButton.addTarget(self, action: #selector(switchProviders), for: .touchUpInside)
+//        self.header?.addSubview(switchButton)
         
         NotificationCenter.default.addObserver(self, selector: #selector(endUpdatingShoppingCart), name: .successUpdateItemsInShoppingCart, object: nil)
     }
@@ -72,25 +72,25 @@ class ProviderListViewController: NavigationViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
-        self.switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
+        //self.switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
     }
     
-    func switchProviders() {
-        if self.switchButton.isSelected {
-            switchButton.setTitle("reacondicionados", for: .normal)
-            headerView?.productTypeLabel.text = "Artículo nuevo"
-            switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
-            showNewItems = true
-        }else{
-            switchButton.setTitle("nuevos", for: .normal)
-            headerView?.productTypeLabel.text = "Artículo reacondicionado"
-            switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
-            showNewItems = false
-        }
-        
-        self.switchButton.isSelected = !self.switchButton.isSelected
-        self.providerTable.reloadData()
-    }
+//    func switchProviders() {
+//        if self.switchButton.isSelected {
+//            switchButton.setTitle("reacondicionados", for: .normal)
+//            headerView?.productTypeLabel.text = "Artículo nuevo"
+//            switchButton.frame = CGRect(x:self.view.frame.width - 120,y: 12, width: 104, height: 22)
+//            showNewItems = true
+//        }else{
+//            switchButton.setTitle("nuevos", for: .normal)
+//            headerView?.productTypeLabel.text = "Artículo reacondicionado"
+//            switchButton.frame = CGRect(x:self.view.frame.width - 76,y: 12, width: 60, height: 22)
+//            showNewItems = false
+//        }
+//        
+//        self.switchButton.isSelected = !self.switchButton.isSelected
+//        self.providerTable.reloadData()
+//    }
     
     func endUpdatingShoppingCart() {
         self.providerTable.reloadData()
@@ -110,12 +110,12 @@ class ProviderListViewController: NavigationViewController {
         }
         
         if providerReconditionedItems.count == 0 {
-            self.switchButton.isHidden = true
+            //self.switchButton.isHidden = true
             self.showNewItems = true
         }
         
         if providerNewItems.count == 0 {
-            self.switchButton.isHidden = true
+            //self.switchButton.isHidden = true
             self.showNewItems = false
         }
     }
@@ -161,13 +161,15 @@ extension ProviderListViewController: UITableViewDataSource {
         if self.headerView == nil {
             let header = ProviderProductHeaderView()
             header.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
+            header.delegate = self
+            header.showSwitchButton = (providerReconditionedItems.count != 0 && providerNewItems.count != 0)
             self.headerView = header
         }
         return self.headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 88
+        return 142
     }
 }
 
@@ -305,4 +307,13 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
         return ["upc":self.upcProduct,"desc":self.productDescription!,"imgUrl":self.productImageUrl!,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":"0","isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
     }
 
+}
+
+//MARK: - ProviderProductHeaderViewDelegate
+extension ProviderListViewController: ProviderProductHeaderViewDelegate {
+    func switchProviderValueChanged(showNewItems value: Bool) {
+        showNewItems = value
+        headerView?.productTypeLabel.text = value ? "Artículo nuevo" : "Artículo reacondicionado"
+        self.providerTable.reloadData()
+    }
 }
