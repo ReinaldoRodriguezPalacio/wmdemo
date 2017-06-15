@@ -76,24 +76,23 @@ class ProviderProductHeaderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        productImage.frame = CGRect(x: 16, y: 16, width: 56, height: 56)
+        segmentedControl.frame = CGRect(x:(self.frame.size.width - 204) / 2 , y: 16, width: 204, height: 22)
+        productImage.frame = CGRect(x: 16, y: segmentedControl.frame.maxY + 16, width: 56, height: 56)
+        //productImage.frame = CGRect(x: 16, y: 16, width: 56, height: 56)
         
         let productDescriptionSize = productDescriptionLabel.text!.size(attributes: [NSFontAttributeName: productDescriptionLabel!.font])
         let productDescriptionWidth: CGFloat = self.frame.width - (productImage.frame.maxX + 32)
         let productDescriptionHeight: CGFloat = (productDescriptionWidth - productDescriptionSize.width) > 0 ? 15 : 30
         
-        productDescriptionLabel.frame = CGRect(x: productImage.frame.maxX + 16, y: 22, width: productDescriptionWidth, height: productDescriptionHeight)
+        productDescriptionLabel.frame = CGRect(x: productImage.frame.maxX + 16, y: productImage.frame.minY + 6, width: productDescriptionWidth, height: productDescriptionHeight)
         productTypeLabel.frame = CGRect(x: productImage.frame.maxX + 16, y: productDescriptionLabel.frame.maxY + 4, width: self.frame.width - (productImage.frame.maxX + 32), height: 15)
         bottomBorder.frame = CGRect(x: 0.0, y: productImage.frame.maxY + 16, width: self.frame.size.width, height: 1)
-        segmentedControl.frame = CGRect(x:self.frame.size.width - 220, y: bottomBorder.frame.maxY + 16, width: 204, height: 22)
+        //segmentedControl.frame = CGRect(x:self.frame.size.width - 220, y: bottomBorder.frame.maxY + 16, width: 204, height: 22)
         segmentedControl.isHidden = !self.showSwitchButton
     }
     
     
     func setValues(_ productImageURL:String,productShortDescription:String,productType:String) {
-        
-        
         self.productImage!.setImageWith(URL(string: productImageURL)!, placeholderImage: UIImage(named:"img_default_table"))
         self.productDescriptionLabel!.text = productShortDescription
         self.productTypeLabel!.text = productType
