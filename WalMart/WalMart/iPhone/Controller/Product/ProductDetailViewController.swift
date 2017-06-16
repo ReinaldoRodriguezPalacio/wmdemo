@@ -284,8 +284,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Return to the last viewController
      */
     func backButton (){
-        self.navigationController!.popViewController(animated: true)
-        ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     func tableView(_ tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {

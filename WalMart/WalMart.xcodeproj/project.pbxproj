@@ -68,6 +68,8 @@
 		0CF9E0691E7B53C600B20429 /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0681E7B53C600B20429 /* UILabelX.swift */; };
 		1652B4E61E575F0200D5506E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1652B4E51E575F0200D5506E /* LaunchScreen.storyboard */; };
 		166761151E31A42A00A3D27A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166761141E31A42A00A3D27A /* ImageIO.framework */; };
+		16FF87781EF3170700012265 /* GetStoreByZipCodeColonyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF87771EF3170700012265 /* GetStoreByZipCodeColonyService.swift */; };
+		16FF877A1EF3172C00012265 /* GetColonyByZipCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FF87791EF3172C00012265 /* GetColonyByZipCodeService.swift */; };
 		2262E7291E78B92600114C63 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7271E78B92600114C63 /* Extensions.swift */; };
 		2262E72A1E78B92600114C63 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2262E7281E78B92600114C63 /* ImageLoader.swift */; };
 		22E5DC311E6A453C00F4C9E0 /* IPOUserListEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */; };
@@ -653,6 +655,8 @@
 		1655FFAB1E316A6400E00D05 /* GTM-N7Z7PWM */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GTM-N7Z7PWM"; sourceTree = "<group>"; };
 		166761141E31A42A00A3D27A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		16BAD8931E16BED00068EEE5 /* WalMart3.31. 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 4.xcdatamodel"; sourceTree = "<group>"; };
+		16FF87771EF3170700012265 /* GetStoreByZipCodeColonyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStoreByZipCodeColonyService.swift; path = Shared/Services/Profile/GetStoreByZipCodeColonyService.swift; sourceTree = "<group>"; };
+		16FF87791EF3172C00012265 /* GetColonyByZipCodeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetColonyByZipCodeService.swift; path = Shared/Services/Profile/GetColonyByZipCodeService.swift; sourceTree = "<group>"; };
 		2262E7271E78B92600114C63 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2262E7281E78B92600114C63 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		22E5DC301E6A453C00F4C9E0 /* IPOUserListEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOUserListEmptyView.swift; path = WalMart/iPhone/View/EmptyView/IPOUserListEmptyView.swift; sourceTree = "<group>"; };
@@ -1556,6 +1560,8 @@
 				56AAFF991A929E73007B8D91 /* GRZipCodeService.swift */,
 				566902301A9431B7000D6FA6 /* GRRecentProductsService.swift */,
 				5673D11E1A9D278D00DCD20B /* GRPreviousOrdersService.swift */,
+				16FF87771EF3170700012265 /* GetStoreByZipCodeColonyService.swift */,
+				16FF87791EF3172C00012265 /* GetColonyByZipCodeService.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3565,6 +3571,7 @@
 				56AE80EB19D9F4B300D5DDA4 /* UIImage+DHImageAdditions.m in Sources */,
 				04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */,
 				56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */,
+				16FF87781EF3170700012265 /* GetStoreByZipCodeColonyService.swift in Sources */,
 				4A5A9D4D1C84A99B00A2A7F4 /* ABCalendarPickerDefaultMonthsProvider.m in Sources */,
 				569733E81A71A62600C9A09F /* MoreMenuViewCell.swift in Sources */,
 				AC87F45819F6CA2C00E66D47 /* IPASignUpViewController.swift in Sources */,
@@ -3927,6 +3934,7 @@
 				04203FDB1A6F019400008366 /* GRUserListDetailService.swift in Sources */,
 				56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */,
 				5605B25D1B2B986F00238B39 /* UpdateViewController.swift in Sources */,
+				16FF877A1EF3172C00012265 /* GetColonyByZipCodeService.swift in Sources */,
 				56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */,
 				6C905A3F1D9F183200746B2D /* SearchAlertView.swift in Sources */,
 				56703B681A8186EB000684C2 /* GRShoppingCartTotalsTableViewCell.swift in Sources */,

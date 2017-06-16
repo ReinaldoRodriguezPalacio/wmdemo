@@ -22,9 +22,11 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         let rightPadding = leftRightPadding * 2
         
         self.titleLabelStore.frame = CGRect(x: leftRightPadding, y: self.zipcode.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.store.frame = CGRect(x: leftRightPadding, y: self.titleLabelStore.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.suburb.frame = CGRect(x: leftRightPadding, y: self.store.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.titleLabelBetween.frame = CGRect(x: leftRightPadding, y: self.suburb.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+       
+        self.suburb.frame = CGRect(x: leftRightPadding, y: self.titleLabelStore.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        self.store.frame = CGRect(x: leftRightPadding, y: self.suburb.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        
+        self.titleLabelBetween.frame = CGRect(x: leftRightPadding, y: self.store.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.betweenFisrt.frame = CGRect(x: leftRightPadding, y: self.titleLabelBetween.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.betweenSecond.frame = CGRect(x: leftRightPadding, y: self.betweenFisrt.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.titleLabelPhone.frame = CGRect(x: leftRightPadding, y: self.betweenSecond.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
@@ -115,17 +117,17 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelStore!.text =  NSLocalizedString("gr.address.field.store", comment: "")
         self.titleLabelStore!.textColor = WMColor.light_blue
         
-        self.store = FormFieldView()
-        self.store!.isRequired = true
-        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
-        self.store!.typeField = TypeField.list
-        self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
-        
         self.suburb = FormFieldView()
         self.suburb!.isRequired = false
         self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.typeField = TypeField.list
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
+        
+        self.store = FormFieldView()
+        self.store!.isRequired = true
+        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
+        self.store!.typeField = TypeField.list
+        self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         
         //Add title
         
@@ -203,8 +205,8 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.addSubview(self.outdoornumber)
         self.addSubview(self.indoornumber)
         self.addSubview(self.zipcode)
-        self.addSubview(self.store)
         self.addSubview(self.suburb)
+        self.addSubview(self.store)
         self.addSubview(self.titleLabelBetween)
         self.addSubview(self.betweenFisrt)
         self.addSubview(self.betweenSecond)
@@ -228,13 +230,8 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                 let zipCode = self.zipcode.text!.trimmingCharacters(in: CharacterSet.whitespaces)
                 
                 self.neighborhoods = []
-                self.stores = []
-                
                 self.suburb!.text = ""
                 self.selectedNeighborhood = nil
-                
-                self.store!.text = ""
-                self.selectedStore = nil
                 
                 var padding : String = ""
                 if zipCode.characters.count < 5 {
@@ -249,89 +246,59 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     return
                 }
                 
-                let serviceZip = GRZipCodeService()
-                serviceZip.buildParams(padding + zipCode )
-                serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                let  colonyService = GetColonyByZipCodeService()
+                colonyService.buildParams(padding + zipCode)
+                colonyService.callService([:], successBlock: { (result:[String : Any]) in
+                    self.stores = []
+                    self.store!.text = ""
+                    self.selectedStore = nil
+                     self.errorLabelStore?.isHidden = true
+                    self.errorView?.removeFromSuperview()
+                    self.errorView = nil
                     
                     self.resultDict = result
                     self.neighborhoods = []
                     self.stores = []
                     
-                    let zipreturned = result["zipCode"] as! String
-                    self.zipcode.text = zipreturned
-                    
+                    //let zipreturned = result["zipCode"] as! String
+                    //self.zipcode.text = zipreturned
+                    let neighbor = result["neighborhoods"] as! [[String:Any]]
                     self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
+                    if neighbor.count == 1 {
+                        if  neighbor[0]["name"] as! String!  == "selectOption" || neighbor[0]["name"] as! String!  == "invalidZipCode"{
+                            self.neighborhoodsDic = []
+                        }
+                    }
+                    
+                   
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["name"] as! String!)
-                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
-                    self.storesDic = result["stores"] as! [[String:Any]]
-                    for dic in  self.storesDic {
-                        let name = dic["name"] as! String!
-                        let cost = dic["cost"] as! String!
-                        self.stores.append("\(name!) - \(cost!)")
-                    }
-                    if self.stores.count == 0 && !self.store.isRequired
-                    {
-                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                        alertView!.showDoneIconWithoutClose()
-                        alertView!.showOkButton("OK", colorButton: WMColor.green)
                     }
                     
-                     self.showErrorLabel(self.stores.count == 0)
+                    self.suburb.onBecomeFirstResponder!()
                     
-                    //Default Values
-                    if self.neighborhoods.count > 0 {
-                        self.suburb!.text = self.neighborhoods[0]
-                        self.selectedNeighborhood = IndexPath(row: 0, section: 0)
-                        if  self.errorView?.focusError == self.suburb {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
+                    
+                    
+                }, errorBlock: { (error:NSError) in
+                    
+                    self.store.text = ""
+                    self.suburb.text = ""
+                    
+                    self.neighborhoods = []
+                    self.stores = []
+                    
+                    self.showErrorLabel(true)
+                    if self.errorView == nil{
+                        self.errorView = FormFieldErrorView()
                     }
+                    let stringToShow : NSString = error.localizedDescription as NSString
+                    let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
+                    SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false)
                     
-                    if self.stores.count > 0 {
-                        self.store!.text = self.stores[0]
-                        self.selectedStore = IndexPath(row: 0, section: 0)
-                        if  self.errorView?.focusError == self.store {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
-                        self.popupTableSelected = self.selectedStore
-                        self.setValues(self.stores)
-                        //self.picker!.showPicker()
-                        self.store!.imageList?.image = UIImage(named: "fieldListClose")
-                        self.addPopupTable(self.store)
-                    }
+                    return
                     
-                    self.endEditing(true)
-                    
-                    if self.errorView != nil {
-                        if  self.errorView?.focusError == self.zipcode {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
-                    }
-                    
-                    
-                    
-                    }, errorBlock: { (error:NSError) -> Void in
-                        self.store.text = ""
-                        self.suburb.text = ""
-                        
-                        self.neighborhoods = []
-                        self.stores = []
-                        
-                        self.showErrorLabel(true)
-                        if self.errorView == nil{
-                            self.errorView = FormFieldErrorView()
-                        }
-                        let stringToShow : NSString = error.localizedDescription as NSString
-                        let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
-                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false)
-                        
-                        return
                 })
+     
             } else {
                 self.endEditing(true)
                 
@@ -356,6 +323,53 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             }
         }
 
+    }
+    
+    override func loadStoresFromZip(zipcode:String,colony:String,storeID:String){
+        self.storesDic = []
+        self.stores = []
+        
+        let storeByZipService =  GetStoreByZipCodeColonyService()
+        storeByZipService.buildParams(zipcode, colony:colony)
+        storeByZipService.callService([:], successBlock: { (result:[String : Any]) in
+            print(result)
+            
+            self.storesDic = result["stores"] as! [[String:Any]]
+            for dic in  self.storesDic {
+                let name = dic["name"] as! String!
+                let cost = dic["cost"] as! String!
+                self.stores.append("\(name!) - \(cost!)")
+            }
+            if self.stores.count > 0 {
+                self.store!.text = self.stores[0]
+                self.selectedStore = IndexPath(row: 0, section: 0)
+                if  self.errorView?.focusError == self.store {
+                    self.errorView?.removeFromSuperview()
+                    self.errorView = nil
+                }
+                self.popupTableSelected = self.selectedStore
+                self.setValues(self.stores)
+                //self.picker!.showPicker()
+                self.store!.imageList?.image = UIImage(named: "fieldListClose")
+                self.addPopupTable(self.store)
+            }
+            
+            self.showErrorLabel(self.stores.count == 0)
+            
+            self.endEditing(true)
+            
+            if self.errorView != nil {
+                if  self.errorView?.focusError == self.zipcode {
+                    self.errorView?.removeFromSuperview()
+                    self.errorView = nil
+                }
+            }
+            
+        
+        },errorBlock: { (error:NSError) in
+            print(error.localizedDescription)
+        })
+    
     }
     
     /**
@@ -436,6 +450,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             if delegateFormAdd != nil {
                 self.delegateFormAdd?.showUpdate()
             }
+            self.loadStoresFromZip(zipcode: self.zipcode!.text! , colony: selectedStr, storeID: "")
         }
          self.popupTable!.isHidden = true
          self.popupTableItem = nil

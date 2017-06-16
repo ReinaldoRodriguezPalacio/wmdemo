@@ -1017,54 +1017,67 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 
                 let controllernav = self.currentController as? UINavigationController
-                let controllersInNavigation = controllernav?.viewControllers.count
-                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
-                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                    self.isEditingSearch = false
-                }
+                
                 controller.detailOf = "Search results"
                 
-                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-                        self.onCloseSearch = {
-                            let navController = self.currentController as? UINavigationController
-                            navController?.pushViewController(controller, animated: true)
+                if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                    self.onCloseSearch = {
+                        let navController = self.currentController as? UINavigationController
+                        let controllersInNavigation = controllernav?.viewControllers.count
+                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                            self.isEditingSearch = false
                         }
-                        self.closeSearch(false, sender: nil)
-                    }else{
-                        controllernav?.pushViewController(controller, animated: true)
+                        navController?.pushViewController(controller, animated: true)
                     }
-                }, errorBlock: { (error:NSError) -> Void in
-                    
-                    if upcDesc.length < 14 {
-                        let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
-                        paddedUPC = "\(toFill)\(upcDesc)" as NSString
-                    }
-                    
-                    controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
+                    self.closeSearch(false, sender: nil)
+                }else{
                     let controllernav = self.currentController as? UINavigationController
                     let controllersInNavigation = controllernav?.viewControllers.count
                     if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
                         controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
                         self.isEditingSearch = false
                     }
-                    controller.detailOf = "Search results"
-                    
-                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-                        self.onCloseSearch = {
-                            let navController = self.currentController as? UINavigationController
-                            navController?.pushViewController(controller, animated: true)
+                    controllernav?.pushViewController(controller, animated: true)
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                
+                if upcDesc.length < 14 {
+                    let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
+                    paddedUPC = "\(toFill)\(upcDesc)" as NSString
+                }
+                
+                controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
+                controller.detailOf = "Search results"
+                
+                let controllernav = self.currentController as? UINavigationController
+                if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                    self.onCloseSearch = {
+                        let navController = self.currentController as? UINavigationController
+                        let controllersInNavigation = navController?.viewControllers.count
+                        if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                            navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                            self.isEditingSearch = false
                         }
-                    }else{
-                        controllernav?.pushViewController(controller, animated: true)
+                        navController?.pushViewController(controller, animated: true)
+                    }
+                }else{
+                    let controllersInNavigation = controllernav?.viewControllers.count
+                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                        controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                        self.isEditingSearch = false
                     }
                     
-                    self.btnSearch!.isSelected = true
-                    self.closeSearch(false, sender: nil)
+                    controllernav?.pushViewController(controller, animated: true)
+                }
+                
+                self.btnSearch!.isSelected = true
+                self.closeSearch(false, sender: nil)
             })
         }
         else{
             
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
             controller.searchContextType = .withText
