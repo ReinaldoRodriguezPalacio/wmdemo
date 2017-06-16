@@ -1015,24 +1015,31 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//
             svcValidate.callService(requestParams:params, successBlock: { (result:[String:Any]) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
-                
-                let controllernav = self.currentController as? UINavigationController
-                let controllersInNavigation = controllernav?.viewControllers.count
-                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
-                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                    self.isEditingSearch = false
-                }
                 controller.detailOf = "Search results"
                 
-                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-                        self.onCloseSearch = {
-                            let navController = self.currentController as? UINavigationController
-                            navController?.pushViewController(controller, animated: true)
+                let controllernav = self.currentController as? UINavigationController
+                if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                    self.onCloseSearch = {
+                        let navController = self.currentController as? UINavigationController
+                        let controllersInNavigation = navController?.viewControllers.count
+                        if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                            navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                            self.isEditingSearch = false
                         }
-                        self.closeSearch(false, sender: nil)
-                    }else{
-                        controllernav?.pushViewController(controller, animated: true)
+                        navController?.pushViewController(controller, animated: true)
                     }
+                }else{
+                    let controllernav = self.currentController as? UINavigationController
+                    let controllersInNavigation = controllernav?.viewControllers.count
+                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                        controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                        self.isEditingSearch = false
+                    }
+                    
+                    controllernav?.pushViewController(controller, animated: true)
+                }
+                self.btnSearch!.isSelected = true
+                self.closeSearch(false, sender: nil)
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if upcDesc.length < 14 {
@@ -1041,20 +1048,26 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     }
                     
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
-                    let controllernav = self.currentController as? UINavigationController
-                    let controllersInNavigation = controllernav?.viewControllers.count
-                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
-                        controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                        self.isEditingSearch = false
-                    }
                     controller.detailOf = "Search results"
                     
+                    let controllernav = self.currentController as? UINavigationController
                     if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
                         self.onCloseSearch = {
                             let navController = self.currentController as? UINavigationController
+                            let controllersInNavigation = navController?.viewControllers.count
+                            if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                                navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                                self.isEditingSearch = false
+                            }
                             navController?.pushViewController(controller, animated: true)
                         }
                     }else{
+                        let controllersInNavigation = controllernav?.viewControllers.count
+                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                            self.isEditingSearch = false
+                        }
+
                         controllernav?.pushViewController(controller, animated: true)
                     }
                     
