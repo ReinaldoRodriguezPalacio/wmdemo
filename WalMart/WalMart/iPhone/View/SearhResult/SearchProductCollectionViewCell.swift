@@ -122,10 +122,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
       self.lowStock?.isHidden = true
     }
     
-    let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
-    
-    self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
     providerLBL!.isHidden = !providers
+    let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
+    self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
     
     var savingPrice = ""
     if productPriceThrough != "" && type == ResultObjectType.Groceries.rawValue {

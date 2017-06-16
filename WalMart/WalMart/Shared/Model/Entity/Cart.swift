@@ -28,5 +28,5 @@ class Cart : NSManagedObject {
     @NSManaged var note: String?
     @NSManaged var offerId : String?
     @NSManaged var sellerId : String?
-    
+    @NSManaged var sellerName:String?
 }
