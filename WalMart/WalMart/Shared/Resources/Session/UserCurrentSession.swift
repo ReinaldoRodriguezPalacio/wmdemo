@@ -261,14 +261,12 @@ class UserCurrentSession : NSObject {
         
         updatePhoneProfile(true)
         self.validateUserAssociate(UserCurrentSession.sharedInstance.isAssociated == 0 ? true : false)
-        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
-        UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
-        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
-
         
-        UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String as NSString
-        UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String as NSString
-        UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String as NSString
+        if resultProfileJSONGR != nil {
+            UserCurrentSession.sharedInstance.userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as? NSString ?? ""
+            UserCurrentSession.sharedInstance.userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as? NSString ?? ""
+            UserCurrentSession.sharedInstance.userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as? NSString ?? ""
+        }
         
         let homeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         if homeNumber !=  "" {

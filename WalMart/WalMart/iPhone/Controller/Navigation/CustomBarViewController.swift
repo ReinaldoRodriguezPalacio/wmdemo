@@ -311,26 +311,29 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     static func retrieveParam(_ key:String, forUser: Bool) -> Param? {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        let user = UserCurrentSession.sharedInstance.userSigned
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
-        if user != nil && forUser {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
-        }
-        else {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
-        }
         var parameter: Param? = nil
-        
-        do {
-            let result = try context.fetch(fetchRequest) as! [Param]
-            if  result.count > 0 {
-                parameter = result.first
+        if appDelegate.managedObjectContext !=  nil {
+            
+            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+            
+            let user = UserCurrentSession.sharedInstance.userSigned
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
+            if user != nil && forUser {
+                fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
             }
-        } catch let error as NSError {
-            print("Fetch failed: \(error.localizedDescription)")
+            else {
+                fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
+            }
+            
+            do {
+                let result = try context.fetch(fetchRequest) as! [Param]
+                if  result.count > 0 {
+                    parameter = result.first
+                }
+            } catch let error as NSError {
+                print("Fetch failed: \(error.localizedDescription)")
+            }
         }
         
         return parameter
@@ -1024,8 +1027,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.onCloseSearch = {
                         let navController = self.currentController as? UINavigationController
                         let controllersInNavigation = controllernav?.viewControllers.count
-                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
-                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 1)
                             self.isEditingSearch = false
                         }
                         navController?.pushViewController(controller, animated: true)

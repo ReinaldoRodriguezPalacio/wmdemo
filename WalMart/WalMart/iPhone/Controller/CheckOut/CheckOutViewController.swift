@@ -214,7 +214,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        let string = webView.request!.url!.absoluteString as NSString
+        let string = webView.request?.url?.absoluteString as NSString? ?? ""
         var range = string.range(of: ConfigUrls.IngresarCheckOut)
         
         
@@ -245,7 +245,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         let rangeEnd = string.range(of: ConfigUrls.ConfirmacionPedido)//ok
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
-            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
             
             //sendTuneAnalytics
@@ -260,8 +259,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 print(response)
                 }, errorBlock: { (error:NSError) -> Void in
             })
-            
-           
             
         }
         
