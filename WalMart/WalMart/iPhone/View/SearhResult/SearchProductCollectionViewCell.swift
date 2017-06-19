@@ -92,19 +92,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
       self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY + 8, width: self.bounds.width - 16 , height: 12)
       self.productShortDescriptionLabel!.frame = CGRect(x: 40,  y: self.productPriceThroughLabel!.frame.maxY + 16, width: self.frame.width - 80 , height: 46)
     }
-    
-    if !providerLBL!.isHidden {
-      let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
-      
-      let productWidth = (self.frame.width - (priceWidth + 32.0 + 8.0)) / 2
-      providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
-      self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productPriceLabel!.frame.minY, width: priceWidth, height: 19)
-      
-      let formatedPrice = CurrencyCustomLabel.formatString(self.price as NSString)
-      self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
-    }
+    self.showProvider()
   }
-  
   
   //MARK: - SetValues
   func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String, providers:Bool) {
@@ -125,7 +114,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     providerLBL!.isHidden = !providers
     let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
     self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
-    
+    self.showProvider()
+
     var savingPrice = ""
     if productPriceThrough != "" && type == ResultObjectType.Groceries.rawValue {
       savingPrice = productPriceThrough
@@ -179,6 +169,21 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
       }
     }
   }
+    
+    func showProvider() {
+        if !providerLBL!.isHidden {
+            let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
+            
+            let productWidth = (self.frame.width - (priceWidth + 32.0 + 8.0)) / 2
+            providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
+            self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productPriceLabel!.frame.minY, width: priceWidth, height: 19)
+            
+            let formatedPrice = CurrencyCustomLabel.formatString(self.price as NSString)
+            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+        } else {
+            self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 19)
+        }
+    }
   
   
   //MARK: - addProductToShoping
