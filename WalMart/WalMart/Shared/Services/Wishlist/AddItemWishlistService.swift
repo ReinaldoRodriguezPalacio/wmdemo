@@ -13,16 +13,30 @@ class AddItemWishlistService : BaseService {
     
     var mustUpdateWishList : Bool = true
     
-    func buildParams(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category: String) -> [[String:Any]] {
-        return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory,"category":category]]
+    func buildParams(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category: String,sellerId:String?,sellerName: String?,offerId:String?) -> [[String:Any]] {
+        
+        var params = ["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory,"category":category]
+        if sellerId != nil {
+            params["sellerId"] = sellerId
+        }
+        
+        if sellerName != nil {
+            params["sellerName"] = sellerName
+        }
+        
+        if offerId != nil {
+           params["offerId"] = offerId
+        }
+        
+        return [params]
     }
     
-    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:true,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,sellerId:String?,sellerName: String?,offerId:String?,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category,sellerId: sellerId,sellerName: sellerName,offerId: offerId),mustUpdateWishList:true,successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,mustUpdateWishList:Bool,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:mustUpdateWishList,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,mustUpdateWishList:Bool,sellerId:String?,sellerName: String?,offerId:String?,successBlock: (([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category,sellerId: sellerId,sellerName: sellerName,offerId: offerId),mustUpdateWishList:mustUpdateWishList,successBlock: successBlock, errorBlock: errorBlock)
     }
 
     
@@ -88,6 +102,20 @@ class AddItemWishlistService : BaseService {
             }else{
                 wishlistProduct = array[0]
             }
+            
+            
+            if let sellerId = product["sellerId"] as? String {
+                wishlistProduct.product.sellerId = sellerId
+            }
+            
+            if let sellerName = product["sellerName"] as? String {
+                wishlistProduct.product.sellerName = sellerName
+            }
+            
+            if let offerId = product["offerId"] as? String {
+                wishlistProduct.product.offerId = offerId
+            }
+            
 
             wishlistProduct.product.upc = product["upc"] as! String
             wishlistProduct.product.price = product["price"] as! NSString

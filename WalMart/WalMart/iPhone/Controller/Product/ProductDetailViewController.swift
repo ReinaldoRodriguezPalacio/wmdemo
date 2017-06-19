@@ -1500,8 +1500,11 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
             addedAlertWL.clipsToBounds = true
             addedAlertWL.imageBlurView.frame = CGRect(x: 0, y: -312, width: self.view.frame.width, height: self.heightDetail)
             if addItem {
+                let offerId = self.providerInfo?["offerId"] as? String
+                let sellerName = self.providerInfo?["name"] as? String
+                let sellerId = self.providerInfo?["sellerId"] as? String
                 let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:[String:Any]) -> Void in
+                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment,sellerId:sellerId,sellerName: sellerName,offerId:offerId,successBlock: { (result:[String:Any]) -> Void in
                     
                     addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                     added(true)

@@ -29,6 +29,10 @@ class Product : NSManagedObject {
     @NSManaged var stock : Bool
     @NSManaged var promoDescription : String
     
+    @NSManaged var offerId : String?
+    @NSManaged var sellerId : String?
+    @NSManaged var sellerName:String?
+    
     @NSManaged var cart : Cart
     @NSManaged var list: List
     

@@ -1782,7 +1782,7 @@ class SearchProductViewController: NavigationViewController {
         //        }
         //
         item = self.allProducts![newIndexPath.item]
-        let upc = item["upc"] as! String
+        var upc = item["upc"] as! String
         let description = item["description"] as? String
         
         var price: NSString = "0"
@@ -1852,6 +1852,9 @@ class SearchProductViewController: NavigationViewController {
         
         var hasProviders = false
         if let providerArray = item["offers"] as? [Any] {
+            if let provider = providerArray.first as? [String:Any] {
+                upc = provider["offerId"] as! String
+            }
             hasProviders = (providerArray.count > 0)
         }
       

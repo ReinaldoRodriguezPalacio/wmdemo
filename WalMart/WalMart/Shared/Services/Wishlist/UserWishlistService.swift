@@ -103,6 +103,14 @@ class UserWishlistService : BaseService {
                         wishlistProduct.product.department = category
                         wishlistProduct.user = user!
                         
+                        if let offers = wishlistDicProduct["offers"] as? [Any] {
+                            if let offer = offers.first as? [String:Any] {
+                                wishlistProduct.product.sellerId = offer["sellerId"] as? String
+                                wishlistProduct.product.sellerName = offer["name"] as? String
+                                wishlistProduct.product.offerId = offer["offerId"] as? String
+                            }
+                        }
+                        
                     }
                     
 
@@ -202,7 +210,7 @@ class UserWishlistService : BaseService {
             
             for itemAdded in added! {
                 let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(itemAdded.product.upc, quantity: "1", comments: "",desc:itemAdded.product.desc,imageurl:itemAdded.product.img,price:itemAdded.product.price as String,isActive:itemAdded.product.isActive,onHandInventory:itemAdded.product.onHandInventory,isPreorderable:itemAdded.product.isPreorderable,category:itemAdded.product.department,mustUpdateWishList:false, successBlock: { (result:[String:Any]) -> Void in
+                serviceWishList.callService(itemAdded.product.upc, quantity: "1", comments: "",desc:itemAdded.product.desc,imageurl:itemAdded.product.img,price:itemAdded.product.price as String,isActive:itemAdded.product.isActive,onHandInventory:itemAdded.product.onHandInventory,isPreorderable:itemAdded.product.isPreorderable,category:itemAdded.product.department,mustUpdateWishList:false,sellerId: itemAdded.product.sellerId,sellerName: itemAdded.product.sellerName,offerId: itemAdded.product.offerId,successBlock: { (result:[String:Any]) -> Void in
                         successBlock()
                     }) { (error:NSError) -> Void in
                         successBlock()
@@ -211,8 +219,6 @@ class UserWishlistService : BaseService {
         }else{
             successBlock()
         }
-
-          
         } else {
             successBlock()
         }

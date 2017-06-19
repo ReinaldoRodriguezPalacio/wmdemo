@@ -585,17 +585,28 @@ class SchoolListViewController : DefaultListDetailViewController {
                     category = categoryVal
                 }
                 
+                var offerId: String? = nil
+                var sellerId: String? = nil
+                var sellerName: String? = nil
+                
+                if let offers = shoppingCartProduct["offers"] as? [Any] {
+                    if let offer = offers.first as? [String:Any] {
+                        offerId = offer["offerId"] as? String
+                        sellerId = offer["sellerId"] as? String
+                        sellerName = offer["sellerName"] as? String
+                    }
+                }
                 
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.selectedItems!.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:[String:Any]) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false,sellerId:sellerId,sellerName: sellerName,offerId:offerId,successBlock: { (result:[String:Any]) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
                         
                         
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:[String:Any]) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true,sellerId:sellerId,sellerName: sellerName,offerId:offerId, successBlock: { (result:[String:Any]) -> Void in
                         self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
                         animation.removeFromSuperview()
                         }, errorBlock: { (error:NSError) -> Void in

@@ -22,7 +22,4 @@ class Wishlist : NSManagedObject {
     @NSManaged var status: NSNumber
     @NSManaged var product : Product
     @NSManaged var user : User
-    @NSManaged var offerId : String?
-    @NSManaged var sellerId : String?
-    @NSManaged var sellerName: String?
 }
