@@ -1098,7 +1098,7 @@ class UserCurrentSession : NSObject {
                     let idStore = dic["id"] as! String!
                     if self.storeId != nil{
                         if idStore == self.storeId! {
-                            self.storeName = name
+                            self.storeName = name.findIndex(value: "-")
                             self.storeId = idStore
                             break
                         }

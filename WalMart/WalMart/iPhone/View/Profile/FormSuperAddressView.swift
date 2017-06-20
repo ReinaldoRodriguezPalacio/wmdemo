@@ -477,6 +477,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.picker!.delegate = self
                 self.picker!.setValues(self.store!.nameField, values: self.stores)
                 self.picker!.showPicker()
+            }else{
+                self.store!.text = ""
+                self.selectedStore = nil
             }
             
         },errorBlock: { (error:NSError) in

@@ -42,3 +42,16 @@ extension UIImageView {
     }
     
 }
+
+extension String {
+    
+      func findIndex(value:String) -> String {
+        
+        let range: Range<String.Index> = self.range(of: value)!
+        let index: Int = self.distance(from: self.startIndex, to: range.lowerBound)
+        
+        return self.substring(0, length: index).trim()
+    
+    }
+
+}
