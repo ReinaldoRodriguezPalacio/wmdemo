@@ -88,7 +88,6 @@ class ShoppingCartProductsService : BaseService {
                             }
                             
                             carProduct = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: context) as! Cart
-                            
                             carProductItem = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context) as! Product
                             
                             carProductItem.upc = upc
@@ -98,6 +97,14 @@ class ShoppingCartProductsService : BaseService {
                             carProductItem.baseprice = baseprice
                             carProductItem.img = imageUrl
                             carProductItem.department = department
+                            
+                            if let offers = shoppingCartProduct["offers"] as? [Any] {
+                                if let offer = offers.first as? [String:Any] {
+                                    carProductItem.sellerId = offer["sellerId"] as? String
+                                    carProductItem.sellerName = offer["name"] as? String
+                                    carProductItem.offerId = offer["offerId"] as? String
+                                }
+                            }
                             
                             if let active = shoppingCartProduct["isActive"] as? String {
                                 carProductItem.isActive = active

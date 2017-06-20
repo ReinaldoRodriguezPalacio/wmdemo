@@ -31,7 +31,9 @@ class ProductDetailService : BaseService {
     func buildParams(_ upc:String,eventtype:String,stringSearching:String,position:String) -> Any {
         if useSignalsServices {
             let channel = IS_IPAD ? "ipad" : "iphone"
-            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel,"q":stringSearching,"position":position]]
+            //TODO: QUitar cuando este bien el servicio
+            //return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel,"q":stringSearching,"position":position]]
+            return ["upc":"00007825756495&2005","parameter":["eventtype": eventtype,"collection":"mg","channel": channel,"q":stringSearching,"position":position]]
         }
         return upc
     }

@@ -103,7 +103,6 @@ class AddItemWishlistService : BaseService {
                 wishlistProduct = array[0]
             }
             
-            
             if let sellerId = product["sellerId"] as? String {
                 wishlistProduct.product.sellerId = sellerId
             }
@@ -116,7 +115,6 @@ class AddItemWishlistService : BaseService {
                 wishlistProduct.product.offerId = offerId
             }
             
-
             wishlistProduct.product.upc = product["upc"] as! String
             wishlistProduct.product.price = product["price"] as! NSString
             wishlistProduct.product.desc = product["desc"] as! String

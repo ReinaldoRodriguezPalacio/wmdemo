@@ -236,11 +236,24 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
             cartProduct.status = NSNumber(value: statusForProduct() as Int)
             cartProduct.type = ResultObjectType.Mg.rawValue
+            
             if let category = product["category"] as? String {
                 cartProduct.product.department = category
             }
+            
+            if let sellerId = product["sellerId"] as? String {
+                cartProduct.product.sellerId = sellerId
+            }
+            
+            if let sellerName = product["sellerName"] as? String {
+                cartProduct.product.sellerName = sellerName
+            }
+            
+            if let offerId = product["offerId"] as? String {
+                cartProduct.product.offerId = offerId
+            }
 
-           
+
             if UserCurrentSession.hasLoggedUser() {
                 cartProduct.user  = UserCurrentSession.sharedInstance.userSigned!
             }
