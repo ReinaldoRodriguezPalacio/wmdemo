@@ -563,7 +563,7 @@
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>https://dl.dropboxusercontent.com/s/r07e25mhv74sy0l/notifications.txt?dl=0</string>
+			<string>ttp://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -1107,7 +1107,7 @@
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>https://dl.dropboxusercontent.com/s/r07e25mhv74sy0l/notifications.txt?dl=0</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
