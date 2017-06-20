@@ -296,11 +296,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     let zipreturned = result["zipCode"] as! String
                     self.zipcode.text = zipreturned
                     
-                    self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
+                    self.neighborhoodsDic = result["neighborhoods"] as? [[String:Any]] ?? []
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["name"] as! String!)
                     }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
-                    self.storesDic = result["stores"] as! [[String:Any]]
+                    self.storesDic = result["stores"] as? [[String:Any]] ?? []
                     for dic in  self.storesDic {
                         let name = dic["name"] as! String!
                         let cost = dic["cost"] as! String!
