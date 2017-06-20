@@ -451,7 +451,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func nextStep(){
         
-        if deliverycost == 0.0 {
+        if deliverycost == 0.0 && self.selectedAddress != nil && self.selectedAddress != ""{
             self.validateDeliveriCost()
             return
         }
@@ -499,7 +499,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
             let _ = self.getItemsTOSelectAddres()
-            self.getAddressDescription(self.selectedAddress!)
+            if self.selectedAddress != nil {
+                self.getAddressDescription(self.selectedAddress!)
+            }
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()
             }
@@ -516,8 +518,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func invokeAddressUserService(_ endCallAddress:@escaping (() -> Void)) {
         //--self.addViewLoad()
         let service = GRAddressByUserService()
-        service.callService(
-            { (result:[String:Any]) -> Void in
+        service.callService({ (result:[String:Any]) -> Void in
                 if let items = result["responseArray"] as? [[String:Any]] {
                     self.addressItems = items
                     if items.count > 0 {
@@ -635,7 +636,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         if let fixedDeliveryCost = result["fixedDeliveryCost"] as? NSString {
                             fixedDeliveryCostVal = fixedDeliveryCost.doubleValue
                         }
-                        self.deliverycost = 0.0//fixedDeliveryCostVal //TODO Descomentar prod
+                        
+                        self.deliverycost = fixedDeliveryCostVal //TODO Descomentar prod
                         self.validateDeliveriCost()
                         self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                     }
@@ -680,17 +682,22 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func validateDeliveriCost(){
         if self.deliverycost == 0.0 {
-            self.showAddressPicker()
-            self.picker!.newItemForm()
-            let delay = 0.7 * Double(NSEC_PER_SEC)
+           
+            let delay = 0.3 * Double(NSEC_PER_SEC)
             let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: time) {
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
                 self.alertView!.setMessage(NSLocalizedString("gr.address.update.need",comment:""))
                 self.alertView!.showDoneIconWithoutClose()
                 self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                self.alertView!.doneButton.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.openDetailAddress), for: .touchUpInside)
             }
         }
+    }
+    
+    func openDetailAddress(){
+        self.showAddressPicker()
+        self.picker!.newItemForm()
     }
     /**
      Gets the available hours from date
@@ -927,7 +934,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
             sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
         
-        if self.deliverycost == 0.0{
+        if self.deliverycost == 0.0 && self.selectedAddress != nil{
             return self.updateAddresContent(scroll: scrollForm)
         }
         

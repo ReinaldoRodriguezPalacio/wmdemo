@@ -307,7 +307,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         alertView!.showDoneIconWithoutClose()
                         alertView!.showOkButton("OK", colorButton: WMColor.green)
                     }
-                    self.showErrorLabel(self.stores.count == 0)
+                    
                     
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["name"] as! String!)
@@ -464,6 +464,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 
             }
             
+            self.showErrorLabel(self.stores.count == 0)
             if self.stores.count > 0 {
                 self.store!.text = self.stores[0]
                 self.selectedStore = IndexPath(row: 0, section: 0)
@@ -534,15 +535,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
             
-            
+            if self.viewError(self.suburb)  {
+                return nil
+            }
             
             if self.viewError(self.store) {
                 return nil
             }
             
-            if self.viewError(self.suburb)  {
-                return nil
-            }
             if self.viewError(self.betweenFisrt)  {
                 return nil
             }
@@ -647,12 +647,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func validateShortName(_ addressId:String)-> Bool {
         let id = addressId == "" ? "-1" : addressId
-        for item in  self.allAddress as! [[String:Any]]{
-            let idItem = item["id"] as! String
-            let name = item["name"] as! String
-            if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
-                let _ = self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
-                return true
+        if self.allAddress != nil{
+            for item in  self.allAddress as! [[String:Any]]{
+                let idItem = item["id"] as! String
+                let name = item["name"] as! String
+                if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
+                    let _ = self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+                    return true
+                }
             }
         }
         return false

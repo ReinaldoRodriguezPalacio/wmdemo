@@ -1083,13 +1083,18 @@ class UserCurrentSession : NSObject {
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
         self.addressId = address["addressID"] as? String
-        if self.storeId != nil {
-            let serviceZip = GRZipCodeService()
-            serviceZip.buildParams(address["zipCode"] as! String)
-            serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
-                let storesDic = result["stores"] as! [[String:Any]]
-                for dic in  storesDic {
-                    let name = dic["name"] as! String!
+        let neighborhoodID = address["neighborhoodID"] as? String
+        if self.storeId != nil && neighborhoodID != nil {
+            
+            let colonyService =  GetStoreByZipCodeColonyService()
+            colonyService.buildParams(address["zipCode"] as! String, colony:neighborhoodID! )
+            colonyService.callService([:], successBlock: { (result:[String : Any]) in
+                print(result)
+                
+                var stores: [[String:Any]] = []
+                stores = result["stores"] as! [[String:Any]]
+                for dic in  stores {
+                    let name = dic["name"] as! String
                     let idStore = dic["id"] as! String!
                     if self.storeId != nil{
                         if idStore == self.storeId! {
@@ -1099,9 +1104,12 @@ class UserCurrentSession : NSObject {
                         }
                     }
                 }
-                }, errorBlock: { (error:NSError) -> Void in
-                   self.storeName = ""
-                  })
+                
+            }, errorBlock: { (error:NSError) in
+                print(error.localizedDescription)
+                self.storeName = ""
+            })
+       
         }
 
     }
