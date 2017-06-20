@@ -301,13 +301,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         }
                     }
                     
-                    if self.neighborhoodsDic.count == 0 {
-                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                        alertView!.showDoneIconWithoutClose()
-                        alertView!.showOkButton("OK", colorButton: WMColor.green)
-                    }
-                    
                     
                     for dic in  self.neighborhoodsDic {
                         self.neighborhoods.append(dic["name"] as! String!)
@@ -462,6 +455,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     }
                 }
                 
+            }
+            
+            if self.stores.count == 0 {
+                let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                alertView!.showDoneIconWithoutClose()
+                alertView!.showOkButton("OK", colorButton: WMColor.green)
             }
             
             self.showErrorLabel(self.stores.count == 0)
