@@ -289,13 +289,11 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
         self.view.superview?.addSubview(viewLoad)
         self.viewLoad!.startAnnimating(true)*/
         
-            
-            
             if idClienteSelected == ""{
                 saveEmptyAddress()
             }else{
                 self.alertView = nil
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"invoice_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 self.alertView!.setMessage("Generando Factura...")
                 
         UserDefaults.standard.set(idClienteSelected, forKey:"last_idCliente")
@@ -423,8 +421,8 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     self.direccionesFromService.append(selectedStr)
                 }
                     let selection = self.arrayAddressFiscalServiceNotEmpty[indexPath.row]
-                    txtIeps!.text = selection["rfcIeps"] as! String
-                    txtEmail!.text = selection["correoElectronico"] as! String
+                    txtIeps!.text = selection["rfcIeps"] as? String
+                    txtEmail!.text = selection["correoElectronico"] as? String
                     idClienteSelected = selection["id"] as! String
                 
                 //self.selectedAnchxura = indexPath

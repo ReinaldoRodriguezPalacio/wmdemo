@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.71</string>
+	<string>3.85</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>38</string>
+	<string>3</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -202,7 +202,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -210,99 +210,99 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.AuthorizationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getPractilist</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addItemToList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAddressByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAddressById</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAddressById</string>
 			<key>WalmartMG.GRCategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getCategories</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getCategories</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteItem</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteList</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountActiveService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAciveDiscount</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAciveDiscount</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getSaving</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
 			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPromotions</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByTicket</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getLinesForSearch</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login</string>
 			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/loginByEmail</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserProfile</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/getPaymentType</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByTicket</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getItemByUpc</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getSavingItems</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getSavingItems</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getMyBasic</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getMyBasic</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/saveList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteItemToShoppingCartByUpcNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteItemToShoppingCartByUpcNew</string>
 			<key>WalmartMG.GRShoppingCartProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getShoppingCartByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getShoppingCartByUser</string>
 			<key>WalmartMG.GRShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateShoppingCartItemNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateShoppingCartItemNew</string>
 			<key>WalmartMG.GRTimeBands</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getTimeBandsBySlots</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateItem</string>
 			<key>WalmartMG.GRUpdateListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateList</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserProfile</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getListById</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getListsByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/isReferedActive</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -407,15 +407,15 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPractilist</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPractilist</string>
 			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getFacets</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getLinesForSearch</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -436,11 +436,11 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -457,9 +457,9 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -483,21 +483,21 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addFiscalAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addItemToWishlist</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addPreferredAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addShippingAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.AddressByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getAddressesByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getBannersMGSuper</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCarrusel</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -505,21 +505,21 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
+			<string>http://192.168.43.192:8097/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteWishlistItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getFamylyByCategory</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/passwordRecovery</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
@@ -532,80 +532,10 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
-			<key>WalmartMG.LineService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getLinesByFamily</string>
-			<key>WalmartMG.LinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getLinesForSearch</string>
-			<key>WalmartMG.LoginService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login</string>
-			<key>WalmartMG.LoginWithEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/loginByEmail</string>
-			<key>WalmartMG.LogoutService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/logout</string>
-			<key>WalmartMG.NotificationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/saveToken</string>
-			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderById</string>
-			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/20</string>
-			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getItemByUpc</string>
-			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getItemsBySearchingWithFacets</string>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getPromotionsMG</string>
-			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getPushNotifications</string>
-			<key>WalmartMG.RecommendedItemsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getRecommendedItems/200</string>
-			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
-			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
-			<key>WalmartMG.SearchTiresBySizeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
-			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addItemToShoppingCart</string>
-			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteShoppingCartItem</string>
-			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getShoppingCartByUser</string>
-			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateShoppingCartItem</string>
-			<key>WalmartMG.SignUpService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/userRegistry</string>
-			<key>WalmartMG.Splash</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
-			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
-			<key>WalmartMG.TiresAniosService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
-			<key>WalmartMG.TiresMarcasService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
-			<key>WalmartMG.TiresMedidasSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
-			<key>WalmartMG.TiresModelsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
-			<key>WalmartMG.TiresSizeSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
-			<key>WalmartMG.TiresVersionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
-			<key>WalmartMG.UpdateFiscalAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateFiscalAddress</string>
-			<key>WalmartMG.UpdateShippingAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateShippingAddress</string>
-			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/2/updateUserProfile</string>
-			<key>WalmartMG.UserWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getWishlistByUser</string>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.ZipCodeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
-			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceDataCPService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
@@ -614,6 +544,76 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
+			<key>WalmartMG.LineService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getLinesByFamily</string>
+			<key>WalmartMG.LinesForSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getLinesForSearch</string>
+			<key>WalmartMG.LoginService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login</string>
+			<key>WalmartMG.LoginWithEmailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/loginByEmail</string>
+			<key>WalmartMG.LogoutService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/logout</string>
+			<key>WalmartMG.NotificationService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/saveToken</string>
+			<key>WalmartMG.PreviousOrderDetailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getPurchaseOrderById</string>
+			<key>WalmartMG.PreviousOrdersService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<key>WalmartMG.ProductDetailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getItemByUpc</string>
+			<key>WalmartMG.ProductbySearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.RecommendedItemsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getRecommendedItems/200</string>
+			<key>WalmartMG.ReviewShoppingCartService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/reviewShoppingCart</string>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getUpcsByMedida</string>
+			<key>WalmartMG.ShoppingCartAddProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/addItemToShoppingCart</string>
+			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteShoppingCartItem</string>
+			<key>WalmartMG.ShoppingCartProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getShoppingCartByUser</string>
+			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateShoppingCartItem</string>
+			<key>WalmartMG.SignUpService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/userRegistry</string>
+			<key>WalmartMG.Splash</key>
+			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
+			<key>WalmartMG.StoreLocatorService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
+			<key>WalmartMG.UpdateFiscalAddressService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateFiscalAddress</string>
+			<key>WalmartMG.UpdateShippingAddressService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateShippingAddress</string>
+			<key>WalmartMG.UpdateUserProfileService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/2/updateUserProfile</string>
+			<key>WalmartMG.UserWishlistService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/isAssociated</string>
+			<key>WalmartMG.ZipCodeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -667,6 +667,18 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -737,18 +749,6 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getInfoByZipCode</string>
-			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
-			<key>WalmartMG.InvoiceDataCPService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
-			<key>WalmartMG.InvoiceFolioService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResendService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
-			<key>WalmartMG.InvoiceSaveRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
-			<key>WalmartMG.InvoiceUpdateRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 		</dict>
 	</dict>
 	<key>WMURLSignalsServices</key>
@@ -756,11 +756,11 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/2/addItemToShoppingCart</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -779,99 +779,99 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.AuthorizationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getAuthorization</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getAuthorization</string>
 			<key>WalmartMG.DefaultListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getPractilist</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addItemToList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAddressByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAddressById</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAddressById</string>
 			<key>WalmartMG.GRCategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getCategories</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getCategories</string>
 			<key>WalmartMG.GRDeleteItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteItem</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteList</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountActiveService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getAciveDiscount</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getAciveDiscount</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getSaving</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
 			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPromotions</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByTicket</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getLinesForSearch</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login</string>
 			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/loginByEmail</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserProfile</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/getPaymentType</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByTicket</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getItemByUpc</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getSavingItems</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getSavingItems</string>
 			<key>WalmartMG.GRRecentProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getMyBasic</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getMyBasic</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/saveList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/deleteItemToShoppingCartByUpcNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/deleteItemToShoppingCartByUpcNew</string>
 			<key>WalmartMG.GRShoppingCartProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getShoppingCartByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getShoppingCartByUser</string>
 			<key>WalmartMG.GRShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateShoppingCartItemNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateShoppingCartItemNew</string>
 			<key>WalmartMG.GRTimeBands</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getTimeBandsBySlots</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getTimeBandsBySlots</string>
 			<key>WalmartMG.GRUpdateItemListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateItem</string>
 			<key>WalmartMG.GRUpdateListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateList</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateList</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/updateUserProfile</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getListById</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getListsByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/isReferedActive</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -976,15 +976,15 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPractilist</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getPractilist</string>
 			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getFacets</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getLinesForSearch</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -1005,11 +1005,11 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -1026,9 +1026,9 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/3/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/2/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -1043,21 +1043,21 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addFiscalAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addItemToWishlist</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addPreferredAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addShippingAddress</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.AddressByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getAddressesByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getBannersMGSuper</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCarrusel</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -1065,21 +1065,21 @@
 			<key>WalmartMG.CategoryIconIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getCategories_ant</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://192.168.43.192:8095/walmartmg/site/config.txt</string>
+			<string>http://192.168.43.192:8097/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getUpsell</string>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/getUpsell</string>
 			<key>WalmartMG.CrossSellingProductService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getCrossSelling</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteAddressesByUser</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteAddressesByUser</string>
 			<key>WalmartMG.DeleteItemWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteWishlistItem</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteWishlistItem</string>
 			<key>WalmartMG.FamilyByCategoryService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getFamylyByCategory</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.ForgotPasswordService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/passwordRecovery</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
 			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
@@ -1092,82 +1092,10 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
-			<key>WalmartMG.LineService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getLinesByFamily</string>
-			<key>WalmartMG.LinesForSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getLinesForSearch</string>
-			<key>WalmartMG.LoginService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login</string>
-			<key>WalmartMG.LoginWithEmailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/loginByEmail</string>
-			<key>WalmartMG.LogoutService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/logout</string>
-			<key>WalmartMG.NotificationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/saveToken</string>
-			<key>WalmartMG.PreviousOrderDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderById</string>
-			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/20</string>
-			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getItemByUpc</string>
-			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getItemsBySearchingWithFacets</string>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getPromotionsMG</string>
-			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getPushNotifications</string>
-			<key>WalmartMG.RecommendedItemsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getRecommendedItems/200</string>
-			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/reviewShoppingCart</string>
-			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getSearchingByUpcs</string>
-			<key>WalmartMG.SearchTiresBySizeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getUpcsByMedida</string>
-			<key>WalmartMG.SetDeliveryTypeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
-			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/addItemToShoppingCart</string>
-			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/deleteShoppingCartItem</string>
-			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getShoppingCartByUser</string>
-			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateShoppingCartItem</string>
-			<key>WalmartMG.SignUpService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/2/userRegistry</string>
-			<key>WalmartMG.Splash</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
-			<key>WalmartMG.StoreLocatorService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getStoreLocatorCoordinates</string>
-			<key>WalmartMG.TiresAniosService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
-			<key>WalmartMG.TiresMarcasService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getBrands</string>
-			<key>WalmartMG.TiresMedidasSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
-			<key>WalmartMG.TiresModelsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getModelByBrand</string>
-			<key>WalmartMG.TiresSizeSearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/getAllMedidas</string>
-			<key>WalmartMG.TiresVersionsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
-			<key>WalmartMG.UpdateFiscalAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateFiscalAddress</string>
-			<key>WalmartMG.UpdateShippingAddressService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/updateShippingAddress</string>
-			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/2/updateUserProfile</string>
-			<key>WalmartMG.UserWishlistService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getWishlistByUser</string>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.ZipCodeService</key>
-			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
-			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceDataCPService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceFolioService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
@@ -1176,6 +1104,78 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
+			<key>WalmartMG.LineService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getLinesByFamily</string>
+			<key>WalmartMG.LinesForSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getLinesForSearch</string>
+			<key>WalmartMG.LoginService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login</string>
+			<key>WalmartMG.LoginWithEmailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/loginByEmail</string>
+			<key>WalmartMG.LogoutService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/logout</string>
+			<key>WalmartMG.NotificationService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/saveToken</string>
+			<key>WalmartMG.PreviousOrderDetailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getPurchaseOrderById</string>
+			<key>WalmartMG.PreviousOrdersService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<key>WalmartMG.ProductDetailService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getItemByUpc</string>
+			<key>WalmartMG.ProductbySearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.RecommendedItemsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getRecommendedItems/200</string>
+			<key>WalmartMG.ReviewShoppingCartService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/reviewShoppingCart</string>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getSearchingByUpcs</string>
+			<key>WalmartMG.SearchTiresBySizeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getUpcsByMedida</string>
+			<key>WalmartMG.SetDeliveryTypeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
+			<key>WalmartMG.ShoppingCartAddProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/addItemToShoppingCart</string>
+			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/deleteShoppingCartItem</string>
+			<key>WalmartMG.ShoppingCartProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getShoppingCartByUser</string>
+			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateShoppingCartItem</string>
+			<key>WalmartMG.SignUpService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/2/userRegistry</string>
+			<key>WalmartMG.Splash</key>
+			<string>https://dl.dropboxusercontent.com/u/10098759/splash.html</string>
+			<key>WalmartMG.StoreLocatorService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getStoreLocatorCoordinates</string>
+			<key>WalmartMG.TiresAniosService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<key>WalmartMG.TiresMarcasService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getBrands</string>
+			<key>WalmartMG.TiresMedidasSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<key>WalmartMG.TiresModelsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<key>WalmartMG.TiresSizeSearchService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/getAllMedidas</string>
+			<key>WalmartMG.TiresVersionsService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
+			<key>WalmartMG.UpdateFiscalAddressService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateFiscalAddress</string>
+			<key>WalmartMG.UpdateShippingAddressService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/updateShippingAddress</string>
+			<key>WalmartMG.UpdateUserProfileService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/2/updateUserProfile</string>
+			<key>WalmartMG.UserWishlistService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8097/walmartmg/list/isAssociated</string>
+			<key>WalmartMG.ZipCodeService</key>
+			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -1229,6 +1229,18 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/saveRfc</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -1301,18 +1313,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
-			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
-			<key>WalmartMG.InvoiceDataCPService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
-			<key>WalmartMG.InvoiceFolioService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
-			<key>WalmartMG.InvoiceResendService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
-			<key>WalmartMG.InvoiceSaveRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/saveRfc</string>
-			<key>WalmartMG.InvoiceUpdateRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/updateRfc</string>
 		</dict>
 	</dict>
 	<key>clusterWMURLSignalsServices</key>
@@ -1320,11 +1320,11 @@
 		<key>DEVWM</key>
 		<dict>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/2/getItemByUpc</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/3/getItemsBySearchingWithFacets</string>
+			<string>http://192.168.43.192:8097/walmartmg/login/3/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/2/addItemToShoppingCart</string>
+			<string>http://192.168.43.192:8097/walmartmg/list/2/addItemToShoppingCart</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>

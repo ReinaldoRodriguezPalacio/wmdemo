@@ -269,7 +269,7 @@ class FormFieldView : UIEdgeTextField {
     }
     
     func validateNumber() -> String{
-        let regString : String = "^[0-9]{0,20}$";
+        let regString : String = "^[0-9]{0,25}$";
         return  regString
     }
     

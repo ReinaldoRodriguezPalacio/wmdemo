@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "scan_icon.png",
+      "filename" : "alert_invoice_icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "scan_icon@2x.png",
+      "filename" : "alert_invoice_icon@2x.png",
       "scale" : "2x"
     },
     {

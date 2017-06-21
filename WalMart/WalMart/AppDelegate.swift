@@ -59,10 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
             UserCurrentSession.sharedInstance.searchForCurrentUser()
             },errorBlock:{ (error:NSError) in
                 print(error.localizedDescription)
-                
         })
-      
-        
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: URL?, error: Error?) in
             if (error != nil) {
@@ -163,8 +160,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TAGContainerOpenerNotifier
         GTM?.logger.setLogLevel(kTAGLoggerLogLevelVerbose)
     
         //TODO Cambiar a produccion 
-        TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
-         //TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
+        //TAGContainerOpener.openContainer(withId: "GTM-TCGRR6", //Produccion
+        TAGContainerOpener.openContainer(withId: "GTM-N7Z7PWM",// Desarrollo
             tagManager: GTM, openType: kTAGOpenTypePreferFresh,
             timeout: nil,
             notifier: self)
