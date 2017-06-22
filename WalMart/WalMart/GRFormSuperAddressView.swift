@@ -368,6 +368,24 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         },errorBlock: { (error:NSError) in
             print(error.localizedDescription)
+            self.showErrorLabel(self.stores.count == 0)
+            self.storesDic = []
+            self.stores = []
+            self.store.text = ""
+            self.selectedStore = nil
+            
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            var stringToShow : NSString = error.localizedDescription as NSString
+            if error.code != -1 {
+                stringToShow = "Intenta nuevamente."
+            }
+            let withoutName = stringToShow.replacingOccurrences(of: self.suburb!.nameField, with: "")
+            SignUpViewController.presentMessage(self.suburb!, nameField:self.suburb!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
+
+            
+
         })
     
     }
