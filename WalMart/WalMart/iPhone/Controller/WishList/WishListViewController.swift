@@ -848,11 +848,8 @@ extension WishListViewController: UITableViewDataSource {
         }
       
       var providerTxt = ""
-      if let providerArray = itemWishlist["offers"] as? [Any] {
-        if (providerArray.count > 0) {
-          let offerData = providerArray[0] as? [String:Any]
-          providerTxt = offerData!["name"] as! String
-        }
+      if let providerName = itemWishlist["sellerName"] as? String {
+          providerTxt = providerName
       }
       
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
