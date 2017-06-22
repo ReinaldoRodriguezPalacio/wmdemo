@@ -469,7 +469,7 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
                     
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment,sellerId: nil,sellerName: nil,offerId: nil,successBlock: { (response:[String:Any]) -> Void in
                         delay(0.5, completion: {
                             alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))
                             alertView!.showDoneIcon()

@@ -38,12 +38,41 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?) -> [[String:Any]] {
+    func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?,sellerId:String?,sellerName: String?,offerId:String?) -> [[String:Any]] {
         if useSignals && parameter != nil{
             parameterSend = parameter! as AnyObject?
-            return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]]
+            var params: [String:Any] = ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]
+            
+            if sellerId != nil {
+                params["sellerId"] = sellerId
+            }
+            
+            if sellerName != nil {
+                params["sellerName"] = sellerName
+            }
+            
+            if offerId != nil {
+                params["offerId"] = offerId
+            }
+            
+            return [params]
         }
-        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category]]
+        
+        var params: [String:Any] =  ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category]
+        
+        if sellerId != nil {
+            params["sellerId"] = sellerId
+        }
+        
+        if sellerName != nil {
+            params["sellerName"] = sellerName
+        }
+        
+        if offerId != nil {
+            params["offerId"] = offerId
+        }
+        
+        return [params]
     }
     
     func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:Any] {
@@ -64,11 +93,11 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
     
-    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?,sellerId:String?,sellerName: String?,offerId:String?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category, parameter:parameter,sellerId: sellerId,sellerName: sellerName,offerId: offerId), successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,sellerId:String?,sellerName: String?,offerId:String?,successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,category:category,parameter: nil,sellerId: sellerId,sellerName: sellerName,offerId: offerId), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(_ params:[[String:Any]],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {

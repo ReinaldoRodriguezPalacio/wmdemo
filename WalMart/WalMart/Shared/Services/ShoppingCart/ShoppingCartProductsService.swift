@@ -191,11 +191,8 @@ class ShoppingCartProductsService : BaseService {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
-            let dictItem: [String:Any] = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department]
-            
-            
-            
-            
+            let dictItem: [String:Any] = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department,"sellerId": itemSC.product.sellerId ?? "", "sellerName": itemSC.product.sellerName ?? "", "offerId": itemSC.product.offerId ?? ""]
+
             let price = itemSC.product.price as NSString
             let ivaprod = itemSC.product.iva as NSString
             let pricebiva = itemSC.product.baseprice as NSString

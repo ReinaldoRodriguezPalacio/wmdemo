@@ -1474,11 +1474,8 @@ extension ShoppingCartViewController: UITableViewDataSource {
             }
           
             var providerTxt = ""
-            if let providerArray = shoppingCartProduct["offers"] as? [Any] {
-              if (providerArray.count > 0) {
-                let offerData = providerArray[0] as? [String:Any]
-                providerTxt = offerData!["name"] as! String
-              }
+            if let providerName = shoppingCartProduct["sellerName"] as? String {
+              providerTxt = providerName
             }
             
             //updateItemSavingForUPC(indexPath,upc:upc)
@@ -1606,7 +1603,7 @@ extension ShoppingCartViewController: ProductShoppingCartTableViewCellDelegate {
                     
                     let updateService = ShoppingCartUpdateProductsService()
                     updateService.isInCart = true
-                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: { (response:[String:Any]) -> Void in
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment,sellerId: nil,sellerName: nil,offerId: nil,successBlock: { (response:[String:Any]) -> Void in
                         
                         delay(0.5, completion: {
                             alertView!.setMessage(NSLocalizedString("shoppingcart.update.product", comment:""))

@@ -586,7 +586,7 @@ class GRProductDetailViewController : ProductDetailViewController {
     }
 
     //MARK: -
-    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable : Any] {
+    override func buildParamsUpdateShoppingCart(_ quantity: String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [String : Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String

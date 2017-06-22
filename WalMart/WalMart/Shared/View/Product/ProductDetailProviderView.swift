@@ -119,6 +119,7 @@ class ProductDetailProviderView: UIView {
         let boldString = NSMutableAttributedString(string:"\(offersCount) proveedores", attributes:attrsBlue)
         messageString.append(boldString)
         otherProvidersLabel.attributedText = messageString
+        self.layoutSubviews()
     }
     
     override func layoutSubviews() {
@@ -130,7 +131,7 @@ class ProductDetailProviderView: UIView {
             let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])
             let providerWidth = providerSize.width
             providerRatingView.frame = CGRect(x:0, y:0, width: self.frame.width, height: 22)
-            providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerSize.width, height: 18)
+            providerLabel.frame = CGRect(x: (self.frame.width - providerWidth) / 2.0, y: 4.0, width: providerWidth, height: 18)
             ratingLabel.frame = CGRect(x: providerLabel.frame.maxX + 16 , y: 5.0, width: 0, height: 0)
         }else{
             let providerSize = providerLabel.text!.size(attributes: [NSFontAttributeName: providerLabel!.font])

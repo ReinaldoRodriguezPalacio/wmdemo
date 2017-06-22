@@ -252,7 +252,17 @@ class IPAProductDetailViewController : UIViewController {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
+        
+        var params: [String: Any] = ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
+        
+        if self.providerInfo != nil {
+            params["sellerId"] = self.providerInfo!["sellerId"]
+            params["offerId"] = self.providerInfo!["offerId"]
+            params["sellerName"] = self.providerInfo!["name"]
+        }
+        
+        return params
+
     }
     
     func opencloseContainer(_ open:Bool,viewShow:UIView,additionalAnimationOpen:@escaping (() -> Void),additionalAnimationClose:(() -> Void)) {

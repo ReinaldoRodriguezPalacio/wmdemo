@@ -277,13 +277,22 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
      
      - returns: [String:Any]
      */
-    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [AnyHashable: Any] {
+    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int) -> [String: Any] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
+
+        var params: [String: Any] = ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
+        
+        if self.providerInfo != nil {
+            params["sellerId"] = self.providerInfo!["sellerId"]
+            params["offerId"] = self.providerInfo!["offerId"]
+            params["sellerName"] = self.providerInfo!["name"]
+        }
+        
+        return params
     }
     
     func closeContainerDetail(completeClose: ((Void) -> Void)?, isPush: Bool){
@@ -1531,7 +1540,7 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
                         addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                         self.view.addSubview(addedAlertWL)
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320 , height: 48)
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width , height: 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.isEnabled = false
                             self.detailCollectionView.isScrollEnabled = true
@@ -1563,7 +1572,7 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
                         addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                         self.view.addSubview(addedAlertWL)
                         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: 320, height: 48)
+                            addedAlertWL.frame = CGRect(x: 0, y: frameWishListbtn.origin.y - 48, width: self.view.frame.width, height: 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.isEnabled = false
                             self.detailCollectionView.isScrollEnabled = true

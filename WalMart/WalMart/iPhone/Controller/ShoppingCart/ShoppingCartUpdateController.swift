@@ -441,7 +441,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
             // Single Add MG
             
             typeProduct = ResultObjectType.Mg
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:Any], successBlock: { (result:[String:Any]) -> Void in
+            serviceAddProduct.callService(params["upc"] as! String, quantity:params["quantity"] as! String, comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:Any],sellerId: params["sellerId"] as? String,sellerName: params["sellerName"] as? String,offerId: params["offerId"] as? String, successBlock: { (result:[String:Any]) -> Void in
                 
                 //360 mg add
                 BaseController.sendAnalyticsAddOrRemovetoCart([self.params], isAdd: true)
@@ -512,7 +512,7 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
             }
             
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category , successBlock: { (result:[String:Any]) -> Void in
+            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,sellerId: params["sellerId"] as? String,sellerName: params["sellerName"] as? String,offerId: params["offerId"] as? String, successBlock: { (result:[String:Any]) -> Void in
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
