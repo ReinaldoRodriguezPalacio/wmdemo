@@ -23,6 +23,7 @@ enum TypeField {
     case check
     case none
     case phone
+    case innerNumber
 }
 
 class FormFieldView : UIEdgeTextField {
@@ -224,6 +225,8 @@ class FormFieldView : UIEdgeTextField {
                 validate = self.validatePhone()
             case .email:
                 self.isValid =  SignUpViewController.isValidEmail(self.text!)
+            case .innerNumber:
+                validate = self.validateInnerNumber()
             default:
                 break
             }
@@ -310,6 +313,11 @@ class FormFieldView : UIEdgeTextField {
     
     func validatePhone() -> String{
         let regString : String = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})"
+        return  regString
+    }
+    
+    func validateInnerNumber() -> String{
+        let regString : String = "^[A-Za-zñÑÁáÉéÍíÓóÚú \\@#._0-9]{0,100}";
         return  regString
     }
     

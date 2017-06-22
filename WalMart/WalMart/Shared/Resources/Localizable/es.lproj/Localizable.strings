@@ -107,7 +107,7 @@
 "shoppingcart.selectgrkg" = "Ordenar por Peso";
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
 "shoppingcart.saveNote" = "Guardar";
-"shoppingcart.AddtexNote" = "Agrega tu nota aqui";
+"shoppingcart.AddtexNote" = "¿Cómo deseas tu producto?";
 "shoppingcart.deleteofcart" = "Eliminar de carrito";
 "shoppingcart.deleteoflist" = "Eliminar de lista";
 "shoppingcart.deleteProductAlert" = "Eliminando artículo del carrito";
@@ -153,7 +153,7 @@
 "list.detail.quantity.pieces" = "%@ piezas";
 "list.detail.quantity.gr" = "%@ gr";
 "list.detail.quantity.kg" = "%@ kg";
-"list.detail.buy" = "Comprar %@";
+"list.detail.buy" = "Agregar a carrito %@";
 "list.detail.empty.header" = "Tu Lista está vacía.";
 "list.detail.empty.textWithoutSesion" = "Toca el ícono         de cada artículo para agregarlo.";
 "list.detail.empty.textWithSesion" = "Agrega artículos usando el buscador,\ntomando una foto, usando un ticket o tocando el\nícono         en la pantalla del detalle del artículo.";
@@ -483,10 +483,10 @@
 
 
 //GroceriesCheckout descriptions
-"gr.confirmacall" = "Llamarme para revisar alternativas.";
+"gr.confirmacall" = "En caso de faltantes o sustitutos, deseo recibir llamada de confirmación.";
 "gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación.";
-"gr.not.confirmacall.option.detail" = "No es necesario llamarme, sustituir con artículos de precio y calidad similar.";
-"gr.not.confirmacall.detal" = "No es necesario llamarme, traer sólo lo que esté disponible sin sustituir artículos.";
+"gr.not.confirmacall.option.detail" = "No deseo recibir llamada de confirmación enviar el mejor sustituto.";
+"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación no enviar sustitutos.";
 
 //Checkout
 "gr.confirma.title" = "Tu pedido se realizó con éxito";
