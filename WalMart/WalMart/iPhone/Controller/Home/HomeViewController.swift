@@ -808,7 +808,7 @@ extension HomeViewController: UIGestureRecognizerDelegate {
         
         let p = gestureReconizer.location(in: self.collection)
         let indexPath = collection.indexPathForItem(at: p)
-        
+        if indexPath != nil {
         if let viewControllerToCommit = self.getProductDetailController(index: indexPath!) {
             viewControllerToCommit.view.frame.size = CGSize(width: self.view.frame.width - 20, height: self.view.frame.height - 45)
             if self.preview == nil {
@@ -830,6 +830,7 @@ extension HomeViewController: UIGestureRecognizerDelegate {
                     self.preview?.showPreview()
                 }
             }
+        }
         }
     }
 }
