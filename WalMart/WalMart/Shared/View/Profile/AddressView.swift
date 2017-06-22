@@ -121,9 +121,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         indoornumber = FormFieldView()
         self.indoornumber!.isRequired = false
         indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
-        self.indoornumber!.typeField = TypeField.innerNumber
+        self.indoornumber!.typeField = TypeField.numAddress
         self.indoornumber!.minLength = 0
-        self.indoornumber!.maxLength = 50
+        self.indoornumber!.maxLength = 5
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
         
         self.zipcode = FormFieldView()

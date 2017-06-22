@@ -36,10 +36,10 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.dataSource = self
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.none
         self.view.addSubview(recentProducts)
-        invokeRecentProducts()
+        
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
         self.emptyView = IPOGenericEmptyView(frame: CGRect.zero)
-       self.emptyView.isHidden = true
+        invokeRecentProducts()
         BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.misarticulos",comment: ""), screenName: self.getScreenGAIName())
     }
     
@@ -58,11 +58,20 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.emptyView.showReturnButton = false
         }
         self.view.addSubview(self.emptyView)
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX, y: 46, width: self.view.bounds.width, height: self.view.frame.height -  self.header!.frame.maxY))
+            self.view.addSubview(viewLoad)
+            viewLoad.startAnnimating(self.isVisibleTab)
+            recentProducts.reloadData()
+        }
+        if invokeStop{
+            self.viewLoad.stopAnnimating()
+        }
         
         var heightEmptyView = self.view.bounds.height
         if !IS_IPAD {
@@ -83,17 +92,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
 
    
     func invokeRecentProducts(){
-        if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRect(x: self.view.bounds.minX, y: 46, width: self.view.bounds.width, height: self.view.frame.height -  self.header!.frame.maxY))
-            self.view.addSubview(viewLoad)
-            viewLoad.startAnnimating(self.isVisibleTab)
-            //recentProducts.reloadData()
-        }
-        
-
         let service = GRRecentProductsService()
-        
-
         service.callService({ (resultado:[String:Any]) -> Void in
             self.recentProductItems = resultado["responseArray"] as! [[String : Any]]
             self.recentProducts.reloadData()
@@ -102,18 +101,21 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             self.invokeStop = true
             self.viewLoad = nil
-            self.emptyView!.isHidden = (self.recentProductItems.count > 0) ? true : false
+            self.emptyView!.isHidden = true
         }, errorBlock: { (error:NSError) -> Void in
             print("Error")
             self.viewLoad?.stopAnnimating()
             self.viewLoad = nil
-            self.emptyView.isHidden = false
         })
 
+    
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+        if  recentProductItems.count == 0{
+            self.viewLoad?.stopAnnimating()
+            self.viewLoad = nil
+        }
         return self.recentProductItems.count
     }
     

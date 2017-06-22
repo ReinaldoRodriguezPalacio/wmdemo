@@ -81,7 +81,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.header?.addSubview(self.stepLabel)
         
         self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRect(x: margin, y: margin, width: width, height: lheight))
-        self.sectionTitle?.isHidden=true
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
@@ -92,7 +91,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.setTitleColor(WMColor.dark_gray, for: UIControlState())
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.confirmCallButton!.titleLabel?.numberOfLines = 0
         self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         self.confirmCallButton!.isSelected = true
         self.confirmCallButton!.tag = 3
@@ -231,7 +229,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let widthButton = (self.view.bounds.width / 2) - (margin * 1.5)
         
         self.stepLabel!.frame = CGRect(x: self.view.bounds.width - 51.0,y: 8.0, width: self.titleLabel!.bounds.height, height: 35)
-        self.sectionTitle!.frame = CGRect(x: margin, y: 0, width: width, height: lheight)
+        self.sectionTitle!.frame = CGRect(x: margin, y: margin, width: width, height: lheight)
         self.confirmCallButton!.frame = CGRect(x: margin,y: self.sectionTitle!.frame.maxY + margin,width: width,height: 20)
         if self.showPhoneField {
             self.phoneField!.frame = CGRect(x: margin, y: confirmCallButton!.frame.maxY + 8.0, width: width, height: fheight)
