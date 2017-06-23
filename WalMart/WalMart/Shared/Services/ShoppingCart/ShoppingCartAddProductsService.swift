@@ -110,8 +110,8 @@ class ShoppingCartAddProductsService : BaseService {
             }
             if itemsSvc.count > 1 {
                 
-                
-                self.callPOSTService(itemsSvc, successBlock: { (resultCall:[String:Any]) -> Void in
+                let serviceParams = ["items": itemsSvc]
+                self.callPOSTService(serviceParams, successBlock: { (resultCall:[String:Any]) -> Void in
                     
                     if self.updateShoppingCart() {
                         
@@ -152,7 +152,7 @@ class ShoppingCartAddProductsService : BaseService {
                     if useSignals  && self.parameterSend != nil{
                         send = buildProductObject(itemsSvc)
                     } else {
-                        send = itemsSvc as Any?
+                        send = ["items": itemsSvc]
                     }
                     
                     self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
