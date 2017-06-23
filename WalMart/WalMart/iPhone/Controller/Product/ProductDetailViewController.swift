@@ -446,9 +446,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
             
-                let offerDommy =  [["rating": "0","condition": "1","offerId": "00007825756495&3108","sellerId": "2005","price": "1500","onHandInventory": "1","freeShipping": "0","name": "Sentinel","shipping": "Entrega estimada 5 – 8 días"], ["rating": "0","condition": "1","offerId": "00007825756495&2583","sellerId": "2014","price": "999","onHandInventory": "1","freeShipping": "1","name": "BearBuy","shipping": "Entrega estimada 5 – 8 días"], ["rating": "0","condition": "1","offerId": "00007825756495&2564","sellerId": "2008","price": "1650","onHandInventory": "1","freeShipping": "1","name": "Shop1","shipping": "Entrega estimada 5 – 8 días"], ["rating": "0","condition": "1","offerId": "00007825756495&2553","sellerId": "2007","price": "1450","onHandInventory": "1","freeShipping": "1","name": "TanH","shipping": "Entrega estimada 5 – 8 días"], ["rating": "0","condition": "1","offerId": "00007825756495&2574","sellerId": "2017","price": "1030","onHandInventory": "1","freeShipping": "1","name": "Test Demo","shipping": "Entrega estimada 5 – 8 días"]]
-                
-                if let offers = offerDommy as? [[String:Any]] { //result["offers"] as? [[String:Any]] {
+                if let offers = result["offers"] as? [[String:Any]] {
                     self.hasProvider = offers.count > 0
                     self.providerInfo =  offers.count > 0 ? offers.first! : [:]
                     self.providerArray = offers
