@@ -78,6 +78,7 @@
 "provider.about" = "Acerca de %@";
 "provider.returns" = "Devoluciones";
 "provider.valuations" = "valoraciones";
+"provider.for"= "Vendido por ";
 
 
 //Shoping cart

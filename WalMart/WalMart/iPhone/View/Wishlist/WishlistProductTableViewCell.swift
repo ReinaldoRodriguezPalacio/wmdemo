@@ -62,7 +62,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         providerLBL!.numberOfLines = 1
         providerLBL!.textColor =  WMColor.light_blue
         providerLBL!.isHidden = true
-        providerLBL!.text = "Vendido por "
+        providerLBL!.text = NSLocalizedString("provider.for",comment:"")
         self.addSubview(providerLBL)
       
         self.separatorView = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
@@ -81,13 +81,21 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         super.layoutSubviews()
         
         self.productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
-      
-        self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 6.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0 , height: 11.0)
-        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceSavingLabel.isHidden ? (self.providerLBL!.frame.maxY + 7.0) : (productShortDescriptionLabel!.frame.maxY + 16), width: 100 , height: 19)
+        
+        self.providerFrame()
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: providerLBL.isHidden ? (productShortDescriptionLabel!.frame.maxY + 16) : (self.providerLBL!.frame.maxY + 7.0), width: 100 , height: 19)
          self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19)
         self.btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
     }
     
+    
+    func providerFrame() {
+        if !providerLBL!.isHidden {
+            self.providerLBL!.frame =  CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.productShortDescriptionLabel!.frame.maxY + 3.0, width: self.frame.width - productShortDescriptionLabel!.frame.minX - 16.0, height: 11.0)
+        } else {
+            self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 16 , width: 100 , height: 19)
+        }
+    }
   
   //MARK: - SetValues
   func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString, provider:String) {
@@ -129,6 +137,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     
     self.providerLBL.text = self.providerLBL.text! + provider
     self.providerLBL.isHidden = provider != "" ? false : true
+    self.providerFrame()
   }
   
   

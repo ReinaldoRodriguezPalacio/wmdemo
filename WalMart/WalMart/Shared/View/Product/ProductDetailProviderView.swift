@@ -90,7 +90,7 @@ class ProductDetailProviderView: UIView {
     func setValues(provider: [String:Any]){
         
         if let providerName = provider["name"] as? String {
-            providerLabel.text = "Vendido por \(providerName)"
+            providerLabel.text = NSLocalizedString("provider.for",comment:"") + "\(providerName)"
         }
         
         if let delibery = provider["shipping"] as? String {
