@@ -834,7 +834,7 @@ class SearchProductViewController: NavigationViewController {
         if startOffSet > 0 {
             startOffSet += 1
         }
-        //TODO: Signals
+ 
         let signalsDictionary : [String:Any] = ["signals" : GRBaseService.getUseSignalServices()]
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
@@ -1854,8 +1854,18 @@ class SearchProductViewController: NavigationViewController {
         if let providerArray = item["offers"] as? [Any] {
             if let provider = providerArray.first as? [String:Any] {
                 upc = provider["offerId"] as! String
+                price = provider["price"] as! NSString
+                onHandDefault = (provider["onHandInventory"] as! NSString).integerValue
+                isActive = price.doubleValue > 0
+                cell.offerId = upc
+                cell.sellerName = provider["name"] as? String
+                cell.sellerId = provider["sellerId"] as? String
             }
             hasProviders = (providerArray.count > 0)
+        }else{
+            cell.offerId = ""
+            cell.sellerName = ""
+            cell.sellerId = ""
         }
       
         
@@ -1938,7 +1948,7 @@ class SearchProductViewController: NavigationViewController {
                 if self.btnSuper.isSelected {
                     if newIndexPath.row < self.allProducts!.count {
                         for strUPC in self.allProducts! {
-                            let upc = strUPC["upc"] as! String
+                            var  upc = strUPC["upc"] as! String
                             let description = strUPC["description"] as! String
                             let type = strUPC["type"] as! String
                             var through = ""
@@ -2318,7 +2328,6 @@ class SearchProductViewController: NavigationViewController {
  extension SearchProductViewController:  SearchProductCollectionViewCellDelegate {
     
     func buildGRSelectQuantityView(_ cell: SearchProductCollectionViewCell, viewFrame: CGRect, quantity: NSNumber, noteProduct:String, product: Product?){
-        
         let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(cell.upc)
         
         var prodQuantity = "1"
@@ -2636,11 +2645,17 @@ class SearchProductViewController: NavigationViewController {
             }
             return ["orderByPieces": orderByPiece, "pieces": pieces, "upc": cell.upc, "desc": cell.desc, "imgUrl": cell.imageURL, "price": cell.price, "quantity": quantity, "comments": commens, "onHandInventory": cell.onHandInventory, "wishlist": false, "type": ResultObjectType.Groceries.rawValue, "pesable": pesable]
         }else {
+            var parameter: [String:Any] =  ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
+            
+            parameter["sellerId"] = cell.sellerId ?? ""
+            parameter["offerId"] = cell.offerId ?? ""
+            parameter["sellerName"] = cell.sellerName ?? ""
             
             if searchText != ""{
-                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel,"position":position]]
+                parameter["parameter"] = ["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel,"position":position]
+                return parameter
             }
-            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
+            return parameter
         }
     }
     

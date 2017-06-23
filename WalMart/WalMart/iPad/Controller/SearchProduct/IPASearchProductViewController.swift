@@ -133,7 +133,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 paginatedProductDetail.stringSearching = self.titleHeader!
                 
                 for product in self.allProducts! {
-                    let upc = product["upc"] as! NSString
+                    var upc = product["upc"] as! NSString
                     let desc = product["description"] as! NSString
                     let type = product["type"] as! NSString
                     paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])

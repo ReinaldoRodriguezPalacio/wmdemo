@@ -673,6 +673,25 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
     }
     
+    class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ,isPreorderable:String,sellerId:String?,sellerName: String?, offerId: String?) -> [AnyHashable: Any] {
+       
+        var params:[AnyHashable:Any] = ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
+        
+        if sellerId != nil {
+            params["sellerId"] = sellerId
+        }
+        
+        if sellerName != nil {
+            params["sellerName"] = sellerName
+        }
+        
+        if offerId != nil {
+            params["offerId"] = offerId
+        }
+        
+        return params
+    }
+    
     /**
      add item to shopping cart from notification
      
