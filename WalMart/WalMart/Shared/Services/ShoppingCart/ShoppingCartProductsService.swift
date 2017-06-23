@@ -61,7 +61,7 @@ class ShoppingCartProductsService : BaseService {
                             let upc = shoppingCartProduct["upc"] as! String
                             let quantity = shoppingCartProduct["quantity"] as! NSString
                             let desc = shoppingCartProduct["description"] as! String
-                            let price = shoppingCartProduct["price"] as! String
+                            let price = shoppingCartProduct["price"] as? String
                             var baseprice = ""
                             if  let base = shoppingCartProduct["basePrice"] as? String {
                                 baseprice = base
@@ -92,7 +92,7 @@ class ShoppingCartProductsService : BaseService {
                             
                             carProductItem.upc = upc
                             carProductItem.desc = desc
-                            carProductItem.price = price as NSString
+                            carProductItem.price = price as NSString? ?? ""
                             carProductItem.iva = iva
                             carProductItem.baseprice = baseprice
                             carProductItem.img = imageUrl
@@ -103,7 +103,9 @@ class ShoppingCartProductsService : BaseService {
                                     carProductItem.sellerId = offer["sellerId"] as? String
                                     carProductItem.sellerName = offer["name"] as? String
                                     carProductItem.offerId = offer["offerId"] as? String
-                                }
+                                    carProductItem.price = offer["price"] as? NSString ?? ""
+                                    carProductItem.onHandInventory =  offer["onHandInventory"] as? String ?? ""
+                                 }
                             }
                             
                             if let active = shoppingCartProduct["isActive"] as? String {
@@ -135,7 +137,8 @@ class ShoppingCartProductsService : BaseService {
 //                            fatalError()
                         }
                         
-                        successBlock!(resultCall)
+                        //successBlock!(resultCall)
+                        self.callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
                         ShoppingCartService.isSynchronizing  = false
                     }) { (error:NSError) -> Void in
                         if error.code == 1 {
