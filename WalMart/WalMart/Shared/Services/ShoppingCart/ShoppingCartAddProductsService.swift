@@ -39,37 +39,26 @@ class ShoppingCartAddProductsService : BaseService {
     }
     
     func builParams(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,category:String,parameter:[String:Any]?,sellerId:String?,sellerName: String?,offerId:String?) -> [[String:Any]] {
-        if useSignals && parameter != nil{
-            parameterSend = parameter! as AnyObject?
-            var params: [String:Any] = ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category,"parameter":parameter!]
-            
-            if sellerId != nil {
-                params["sellerId"] = sellerId
-            }
-            
-            if sellerName != nil {
-                params["sellerName"] = sellerName
-            }
-            
-            if offerId != nil {
-                params["offerId"] = offerId
-            }
-            
-            return [params]
-        }
         
         var params: [String:Any] =  ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"category":category]
         
-        if sellerId != nil {
+        if sellerId != nil && sellerId != "" {
             params["sellerId"] = sellerId
         }
         
-        if sellerName != nil {
+        if sellerName != nil && sellerName != "" {
             params["sellerName"] = sellerName
         }
         
-        if offerId != nil {
+        if offerId != nil && offerId != ""{
             params["offerId"] = offerId
+        }
+        
+        if useSignals && parameter != nil{
+            parameterSend = parameter! as AnyObject?
+            params["parameter"] = parameter!
+            
+            return [params]
         }
         
         return [params]
