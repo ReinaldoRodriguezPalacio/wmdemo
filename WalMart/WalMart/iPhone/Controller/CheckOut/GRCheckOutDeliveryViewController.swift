@@ -221,6 +221,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             }
             
             self.deliveryDate!.onBecomeFirstResponder = {() in
+                if self.picker ==  nil {
+                    self.loadPicker(reloadAll: false)
+                }
                 self.picker!.selected = self.selectedDateTypeIx
                 self.picker!.sender = self.deliveryDate!
                 self.picker!.delegate = self
@@ -451,7 +454,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func nextStep(){
         
-        if deliverycost == 0.0 && self.selectedAddress != nil && self.selectedAddress != ""{
+        if deliverycost == 0.0 && self.selectedAddress != nil && self.selectedAddress != "" || deliverycost == 0.0 && self.lastSelectedaddres != "" {
+            self.selectedAddress = self.lastSelectedaddres != "" ?  self.lastSelectedaddres : self.selectedAddress
             self.validateDeliveriCost()
             return
         }
@@ -583,6 +587,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                                 itemsShipment.append(text)
                             }
                         }
+                        if self.picker ==  nil {
+                            self.loadPicker(reloadAll: false)
+                        }
                         self.picker!.selected = self.selectedShipmentTypeIx
                         self.picker!.sender = self.shipmentType!
                         self.picker!.delegate = self
@@ -611,10 +618,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let carId = UserCurrentSession.sharedInstance.userSigned!.cartIdGR
         let service = SetDeliveryTypeService()
-        let params = service.buildParams(shipmentType, addressID: self.selectedAddress!, idList: carId as String)
+        
+        let params = service.buildParams(shipmentType, addressID: self.selectedAddress == nil ? self.lastSelectedaddres :  self.selectedAddress!, idList: carId as String)
         service.callService(requestParams: params, successBlock: nil, errorBlock: nil)
     }
     
+    var lastSelectedaddres = ""
     /**
      Gets delivery types from an address
      
@@ -638,6 +647,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         }
                         
                         self.deliverycost = fixedDeliveryCostVal //TODO Descomentar prod
+                        if self.deliverycost == 0.0 {
+                            self.lastSelectedaddres = self.selectedAddress!
+                        }
                         self.validateDeliveriCost()
                         self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                     }
@@ -682,6 +694,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func validateDeliveriCost(){
         if self.deliverycost == 0.0 {
+            
            
             let delay = 0.3 * Double(NSEC_PER_SEC)
             let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
@@ -734,7 +747,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func invokeTimeBandsService(_ date:String,endCallTypeService:@escaping (() -> Void)) {
         let service = GRTimeBands()
-        let params = service.buildParams(date, addressId: self.selectedAddress!)
+        
+            let params = service.buildParams(date, addressId: self.selectedAddress == nil ? self.lastSelectedaddres : self.selectedAddress!)
         service.callService(requestParams: params, successBlock: { (result:[String:Any]) -> Void in
             if let day = result["day"] as? String {
             if let month = result["month"] as? String {
@@ -757,6 +771,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.selectedDate = aviableDate["date"] as! Date
             endCallTypeService()
         }
+       
     }
     /**
      Shows or hides tooltip view
@@ -934,7 +949,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
             sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
         
-        if self.deliverycost == 0.0 && self.selectedAddress != nil{
+        if self.deliverycost == 0.0 && self.selectedAddress != nil {
             return self.updateAddresContent(scroll: scrollForm)
         }
         
@@ -996,6 +1011,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         self.picker!.onClosePicker = {
             self.picker!.onClosePicker = nil
             self.picker!.closePicker()
+            self.selectedAddress = nil
             self.picker =  nil
         }
         return scroll
