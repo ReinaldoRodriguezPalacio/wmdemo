@@ -110,6 +110,7 @@ class UserWishlistService : BaseService {
                                 wishlistProduct.product.offerId = offer["offerId"] as? String
                                 wishlistProduct.product.onHandInventory = offer["onHandInventory"] as? String ?? "0"
                                 wishlistProduct.product.isActive = "true"
+                                wishlistProduct.product.price = offer["price"] as? NSString ?? "0"
                             }
                         }
                         
