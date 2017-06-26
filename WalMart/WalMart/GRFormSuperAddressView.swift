@@ -359,10 +359,13 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             self.endEditing(true)
             
             if self.errorView != nil {
-                if  self.errorView?.focusError == self.zipcode {
+                if  self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb {
                     self.errorView?.removeFromSuperview()
                     self.errorView = nil
+                    self.suburb.layer.borderColor = UIColor.clear.cgColor
+                    self.zipcode.layer.borderColor = UIColor.clear.cgColor
                 }
+                
             }
             
         

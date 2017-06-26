@@ -308,9 +308,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     
                     self.suburb.onBecomeFirstResponder!()
                     if self.errorView != nil {
-                        if  self.errorView?.focusError == self.zipcode {
+                        if  self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb{
                             self.errorView?.removeFromSuperview()
                             self.errorView = nil
+                            self.suburb.layer.borderColor = UIColor.clear.cgColor
+                            self.zipcode.layer.borderColor = UIColor.clear.cgColor
                         }
                     }
                     
@@ -468,9 +470,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if self.stores.count > 0 {
                 self.store!.text = self.stores[0]
                 self.selectedStore = IndexPath(row: 0, section: 0)
-                if  self.errorView?.focusError == self.store {
+                if  self.errorView?.focusError == self.store || self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb {
                     self.errorView?.removeFromSuperview()
                     self.errorView = nil
+                    self.suburb.layer.borderColor = UIColor.clear.cgColor
+                    self.zipcode.layer.borderColor = UIColor.clear.cgColor
                 }
                 self.picker!.selected = self.selectedStore
                 self.picker!.sender = self.store!
@@ -700,7 +704,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             return true
         } else {
             self.errorView?.removeFromSuperview()
-            self.errorView = nil
+            
         }
         return false
     }
