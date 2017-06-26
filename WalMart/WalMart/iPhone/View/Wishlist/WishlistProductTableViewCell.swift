@@ -135,7 +135,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
       }
     }
     
-    self.providerLBL.text = self.providerLBL.text! + provider
+    self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + provider
     self.providerLBL.isHidden = provider != "" ? false : true
     self.providerFrame()
   }

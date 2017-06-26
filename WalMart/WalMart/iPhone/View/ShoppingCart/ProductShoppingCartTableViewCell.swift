@@ -115,7 +115,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
       
-        self.providerLBL.text = self.providerLBL.text! + provider
+        self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + provider
         self.providerLBL.isHidden = provider != "" ? false : true
         self.providerFrame()
         
