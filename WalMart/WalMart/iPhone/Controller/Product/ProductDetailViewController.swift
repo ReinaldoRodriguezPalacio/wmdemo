@@ -561,14 +561,12 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         }
         self.onHandInventory  = numOnHandInventory
         
-        self.strisActive  = result["isActive"] as! String
+        self.strisActive  = result["isActive"] as? String ?? "false"
         self.isActive = "true" == self.strisActive
         
         if self.isActive == true {
             self.isActive = self.price.doubleValue > 0
         }
-        
-        self.strisPreorderable  = result["isPreorderable"] as! String
         
         self.isPreorderable = "true" == self.strisPreorderable
         self.bundleItems = [[String:Any]]()
@@ -616,6 +614,16 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         //TODO Add timer time
         
        // BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+        
+        //Validaciones MarketPLace
+        if self.providerInfo != nil {
+            self.onHandInventory = self.providerInfo!["onHandInventory"] as? NSString ?? "0"
+            self.strisActive  =  self.onHandInventory != "0" ? "true" : "false"
+            self.isActive = "true" == self.strisActive
+            self.upc = self.providerInfo!["offerId"] as? NSString ?? self.upc
+            self.strisPreorderable  = result["isPreorderable"] as? String ?? "false"
+            self.price = providerInfo!["price"] as? NSString ?? self.price
+        }
         
          NSLog("reloadViewWithData finish ", "ProductDetailViewController")
     }

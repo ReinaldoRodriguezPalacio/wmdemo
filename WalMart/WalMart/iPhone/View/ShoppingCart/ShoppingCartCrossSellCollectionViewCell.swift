@@ -52,7 +52,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         }
         else {
              price = String(format:"%.2f", itemUPC["price"] as! Double)
-             imageUrl = itemUPC["imageUrl"] as! String
+             imageUrl = itemUPC["imageUrl"] as? String ?? ""
             esGR=true
         }
         

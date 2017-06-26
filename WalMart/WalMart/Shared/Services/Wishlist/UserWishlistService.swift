@@ -78,8 +78,8 @@ class UserWishlistService : BaseService {
                             imageUrl = images[0] as! String
                         }
                         
-                        let isActive = wishlistDicProduct["isActive"] as! String
-                        let onHandInventory = wishlistDicProduct["onHandInventory"] as! String
+                        let isActive = wishlistDicProduct["isActive"] as? String ?? "false"
+                        let onHandInventory = wishlistDicProduct["onHandInventory"] as? String ?? "0"
                         
                         var isPreordeable  = "false"
                         if let preordeable  = wishlistDicProduct["isPreorderable"] as? String {
@@ -108,6 +108,8 @@ class UserWishlistService : BaseService {
                                 wishlistProduct.product.sellerId = offer["sellerId"] as? String
                                 wishlistProduct.product.sellerName = offer["name"] as? String
                                 wishlistProduct.product.offerId = offer["offerId"] as? String
+                                wishlistProduct.product.onHandInventory = offer["onHandInventory"] as? String ?? "0"
+                                wishlistProduct.product.isActive = "true"
                             }
                         }
                         
