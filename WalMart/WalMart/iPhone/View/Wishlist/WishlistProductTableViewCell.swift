@@ -63,7 +63,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         providerLBL!.textColor =  WMColor.light_blue
         providerLBL!.isHidden = true
         providerLBL!.text = NSLocalizedString("provider.for",comment:"")
-        self.addSubview(providerLBL)
+        self.contentView.addSubview(providerLBL)
       
         self.separatorView = UIView(frame:CGRect(x: 16, y: 108,width: self.frame.width - 16, height: 1.0))
         self.separatorView!.backgroundColor = WMColor.light_light_gray
