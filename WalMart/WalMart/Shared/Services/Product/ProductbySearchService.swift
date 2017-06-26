@@ -30,7 +30,7 @@ class ProductbySearchService : BaseService {
                 parameter = ["category":idLine!,"eventtype": "categoryview","collection":"mg","channel": channel]
             }
             
-            if lowPrice != nil && highPrice != nil {
+            if lowPrice != nil && highPrice != nil && lowPrice != "" && highPrice != "" {
                 parameter["price"] = lowPrice
                 parameter["toPrice"] = highPrice
             }

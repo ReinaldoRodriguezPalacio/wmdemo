@@ -182,6 +182,9 @@ class SearchProductViewController: NavigationViewController {
     var filterMedida : Bool! = false
     var isFromPromotiosCenter = false
     var invokeServiceUpc =  false
+    var brands: [String]? = []
+    var lowPrice: String? = nil
+    var highPrice: String? = nil
    
     override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
@@ -655,7 +658,7 @@ class SearchProductViewController: NavigationViewController {
         if self.searchContextType! == .withCategoryForTiresSearch{
             filterMedida=true
         }
-        self.invokeProductbySearchService(lowPrice: nil,highPrice:nil,brands:nil,startOffset: self.mgResults!.resultsInResponse,actionSuccess: actionSuccess, actionError: actionError)
+        self.invokeProductbySearchService(lowPrice: self.lowPrice,highPrice:self.highPrice,brands:self.brands,startOffset: self.mgResults!.resultsInResponse,actionSuccess: actionSuccess, actionError: actionError)
     }
     
     func invokeProductbySearchService(lowPrice:String?,highPrice:String?,brands:[String]?,startOffset:Int,actionSuccess:(() -> Void)?, actionError:(() -> Void)?){
@@ -2185,12 +2188,20 @@ class SearchProductViewController: NavigationViewController {
         }
         self.collection?.alpha = 100
         let succesBlock : (() -> Void) = { () -> Void in
+            self.updateViewAfterInvokeService(resetTable: true)
             self.applyOrder(order: order)
         }
         
+        self.mgResults!.resultsInResponse = 0
+        self.mgResults!.totalResults = 0
+        self.mgResults!.products = []
+        
+        self.lowPrice = price
+        self.highPrice = toPrice
+        self.brands = brand
         self.invokeProductbySearchService(lowPrice: price, highPrice: toPrice, brands: brand,startOffset: 0,actionSuccess: succesBlock, actionError: nil)
     }
-    
+ 
     func applyOrder(order: String) {
         //self.mgResults?.totalResults = self.allProducts!.count
         self.idSort = order

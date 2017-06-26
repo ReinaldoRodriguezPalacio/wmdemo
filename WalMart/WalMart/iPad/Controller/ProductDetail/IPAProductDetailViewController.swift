@@ -500,7 +500,7 @@ class IPAProductDetailViewController : UIViewController {
         }
         self.onHandInventory  = numOnHandInventory
         
-        self.strisActive  = result["isActive"] as! String as NSString
+        self.strisActive  = result["isActive"] as? NSString ?? "false"
         self.isActive = "true" == self.strisActive
         
         if self.isActive == true {
@@ -511,7 +511,7 @@ class IPAProductDetailViewController : UIViewController {
             self.isActive = self.onHandInventory.integerValue > 0
         }
         
-        self.strisPreorderable  = result["isPreorderable"] as! String as NSString
+        self.strisPreorderable  = result["isPreorderable"] as? NSString ?? "false"
         self.isPreorderable = "true" == self.strisPreorderable
         if self.isPreorderable {
             bannerImagesProducts.imagePresale.isHidden = false
@@ -566,6 +566,16 @@ class IPAProductDetailViewController : UIViewController {
         BaseController.sendAnalyticsPush(["event": "productClick","ecommerce":["click":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
         
         ///BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
+        
+        //Validaciones MarketPLace
+        if self.providerInfo != nil {
+            self.onHandInventory = self.providerInfo!["onHandInventory"] as? NSString ?? "0"
+            self.strisActive  =  self.onHandInventory != "0" ? "true" : "false"
+            self.isActive = "true" == self.strisActive
+            self.upc = self.providerInfo!["offerId"] as? NSString ?? self.upc
+            self.strisPreorderable  = result["isPreorderable"] as? NSString ?? "false"
+            self.price = providerInfo!["price"] as? NSString ?? self.price
+        }
     }
     
     func removeListSelector(action:(()->Void)?, closeRow: Bool ) {
