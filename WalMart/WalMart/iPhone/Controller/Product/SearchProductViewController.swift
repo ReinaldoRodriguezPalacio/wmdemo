@@ -2265,13 +2265,13 @@ class SearchProductViewController: NavigationViewController {
                 let priceTwo:Double = self.priceValueFrom(dictionary2)
                 
                 if priceOne > priceTwo {
-                    return false
-                }
-                else if (priceOne < priceTwo) {
                     return true
                 }
-                else {
+                else if (priceOne < priceTwo) {
                     return false
+                }
+                else {
+                    return true
                 }
                 
             })
