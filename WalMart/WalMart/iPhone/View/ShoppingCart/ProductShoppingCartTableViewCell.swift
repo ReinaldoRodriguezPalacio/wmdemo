@@ -56,7 +56,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         providerLBL!.textColor =  WMColor.light_blue
         providerLBL!.isHidden = true
         providerLBL!.text = NSLocalizedString("provider.for",comment:"")
-        self.addSubview(providerLBL)
+        self.contentView.addSubview(providerLBL)
       
       
         self.productPriceLabel!.textAlignment = NSTextAlignment.left

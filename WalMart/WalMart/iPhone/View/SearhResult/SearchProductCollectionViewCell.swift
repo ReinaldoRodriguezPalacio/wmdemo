@@ -118,7 +118,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     providerLBL!.isHidden = !providers
     let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
     self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
-    self.showProvider()
+    
 
     var savingPrice = ""
     if productPriceThrough != "" && type == ResultObjectType.Groceries.rawValue {
@@ -150,6 +150,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     self.isPreorderable = "\(isPreorderable)"
     self.productDeparment = category
     self.equivalenceByPiece = equivalenceByPiece
+    
+    self.showProvider()
     
     if self.pesable! { self.onHandInventory = "20000"}
     
