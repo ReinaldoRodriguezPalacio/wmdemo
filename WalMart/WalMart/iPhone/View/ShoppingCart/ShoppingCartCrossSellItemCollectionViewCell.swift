@@ -37,17 +37,24 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         
-        let request = NSMutableURLRequest(url: URL(string: productImageURL)!)
-        request.addValue("image/*", forHTTPHeaderField: "Accept")
+        if productImageURL != "" {
+            let request = NSMutableURLRequest(url: URL(string: productImageURL)!)
+            request.addValue("image/*", forHTTPHeaderField: "Accept")
+            
+            self.productImage!.contentMode = self.contentModeOrig
+            self.productImage!.setImage(with: URL(string: productImageURL)!, and: UIImage(named:"img_default_cell"), success: { (image) in
+                if grayScale == true {
+                    self.productImage!.image = self.convertImageToGrayScale(image)
+                } else {
+                    self.productImage!.image = image
+                }
+            }, failure: {})
+        }else {
+            self.productImage!.contentMode = self.contentModeOrig
+            self.productImage!.image = UIImage(named:"img_default_cell")
+             self.productImage!.image = UIImage(named:"img_default_cell")
+        }
         
-        self.productImage!.contentMode = self.contentModeOrig
-        self.productImage!.setImage(with: URL(string: productImageURL)!, and: UIImage(named:"img_default_cell"), success: { (image) in
-            if grayScale == true {
-                self.productImage!.image = self.convertImageToGrayScale(image)
-            } else {
-                self.productImage!.image = image
-            }
-        }, failure: {})
 
         productShortDescriptionLabel!.text = productShortDescription
 
