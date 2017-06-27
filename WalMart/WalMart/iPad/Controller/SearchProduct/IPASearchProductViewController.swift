@@ -188,7 +188,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             }
         }
         self.filterController!.isFromTiresSearch = filterMedida
-        self.filterController!.facet =  self.facet != nil ? self.facet : nil
         self.filterController!.facetGr = self.facetGr
         self.filterController!.isGroceriesSearch = self.btnSuper.isSelected
         self.filterController!.searchContext = self.searchContextType
@@ -216,7 +215,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.selectQuantityOpen = false
         //self.filterController = nil
     }
-    
     
     override func showLandingPage(){
         if self.landingController == nil {

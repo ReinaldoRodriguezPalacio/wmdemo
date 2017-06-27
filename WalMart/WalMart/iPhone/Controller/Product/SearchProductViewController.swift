@@ -2193,7 +2193,7 @@ class SearchProductViewController: NavigationViewController {
         }
         
         self.mgResults!.resultsInResponse = 0
-        self.mgResults!.totalResults = 0
+        self.mgResults!.totalResults = 1
         self.mgResults!.products = []
         
         self.lowPrice = price
