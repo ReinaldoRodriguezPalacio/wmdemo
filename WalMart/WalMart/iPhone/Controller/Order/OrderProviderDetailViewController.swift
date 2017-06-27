@@ -211,7 +211,7 @@ class OrderProviderDetailViewController : NavigationViewController {
             self.itemDetail = result
                 
             var details : [[String:String]] = []
-            let deliveryType = result["deliveryType"] as! String
+            let deliveryType = result["deliveryType"] as? String ?? ""
             let name = result["name"] as! String
             let address = result["deliveryAddress"] as! String
                 
@@ -221,18 +221,9 @@ class OrderProviderDetailViewController : NavigationViewController {
             let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
             let addressLbl = NSLocalizedString("previousorder.address",comment:"")
             //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
-            
-            details.append(["label":statusLbl,"value":self.status])
-            details.append(["label":dateLbl,"value":self.date])
-            details.append(["label":nameLbl,"value":name])
-            details.append(["label":deliveryTypeLbl,"value":deliveryType])
-            details.append(["label":addressLbl,"value":address])
-            //details.append(["label":fedexLbl,"value":guide])
-            
-            
-            var itemsFedex : [[String:Any]] = []
-            self.detailsOrder = details
+        
             let resultsProducts =  result["items"] as! [[String:Any]]
+            var itemsFedex : [[String:Any]] = []
             
             for itemProduct in resultsProducts {
                 let guide = itemProduct["fedexGuide"] as! String
@@ -242,6 +233,10 @@ class OrderProviderDetailViewController : NavigationViewController {
                     let itemTwo =  itemFedexFilter["fedexGuide"] as! String
                     return guide == itemTwo
                 })
+                
+                if self.status == "" {
+                    self.status = itemProduct["status"] as? String ?? ""
+                }
 
             if itemFedexFound.count == 0 {
                     var itmNewProduct : [String:Any] = [:]
@@ -266,6 +261,15 @@ class OrderProviderDetailViewController : NavigationViewController {
                 
                 }
             }
+            
+            details.append(["label":statusLbl,"value":self.status])
+            details.append(["label":dateLbl,"value":self.date])
+            details.append(["label":nameLbl,"value":name])
+            details.append(["label":deliveryTypeLbl,"value":deliveryType])
+            details.append(["label":addressLbl,"value":address])
+            //details.append(["label":fedexLbl,"value":guide])
+            self.detailsOrder = details
+            
             self.showFedexGuide = true
             self.itemDetailProducts = itemsFedex
             

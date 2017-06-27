@@ -87,6 +87,8 @@ class ProviderProductTableViewCell : UITableViewCell {
     
     func setValues(_ provider:[String:Any]){
         
+        self.upc = provider["offerId"] as! String
+        
         if let providerName = provider["name"] as? String {
             providerNameLabel.text = providerName
         }

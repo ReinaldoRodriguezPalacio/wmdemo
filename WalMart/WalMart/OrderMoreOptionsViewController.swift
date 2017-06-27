@@ -11,7 +11,7 @@ import UIKit
 class OrderMoreOptionsViewController: NavigationViewController {
   
   var tableOptions : UITableView!
-  var itemsOptions = ["Enviar Factura","Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
+  var itemsOptions = ["Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
   var orderItems:[[String:Any]]! = []
   var alertView : IPOWMAlertViewController? = nil
   
@@ -99,19 +99,9 @@ class OrderMoreOptionsViewController: NavigationViewController {
   
   
   func refill(){
-    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"alert_refill"),imageDone:UIImage(named:"alert_refill"),imageError:UIImage(named:"alert_refill"))
-    self.alertView?.btnFrame = true
-    self.alertView?.showicon(UIImage(named: "alert_refill"))
-    self.alertView?.setMessage("Para refacturar ingresa al sitio Web facturacion.walmartmexico.com.mx")
-    
-    self.alertView?.addActionButtonsWithCustomText("Ir al sitio Web", leftAction: {(void) in
-      self.alertView?.close()
-      let webCtrl = IPOWebViewController()
-      webCtrl.openURLFactura()
-      self.present(webCtrl,animated:true,completion:nil)
-    }, rightText: NSLocalizedString("list.endedit",comment:""), rightAction: { (void) in
-      self.alertView?.close()
-    },isNewFrame: false)
+    let webCtrl = IPOWebViewController()
+    webCtrl.openURLFactura()
+    self.present(webCtrl,animated:true,completion:nil)
   }
   
   
@@ -120,7 +110,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
 //MARK: UITableViewDataSource
 extension OrderMoreOptionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return itemsOptions.count
     }
   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -143,21 +133,18 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
         
         switch indexPath.row {
         case 0:
-            print("Envia Factura")
-            self.sendInvoice()
-        case 1:
             print("Refacturar")
             self.refill()
-        case 2:
+        case 1:
             print("Contactar al proveedor")
             let controller = ContactProviderViewController()
             self.navigationController!.pushViewController(controller, animated: true)
-        case 3:
+        case 2:
             print("Reportar un problema")
             let controller = ReportProblemViewController()
             controller.orderItems = self.orderItems
             self.navigationController?.pushViewController(controller, animated: true)
-        case 4:
+        case 3:
             print("Devolver estos articulos")
             self.returnItems()
         default:

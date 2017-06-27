@@ -152,7 +152,7 @@ extension ProviderListViewController: UITableViewDataSource {
         let providerInfo = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         cell.selectionStyle = .none
         cell.delegate = self
-        cell.upc = self.upcProduct
+        //cell.upc = self.upcProduct
         cell.setValues(providerInfo)
         return cell
     }
