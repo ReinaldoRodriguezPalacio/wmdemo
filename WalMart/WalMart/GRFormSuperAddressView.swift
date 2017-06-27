@@ -252,9 +252,16 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
                     self.stores = []
                     self.store!.text = ""
                     self.selectedStore = nil
-                     self.errorLabelStore?.isHidden = true
-                    self.errorView?.removeFromSuperview()
-                    self.errorView = nil
+                    self.errorLabelStore?.isHidden = true
+                    if self.errorView != nil {
+                        if  self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb {
+                            self.errorView?.removeFromSuperview()
+                            self.errorView = nil
+                            self.suburb.layer.borderColor = UIColor.clear.cgColor
+                            self.zipcode.layer.borderColor = UIColor.clear.cgColor
+                        }
+                        
+                    }
                     
                     self.resultDict = result
                     self.neighborhoods = []
