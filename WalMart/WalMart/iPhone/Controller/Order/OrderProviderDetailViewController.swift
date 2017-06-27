@@ -222,6 +222,7 @@ class OrderProviderDetailViewController : NavigationViewController {
             let addressLbl = NSLocalizedString("previousorder.address",comment:"")
             //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
         
+            var providerName = ""
             let resultsProducts =  result["items"] as! [[String:Any]]
             var itemsFedex : [[String:Any]] = []
             
@@ -236,6 +237,10 @@ class OrderProviderDetailViewController : NavigationViewController {
                 
                 if self.status == "" {
                     self.status = itemProduct["status"] as? String ?? ""
+                }
+                
+                if providerName == "" {
+                    providerName = itemProduct["sellerName"] as? String ?? ""
                 }
 
             if itemFedexFound.count == 0 {
@@ -267,6 +272,7 @@ class OrderProviderDetailViewController : NavigationViewController {
             details.append(["label":nameLbl,"value":name])
             details.append(["label":deliveryTypeLbl,"value":deliveryType])
             details.append(["label":addressLbl,"value":address])
+            details.append(["label":"Proveedor","value":providerName])
             //details.append(["label":fedexLbl,"value":guide])
             self.detailsOrder = details
             

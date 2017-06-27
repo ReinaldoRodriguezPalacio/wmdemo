@@ -448,11 +448,20 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             
                 if let offers = result["offers"] as? [[String:Any]] {
                     self.hasProvider = offers.count > 0
-                    self.providerInfo =  offers.count > 0 ? offers.first! : [:]
                     self.providerArray = offers
+                    for offer in offers {
+                        let offerId = offer["offerId"] as! NSString
+                        if offerId == self.upc {
+                            self.providerInfo = offer
+                            break
+                        }
+                    }
+                    if self.providerInfo == nil {
+                      self.providerInfo =  offers.count > 0 ? offers.first! : [:]  
+                    }
+                    
                 }
                 self.setCollectionLayout()
-
                 self.reloadViewWithData(result)
                 
                 if let facets = result["facets"] as? [[String:Any]] {
