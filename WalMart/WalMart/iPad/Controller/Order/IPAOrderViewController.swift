@@ -46,12 +46,11 @@ class IPAOrderViewController: OrderViewController {
     //MARK: - TableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-     
-        let item = self.items[indexPath.row] 
-        let detailController = IPAOrderDetailViewController()
+    
+        let item = self.items[indexPath.row]
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
+             let detailController = IPAOrderProviderDetailViewController()
             detailController.type = ResultObjectType.Mg
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
@@ -69,6 +68,7 @@ class IPAOrderViewController: OrderViewController {
             detailController.date = dateStr
             self.navigationController!.pushViewController(detailController, animated: true)
         } else {
+             let detailController = IPAOrderDetailViewController()
             detailController.type = ResultObjectType.Groceries
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
