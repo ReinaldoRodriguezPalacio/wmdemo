@@ -10,26 +10,20 @@ import Foundation
 
 class ProviderDetailService : BaseService {
   
-  func buildParams(_ idProvider:String) -> [String:Any] {
-    return ["offerId":idProvider]
-  }
-  
-  func callService(_ params:[String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {
-    self.jsonFromObject(params as AnyObject!)
-    self.getManager().post(serviceUrl(), parameters: params,progress:nil, success: {(request:URLSessionDataTask, json:Any?) in
-            //self.printTimestamp("success LinesForSearchService")
-            let jsonResponce = json as! [String:Any]
-            successBlock?(jsonResponce) },
-                           
-                          failure: {(request:URLSessionDataTask?, error:Error) in
-                            if (error as NSError).code == -1005 {
-                              print("Response Error : \(error) \n")
-                              self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
-                              return
-                            }
-                            print("Response Error : \(error) \n ")
-                            errorBlock!(error as NSError)
-    })
-  }
-  
+    var sellerId: String = ""
+    func buildParams(_ sellerId:String) {
+        self.sellerId = sellerId
+    }
+    
+    func callService(_ params:[String:Any],successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callGETService(params, successBlock: { (resultCall:[String:Any]) -> Void in
+            successBlock!(resultCall)
+        }) { (error:NSError) -> Void in
+            errorBlock!(error)
+        }
+    }
+    
+    override func serviceUrl() -> (String){
+        return super.serviceUrl() + "/"  + self.sellerId
+    }
 }

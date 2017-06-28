@@ -27,6 +27,7 @@ class ProviderDetailViewController : BaseController {
   var questions : [[String:Any]]?
   var nameProvider : String = ""
   var rating : Double = 0.0
+  var sellerId: String = ""
   
   var prodUpc : String! = ""
   var prodImageUrl: String! = ""
@@ -184,10 +185,8 @@ class ProviderDetailViewController : BaseController {
       
       buttonShop!.setTitle(text, for: UIControlState())
       buttonShop!.setTitleColor(WMColor.light_blue, for: UIControlState())
-      
       buttonShop!.setTitle(text, for: UIControlState.selected)
       buttonShop!.setTitleColor(WMColor.light_blue, for: UIControlState.selected)
-      
       buttonShop!.backgroundColor = WMColor.light_gray
     }
     
@@ -200,8 +199,8 @@ class ProviderDetailViewController : BaseController {
    */
   func invokeServiceProviderDetail() {
     let service =  ProviderDetailService()
-    let params = service.buildParams("id001")
-    service.callService(params, successBlock: { (response:[String:Any]) -> Void in
+    service.buildParams(self.sellerId)
+    service.callService([:], successBlock: { (response:[String:Any]) -> Void in
       let responseArray  =  response["responseArray"] as! [Any]
       //print(responseArray)
       self.provider = responseArray[0] as? [String:Any]
