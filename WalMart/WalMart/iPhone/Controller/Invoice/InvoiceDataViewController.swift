@@ -297,7 +297,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 self.alertView!.setMessage("Generando Factura...")
                 
         UserDefaults.standard.set(idClienteSelected, forKey:"last_idCliente")
-        let ticketService = InvoiceResendService()
+        let ticketService = InvoiceSendService()
         ticketService.callService(params: ["ticket":self.TicketEscrito, "email":self.txtEmail?.text, "idCliente":self.idClienteSelected], successBlock: { (resultCall:[String:Any]) -> Void in
             var responseOk : String! = ""
             if let headerData = resultCall["headerResponse"] as? [String:Any]{
@@ -665,7 +665,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                         
                         self.idClienteSelected = businessData?["clienteId"] as! String
                         
-                        let ticketService = InvoiceResendService()
+                        let ticketService = InvoiceSendService()
                         ticketService.callService(params: ["ticket":self.TicketEscrito, "email":self.txtEmail?.text, "idCliente":self.idClienteSelected], successBlock: { (resultCall:[String:Any]) -> Void in
                             var responseOk : String! = ""
                             if let headerData = resultCall["headerResponse"] as? [String:Any]{
