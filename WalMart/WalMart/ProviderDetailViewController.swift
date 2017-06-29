@@ -199,7 +199,7 @@ class ProviderDetailViewController : BaseController {
    */
     func invokeServiceProviderDetail() {
         let service =  ProviderDetailService()
-        service.buildParams(self.sellerId)
+        service.buildParams("2024")//self.sellerId)
         service.callService([:], successBlock: { (response:[String:Any]) -> Void in
             let responseArray  =  response["responseArray"] as! [Any]
             //print(responseArray)
@@ -209,8 +209,8 @@ class ProviderDetailViewController : BaseController {
             let evaluations = self.provider!["evaluations"] as! [String:Any]
             self.satisfactionPorc = evaluations["porcentageGeneral"] as! Double
             self.providerDetails = self.provider!["seller"] as? [[String : Any]]
-            //self.totalQuestion = self.provider!["totalQuestion"] as! Int
-            //self.questions = self.provider!["questions"] as? [[String : Any]]
+            self.totalQuestion = self.provider!["totalQuestion"] as! Int
+            self.questions = self.provider!["summaryEvaluations"] as? [[String : Any]]
             
             self.providerTable!.reloadData()
             
@@ -225,7 +225,7 @@ class ProviderDetailViewController : BaseController {
 //MARK: TableViewDataSource
 extension ProviderDetailViewController : UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return self.providerDetails?.count ?? 0
   }
   
   
