@@ -197,28 +197,30 @@ class ProviderDetailViewController : BaseController {
   /**
    Gets product detail info from service
    */
-  func invokeServiceProviderDetail() {
-    let service =  ProviderDetailService()
-    service.buildParams(self.sellerId)
-    service.callService([:], successBlock: { (response:[String:Any]) -> Void in
-      let responseArray  =  response["responseArray"] as! [Any]
-      //print(responseArray)
-      self.provider = responseArray[0] as? [String:Any]
-      
-      self.rating = self.provider!["rating"] as! Double
-      self.satisfactionPorc = self.provider!["satisfactionPorc"] as! Double
-      self.providerDetails = self.provider!["Info"] as? [[String : Any]]
-      self.totalQuestion = self.provider!["totalQuestion"] as! Int
-      self.questions = self.provider!["questions"] as? [[String : Any]]
-      
-      self.providerTable!.reloadData()
-      
-    }, errorBlock: { (error:NSError) -> Void in
-      print("Error")
-      
-    })
-  }
+    func invokeServiceProviderDetail() {
+        let service =  ProviderDetailService()
+        service.buildParams(self.sellerId)
+        service.callService([:], successBlock: { (response:[String:Any]) -> Void in
+            let responseArray  =  response["responseArray"] as! [Any]
+            //print(responseArray)
+            self.provider = responseArray[0] as? [String:Any]
+            
+            self.rating =  self.provider!["gradeGeneral"] as! Double
+            let evaluations = self.provider!["evaluations"] as! [String:Any]
+            self.satisfactionPorc = evaluations["porcentageGeneral"] as! Double
+            self.providerDetails = self.provider!["seller"] as? [[String : Any]]
+            //self.totalQuestion = self.provider!["totalQuestion"] as! Int
+            //self.questions = self.provider!["questions"] as? [[String : Any]]
+            
+            self.providerTable!.reloadData()
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error")
+            self.navigationController?.popViewController(animated: true)
+        })
+    }
 }
+
 
 //MARK: TableViewDataSource
 extension ProviderDetailViewController : UITableViewDataSource {
