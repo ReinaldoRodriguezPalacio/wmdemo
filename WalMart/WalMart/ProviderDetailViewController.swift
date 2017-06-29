@@ -35,13 +35,14 @@ class ProviderDetailViewController : BaseController {
   var prodPrice : String! = ""
   var prodComments : String! = ""
   
-  
   var quantity: NSNumber! = 0
   var isAviableToShoppingCart : Bool = true 
   
   var satisfactionPorc : Double = 0.0
   var totalQuestion : Int = 0
   var totalCount :Int = 0
+    
+  var viewLoad: WMLoadingView? = nil
   
   weak var delegate : ProviderDetailViewControllerDelegate?
   
@@ -114,16 +115,7 @@ class ProviderDetailViewController : BaseController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    //self.showLoadingView()
-    /*self.reloadList(
-     success:{() -> Void in
-     self.removeLoadingView()
-     },
-     failure: {(error:NSError) -> Void in
-     self.removeLoadingView()
-     }
-     )*/
-    
+    showLoadingView()
     self.providerTable!.reloadData()
   }
   
@@ -212,14 +204,34 @@ class ProviderDetailViewController : BaseController {
             self.totalQuestion = evaluations.count
             self.totalCount = evaluations["total_count"] as! Int
             self.questions = evaluations["summaryEvaluations"] as? [[String : Any]]
-            
+            self.removeLoadingView()
             self.providerTable!.reloadData()
-            
+        
         }, errorBlock: { (error:NSError) -> Void in
             print("Error")
             self.navigationController?.popViewController(animated: true)
         })
     }
+    
+    func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: self.headerView!.frame.maxY, width: self.view.bounds.width, height: self.view.bounds.height - self.headerView!.frame.maxY))
+        self.viewLoad!.backgroundColor = UIColor.white
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+
 }
 
 
