@@ -1734,7 +1734,7 @@ extension ProductDetailViewController: ProductDetailButtonBarCollectionViewCellD
 extension ProductDetailViewController: ProductDetailProviderViewDelegate {
     func showProviderInfoView() {
       let controller = ProviderDetailViewController()
-      controller.nameProvider = "Acme"
+      controller.nameProvider = self.providerInfo!["name"] as! String
       controller.prodUpc = self.upc as String
       controller.prodImageUrl = self.imageUrl.first! as? String
       controller.prodDescription = self.name as String

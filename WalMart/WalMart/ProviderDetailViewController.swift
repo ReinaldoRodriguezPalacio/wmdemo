@@ -23,7 +23,7 @@ class ProviderDetailViewController : BaseController {
   
   var providerTable: UITableView!
   var provider : [String:Any]?
-  var providerDetails : [[String:Any]]?
+  var providerDetails : [String:Any]?
   var questions : [[String:Any]]?
   var nameProvider : String = ""
   var rating : Double = 0.0
@@ -41,6 +41,7 @@ class ProviderDetailViewController : BaseController {
   
   var satisfactionPorc : Double = 0.0
   var totalQuestion : Int = 0
+  var totalCount :Int = 0
   
   weak var delegate : ProviderDetailViewControllerDelegate?
   
@@ -202,15 +203,15 @@ class ProviderDetailViewController : BaseController {
         service.buildParams("2024")//self.sellerId)
         service.callService([:], successBlock: { (response:[String:Any]) -> Void in
             let responseArray  =  response["responseArray"] as! [Any]
-            //print(responseArray)
             self.provider = responseArray[0] as? [String:Any]
             
             self.rating =  self.provider!["gradeGeneral"] as! Double
             let evaluations = self.provider!["evaluations"] as! [String:Any]
             self.satisfactionPorc = evaluations["porcentageGeneral"] as! Double
-            self.providerDetails = self.provider!["seller"] as? [[String : Any]]
-            self.totalQuestion = self.provider!["totalQuestion"] as! Int
-            self.questions = self.provider!["summaryEvaluations"] as? [[String : Any]]
+            self.providerDetails = self.provider!["seller"] as? [String : Any]
+            self.totalQuestion = evaluations.count
+            self.totalCount = evaluations["total_count"] as! Int
+            self.questions = evaluations["summaryEvaluations"] as? [[String : Any]]
             
             self.providerTable!.reloadData()
             
@@ -225,13 +226,13 @@ class ProviderDetailViewController : BaseController {
 //MARK: TableViewDataSource
 extension ProviderDetailViewController : UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
-    return self.providerDetails?.count ?? 0
+    return self.providerDetails != nil ? 2 : 1
   }
   
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if self.provider != nil {
-      return section == 0 ? (self.questions != nil ? (questions!.count + 1 ): 1) : 2
+      return section == 0 ? (self.questions != nil ? (questions!.count + 1 ) : 1) : 2
     } else {
       return 0
     }
@@ -244,8 +245,7 @@ extension ProviderDetailViewController : UITableViewDataSource {
         return indexPath.row == 0 ? 97.0 : (self.questions != nil ? 86.0 : 0.0)
     } else {
       if self.provider != nil {
-        let infoDetail = self.providerDetails![indexPath.row]
-        let textCell = infoDetail["description"] as! String
+        let textCell = self.providerDetails!["description"] as! String
         let size = DetailProvidertableViewCell.sizeText(textCell, width: self.view.frame.width - (32.0))
         
         return size + 60.0
@@ -265,7 +265,7 @@ extension ProviderDetailViewController : UITableViewDataSource {
     header.backgroundColor = UIColor.white
     
     if section == 0 {
-      let porcStrn = String(format: "%.0f", satisfactionPorc)
+      let porcStrn = String(format: "%.2f", satisfactionPorc)
       
       let attrStringLab = NSAttributedString(string:"\(porcStrn)% ", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(20),NSForegroundColorAttributeName:WMColor.light_blue])
       let size = attrStringLab.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude,height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
@@ -302,7 +302,7 @@ extension ProviderDetailViewController : UITableViewDelegate {
         if indexPath.row == 0 {
           //cell rating Stars
           let cellProviderStars = providerTable.dequeueReusableCell(withIdentifier: providerRatingStarsIdentifier(), for: indexPath) as! RatingStarsTableViewCell
-          cellProviderStars.setValues(String(self.rating), totalQuestion: self.totalQuestion)
+          cellProviderStars.setValues(String(self.rating), totalQuestion: self.totalCount)
           cell = cellProviderStars
           
         } else {
@@ -310,7 +310,7 @@ extension ProviderDetailViewController : UITableViewDelegate {
             if self.questions != nil {
                 let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerRatingQIdentifier(), for: indexPath) as! RatingQuestionTableViewCell
                 let dataQuestion = self.questions![indexPath.row - 1]
-                cellProvider.setValues(dataQuestion, totalQuestion: self.totalQuestion)
+                cellProvider.setValues(dataQuestion, totalQuestion: self.totalCount)
                 
                 cell = cellProvider
             }
@@ -320,10 +320,10 @@ extension ProviderDetailViewController : UITableViewDelegate {
         //Provider detail
         let cellProvider = providerTable.dequeueReusableCell(withIdentifier: providerDetailIdentifier(), for: indexPath) as! DetailProvidertableViewCell
         
-        let infoDetail = self.providerDetails![indexPath.row]
+        let infoDetail = indexPath.row == 0 ? self.providerDetails!["description"] as! String : self.providerDetails!["description"] as! String
         
         let titleCell = indexPath.row == 0 ? String(format: NSLocalizedString("provider.about", comment:""), nameProvider) : NSLocalizedString("provider.returns",comment:"")
-        cellProvider.setValues(titleCell, detailTxt: infoDetail["description"] as! String)
+        cellProvider.setValues(titleCell, detailTxt: infoDetail)
         
         cell = cellProvider
       }

@@ -1782,7 +1782,7 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
     
     func showProviderInfoView() {
         let controller = ProviderDetailViewController()
-        controller.nameProvider = "Acme"
+        controller.nameProvider = self.providerInfo!["name"] as! String
         controller.preferredContentSize = CGSize(width: 352, height: 525)
         controller.modalPresentationStyle = .formSheet
         self.navigationController?.present(controller, animated: true, completion: nil)

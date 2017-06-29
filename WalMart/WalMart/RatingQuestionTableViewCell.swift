@@ -49,11 +49,11 @@ class RatingQuestionTableViewCell : UITableViewCell {
   
   func setValues(_ questionData:[String:Any], totalQuestion:Int){
     questionLbl.frame = CGRect(x: 16.0, y: 0.0, width: (self.bounds.width - (16.0 * 2)) , height: 46.0)
-    questionLbl.text = questionData["question"] as? String
+    questionLbl.text = questionData["label"] as! String
     self.clearView(questionLbl)
     self.addSubview(questionLbl)
     
-    let numbAprobed = questionData["approved"] as? Int
+    let numbAprobed = questionData["correct"] as! Int
     
     let whdthRating : CGFloat = self.bounds.width - 32 - (IS_IPAD ? 93.0 : 95.0)
     
@@ -64,12 +64,12 @@ class RatingQuestionTableViewCell : UITableViewCell {
     }
     
     let widthDoub = Double(self.ratingView.frame.width)
-    let rango = (Double(numbAprobed!) / Double(totalQuestion)) * 100
-    let percentageRating : Double = (widthDoub * (rango) ) / 100.0
+    //let rango = (Double(numbAprobed!) / Double(totalQuestion)) * 100
+    let percentageRating : Double = (widthDoub * (questionData["okPercentage"] as! Double) ) / 100.0
     self.ratingGreenView.frame = CGRect(x: 16.0, y: self.ratingView.frame.minY, width: CGFloat(percentageRating), height: self.ratingView.frame.height)
     
     percentageLbl.frame = CGRect(x: self.bounds.width - 16.0 - (IS_IPAD ? 90.0 : 91.0), y: self.ratingView.frame.minY, width: IS_IPAD ? 90.0 : 91.0 , height: 11.0)
-    percentageLbl.text  = "\(String(format: "%.0f", rango))% (\(numbAprobed!) / \(totalQuestion))"
+    percentageLbl.text  = "\(String(format: "%.1f", questionData["okPercentage"] as! Double))% (\(numbAprobed) / \(totalQuestion))"
     self.clearView(percentageLbl)
     self.addSubview(percentageLbl)
   }
