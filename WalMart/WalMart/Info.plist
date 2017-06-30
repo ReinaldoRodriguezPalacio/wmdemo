@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.71</string>
+	<string>3.72</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>38</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -510,8 +510,6 @@
 			<string>http://10.30.13.213:9084/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getUpsell</string>
-			<key>WalmartMG.ProviderDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -556,6 +554,8 @@
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -635,8 +635,6 @@
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
-			<key>WalmartMG.ProviderDetailService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -681,6 +679,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -1050,8 +1050,6 @@
 			<string>http://10.30.13.213:9084/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getUpsell</string>
-			<key>WalmartMG.ProviderDetailService</key>
-			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1096,6 +1094,8 @@
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -1177,8 +1177,6 @@
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingGRProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getUpsell</string>
-			<key>WalmartMG.ProviderDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1223,6 +1221,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
+			<key>WalmartMG.ProviderDetailService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>

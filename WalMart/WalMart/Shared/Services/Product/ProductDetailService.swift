@@ -46,8 +46,11 @@ class ProductDetailService : BaseService {
         //self.jsonFromObject(params)
         
         self.callPOSTService(params, successBlock: { (resultCall:[String:Any]) -> Void in
-            let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! [String:Any]
-            successBlock!(resultObject)
+            if let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as? [String:Any] {
+                successBlock!(resultObject)
+            }else{
+                errorBlock?(NSError(domain: "Error in productDetail", code: -1, userInfo: [NSLocalizedDescriptionKey : "Object does not exist"]))
+            }
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
         }

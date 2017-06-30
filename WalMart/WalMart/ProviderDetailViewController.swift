@@ -192,7 +192,7 @@ class ProviderDetailViewController : BaseController {
    */
     func invokeServiceProviderDetail() {
         let service =  ProviderDetailService()
-        service.buildParams("2024")//self.sellerId)
+        service.buildParams(self.sellerId)
         service.callService([:], successBlock: { (response:[String:Any]) -> Void in
             let responseArray  =  response["responseArray"] as! [Any]
             self.provider = responseArray[0] as? [String:Any]

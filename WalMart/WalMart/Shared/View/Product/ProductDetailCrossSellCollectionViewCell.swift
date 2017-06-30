@@ -78,7 +78,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "productCrossSellCell", for: indexPath) as! ProductDetailCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] 
+        var itemUPC = itemsUPC[indexPath.row]
         
         let desc = itemUPC["description"] as! String
         
@@ -93,6 +93,12 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
         var imageUrl = ""
         if imageArray.count > 0 {
             imageUrl = imageArray[0] as! String
+        }
+        
+        if let offers = itemUPC["offers"] as? [Any] {
+            if let offer = offers.first as? [String:Any] {
+                productPrice = offer["price"] as! String
+            }
         }
         
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: productPrice)

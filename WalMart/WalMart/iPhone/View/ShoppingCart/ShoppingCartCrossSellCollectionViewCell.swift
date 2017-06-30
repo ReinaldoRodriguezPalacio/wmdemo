@@ -35,7 +35,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         let cell = collection.dequeueReusableCell(withReuseIdentifier: "shoppingCartCrossSellCell", for: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
         let itemUPC = itemsUPC[indexPath.row] 
-        let upc = itemUPC["upc"] as! String
+        var upc = itemUPC["upc"] as! String
 
         let desc = itemUPC["description"] as! String
         var price : String! = ""
@@ -47,6 +47,14 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         } else if let priceint = itemUPC["price"] as? Int{
             price = String(priceint)
         }
+        
+        if let offers = itemUPC["offers"] as? [Any] {
+            if let offer = offers.first as? [String:Any] {
+                price = offer["price"] as! String
+                upc = offer["offerId"] as! String
+            }
+        }
+        
         
         if price != "" {
             imageArray = itemUPC["imageUrl"] as! [Any]

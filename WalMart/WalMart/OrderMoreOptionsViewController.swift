@@ -11,7 +11,7 @@ import UIKit
 class OrderMoreOptionsViewController: NavigationViewController {
   
   var tableOptions : UITableView!
-  var itemsOptions = ["Refacturar", "Contactar al proveedor", "Reportar un problema","Devolver estos artículos"]
+  var itemsOptions = ["Refacturar", "Contactar al proveedor","Devolver estos artículos"]
   var orderItems:[[String:Any]]! = []
   var alertView : IPOWMAlertViewController? = nil
   
@@ -104,7 +104,13 @@ class OrderMoreOptionsViewController: NavigationViewController {
     self.present(webCtrl,animated:true,completion:nil)
   }
   
-  
+ 
+  func reportProblem() {
+    let controller = ReportProblemViewController()
+    controller.orderItems = self.orderItems
+    self.navigationController?.pushViewController(controller, animated: true)
+  }
+    
 }
 
 //MARK: UITableViewDataSource
@@ -140,11 +146,6 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
             let controller = ContactProviderViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case 2:
-            print("Reportar un problema")
-            let controller = ReportProblemViewController()
-            controller.orderItems = self.orderItems
-            self.navigationController?.pushViewController(controller, animated: true)
-        case 3:
             print("Devolver estos articulos")
             self.returnItems()
         default:
