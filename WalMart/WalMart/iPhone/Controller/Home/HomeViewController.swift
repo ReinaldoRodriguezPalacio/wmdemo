@@ -351,6 +351,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
                 var hasProviders = false
                 if let offers = recommendProduct["offers"] as? [Any] {
+                    if let provider = offers.first as? [String:Any] {
+                        productCell.upcProduct = provider["offerId"] as! NSString as String
+                        price = (provider["price"] as! NSString) as String
+                    }
                     hasProviders = (offers.count > 0)
                 }
                 

@@ -209,7 +209,11 @@ class ProviderDetailViewController : BaseController {
         
         }, errorBlock: { (error:NSError) -> Void in
             print("Error")
-            self.navigationController?.popViewController(animated: true)
+            if IS_IPAD {
+                self.dismiss(animated: true, completion: nil)
+            }else{
+                self.navigationController?.popViewController(animated: true)
+            }
         })
     }
     
