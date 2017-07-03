@@ -30,6 +30,8 @@ class OrderProviderDetailViewController : NavigationViewController {
     var alertView: IPOWMAlertViewController?
     var emptyOrder: IPOSearchResultEmptyView!
     var timmer : Timer!
+    var sellerId: String = ""
+    var sellerName: String = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
@@ -202,6 +204,7 @@ class OrderProviderDetailViewController : NavigationViewController {
     }
     
     func reloadPreviousOrderDetail() {
+        trackingNumber = "36500082" //TODO: kitar
         let servicePrev = PreviousOrderDetailService()
         servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
                 
@@ -222,7 +225,6 @@ class OrderProviderDetailViewController : NavigationViewController {
             let addressLbl = NSLocalizedString("previousorder.address",comment:"")
             //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
         
-            var providerName = ""
             let resultsProducts =  result["items"] as! [[String:Any]]
             var itemsFedex : [[String:Any]] = []
             
@@ -239,8 +241,21 @@ class OrderProviderDetailViewController : NavigationViewController {
                     self.status = itemProduct["status"] as? String ?? ""
                 }
                 
-                if providerName == "" {
-                    providerName = itemProduct["sellerName"] as? String ?? ""
+                
+                if let offers = itemProduct["offers"] as? [[String:Any]] {
+                    for offer in offers {
+                        if offer["offerId"] as! String == itemProduct["upc"] as! String {
+                            self.sellerName = offer["name"] as! String
+                            self.sellerId = offer["sellerId"] as! String
+                            break
+                        }
+                    }
+                    
+                    if self.sellerName == "" {
+                        let offer = offers.first!
+                        self.sellerName = offer["name"] as! String
+                        self.sellerId = offer["sellerId"] as! String
+                    }
                 }
 
             if itemFedexFound.count == 0 {
@@ -272,7 +287,7 @@ class OrderProviderDetailViewController : NavigationViewController {
             details.append(["label":nameLbl,"value":name])
             details.append(["label":deliveryTypeLbl,"value":deliveryType])
             details.append(["label":addressLbl,"value":address])
-            details.append(["label":"Proveedor","value":providerName])
+            details.append(["label":"Proveedor","value":self.sellerName])
             //details.append(["label":fedexLbl,"value":guide])
             self.detailsOrder = details
             
@@ -431,7 +446,8 @@ class OrderProviderDetailViewController : NavigationViewController {
         let controller = OrderMoreOptionsViewController()
         let arrayProductsFed = itemDetailProducts[0]
         let productsArray = arrayProductsFed["items"] as! [[String:Any]]
-        
+        controller.sellerName = self.sellerName
+        controller.sellerId = self.sellerId
         controller.orderItems = productsArray
         self.navigationController!.pushViewController(controller, animated: true)
     }

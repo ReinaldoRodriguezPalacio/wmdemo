@@ -24,6 +24,10 @@ class ProviderProductTableViewCell : UITableViewCell {
     var productPrice: NSNumber?
     var quantity: NSNumber! = 0
     var onHandInventory: NSNumber! = 99
+    var sellerId: String = ""
+    var offerId: String = ""
+    var sellerName: String = ""
+    var price: String = ""
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -91,6 +95,15 @@ class ProviderProductTableViewCell : UITableViewCell {
         
         if let providerName = provider["name"] as? String {
             providerNameLabel.text = providerName
+            self.sellerName = providerName
+        }
+        
+        if let sellerId = provider["sellerId"] as? String {
+            self.sellerId = sellerId
+        }
+        
+        if let offerId = provider["offerId"] as? String {
+            self.offerId = offerId
         }
         
         if let delibery = provider["shipping"] as? String {
@@ -98,6 +111,7 @@ class ProviderProductTableViewCell : UITableViewCell {
         }
         
         if let price = provider["price"] as? NSString {
+            self.price = price as String
             self.productPrice = price.doubleValue as NSNumber
             let formatedPrice = CurrencyCustomLabel.formatString(price)
             self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)

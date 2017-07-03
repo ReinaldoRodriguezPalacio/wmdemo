@@ -14,6 +14,8 @@ class OrderMoreOptionsViewController: NavigationViewController {
   var itemsOptions = ["Refacturar", "Contactar al proveedor","Devolver estos artículos"]
   var orderItems:[[String:Any]]! = []
   var alertView : IPOWMAlertViewController? = nil
+  var sellerId: String = ""
+  var sellerName: String = ""
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue

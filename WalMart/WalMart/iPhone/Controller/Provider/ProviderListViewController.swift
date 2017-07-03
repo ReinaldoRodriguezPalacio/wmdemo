@@ -178,7 +178,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
     func selectQuantityForItem(cell: ProviderProductTableViewCell, productInCart: Cart?) {
         
         if productInCart?.quantity == nil {
-            let params = self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue)
+            let params = self.buildParamsUpdateShoppingCart("1", orderByPiece: true, pieces: 1,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue,sellerId: cell.sellerId, offerId: cell.offerId,sellerName: cell.sellerName)
             NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
             if IS_IPAD {
                 back()
@@ -220,7 +220,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
                     let maxProducts = (cell.onHandInventory.intValue <= 5 || self.productDeparment == "d-papeleria") ? cell.onHandInventory.intValue : 5
                     if maxProducts >= Int(quantity)! {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
-                        let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue)//equivalenceByPiece
+                        let params = self.buildParamsUpdateShoppingCart(quantity, orderByPiece: true, pieces: Int(quantity)!,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue,sellerId: cell.sellerId, offerId: cell.offerId,sellerName: cell.sellerName)//equivalenceByPiece
                         NotificationCenter.default.post(name: .addUPCToShopingCart, object: self, userInfo: params)
                     } else {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -278,7 +278,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
         self.quantitySelector = nil
         
         
-        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue)
+        let itemToDelete = self.buildParamsUpdateShoppingCart("0",orderByPiece: false, pieces: 0,equivalenceByPiece:0, price: cell.productPrice!.stringValue,onHandInventory: cell.onHandInventory.stringValue,sellerId: cell.sellerId, offerId: cell.offerId,sellerName: cell.sellerName)
         if !UserCurrentSession.hasLoggedUser() {
             BaseController.sendAnalyticsAddOrRemovetoCart([itemToDelete], isAdd: false)
         }
@@ -302,9 +302,9 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
         }
     }
     
-    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int,price:String,onHandInventory:String) -> [AnyHashable: Any] {
+    func buildParamsUpdateShoppingCart(_ quantity:String, orderByPiece: Bool, pieces: Int,equivalenceByPiece:Int,price:String,onHandInventory:String,sellerId:String,offerId:String,sellerName:String) -> [AnyHashable: Any] {
 
-        return ["upc":self.upcProduct,"desc":self.productDescription!,"imgUrl":self.productImageUrl!,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":"0","isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece]
+        return ["upc":offerId,"desc":self.productDescription!,"imgUrl":self.productImageUrl!,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":"0","isPreorderable":self.strisPreorderable,"category":self.productDeparment,"equivalenceByPiece":equivalenceByPiece,"sellerId": sellerId, "offerId": offerId, "sellerName": sellerName]
     }
 
 }
