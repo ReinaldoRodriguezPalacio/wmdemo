@@ -251,7 +251,7 @@ class OrderProviderDetailViewController : NavigationViewController {
                         }
                     }
                     
-                    if self.sellerName == "" {
+                    if self.sellerName == ""  && offers.count > 0 {
                         let offer = offers.first!
                         self.sellerName = offer["name"] as! String
                         self.sellerId = offer["sellerId"] as! String
