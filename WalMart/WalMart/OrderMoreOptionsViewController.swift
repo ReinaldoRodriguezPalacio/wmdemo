@@ -146,6 +146,7 @@ extension OrderMoreOptionsViewController: UITableViewDelegate {
         case 1:
             print("Contactar al proveedor")
             let controller = ContactProviderViewController()
+            controller.sellerId = self.sellerId
             self.navigationController!.pushViewController(controller, animated: true)
         case 2:
             print("Devolver estos articulos")

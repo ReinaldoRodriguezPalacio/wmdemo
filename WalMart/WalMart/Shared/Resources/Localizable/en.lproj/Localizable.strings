@@ -80,6 +80,9 @@
 "provider.valuations" = "valoraciones";
 "provider.for"= "Vendido por ";
 
+//Contact Provider
+"contact.provider.title"="Contactar al proveedor";
+"contact.provider.subtitle"="Si tienes algún problema con tu orden o artículos (s) puedes contactar al vendedor para solicitarle mayor información.";
 
 //Shoping cart
 "shoppingcart.title" = "Carrito";

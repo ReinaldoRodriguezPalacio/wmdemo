@@ -30,8 +30,11 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
   var callLbl : UILabel!
   var emailLbl : UILabel!
   
-  var emailProvider : String!
-  var numberPhoneProvider : String!
+  var emailProvider : String! = ""
+  var numberPhoneProvider : String! = ""
+  var sellerId : String = ""
+
+  var viewLoad: WMLoadingView? = nil
   
   override func getScreenGAIName() -> String {
     return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -41,11 +44,7 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     super.viewDidLoad()
     
     self.view.backgroundColor = UIColor.white
-    self.titleLabel!.text = "Contactar al Proveedor"//NSLocalizedString("profile.myOrders", comment: "")
-    
-    self.emailProvider = "contacto_acme@gmail.com"//cambiar a correo de proveedor
-    self.numberPhoneProvider = "5523456789"
-    
+    self.titleLabel!.text = NSLocalizedString("contact.provider.title", comment: "")
     
     self.viewGral = UIView(frame: CGRect(x: 0, y: 46, width: self.view.frame.width, height: 72))
     self.viewGral.backgroundColor = UIColor.white
@@ -54,37 +53,33 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.notificationLabel.font = WMFont.fontMyriadProRegularOfSize(14.0)
     self.notificationLabel.textColor = WMColor.gray
     self.notificationLabel.numberOfLines = 3
-    self.notificationLabel.text = "Si tienes algún problema con tu orden o artículos (s) puedes contactar al vendedor para solicitarle mayor información."
+    self.notificationLabel.text = NSLocalizedString("contact.provider.subtitle", comment: "")
     
     self.separatorView = UIView(frame:CGRect(x: 0, y: 0, width: 0, height: 0))
     self.separatorView.backgroundColor = WMColor.light_light_gray
     
     self.addressTitleLbl = self.labelContact(true)
-    self.addressTitleLbl.text = "Dirección"
+    self.addressTitleLbl.text = NSLocalizedString("profile.address", comment: "")
     
     self.addressDescrLbl = self.labelContact(false)
-    self.addressDescrLbl.text = "Av. San Francisco no. 1621, Del Valle, Benito Juárez, Ciudad de México. 03100"
     self.addressDescrLbl.numberOfLines = 4
     
     self.phoneTitleLbl = self.labelContact(true)
-    self.phoneTitleLbl.text = "Teléfono"
+    self.phoneTitleLbl.text = NSLocalizedString("profile.address.telephone", comment: "")
     
     self.phoneDescrLbl = self.labelContact(false)
-    self.phoneDescrLbl.text = self.numberPhoneProvider
     self.phoneDescrLbl.textColor = WMColor.light_blue
     
     self.emailTitleLbl = self.labelContact(true)
-    self.emailTitleLbl.text = "Correo electrónico"
+    self.emailTitleLbl.text = NSLocalizedString("profile.email", comment: "")
     
     self.emailDescrLbl = self.labelContact(false)
-    self.emailDescrLbl.text = self.emailProvider
     self.emailDescrLbl.textColor = WMColor.light_blue
     
     self.fiscalDataTitleLbl = self.labelContact(true)
-    self.fiscalDataTitleLbl.text = "Datos fiscales"
+    self.fiscalDataTitleLbl.text = NSLocalizedString("profile.address.fiscal.section", comment: "")
     
     self.fiscalDataDescrLbl = self.labelContact(false)
-    self.fiscalDataDescrLbl.text = "RFCX0000009G9\nRazón social SA DE CV\nAv. San Francisco no. 1621, Del Valle, Benito Juárez,\nCiudad de México. 03100"
     self.fiscalDataDescrLbl.numberOfLines = 4
     
     
@@ -97,7 +92,7 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.callBtn.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0);
     self.callBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     self.callBtn.titleLabel?.textColor = UIColor.white
-    self.callBtn.setTitle("Llámanos", for: UIControlState())
+    self.callBtn.setTitle(NSLocalizedString("help.buttom.title.call", comment: ""), for: UIControlState())
     self.callBtn.layer.cornerRadius = 15
     self.callBtn.addTarget(self , action: #selector(ContactProviderViewController.selectecButton(_:)), for:UIControlEvents.touchUpInside)
     self.callBtn.backgroundColor = WMColor.green
@@ -108,12 +103,10 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     self.emailBtn.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0);
     self.emailBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     self.emailBtn.titleLabel?.textColor = UIColor.white
-    self.emailBtn.setTitle("Escríbenos", for: UIControlState())
+    self.emailBtn.setTitle(NSLocalizedString("help.buttom.title.text", comment: ""), for: UIControlState())
     self.emailBtn.layer.cornerRadius = 15
     self.emailBtn.addTarget(self , action: #selector(ContactProviderViewController.sendEmailProvider), for:UIControlEvents.touchUpInside)
     self.emailBtn.backgroundColor = WMColor.green
-    
-    
     
     
     self.callLbl = UILabel()
@@ -148,15 +141,17 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     
     
     scrollContact = TPKeyboardAvoidingScrollView()
-    //self.scrollContact.backgroundColor = WMColor.light_red
     self.scrollContact.scrollDelegate = self
     scrollContact.contentSize = CGSize( width: self.view.bounds.width, height: 720)
     scrollContact.addSubview(viewGral)
     self.view.addSubview(scrollContact)
+    
+    self.invokeServiceProviderDetail()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    showLoadingView()
   }
   
   override func viewWillLayoutSubviews() {
@@ -204,6 +199,58 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
     super.back()
   }
+    
+    //MARK: - Services
+    /**
+     Gets product detail info from service
+     */
+    func invokeServiceProviderDetail() {
+        let service =  ProviderDetailService()
+        service.buildParams(self.sellerId)
+        service.callService([:], successBlock: { (response:[String:Any]) -> Void in
+            let responseArray  =  response["responseArray"] as! [Any]
+            let provider = responseArray[0] as? [String:Any]
+            
+            let seller = provider!["seller"] as? [String : Any]
+            
+            self.emailProvider = seller!["email"] as? String
+            self.numberPhoneProvider = seller!["phone"] as? String
+            
+            self.addressDescrLbl.text = seller!["address"] as? String
+            self.phoneDescrLbl.text = self.numberPhoneProvider
+            self.emailDescrLbl.text = self.emailProvider
+            
+            self.fiscalDataDescrLbl.text = "RFCX0000009G9\n\(seller!["corporateName"] as! String)\n\(seller!["address"] as! String)"
+            
+            self.callLbl.text = self.numberPhoneProvider
+            self.emailLbl.text = self.emailProvider
+            
+            self.removeLoadingView()
+            
+        }, errorBlock: { (error:NSError) -> Void in
+            print("Error")
+            self.navigationController?.popViewController(animated: true)
+        })
+    }
+    
+    func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.viewLoad!.backgroundColor = UIColor.white
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
   
   
   func labelContact(_ isTitle:Bool) -> UILabel {
@@ -219,7 +266,7 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
       self.emailBtn.isSelected = false
       print("Selected call", terminator: "")
       if IS_IPHONE == true {
-        let strTel = "telprompt://018009256278" //self.numberPhoneProvider
+        let strTel = "telprompt://(\(self.numberPhoneProvider))"
         if UIApplication.shared.canOpenURL(URL(string: strTel)!) {
           UIApplication.shared.openURL(URL(string: strTel)!)
         }
