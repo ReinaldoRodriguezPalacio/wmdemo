@@ -626,9 +626,9 @@ class IPAProductDetailViewController : UIViewController {
                 let cellColors = tabledetail.dequeueReusableCell(withIdentifier: "colorsCell", for: indexPath)
                 if colorSizeViewCell == nil {
                     self.buildColorSizeCell(cellColors.frame.width)
-                    //self.clearView(cellColors)
-                    cellColors.addSubview(self.colorSizeViewCell!)
+                    self.clearView(cellColors)
                 }
+                cellColors.addSubview(self.colorSizeViewCell!)
                 cell = cellColors
             }else{
                 let cellSpace = tabledetail.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
@@ -676,6 +676,7 @@ class IPAProductDetailViewController : UIViewController {
             if self.hasProvider {
                 let providerInfoCell = tabledetail.dequeueReusableCell(withIdentifier: "providerInfoCell", for: indexPath)
                 if self.providerInfoCell == nil {
+                    self.clearView(providerInfoCell)
                     self.buildProviderInfoView(providerInfoCell.frame.width)
                     providerInfoCell.addSubview(self.providerInfoCell!)
                 }
@@ -1760,8 +1761,12 @@ extension IPAProductDetailViewController: ProductDetailColorSizeDelegate {
         return findObj
     }
     
-    func clearView(_ view: UIView){
-        for subview in view.subviews{
+    func clearView(_ view: UIView?){
+        if view == nil {
+            return
+        }
+        
+        for subview in view!.subviews{
             subview.removeFromSuperview()
         }
     }
@@ -1808,8 +1813,10 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
 extension IPAProductDetailViewController: ProducDetailProviderTableViewCellDelegate {
     func selectOffer(offer: [String:Any]) {
         self.providerInfo = offer
+        self.providerInfoCell = nil
         self.tabledetail.reloadData()
         self.upc = providerInfo!["offerId"] as! NSString
+        self.price = providerInfo!["price"] as! NSString
     }
 }
 

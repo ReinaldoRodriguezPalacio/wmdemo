@@ -691,15 +691,15 @@ class ShoppingCartViewController: BaseController {
      - returns: upc found
      */
     func getExpensive() -> String {
-        let priceLasiItem = 0.0
+        var maxPrice = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
             //let dictShoppingCartProduct = shoppingCartProduct as! [String:Any]
             let price = shoppingCartProduct["price"] as! NSString
-            if price.doubleValue < priceLasiItem {
-                continue
+            if maxPrice < price.doubleValue {
+                upc = shoppingCartProduct["upc"] as! NSString as String
+                maxPrice = price.doubleValue
             }
-            upc = shoppingCartProduct["upc"] as! NSString as String
         }
         return upc
     }

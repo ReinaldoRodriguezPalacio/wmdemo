@@ -90,6 +90,7 @@ class OrderProviderDetailViewController : NavigationViewController {
         self.optionsButton?.backgroundColor = WMColor.light_blue
         self.optionsButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         self.optionsButton?.addTarget(self, action: #selector(showOptionsView), for: .touchUpInside)
+        self.optionsButton?.isHidden = true 
         self.header?.addSubview(optionsButton!)
         
         showLoadingView()
@@ -204,7 +205,6 @@ class OrderProviderDetailViewController : NavigationViewController {
     }
     
     func reloadPreviousOrderDetail() {
-        trackingNumber = "36500082" //TODO: kitar
         let servicePrev = PreviousOrderDetailService()
         servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
                 
@@ -287,7 +287,13 @@ class OrderProviderDetailViewController : NavigationViewController {
             details.append(["label":nameLbl,"value":name])
             details.append(["label":deliveryTypeLbl,"value":deliveryType])
             details.append(["label":addressLbl,"value":address])
-            details.append(["label":"Proveedor","value":self.sellerName])
+            
+            if self.sellerName != "" {
+                details.append(["label":"Proveedor","value":self.sellerName])
+                self.optionsButton?.isHidden = false
+            }else{
+                self.optionsButton?.isHidden = true
+            }
             //details.append(["label":fedexLbl,"value":guide])
             self.detailsOrder = details
             

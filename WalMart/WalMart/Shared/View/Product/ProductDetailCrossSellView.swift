@@ -106,6 +106,11 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
             imageUrl = imageArray as String
         }
     
+        if let offers = itemUPC["offers"] as? [Any] {
+            if let offer = offers.first as? [String:Any] {
+                price = offer["price"] as! NSString
+            }
+        }
         
         cell.setValues(imageUrl, productShortDescription: desc as String, productPrice: price as String)
         
