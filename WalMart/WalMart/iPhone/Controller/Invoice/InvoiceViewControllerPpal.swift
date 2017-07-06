@@ -33,7 +33,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     
     var rfcUserDefault : String! = ""
     var byScan : Bool! = false
-    var folioInvoice : Int! = 0
+    var folioInvoice : Int! = -1
     
     var modalView: AlertModalView?
     var keyboardBar: FieldInputView? {
@@ -110,7 +110,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
         self.content.addSubview(lblTicketTitle)
         
         // BOTON DE INFO
-        self.btnInfoTicketButton = UIButton(frame: CGRect(x: self.lblTicketTitle!.frame.maxX , y: section2Top + fheight-6, width: 27, height: 27))
+        self.btnInfoTicketButton = UIButton(frame: CGRect(x: self.lblTicketTitle!.frame.maxX + 2 , y: section2Top + fheight-6, width: 23, height: 23))
         self.btnInfoTicketButton!.setBackgroundImage(UIImage(named:"scan_info"), for: UIControlState())
         self.btnInfoTicketButton!.addTarget(self, action: #selector(self.infoImage(_:)), for: UIControlEvents.touchUpInside)
         self.content.addSubview(self.btnInfoTicketButton!)
@@ -324,7 +324,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             let businessData = resultCall["businessResponse"] as? [String:Any]
             
 
-            self.txtTicketNumber!.text = businessData?["ticketTC"] as? String
+            self.txtTicketNumber?.text = businessData?["ticketTC"] as? String
             
             self.folioInvoice = Int((businessData?["folioInvoice"] as? String)!)
             print("sucess, Folio: \(self.folioInvoice)")
@@ -366,7 +366,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             self.view.superview?.addSubview(viewLoad)
             self.viewLoad!.startAnnimating(true)*/
         self.alertView = nil
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"invoice_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage("Reenviando factura...")
         
             let ticketService = InvoiceResendService()
@@ -410,33 +410,103 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             })
     }
     
+    func revisaTicketEscrito(){
+        
+        viewLoad = WMLoadingView(frame: self.view.bounds)
+        viewLoad.backgroundColor = UIColor.white
+        self.alertView = nil
+        self.view.superview?.addSubview(viewLoad)
+        viewLoad.startAnnimating(false)
+        
+        
+        let ticketService = InvoiceFolioService()
+        ticketService.callService(params: ["ticket":txtTicketNumber?.text], successBlock: { (resultCall:[String:Any]) -> Void in
+            var responseOk : String! = ""
+            if let headerData = resultCall["headerResponse"] as? [String:Any]{
+                // now val is not nil and the Optional has been unwrapped, so use it
+                responseOk = headerData["responseCode"] as! String
+                
+                if responseOk == "OK"{
+                    
+                    let businessData = resultCall["businessResponse"] as? [String:Any]
+                    
+                    
+                    //self.txtTicketNumber!.text = businessData?["ticketTC"] as? String
+                    
+                    self.folioInvoice = Int((businessData?["folioInvoice"] as? String)!)
+                    print("sucess, Folio: \(self.folioInvoice)")
+                    if self.viewLoad != nil{
+                        self.viewLoad.stopAnnimating()
+                    }
+                    self.viewLoad = nil
+                    if self.folioInvoice > 0 {
+                        if self.btnNewInvoice!.isSelected{
+                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                            self.alertView!.setMessage("El ticket ya se encuentra facturado.")
+                            self.alertView!.showErrorIcon("Ok")
+                        }else{
+                        self.resendInvoice()
+                        
+                        }
+                    }else if self.folioInvoice == 0{
+                        if self.btnResendInvoice!.isSelected{
+                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                            self.alertView!.setMessage("El ticket no se ha facturado aún.")
+                            self.alertView!.showErrorIcon("Ok")
+                            
+                        }else{
+                            if IS_IPAD{
+                                let controller = self.storyboard?.instantiateViewController(withIdentifier: "invoiceDataController") as! IPAInvoiceDataViewController
+                                controller.RFCEscrito = self.txtRfcEmail?.text
+                                UserDefaults.standard.set(self.txtRfcEmail?.text, forKey: "last_rfc")
+                                controller.TicketEscrito = self.txtTicketNumber?.text
+                                controller.isFromPpal = true
+                                if self.btnResendInvoice!.isSelected{
+                                    controller.tipoFacturacion = .resendInvoice
+                                }else{
+                                    controller.tipoFacturacion = .newInvoice
+                                }
+                                self.txtTicketNumber?.text = ""
+                                self.navigationController?.pushViewController(controller, animated: true)
+                                
+                            }else{
+                                self.performSegue(withIdentifier: "invoiceDataController", sender: self)
+                            }
+                            
+                        }
+                        
+                    }
+                }else{
+                    let errorMess = headerData["reasons"] as! [[String:Any]]
+                    if self.viewLoad != nil{
+                        self.viewLoad.stopAnnimating()
+                    }
+                    self.viewLoad = nil
+                    print("error")
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    self.alertView!.setMessage(errorMess[0]["description"] as! String)
+                    self.alertView!.showDoneIcon()
+                    
+                }
+            }
+        }, errorBlock: { (error:NSError) -> Void in
+            if self.viewLoad != nil{
+                self.viewLoad.stopAnnimating()
+            }
+            self.viewLoad = nil
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(error.localizedDescription)
+            self.alertView!.showDoneIconWithoutClose()
+            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+        })
+    }
+    
     func next(_ sender:UIButton){
         if validateData(){
             if self.errorView != nil{
                 self.errorView?.removeFromSuperview()
             }
-            if self.btnResendInvoice!.isSelected{
-                self.resendInvoice()
-            }else{
-                if IS_IPAD{
-                    let controller = storyboard?.instantiateViewController(withIdentifier: "invoiceDataController") as! IPAInvoiceDataViewController
-                    controller.RFCEscrito = txtRfcEmail?.text
-                    UserDefaults.standard.set(txtRfcEmail?.text, forKey: "last_rfc")
-                    controller.TicketEscrito = txtTicketNumber?.text
-                    controller.isFromPpal = true
-                    if self.btnResendInvoice!.isSelected{
-                        controller.tipoFacturacion = .resendInvoice
-                    }else{
-                        controller.tipoFacturacion = .newInvoice
-                    }
-                    self.txtTicketNumber?.text = ""
-                    self.navigationController?.pushViewController(controller, animated: true)
-                }else{
-                self.performSegue(withIdentifier: "invoiceDataController", sender: self)
-                }
-
-                
-            }
+            revisaTicketEscrito()
         }
     }
     

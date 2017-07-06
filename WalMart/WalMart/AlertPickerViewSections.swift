@@ -297,7 +297,7 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
     
     func okAction() {
         
-        if self.selected != nil{
+        if self.selected != nil && itemsToShow2.count > 0{
             /*if self.selected.section==0{
             delegate?.didSelectOption(self,indexPath:self.selected,selectedStr: self.itemsToShow[self.selected.row])
             }else if self.selected.section==1{

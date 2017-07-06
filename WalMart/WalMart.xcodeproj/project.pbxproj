@@ -78,6 +78,7 @@
 		0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */; };
 		0CDC9DC91ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */; };
 		0CEA425E1E71CD22009AFFEF /* SearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */; };
+		0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */; };
 		0CF9E0651E7AF1CC00B20429 /* llanta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF9E0641E7AF1CC00B20429 /* llanta.png */; };
 		0CF9E0671E7B097600B20429 /* SearchTiresBySizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */; };
 		0CF9E0691E7B53C600B20429 /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0681E7B53C600B20429 /* UILabelX.swift */; };
@@ -676,6 +677,7 @@
 		0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPickerViewSections.swift; sourceTree = "<group>"; };
 		0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectItemAddressTableViewCell.swift; sourceTree = "<group>"; };
 		0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresIniViewController.swift; sourceTree = "<group>"; };
+		0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceSendService.swift; path = WalMart/InvoiceSendService.swift; sourceTree = SOURCE_ROOT; };
 		0CF9E0641E7AF1CC00B20429 /* llanta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = llanta.png; sourceTree = "<group>"; };
 		0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresBySizeService.swift; sourceTree = "<group>"; };
 		0CF9E0681E7B53C600B20429 /* UILabelX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelX.swift; sourceTree = "<group>"; };
@@ -1420,6 +1422,7 @@
 		0CDC9DA01ED75B27001F03E4 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
+				0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */,
 				0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */,
 				0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */,
 				0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */,
@@ -3814,6 +3817,7 @@
 				0C0ABCCE1E89C0A100B9E624 /* CrossSellingGRProductService.swift in Sources */,
 				4A5A9D4E1C84A99B00A2A7F4 /* ABCalendarPickerDefaultSeasonedMonthsProvider.m in Sources */,
 				56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */,
+				0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */,
 				56253D8D19D21883002E128A /* PreviousDetailTableViewCell.swift in Sources */,
 				56AEBC6619F860C8002D1BB3 /* IPAShoppingCartTotalView.swift in Sources */,
 				0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */,
@@ -4194,7 +4198,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4255,7 +4259,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

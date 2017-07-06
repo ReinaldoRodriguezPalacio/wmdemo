@@ -540,10 +540,10 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
-			<key>WalmartMG.InvoiceSendService</key>
-			<string>http://192.168.43.192:8097/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
@@ -677,10 +677,10 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
-			<key>WalmartMG.InvoiceSendService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
@@ -1104,10 +1104,10 @@
 			<string>http://192.168.43.192:8097/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/invoiceForwarding</string>
-			<key>WalmartMG.InvoiceSendService</key>
-			<string>http://192.168.43.192:8097/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>http://192.168.43.192:8097/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
 			<string>http://192.168.43.192:8097/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
@@ -1243,12 +1243,12 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
 			<key>WalmartMG.InvoiceSendService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/sendInvoice</string>
-			<key>WalmartMG.InvoiceSaveRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/saveRfc</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/updateRfc</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>

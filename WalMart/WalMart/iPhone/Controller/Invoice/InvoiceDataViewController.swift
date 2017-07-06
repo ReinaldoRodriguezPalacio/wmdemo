@@ -416,6 +416,11 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     self.errorView?.removeFromSuperview()
                 }
                 txtAddress!.text = selectedStr
+                if indexPath.row == 0 && direccionesFromService.count == 0{
+                    if self.arrayAddressFiscalServiceNotEmpty.count == 1{
+                        self.arrayAddressFiscalServiceNotEmpty.remove(at: 0)
+                    }
+                }
                 if indexPath.row == self.arrayAddressFiscalServiceNotEmpty.count{
                     self.arrayAddressFiscalServiceNotEmpty.append(newRegister)
                     self.direccionesFromService.append(selectedStr)
@@ -423,7 +428,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     let selection = self.arrayAddressFiscalServiceNotEmpty[indexPath.row]
                     txtIeps!.text = selection["rfcIeps"] as? String
                     txtEmail!.text = selection["correoElectronico"] as? String
-                    idClienteSelected = selection["id"] as! String
+                    idClienteSelected = selection["id"] as? String
                 
                 //self.selectedAnchxura = indexPath
                 if delegateFormAdd != nil {
@@ -542,10 +547,10 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     }
                     self.viewLoad = nil
             }else{
-                let errorMess = headerData["reasons"] as! [[String:Any]]
+                /*let errorMess = headerData["reasons"] as! [[String:Any]]
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 self.alertView!.setMessage(errorMess[0]["description"] as! String)
-                self.alertView!.showDoneIcon()
+                self.alertView!.showDoneIcon()*/
                     if self.viewLoad != nil{
                         self.viewLoad.stopAnnimating()
                     }
@@ -664,7 +669,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                         let businessData = resultCall?["businessResponse"] as? [String:Any]
                         
                         self.idClienteSelected = businessData?["clienteId"] as! String
-                        
+                        //self.idEmptySelected = businessData?["clienteId"] as! String
                         let ticketService = InvoiceSendService()
                         ticketService.callService(params: ["ticket":self.TicketEscrito, "email":self.txtEmail?.text, "idCliente":self.idClienteSelected], successBlock: { (resultCall:[String:Any]) -> Void in
                             var responseOk : String! = ""

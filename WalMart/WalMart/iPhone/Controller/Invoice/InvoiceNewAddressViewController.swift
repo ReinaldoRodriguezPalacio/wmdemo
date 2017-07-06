@@ -662,10 +662,6 @@ class InvoiceNewAddressViewController: NavigationViewController, UICollectionVie
                             self.viewLoad.stopAnnimating()
                         }
                         self.viewLoad = nil
-                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                        self.alertView!.setMessage(headerData["responseDescription"] as! String)
-                        self.alertView!.showDoneIconWithoutClose()
-                        self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                         self.delegate?.refreshData(isFromUpdate: false)
                         self.back()
                         
