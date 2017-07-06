@@ -181,7 +181,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
             
             let productWidth = (self.frame.width - (priceWidth + 32.0 + 8.0)) / 2
-            providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
+            providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 18.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
             self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productPriceLabel!.frame.minY, width: priceWidth, height: 19)
             
             let formatedPrice = CurrencyCustomLabel.formatString(self.price as NSString)
