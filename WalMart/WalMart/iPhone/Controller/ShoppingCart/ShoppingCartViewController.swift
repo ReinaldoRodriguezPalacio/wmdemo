@@ -1066,7 +1066,11 @@ class ShoppingCartViewController: BaseController {
             
             if !crossSellInExecution {
                 
-                let upcValue = getExpensive()
+                var upcValue = getExpensive()
+                if upcValue.contains("&") {
+                    upcValue = upcValue.components(separatedBy: "&").first!
+                }
+                
                 let crossService = CrossSellingProductService()
                 
                 crossSellInExecution = true
@@ -1089,8 +1093,8 @@ class ShoppingCartViewController: BaseController {
                             var arrayUPCS = self.itemsUPC
                             
                             arrayUPCS.sort(by: { (before, after) -> Bool in
-                                let priceB = before["price"] as! NSString
-                                let priceA = after["price"] as! NSString
+                                let priceB = before["price"] as! NSNumber
+                                let priceA = after["price"] as! NSNumber
                                 return priceB.doubleValue < priceA.doubleValue
                             })
                             
