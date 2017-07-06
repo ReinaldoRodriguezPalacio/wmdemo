@@ -913,6 +913,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,1) :
             if !hasProvider {rowChose += 1}
+            if msi.count == 0 {rowChose += 1}
             if bundleItems.count == 0 {rowChose += 1}
             hForCell = sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (0,2) :

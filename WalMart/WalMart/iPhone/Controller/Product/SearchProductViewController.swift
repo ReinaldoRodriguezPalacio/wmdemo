@@ -1951,7 +1951,7 @@ class SearchProductViewController: NavigationViewController {
                 if self.btnSuper.isSelected {
                     if newIndexPath.row < self.allProducts!.count {
                         for strUPC in self.allProducts! {
-                            var  upc = strUPC["upc"] as! String
+                            let  upc = strUPC["upc"] as! String
                             let description = strUPC["description"] as! String
                             let type = strUPC["type"] as! String
                             var through = ""
@@ -1966,12 +1966,18 @@ class SearchProductViewController: NavigationViewController {
                     if newIndexPath.row < self.allProducts!.count {
                         //for strUPC in self.itemsUPCMG! {
                         for strUPC in self.allProducts! {
-                            let upc = strUPC["upc"] as! String
+                            var upc = strUPC["upc"] as! String
                             let description = strUPC["description"] as! String
                             let type = strUPC["type"] as! String
                             var through = ""
                             if let priceThr = strUPC["saving"] as? String {
                                 through = priceThr as String
+                            }
+                            
+                            if let offers = strUPC["offers"] as? [[String:Any]] {
+                                if let offer = offers.first {
+                                    upc = offer["offerId"] as! String
+                                }
                             }
                             productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                         }
@@ -1981,12 +1987,18 @@ class SearchProductViewController: NavigationViewController {
                 if newIndexPath.row < self.allProducts!.count {
                     
                     for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
+                        var  upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
                         let type = strUPC["type"] as! String
                         var through = ""
                         if let priceThr = strUPC["saving"] as? String {
                             through = priceThr as String
+                        }
+                        
+                        if let offers = strUPC["offers"] as? [[String:Any]] {
+                            if let offer = offers.first {
+                                upc = offer["offerId"] as! String
+                            }
                         }
                         productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                     }

@@ -715,6 +715,7 @@ class ShoppingCartViewController: BaseController {
         for shoppingCartProduct in  itemsInShoppingCart {
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
+            
             upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
         }
         return upcItems

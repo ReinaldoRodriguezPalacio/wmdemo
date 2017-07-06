@@ -105,6 +105,7 @@ class ShoppingCartProductsService : BaseService {
                                     carProductItem.offerId = offer["offerId"] as? String
                                     carProductItem.price = offer["price"] as? NSString ?? ""
                                     carProductItem.onHandInventory =  offer["onHandInventory"] as? String ?? ""
+                                    carProductItem.upc = offer["offerId"] as! String
                                  }
                             }
                             
