@@ -45,7 +45,7 @@ class IPAInvoiceViewControllerPpal : InvoiceViewControllerPpal{
         self.lblTicketTitle.sizeToFit()
         
         // BOTON DE INFO
-        self.btnInfoTicketButton?.frame = CGRect(x: self.lblTicketTitle!.frame.maxX , y: section2Top + fheight-6, width: 27, height: 27)
+        self.btnInfoTicketButton?.frame = CGRect(x: self.lblTicketTitle!.frame.maxX + 2, y: section2Top + fheight-6, width: 23, height: 23)
         // BOTON DE ESCANEAR TICKET
         self.btnScanTicket?.frame = CGRect(x: sectionWidth - 2.5*fheight - 10, y:  lblTicketTitle.frame.maxY + fheight, width: 2.5*fheight, height: 2.5*fheight)
         //NUMERO DE TICKET
