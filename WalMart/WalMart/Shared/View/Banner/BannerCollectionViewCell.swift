@@ -306,7 +306,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             //Open detail
             stopTimmer()
             //getCurrentTerms()
-            
 
                 viewTerms = BannerTermsView(frame:self.bounds)
                 viewTerms.setup(getCurrentTerms())

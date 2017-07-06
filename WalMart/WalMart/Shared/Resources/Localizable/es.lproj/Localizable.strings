@@ -248,10 +248,11 @@
 "profile.fiscal" = "Direcciones de Facturación";
 "profile.address.new" = "nueva";
 "profile.address.new.title" = "Nueva Dirección";
+"profile.address.update.title" = "Actualizar Dirección";
 "profile.registration" = "Registro";
 "profile.title" = "Perfil";
 "profile.change.password" = "Cambiar Contraseña";
-"profile.save" = "guardar";
+"profile.save" = "Guardar";
 "profile.password.current" = "Contraseña Actual";
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "Bienvenido a Walmart";
@@ -290,9 +291,12 @@
 "profile.address.person.name"= "Nombre";
 "profile.address.person.name.moral"= "Nombre de la Empresa";
 "profile.address.person.lastName" = "Apellido Paterno";
+"profile.address.person.lastNameShort" = "Ap. Paterno";
 "profile.address.person.lastName2" = "Apellido Materno";
+"profile.address.person.lastName2Short" = "Ap. Materno";
 "profile.address.rfc" = "RFC";
 "profile.address.ieps" = "número IEPS";
+"profile.address.iepsShort" = "núm. IEPS";
 "profile.address.email" = "Correo electrónico";
 "profile.address.moral.name" = "Corporativo";
 "profile.address.shiping" = "Entrega";
@@ -603,15 +607,32 @@
 
 //Invoice
 "invoice.section.actionToDo" = "¿Qué deseas hacer?";
-"invoice.button.invoice" = "Facturar";
+"invoice.button.invoice" = "Factura nueva";
 "invoice.button.consult" = "Consultar";
+"invoice.button.resend" = "Reenviar factura";
+"invoice.button.ticketInfo" = "Ingresa o escanea el número de ticket";
 "invoice.section.yourdata" = "Tus Datos";
 "invoice.field.rfc" = "RFC";
+"invoice.field.turfc" = "Tu RFC";
+"invoice.field.rfcejemplo" = "ej. PPMNMMDDAA123";
+"invoice.field.referencia" = "Referencias adicionales";
+"invoice.section.addressTitle" = "Dirección de Facturación";
+"invoice.field.address" = "Agregar nueva dirección de facturación";
+"invoice.button.noaddress" = "Emitir factura sin dirección";
+"invoice.section.iepsTitle" = "Número IEPS registrado";
+"invoice.field.ieps" = "ej. 012345678901234";
+"invoice.button.noieps" = "No utilizar IEPS";
+"invoice.section.emailTitle" = "Correo electrónico para envío de factura";
+"invoice.button.facturar" = "Facturar";
+"invoice.message.facturaOk" = "La factura ha sido enviada a:";
+"invoice.message.facturaResend" = "Factura reenviada con éxito.";
+"invoice.message.facturaResendEmail" = "Te la hemos enviado a";
 "invoice.field.zipcode" = "Código Postal";
 "invoice.section.purchase.data" = "Datos de tu compra";
+"invoice.validate.terms.conditions" = " Para facturar debes aceptar los términos y condiciones";
 "invoice.button.scan" = "Ingresar datos escaneando tu ticket";
 "invoice.section.write" = "O ingresa manualmente los datos";
-"invoice.field.ticketnumber" = "Número de ticket - ";
+"invoice.field.ticketnumber" = "Ingresa TC#";
 "invoice.field.transactionnumber" = "Número de transacción - ";
 "invoice.field.tr" = "TR# en tu ticket";
 "invoice.field.tc" = "TC# en tu ticket";
@@ -620,10 +641,12 @@
 "invoice.message.exit" = "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados";
 "invoice.message.continue" = "Continuar";
 "invoice.advice" = "Avisos";
+"invoice.info.message" = "Seleccione una opción y capture los datos solicitados";
 "invoice.info.validity" = "Vigencia: ";
-"invoice.info.validity.desc" = "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket)";
+"invoice.info.validity.desc2" = "Para facturar debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra y le sugerimos conservar su ticket para cualquier consulta o modificación en su factura.";
+"invoice.info.validity.desc" = "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket).";
 "invoice.info.guard" = "\n \n Resguardo: ";
-"invoice.info.guard.desc" = "Para poder realizar su factura o cualquier modificación o consulta, es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.";
+"invoice.info.guard.desc" = "Es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.";
 
 //Refered
 "refered.title" = "Mis Referidos";
