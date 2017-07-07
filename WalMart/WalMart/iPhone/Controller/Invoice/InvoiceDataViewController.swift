@@ -53,6 +53,8 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
     var idEmptySelected : String! = ""
     
     var isFromPpal : Bool! = false
+    var isFromUpdateAddress : Bool! = false
+    var selectedRow : Int! = 0
     var idClienteDefault : String! = ""
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_INVOICE.rawValue
@@ -414,7 +416,7 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
             if formFieldObj ==  txtAddress! {
                 if self.errorView != nil {
                     self.errorView?.removeFromSuperview()
-                }
+                }/*
                 txtAddress!.text = selectedStr
                 if indexPath.row == 0 && direccionesFromService.count == 0{
                     if self.arrayAddressFiscalServiceNotEmpty.count == 1{
@@ -429,6 +431,10 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                     txtIeps!.text = selection["rfcIeps"] as? String
                     txtEmail!.text = selection["correoElectronico"] as? String
                     idClienteSelected = selection["id"] as? String
+                */
+                isFromUpdateAddress = true
+                selectedRow = indexPath.row
+                self.callServiceFiscalAddress()
                 
                 //self.selectedAnchxura = indexPath
                 if delegateFormAdd != nil {
@@ -445,6 +451,15 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 //medidaLlanta.text="---/"+aspecto.text!+"R"+diametro.text!
             }
         }
+    }
+    
+    func closeAlertPk(_ updated: Bool, indexPath:IndexPath) {
+        if updated{
+            isFromUpdateAddress = updated
+            selectedRow = indexPath.row
+            self.callServiceFiscalAddress()
+        }
+        
     }
     
     func viewReplaceContent(_ frame:CGRect) -> UIView! {
@@ -512,30 +527,43 @@ class InvoiceDataViewController: NavigationViewController, TPKeyboardAvoidingScr
                 }
                 
             self.arrayAddressFiscalServiceNotEmpty.remove(at: 0)
+                    
                     if self.arrayAddressFiscalServiceNotEmpty.count>0{
-                        
-                        let dir0 = self.arrayAddressFiscalServiceNotEmpty[0]
-                        let domicilio0 = dir0["domicilio"] as! [String:Any]
-                        let calle0 = domicilio0["calle"] as! String
-                        if calle0 == ""{
-                            if self.direccionesFromService.count > 0{
-                                let dir1 = self.arrayAddressFiscalServiceNotEmpty[1]
-                                let domicilio1 = dir1["domicilio"] as! [String:Any]
-                                let calle1 = domicilio1["calle"] as! String
-                                self.txtAddress?.text = calle1
-                                self.txtIeps?.text = dir1["rfcIeps"] as? String
-                                self.idClienteSelected = dir1["id"] as! String
-                                self.txtEmail?.text = dir1["correoElectronico"] as? String
+                        if !self.isFromUpdateAddress{
+                            let dir0 = self.arrayAddressFiscalServiceNotEmpty[0]
+                            let domicilio0 = dir0["domicilio"] as! [String:Any]
+                            let calle0 = domicilio0["calle"] as! String
+                            if calle0 == ""{
+                                if self.direccionesFromService.count > 0{
+                                    let dir1 = self.arrayAddressFiscalServiceNotEmpty[1]
+                                    let domicilio1 = dir1["domicilio"] as! [String:Any]
+                                    let calle1 = domicilio1["calle"] as! String
+                                    self.txtAddress?.text = calle1
+                                    self.txtIeps?.text = dir1["rfcIeps"] as? String
+                                    self.idClienteSelected = dir1["id"] as! String
+                                    self.txtEmail?.text = dir1["correoElectronico"] as? String
+                                }else{
+                                    self.checkSelected(self.btnNoAddress!)
+                                    self.idEmptySelected = dir0["id"] as! String
+                                }
                             }else{
-                                self.checkSelected(self.btnNoAddress!)
-                                self.idEmptySelected = dir0["id"] as! String
+                                self.txtAddress?.text = calle0
+                                self.txtIeps?.text = dir0["rfcIeps"] as? String
+                                self.idClienteSelected = dir0["id"] as! String
+                                self.txtEmail?.text = dir0["correoElectronico"] as? String
                             }
                         }else{
-                            self.txtAddress?.text = calle0
-                            self.txtIeps?.text = dir0["rfcIeps"] as? String
-                            self.idClienteSelected = dir0["id"] as! String
-                            self.txtEmail?.text = dir0["correoElectronico"] as? String
+                            let selection = self.arrayAddressFiscalServiceNotEmpty[self.selectedRow]
+                            let domicilio = selection["domicilio"] as! [String:Any]
+                            let calle = domicilio["calle"] as! String
+                            self.txtAddress!.text = calle
+                            self.txtIeps!.text = selection["rfcIeps"] as? String
+                            self.txtEmail!.text = selection["correoElectronico"] as? String
+                            self.idClienteSelected = selection["id"] as? String
+                            self.selectedRow = 0
+                            self.isFromUpdateAddress = false
                         }
+                        
                     }else{
                         self.checkSelected(self.btnNoAddress!)
                     }

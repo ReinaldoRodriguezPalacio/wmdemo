@@ -398,6 +398,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     UserCurrentSession.sharedInstance.userSigned = nil
                     UserCurrentSession.sharedInstance.deleteAllUsers()
                     
+                    UserDefaults.standard.setValue(nil, forKey: "last_rfc")
+                    UserDefaults.standard.setValue(nil, forKey: "last_email")
+                    
                     let shoppingService = ShoppingCartProductsService()
                     shoppingService.callCoreDataService([:], successBlock: { (result: [String:Any]) -> Void in
                         

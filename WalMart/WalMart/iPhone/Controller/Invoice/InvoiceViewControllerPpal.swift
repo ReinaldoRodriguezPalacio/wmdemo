@@ -32,6 +32,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
     var btnInfoTicketButton: UIButton?
     
     var rfcUserDefault : String! = ""
+    var emailUserDefault : String! = ""
     var byScan : Bool! = false
     var folioInvoice : Int! = -1
     
@@ -191,6 +192,9 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             rfcUserDefault = UserDefaults.standard.value(forKey: "last_rfc") as? String
             txtRfcEmail?.text = rfcUserDefault
         }
+        if self.isKeyPresentInUserDefaults(key: "last_email"){
+            emailUserDefault = UserDefaults.standard.value(forKey: "last_email") as? String
+        }
         // Do any additional setup after loading the view.
      
     }
@@ -269,7 +273,11 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             //CAPTURA RFC
             self.txtRfcEmail!.typeField = TypeField.email
             self.txtRfcEmail!.nameField = "email"
-            self.txtRfcEmail?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
+            if self.isKeyPresentInUserDefaults(key: "last_email"){
+                self.txtRfcEmail?.text = emailUserDefault
+            }else{
+                self.txtRfcEmail?.text = UserCurrentSession.sharedInstance.userSigned!.email as String
+            }
             self.txtRfcEmail!.autocapitalizationType = .none
             self.txtRfcEmail!.placeholder = "Escriba un correo para el envío de la factura"
             self.txtRfcEmail!.maxLength = 45
@@ -377,7 +385,8 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                 responseOk = headerData["responseCode"] as! String
                     
                 if responseOk == "OK"{
-                    
+                    UserDefaults.standard.set(self.txtRfcEmail?.text, forKey: "last_email")
+                    self.emailUserDefault = self.txtRfcEmail?.text
                 if self.viewLoad != nil{
                     self.viewLoad.stopAnnimating()
                 }
@@ -459,6 +468,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
                                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "invoiceDataController") as! IPAInvoiceDataViewController
                                 controller.RFCEscrito = self.txtRfcEmail?.text
                                 UserDefaults.standard.set(self.txtRfcEmail?.text, forKey: "last_rfc")
+                                self.rfcUserDefault = self.txtRfcEmail?.text
                                 controller.TicketEscrito = self.txtTicketNumber?.text
                                 controller.isFromPpal = true
                                 if self.btnResendInvoice!.isSelected{
@@ -551,6 +561,7 @@ class InvoiceViewControllerPpal: NavigationViewController, BarCodeViewController
             let controller = segue.destination as! InvoiceDataViewController
             controller.RFCEscrito = txtRfcEmail?.text
         UserDefaults.standard.set(txtRfcEmail?.text, forKey: "last_rfc")
+        self.rfcUserDefault = self.txtRfcEmail?.text
             controller.TicketEscrito = txtTicketNumber?.text
             controller.isFromPpal = true
             if self.btnResendInvoice!.isSelected{

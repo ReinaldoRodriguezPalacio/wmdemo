@@ -16,7 +16,7 @@ import Foundation
     func viewReplaceContent(_ frame:CGRect) -> UIView!
     func saveReplaceViewSelected()
     func buttomViewSelected(_ sender:UIButton)
-    @objc optional func closeAlertPk()
+    @objc optional func closeAlertPk(_ fromUpdate:Bool, indexPath : IndexPath)
     
 }
 
@@ -71,7 +71,7 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
     var selectDelegate: Bool = true
     var showNewAddressButton: Bool = false
     var layerLine: CALayer?
-    
+    var isFromUpdated: Bool = false
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -169,8 +169,6 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
         self.stopRemoveView! = false
         self.addSubview(viewContent)
         
-        
-        
     }
     
     override func layoutSubviews() {
@@ -194,8 +192,6 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
         self.arrayAddressFiscalService = data
 
         //self.callServiceAddress()
-        
-        
         
     }
     
@@ -317,9 +313,11 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
     
     
     func closePicker() {
-        self.delegate?.closeAlertPk?()
+        self.delegate?.closeAlertPk?(isFromUpdated, indexPath: self.selected)
         onClosePicker?()
+        isFromUpdated = false
         self.removeFromSuperview()
+        //self.okAction()
     }
     
     //MARK TextField delegate
@@ -547,7 +545,7 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
     }
     
     func cellShowButtonSelected(_ sender:UIButton){
-        
+        isFromUpdated = true
         EditAddress = InvoiceNewAddressViewController()
         EditAddress?.widthAnt = self.viewContent.frame.size.width
         EditAddress?.heightAnt = self.viewContent.frame.size.height
@@ -592,7 +590,6 @@ class AlertPickerViewSections : UIView, UITableViewDataSource, UITableViewDelega
     }
     
     func newAddress(_ sender:UIButton){
-        
         NewAddress = InvoiceNewAddressViewController()
         if RFCEscrito.length() == 13 {
             self.NewAddress!.typeAddress = TypeFiscalAddress.fiscalPerson
