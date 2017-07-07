@@ -579,6 +579,7 @@
 //Camfind
 "search.info.placeholder" = "Busca por texto";
 "search.info.button.camera" = "Busca tomando\nuna foto";
+"search.info.button.superExpress" = "Tu súper en 10 minutos";
 "search.info.button.barcode" = "Escanea un\nCódigo de Barras";
 "camfind.message.photo" = "Fotografía un artículo";
 "camfind.message.preview" = "Buscaremos este artículo en WalMart";

@@ -624,9 +624,29 @@
 			<string>http://192.168.43.192:8097/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>http://192.168.43.192:8097/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/typeahead</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/typeahead</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -1064,6 +1084,16 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addFiscalAddress</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/typeahead</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/typeahead</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>http://192.168.43.192:8097/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1203,6 +1233,16 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>

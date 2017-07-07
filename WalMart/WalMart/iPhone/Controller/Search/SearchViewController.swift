@@ -53,6 +53,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     weak var delegate:SearchViewControllerDelegate?
     var scanButton: UIButton?
     var camButton: UIButton?
+    var superExpressButton: UIButton?
+    var superExpressLabel: UILabel?
     var scanLabel: UILabel?
     var camLabel: UILabel?
     var cancelButton: UIButton?
@@ -144,17 +146,27 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.clearButton!.addTarget(self, action: #selector(SearchViewController.clearSearch), for: UIControlEvents.touchUpInside)
         self.header!.addSubview(self.clearButton!)
         
+        self.superExpressButton = UIButton(type: .custom)
+        self.superExpressButton!.setImage(UIImage(named:"search_by_photo"), for: UIControlState())
+        self.superExpressButton!.setImage(UIImage(named:"search_by_photo_active"), for: .highlighted)
+        self.superExpressButton!.setImage(UIImage(named:"search_by_photo"), for: .selected)
+        self.superExpressButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), for: UIControlEvents.touchUpInside)
+        self.view!.addSubview(self.superExpressButton!)
+        
+        self.superExpressLabel = UILabel()
+        self.superExpressLabel!.textAlignment = .center
+        self.superExpressLabel!.numberOfLines = 2
+        self.superExpressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.superExpressLabel!.textColor = UIColor.white
+        self.superExpressLabel!.text = NSLocalizedString("search.info.button.superExpress",comment:"")
+        self.view!.addSubview(self.superExpressLabel!)
+        
         self.camButton = UIButton(type: .custom)
         self.camButton!.setImage(UIImage(named:"search_by_photo"), for: UIControlState())
         self.camButton!.setImage(UIImage(named:"search_by_photo_active"), for: .highlighted)
         self.camButton!.setImage(UIImage(named:"search_by_photo"), for: .selected)
         self.camButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), for: UIControlEvents.touchUpInside)
         self.view!.addSubview(self.camButton!)
-        
-        self.tiresBarView = SearchTiresBarView()
-        self.tiresBarView?.isHidden = true
-        self.tiresBarView?.delegate = self
-        self.view!.addSubview(self.tiresBarView!)
         
         self.camLabel = UILabel()
         self.camLabel!.textAlignment = .center
@@ -178,6 +190,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.scanLabel!.textColor = UIColor.white
         self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
         self.view!.addSubview(self.scanLabel!)
+        
+        self.tiresBarView = SearchTiresBarView()
+        self.tiresBarView?.isHidden = true
+        self.tiresBarView?.delegate = self
+        self.view!.addSubview(self.tiresBarView!)
         
         self.cancelButton = UIButton(type: .custom)
         self.cancelButton!.frame = CGRect(x: 0.0, y: 0.0, width: 44.0, height: 44.0)
@@ -228,24 +245,30 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         if showCamFind {
             if IS_IPHONE_4_OR_LESS {
-                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 2) - 96, y: self.header!.frame.height + 10, width: 64, height: 64)
-                self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 2) + 32, y: self.header!.frame.height + 10, width: 64, height: 64)
+                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 10, width: 64, height: 64)
+                self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 3) + 32, y: self.header!.frame.height + 10, width: 64, height: 64)
+                self.superExpressButton!.frame = CGRect(x: (self.view!.frame.width / 3) + 64, y: self.header!.frame.height + 10, width: 64, height: 64)
             }
             else{
-                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 2) - 96, y: self.header!.frame.height + 38, width: 64, height: 64)
-                self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 2) + 32, y: self.header!.frame.height + 38, width: 64, height: 64)
+                self.camButton!.frame = CGRect(x: (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
+                self.scanButton!.frame = CGRect(x: 2 * (self.view!.frame.width / 3)  - 32 , y: self.header!.frame.height + 38, width: 64, height: 64)
+                self.superExpressButton!.frame = CGRect(x: 3 * (self.view!.frame.width / 2) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
             }
         
             self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }else{
             if IS_IPHONE_4_OR_LESS {
                 self.scanButton!.frame = CGRect(x: (self.view!.frame.width - 64) / 2, y: self.header!.frame.height + 10, width: 64, height: 64)
+                self.superExpressButton!.frame = CGRect(x: (self.view!.frame.width / 3) + 64, y: self.header!.frame.height + 10, width: 64, height: 64)
             }
             else{
                 self.scanButton!.frame = CGRect(x: (self.view!.frame.width - 64) / 2, y: self.header!.frame.height + 38, width: 64, height: 64)
+                self.superExpressButton!.frame = CGRect(x: (self.view!.frame.width / 3) + 64, y: self.header!.frame.height + 38, width: 64, height: 64)
             }
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }
         
         self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 46), width: self.view.frame.width, height: 46)
