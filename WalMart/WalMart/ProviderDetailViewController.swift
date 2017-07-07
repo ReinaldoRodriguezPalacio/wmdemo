@@ -248,7 +248,7 @@ extension ProviderDetailViewController : UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if self.provider != nil {
-      return section == 0 ? (self.questions != nil ? (questions!.count + 1 ) : 1) : 2
+      return section == 0 ? (self.questions != nil ? (questions!.count + 1 ) : 1) : 1
     } else {
       return 0
     }

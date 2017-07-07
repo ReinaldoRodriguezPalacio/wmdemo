@@ -561,7 +561,7 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -1101,7 +1101,7 @@
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewShoppingCart</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
