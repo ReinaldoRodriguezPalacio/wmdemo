@@ -114,29 +114,27 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.items[indexPath.row]
-        
-        let sendingViewController = OrderSendingViewController()
-        let trackingStr = item["trackingNumber"] as! String
-        let statusStr = item["status"] as! String
-        
-        sendingViewController.trackingNumber = trackingStr
-        sendingViewController.status = statusStr
-        self.navigationController!.pushViewController(sendingViewController, animated: true)
-        
 
-        /*if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
-            let detailController = OrderProviderDetailViewController()
-            detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as! String
+        if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
+            
+            let sendingViewController = OrderSendingViewController()
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
+            sendingViewController.trackingNumber = trackingStr
+            sendingViewController.status = statusStr
+            self.navigationController!.pushViewController(sendingViewController, animated: true)
             
-
-            detailController.trackingNumber = trackingStr
-            detailController.status = statusStr
-            detailController.date = dateStr
-            self.navigationController!.pushViewController(detailController, animated: true)
+//            let detailController = OrderProviderDetailViewController()
+//            detailController.type = ResultObjectType.Mg
+//            let dateStr = item["placedDate"] as! String
+//            let trackingStr = item["trackingNumber"] as! String
+//            let statusStr = item["status"] as! String
+//            
+//            detailController.trackingNumber = trackingStr
+//            detailController.status = statusStr
+//            detailController.date = dateStr
+//            self.navigationController!.pushViewController(detailController, animated: true)
             
             ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
             
@@ -159,7 +157,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.navigationController!.pushViewController(detailController, animated: true)
             
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-        }*/
+        }
     }
     
     

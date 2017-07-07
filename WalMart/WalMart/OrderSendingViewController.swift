@@ -98,7 +98,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         
         let valueItem = ["statusValue": status, "nameValue": name, "sendingNormalValue": sendingNormal, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider]
         cell.setValues(values: valueItem)
-        
+        cell.cellDelegate = self
         return cell
     }
     
@@ -118,42 +118,37 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         self.view.addSubview(viewLoad)
         viewLoad.startAnnimating(self.isVisibleTab)
         
-        //********************
-        self.items = [["sendig":"1","status":"Completado","name":"David Bowie","sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":"Pago en Linea","address":"Av San Francisco no. 1621, Del valle,Benito Juarez, Ciudad de México, 03100 \nTel 5521365678","Provider":"ACME"],["sendig":"2","status":"Completado","name":"David Bowie2","sendingNormal":"Hasta 15 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":"Efectivo","address":"Av San Francisco no. 1621, Del valle,Benito Juarez, Ciudad de México, 03100 \nTel 5521365678","Provider":"Proveedor 23"],["sendig":"3","status":"Completado","name":"3David Bowie","sendingNormal":"Hasta 1 mes (Fecha estimada de entrega: 08/03/2016)","PaymentType":"Pago en Linea y efectivo","address":"Av San Francisco no. 1621, Del valle,Benito Juarez, Ciudad de México, 03100 \nTel 5521365678","Provider":"Default"]]
-        self.loadGROrders()
-        //********************
-        
-        /*let servicePrev = PreviousOrdersService()
-        servicePrev.callService({ (previous:[Any]) -> Void in
-            for orderPrev in previous {
-                var dictMGOrder = orderPrev as! [String:Any]
-                dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
-                self.items.append(dictMGOrder)
-            }
-            self.loadGROrders()
-        }, errorBlock: { (error:NSError) -> Void in
-            self.loadGROrders()
-        })*/
-    }
-    
-    
-    func loadGROrders() {
-        let servicePrev = GRPreviousOrdersService()
-        servicePrev.callService({ (previous:[Any]) -> Void in
-            for orderPrev in previous {
-                var dictGROrder = orderPrev as! [String:Any]
-                dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
-                self.items.append(dictGROrder)
+        let servicePrev = PreviousOrderDetailService()
+        servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
+             //let deliberyType = result["deliveryType"] as! String
+             let delyberyAddress = result["deliveryAddress"] as! String
+             let userName = result["name"] as! String
+             let paymentType = result["paymentType"] as! String
+             let sellers = result["sellers"] as! [[String:Any]]
+            
+            var countOrder = 0
+            for seller in sellers {
+                let sellerName = seller["sellerName"] as! String
+                let guides = seller["guides"] as! [[String:Any]]
+                for guide in guides {
+                    countOrder += 1
+                    let status = guide["status"] as! String
+                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName])
+                }
             }
             
-            self.emptyView.isHidden = self.items.count > 0
-            self.tableOrders.reloadData()
-            self.viewLoad.stopAnnimating()
-        }, errorBlock: { (error:NSError) -> Void in
             self.viewLoad.stopAnnimating()
             self.tableOrders.reloadData()
             self.emptyView.isHidden = self.items.count > 0
-        })
+
+            
+        }) { (error:NSError) -> Void in
+            self.viewLoad.stopAnnimating()
+            self.tableOrders.reloadData()
+            self.emptyView.isHidden = self.items.count > 0
+
+        }
+        
     }
     
     

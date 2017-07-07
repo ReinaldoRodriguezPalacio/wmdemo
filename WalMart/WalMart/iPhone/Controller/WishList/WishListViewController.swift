@@ -410,7 +410,7 @@ class WishListViewController : NavigationViewController {
             var offerId: String = ""
             if let offerIdVal = itemWishList["offerId"] as? String{
                 offerId  = offerIdVal
-            }            
+            }
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 
