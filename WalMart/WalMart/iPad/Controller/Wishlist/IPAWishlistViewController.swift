@@ -374,12 +374,25 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 category  = categoryVal
             }
             
+            var sellerId: String = ""
+            if let sellerIdVal = itemWishList["sellerId"] as? String{
+                sellerId  = sellerIdVal
+            }
             
+            var sellerName: String = ""
+            if let sellerNameVal = itemWishList["sellerName"] as? String{
+                sellerName  = sellerNameVal
+            }
+            
+            var offerId: String = ""
+            if let offerIdVal = itemWishList["offerId"] as? String{
+                offerId  = offerIdVal
+            }
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category,sellerId: sellerId,sellerName: sellerName, offerId: offerId)
                     //params.append(paramsItem)
                     if isPreorderable == "true" {
                         paramsPreorderable.append(paramsItem)
@@ -657,7 +670,22 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         
-        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart)
+        var sellerId = ""
+        if  let sellerIdVal  = itemWishlist["sellerId"] as? String {
+            sellerId = sellerIdVal
+        }
+        
+        var sellerName = ""
+        if  let sellerNameVal  = itemWishlist["sellerName"] as? String {
+            sellerName = sellerNameVal
+        }
+        
+        var offerId = ""
+        if  let offerIdVal  = itemWishlist["offerId"] as? String {
+            offerId = offerIdVal
+        }
+        
+        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,sellerId: sellerId, sellerName: sellerName, offerId: offerId)
         
     }
     

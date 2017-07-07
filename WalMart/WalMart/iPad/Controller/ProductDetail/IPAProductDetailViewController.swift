@@ -584,6 +584,7 @@ class IPAProductDetailViewController : UIViewController {
             self.upc = self.providerInfo!["offerId"] as? NSString ?? self.upc
             self.strisPreorderable  = result["isPreorderable"] as? NSString ?? "false"
             self.price = providerInfo!["price"] as? NSString ?? self.price
+            self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
         }
     }
     
@@ -695,8 +696,9 @@ class IPAProductDetailViewController : UIViewController {
             if  self.hasProvider {
                 if cellProviders == nil {
                     let cellProvider = tabledetail.dequeueReusableCell(withIdentifier: "producDetailProviderTableViewCell", for: indexPath) as? ProducDetailProviderTableViewCell
-                    cellProvider!.itemsProvider = self.providerArray!
                     cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
+                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "0")
+                    cellProvider!.itemsProvider = self.providerArray!
                     cellProviders = cellProvider
                     cellProvider?.delegate = self
                 }
@@ -1814,9 +1816,10 @@ extension IPAProductDetailViewController: ProducDetailProviderTableViewCellDeleg
     func selectOffer(offer: [String:Any]) {
         self.providerInfo = offer
         self.providerInfoCell = nil
-        self.tabledetail.reloadData()
         self.upc = providerInfo!["offerId"] as! NSString
         self.price = providerInfo!["price"] as! NSString
+        self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+        self.tabledetail.reloadData()
     }
 }
 

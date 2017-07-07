@@ -346,7 +346,10 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
             
             if !crossSellInExecution {
                 
-                let upcValue = getExpensive()
+                var upcValue = getExpensive()
+                if upcValue.contains("&") {
+                    upcValue = upcValue.components(separatedBy: "&").first!
+                }
                 let crossService = CrossSellingProductService()
                 
                 crossSellInExecution = true

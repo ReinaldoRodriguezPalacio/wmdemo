@@ -22,8 +22,8 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var providerNewItems: [[String:Any]]! = []
     var providerReconditionedItems: [[String:Any]]! = []
     var showNewItems = true
-    var selectedOfferId: String = ""
     weak var delegate: ProductDetailProviderCollectionViewCellDelegate?
+    var selectedOfferId: String = ""
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
@@ -158,6 +158,8 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
             segmentedControl.isHidden = true
             self.showNewItems = false
         }
+        
+         self.segmentedControl.selectedSegmentIndex = self.showNewItems ? 0 : 1
     }
     
     func removeSubViews() {

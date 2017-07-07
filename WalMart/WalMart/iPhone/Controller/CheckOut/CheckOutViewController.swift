@@ -53,9 +53,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
         static var MCreditCartPayment : String = "/m_CreditCardPayment.aspx"
         static var CreditCartPAymentAsp : String = "/CreditCardPayment.aspx"
-        
-        
-        
     }
     
     

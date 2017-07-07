@@ -27,6 +27,9 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     var onHandInventory : NSString = "0"
     var isPesable : String!
     var isPreorderable : String!
+    var sellerId: String! = ""
+    var offerId: String! = ""
+    var sellerName: String! = ""
     
     var imagePresale : UIImageView!
     var borderViewTop : UIView!
@@ -98,7 +101,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     }
   
   //MARK: - SetValues
-  func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString, provider:String) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString,sellerName: String, sellerId: String, offerId: String) {
     imagePresale.isHidden = !isPreorderable
     
     self.upc = upc
@@ -108,6 +111,9 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     self.onHandInventory = String(onHandInventory) as NSString
     self.isPesable = pesable as String
     self.isPreorderable = "\(isPreorderable)"
+    self.sellerId = sellerId
+    self.sellerName = sellerName
+    self.offerId = offerId
     
     super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
     let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
@@ -135,8 +141,8 @@ class WishlistProductTableViewCell : ProductTableViewCell {
       }
     }
     
-    self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + provider
-    self.providerLBL.isHidden = provider != "" ? false : true
+    self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + sellerName
+    self.providerLBL.isHidden = sellerName != "" ? false : true
     self.providerFrame()
   }
   
@@ -152,8 +158,8 @@ class WishlistProductTableViewCell : ProductTableViewCell {
       if !hasUPC {
         //Event
         ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "\(self.desc) - \(self.upc)")
+        let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1", onHandInventory: self.onHandInventory as String,pesable: "0", type: "",  isPreorderable: isPreorderable, sellerId: self.sellerId, sellerName: sellerName, offerId: self.offerId)
         
-        let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable: isPreorderable)
         NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
         
       }else{

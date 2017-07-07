@@ -159,6 +159,8 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
             segmentedControl.isHidden = true
             self.showNewItems = false
         }
+        
+        self.segmentedControl.selectedSegmentIndex = self.showNewItems ? 0 : 1
     }
     
     func removeSubViews() {

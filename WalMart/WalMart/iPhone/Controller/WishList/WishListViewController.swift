@@ -397,12 +397,26 @@ class WishListViewController : NavigationViewController {
                 imageUrl = imageArray[0] as! String
             }
             
+            var sellerId: String = ""
+            if let sellerIdVal = itemWishList["sellerId"] as? String{
+                sellerId  = sellerIdVal
+            }
+            
+            var sellerName: String = ""
+            if let sellerNameVal = itemWishList["sellerName"] as? String{
+                sellerName  = sellerNameVal
+            }
+            
+            var offerId: String = ""
+            if let offerIdVal = itemWishList["offerId"] as? String{
+                offerId  = offerIdVal
+            }            
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 
                 let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category,sellerId: sellerId,sellerName: sellerName, offerId: offerId)
                     //params.append(paramsItem)
                     if isPreorderable == "true" {
                         paramsPreorderable.append(paramsItem)
@@ -847,16 +861,26 @@ extension WishListViewController: UITableViewDataSource {
             isPreorderable = "true" == preordeable
         }
       
-      var providerTxt = ""
-      if let providerName = itemWishlist["sellerName"] as? String {
-          providerTxt = providerName
-      }
+        var sellerId: String = ""
+        if let sellerIdVal = itemWishlist["sellerId"] as? String{
+            sellerId  = sellerIdVal
+        }
+        
+        var sellerName: String = ""
+        if let sellerNameVal = itemWishlist["sellerName"] as? String{
+            sellerName  = sellerNameVal
+        }
+        
+        var offerId: String = ""
+        if let offerIdVal = itemWishlist["offerId"] as? String{
+            offerId  = offerIdVal
+        }
       
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
         
         let isInShoppingCart = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
         cell.moveRightImagePresale(isPreorderable)
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString, provider: providerTxt)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal as NSString, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable as NSString,sellerName: sellerName,sellerId:sellerId,offerId: offerId)
         
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
         
