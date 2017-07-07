@@ -69,8 +69,6 @@ class UserWishlistService : BaseService {
                         var price = ""
                         if let priceVal = wishlistDicProduct["price"] as? NSString {
                             price = priceVal as String
-                        } else {
-                            continue
                         }
                         
                         var imageUrl = ""
@@ -111,6 +109,7 @@ class UserWishlistService : BaseService {
                                 wishlistProduct.product.onHandInventory = offer["onHandInventory"] as? String ?? "0"
                                 wishlistProduct.product.isActive = "true"
                                 wishlistProduct.product.price = offer["price"] as? NSString ?? "0"
+                                wishlistProduct.product.upc = offer["offerId"] as!  String
                             }
                         }
                         

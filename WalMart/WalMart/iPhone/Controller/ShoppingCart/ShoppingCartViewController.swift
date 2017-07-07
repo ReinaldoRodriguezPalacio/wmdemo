@@ -1573,6 +1573,7 @@ extension ShoppingCartViewController: UITableViewDataSource {
         let title = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: self.view.frame.width - 32.0, height: 46.0))
         title.textColor = WMColor.gray
         title.font = WMFont.fontMyriadProRegularOfSize(11)
+        title.numberOfLines = 2
         title.text = NSLocalizedString("shoppingcart.subjectToAvailability", comment:"")
         
         header.addSubview(title)

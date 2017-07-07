@@ -695,8 +695,9 @@ class IPAProductDetailViewController : UIViewController {
             if  self.hasProvider {
                 if cellProviders == nil {
                     let cellProvider = tabledetail.dequeueReusableCell(withIdentifier: "producDetailProviderTableViewCell", for: indexPath) as? ProducDetailProviderTableViewCell
-                    cellProvider!.itemsProvider = self.providerArray!
                     cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
+                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "0")
+                    cellProvider!.itemsProvider = self.providerArray!
                     cellProviders = cellProvider
                     cellProvider?.delegate = self
                 }
