@@ -1562,6 +1562,28 @@ extension ShoppingCartViewController: UITableViewDataSource {
         }
         return 0
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let separatorView = UIView(frame: CGRect(x: 0.0, y: 45.0, width: self.view.frame.width, height: 1.0))
+        separatorView.backgroundColor = WMColor.light_light_gray
+        
+        let header = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 46.0))
+        header.backgroundColor = UIColor.white
+        
+        let title = UILabel(frame: CGRect(x: 16.0, y: 0.0, width: self.view.frame.width - 32.0, height: 46.0))
+        title.textColor = WMColor.gray
+        title.font = WMFont.fontMyriadProRegularOfSize(11)
+        title.text = NSLocalizedString("shoppingcart.subjectToAvailability", comment:"")
+        
+        header.addSubview(title)
+        header.addSubview(separatorView)
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 46.0
+    }
 }
 
 
