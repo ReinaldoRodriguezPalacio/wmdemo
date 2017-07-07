@@ -27,6 +27,9 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     var isDisabled : Bool = false
     var onHandInventory : NSString = "0"
     var isPreorderable : String! = "false"
+    var sellerId: String! = ""
+    var sellerName: String! = ""
+    var offerId: String! = ""
     
     var imagePresale : UIImageView!
     var borderViewTop : UIView!
@@ -77,7 +80,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     }
 
 
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool ) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,sellerId:String, sellerName:String, offerId: String) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         if (productPriceThrough as NSString).doubleValue > 0 {
@@ -99,6 +102,9 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.deleteProduct.isHidden = !isEditting
         self.onHandInventory = String(onHandInventory) as NSString
         self.isPreorderable = "\(isPreorderable)"
+        self.sellerName = sellerName
+        self.sellerId = sellerId
+        self.offerId = offerId
         
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
@@ -118,7 +124,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         if !isDisabled {
             let hasUPC = UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
             if !hasUPC {
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1", comments: "", onHandInventory: self.onHandInventory as String, type: "", pesable: "0", isPreorderable: isPreorderable,orderByPieces: true)
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1", onHandInventory: self.onHandInventory as String,pesable: "0", type: "",  isPreorderable: isPreorderable, sellerId: self.sellerId, sellerName: sellerName, offerId: self.offerId)
                 NotificationCenter.default.post(name:  .addUPCToShopingCart, object: self, userInfo: params)
             }else{
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))

@@ -664,6 +664,26 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
     }
     
+    class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String,category:String,sellerId:String?,sellerName: String?, offerId: String?) -> [AnyHashable: Any] {
+        
+        var params:[AnyHashable:Any] = ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category,"type":type]
+        
+        if sellerId != nil {
+            params["sellerId"] = sellerId
+        }
+        
+        if sellerName != nil {
+            params["sellerName"] = sellerName
+        }
+        
+        if offerId != nil {
+            params["offerId"] = offerId
+        }
+        
+        return params
+    }
+
+    
     class func buildParamsUpdateShoppingCart(_ upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String,orderByPieces: Bool) -> [AnyHashable: Any] {
         return
             ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable,"isPreorderable":isPreorderable, "orderByPieces": orderByPieces]

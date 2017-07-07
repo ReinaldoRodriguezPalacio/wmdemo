@@ -61,8 +61,8 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         }
     }
     
-    override func setValues(_ upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString, provider: String) {
-        super.setValues(upc, productImageURL: productImageURL, productShortDescription: productShortDescription, productPrice: productPrice, saving: "", isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, isInShoppingCart: isInShoppingCart, pesable: pesable, provider: "Acme")
+    override func setValues(_ upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString, sellerName:String, sellerId:String, offerId:String) {
+        super.setValues(upc, productImageURL: productImageURL, productShortDescription: productShortDescription, productPrice: productPrice, saving: "", isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, isInShoppingCart: isInShoppingCart, pesable: pesable,sellerName:sellerName, sellerId:sellerId, offerId:offerId)
         
         if saving != "" {
             productPriceSavingLabelGR.text = saving as String
