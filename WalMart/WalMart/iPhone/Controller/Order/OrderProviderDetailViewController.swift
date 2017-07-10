@@ -205,108 +205,73 @@ class OrderProviderDetailViewController : NavigationViewController {
     }
     
     func reloadPreviousOrderDetail() {
-        let servicePrev = PreviousOrderDetailService()
-        servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
-                
-            self.tableDetailOrder.dataSource = self
-            self.tableDetailOrder.delegate = self
-                
-            self.itemDetail = result
-                
-            var details : [[String:String]] = []
-            let deliveryType = result["deliveryType"] as? String ?? ""
-            let name = result["name"] as! String
-            let address = result["deliveryAddress"] as! String
-                
-            let statusLbl = NSLocalizedString("previousorder.status",comment:"")
-            let dateLbl = NSLocalizedString("previousorder.date",comment:"")
-            let nameLbl = NSLocalizedString("previousorder.name",comment:"")
-            let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-            let addressLbl = NSLocalizedString("previousorder.address",comment:"")
-            //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
+        self.tableDetailOrder.dataSource = self
+        self.tableDetailOrder.delegate = self
         
-            let resultsProducts =  result["items"] as! [[String:Any]]
-            var itemsFedex : [[String:Any]] = []
-            
-            for itemProduct in resultsProducts {
-                let guide = itemProduct["fedexGuide"] as! String
-                let urlGuide = itemProduct["urlfedexGuide"] as! String
-                
-                var itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
-                    let itemTwo =  itemFedexFilter["fedexGuide"] as! String
-                    return guide == itemTwo
-                })
-                
-                if self.status == "" {
-                    self.status = itemProduct["status"] as? String ?? ""
-                }
-                
-                
-                if let offers = itemProduct["offers"] as? [[String:Any]] {
-                    for offer in offers {
-                        if offer["offerId"] as! String == itemProduct["upc"] as! String {
-                            self.sellerName = offer["name"] as! String
-                            self.sellerId = offer["sellerId"] as! String
-                            break
-                        }
-                    }
-                    
-                    if self.sellerName == ""  && offers.count > 0 {
-                        let offer = offers.first!
+        var details : [[String:String]] = []
+        let deliveryType = itemDetail["deliveryType"] as? String ?? ""
+        let name = itemDetail["name"] as! String
+        let address = itemDetail["address"] as! String
+        
+        let statusLbl = NSLocalizedString("previousorder.status",comment:"")
+        let dateLbl = NSLocalizedString("previousorder.date",comment:"")
+        let nameLbl = NSLocalizedString("previousorder.name",comment:"")
+        let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
+        let addressLbl = NSLocalizedString("previousorder.address",comment:"")
+        //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
+        
+        let resultsProducts =  itemDetail["guideItems"] as! [[String:Any]]
+        var itemsFedex : [[String:Any]] = []
+        self.status = itemDetail["status"] as? String ?? ""
+        let guide = itemDetail["fedexGuide"] as! String
+        let urlGuide = itemDetail["urlfedexGuide"] as! String
+        
+        for itemProduct in resultsProducts {
+
+            if let offers = itemProduct["offers"] as? [[String:Any]] {
+                for offer in offers {
+                    if offer["offerId"] as! String == itemProduct["upc"] as! String {
                         self.sellerName = offer["name"] as! String
                         self.sellerId = offer["sellerId"] as! String
+                        break
                     }
                 }
-
-            if itemFedexFound.count == 0 {
-                    var itmNewProduct : [String:Any] = [:]
-                    itmNewProduct["fedexGuide"] = guide
-                    itmNewProduct["urlfedexGuide"] = urlGuide
-                    itmNewProduct["items"] = [itemProduct]
-                    itemsFedex.append(itmNewProduct)
-                } else {
-                    let index = itemsFedex.index(where: { (itemFedexFilter) -> Bool in
-                        let itemTwo =  itemFedexFilter["fedexGuide"] as! String
-                        return guide == itemTwo
-                    })
-                    var itemFound = itemFedexFound[0] as  [String:Any]
-                    var itemsFound = itemFound["items"] as!  [Any]
-                    itemsFound.append(itemProduct)
-                    itemsFedex.remove(at: index!)
-                    var itmNewProduct : [String:Any] = [:]
-                    itmNewProduct["fedexGuide"] = guide
-                    itmNewProduct["urlfedexGuide"] = urlGuide
-                    itmNewProduct["items"] = itemsFound
-                    itemsFedex.append(itmNewProduct)
                 
+                if self.sellerName == ""  && offers.count > 0 {
+                    let offer = offers.first!
+                    self.sellerName = offer["name"] as! String
+                    self.sellerId = offer["sellerId"] as! String
                 }
             }
             
-            details.append(["label":statusLbl,"value":self.status])
-            details.append(["label":dateLbl,"value":self.date])
-            details.append(["label":nameLbl,"value":name])
-            details.append(["label":deliveryTypeLbl,"value":deliveryType])
-            details.append(["label":addressLbl,"value":address])
-            
-            if self.sellerName != "" {
-                details.append(["label":"Proveedor","value":self.sellerName])
-                self.optionsButton?.isHidden = false
-            }else{
-                self.optionsButton?.isHidden = true
-            }
-            //details.append(["label":fedexLbl,"value":guide])
-            self.detailsOrder = details
-            
-            self.showFedexGuide = true
-            self.itemDetailProducts = itemsFedex
-            
-            self.tableDetailOrder.reloadData()
-            self.removeLoadingView()
-        }) { (error:NSError) -> Void in
-            //
-            self.back()
-            self.removeLoadingView()
+            var itmNewProduct : [String:Any] = [:]
+            itmNewProduct["fedexGuide"] = guide
+            itmNewProduct["urlfedexGuide"] = urlGuide
+            itmNewProduct["items"] = [itemProduct]
+            itemsFedex.append(itmNewProduct)
+        
         }
+        
+        details.append(["label":statusLbl,"value":self.status])
+        details.append(["label":dateLbl,"value":self.date])
+        details.append(["label":nameLbl,"value":name])
+        details.append(["label":deliveryTypeLbl,"value":deliveryType])
+        details.append(["label":addressLbl,"value":address])
+        
+        if self.sellerName != "" {
+            details.append(["label":"Proveedor","value":self.sellerName])
+            self.optionsButton?.isHidden = false
+        }else{
+            self.optionsButton?.isHidden = true
+        }
+        //details.append(["label":fedexLbl,"value":guide])
+        self.detailsOrder = details
+        
+        self.showFedexGuide = true
+        self.itemDetailProducts = itemsFedex
+        
+        self.tableDetailOrder.reloadData()
+        self.removeLoadingView()
     }
     
     func addListToCart (){

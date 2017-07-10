@@ -10,7 +10,7 @@ import Foundation
 
 protocol OrderSendigTableViewCellDelegate : class {
     func didSelectOption(_ text:String?)
-    func didShowDetail(_ text:String?)
+    func didShowDetail(_ orderItem:[String:Any]?)
 }
 
 class OrderSendigTableViewCell : UITableViewCell {
@@ -33,6 +33,7 @@ class OrderSendigTableViewCell : UITableViewCell {
     
     var showDetailLbl : UILabel!
     var imageSeeMore : UIImageView!
+    var orderItem: [String:Any]?
     //see_more
     
     var cellDelegate: OrderSendigTableViewCellDelegate?
@@ -65,7 +66,6 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.optionsBtns.backgroundColor = WMColor.light_blue
         self.optionsBtns.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         self.optionsBtns.addTarget(self, action: #selector(showOptionsView), for: .touchUpInside)
-        
         
         self.statusTitle = self.labelContact()
         self.nameTitle = self.labelContact()
@@ -134,7 +134,6 @@ class OrderSendigTableViewCell : UITableViewCell {
     
     
     func setValues(values:[String:Any]) {
-        
         self.titleSending.text = txtSendig
         
         let statusAttrString = self.buildAttributtedString("Status", value: values["statusValue"] as! String)
@@ -182,7 +181,7 @@ class OrderSendigTableViewCell : UITableViewCell {
     }
     
     func showDetail() {
-        self.cellDelegate?.didShowDetail("")
+        self.cellDelegate?.didShowDetail(self.orderItem)
     }
     
 }

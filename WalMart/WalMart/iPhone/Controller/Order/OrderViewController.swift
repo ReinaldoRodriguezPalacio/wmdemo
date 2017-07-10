@@ -125,20 +125,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             sendingViewController.status = statusStr
             self.navigationController!.pushViewController(sendingViewController, animated: true)
             
-//            let detailController = OrderProviderDetailViewController()
-//            detailController.type = ResultObjectType.Mg
-//            let dateStr = item["placedDate"] as! String
-//            let trackingStr = item["trackingNumber"] as! String
-//            let statusStr = item["status"] as! String
-//            
-//            detailController.trackingNumber = trackingStr
-//            detailController.status = statusStr
-//            detailController.date = dateStr
-//            self.navigationController!.pushViewController(detailController, animated: true)
-            
-            ////BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
-            
-            
         } else {
             let detailController = OrderDetailViewController()
             detailController.type = ResultObjectType.Groceries

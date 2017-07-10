@@ -97,6 +97,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         let provider = item["Provider"] as! String
         
         let valueItem = ["statusValue": status, "nameValue": name, "sendingNormalValue": sendingNormal, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider]
+        cell.orderItem = item
         cell.setValues(values: valueItem)
         cell.cellDelegate = self
         return cell
@@ -120,7 +121,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         
         let servicePrev = PreviousOrderDetailService()
         servicePrev.callService(trackingNumber, successBlock: { (result:[String:Any]) -> Void in
-             //let deliberyType = result["deliveryType"] as! String
+             let deliberyType = result["deliveryType"] as! String
              let delyberyAddress = result["deliveryAddress"] as! String
              let userName = result["name"] as! String
              let paymentType = result["paymentType"] as! String
@@ -132,9 +133,12 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
                 let guides = seller["guides"] as! [[String:Any]]
                 for guide in guides {
                     countOrder += 1
-                    let status = guide["status"] as! String
                     let guideItems = guide["items"] as! [[String:Any]]
-                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName,"guideItems":guideItems])
+                    let status = guide["status"] as! String
+                    let fedexGuide = guide["fedexGuide"] as! String
+                    let urlGuide = guide["urlfedexGuide"] as! String
+                    
+                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName,"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems])
                 }
             }
             
@@ -172,8 +176,18 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         
     }
     
-    func didShowDetail(_ text:String?) {
+    func didShowDetail(_ orderItem:[String:Any]?) {
+        let detailController = OrderProviderDetailViewController()
+        detailController.type = ResultObjectType.Mg
+        let dateStr = ""
+        let trackingStr = trackingNumber
+        let statusStr = orderItem!["status"] as! String
         
+        detailController.trackingNumber = trackingStr
+        detailController.status = statusStr
+        detailController.date = dateStr
+        detailController.itemDetail = orderItem!
+        self.navigationController!.pushViewController(detailController, animated: true)
     }
     
     
