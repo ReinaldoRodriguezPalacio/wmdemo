@@ -142,9 +142,6 @@ class OrderSendigTableViewCell : UITableViewCell {
         let nameAttrString = self.buildAttributtedString("Nombre", value: values["nameValue"] as! String)
         self.nameTitle.attributedText = nameAttrString
         
-        let sendingNormaAttrString = self.buildAttributtedString("Envío normal", value: values["sendingNormalValue"] as! String)
-        self.sendingNormalTitle.attributedText = sendingNormaAttrString
-        
         let paymentTypeAttrString = self.buildAttributtedString("Tipo de Pago", value: values["PaymentTypeValue"] as! String)
         self.paymentTypeTitle.attributedText = paymentTypeAttrString
         
@@ -154,6 +151,14 @@ class OrderSendigTableViewCell : UITableViewCell {
         
         let providerAttrString = self.buildAttributtedString("Proveedor", value: values["ProviderValue"] as! String)
         self.providerTitle.attributedText = providerAttrString
+        
+        if let sendingNormalValues = values["sendingNormalValue"] as? String {
+            let sendingNormaAttrString = self.buildAttributtedString("Envío normal", value: sendingNormalValues)
+            self.sendingNormalTitle.attributedText = sendingNormaAttrString
+            self.sendingNormalTitle.isHidden = false
+        }else{
+           self.sendingNormalTitle.isHidden = true
+        }
     }
     
     func buildAttributtedString(_ title:String, value:String ) -> NSAttributedString {

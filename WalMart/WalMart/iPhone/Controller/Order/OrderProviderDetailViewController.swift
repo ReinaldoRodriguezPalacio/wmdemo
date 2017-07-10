@@ -253,10 +253,13 @@ class OrderProviderDetailViewController : NavigationViewController {
         }
         
         details.append(["label":statusLbl,"value":self.status])
-        details.append(["label":dateLbl,"value":self.date])
         details.append(["label":nameLbl,"value":name])
         details.append(["label":deliveryTypeLbl,"value":deliveryType])
         details.append(["label":addressLbl,"value":address])
+        
+        if self.date != "" {
+            details.append(["label":dateLbl,"value":self.date])
+        }
         
         if self.sellerName != "" {
             details.append(["label":"Proveedor","value":self.sellerName])

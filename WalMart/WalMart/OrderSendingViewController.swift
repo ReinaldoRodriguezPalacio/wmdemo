@@ -91,12 +91,16 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         let item = self.items[indexPath.row]
         let status = item["status"] as! String
         let name = item["name"] as! String
-        let sendingNormal = item["sendingNormal"] as! String
         let paymentType = item["PaymentType"] as! String
         let address = item["address"] as! String
         let provider = item["Provider"] as! String
         
-        let valueItem = ["statusValue": status, "nameValue": name, "sendingNormalValue": sendingNormal, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider]
+        var  valueItem = ["statusValue": status, "nameValue": name, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider]
+        
+        if let sendingNormal = item["sendingNormal"] as? String {
+             valueItem["sendingNormalValue"] = sendingNormal
+        }
+        
         cell.orderItem = item
         cell.setValues(values: valueItem)
         cell.cellDelegate = self
@@ -139,7 +143,13 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
                     let fedexGuide = guide["fedexGuide"] as! String
                     let urlGuide = guide["urlfedexGuide"] as! String
                     
-                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName, "sellerId": String(sellerId),"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems])
+                    var valueItem: [String:Any] = ["sendig":"\(countOrder)","status":status,"name":userName,"PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName, "sellerId": String(sellerId),"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems]
+                    
+                    //if let sendingNormal = guide["date"] as? String {
+                        valueItem["sendingNormal"] = "Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)"
+                    //}
+
+                    self.items.append(valueItem)
                 }
             }
             

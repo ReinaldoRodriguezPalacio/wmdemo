@@ -252,7 +252,19 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
                     pieces = totalPieces
                 }
                 
-                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments, desc: itemToShop["desc"] as! String, price: itemToShop["price"] as! String, imageURL: itemToShop["imgUrl"] as! String, onHandInventory: numOnHandInventory, wishlist: wishlistObj, pesable: pesable, isPreorderable: isPreorderable, category: category, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber)
+                var param: [String:Any] = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments, desc: itemToShop["desc"] as! String, price: itemToShop["price"] as! String, imageURL: itemToShop["imgUrl"] as! String, onHandInventory: numOnHandInventory, wishlist: wishlistObj, pesable: pesable, isPreorderable: isPreorderable, category: category, orderByPieces: orderByPiece as NSNumber, pieces: pieces as NSNumber)
+                
+                if let offerId = itemToShop["offerId"] as? String {
+                    param["offerId"] = offerId
+                }
+                
+                if let sellerId = itemToShop["sellerId"] as? String {
+                    param["sellerId"] = sellerId
+                }
+                
+                if let sellerName = itemToShop["sellerName"] as? String {
+                    param["sellerName"] = sellerName
+                }
                 
                 paramsitems.append(param)
             }
