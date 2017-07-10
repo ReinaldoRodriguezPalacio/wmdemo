@@ -32,6 +32,8 @@ class OrderSendigTableViewCell : UITableViewCell {
     var providerTitle : UILabel!
     
     var showDetailLbl : UILabel!
+    var imageSeeMore : UIImageView!
+    //see_more
     
     var cellDelegate: OrderSendigTableViewCellDelegate?
     
@@ -74,11 +76,23 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.addressTitle.numberOfLines = 3
         self.providerTitle = self.labelContact()
         
+        let gestureShowDetail = UITapGestureRecognizer(target: self, action: #selector(OrderSendigTableViewCell.showDetail))
+        
         self.showDetailLbl = UILabel()
         self.showDetailLbl.font = WMFont.fontMyriadProRegularOfSize(12.0)
         self.showDetailLbl.textColor = WMColor.regular_blue
         self.showDetailLbl.text = "Ver detalle"
+        self.showDetailLbl.addGestureRecognizer(gestureShowDetail)
+        self.showDetailLbl.isUserInteractionEnabled = true
         
+        let gestureShowDetailImage = UITapGestureRecognizer(target: self, action: #selector(OrderSendigTableViewCell.showDetail))
+        
+        self.imageSeeMore = UIImageView()
+        let image = UIImage(named: "see_more")
+        self.imageSeeMore!.image = image
+        self.imageSeeMore.addGestureRecognizer(gestureShowDetailImage)
+        self.imageSeeMore.isUserInteractionEnabled = true
+        self.addSubview(self.imageSeeMore!)
         
         
         self.addSubview(self.titleSending)
@@ -113,6 +127,7 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.providerTitle.frame = CGRect(x: 16.0, y: self.addressTitle.frame.maxY + 10.0, width: self.frame.width - 32.0, height: 15.0)
         
         self.showDetailLbl.frame = CGRect(x: self.frame.width - 56.0 - 41.0, y: self.providerTitle.frame.maxY + 7.5, width: 56.0, height: 12.0)
+        self.imageSeeMore!.frame = CGRect(x: self.frame.width - 16.0 - 21.0, y: self.providerTitle.frame.maxY + 5.5, width: 16.0, height: 16.0)
         
         self.separatorView.frame = CGRect(x: 0.0, y: self.frame.height - 1.0, width: self.frame.width, height: 1.0)
     }

@@ -66,7 +66,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         if IS_IPAD{
             self.emptyView!.showReturnButton = false
         }
-        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 92)
+        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - (IS_IPAD ? 46.0 : 92.0))
     }
     
     
@@ -80,7 +80,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 256.0
+        return 274.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
