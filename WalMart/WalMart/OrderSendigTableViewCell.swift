@@ -9,7 +9,7 @@
 import Foundation
 
 protocol OrderSendigTableViewCellDelegate : class {
-    func didSelectOption(_ text:String?)
+    func didSelectOption(_ orderItem:[String:Any]?)
     func didShowDetail(_ orderItem:[String:Any]?)
 }
 
@@ -34,7 +34,6 @@ class OrderSendigTableViewCell : UITableViewCell {
     var showDetailLbl : UILabel!
     var imageSeeMore : UIImageView!
     var orderItem: [String:Any]?
-    //see_more
     
     var cellDelegate: OrderSendigTableViewCellDelegate?
     
@@ -155,7 +154,6 @@ class OrderSendigTableViewCell : UITableViewCell {
         
         let providerAttrString = self.buildAttributtedString("Proveedor", value: values["ProviderValue"] as! String)
         self.providerTitle.attributedText = providerAttrString
-        
     }
     
     func buildAttributtedString(_ title:String, value:String ) -> NSAttributedString {
@@ -177,7 +175,7 @@ class OrderSendigTableViewCell : UITableViewCell {
     }
     
     func showOptionsView() {
-        self.cellDelegate?.didSelectOption("")
+        self.cellDelegate?.didSelectOption(self.orderItem)
     }
     
     func showDetail() {
