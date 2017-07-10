@@ -61,7 +61,11 @@ class UserWishlistService : BaseService {
                         itemsInWishlist.append(dictWishListProduct)
                         
                         var wishlistProduct : Wishlist!
-                        let upc = wishlistDicProduct["upc"] as! String
+                        guard let upc = wishlistDicProduct["upc"] as? String else {
+                            continue
+                        }
+                        
+                        
                         var desc = ""
                         if let descVal = wishlistDicProduct["description"] as? NSString {
                             desc = descVal as String
