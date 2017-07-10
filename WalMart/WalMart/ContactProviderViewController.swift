@@ -239,7 +239,7 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0.0, y: 0.0, width: IS_IPAD ? 681.5 : self.view.bounds.width, height: self.view.bounds.height))
         self.viewLoad!.backgroundColor = UIColor.white
         self.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(true)

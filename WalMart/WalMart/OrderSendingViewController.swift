@@ -111,7 +111,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
     func reloadPreviousOrders() {
         self.items = []
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
-        self.viewLoad.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
+        self.viewLoad.frame = CGRect(x: 0, y: 46, width: IS_IPAD ? 681.5 : self.view.frame.width, height: self.view.frame.height - 46)
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
         }
