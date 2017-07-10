@@ -133,15 +133,14 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
                 for guide in guides {
                     countOrder += 1
                     let status = guide["status"] as! String
-                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName])
+                    let guideItems = guide["items"] as! [[String:Any]]
+                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName,"guideItems":guideItems])
                 }
             }
             
             self.viewLoad.stopAnnimating()
             self.tableOrders.reloadData()
             self.emptyView.isHidden = self.items.count > 0
-
-            
         }) { (error:NSError) -> Void in
             self.viewLoad.stopAnnimating()
             self.tableOrders.reloadData()
