@@ -130,6 +130,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
             var countOrder = 0
             for seller in sellers {
                 let sellerName = seller["sellerName"] as! String
+                let sellerId = seller["sellerId"] as! Int
                 let guides = seller["guides"] as! [[String:Any]]
                 for guide in guides {
                     countOrder += 1
@@ -138,7 +139,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
                     let fedexGuide = guide["fedexGuide"] as! String
                     let urlGuide = guide["urlfedexGuide"] as! String
                     
-                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName,"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems])
+                    self.items.append(["sendig":"\(countOrder)","status":status,"name":userName,"sendingNormal":"Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)","PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName, "sellerId": String(sellerId),"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems])
                 }
             }
             
@@ -149,7 +150,6 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
             self.viewLoad.stopAnnimating()
             self.tableOrders.reloadData()
             self.emptyView.isHidden = self.items.count > 0
-
         }
         
     }
@@ -172,8 +172,17 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
     }
     
     //MARK: - OrderSendigTableViewCellDelegate
-    func didSelectOption(_ text:String?) {
+    func didSelectOption(_ orderItem:[String:Any]?) {
+        let controller = OrderMoreOptionsViewController()
         
+        let sellerName = orderItem!["Provider"] as! String
+        let sellerId = orderItem!["sellerId"] as! String
+        
+        let productsArray = orderItem!["guideItems"] as! [[String:Any]]
+        controller.sellerName = sellerName
+        controller.sellerId = sellerId
+        controller.orderItems = productsArray
+        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     func didShowDetail(_ orderItem:[String:Any]?) {
