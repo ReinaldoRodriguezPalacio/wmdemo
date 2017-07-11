@@ -36,6 +36,8 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     var iconDiscount : UIImageView!
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
+    var providerLBL : UILabel!
+    
     override func setup() {
         super.setup()
         
@@ -44,7 +46,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.center
-        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         productShortDescriptionLabel!.numberOfLines = 2
         
         self.addProductToShopingCart = UIButton()
@@ -62,6 +64,15 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.contentView.addSubview(addProductToShopingCart!)
         self.contentView.addSubview(productPriceThroughLabel!)
         
+        providerLBL = UILabel()
+        providerLBL!.font = WMFont.fontMyriadProRegularOfSize(9)
+        providerLBL!.numberOfLines = 1
+        providerLBL!.textColor =  WMColor.light_blue
+        providerLBL!.isHidden = true
+        providerLBL!.textAlignment = .center
+        providerLBL!.text = NSLocalizedString("provider.for",comment:"")
+        self.contentView.addSubview(providerLBL)
+        
         //Ale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.isHidden =  true
@@ -72,11 +83,21 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.deleteProduct.frame = CGRect(x: 0, y: 0 , width: 60 , height: 60)
-        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (162 / 2),y: 22, width: 162, height: 114)
-        self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 52, y: 8, width: 44 , height: 44)
+        self.productImage!.frame = CGRect(x: (self.frame.width / 2) - (104 / 2),y: 8, width: 104, height: 104)
+        self.addProductToShopingCart!.frame = CGRect(x: self.bounds.maxX - 42, y: 8, width: 34 , height: 34)
         self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 16)
         self.productPriceThroughLabel!.frame = CGRect(x: 8, y: self.productPriceLabel!.frame.maxY, width: self.bounds.width - 16 , height: 16)
-        self.productShortDescriptionLabel!.frame = CGRect(x: 50,  y: self.productPriceThroughLabel!.frame.maxY + 6, width: self.frame.width - 100 , height: 28)
+        
+        self.providerFrame()
+        self.productShortDescriptionLabel!.frame = CGRect(x: 50,  y: providerLBL.isHidden ? (self.productPriceThroughLabel!.frame.maxY + 6) : (self.providerLBL!.frame.maxY + 4.0), width: self.frame.width - 100 , height: 28)
+    }
+    
+    func providerFrame() {
+        if !providerLBL!.isHidden {
+            self.providerLBL!.frame =  CGRect(x: 8.0, y: self.productPriceThroughLabel!.frame.maxY + 4.0, width: self.bounds.width - 16.0, height: 12.0)
+        } else {
+            self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 16)
+        }
     }
 
 
@@ -117,6 +138,10 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
                 addProductToShopingCart!.setImage(UIImage(named: "productToShopingCart"), for:UIControlState())
             }
         }
+        
+        self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + sellerName
+        self.providerLBL.isHidden = sellerName != "" ? false : true
+        self.providerFrame()
     }
     
     
