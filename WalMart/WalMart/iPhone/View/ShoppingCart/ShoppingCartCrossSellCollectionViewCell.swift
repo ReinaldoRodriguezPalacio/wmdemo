@@ -13,7 +13,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     
     var labelTitle : UILabel!
     var buttonClose : UIButton!
-    var esGR : Bool = false
+    var isForGroceries : Bool = false
     override func setup() {
         super.setup()
         
@@ -55,21 +55,19 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             }
         }
         
+        if let priceString = itemUPC["price"] as? String {
+            price = priceString
+        }
+        else {
+            price = String(format:"%.2f", itemUPC["price"] as! Double)
+        }
         
-        if price != "" {
-            imageArray = itemUPC["imageUrl"] as! [Any]
+        if let imageArray = itemUPC["imageUrl"] as? [Any] {
             if imageArray.count > 0 {
                 imageUrl = imageArray[0] as! String
             }
-        }
-        else {
-             price = String(format:"%.2f", itemUPC["price"] as! Double)
-             imageUrl = itemUPC["imageUrl"] as? String ?? ""
-            if let offers = itemUPC["offers"] as? [String:Any] {
-                price = offers["price"] as! String
-            } else {
-                esGR=true
-            }
+        }else{
+            imageUrl = itemUPC["imageUrl"] as? String ?? ""
         }
         
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
@@ -86,7 +84,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         UserCurrentSession.sharedInstance.nameListToTag = ""//NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")Peticion- Abaco
       
       
-        if esGR {
+        if isForGroceries {
              shoppingCartItems  = UserCurrentSession.sharedInstance.itemsGR!["items"] as? [Any]
              listNameFromBussines = NSLocalizedString("shoppingcart.beforeleave.gr", comment: "")
         }else{
@@ -122,21 +120,23 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             let upc = itemUPC["upc"] as! String
             let desc = itemUPC["description"] as! String
             var price : String! = ""
-            var imageArray : [Any] = []
             var imageUrl = ""
-            var type = ""
+            let type = self.isForGroceries ? "groceries" : ""
+            
             if let priceString = itemUPC["price"] as? String {
                 price = priceString
-                imageArray = itemUPC["imageUrl"] as! [Any]
-                
-                if imageArray.count > 0 {
-                    imageUrl = imageArray[0] as! String
-                }
             }
             else {
                 price = String(format:"%.2f", itemUPC["price"] as! Double)
+            }
+            
+            if let imageArray = itemUPC["imageUrl"] as? [Any] {
+                if imageArray.count > 0 {
+                    imageUrl = imageArray[0] as! String
+                }
+            }else{
                 imageUrl = itemUPC["imageUrl"] as? String ?? ""
-                type = "groceries"            }
+            }
             
             var numOnHandInventory : String = "0"
             if let numberOf = itemUPC["onHandInventory"] as? String{

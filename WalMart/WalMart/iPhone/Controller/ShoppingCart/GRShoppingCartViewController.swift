@@ -927,6 +927,7 @@ extension GRShoppingCartViewController: UITableViewDataSource {
             //cellPromotion!.delegate = self
             cellPromotion!.itemsUPC = itemsUPC
             cellPromotion!.collection.reloadData()
+            cellPromotion?.isForGroceries = true
             cell = cellPromotion
             
             return cell!
