@@ -181,13 +181,13 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             let priceWidth = (self.productPriceLabel!.label1!.frame.width + self.productPriceLabel!.label2!.frame.width)
             
             let productWidth = (self.frame.width - (priceWidth + 32.0 + 8.0)) / 2
-            providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 18.0 : 6.0) + 3.0, width: 32.0, height: 12.0)
-            self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productPriceLabel!.frame.minY, width: priceWidth, height: 19)
+            providerLBL!.frame =  CGRect(x: productWidth, y: self.productImage!.frame.maxY + (IS_IPAD ? 18.0 : 8.0) + 3.0, width: 32.0, height: 12.0)
+            self.productPriceLabel!.frame = CGRect(x: providerLBL.frame.maxX + 8, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0 ), width: priceWidth, height: 19)
             
             let formatedPrice = CurrencyCustomLabel.formatString(self.price as NSString)
             self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         } else {
-            self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + 6, width: self.bounds.width - 16 , height: 19)
+            self.productPriceLabel!.frame = CGRect(x: 8, y: self.productImage!.frame.maxY + (IS_IPAD ? 16.0 : 6.0 ), width: self.bounds.width - 16 , height: 19)
         }
     }
   
