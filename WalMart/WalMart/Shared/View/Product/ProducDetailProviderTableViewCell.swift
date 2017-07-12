@@ -65,7 +65,9 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
 //        self.bringSubview(toFront: switchBtn)
 //        self.addSubview(switchBtn)
         
-        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12)] as [String : Any]
+        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:UIColor.white] as [String : Any]
+        let segmentedTitleAttributesNormal = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
+        
         segmentedControl = UISegmentedControl(items: ["Nuevos", "Reacondicionados"])
         segmentedControl.backgroundColor = UIColor.white
         segmentedControl.tintColor = WMColor.light_blue
@@ -75,9 +77,10 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
         segmentedControl.layer.borderWidth = 1.0
         segmentedControl.layer.borderColor = WMColor.light_blue.cgColor
         segmentedControl.layer.masksToBounds = true
-        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: UIControlState())
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributesNormal, for: UIControlState())
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .disabled)
         self.addSubview(segmentedControl)
         
         let collectionLayout = UICollectionViewFlowLayout()
@@ -156,7 +159,14 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
         
         if providerNewItems.count == 0 {
 //            self.switchBtn.isHidden = true
-            segmentedControl.isHidden = true
+            segmentedControl.isHidden = false
+            segmentedControl.setEnabled(false, forSegmentAt: 0)
+            segmentedControl.selectedSegmentIndex = 1
+            segmentedControl.layer.borderWidth = 0
+            segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
+            
+            segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
             self.showNewItems = false
         }
         
