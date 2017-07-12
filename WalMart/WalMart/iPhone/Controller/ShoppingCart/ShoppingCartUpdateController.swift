@@ -111,7 +111,11 @@ class ShoppingCartUpdateController: UIViewController, CommentBubbleViewDelegate 
         if multipleItems == nil {
             let imageUrl = params["imgUrl"] as! String
             self.imageProduct!.contentMode = self.contentModeOrig
-            self.imageProduct!.setImageWith(URL(string: imageUrl)!, placeholderImage: UIImage(named:"img_default_table"))
+            if imageUrl != "" {
+                self.imageProduct!.setImageWith(URL(string: imageUrl)!, placeholderImage: UIImage(named:"img_default_table"))
+            }else{
+                self.imageProduct!.image = UIImage(named:"img_default_table")
+            }
         } else {
             if let imageName = self.multipleItems!["image"] as? String {
                 imageProduct.image = UIImage(named:imageName)

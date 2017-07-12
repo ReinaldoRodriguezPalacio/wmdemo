@@ -1863,6 +1863,7 @@ class SearchProductViewController: NavigationViewController {
                 cell.offerId = upc
                 cell.sellerName = provider["name"] as? String
                 cell.sellerId = provider["sellerId"] as? String
+                through = ""
             }
             hasProviders = (providerArray.count > 0)
         }else{

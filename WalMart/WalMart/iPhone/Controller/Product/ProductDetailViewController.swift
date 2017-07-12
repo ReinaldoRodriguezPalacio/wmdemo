@@ -632,6 +632,8 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             self.upc = self.providerInfo!["offerId"] as? NSString ?? self.upc
             self.strisPreorderable  = result["isPreorderable"] as? String ?? "false"
             self.price = providerInfo!["price"] as? NSString ?? self.price
+            self.listPrice = ""
+            self.saving = ""
         }
         
          NSLog("reloadViewWithData finish ", "ProductDetailViewController")

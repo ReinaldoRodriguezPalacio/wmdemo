@@ -585,6 +585,8 @@ class IPAProductDetailViewController : UIViewController {
             self.strisPreorderable  = result["isPreorderable"] as? NSString ?? "false"
             self.price = providerInfo!["price"] as? NSString ?? self.price
             self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
+            self.saving = ""
+            self.listPrice = ""
         }
     }
     
