@@ -24,6 +24,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     var showNewItems = true
     weak var delegate: ProductDetailProviderCollectionViewCellDelegate?
     var selectedOfferId: String = ""
+    var selectedIndex: IndexPath? = nil
     
     var itemsProvider: [[String:Any]] = [] {
         didSet {
@@ -193,6 +194,7 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDataSource {
         cell.setValues(provider)
         if provider["offerId"] as! String == selectedOfferId {
             cell.isSelected = true
+            selectedIndex = indexPath
         }else{
             cell.isSelected = false
         }
@@ -218,8 +220,7 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         self.selectedOfferId = provider["offerId"] as! String
-        collection.reloadData()
-        collection.scrollToItem(at: indexPath, at: .left, animated: false)
+        collection.reloadItems(at: [self.selectedIndex!])
         delegate?.selectOffer(offer: provider)
     }
 }
