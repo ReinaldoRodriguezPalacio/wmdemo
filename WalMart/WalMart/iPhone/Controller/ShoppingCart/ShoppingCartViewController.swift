@@ -452,6 +452,18 @@ class ShoppingCartViewController: BaseController {
                 var sellerId: String? = nil
                 var sellerName: String? = nil
                 
+                if let valueOfferId = shoppingCartProduct["offerId"] as? String {
+                    offerId = valueOfferId
+                }
+                
+                if let valueSellerName = shoppingCartProduct["sellerName"] as? String {
+                    sellerName = valueSellerName
+                }
+                
+                if let valueSellerId = shoppingCartProduct["sellerId"] as? String {
+                    sellerId = valueSellerId
+                }
+                
                 if let offers = shoppingCartProduct["offers"] as? [Any] {
                     if let offer = offers.first as? [String:Any] {
                         offerId = offer["offerId"] as? String
@@ -459,7 +471,6 @@ class ShoppingCartViewController: BaseController {
                         sellerName = offer["sellerName"] as? String
                     }
                 }
-
                 
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.itemsInShoppingCart.count {
