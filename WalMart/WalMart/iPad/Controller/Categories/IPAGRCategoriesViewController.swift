@@ -19,6 +19,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
     var landingItem : [String:String]? = nil
+    var btnSuperExpress : UIButton! = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SUPER.rawValue
@@ -42,6 +43,15 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.titleLabel?.textAlignment = .center
         
         colCategories.backgroundColor = WMColor.light_light_gray
+        
+        self.btnSuperExpress = UIButton()
+        btnSuperExpress.setTitle(NSLocalizedString("superExpress.search.info.button",comment:""), for:UIControlState())
+        btnSuperExpress.titleLabel!.textColor = UIColor.white
+        btnSuperExpress.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        btnSuperExpress.backgroundColor = WMColor.green
+        btnSuperExpress.layer.cornerRadius = 15
+        self.btnSuperExpress!.addTarget(self, action: #selector(self.showSuperExpressSearch(_:)), for: UIControlEvents.touchUpInside)
+        self.header?.addSubview(btnSuperExpress)
         
         let _ = loadDepartments()
         
@@ -68,6 +78,11 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         colCategories.delegate = self
         colCategories.dataSource = self
         return self.items
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        btnSuperExpress.frame = CGRect(x: 3 * self.header!.frame.width / 4 + 10, y: self.header!.frame.height/2 - 15, width: self.header!.frame.width/4 - 20, height: 30)
     }
     
     //MARK: - collectionViewDelegate
@@ -373,13 +388,29 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.isUserInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
-            self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
+            self.titleLabel!.frame = CGRect(x: self.header!.frame.width/4, y: 0, width: self.header!.frame.width/2, height: self.header!.frame.maxY)
         }else{
             self.titleLabel?.text = "Súper "
-            self.titleLabel!.frame = CGRect(x: 0, y: 0, width: self.header!.frame.width, height: self.header!.frame.maxY)
+            self.titleLabel!.frame = CGRect(x: self.header!.frame.width/4, y: 0, width: self.header!.frame.width/2, height: self.header!.frame.maxY)
         }
         
     }
+    
+    func showSuperExpressSearch(_ sender:UIButton) {
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+        
+        let controller = SESearchViewController()
+        
+        let controllernav = self.navigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
+            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+        }
+        controllernav?.pushViewController(controller, animated: true)
+        
+    }
+    
+
 
 
 }

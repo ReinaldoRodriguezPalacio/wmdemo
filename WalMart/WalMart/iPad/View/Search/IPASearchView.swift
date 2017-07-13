@@ -24,9 +24,17 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     var camLabel: UILabel?
     var scanButton: UIButton?
     var scanLabel: UILabel?
+    var superExpressButton: UIButton?
+    var superExpressLabel: UILabel?
     var tiresBarView: SearchTiresBarView?
     var camfine: Bool = false
     
+    var vcWishlist : IPAWishlistViewController!
+    var viewBgWishlist : UIView!
+    
+    var selectedBeforeWishlistIx : Int = 0
+    
+    var isOpenWishlist : Bool = false
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -86,18 +94,26 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let showCamFind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
+        var showCamFind = Bundle.main.object(forInfoDictionaryKey: "showCamFind") as! Bool
         self.camButton!.isHidden = !showCamFind
         self.camLabel!.isHidden = !showCamFind
+        let widthPopover = 474
+        let heightPopover = 500
         
         if showCamFind {
-            self.camButton!.frame = CGRect(x: 128, y: 110.0, width: 64, height: 64)
-            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28,  y: self.camButton!.frame.maxY + 16, width: 120, height: 34)
-            self.scanButton!.frame = CGRect(x: 282, y: 110.0, width: 64, height: 64)
-            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.camButton!.frame.maxY + 16, width: 120, height: 34)
+            self.camButton!.frame = CGRect(x: (widthPopover / 4) - 60, y: heightPopover/4 - 32, width: 64, height: 64)
+            self.scanButton!.frame = CGRect(x: (widthPopover / 2) - 28 , y: heightPopover/4 - 32, width: 64, height: 64)
+            self.superExpressButton!.frame = CGRect(x: 3 * (widthPopover / 4), y: heightPopover/4 - 32, width: 64, height: 64)
+            
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
+            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }else{
-            self.scanButton!.frame = CGRect(x: (self.frame.width + 64) / 2, y: 110.0, width: 64, height: 64)
-            self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.maxY + 16, width: 120, height: 34)
+            self.camButton!.frame = CGRect(x: (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
+            self.superExpressButton!.frame = CGRect(x: 2 * (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
+            
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }
         
         self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
@@ -122,6 +138,19 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.searchctrl.view.frame = CGRect(x: 0,y: 0,width: 474,height: 500)
                 self.searchctrl.preferredContentSize = CGSize(width: 474, height: 500)
             }
+            
+            self.superExpressButton = UIButton(type: .custom)
+            self.superExpressButton!.setImage(UIImage(named:"superlist"), for: UIControlState())
+            self.superExpressButton!.addTarget(self, action: #selector(SearchViewController.showSuperExpressSearch(_:)), for: UIControlEvents.touchUpInside)
+            searchctrl.view!.addSubview(self.superExpressButton!)
+            
+            self.superExpressLabel = UILabel()
+            self.superExpressLabel!.textAlignment = .center
+            self.superExpressLabel!.numberOfLines = 2
+            self.superExpressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+            self.superExpressLabel!.textColor = UIColor.white
+            self.superExpressLabel!.text = NSLocalizedString("superExpress.search.info.button",comment:"")
+            searchctrl.view!.addSubview(self.superExpressLabel!)
             
             self.camButton = UIButton(type: .custom)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), for: UIControlState())
@@ -515,6 +544,13 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         if self.tiresBarView!.tiresSearch {
             self.tiresBarView!.isHidden = false
         }
+    }
+    
+    
+    func showSuperExpressSearch(_ sender: UIButton){
+        delegate?.showSuperExpressSearch()
+        self.closeSearch()
+        closePopOver()
     }
 }
 

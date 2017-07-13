@@ -574,7 +574,6 @@
 //Camfind
 "search.info.placeholder" = "Busca por texto";
 "search.info.button.camera" = "Busca tomando\nuna foto";
-"search.info.button.superExpress" = "Tu súper en 10 minutos";
 "search.info.button.barcode" = "Escanea un\nCódigo de Barras";
 "camfind.message.photo" = "Fotografía un artículo";
 "camfind.message.preview" = "Buscaremos este artículo en WalMart";
@@ -757,3 +756,8 @@
 "llantas.field.medida.anchura" = "Anchura de Sección";
 "llantas.field.medida.aspecto" = "Relación de Aspecto";
 "llantas.field.medida.diametro" = "Diámetro";
+
+//Súper Express
+"superExpress.search.info.button" = "Tu súper en 10 minutos";
+"superExpress.search.field.placeholder" = "Agregar producto";
+"superExpress.info.description" = "Realiza tu súper más rápido, ingresa los productos que deseas, oprime listo cuando termines y confirma los productos.";
