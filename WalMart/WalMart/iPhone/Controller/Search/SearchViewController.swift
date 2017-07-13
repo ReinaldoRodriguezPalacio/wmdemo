@@ -147,7 +147,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.header!.addSubview(self.clearButton!)
         
         self.superExpressButton = UIButton(type: .custom)
-        self.superExpressButton!.setImage(UIImage(named:"superlist"), for: UIControlState())
+        self.superExpressButton!.setImage(UIImage(named:"superExpress"), for: UIControlState())
         self.superExpressButton!.addTarget(self, action: #selector(SearchViewController.showSuperExpressSearch(_:)), for: UIControlEvents.touchUpInside)
         self.view!.addSubview(self.superExpressButton!)
         
