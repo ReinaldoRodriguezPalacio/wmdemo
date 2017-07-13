@@ -154,6 +154,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             self.blockRows = false
             return
         }
+        
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = item["id"] as? String
         serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
@@ -161,18 +162,26 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             let storeID = result["storeID"] as! String!
             let idAddress = result["addressID"] as! String!
             let addressName = result["name"] as! String!
-            let serviceZip = GRZipCodeService()
-            serviceZip.buildParams(zipCode!)
-            serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
+            let neighborhoodID = result["neighborhoodID"] as! String!
+            
+            let colonyService =  GetStoreByZipCodeColonyService()
+            colonyService.buildParams(zipCode!, colony:neighborhoodID! )
+            colonyService.callService([:], successBlock: { (result:[String : Any]) in
+                print(result)
+                
                 var stores: [[String:Any]] = []
                 stores = result["stores"] as! [[String:Any]]
                 self.addressSelected?(idAddress!,addressName!, storeID!, stores )
                 self.viewLoad.stopAnnimating()
-                }, errorBlock: { (error:NSError) -> Void in
-                    print("error:: \(error)")
-                    self.viewLoad.stopAnnimating()
-                    self.blockRows = false
+                
+                
+            }, errorBlock: { (error:NSError) in
+                print(error.localizedDescription)
+                self.viewLoad.stopAnnimating()
+                self.blockRows = false
             })
+ 
+            
             }) { (error:NSError) -> Void in
                 self.viewLoad.stopAnnimating()
                 self.blockRows = false

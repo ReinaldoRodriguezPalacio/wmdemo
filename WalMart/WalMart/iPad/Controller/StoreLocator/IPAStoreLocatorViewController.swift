@@ -71,7 +71,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
             MapKitUtils.zoomMapView(toFitAnnotations: self.clubMap, animated: true)
         }
-        self.clubCollection!.reloadData()
+        self.clubCollection?.reloadData()
     }
 
     override func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

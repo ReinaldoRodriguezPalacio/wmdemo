@@ -493,6 +493,8 @@
 "gr.address.field.notStore" = "Este C.P, sólo tiene cobertura para comprar artículos de Tecnología, Hogar y más; no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
 "gr.address.MyAddress" = "Mis Direcciones de Súper";
 "gr.address.table.header" ="Elige una dirección para ver tu tienda";
+"gr.address.update.need" ="Es necesario que actualices tu dirección para poder continuar.";
+"gr.address.title.update" = "Actualizar dirección";
 
 
 

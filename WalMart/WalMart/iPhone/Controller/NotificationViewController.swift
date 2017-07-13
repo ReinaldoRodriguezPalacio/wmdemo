@@ -64,7 +64,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.headerNotification!.addSubview(self.receiveNotificationButton!)
         
         self.notification = UITableView(frame:CGRect(x: self.view.bounds.minX, y: self.header!.frame.maxY + 46,
-            width: self.view.bounds.width, height: self.view.bounds.height - (self.header!.frame.maxY + self.headerNotification!.frame.height ) ) )
+            width: self.view.bounds.width, height: self.view.bounds.height - (self.header!.frame.maxY + self.headerNotification!.frame.height + 44) ) )
         self.notification.register(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
         self.notification.dataSource = self
         self.notification.delegate = self
@@ -106,7 +106,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
         notification?.frame = CGRect(x: self.view.bounds.minX,y: self.header!.frame.maxY + 46,
                                          width: self.view.bounds.width,
-                                         height: self.view.bounds.height - (self.headerNotification!.frame.height))
+                                         height: self.view.bounds.height - (self.header!.frame.maxY + self.headerNotification!.frame.height + 46))
     }
     
     

@@ -79,6 +79,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var imageIco : UIImageView?
     var paramsToOrder : [String:Any]?
     var paramsToConfirm : [String:Any]?
+    var deliverycost = 0.0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -205,13 +206,24 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.lblInfo!.numberOfLines = 10
     
         self.imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
+        self.loadPicker(reloadAll: true)
         
+    }
+    
+    func loadPicker(reloadAll:Bool){
         self.picker = AlertPickerView.initPickerWithDefault()
-        self.addViewLoad()
+        if reloadAll {
+            self.addViewLoad()
+        }
         if UserCurrentSession.hasLoggedUser() {
-            self.reloadUserAddresses()
-        
+            if reloadAll {
+                self.reloadUserAddresses()
+            }
+            
             self.deliveryDate!.onBecomeFirstResponder = {() in
+                if self.picker ==  nil {
+                    self.loadPicker(reloadAll: false)
+                }
                 self.picker!.selected = self.selectedDateTypeIx
                 self.picker!.sender = self.deliveryDate!
                 self.picker!.delegate = self
@@ -297,6 +309,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func showAddressPicker(){
         let itemsAddress : [String] = self.getItemsTOSelectAddres()
+        if self.picker ==  nil {
+            self.loadPicker(reloadAll: false)
+        }
+        
         self.picker!.selected = self.selectedAddressIx
         self.picker!.sender = self.address!
         self.picker!.delegate = self
@@ -437,6 +453,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      Sent to the following page only if the data is valid
      */
     func nextStep(){
+        
+        if deliverycost == 0.0 && self.selectedAddress != nil && self.selectedAddress != "" || deliverycost == 0.0 && self.lastSelectedaddres != "" {
+            self.selectedAddress = self.lastSelectedaddres != "" ?  self.lastSelectedaddres : self.selectedAddress
+            self.validateDeliveriCost()
+            return
+        }
+        
         if !self.validate() {
             return
         }
@@ -480,7 +503,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
             let _ = self.getItemsTOSelectAddres()
-            self.getAddressDescription(self.selectedAddress!)
+            if self.selectedAddress != nil {
+                self.getAddressDescription(self.selectedAddress!)
+            }
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()
             }
@@ -497,8 +522,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func invokeAddressUserService(_ endCallAddress:@escaping (() -> Void)) {
         //--self.addViewLoad()
         let service = GRAddressByUserService()
-        service.callService(
-            { (result:[String:Any]) -> Void in
+        service.callService({ (result:[String:Any]) -> Void in
                 if let items = result["responseArray"] as? [[String:Any]] {
                     self.addressItems = items
                     if items.count > 0 {
@@ -563,6 +587,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                                 itemsShipment.append(text)
                             }
                         }
+                        if self.picker ==  nil {
+                            self.loadPicker(reloadAll: false)
+                        }
                         self.picker!.selected = self.selectedShipmentTypeIx
                         self.picker!.sender = self.shipmentType!
                         self.picker!.delegate = self
@@ -591,10 +618,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let carId = UserCurrentSession.sharedInstance.userSigned!.cartIdGR
         let service = SetDeliveryTypeService()
-        let params = service.buildParams(shipmentType, addressID: self.selectedAddress!, idList: carId as String)
+        
+        let params = service.buildParams(shipmentType, addressID: self.selectedAddress == nil ? self.lastSelectedaddres :  self.selectedAddress!, idList: carId as String)
         service.callService(requestParams: params, successBlock: nil, errorBlock: nil)
     }
     
+    var lastSelectedaddres = ""
     /**
      Gets delivery types from an address
      
@@ -616,6 +645,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         if let fixedDeliveryCost = result["fixedDeliveryCost"] as? NSString {
                             fixedDeliveryCostVal = fixedDeliveryCost.doubleValue
                         }
+                        
+                        self.deliverycost = fixedDeliveryCostVal //TODO Descomentar prod
+                        if self.deliverycost == 0.0 {
+                            self.lastSelectedaddres = self.selectedAddress!
+                        }
+                        self.validateDeliveriCost()
                         self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                     }
                     
@@ -656,6 +691,27 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             )
         }
     }
+    
+    func validateDeliveriCost(){
+        if self.deliverycost == 0.0 {
+            
+           
+            let delay = 0.3 * Double(NSEC_PER_SEC)
+            let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                self.alertView!.setMessage(NSLocalizedString("gr.address.update.need",comment:""))
+                self.alertView!.showDoneIconWithoutClose()
+                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                self.alertView!.doneButton.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.openDetailAddress), for: .touchUpInside)
+            }
+        }
+    }
+    
+    func openDetailAddress(){
+        self.showAddressPicker()
+        self.picker!.newItemForm()
+    }
     /**
      Gets the available hours from date
      
@@ -691,7 +747,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func invokeTimeBandsService(_ date:String,endCallTypeService:@escaping (() -> Void)) {
         let service = GRTimeBands()
-        let params = service.buildParams(date, addressId: self.selectedAddress!)
+        
+            let params = service.buildParams(date, addressId: self.selectedAddress == nil ? self.lastSelectedaddres : self.selectedAddress!)
         service.callService(requestParams: params, successBlock: { (result:[String:Any]) -> Void in
             if let day = result["day"] as? String {
             if let month = result["month"] as? String {
@@ -714,6 +771,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.selectedDate = aviableDate["date"] as! Date
             endCallTypeService()
         }
+       
     }
     /**
      Shows or hides tooltip view
@@ -890,6 +948,11 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         if sAddredssForm == nil {
             sAddredssForm = GRFormSuperAddressView(frame: CGRect(x: scrollForm.frame.minX, y: 0, width: scrollForm.frame.width, height: 700))
         }
+        
+        if self.deliverycost == 0.0 && self.selectedAddress != nil {
+            return self.updateAddresContent(scroll: scrollForm)
+        }
+        
         sAddredssForm.clearView()
         sAddredssForm.allAddress = self.addressItems as [Any]!
         sAddredssForm.idAddress = ""
@@ -917,6 +980,44 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
         return scrollForm
     }
+    
+    func updateAddresContent(scroll:TPKeyboardAvoidingScrollView ) -> UIView! {
+        
+        sAddredssForm.clearView()
+        sAddredssForm.allAddress = self.addressItems as [Any]!
+        sAddredssForm.idAddress = self.selectedAddress
+        
+            self.picker!.closeButton!.isHidden =  false
+            let serviceAddress = GRAddressesByIDService()
+            serviceAddress.addressId = self.selectedAddress!
+            serviceAddress.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                self.sAddredssForm.addressName.text = result["name"] as! String!
+                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
+                self.sAddredssForm.street.text = result["street"] as! String!
+                let neighborhoodID = result["neighborhoodID"] as! String!
+                let storeID = result["storeID"] as! String!
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID!, storeID: storeID!)
+                self.sAddredssForm.idAddress = result["addressID"] as! String!
+            }) { (error:NSError) -> Void in
+            }
+        
+        scroll.addSubview(sAddredssForm)
+        self.picker!.titleLabel.text = NSLocalizedString("gr.address.title.update", comment:"")
+        self.picker!.viewButtonClose.isHidden =  true
+        self.picker!.onClosePicker = {
+            self.picker!.onClosePicker = nil
+            self.picker!.closePicker()
+            self.selectedAddress = nil
+            self.picker =  nil
+        }
+        return scroll
+    }
+    
+    
     /**
      Saves action of new view
      */

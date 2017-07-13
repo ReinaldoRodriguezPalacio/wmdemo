@@ -311,26 +311,29 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     static func retrieveParam(_ key:String, forUser: Bool) -> Param? {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        
-        let user = UserCurrentSession.sharedInstance.userSigned
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
-        if user != nil && forUser {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
-        }
-        else {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
-        }
         var parameter: Param? = nil
-        
-        do {
-            let result = try context.fetch(fetchRequest) as! [Param]
-            if  result.count > 0 {
-                parameter = result.first
+        if appDelegate.managedObjectContext !=  nil {
+            
+            let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+            
+            let user = UserCurrentSession.sharedInstance.userSigned
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+            fetchRequest.entity = NSEntityDescription.entity(forEntityName: "Param", in: context)
+            if user != nil && forUser {
+                fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
             }
-        } catch let error as NSError {
-            print("Fetch failed: \(error.localizedDescription)")
+            else {
+                fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
+            }
+            
+            do {
+                let result = try context.fetch(fetchRequest) as! [Param]
+                if  result.count > 0 {
+                    parameter = result.first
+                }
+            } catch let error as NSError {
+                print("Fetch failed: \(error.localizedDescription)")
+            }
         }
         
         return parameter
@@ -1057,6 +1060,40 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.detailOf = "Search results"
                 
                 let controllernav = self.currentController as? UINavigationController
+                
+                controller.detailOf = "Search results"
+                
+                if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                    self.onCloseSearch = {
+                        let navController = self.currentController as? UINavigationController
+                        let controllersInNavigation = controllernav?.viewControllers.count
+                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 1)
+                            self.isEditingSearch = false
+                        }
+                        navController?.pushViewController(controller, animated: true)
+                    }
+                    self.closeSearch(false, sender: nil)
+                }else{
+                    let controllernav = self.currentController as? UINavigationController
+                    let controllersInNavigation = controllernav?.viewControllers.count
+                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                        controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                        self.isEditingSearch = false
+                    }
+                    controllernav?.pushViewController(controller, animated: true)
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                
+                if upcDesc.length < 14 {
+                    let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
+                    paddedUPC = "\(toFill)\(upcDesc)" as NSString
+                }
+                
+                controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
+                controller.detailOf = "Search results"
+                
+                let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
                     self.onCloseSearch = {
                         let navController = self.currentController as? UINavigationController
@@ -1068,7 +1105,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         navController?.pushViewController(controller, animated: true)
                     }
                 }else{
-                    let controllernav = self.currentController as? UINavigationController
                     let controllersInNavigation = controllernav?.viewControllers.count
                     if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
                         controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
@@ -1077,46 +1113,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     
                     controllernav?.pushViewController(controller, animated: true)
                 }
+                
                 self.btnSearch!.isSelected = true
                 self.closeSearch(false, sender: nil)
-                }, errorBlock: { (error:NSError) -> Void in
-                    
-                    if upcDesc.length < 14 {
-                        let toFill = "".padding(toLength: 14 - upcDesc.length, withPad: "0", startingAt: 0)
-                        paddedUPC = "\(toFill)\(upcDesc)" as NSString
-                    }
-                    
-                    controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
-                    controller.detailOf = "Search results"
-                    
-                    let controllernav = self.currentController as? UINavigationController
-                    if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-                        self.onCloseSearch = {
-                            let navController = self.currentController as? UINavigationController
-                            let controllersInNavigation = navController?.viewControllers.count
-                            if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
-                                navController?.viewControllers.remove(at: controllersInNavigation! - 1)
-                                self.isEditingSearch = false
-                            }
-                            navController?.pushViewController(controller, animated: true)
-                        }
-                    }else{
-                        let controllersInNavigation = controllernav?.viewControllers.count
-                        if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
-                            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                            self.isEditingSearch = false
-                        }
-
-                        controllernav?.pushViewController(controller, animated: true)
-                    }
-                    
-                    self.btnSearch!.isSelected = true
-                    self.closeSearch(false, sender: nil)
             })
         }
         else{
             
-                //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             let controller = SearchProductViewController()
             controller.upcsToShow = upcs
             controller.searchContextType = .withText

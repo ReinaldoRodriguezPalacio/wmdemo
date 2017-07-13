@@ -41,7 +41,7 @@ class IPALoginController: LoginController {
         if self.signUp == nil{
             
             self.signUp = isMGLogin ? IPASignMGUpViewController() : IPASignUpViewController()
-            self.view.backgroundColor = UIColor.green
+            //self.view.backgroundColor = UIColor.green
             self.signUp!.view.frame = CGRect(x: self.viewCenter!.frame.width, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height)
             if isMGLogin {
                 self.signUp!.view.frame = CGRect(x: self.viewCenter!.frame.width - 100, y: self.content!.frame.minY, width: self.viewCenter!.frame.width, height: self.content!.frame.height + 100)

@@ -152,17 +152,17 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.zipcode!.disablePaste = true
         self.zipcode!.delegate = self
         
-        self.store = FormFieldView()
-        self.store!.isRequired = true
-        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
-        self.store!.typeField = TypeField.list
-        self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
-        
         self.suburb = FormFieldView()
         self.suburb!.isRequired = true
         self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.typeField = TypeField.list
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
+        
+        self.store = FormFieldView()
+        self.store!.isRequired = true
+        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
+        self.store!.typeField = TypeField.list
+        self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         
         //Add title
         
@@ -241,8 +241,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.addSubview(self.outdoornumber)
         self.addSubview(self.indoornumber)
         self.addSubview(self.zipcode)
-        self.addSubview(self.store)
         self.addSubview(self.suburb)
+        self.addSubview(self.store)
         self.addSubview(self.titleLabelBetween)
         self.addSubview(self.betweenFisrt)
         self.addSubview(self.betweenSecond)
@@ -260,13 +260,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 var zipCode = self.zipcode.text!.trimmingCharacters(in: CharacterSet.whitespaces)
                 
                 self.neighborhoods = []
-                self.stores = []
+                //self.stores = []
                 
                 self.suburb!.text = ""
                 self.selectedNeighborhood = nil
-                
-                self.store!.text = ""
-                self.selectedStore = nil
+                self.stores = []
+                //self.store!.text = ""
+                //self.selectedStore = nil
                 
                 var padding : String = ""
                 
@@ -285,110 +285,60 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     return
                 }
                 
-                let serviceZip = GRZipCodeService()
-                serviceZip.buildParams(padding + zipCode )
-                serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
+                let colonyService =  GetColonyByZipCodeService()
+                colonyService.buildParams(padding + zipCode)
+                colonyService.callService([:], successBlock: { (result:[String : Any]) in
+                    print(result)
+                    self.stores = []
+                    self.store!.text = ""
+                    self.selectedStore = nil
                     
-                    self.resultDict = result
+                    let neighbor = result["neighborhoods"] as! [[String:Any]]
+                    self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
+                    if neighbor.count == 1 {
+                        if  neighbor[0]["name"] as! String!  == "selectOption" || neighbor[0]["name"] as! String!  == "invalidZipCode" {
+                            self.neighborhoodsDic = []
+                        }
+                    }
+                    
+                    
+                    for dic in  self.neighborhoodsDic {
+                        self.neighborhoods.append(dic["name"] as! String!)
+                    }
+                    
+                    self.suburb.onBecomeFirstResponder!()
+                    if self.errorView != nil {
+                        if  self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb{
+                            self.errorView?.removeFromSuperview()
+                            self.errorView = nil
+                            self.suburb.layer.borderColor = UIColor.clear.cgColor
+                            self.zipcode.layer.borderColor = UIColor.clear.cgColor
+                        }
+                    }
+                    
+                }, errorBlock: { (error:NSError) in
+                    print(error.localizedDescription)
+                    
+                    self.store.text = ""
+                    self.suburb.text = ""
+                    self.storesDic = []
                     self.neighborhoods = []
                     self.stores = []
                     
-                    let zipreturned = result["zipCode"] as! String
-                    self.zipcode.text = zipreturned
-                    
-                    self.neighborhoodsDic = result["neighborhoods"] as? [[String:Any]] ?? []
-                    for dic in  self.neighborhoodsDic {
-                        self.neighborhoods.append(dic["name"] as! String!)
-                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
-                    self.storesDic = result["stores"] as? [[String:Any]] ?? []
-                    for dic in  self.storesDic {
-                        let name = dic["name"] as! String!
-                        let cost = dic["cost"] as! String!
-                        self.stores.append("\(name!) - \(cost!)")
-                    }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
-                    
-                    /*if self.stores.count == 0 {
-                        
-                        self.zipcode.text = ""
-                        
-                        self.store.text = ""
-                        self.suburb.text = ""
-                        
-                        self.delegateFormAdd?.showNoCPWarning()
-                        return
-                    }*/
-                    
-                    if self.stores.count == 0 && !self.store.isRequired
-                    {
-                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                        alertView!.showDoneIconWithoutClose()
-                        alertView!.showOkButton("OK", colorButton: WMColor.green)
+                    self.showErrorLabel(true)
+                    if self.errorView == nil{
+                        self.errorView = FormFieldErrorView()
                     }
-                    
-                    self.showErrorLabel(self.stores.count == 0)
-                    
-                    //Default Values
-                    if self.neighborhoods.count > 0 {
-                        self.suburb!.text = self.neighborhoods[0]
-                        self.selectedNeighborhood = IndexPath(row: 0, section: 0)
-                        if  self.errorView?.focusError == self.suburb {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
+                    var stringToShow : NSString = error.localizedDescription as NSString
+                    if error.code != -1 {
+                        stringToShow = "Intenta nuevamente."
                     }
+                    let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
+                    SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
                     
-                    if self.stores.count > 0 {
-                        self.store!.text = self.stores[0]
-                        self.selectedStore = IndexPath(row: 0, section: 0)
-                        if  self.errorView?.focusError == self.store {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
-                        self.picker!.selected = self.selectedStore
-                        self.picker!.sender = self.store!
-                        self.picker!.delegate = self
-                        self.picker!.setValues(self.store!.nameField, values: self.stores)
-                        self.picker!.showPicker()
-                    }
-                    
-                    self.endEditing(true)
-                    
-                    if self.errorView != nil {
-                        if  self.errorView?.focusError == self.zipcode {
-                            self.errorView?.removeFromSuperview()
-                            self.errorView = nil
-                        }
-                    }
-                    
-                    
-                    
-                    }, errorBlock: { (error:NSError) -> Void in
-                        
-                        //self.zipcode.text = ""
-                        //self.currentZipCode  = ""
-                        self.store.text = ""
-                        self.suburb.text = ""
-                         self.storesDic = []
-                        self.neighborhoods = []
-                        self.stores = []
-                        
-                        self.showErrorLabel(true)                     
-                        if self.errorView == nil{
-                            self.errorView = FormFieldErrorView()
-                        }
-                        var stringToShow : NSString = error.localizedDescription as NSString
-                        if error.code != -1 {
-                            stringToShow = "Intenta nuevamente."
-                        }
-                        let withoutName = stringToShow.replacingOccurrences(of: self.zipcode!.nameField, with: "")
-                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
-                        
-                        //self.delegateFormAdd?.showNoCPWarning()
-                        return
-                        
-                        
+                    return
                 })
+                
             } else {
                 self.endEditing(true)
                 
@@ -415,8 +365,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     }
     
     
-    
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -430,16 +378,18 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.outdoornumber.frame = CGRect(x: leftRightPadding, y: self.street.frame.maxY + separatorField, width: ((self.frame.width - rightPadding) / 2) - 8, height: fieldHeight)
         self.indoornumber.frame = CGRect(x: self.outdoornumber.frame.maxX + leftRightPadding, y: self.street.frame.maxY + separatorField, width: ((self.frame.width - rightPadding) / 2) - 8 , height: fieldHeight)
         self.zipcode.frame = CGRect(x: leftRightPadding, y: self.indoornumber.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.store.frame = CGRect(x: leftRightPadding, y: self.zipcode.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.suburb.frame = CGRect(x: leftRightPadding, y: self.store.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        self.titleLabelBetween.frame = CGRect(x: leftRightPadding, y: self.suburb.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        
+        self.suburb.frame = CGRect(x: leftRightPadding, y: self.zipcode.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        
+        self.store.frame = CGRect(x: leftRightPadding, y: self.suburb.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
+        
+        self.titleLabelBetween.frame = CGRect(x: leftRightPadding, y: self.store.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.betweenFisrt.frame = CGRect(x: leftRightPadding, y: self.titleLabelBetween.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.betweenSecond.frame = CGRect(x: leftRightPadding, y: self.betweenFisrt.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.titleLabelPhone.frame = CGRect(x: leftRightPadding, y: self.betweenSecond.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.phoneHomeNumber.frame = CGRect(x: leftRightPadding, y: self.titleLabelPhone.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.phoneWorkNumber.frame = CGRect(x: leftRightPadding, y: self.phoneHomeNumber.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
         self.cellPhone.frame = CGRect(x: leftRightPadding, y: self.phoneWorkNumber.frame.maxY + separatorField, width: self.frame.width - rightPadding , height: fieldHeight)
-        
         
     }
     
@@ -462,6 +412,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 if delegateFormAdd != nil {
                     self.delegateFormAdd?.showUpdate()
                 }
+                self.loadStoresFromZip(zipcode: self.zipcode.text!, colony:selectedStr,storeID:"")
             }
         }
     }
@@ -470,7 +421,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
                 self.store!.text = ""
-                
             }
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = ""
@@ -478,6 +428,86 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
     }
     
+    
+    func loadStoresFromZip(zipcode:String,colony:String,storeID:String){
+        let storeByZipService =  GetStoreByZipCodeColonyService()
+        storeByZipService.buildParams(zipcode, colony:colony)
+        storeByZipService.callService([:], successBlock: { (result:[String : Any]) in
+            print(result)
+            self.storesDic = []
+            self.stores = []
+            self.storesDic = result["stores"] as! [[String:Any]]
+            for dic in  self.storesDic {
+                let name = dic["name"] as! String!
+                self.stores.append("\(name!)")
+                
+                if storeID != ""{
+                    
+                    let idStore = dic["id"] as! String!
+                    if idStore == storeID {
+                        self.store!.text = self.stores[self.stores.count - 1]
+                        self.selectedStore = IndexPath(row: self.stores.count - 1, section: 0)
+                        self.currentZipCode = self.zipcode.text!
+                        return
+                    }
+                    if storeID == "" {
+                        self.store!.text = self.stores[0]
+                        self.selectedStore = IndexPath(row: 0, section: 0)
+                        return
+                    }
+                }
+                
+            }
+            
+            if self.stores.count == 0 {
+                let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                alertView!.showDoneIconWithoutClose()
+                alertView!.showOkButton("OK", colorButton: WMColor.green)
+            }
+            
+            self.showErrorLabel(self.stores.count == 0)
+            if self.stores.count > 0 {
+                self.store!.text = self.stores[0]
+                self.selectedStore = IndexPath(row: 0, section: 0)
+                if  self.errorView?.focusError == self.store || self.errorView?.focusError == self.zipcode  || self.errorView?.focusError == self.suburb {
+                    self.errorView?.removeFromSuperview()
+                    self.errorView = nil
+                    self.suburb.layer.borderColor = UIColor.clear.cgColor
+                    self.zipcode.layer.borderColor = UIColor.clear.cgColor
+                }
+                self.picker!.selected = self.selectedStore
+                self.picker!.sender = self.store!
+                self.picker!.delegate = self
+                self.picker!.setValues(self.store!.nameField, values: self.stores)
+                self.picker!.showPicker()
+            }else{
+                self.store!.text = ""
+                self.selectedStore = nil
+            }
+            
+        },errorBlock: { (error:NSError) in
+            print(error.localizedDescription)
+            self.storesDic = []
+            self.stores = []
+            self.store.text = ""
+            self.selectedStore = nil
+            
+            self.showErrorLabel(true)
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            var stringToShow : NSString = error.localizedDescription as NSString
+            if error.code != -1 {
+                stringToShow = "Intenta nuevamente."
+            }
+            let withoutName = stringToShow.replacingOccurrences(of: self.suburb!.nameField, with: "")
+            SignUpViewController.presentMessage(self.suburb!, nameField:self.suburb!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
+
+        })
+        
+    
+    }
     
     
     func buttomViewSelected(_ sender: UIButton) {
@@ -528,15 +558,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
             
-            
+            if self.viewError(self.suburb)  {
+                return nil
+            }
             
             if self.viewError(self.store) {
                 return nil
             }
             
-            if self.viewError(self.suburb)  {
-                return nil
-            }
             if self.viewError(self.betweenFisrt)  {
                 return nil
             }
@@ -641,12 +670,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func validateShortName(_ addressId:String)-> Bool {
         let id = addressId == "" ? "-1" : addressId
-        for item in  self.allAddress as! [[String:Any]]{
-            let idItem = item["id"] as! String
-            let name = item["name"] as! String
-            if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
-                let _ = self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
-                return true
+        if self.allAddress != nil{
+            for item in  self.allAddress as! [[String:Any]]{
+                let idItem = item["id"] as! String
+                let name = item["name"] as! String
+                if id != idItem && name.uppercased() ==  addressName!.text!.uppercased() {
+                    let _ = self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
+                    return true
+                }
             }
         }
         return false
@@ -673,21 +704,20 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             return true
         } else {
             self.errorView?.removeFromSuperview()
-            self.errorView = nil
+            
         }
         return false
     }
     
     
     func setZipCodeAnfFillFields(_ zipcode:String,neighborhoodID:String,storeID:String) {
-        let serviceZip = GRZipCodeService()
-        serviceZip.buildParams(self.zipcode.text!)
-        serviceZip.callService([:], successBlock: { (result:[String:Any]) -> Void in
+        
+        let colonyService =  GetColonyByZipCodeService()
+        colonyService.buildParams(self.zipcode.text!)
+        colonyService.callService([:], successBlock: { (result:[String : Any]) in
             
-            self.resultDict = result
             self.neighborhoods = []
             self.stores = []
-            
             self.neighborhoodsDic = result["neighborhoods"] as! [[String:Any]]
             var index = 0
             for dic in  self.neighborhoodsDic {
@@ -697,45 +727,24 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 if neighborhoodID == idNeighborhood {
                     self.suburb!.text = self.neighborhoods[index]
                     self.selectedNeighborhood = IndexPath(row: index, section: 0)
+                    
                 }
                 if neighborhoodID == "" {
                     self.suburb!.text = self.neighborhoods[0]
                     self.selectedNeighborhood = IndexPath(row: 0, section: 0)
+                    return
                 }
                 index += 1
-            }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
+            }
             
-            self.storesDic = result["stores"] as! [[String:Any]]
-            for dic in  self.storesDic {
-                let name = dic["name"] as! String!
-                let cost = dic["cost"] as! String!
-                
-                self.stores.append("\(name!) - \(cost!)")
-                
-                let idStore = dic["id"] as! String!
-                if idStore == storeID {
-                    self.store!.text = self.stores[self.stores.count - 1]
-                    self.selectedStore = IndexPath(row: self.stores.count - 1, section: 0)
-                    self.currentZipCode = self.zipcode.text!
-                }
-                if storeID == "" {
-                    self.store!.text = self.stores[0]
-                    self.selectedStore = IndexPath(row: 0, section: 0)
-                }
-                
-            }//for dic in  resultCall!["neighborhoods"] as [[String:Any]]{
+            self.loadStoresFromZip(zipcode: self.zipcode.text!, colony:self.suburb!.text!,storeID: storeID)
             
             
-            //            self.picker!.selected = self.selectedStore
-            //            self.picker!.sender = self.store!
-            //            self.picker!.delegate = self
-            //            self.picker!.setValues(self.store!.nameField, values: self.stores)
-            //self.picker!.showPicker()
             
-            }, errorBlock: { (error:NSError) -> Void in
-                print("error:: \(error)")
-                
+        }, errorBlock: { (error:NSError) in
+            print(error.localizedDescription)
         })
+
     }
     
     func removeErrorLog() {
@@ -777,10 +786,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
             if fieldString != currentZipCode {
                 self.suburb!.text = ""
-                self.selectedNeighborhood = nil
-            
-                self.store!.text = ""
-                self.selectedStore = nil
+                self.store.text = ""
+               self.neighborhoods = []
             }
         }
         

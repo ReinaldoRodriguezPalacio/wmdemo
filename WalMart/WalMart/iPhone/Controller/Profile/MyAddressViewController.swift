@@ -244,6 +244,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.callServiceAddress()
             
             }, errorBlock: { (error:NSError) -> Void in
+                self.arrayAddressShippingGR = []
                 self.callServiceAddress()
                 //self.viewLoad.stopAnnimating()
                 print("errorBlock")

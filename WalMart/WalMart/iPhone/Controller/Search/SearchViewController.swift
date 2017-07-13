@@ -454,11 +454,15 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             }
             
             if !validateSearch(textField.text!)  {
-                showMessageValidation("Texto no permitido")
+                showMessageValidation(NSLocalizedString("field.validate.text",comment:""))
                 return true
             }
+            let bounds = self.view.frame.size
+            let separation:Int = 16
+            let btnCancelWidth:Int = 55
+            let btnFieldWidth = ( Int(bounds.width) - Int(separation * 3 + btnCancelWidth) )
             
-            self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
+            self.field!.frame = CGRect(x: 16.0, y: 15, width: CGFloat(btnFieldWidth), height: 40.0)
             self.clearButton!.frame = CGRect(x: self.field!.frame.maxX - 49 , y: self.field!.frame.midY - 20.0, width: 48, height: 40)
             self.errorView?.removeFromSuperview()
             
