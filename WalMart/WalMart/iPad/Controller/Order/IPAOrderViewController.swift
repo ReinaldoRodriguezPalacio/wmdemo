@@ -50,23 +50,13 @@ class IPAOrderViewController: OrderViewController {
         let item = self.items[indexPath.row]
         
         if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
-             let detailController = IPAOrderProviderDetailViewController()
-            detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as! String
+            let sendingViewController = OrderSendingViewController()
             let trackingStr = item["trackingNumber"] as! String
+            let statusStr = item["status"] as! String
             
-            var statusStr = item["status"] as! String
-            if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
-                statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
-            }
-            
-            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
-            
-            detailController.trackingNumber = trackingStr
-
-            detailController.status = statusStr
-            detailController.date = dateStr
-            self.navigationController!.pushViewController(detailController, animated: true)
+            sendingViewController.trackingNumber = trackingStr
+            sendingViewController.status = statusStr
+            self.navigationController!.pushViewController(sendingViewController, animated: true)
         } else {
              let detailController = IPAOrderDetailViewController()
             detailController.type = ResultObjectType.Groceries
