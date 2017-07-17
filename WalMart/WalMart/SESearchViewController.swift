@@ -138,7 +138,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         okButton = UIButton()
         okButton.frame = CGRect(x: self.containerView.frame.size.width / 2 - self.containerView.frame.size.width / 4, y: listaSuper.frame.maxY + 5, width: self.containerView.frame.size.width / 2, height: 30)
-        //searchButton!.addTarget(self, action: #selector(SearchTiresBySize(_:)), for: .touchUpInside)
+        okButton!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
         okButton.tintColor = UIColor.white
         okButton.setTitle("Listo" , for: UIControlState.normal)
         okButton.backgroundColor = WMColor.green
@@ -299,4 +299,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
+    
+    func createPreferedCar(_ sender:UIButton){
+        let controller = SESugestedCar()
+        controller.titleHeader = "Súper Express"
+        self.navigationController!.pushViewController(controller, animated: true)    }
 }

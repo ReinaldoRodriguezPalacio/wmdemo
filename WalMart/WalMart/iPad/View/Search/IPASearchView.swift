@@ -44,7 +44,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         setup()
     }
     
-    
     func setup() {
         field = FormFieldSearch()
         field.returnKeyType = .search

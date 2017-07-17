@@ -64,6 +64,7 @@
 		0C14086B1E8EC18100FB60D4 /* IPASearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */; };
 		0C3503511E8186F5006B6704 /* TiresMedidasSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */; };
 		0C4A08C21F17E8130018FB13 /* SEListaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */; };
+		0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */; };
 		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
 		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
 		0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */; };
@@ -668,6 +669,7 @@
 		0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASearchCustomCell.swift; sourceTree = "<group>"; };
 		0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresMedidasSearchService.swift; sourceTree = "<group>"; };
 		0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEListaViewCell.swift; sourceTree = "<group>"; };
+		0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCar.swift; sourceTree = "<group>"; };
 		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
 		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
 		0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataCPService.swift; sourceTree = "<group>"; };
@@ -1435,6 +1437,7 @@
 				0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */,
 				0C0B84BB1F1592B5006A5E05 /* SESugestedViewCell.swift */,
 				0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */,
+				0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3897,6 +3900,7 @@
 				566E547219F572850007C75A /* IPAShoppingCartViewController.swift in Sources */,
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
 				F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */,
+				0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */,
 				AC34D80F19B4F37600801906 /* NavigationViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,
 				6CA591A11E76F43800216A38 /* SetDeliveryTypesService.swift in Sources */,
