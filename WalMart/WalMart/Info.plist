@@ -296,11 +296,11 @@
 			<key>WalmartMG.GRUserListService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.GetColonyByZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getColonyByZipCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getColonyByZipCode</string>
 			<key>WalmartMG.GetStoreByZipCodeColonyService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
@@ -853,11 +853,11 @@
 			<key>WalmartMG.GRUserListService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.GetColonyByZipCodeService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getColonyByZipCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getColonyByZipCode</string>
 			<key>WalmartMG.GetStoreByZipCodeColonyService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
