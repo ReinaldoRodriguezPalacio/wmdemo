@@ -16,7 +16,8 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     var emptyMGGR: IPOSearchResultEmptyView!
     
     var allProducts: [[String:Any]]? = []
-    var upcsToShow : [String]? = []
+    var productsBySection : [String:Any]? = [:]
+    var searchWordBySection : [String]? = []
 
     var titleHeader: String?
     
@@ -38,7 +39,7 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         
         collection = getCollectionView()
         collection?.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: "SEproductSearch")
-        
+        collection?.register(SESectionHeaderCel.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.allowsMultipleSelection = false
         
         collection!.dataSource = self
@@ -62,8 +63,6 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        //self.collection!.reloadData()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,12 +71,12 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        if loading == nil {
+        /*if loading == nil {
             self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
             self.loading!.backgroundColor = UIColor.white
             self.view.addSubview(self.loading!)
-            self.loading!.startAnnimating(self.isVisibleTab)
-        }
+            self.loading!.startAnnimating(true)
+        }*/
         
         var startPoint = self.header!.frame.maxY
         
@@ -86,7 +85,7 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
             heightCollection -= 44
         }
         self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
-        self.loading!.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.loading?.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
         
     }
     
@@ -112,60 +111,53 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return (searchWordBySection?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SectionHeaderSearchHeader
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SESectionHeaderCel
             
-            view.title = setTitleWithEdit()
+            view.title = UILabel()
             view.title?.textAlignment = .center
+            view.title?.text = searchWordBySection?[indexPath.section]
             view.addSubview(view.title!)
-            
             view.backgroundColor = WMColor.light_gray
             
-            if indexPath.section == 0 {
-                view.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-            }
             return view
         }
         return UICollectionReusableView(frame: CGRect.zero)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSize.zero
-        }
         
-        return CGSize(width: self.view.frame.width, height: 44)
+        return CGSize(width: self.view.frame.width, height: 30)
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return (self.allProducts?.count)!
+        return 4
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
         
+        
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SEproductSearch", for: indexPath) as! ProductCollectionViewCell
+        
+        //cell.productShortDescriptionLabel?.text = "HOLA"
+        
+        
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width:self.view.bounds.maxX/2, height:190)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
-        return 0
+        return CGSize(width:self.view.bounds.maxX/2, height:40)
     }
     
     //MARK: - UICollectionViewDelegate
@@ -175,39 +167,6 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         
     }
     
-    /**
-     Change titlte tiltle
-     
-     - returns: new title label
-     */
-    func setTitleWithEdit() -> UILabel {
-        
-        let titleLabelEdit = UILabel()
-        var titleText = titleHeader!
-        if titleText.length() > 47
-        {
-            titleText = titleText.substring(0, length: 44) + "..."
-        }
-        
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "search_edit")
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString(string: "\(titleText) ")
-        myString.append(attachmentString)
-        titleLabelEdit.numberOfLines = 2
-        titleLabelEdit.attributedText = myString
-        titleLabelEdit.isUserInteractionEnabled = true
-        titleLabelEdit.textColor =  WMColor.light_blue
-        titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabelEdit.numberOfLines = 2
-        titleLabelEdit.textAlignment = .center
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
-        titleLabelEdit.addGestureRecognizer(tapGesture)
-        
-        return titleLabelEdit
-        
-    }
 
     func cargaProductos(){
         
@@ -218,12 +177,14 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         
             allProducts = jsonString["responseArray"] as! [[String : Any]]
         
+            searchWordBySection = []
+            
+            
             for i in 0..<allProducts!.count{
                 for (key, value) in allProducts![i] {
                     // access all key / value pairs in dictionary
                     if key == "term"{
-                        print(key)
-                        print(value)
+                        self.searchWordBySection?.append(String(describing: value))
                     }
                     if key == "products"{
                         let productos = allProducts![i]["products"] as! [[String:Any]]
@@ -242,9 +203,15 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         print("Error en el Json")
         }
         
-        
+       /* if loading != nil{
+            self.loading?.stopAnnimating()
+            self.loading?.removeFromSuperview()
+        }*/
+
         
     }
+    
+    
 
 
 }

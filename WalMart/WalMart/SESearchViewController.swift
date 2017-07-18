@@ -11,7 +11,7 @@ import UIKit
 class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource{
     
     var alertView : IPOWMAlertViewController? = nil
-    var loading: WMLoadingView?
+    var viewLoad : WMLoadingView!
     var okButton: UIButton!
     
     var titleHeader: String?
@@ -291,7 +291,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func initArrays(){
-        allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
+        //self.invokeSEabcService()
+        
+        
+       allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
         myArray = []
     }
     
@@ -303,5 +306,67 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func createPreferedCar(_ sender:UIButton){
         let controller = SESugestedCar()
         controller.titleHeader = "Súper Express"
-        self.navigationController!.pushViewController(controller, animated: true)    }
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+    
+    func invokeSEabcService() {
+        
+        self.showLoadingView()
+        
+        /*let storeService = SEabcService()
+        storeService.callService(
+            { (response:[String:Any]) -> Void in
+                print("Call SEabcService success")
+                self.removeLoadingView()
+                self.getSugerenciasArray(arrayPalabras: response["abclist"] as! [String])
+        },
+            errorBlock: { (error:NSError) -> Void in
+                print("Call SEabcService error \(error)")
+                self.removeLoadingView()
+        }
+        )*/
+        
+        let url = URL(string: "http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json")
+        let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)
+        if let usableUrl = url {
+            let task = session.dataTask(with: usableUrl, completionHandler: { (data, response, error) in
+                if let data = data {
+                    if let stringData = String(data: data, encoding: String.Encoding.utf8) {
+                        print(stringData) //JSONSerialization
+                    }
+                }
+            })
+            task.resume()
+        }
+        
+        
+    }
+    
+    func showLoadingView() {
+        
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+
+    func getSugerenciasArray(arrayPalabras:[String]){
+    allItems = []
+    if arrayPalabras.count > 0 {
+        allItems = arrayPalabras
+    }
+    
+    }
+
 }
