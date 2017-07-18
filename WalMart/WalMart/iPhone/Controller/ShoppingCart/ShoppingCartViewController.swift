@@ -629,7 +629,7 @@ class ShoppingCartViewController: BaseController {
         
         for shoppingCartProduct in  itemsInShoppingCart {
             let dictShoppingCartProduct = shoppingCartProduct 
-            var price = shoppingCartProduct["price"] as? NSString ?? "0"
+            let price = shoppingCartProduct["price"] as? NSString ?? "0"
             
             var iva: NSString = ""
             if let ivabase = shoppingCartProduct["ivaAmount"] as? NSString {
@@ -653,12 +653,6 @@ class ShoppingCartViewController: BaseController {
             if let quantityN = shoppingCartProduct["quantity"] as? NSNumber {
                 quantity = quantityN.stringValue as NSString
             }
-            
-            if let offers = shoppingCartProduct["offers"] as? [Any] {
-                if let offer = offers.first as? [String:Any]{
-                    price = offer["price"] as? NSString ?? "0"
-                }
-            }
 
 
             //let quantity = shoppingCartProduct["quantity"] as NSString
@@ -672,7 +666,7 @@ class ShoppingCartViewController: BaseController {
             total +=  (price.doubleValue * quantity.doubleValue)
             if showIva {
                 if iva != "" {
-                    subtotal +=  (baseprice.doubleValue * quantity.doubleValue)
+                    subtotal +=  (abs(baseprice.doubleValue) * quantity.doubleValue)
                     subtotalIVA +=  (iva.doubleValue * quantity.doubleValue)
                 }else {
                     showIva = false

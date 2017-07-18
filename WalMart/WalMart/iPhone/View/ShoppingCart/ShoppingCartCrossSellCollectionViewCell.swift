@@ -48,12 +48,6 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             price = String(priceint)
         }
         
-        if let offers = itemUPC["offers"] as? [Any] {
-            if let offer = offers.first as? [String:Any] {
-                price = offer["price"] as! String
-                upc = offer["offerId"] as! String
-            }
-        }
         
         if let priceString = itemUPC["price"] as? String {
             price = priceString
@@ -68,6 +62,13 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             }
         }else{
             imageUrl = itemUPC["imageUrl"] as? String ?? ""
+        }
+        
+        if let offers = itemUPC["offers"] as? [Any] {
+            if let offer = offers.first as? [String:Any] {
+                price = offer["price"] as! String
+                upc = offer["offerId"] as! String
+            }
         }
         
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
