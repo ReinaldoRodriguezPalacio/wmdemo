@@ -67,7 +67,7 @@
 		0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */; };
 		0C6704C81F1E6DD200175C0A /* SEabcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C71F1E6DD200175C0A /* SEabcService.swift */; };
 		0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */; };
-		0C6E34381F1EAC0100C7D268 /* SESectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6E34371F1EAC0100C7D268 /* SESectionHeaderCell.swift */; };
+		0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */; };
 		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
 		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
 		0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */; };
@@ -676,7 +676,7 @@
 		0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCar.swift; sourceTree = "<group>"; };
 		0C6704C71F1E6DD200175C0A /* SEabcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEabcService.swift; sourceTree = "<group>"; };
 		0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadListService.swift; sourceTree = "<group>"; };
-		0C6E34371F1EAC0100C7D268 /* SESectionHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESectionHeaderCell.swift; sourceTree = "<group>"; };
+		0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRow.swift; sourceTree = "<group>"; };
 		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
 		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
 		0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataCPService.swift; sourceTree = "<group>"; };
@@ -1455,8 +1455,8 @@
 				0C0B84BB1F1592B5006A5E05 /* SESugestedViewCell.swift */,
 				0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */,
 				0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */,
-				0C6E34371F1EAC0100C7D268 /* SESectionHeaderCell.swift */,
 				F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */,
+				0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3679,7 +3679,6 @@
 				5673D13D1A9D500400DCD20B /* RSEANGenerator.swift in Sources */,
 				5686DA581B59A885004D4211 /* SwiftyJSON.swift in Sources */,
 				56AE80EB19D9F4B300D5DDA4 /* UIImage+DHImageAdditions.m in Sources */,
-				0C6E34381F1EAC0100C7D268 /* SESectionHeaderCell.swift in Sources */,
 				04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */,
 				56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */,
 				16FF87781EF3170700012265 /* GetStoreByZipCodeColonyService.swift in Sources */,
@@ -3922,6 +3921,7 @@
 				569AB9F31AAA226D0036D5AB /* GRFormAddressAlertView.swift in Sources */,
 				566E547219F572850007C75A /* IPAShoppingCartViewController.swift in Sources */,
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
+				0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */,
 				F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */,
 				0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */,
 				AC34D80F19B4F37600801906 /* NavigationViewController.swift in Sources */,

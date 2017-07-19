@@ -8,16 +8,14 @@
 
 import Foundation
 
-class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate{
 
     var collection: UICollectionView?
-    var loading: WMLoadingView?
-    var empty: IPOGenericEmptyView!
-    var emptyMGGR: IPOSearchResultEmptyView!
+    var sugestedCarTableView: UITableView!
     
     var allProducts: [[String:Any]]? = []
     var productsBySection : [String:Any]? = [:]
-    var searchWordBySection : [String]? = []
+    var searchWordBySection : [String]! = []
 
     var titleHeader: String?
     
@@ -36,56 +34,42 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         
         self.titleLabel?.text = titleHeader
         
+        cargaProductos()
         
-        collection = getCollectionView()
-        collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "SEproductSearch")
-        collection?.register(SESectionHeaderCel.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        collection?.allowsMultipleSelection = false
+        self.sugestedCarTableView = UITableView(frame:.zero)
+        self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
+        self.sugestedCarTableView.register(SEListaViewCell.self, forCellReuseIdentifier: "header")
+        self.sugestedCarTableView.backgroundColor = WMColor.light_light_gray
+        self.sugestedCarTableView.separatorStyle = .none
+        self.sugestedCarTableView.allowsSelection = false
+
+        self.sugestedCarTableView.delegate = self
+        self.sugestedCarTableView.dataSource = self
         
-        collection!.dataSource = self
-        collection!.delegate = self
-        collection!.backgroundColor = UIColor.white
         
-        
-        
-        self.view.addSubview(collection!)
+        self.view.addSubview(sugestedCarTableView!)
         
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
         
-        cargaProductos()
+        
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        /*if loading == nil {
-            self.loading = WMLoadingView(frame: CGRect(x: 11, y: 11, width: self.view.bounds.width, height: self.view.bounds.height - 46))
-            self.loading!.backgroundColor = UIColor.white
-            self.view.addSubview(self.loading!)
-            self.loading!.startAnnimating(true)
-        }*/
         
-        var startPoint = self.header!.frame.maxY
+        let startPoint = self.header!.frame.maxY
         
-        var heightCollection = self.view.bounds.height - startPoint
+        var heightScreen = self.view.bounds.height - startPoint
         if !IS_IPAD {
-            heightCollection -= 44
+            heightScreen -= 44
         }
-        self.collection!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightCollection)
-        self.loading?.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 46)
+        self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen)
         
     }
     
@@ -95,75 +79,34 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         }
     }
     
-    func getCollectionView() -> UICollectionView {
-        let customlayout = CSStickyHeaderFlowLayout()
-            customlayout.disableStickyHeaders = false
-            customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
-    //        let customlayout = UICollectionViewFlowLayout()
-    //        customlayout.headerReferenceSize = CGSizeMake(0, 44);
-        let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
-    
-            if #available(iOS 10.0, *) {
-                collectionView.isPrefetchingEnabled = false
-            }
-    
-        return collectionView
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SEListaViewCell
+        cell.setValues(searchWordBySection[section])
+        cell.backgroundColor = UIColor.white
+        return cell
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return (searchWordBySection?.count)!
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SESectionHeaderCel
-            
-            view.title = UILabel()
-            view.title?.textAlignment = .center
-            view.title?.text = searchWordBySection?[indexPath.section]
-            view.addSubview(view.title!)
-            view.backgroundColor = WMColor.light_gray
-            
-            return view
-        }
-        return UICollectionReusableView(frame: CGRect.zero)
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return searchWordBySection.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSize(width: self.view.frame.width, height: 50)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return 4
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //Show loading cell and invoke service
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SEproductSearch", for: indexPath) as! SESugestedCarViewCell
-        cell.setValues("8879879879898", productImageURL: "https://super.walmart.com.mx/images/product-images/img_small/00000007504269s.jpg", productShortDescription: "Bla bla bla", productPrice: "17.0", productPriceThrough: "20", isActive: true, onHandInventory: 0, isPreorderable: false, isInShoppingCart: false, type: "ss", pesable: false, isFormList: true, productInlist: true, isLowStock: false, category: "fff", equivalenceByPiece: "fff", position: "gg")
-        //cell.productShortDescriptionLabel?.text = "HOLA"
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         
         return cell
-        
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width:self.view.bounds.maxX/2, height:40)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
-    
-    //MARK: - UICollectionViewDelegate
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        
-    }
-    
 
     func cargaProductos(){
         
@@ -181,7 +124,7 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
                 for (key, value) in allProducts![i] {
                     // access all key / value pairs in dictionary
                     if key == "term"{
-                        self.searchWordBySection?.append(String(describing: value))
+                        self.searchWordBySection.append(String(describing: value))
                     }
                     if key == "products"{
                         let productos = allProducts![i]["products"] as! [[String:Any]]
@@ -207,8 +150,4 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
 
         
     }
-    
-    
-
-
 }
