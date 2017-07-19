@@ -38,7 +38,7 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
         
         
         collection = getCollectionView()
-        collection?.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: "SEproductSearch")
+        collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "SEproductSearch")
         collection?.register(SESectionHeaderCel.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collection?.allowsMultipleSelection = false
         
@@ -131,7 +131,7 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        return CGSize(width: self.view.frame.width, height: 30)
+        return CGSize(width: self.view.frame.width, height: 50)
     }
     
     
@@ -144,12 +144,9 @@ class SESugestedCar: NavigationViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Show loading cell and invoke service
         
-        
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SEproductSearch", for: indexPath) as! ProductCollectionViewCell
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SEproductSearch", for: indexPath) as! SESugestedCarViewCell
+        cell.setValues("8879879879898", productImageURL: "https://super.walmart.com.mx/images/product-images/img_small/00000007504269s.jpg", productShortDescription: "Bla bla bla", productPrice: "17.0", productPriceThrough: "20", isActive: true, onHandInventory: 0, isPreorderable: false, isInShoppingCart: false, type: "ss", pesable: false, isFormList: true, productInlist: true, isLowStock: false, category: "fff", equivalenceByPiece: "fff", position: "gg")
         //cell.productShortDescriptionLabel?.text = "HOLA"
-        
         
         return cell
         

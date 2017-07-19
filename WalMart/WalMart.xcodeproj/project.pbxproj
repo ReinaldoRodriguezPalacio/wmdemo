@@ -597,6 +597,7 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
+		F1B5ECD31F1F742C001BE02E /* SESugestedCarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */; };
 		F1B8F9D21E7E2A3A00A0CC22 /* TiresAniosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B8F9D11E7E2A3A00A0CC22 /* TiresAniosService.swift */; };
 		F1F0CF871E811F8600C97261 /* TiresVersionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F0CF861E811F8600C97261 /* TiresVersionsService.swift */; };
 		F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */; };
@@ -1270,6 +1271,7 @@
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalMart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCarViewCell.swift; sourceTree = "<group>"; };
 		F1B8F9D11E7E2A3A00A0CC22 /* TiresAniosService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresAniosService.swift; sourceTree = "<group>"; };
 		F1F0CF861E811F8600C97261 /* TiresVersionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresVersionsService.swift; sourceTree = "<group>"; };
 		F713F4E31DF63B2E0050211F /* WalmartMG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalmartMG.entitlements; sourceTree = "<group>"; };
@@ -1454,6 +1456,7 @@
 				0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */,
 				0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */,
 				0C6E34371F1EAC0100C7D268 /* SESectionHeaderCell.swift */,
+				F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3616,6 +3619,7 @@
 				56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */,
 				567023331AB255D300FDCD91 /* IPOWebViewController.swift in Sources */,
 				5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */,
+				F1B5ECD31F1F742C001BE02E /* SESugestedCarViewCell.swift in Sources */,
 				AC7A0BEE19D9D99B004ED6CC /* AddPreferedAddress.swift in Sources */,
 				5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */,
 				0C000E5A1E7991DE007BEFBF /* TiresSizeSearchService.swift in Sources */,
