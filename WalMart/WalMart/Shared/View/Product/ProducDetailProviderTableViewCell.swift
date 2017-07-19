@@ -152,13 +152,20 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
         }
         
         if providerReconditionedItems.count == 0 {
-//            self.switchBtn.isHidden = true
-            segmentedControl.isHidden = true
+            //            self.switchBtn.isHidden = true
+            segmentedControl.isHidden = false
+            segmentedControl.setEnabled(false, forSegmentAt: 1)
+            segmentedControl.selectedSegmentIndex = 0
+            segmentedControl.layer.borderWidth = 0
+            segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
+            
+            segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
             self.showNewItems = true
         }
         
         if providerNewItems.count == 0 {
-//            self.switchBtn.isHidden = true
+            //            self.switchBtn.isHidden = true
             segmentedControl.isHidden = false
             segmentedControl.setEnabled(false, forSegmentAt: 0)
             segmentedControl.selectedSegmentIndex = 1

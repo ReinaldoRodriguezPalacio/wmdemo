@@ -163,9 +163,9 @@ extension ProviderListViewController: UITableViewDataSource {
             header.setValues(self.productImageUrl!, productShortDescription: self.productDescription!, productType: self.productType!)
             header.delegate = self
             header.showSwitchButton = (providerReconditionedItems.count != 0 && providerNewItems.count != 0)
-            
-            if providerReconditionedItems.count != 0 &&  providerNewItems.count == 0 {
-                header.showDisabledSwitch()
+            if (providerReconditionedItems.count != 0 &&  providerNewItems.count == 0) || (providerReconditionedItems.count == 0 &&  providerNewItems.count != 0){
+                let onlyNew = providerReconditionedItems.count == 0 &&  providerNewItems.count != 0
+                header.showDisabledSwitch(showOnlyNew: onlyNew)
             }
             self.headerView = header
         }

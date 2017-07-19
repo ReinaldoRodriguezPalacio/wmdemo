@@ -58,7 +58,9 @@ class ShoppingCartProductsService : BaseService {
                             
                             var carProduct : Cart!
                             var carProductItem : Product!
-                            let upc = shoppingCartProduct["upc"] as! String
+                            guard let upc = shoppingCartProduct["upc"] as? String else{
+                                continue
+                            }
                             let quantity = shoppingCartProduct["quantity"] as! NSString
                             let desc = shoppingCartProduct["description"] as! String
                             let price = shoppingCartProduct["price"] as? String

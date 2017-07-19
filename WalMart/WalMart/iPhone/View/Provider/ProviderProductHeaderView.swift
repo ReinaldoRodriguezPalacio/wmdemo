@@ -19,7 +19,7 @@ class ProviderProductHeaderView: UIView {
     var productTypeLabel: UILabel!
     var bottomBorder: CALayer!
     var segmentedControl = UISegmentedControl()
-    var showSwitchButton: Bool = false
+    var showSwitchButton: Bool = true
     weak var delegate: ProviderProductHeaderViewDelegate?
     
     override init(frame: CGRect) {
@@ -112,16 +112,16 @@ class ProviderProductHeaderView: UIView {
         }
     }
     
-    func showDisabledSwitch() {
+    func showDisabledSwitch(showOnlyNew:Bool) {
         segmentedControl.isHidden = false
         segmentedControl.setEnabled(false, forSegmentAt: 0)
         segmentedControl.selectedSegmentIndex = 1
         segmentedControl.layer.borderWidth = 0
         segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
         
-        segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
-        segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
+        let index = showOnlyNew ? 0 : 1
+        segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
+        segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn
         self.showSwitchButton = true
-        self.segmentedControl.isHidden = false
     }
 }
