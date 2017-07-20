@@ -141,6 +141,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         okButton!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
         okButton.tintColor = UIColor.white
         okButton.setTitle("Listo" , for: UIControlState.normal)
+        okButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         okButton.backgroundColor = WMColor.green
         okButton.layer.cornerRadius = 15
         

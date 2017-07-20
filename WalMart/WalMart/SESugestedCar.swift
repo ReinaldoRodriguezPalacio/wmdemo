@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate{
+class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate{
 
     var collection: UICollectionView?
     var sugestedCarTableView: UITableView!
@@ -16,12 +16,17 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var allProducts: [[String:Any]]? = []
     var productsBySection : [String:Any]? = [:]
     var searchWordBySection : [String]! = []
+    var itemsSelected: [String]! = []
 
     var titleHeader: String?
     
     var firstOpen  = true
     var isLoading  = false
     var hasEmptyView = false
+    
+    var viewFooter: UIView!
+    var lblItemsCount: UILabel!
+    var btnAddToCart: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SESEARCHRESULT.rawValue
@@ -38,7 +43,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         self.sugestedCarTableView = UITableView(frame:.zero)
         self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
-        self.sugestedCarTableView.register(SEListaViewCell.self, forCellReuseIdentifier: "header")
+        self.sugestedCarTableView.register(SESugestedRowTitleViewCell.self, forCellReuseIdentifier: "header")
         self.sugestedCarTableView.backgroundColor = WMColor.light_light_gray
         self.sugestedCarTableView.separatorStyle = .none
         self.sugestedCarTableView.allowsSelection = false
@@ -51,8 +56,27 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         BaseController.setOpenScreenTagManager(titleScreen: self.titleHeader!, screenName: self.getScreenGAIName())
         
+        self.viewFooter = UIView(frame:.zero)
+        self.viewFooter.backgroundColor = UIColor.white
         
         
+        self.btnAddToCart = UIButton(frame:.zero)
+        //btnAddToCart!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
+        self.btnAddToCart?.tintColor = UIColor.white
+        self.btnAddToCart?.setTitle("Agregar a Carrito" , for: UIControlState.normal)
+        self.btnAddToCart?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.btnAddToCart?.backgroundColor = WMColor.green
+        self.btnAddToCart?.layer.cornerRadius = 15
+        
+        self.viewFooter.addSubview(btnAddToCart!)
+        self.view.addSubview(viewFooter)
+        
+        lblItemsCount = UILabel()
+        lblItemsCount.font = WMFont.fontMyriadProRegularOfSize(12)
+        lblItemsCount.textColor = WMColor.dark_gray
+        lblItemsCount.text = "0 artículos"
+        
+        self.view.addSubview(lblItemsCount)
     }
     
 
@@ -69,7 +93,12 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         if !IS_IPAD {
             heightScreen -= 44
         }
-        self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen)
+        self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen - 60)
+        self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY, width: self.view.frame.size.width, height: 20)
+
+        self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 20, width: self.view.frame.size.width, height: 40)
+        self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2 - self.viewFooter.frame.size.width / 4, y: 5, width: self.viewFooter.frame.size.width / 2, height: 30)
+        
         
     }
     
@@ -80,7 +109,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SEListaViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
         cell.setValues(searchWordBySection[section])
         cell.backgroundColor = UIColor.white
         return cell
@@ -100,7 +129,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
-        
+        cell.delegate = self
+        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section)
+
         return cell
     }
     
@@ -119,7 +150,6 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
             searchWordBySection = []
             
-            
             for i in 0..<allProducts!.count{
                 for (key, value) in allProducts![i] {
                     // access all key / value pairs in dictionary
@@ -137,17 +167,19 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }
-            
-            
         }catch{
         print("Error en el Json")
         }
-        
-       /* if loading != nil{
-            self.loading?.stopAnnimating()
-            self.loading?.removeFromSuperview()
-        }*/
-
-        
+    }
+    
+    //SESugestedRowDelegate
+    func itemSelected(seccion:Int, itemSelected: Int){
+        let productos = allProducts![seccion]["products"] as! [[String:Any]]
+        itemsSelected.append(productos[itemSelected]["upc"] as! String)
+        actualizaNumItems()
+    }
+    
+    func actualizaNumItems(){
+    lblItemsCount.text = "\(itemsSelected.count) artículos"
     }
 }

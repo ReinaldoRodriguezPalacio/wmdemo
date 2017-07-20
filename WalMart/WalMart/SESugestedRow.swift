@@ -9,10 +9,16 @@
 import Foundation
 import UIKit
 
-class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+protocol SESugestedRowDelegate {
+    func itemSelected(seccion:Int, itemSelected: Int)
+}
+
+class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate {
     var collection: UICollectionView?
     var contenido: UIView!
-    
+    var productosData: [[String:Any]]? = nil
+    var section: Int!
+    var delegate: SESugestedCar?
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -24,8 +30,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     
     func setup() {
-        
-        contenido = UIView(frame: CGRect(x: 5, y: 0, width: self.bounds.width + 50, height: 100))
+        contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 50, height: 100))
         contenido.backgroundColor = UIColor.blue
         collection = getCollectionView()
         collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
@@ -38,6 +43,12 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         self.addSubview(self.contenido)
         
         
+    }
+    
+    
+    func setValues(_ items:[[String:Any]], section:Int) {
+        self.productosData = items
+        self.section = section
     }
     
     
@@ -61,15 +72,28 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sugestedCarViewCell", for: indexPath) as! SESugestedCarViewCell
-        cell.setValues("0303030303", productImageURL: "https://super.walmart.com.mx/images/product-images/img_small/00000007504268s.jpg", productShortDescription: "Producto Demo", productPrice: "12", isSelected: true)
+        cell.delegate = self
+        let upc = productosData![indexPath.row]["upc"] as! String
+        let imagen = productosData![indexPath.row]["url"] as! String
+        let descripcion = productosData![indexPath.row]["displayName"] as! String
+        let precio = productosData![indexPath.row]["field"] as! String
+        
+        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: false, section: self.section, index: indexPath.row)
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let hardCodedPadding:CGFloat = 5
+        let hardCodedPadding:CGFloat = 3
         let itemWidth = ((self.superview?.frame.width)! * 0.6) - hardCodedPadding
-        let itemHeight = collectionView.bounds.height * 0.8 - (2 * hardCodedPadding)
+        let itemHeight = collectionView.bounds.height * 0.9 - (2 * hardCodedPadding)
         return CGSize(width: itemWidth, height: itemHeight)
     }
+    
+    //SESugestedCarViewCellDelegate
+    func seleccionados(seccion:Int, item:Int){
+        delegate?.itemSelected(seccion: seccion, itemSelected: item)
+    }
+
 }

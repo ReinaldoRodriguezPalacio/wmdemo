@@ -69,6 +69,7 @@
 		0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */; };
 		0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */; };
 		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
+		0CDBDB861F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */; };
 		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
 		0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */; };
 		0CDC9DA91ED75B27001F03E4 /* InvoiceFolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */; };
@@ -678,6 +679,7 @@
 		0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadListService.swift; sourceTree = "<group>"; };
 		0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRow.swift; sourceTree = "<group>"; };
 		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
+		0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRowTitleViewCell.swift; sourceTree = "<group>"; };
 		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
 		0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataCPService.swift; sourceTree = "<group>"; };
 		0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceFolioService.swift; sourceTree = "<group>"; };
@@ -1457,6 +1459,7 @@
 				0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */,
 				F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */,
 				0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */,
+				0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3612,6 +3615,7 @@
 				AC59116019DDEFCB00EB095C /* PreviewHelpViewController.swift in Sources */,
 				564578FA19AE3718006A7152 /* CustomBarViewController.swift in Sources */,
 				F1F0CF871E811F8600C97261 /* TiresVersionsService.swift in Sources */,
+				0CDBDB861F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift in Sources */,
 				6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */,
 				566902311A9431B7000D6FA6 /* GRRecentProductsService.swift in Sources */,
 				56253D8F19D21A4D002E128A /* PreviousOrderDetailService.swift in Sources */,
