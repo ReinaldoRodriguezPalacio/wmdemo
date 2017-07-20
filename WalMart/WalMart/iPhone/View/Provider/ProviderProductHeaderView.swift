@@ -79,8 +79,6 @@ class ProviderProductHeaderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        //segmentedControl.frame = CGRect(x:(self.frame.size.width - 204) / 2 , y: 16, width: 204, height: 22)
-        //productImage.frame = CGRect(x: 16, y: segmentedControl.frame.maxY + 16, width: 56, height: 56)
         productImage.frame = CGRect(x: 16, y: 16, width: 56, height: 56)
         
         let productDescriptionSize = productDescriptionLabel.text!.size(attributes: [NSFontAttributeName: productDescriptionLabel!.font])
@@ -114,14 +112,13 @@ class ProviderProductHeaderView: UIView {
     
     func showDisabledSwitch(showOnlyNew:Bool) {
         segmentedControl.isHidden = false
-        segmentedControl.setEnabled(false, forSegmentAt: 0)
-        segmentedControl.selectedSegmentIndex = 1
+        segmentedControl.setEnabled(false, forSegmentAt: showOnlyNew ? 1 : 0)
+        segmentedControl.selectedSegmentIndex = showOnlyNew ? 0 : 1
         segmentedControl.layer.borderWidth = 0
         segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
         
-        let index = showOnlyNew ? 0 : 1
-        segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
-        segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn
+        segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
+        segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
         self.showSwitchButton = true
     }
 }

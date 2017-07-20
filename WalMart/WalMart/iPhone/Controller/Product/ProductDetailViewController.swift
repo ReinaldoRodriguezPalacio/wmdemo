@@ -948,7 +948,7 @@ extension ProductDetailViewController: UICollectionViewDelegate {
                     let cellProvider = detailCollectionView.dequeueReusableCell(withReuseIdentifier: "providersCell", for: indexPath) as? ProductDetailProviderCollectionViewCell
                     cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
                     cellProvider!.delegate = self
-                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "0")
+                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "1")
                     cellProvider!.itemsProvider = self.providerArray!
                     cellProviders = cellProvider
                 }

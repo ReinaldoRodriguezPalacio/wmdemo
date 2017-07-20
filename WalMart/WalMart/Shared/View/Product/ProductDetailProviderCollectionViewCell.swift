@@ -144,7 +144,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         
         for offer in itemsProvider {
             let condiiton = offer["condition"] as! String
-            if condiiton == "0" {
+            if condiiton == "1" {
                 self.providerNewItems.append(offer)
             }else{
                 self.providerReconditionedItems.append(offer)
