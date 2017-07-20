@@ -20,6 +20,7 @@ class SESugestedCarViewCell : UICollectionViewCell {
     var productImage : UIImageView? = nil
     var productShortDescriptionLabel : UILabel? = nil
     var productPriceLabel : CurrencyCustomLabel? = nil
+    var check: UIButton?
     
     let contentModeOrig = UIViewContentMode.scaleAspectFit
     
@@ -64,6 +65,13 @@ class SESugestedCarViewCell : UICollectionViewCell {
         
         productImage = UIImageView()
         
+        self.check = UIButton(frame:.zero)
+        self.check?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.check?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.check?.addTarget(self, action: #selector(self.checked(_:)), for: UIControlEvents.touchUpInside)
+        self.check?.isSelected = true
+        
+        self.leftView.addSubview(self.check!)
         self.leftView.addSubview(self.productImage!)
 
         self.leftView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width*0.4, height: self.contentView.frame.height)
@@ -77,17 +85,20 @@ class SESugestedCarViewCell : UICollectionViewCell {
         
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRect(x: (self.leftView.frame.size.width / 2) - (64 / 2), y:0, width: 64, height: 64)
+        self.check?.frame = CGRect(x: 0, y: 0, width: leftView.frame.size.width * 0.3, height: leftView.frame.size.height)
+        
+        self.productImage!.frame = CGRect(x: (check?.frame.maxX)!, y:0, width: 64, height: 64)
         
         self.productPriceLabel!.frame = CGRect(x: 4, y: self.productImage!.frame.maxY  , width: self.frame.width - 8 , height: 14)
         
         self.productShortDescriptionLabel!.frame = CGRect(x: 0, y: 4 , width: self.rightView.frame.size.width, height: 33)
 
+       
         
     }
     
     
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,isSelected:Bool) {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
@@ -108,9 +119,12 @@ class SESugestedCarViewCell : UICollectionViewCell {
         self.desc = productShortDescription
         self.imageURL = productImageURL
         self.price = productPrice
-        
+        self.check?.isSelected = isSelected
     }
     
+    func checked(_ sender:UIButton){
+    sender.isSelected = !sender.isSelected
+    }
     
 }
 

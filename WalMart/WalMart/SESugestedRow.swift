@@ -61,7 +61,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sugestedCarViewCell", for: indexPath) as! SESugestedCarViewCell
-        cell.setValues("0303030303", productImageURL: "https://super.walmart.com.mx/images/product-images/img_small/00000007504268s.jpg", productShortDescription: "Producto Demo", productPrice: "12")
+        cell.setValues("0303030303", productImageURL: "https://super.walmart.com.mx/images/product-images/img_small/00000007504268s.jpg", productShortDescription: "Producto Demo", productPrice: "12", isSelected: true)
         return cell
     }
     
