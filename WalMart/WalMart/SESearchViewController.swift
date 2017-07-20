@@ -213,6 +213,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func addToList(_ sender:UIButton){
         selectedItems.append(myArray[sender.tag])
         listaSuper.reloadData()
+        self.field?.text = ""
+        self.myArray = []
+        self.cargaSugerencias()
     }
     
     func delFromList(_ sender:UIButton){
