@@ -25,6 +25,7 @@ class ProductDetailProviderView: UIView {
     var topBorder: CALayer!
     var offersCount: Int = 0
     var delegate: ProductDetailProviderViewDelegate?
+    var sellerId: String = "0"
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -48,7 +49,6 @@ class ProductDetailProviderView: UIView {
         self.addSubview(providerRatingView!)
         
         providerLabel = UILabel()
-        providerLabel.textColor = WMColor.light_blue
         providerLabel.text = ""
         providerLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         providerLabel.textAlignment = .center
@@ -89,8 +89,13 @@ class ProductDetailProviderView: UIView {
     
     func setValues(provider: [String:Any]){
         
+        if let sellerId = provider["sellerId"] as? String {
+            self.sellerId = sellerId
+        }
+        
         if let providerName = provider["name"] as? String {
             providerLabel.text = NSLocalizedString("provider.for",comment:"") + "\(providerName)"
+            providerLabel.textColor = self.sellerId == "0" ? WMColor.dark_gray : WMColor.light_blue
         }
         
         if let delibery = provider["shipping"] as? String {
@@ -147,7 +152,9 @@ class ProductDetailProviderView: UIView {
     
     
     func showProviderInfoView() {
-        delegate?.showProviderInfoView()
+        if self.sellerId != "0" && self.sellerId != "1" {
+            delegate?.showProviderInfoView()
+        }
     }
     
     func showOtherProvidersView() {

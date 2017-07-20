@@ -78,10 +78,11 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     
     self.fiscalDataTitleLbl = self.labelContact(true)
     self.fiscalDataTitleLbl.text = NSLocalizedString("profile.address.fiscal.section", comment: "")
+    self.fiscalDataTitleLbl.isHidden = true
     
     self.fiscalDataDescrLbl = self.labelContact(false)
     self.fiscalDataDescrLbl.numberOfLines = 4
-    
+    self.fiscalDataDescrLbl.isHidden = true
     
     self.callBtn = UIButton()
     self.emailBtn = UIButton()
