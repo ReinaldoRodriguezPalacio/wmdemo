@@ -94,9 +94,10 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.indoornumber = FormFieldView()
         self.indoornumber!.isRequired = false
         self.indoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
-        self.indoornumber!.typeField = TypeField.numAddress
+        self.indoornumber!.typeField = TypeField.innerNumber
         self.indoornumber!.minLength = 0
-        self.indoornumber!.maxLength = 5
+        self.indoornumber!.maxLength = 50
+        self.indoornumber!.delegate = self
         self.indoornumber!.nameField = NSLocalizedString("gr.address.field.indoornumber",comment:"")
         
         
@@ -516,6 +517,14 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
             if fieldString.characters.count == 10 {
                 return false
             }
+        }
+        
+        if textField == indoornumber {
+            
+            if fieldString.characters.count > 50 {
+                return false
+            }
+            
         }
         
         return true
