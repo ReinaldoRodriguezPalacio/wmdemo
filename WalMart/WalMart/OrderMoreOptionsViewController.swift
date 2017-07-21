@@ -66,6 +66,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
     self.alertView?.addActionButtonsWithCustomText("Contactar vendedor", leftAction: {(void) in
       self.alertView?.close()
       let controller = ContactProviderViewController()
+        controller.sellerId = self.sellerId
       self.navigationController!.pushViewController(controller, animated: true)
     }, rightText: NSLocalizedString("list.endedit",comment:""), rightAction: { (void) in
       self.alertView?.close()
