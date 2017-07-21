@@ -45,7 +45,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var products: [Any]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
-
+    var headerSection : UIView? = nil
+var selected: Bool! = false
     var deleteProductServiceInvoked = false
     
     var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
@@ -68,6 +69,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var preview: PreviewModalView? = nil
     var emptyView: UIView?
     var heightView : CGFloat = 0.0
+    var checkAll: UIButton?
     weak var detailDelegate: UserListDetailViewControllerDelegate?
     
     override func getScreenGAIName() -> String {
@@ -205,7 +207,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         UserCurrentSession.sharedInstance.nameListToTag = self.listName!
         BaseController.setOpenScreenTagManager(titleScreen: self.listName!, screenName: self.getScreenGAIName())
-        
+       
         //The 'view' argument should be the view receiving the 3D Touch.
         if #available(iOS 9.0, *), self.is3DTouchAvailable(){
             registerForPreviewing(with: self, sourceView: tableView!)
@@ -214,6 +216,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         self.tableView?.addSubview(self.refreshControl)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -222,7 +225,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if UIDevice.current.userInterfaceIdiom == .phone {
             loadServiceItems(nil)
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -309,6 +311,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.deleteAllBtn!.frame = CGRect(x: self.editBtn!.frame.minX - (90.0 + 8.0), y: (headerBounds.height - buttonHeight)/2, width: 90.0, height: buttonHeight)
         }
         
+
         
     }
 
@@ -328,28 +331,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.reminderButton!.isHidden = false
                 	
                 self.selectedItems = []
-                self.selectedItems = NSMutableArray()
-                if self.products != nil  && self.products!.count > 0  {
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.add(i)
-                    }
-                    self.updateTotalLabel()
-                }
+               self.updateTotalLabel()
                 
                 complete?()
                 }, reloadList: false)
         }
         else {
             self.retrieveProductsLocally(false)
-            if self.products == nil  || self.products!.count == 0 {
+            
                 self.selectedItems = []
-            } else {
-                self.selectedItems = NSMutableArray()
-                for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.add(i)
-                }
-                self.updateTotalLabel()
-            }
+            
+             self.updateTotalLabel()
             complete?()
         }
     }
@@ -861,7 +853,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
-        if selectedItems != nil {
+        if (selectedItems?.count)!>0 {
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 if !(idx >= self.products!.count) {
@@ -977,6 +969,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         
+        
+        
+        
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
             listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
         } else if let item = self.products![indexPath.row] as? Product {
@@ -1013,6 +1008,29 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.navigationController!.pushViewController(controller!, animated: true)
         }
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        self.headerSection = UIView(frame:CGRect(x: 0,  y: 0 , width: self.view.frame.width, height: 40))
+        self.headerSection!.backgroundColor = UIColor.white
+        
+        self.checkAll = UIButton(frame: CGRect(x: 3, y: 0, width: self.view.frame.width, height: 40))
+        self.checkAll?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.checkAll?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.checkAll?.setTitle("Seleccionar todo", for: UIControlState())
+        self.checkAll?.setTitleColor(WMColor.light_blue, for: UIControlState())
+        self.checkAll?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.checkAll?.contentHorizontalAlignment = .left
+        //self.checkAll?.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
+        self.checkAll?.addTarget(self, action: #selector(self.checkedAll(_:)), for: UIControlEvents.touchUpInside)
+        self.checkAll?.isSelected = selected
+        self.headerSection?.addSubview(self.checkAll!)
+        return self.headerSection
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
     
     func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
         let cell = tableView!.cellForRow(at: index)
@@ -1497,17 +1515,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func didDisable(_ disaable:Bool,cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPath(for: cell)
+        self.selected = false
+        self.checkAll?.isSelected = false
         if disaable {
             self.selectedItems?.remove(indexPath!.row)
         } else {
             self.selectedItems?.add(indexPath!.row)
         }
         self.updateTotalLabel()
-        if self.selectedItems != nil {
-            //self.tableView?.reloadData()
-        }
     }
-    
     
     func buildEditNameSection() {
         
@@ -2028,4 +2044,30 @@ extension UserListDetailViewController: UIGestureRecognizerDelegate {
             }
         }
     }
+    
+    func checkedAll(_ sender:UIButton){
+        
+        self.selected = !sender.isSelected
+        
+        if  self.selected==false{
+            selectedItems = []
+        }
+        else{
+            selectedItems = NSMutableArray()
+            var i = 0
+            for product in self.products! {
+                if let item = product as? Product {
+                    let stock = item.stock as! Bool
+                    if stock{
+                        selectedItems?.add(i)
+                    }
+                }
+                i += 1
+            }
+        }
+        self.updateTotalLabel()
+        self.tableView?.reloadData()
+        
+    }
+
 }

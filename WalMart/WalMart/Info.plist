@@ -260,7 +260,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -361,7 +361,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -569,7 +569,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -706,7 +706,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -841,7 +841,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -942,7 +942,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -1141,7 +1141,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://192.168.43.192:8095/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -1280,7 +1280,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>

@@ -51,6 +51,8 @@ class BaseService : NSObject {
         AFStatic.manager.requestSerializer = AFJSONRequestSerializer()
         AFStatic.manager.responseSerializer = AFJSONResponseSerializer()
         AFStatic.manager.responseSerializer.acceptableContentTypes = nil
+        
+        
         AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
         AFStatic.manager.securityPolicy.allowInvalidCertificates = true
         AFStatic.manager.securityPolicy.validatesDomainName = false
@@ -59,6 +61,7 @@ class BaseService : NSObject {
         AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer()
         AFStatic.managerGR.responseSerializer = AFJSONResponseSerializer()
         AFStatic.managerGR.responseSerializer.acceptableContentTypes = nil
+        
         AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.none)
         AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
         AFStatic.managerGR.securityPolicy.validatesDomainName = false

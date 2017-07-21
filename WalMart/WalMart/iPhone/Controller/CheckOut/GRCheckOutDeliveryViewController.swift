@@ -80,6 +80,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var paramsToOrder : [String:Any]?
     var paramsToConfirm : [String:Any]?
     var deliverycost = 0.0
+    var newAddress : String! = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -502,18 +503,36 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      */
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
-            let _ = self.getItemsTOSelectAddres()
-            if self.selectedAddress != nil {
-                self.getAddressDescription(self.selectedAddress!)
+            if self.newAddress != ""{
+                var ixSelected = 0
+                if self.addressItems != nil {
+                    for option in self.addressItems! {
+                        if self.newAddress == option["name"] as? String {
+                            self.selectedAddressIx = IndexPath(row: ixSelected, section: 0)
+                            self.address!.text = self.newAddress
+                            self.selectedAddress = option["id"] as? String
+                            self.newAddress = ""
+                        }
+                        ixSelected += 1
+                    }
+                }
+            }else{
+                let _ = self.getItemsTOSelectAddres()
+                if self.selectedAddress != nil {
+                    self.getAddressDescription(self.selectedAddress!)
+                }else{
+                    
+                }
+                self.address!.onBecomeFirstResponder = {() in
+                    self.showAddressPicker()
+                }
+                //TODO
             }
-            self.address!.onBecomeFirstResponder = {() in
-                self.showAddressPicker()
-            }
-            //TODO
             self.getAviableDates()
             self.selectedDate = self.datesItems!.first!["date"] as! Date
             self.deliveryDate!.text = self.datesToShow!.first!
             self.buildAndConfigureDeliveryType()
+            
         })
     }
     /**
@@ -1025,10 +1044,11 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
         self.picker!.onClosePicker = nil
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
+        
         if dictSend != nil {
             
             self.scrollForm.resignFirstResponder()
-            
+            self.newAddress = dictSend?["Name"] as? String
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
@@ -1043,6 +1063,7 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
                         print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
                     } else{
                         print("error:: no regresan id se queda Address ID \(self.selectedAddress)---")
+                        self.selectedAddress = nil
                     }
                     if let message = resultCall["message"] as? String {
                         self.alertView!.setMessage("\(message)")
@@ -1051,8 +1072,9 @@ extension GRCheckOutDeliveryViewController: AlertPickerViewDelegate {
                     
                     self.picker!.titleLabel.textAlignment = .center
                     self.picker!.titleLabel.frame =  CGRect(x: 40, y: self.picker!.titleLabel.frame.origin.y, width: self.picker!.titleLabel.frame.width, height: self.picker!.titleLabel.frame.height)
-                    self.picker!.isNewAddres =  false
+                    
                     self.reloadUserAddresses()
+                    self.picker!.isNewAddres =  false
                     
                 }) { (error:NSError) -> Void in
                     self.removeViewLoad()
