@@ -11,6 +11,7 @@ import UIKit
 
 protocol SESugestedRowDelegate {
     func itemSelected(seccion:Int, itemSelected: Int)
+    func itemDeSelected(seccion:Int, itemSelected: Int)
 }
 
 class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate {
@@ -94,6 +95,10 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     //SESugestedCarViewCellDelegate
     func seleccionados(seccion:Int, item:Int){
         delegate?.itemSelected(seccion: seccion, itemSelected: item)
+    }
+    
+    func deseleccionados(seccion:Int, item:Int){
+        delegate?.itemDeSelected(seccion: seccion, itemSelected: item)
     }
 
 }

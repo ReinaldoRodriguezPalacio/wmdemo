@@ -10,6 +10,7 @@ import Foundation
 
 protocol SESugestedCarViewCellDelegate {
     func seleccionados(seccion:Int, item:Int)
+    func deseleccionados(seccion:Int, item:Int)
 }
 
 
@@ -136,6 +137,8 @@ class SESugestedCarViewCell : UICollectionViewCell {
         
         if sender.isSelected{
             delegate?.seleccionados(seccion: self.section, item: sender.tag)
+        }else{
+            delegate?.deseleccionados(seccion: self.section, item: sender.tag)
         }
     }
     

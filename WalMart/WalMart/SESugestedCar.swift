@@ -16,6 +16,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var allProducts: [[String:Any]]? = []
     var productsBySection : [String:Any]? = [:]
     var searchWordBySection : [String]! = []
+    var params: [String:Any] = [:]
     var itemsSelected: [String]! = []
 
     var titleHeader: String?
@@ -179,7 +180,96 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         actualizaNumItems()
     }
     
+    func itemDeSelected(seccion:Int, itemSelected: Int){
+        let productos = allProducts![seccion]["products"] as! [[String:Any]]
+        let i = itemsSelected.index(of: productos[itemSelected]["upc"] as! String)
+        if i != nil{
+            itemsSelected.remove(at: i!)
+        }
+        actualizaNumItems()
+    }
+    
     func actualizaNumItems(){
     lblItemsCount.text = "\(itemsSelected.count) artículos"
     }
+    /*
+    func addListToCart() {
+        
+        
+        //ValidateActives
+      /*  var hasActive = false
+        for product in self.detailItems! {
+            let item = product
+            let stock = item["stock"] as! Bool
+            let active = item["isActive"] as! String
+            if stock && active == "true" {
+                hasActive = true
+                break
+            }
+        }*/
+        
+        
+        /*if !hasActive {
+            self.noProductsAvailableAlert()
+            return
+        }*/
+        
+        if self.selectedItems != nil && self.selectedItems!.count > 0 {
+            
+            var upcs: [Any] = []
+            var totalPrice: Int = 0
+            
+            for idxVal  in selectedItems! {
+                let idx = idxVal as! Int
+                var params: [String:Any] = [:]
+                let item = self.detailItems![idx]
+                params["upc"] = item["upc"] as! String
+                params["desc"] = item["description"] as! String
+                params["imgUrl"] = item["imageUrl"] as! String
+                if let price = item["price"] as? NSNumber {
+                    totalPrice += price as Int
+                    params["price"] = "\(price)"
+                }
+                if let quantity = item["quantity"] as? NSNumber {
+                    params["quantity"] = "\(quantity)"
+                }
+                
+                params["pesable"] = item["type"] as? NSString
+                params["wishlist"] = false
+                params["type"] = ResultObjectType.Groceries.rawValue
+                params["comments"] = ""
+                if let type = item["type"] as? String {
+                    if Int(type)! == 0 { //Piezas
+                        params["onHandInventory"] = "99"
+                    }
+                    else { //Gramos
+                        params["onHandInventory"] = "20000"
+                    }
+                }
+                params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
+                
+                upcs.append(params as AnyObject)
+            }
+            if upcs.count > 0 {
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+                BaseController.sendAnalyticsProductsToCart(totalPrice)
+            }else{
+                self.noProductsAvailableAlert()
+                return
+            }
+        }else{
+            self.noProductsAvailableAlert()
+            return
+        }
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
+    }
+    
+    func noProductsAvailableAlert(){
+        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+        let msgInventory = "No existen productos disponibles para agregar al carrito"
+        alert!.setMessage(msgInventory)
+        alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+    }
+*/
+    
 }
