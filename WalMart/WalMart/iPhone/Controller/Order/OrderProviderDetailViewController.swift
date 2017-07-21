@@ -61,7 +61,7 @@ class OrderProviderDetailViewController : NavigationViewController {
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), for: UIControlState())
         self.shareButton!.setImage(UIImage(named: "detail_share"), for: .selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), for: .highlighted)
-        self.shareButton!.addTarget(self, action: #selector(OrderDetailViewController.shareList), for: .touchUpInside)
+        self.shareButton!.addTarget(self, action: #selector(shareList), for: .touchUpInside)
         self.viewFooter!.addSubview(self.shareButton!)
         
         let x = self.shareButton!.frame.maxX + 16.0
@@ -74,7 +74,7 @@ class OrderProviderDetailViewController : NavigationViewController {
         self.addToCartButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addToCartButton?.titleLabel?.textColor = UIColor.white
         //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
-        self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), for: .touchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(addListToCart), for: .touchUpInside)
         self.viewFooter!.addSubview(self.addToCartButton!)
         
         self.view.addSubview(tableDetailOrder)
@@ -378,14 +378,22 @@ class OrderProviderDetailViewController : NavigationViewController {
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
-            self.navigationController?.present(controller, animated: true, completion: nil)
             
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
                 if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
+            
+            if IS_IPAD {
+                let sharePopover = UIPopoverController(contentViewController: controller)
+                let rect = self.self.viewFooter!.convert(self.shareButton!.frame, to: self.view.superview!)
+                sharePopover.present(from: rect, in: self.view.superview!, permittedArrowDirections: .any, animated: true)
+            }else{
+                self.navigationController?.present(controller, animated: true, completion: nil)
+            }
         }
+
     }
     /**
      Present loader in screen list
@@ -445,7 +453,7 @@ class OrderProviderDetailViewController : NavigationViewController {
 extension OrderProviderDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if showFedexGuide {
-            return self.itemDetailProducts.count + 1
+            return 2
         }
         return 1
         
@@ -579,7 +587,7 @@ extension OrderProviderDetailViewController: UITableViewDataSource {
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
                 btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), for: UIControlEvents.touchUpInside)
                 btnGoToGuide.tag = section
-                if guide == "No disponible" {
+                if guide != "No disponible" {
                     viewFedex.addSubview(btnGoToGuide)
                 }
             }

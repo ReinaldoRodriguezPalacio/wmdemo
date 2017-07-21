@@ -80,7 +80,7 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 274.0
+        return 250//274.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,8 +94,9 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
         let paymentType = item["PaymentType"] as! String
         let address = item["address"] as! String
         let provider = item["Provider"] as! String
+        let sellerId = item["sellerId"] as! String
         
-        var  valueItem = ["statusValue": status, "nameValue": name, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider]
+        var  valueItem = ["statusValue": status, "nameValue": name, "PaymentTypeValue" :paymentType, "addressValue" : address, "ProviderValue":provider, "sellerId": sellerId]
         
         if let sendingNormal = item["sendingNormal"] as? String {
              valueItem["sendingNormalValue"] = sendingNormal
@@ -145,9 +146,9 @@ class OrderSendingViewController: NavigationViewController,UITableViewDataSource
                     
                     var valueItem: [String:Any] = ["sendig":"\(countOrder)","status":status,"name":userName,"PaymentType":paymentType,"address":delyberyAddress,"Provider":sellerName, "sellerId": String(sellerId),"deliveryType": deliberyType,"fedexGuide":fedexGuide,"urlfedexGuide":urlGuide,"guideItems":guideItems]
                     
-                    //if let sendingNormal = guide["date"] as? String {
-                        valueItem["sendingNormal"] = "Hasta 7 dias (Fecha estimada de entrega: 08/03/2016)"
-                    //}
+                    if let sendingNormal = guide["date"] as? String {
+                        valueItem["sendingNormal"] = sendingNormal
+                    }
 
                     self.items.append(valueItem)
                 }

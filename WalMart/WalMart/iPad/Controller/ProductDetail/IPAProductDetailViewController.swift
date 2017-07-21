@@ -301,9 +301,10 @@ class IPAProductDetailViewController : UIViewController {
             
         })
         
-        if self.tabledetail.numberOfRows(inSection: 0) <= 5 {
+        let row = self.hasProvider ? 6 : 5
+        if self.tabledetail.numberOfRows(inSection: 0) <= row {
             self.tabledetail.beginUpdates()
-            self.tabledetail.insertRows(at: [IndexPath(row: 5, section: 0)], with: UITableViewRowAnimation.bottom)
+            self.tabledetail.insertRows(at: [IndexPath(row: row, section: 0)], with: UITableViewRowAnimation.bottom)
             self.tabledetail.endUpdates()
             self.pagerController!.enabledGesture(false)
         }

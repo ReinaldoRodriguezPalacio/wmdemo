@@ -366,8 +366,8 @@ class IPAShoppingCartViewController: ShoppingCartViewController {
                             
                             var arrayUPCS = self.itemsUPC
                             arrayUPCS.sort(by: { (before, after) -> Bool in
-                                let priceB = before["price"] as! NSNumber
-                                let priceA = after["price"] as! NSNumber
+                                let priceB = before["price"] as! NSString
+                                let priceA = after["price"] as! NSString
                                 return priceB.doubleValue < priceA.doubleValue
                             })
                             

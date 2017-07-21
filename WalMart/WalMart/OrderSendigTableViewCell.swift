@@ -120,8 +120,8 @@ class OrderSendigTableViewCell : UITableViewCell {
         
         self.statusTitle.frame = CGRect(x: 16.0, y: 56.9, width: self.frame.width - 32.0, height: 15.0)
         self.nameTitle.frame = CGRect(x: 16.0, y: self.statusTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
-        self.sendingNormalTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 30.0)
-        self.paymentTypeTitle.frame = CGRect(x: 16.0, y: self.sendingNormalTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
+        //self.sendingNormalTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 30.0)
+        self.paymentTypeTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
         self.addressTitle.frame = CGRect(x: 16.0, y: self.paymentTypeTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 45.0)
         self.providerTitle.frame = CGRect(x: 16.0, y: self.addressTitle.frame.maxY + 10.0, width: self.frame.width - 32.0, height: 15.0)
         
@@ -149,8 +149,10 @@ class OrderSendigTableViewCell : UITableViewCell {
         //let rectSize = addressAttrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
         self.addressTitle.attributedText = addressAttrString
         
-        let providerAttrString = self.buildAttributtedString("Proveedor", value: values["ProviderValue"] as! String)
+        let sellerName = values["ProviderValue"] as! String
+        let providerAttrString = self.buildAttributtedString("Proveedor", value: sellerName)
         self.providerTitle.attributedText = providerAttrString
+        self.providerTitle.isHidden = (sellerName == "")
         
         if let sendingNormalValues = values["sendingNormalValue"] as? String {
             let sendingNormaAttrString = self.buildAttributtedString("Envío normal", value: sendingNormalValues)
@@ -158,6 +160,10 @@ class OrderSendigTableViewCell : UITableViewCell {
             self.sendingNormalTitle.isHidden = false
         }else{
            self.sendingNormalTitle.isHidden = true
+        }
+        
+        if let sellerId = values["sellerId"] as? String {
+            self.optionsBtns.isHidden = (sellerId == "0")
         }
     }
     

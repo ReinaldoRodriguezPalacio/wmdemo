@@ -468,13 +468,14 @@ class OrderDetailViewController : NavigationViewController {
             let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self, imgResult, urlWmart!], applicationActivities: nil)
-            self.navigationController?.present(controller, animated: true, completion: nil)
-            
+        
             controller.completionWithItemsHandler = {(activityType, completed:Bool, returnedItems:[Any]?, error: Error?) in
                 if completed && activityType != UIActivityType.print &&   activityType != UIActivityType.saveToCameraRoll {
                     BaseController.sendAnalyticsPush(["event": "compartirRedSocial", "tipoInteraccion" : "share", "redSocial": activityType!])
                 }
             }
+            
+            self.navigationController?.present(controller, animated: true, completion: nil)
         }
     }
     
