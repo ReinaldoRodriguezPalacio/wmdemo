@@ -1098,8 +1098,21 @@ class ShoppingCartViewController: BaseController {
                             var arrayUPCS = self.itemsUPC
                             
                             arrayUPCS.sort(by: { (before, after) -> Bool in
-                                let priceB = before["price"] as! NSString
-                                let priceA = after["price"] as! NSString
+                                var priceB = before["price"] as! NSString
+                                var priceA = after["price"] as! NSString
+                                
+                                if let offersPriceBefore = before["offer"] as? [Any] {
+                                    if let offer = offersPriceBefore.first as? [String: Any] {
+                                        priceB = offer["price"] as! NSString
+                                    }
+                                }
+                                
+                                if let offersPriceAfter = after["offer"] as? [Any] {
+                                    if let offer = offersPriceAfter.first as? [String: Any] {
+                                        priceA = offer["price"] as! NSString
+                                    }
+                                }
+                                
                                 return priceB.doubleValue < priceA.doubleValue
                             })
                             
