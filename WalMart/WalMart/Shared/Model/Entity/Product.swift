@@ -15,6 +15,7 @@ class Product : NSManagedObject {
     @NSManaged var img : String
     @NSManaged var desc : String
     @NSManaged var price : NSString
+    @NSManaged var saving : NSString
     @NSManaged var iva : String
     @NSManaged var baseprice : String
     @NSManaged var isActive : String

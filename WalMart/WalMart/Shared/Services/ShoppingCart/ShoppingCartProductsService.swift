@@ -83,6 +83,11 @@ class ShoppingCartProductsService : BaseService {
                                 department = departmentBase
                             }
                             
+                            var saving = ""
+                            if  let savingValue = shoppingCartProduct["saving"] as? String {
+                                saving = savingValue
+                            }
+                            
                             
                             var imageUrl = ""
                             if let images = shoppingCartProduct["imageUrl"] as? [Any] {
@@ -99,6 +104,7 @@ class ShoppingCartProductsService : BaseService {
                             carProductItem.baseprice = baseprice
                             carProductItem.img = imageUrl
                             carProductItem.department = department
+                            carProductItem.saving = saving as NSString
                             
                             if let offers = shoppingCartProduct["offers"] as? [Any] {
                                 if let offer = offers.first as? [String:Any] {

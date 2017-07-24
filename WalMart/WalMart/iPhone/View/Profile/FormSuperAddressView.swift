@@ -655,7 +655,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         if self.storesDic.count > 0 {
             let storeDict =  self.storesDic[selectedStore.row]
             storeId = storeDict["id"] as! String!
-            storeName = storeDict["name"] as! String!
+            let name  = storeDict["name"] as! String!
+            storeName = name!.findIndex(value: "-")
         }
         
         var action = "A"
