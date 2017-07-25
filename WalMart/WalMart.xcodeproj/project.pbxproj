@@ -85,6 +85,9 @@
 		0CDC9DC51ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */; };
 		0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */; };
 		0CDC9DC91ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */; };
+		0CE307A11F26713E00C6914E /* SEtypeaheadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */; };
+		0CE307A31F26A68E00C6914E /* SEmultipleSearchListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */; };
+		0CE307A51F26A6E300C6914E /* SEmultipleSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */; };
 		0CEA425E1E71CD22009AFFEF /* SearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */; };
 		0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */; };
 		0CF9E0651E7AF1CC00B20429 /* llanta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF9E0641E7AF1CC00B20429 /* llanta.png */; };
@@ -695,6 +698,9 @@
 		0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAInvoiceViewControllerPpal.swift; sourceTree = "<group>"; };
 		0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPickerViewSections.swift; sourceTree = "<group>"; };
 		0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectItemAddressTableViewCell.swift; sourceTree = "<group>"; };
+		0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadService.swift; sourceTree = "<group>"; };
+		0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEmultipleSearchListService.swift; sourceTree = "<group>"; };
+		0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEmultipleSearchService.swift; sourceTree = "<group>"; };
 		0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresIniViewController.swift; sourceTree = "<group>"; };
 		0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceSendService.swift; path = WalMart/InvoiceSendService.swift; sourceTree = SOURCE_ROOT; };
 		0CF9E0641E7AF1CC00B20429 /* llanta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = llanta.png; sourceTree = "<group>"; };
@@ -1446,6 +1452,9 @@
 			children = (
 				0C6704C71F1E6DD200175C0A /* SEabcService.swift */,
 				0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */,
+				0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */,
+				0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */,
+				0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3662,6 +3671,7 @@
 				AC59118019DE0D2400EB095C /* FMDatabase.m in Sources */,
 				AC5479F71AB21785009DC7AB /* IPAShoppingCartEmptyView.swift in Sources */,
 				6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */,
+				0CE307A51F26A6E300C6914E /* SEmultipleSearchService.swift in Sources */,
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
 				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
@@ -3744,6 +3754,7 @@
 				5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */,
 				56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */,
 				5608AF731A0AA7BE00176CB0 /* IPASectionHeaderSearchReusable.swift in Sources */,
+				0CE307A11F26713E00C6914E /* SEtypeaheadService.swift in Sources */,
 				6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */,
 				5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */,
 				8BCA19721AAA619100065072 /* AlertButtomView.swift in Sources */,
@@ -3927,6 +3938,7 @@
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
 				0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */,
 				F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */,
+				0CE307A31F26A68E00C6914E /* SEmultipleSearchListService.swift in Sources */,
 				0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */,
 				AC34D80F19B4F37600801906 /* NavigationViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,

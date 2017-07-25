@@ -1,14 +1,14 @@
 //
-//  SEtypeaheadListService.swift
+//  SEtypeaheadService.swift
 //  WalMart
 //
-//  Created by Vantis on 18/07/17.
+//  Created by Vantis on 24/07/17.
 //  Copyright © 2017 BCG Inc. All rights reserved.
 //
 
 import Foundation
 
-class SEtypeaheadListService: BaseService {
+class SEtypeaheadService: BaseService {
     
     func callService(params: [String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,

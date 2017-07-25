@@ -136,8 +136,10 @@ class SESugestedCarViewCell : UICollectionViewCell {
     sender.isSelected = !sender.isSelected
         
         if sender.isSelected{
+            self.isSelected = true
             delegate?.seleccionados(seccion: self.section, item: sender.tag)
         }else{
+            self.isSelected = false
             delegate?.deseleccionados(seccion: self.section, item: sender.tag)
         }
     }

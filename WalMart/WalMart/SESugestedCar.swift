@@ -10,6 +10,8 @@ import Foundation
 
 class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate{
 
+    var alertView : IPOWMAlertViewController? = nil
+    var viewLoad : WMLoadingView!
     var collection: UICollectionView?
     var sugestedCarTableView: UITableView!
     
@@ -17,8 +19,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var productsBySection : [String:Any]? = [:]
     var searchWordBySection : [String]! = []
     var params: [String:Any] = [:]
-    var itemsSelected: [String]! = []
-
+    var itemsSelected: [[String:Any]]! = []
+    var searchWords: [String]! = []
     var titleHeader: String?
     
     var firstOpen  = true
@@ -40,7 +42,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         self.titleLabel?.text = titleHeader
         
-        cargaProductos()
+        //cargaProductos()
         
         self.sugestedCarTableView = UITableView(frame:.zero)
         self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
@@ -78,6 +80,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
+        
+        self.invokeMultisearchService()
     }
     
 
@@ -176,15 +180,52 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     //SESugestedRowDelegate
     func itemSelected(seccion:Int, itemSelected: Int){
         let productos = allProducts![seccion]["products"] as! [[String:Any]]
-        itemsSelected.append(productos[itemSelected]["upc"] as! String)
+        let producto = productos[itemSelected] 
+        //itemsSelected.append(productos[itemSelected]["upc"] as! String)
+        
+        var params: [String:Any] = [:]
+        
+        params["upc"] = producto["upc"] as! String
+        params["desc"] = producto["displayName"] as! String
+        params["imgUrl"] = producto["url"] as! String
+        params["price"] = producto["field"] as! String
+        params["quantity"] = "1"
+        params["pesable"] = "0"
+        params["wishlist"] = false
+        params["type"] = ResultObjectType.Groceries.rawValue
+        params["comments"] = ""
+        if let type = producto["type"] as? String {
+            if Int(type)! == 0 { //Piezas
+                params["onHandInventory"] = "99"
+            }
+            else { //Gramos
+                params["onHandInventory"] = "20000"
+            }
+        }
+        params["orderByPiece"] = "EA"
+        
+        itemsSelected.append(params)
+      /*  if upcs.count > 0 {
+            NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+            BaseController.sendAnalyticsProductsToCart(totalPrice)
+        }
+        else{
+            self.noProductsAvailableAlert()
+            return
+        }*/
         actualizaNumItems()
     }
     
     func itemDeSelected(seccion:Int, itemSelected: Int){
         let productos = allProducts![seccion]["products"] as! [[String:Any]]
-        let i = itemsSelected.index(of: productos[itemSelected]["upc"] as! String)
-        if i != nil{
-            itemsSelected.remove(at: i!)
+        
+        for idxVal in 0..<itemsSelected.count {
+            let item = self.itemsSelected![idxVal]
+            let buscado = productos[itemSelected]["upc"] as! String
+            if item["upc"] as! String == buscado {
+                itemsSelected.remove(at: idxVal)
+                break
+            }
         }
         actualizaNumItems()
     }
@@ -192,27 +233,90 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func actualizaNumItems(){
     lblItemsCount.text = "\(itemsSelected.count) artículos"
     }
-    /*
-    func addListToCart() {
+    
+    func invokeMultisearchService() {
         
+        self.showLoadingView()
         
-        //ValidateActives
-      /*  var hasActive = false
-        for product in self.detailItems! {
-            let item = product
-            let stock = item["stock"] as! Bool
-            let active = item["isActive"] as! String
-            if stock && active == "true" {
-                hasActive = true
-                break
+        if UserCurrentSession.hasLoggedUser(){
+            
+            let multipleSearchService = SEmultipleSearchListService()
+            multipleSearchService.callService(params: searchWords,
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call multiSearchService success")
+                                            self.removeLoadingView()
+                                            self.getProductosBySearch(arrayProductos: response["responseArray"] as! [[String : Any]])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call multiSearchService error \(error)")
+                                            self.removeLoadingView()
             }
-        }*/
+            )
+            
+        }else{
+            
+            let multipleSearchService = SEmultipleSearchService()
+            multipleSearchService.callService(params: searchWords,
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call multiSearchService success")
+                                            self.removeLoadingView()
+                                            self.getProductosBySearch(arrayProductos: response["responseArray"] as! [[String : Any]])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call multiSearchService error \(error)")
+                                            self.removeLoadingView()
+            }
+            )
+        }
         
+    }
+    
+    func showLoadingView() {
         
-        /*if !hasActive {
-            self.noProductsAvailableAlert()
-            return
-        }*/
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+    
+    func getProductosBySearch(arrayProductos:[[String:Any]]){
+        allProducts = arrayProductos
+        
+        searchWordBySection = []
+        
+        for i in 0..<allProducts!.count{
+            for (key, value) in allProducts![i] {
+                // access all key / value pairs in dictionary
+                if key == "term"{
+                    self.searchWordBySection.append(String(describing: value))
+                }
+                if key == "products"{
+                    let productos = allProducts![i]["products"] as! [[String:Any]]
+                    for a in 0..<productos.count{
+                        for (key,value) in productos[a]{
+                            print(key)
+                            print(value)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    
+    
+  /*  func addListToCart() {
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
             
@@ -269,7 +373,5 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let msgInventory = "No existen productos disponibles para agregar al carrito"
         alert!.setMessage(msgInventory)
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-    }
-*/
-    
+    }*/
 }

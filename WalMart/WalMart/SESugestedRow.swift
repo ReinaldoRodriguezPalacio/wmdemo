@@ -20,6 +20,8 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var productosData: [[String:Any]]? = nil
     var section: Int!
     var delegate: SESugestedCar?
+    var selectedItems : [Bool] = [false,false,false,false,false,false,false,false,false,]
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -29,8 +31,9 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         super.init(coder: aDecoder)
     }
     
-    
     func setup() {
+        
+        
         contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 50, height: 100))
         contenido.backgroundColor = UIColor.blue
         collection = getCollectionView()
@@ -40,19 +43,17 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         collection!.delegate = self
         collection!.backgroundColor = WMColor.light_light_gray
         self.contenido.addSubview(collection!)
-        
         self.addSubview(self.contenido)
         
-        
     }
-    
     
     func setValues(_ items:[[String:Any]], section:Int) {
         self.productosData = items
+        for _ in 0...Int((productosData?.count)!){
+            selectedItems.append(false)
+        }
         self.section = section
     }
-    
-    
     
     func getCollectionView() -> UICollectionView {
         let customlayout = UICollectionViewFlowLayout()
@@ -68,7 +69,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -78,10 +79,17 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         let imagen = productosData![indexPath.row]["url"] as! String
         let descripcion = productosData![indexPath.row]["displayName"] as! String
         let precio = productosData![indexPath.row]["field"] as! String
-        
-        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: false, section: self.section, index: indexPath.row)
-        
-        return cell
+        var isSelected = false
+        if selectedItems[indexPath.row] == true{
+            isSelected = true
+        }
+
+        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, section: self.section, index: indexPath.row)
+                return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        selectedItems[indexPath.row] = false
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -94,10 +102,13 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     //SESugestedCarViewCellDelegate
     func seleccionados(seccion:Int, item:Int){
+        selectedItems[item] = true
         delegate?.itemSelected(seccion: seccion, itemSelected: item)
+        
     }
     
     func deseleccionados(seccion:Int, item:Int){
+        selectedItems[item] = false
         delegate?.itemDeSelected(seccion: seccion, itemSelected: item)
     }
 

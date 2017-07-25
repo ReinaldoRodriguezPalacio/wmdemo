@@ -255,8 +255,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func textFieldDidChange(_ textField: UITextField) {
-        myArray = []
-        myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+        //myArray = []
+        //myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+        self.invokeTypeAheadService()
         self.cargaSugerencias()
     }
 
@@ -310,6 +311,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func createPreferedCar(_ sender:UIButton){
         let controller = SESugestedCar()
         controller.titleHeader = "Súper Express"
+        controller.searchWords = selectedItems
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
@@ -342,7 +344,39 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             })
             task.resume()
         }
+    }
+    
+    func invokeTypeAheadService() {
         
+        self.showLoadingView()
+        
+        if UserCurrentSession.hasLoggedUser(){
+            let typeaheadService = SEtypeaheadListService()
+            typeaheadService.callService(params: ["pText":field?.text],
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call TypeaheadService success")
+                                            self.removeLoadingView()
+                                            self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call TiresSizeSearchService error \(error)")
+                                            self.removeLoadingView()
+            }
+            )
+        }else{
+            let typeaheadService = SEtypeaheadService()
+            typeaheadService.callService(params: ["pText":field?.text],
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call TypeaheadService success")
+                                            self.removeLoadingView()
+                                            self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call TiresSizeSearchService error \(error)")
+                                            self.removeLoadingView()
+            }
+            )
+        }
         
     }
     
@@ -370,7 +404,15 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     if arrayPalabras.count > 0 {
         allItems = arrayPalabras
     }
+    myArray = []
+    }
     
+    func getSugerenciasBySearch(arrayPalabras:[String]){
+        myArray = []
+        if arrayPalabras.count > 0 {
+            myArray = arrayPalabras
+        }
+        self.cargaSugerencias()
     }
 
 }
