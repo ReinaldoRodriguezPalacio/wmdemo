@@ -260,7 +260,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -541,19 +541,19 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.InvoiceDataCPService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findColoniesByPostalCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findClientByRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceFolioService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/invoiceForwarding</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/saveRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/saveRfc</string>
 			<key>WalmartMG.InvoiceSendService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/sendInvoice</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/updateRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -569,7 +569,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -579,7 +579,7 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:8095/walmartmg/login/getPushNotifications</string>
+			<string>http://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -845,7 +845,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
+			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -1117,19 +1117,19 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.InvoiceDataCPService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findColoniesByPostalCode</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findColoniesByPostalCode</string>
 			<key>WalmartMG.InvoiceDataClientService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findClientByRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findClientByRfc</string>
 			<key>WalmartMG.InvoiceFolioService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/findFolioInvoiceByTicket</string>
 			<key>WalmartMG.InvoiceResendService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/invoiceForwarding</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/invoiceForwarding</string>
 			<key>WalmartMG.InvoiceSaveRfcService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/saveRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/saveRfc</string>
 			<key>WalmartMG.InvoiceSendService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/sendInvoice</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/sendInvoice</string>
 			<key>WalmartMG.InvoiceUpdateRfcService</key>
-			<string>http://192.168.43.192:8095/walmartmg/invoice/updateRfc</string>
+			<string>http://10.30.13.213:9084/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -1145,7 +1145,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
+			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
