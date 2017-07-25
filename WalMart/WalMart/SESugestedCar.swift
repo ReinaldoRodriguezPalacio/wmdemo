@@ -42,7 +42,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         self.titleLabel?.text = titleHeader
         
-        //cargaProductos()
+        cargaProductos()
         
         self.sugestedCarTableView = UITableView(frame:.zero)
         self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
@@ -64,7 +64,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         
         self.btnAddToCart = UIButton(frame:.zero)
-        //btnAddToCart!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
+        btnAddToCart!.addTarget(self, action: #selector(self.addListToCart(_:)), for: .touchUpInside)
         self.btnAddToCart?.tintColor = UIColor.white
         self.btnAddToCart?.setTitle("Agregar a Carrito" , for: UIControlState.normal)
         self.btnAddToCart?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -81,7 +81,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         self.view.addSubview(lblItemsCount)
         
-        self.invokeMultisearchService()
+        //self.invokeMultisearchService()
     }
     
 
@@ -116,6 +116,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
         cell.setValues(searchWordBySection[section])
+        cell.deleteItem.tag = section
+        //cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
+        
         cell.backgroundColor = UIColor.white
         return cell
     }
@@ -316,56 +319,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
 
     
     
-  /*  func addListToCart() {
+    func addListToCart(_ sender:UIButton) {
         
-        if self.selectedItems != nil && self.selectedItems!.count > 0 {
-            
-            var upcs: [Any] = []
-            var totalPrice: Int = 0
-            
-            for idxVal  in selectedItems! {
-                let idx = idxVal as! Int
-                var params: [String:Any] = [:]
-                let item = self.detailItems![idx]
-                params["upc"] = item["upc"] as! String
-                params["desc"] = item["description"] as! String
-                params["imgUrl"] = item["imageUrl"] as! String
-                if let price = item["price"] as? NSNumber {
-                    totalPrice += price as Int
-                    params["price"] = "\(price)"
-                }
-                if let quantity = item["quantity"] as? NSNumber {
-                    params["quantity"] = "\(quantity)"
-                }
-                
-                params["pesable"] = item["type"] as? NSString
-                params["wishlist"] = false
-                params["type"] = ResultObjectType.Groceries.rawValue
-                params["comments"] = ""
-                if let type = item["type"] as? String {
-                    if Int(type)! == 0 { //Piezas
-                        params["onHandInventory"] = "99"
-                    }
-                    else { //Gramos
-                        params["onHandInventory"] = "20000"
-                    }
-                }
-                params["orderByPiece"] = item["baseUomcd"] as? NSString == "EA"
-                
-                upcs.append(params as AnyObject)
-            }
-            if upcs.count > 0 {
-                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
-                BaseController.sendAnalyticsProductsToCart(totalPrice)
+        if itemsSelected.count > 0 {
+                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":itemsSelected, "image":"list_alert_addToCart"])
+                //BaseController.sendAnalyticsProductsToCart(totalPrice)
             }else{
                 self.noProductsAvailableAlert()
                 return
             }
-        }else{
-            self.noProductsAvailableAlert()
-            return
-        }
-        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
     }
     
     func noProductsAvailableAlert(){
@@ -373,5 +335,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let msgInventory = "No existen productos disponibles para agregar al carrito"
         alert!.setMessage(msgInventory)
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+    }
+    
+    /*func delSection(_ sender:UIButton){
+        sugestedCarTableView.beginUpdates()
+        let indexSet = NSMutableIndexSet()
+        indexSet.add(sender.tag-1)
+        sugestedCarTableView.deleteSections(indexSet as IndexSet, with: UITableViewRowAnimation.automatic)
+        // profileTableView.deleteRowsAtIndexPaths([indexPath],  withRowAnimation: UITableViewRowAnimation.Automatic)
+        sugestedCarTableView.endUpdates()
+        searchWordBySection.remove(at: sender.tag)
     }*/
 }

@@ -255,9 +255,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func textFieldDidChange(_ textField: UITextField) {
-        //myArray = []
-        //myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
-        self.invokeTypeAheadService()
+        myArray = []
+        myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+        //self.invokeTypeAheadService()
         self.cargaSugerencias()
     }
 

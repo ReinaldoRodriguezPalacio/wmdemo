@@ -37,7 +37,7 @@ class SESugestedRowTitleViewCell: UITableViewCell {
         self.addSubview(self.itemView)
         
         self.deleteItem = UIButton(frame:CGRect(x: self.frame.width - 40, y: 0,width: 30, height: self.frame.height))
-        self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
+        self.deleteItem.setImage(UIImage(named: "deleteAddress"), for: UIControlState())
         self.addSubview(self.deleteItem)
         
     }

@@ -11,7 +11,7 @@ import Foundation
 class SEmultipleSearchService: BaseService {
     
     func callService(params: [String], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        
+        self.setManagerTempHeader()
         self.callPOSTService(params,
                              successBlock: { (resultCall:[String:Any]) -> Void in
                                 if let values = resultCall["responseArray"] as? [Any] {
@@ -27,4 +27,13 @@ class SEmultipleSearchService: BaseService {
     }
     
     
+    func setManagerTempHeader() {
+        let timeInterval = Date().timeIntervalSince1970
+        let timeStamp  = String(NSNumber(value: (timeInterval * 1000) as Double).intValue)
+        let uuid  = UUID().uuidString
+        let strUsr  = "ff24423eefbca345" + timeStamp + uuid
+        AFStatic.manager.requestSerializer.setValue(timeStamp, forHTTPHeaderField: "timestamp")
+        AFStatic.manager.requestSerializer.setValue(uuid, forHTTPHeaderField: "requestID")
+        AFStatic.manager.requestSerializer.setValue(strUsr.sha1(), forHTTPHeaderField: "control")
+    }
 }
