@@ -14,7 +14,7 @@ class SearchTiresBySizeService: BaseService {
     func callService(params: [String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params,
                              successBlock: { (resultCall:[String:Any]) -> Void in
-                                if (resultCall["responseObject"] as? [Any]) != nil {
+                                if let values = resultCall["responseObject"] as? [Any] {
                                     
                                     //UserDefaults.standard.setValue(modelos, forKey: "modelos")
                                     //UserDefaults.standard.setValue(modandyears, forKey: "aniosBymodel")

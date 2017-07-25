@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.74</string>
+	<string>3.76</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -260,7 +260,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -357,11 +357,11 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/getPaymentType</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -540,6 +540,20 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/sendInvoice</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -555,7 +569,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -565,7 +579,7 @@
 			<key>WalmartMG.ProviderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/seller/getSellerPageDetailEvaluation</string>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>ttp://10.30.13.213:9084/walmartmg/login/getPushNotifications</string>
+			<string>http://192.168.43.192:8095/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -665,6 +679,20 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/sendInvoice</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -680,7 +708,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -698,7 +726,7 @@
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getUpcsByMedida</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -712,19 +740,19 @@
 			<key>WalmartMG.Splash</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.TiresAniosService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getAnioByBrandAndModel</string>
 			<key>WalmartMG.TiresMarcasService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/solr/getBrands</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getBrands</string>
 			<key>WalmartMG.TiresMedidasSearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getMedidaByMarcaModeloYear</string>
 			<key>WalmartMG.TiresModelsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/solr/getModelByBrand</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getModelByBrand</string>
 			<key>WalmartMG.TiresSizeSearchService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/getAllMedidas</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/getAllMedidas</string>
 			<key>WalmartMG.TiresVersionsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/llantas/solr/getVersionByModelMarcaYear</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateFiscalAddress</string>
 			<key>WalmartMG.UpdateShippingAddressService</key>
@@ -817,7 +845,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -918,7 +946,7 @@
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/commitOrderPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
@@ -1088,6 +1116,20 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/sendInvoice</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>http://192.168.43.192:8095/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -1103,7 +1145,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>http://10.30.13.213:9084/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>http://192.168.43.192:8095/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
@@ -1215,6 +1257,20 @@
 			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<key>WalmartMG.InvoiceDataCPService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findColoniesByPostalCode</string>
+			<key>WalmartMG.InvoiceDataClientService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findClientByRfc</string>
+			<key>WalmartMG.InvoiceFolioService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/findFolioInvoiceByTicket</string>
+			<key>WalmartMG.InvoiceResendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/invoiceForwarding</string>
+			<key>WalmartMG.InvoiceSaveRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/saveRfc</string>
+			<key>WalmartMG.InvoiceSendService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/sendInvoice</string>
+			<key>WalmartMG.InvoiceUpdateRfcService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/invoice/updateRfc</string>
 			<key>WalmartMG.LineService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
@@ -1230,7 +1286,7 @@
 			<key>WalmartMG.PreviousOrderDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/getPurchaseOrderById</string>
 			<key>WalmartMG.PreviousOrdersService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPurchaseOrderByUser/50</string>
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>

@@ -20,9 +20,11 @@ class IPAOrderViewController: OrderViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let bounds = self.view.bounds
         self.emptyView!.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.bounds.height - 46)
         self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 64, width: self.view.frame.width, height: 64)
-        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.frame.height - 46)
+        self.viewBgSelectorBtn.frame =  CGRect(x: (bounds.width - 282) / 2  ,  y: self.header!.frame.maxY + 16, width: 282, height: 28)
+        self.tableOrders.frame = CGRect(x: 0, y: viewBgSelectorBtn.frame.maxY + 10, width: self.view.bounds.width, height: self.view.bounds.height - 46 - viewBgSelectorBtn.frame.maxY)
        // self.tableOrders.contentInset = UIEdgeInsetsMake(0, 0, 100, 0)
         if isShowingButtonFactura {
             self.buttonFactura.frame = CGRect(x: 16, y: 14, width: facturasToolBar.frame.width - 32, height: 34)
@@ -78,7 +80,7 @@ class IPAOrderViewController: OrderViewController {
     }
     
     override func reloadPreviousOrders() {
-        self.items = []
+        self.arrayMGOrders = []
         self.emptyView.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46)
         self.viewLoad.frame = CGRect(x: 0, y: 46, width: 681.5, height: self.view.frame.height - 46)
         //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
@@ -94,13 +96,25 @@ class IPAOrderViewController: OrderViewController {
             for orderPrev in previous {
                 var dictMGOrder = orderPrev as! [String:Any]
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
-                self.items.append(dictMGOrder)
+                self.arrayMGOrders.append(dictMGOrder)
             }
+            
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "dd/MM/yyyy"
+            self.arrayMGOrders.sort(by: {
+                let firstDate = $0["placedDate"] as! String
+                let secondDate = $1["placedDate"] as! String
+                let dateOne = dateFormat.date(from: firstDate)!
+                let dateTwo = dateFormat.date(from: secondDate)!
+                return dateOne.compare(dateTwo) == ComparisonResult.orderedDescending
+            })
+            
             self.loadGROrders()
-            }, errorBlock: { (error:NSError) -> Void in
-                self.loadGROrders()
+        }, errorBlock: { (error:NSError) -> Void in
+            self.loadGROrders()
         })
     }
+
     
    
 }

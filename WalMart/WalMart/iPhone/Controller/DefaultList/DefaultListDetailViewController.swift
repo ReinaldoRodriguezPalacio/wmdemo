@@ -45,8 +45,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var quantitySelector: GRShoppingCartQuantitySelectorView?
     
     var footerSection : UIView? = nil
+    var headerSection : UIView? = nil
     var shareButton: UIButton?
     var addToCartButton: UIButton?
+    var newListBtn: UIButton?
     var customLabel: CurrencyCustomLabel?
     var enableScrollUpdateByTabBar = true
     var isSharing: Bool = false
@@ -55,10 +57,10 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var schoolName: String! = ""
     var gradeName: String?
     var nameLine: String! = ""
-    
+    var checkAll: UIButton?
     var alertView : IPOWMAlertViewController?
     var preview: PreviewModalView? = nil
-    
+    var selected: Bool! = false
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
     }
@@ -111,7 +113,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         tableView?.separatorStyle = .none
         self.view.addSubview(tableView!)
         
-        if self.detailItems?.count == 0 || self.detailItems == nil {
+        /*if self.detailItems?.count == 0 || self.detailItems == nil {
             selectedItems = []
         }
         else{
@@ -119,8 +121,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
             for i in 0...self.detailItems!.count - 1 {
                 selectedItems?.add(i)
             }
-        }
-        
+        }*/
+        selectedItems = []
         self.footerSection = UIView(frame:CGRect(x: 0,  y: self.view.frame.height - 72 , width: self.view.frame.width, height: 72))
         self.footerSection!.backgroundColor = UIColor.white
         self.view.addSubview(footerSection!)
@@ -160,6 +162,23 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
         self.isSharing = false
         updateTotalLabel()
+        
+        self.newListBtn = UIButton(type: .custom)
+        self.newListBtn!.setTitle("Seleccionar todo", for: UIControlState())
+        self.newListBtn!.setTitle("Quitar selección", for: .selected)
+        self.newListBtn!.setTitleColor(UIColor.white, for: UIControlState())
+        self.newListBtn!.setTitleColor(WMColor.light_blue, for: .selected)
+        self.newListBtn!.addTarget(self, action: #selector(self.checkedAll(_:)), for: UIControlEvents.touchUpInside)
+        self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.newListBtn!.backgroundColor = WMColor.green
+        self.newListBtn!.layer.cornerRadius = 11.0
+        self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
+        self.newListBtn!.isHidden = true
+        self.header!.addSubview(self.newListBtn!)
+        
+        
+
+        
     }
     
     
@@ -170,6 +189,14 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRect(x: x, y: y, width: self.footerSection!.frame.width - (x + 16.0), height: 34.0)
+
+        if self.newListBtn!.frame.equalTo(CGRect.zero) {
+            let headerBounds = self.header!.frame.size
+            let buttonWidth: CGFloat = 100.0
+            let buttonHeight: CGFloat = 22.0
+            self.newListBtn!.frame = CGRect(x: headerBounds.width - (buttonWidth   + 16.0), y: (headerBounds.height - buttonHeight)/2, width: buttonWidth, height: buttonHeight)
+        }
+
     
     }
     
@@ -180,7 +207,6 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
         listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.contains(indexPath.row))
@@ -195,6 +221,28 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let controller = self.getDetailController(indexPath: indexPath)
         self.navigationController!.pushViewController(controller!, animated: true)
         
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        self.headerSection = UIView(frame:CGRect(x: 0,  y: 0 , width: self.view.frame.width, height: 40))
+        self.headerSection!.backgroundColor = UIColor.white
+        
+        self.checkAll = UIButton(frame: CGRect(x: 3, y: 0, width: self.view.frame.width, height: 40))
+        self.checkAll?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.checkAll?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.checkAll?.setTitle("Seleccionar todo", for: UIControlState())
+        self.checkAll?.setTitleColor(WMColor.light_blue, for: UIControlState())
+        self.checkAll?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.checkAll?.contentHorizontalAlignment = .left
+        //self.checkAll?.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
+        self.checkAll?.addTarget(self, action: #selector(self.checkedAll(_:)), for: UIControlEvents.touchUpInside)
+        self.checkAll?.isSelected = selected
+        self.headerSection?.addSubview(self.checkAll!)
+        return self.headerSection
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
     
     func getDetailController(indexPath:IndexPath) -> ProductDetailPageViewController? {
@@ -316,6 +364,8 @@ DetailListViewCellDelegate,UIActivityItemSource {
     
     func didDisable(_ disaable:Bool, cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPath(for: cell)
+        self.selected = false
+        self.checkAll?.isSelected = false
         if disaable {
             self.selectedItems?.remove(indexPath!.row)
         } else {
@@ -767,4 +817,28 @@ extension DefaultListDetailViewController: UIGestureRecognizerDelegate {
             }
         }
     }
+    
+    func checkedAll(_ sender:UIButton){
+        
+        self.selected = !sender.isSelected
+        
+        if  self.selected==false{
+                selectedItems = []
+            }
+            else{
+                selectedItems = NSMutableArray()
+                    for idx in 0 ..< self.detailItems!.count {
+                        let product = self.detailItems![idx]
+                        let stock = product["stock"] as! Bool
+                        if stock{
+                        selectedItems?.add(idx)
+                        }
+                }
+            }
+        self.updateTotalLabel()
+        self.tableView?.reloadData()
+    
+        }
+    
+    
 }

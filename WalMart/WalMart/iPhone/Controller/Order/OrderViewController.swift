@@ -18,6 +18,11 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     var buttonFactura : UIButton!
     var isShowingTabBar : Bool = true
     var isShowingButtonFactura : Bool = false
+    var viewBgSelectorBtn : UIView!
+    var btnSuper : UIButton!
+    var btnTech : UIButton!
+    var arrayGROrders : [[String:Any]]! = []
+    var arrayMGOrders : [[String:Any]]! = []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
@@ -41,6 +46,10 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         
         self.view.addSubview(tableOrders)
         
+        self.arrayGROrders = [[String:Any]]()
+        self.arrayMGOrders = [[String:Any]]()
+
+        
         self.emptyView = IPOOrderEmptyView(frame: CGRect.zero)
         self.emptyView.returnAction = {() in
             self.back()
@@ -49,6 +58,45 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         tabFooterView()
         self.reloadPreviousOrders()
         BaseController.setOpenScreenTagManager(titleScreen:  NSLocalizedString("profile.myOrders", comment: ""), screenName: self.getScreenGAIName())
+        
+        viewBgSelectorBtn = UIView(frame: CGRect(x: 16,  y: self.header!.frame.maxY + 16, width: 282, height: 28))
+        viewBgSelectorBtn.layer.borderWidth = 1
+        viewBgSelectorBtn.layer.cornerRadius = 14
+        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.cgColor
+        
+        let titleSupper = NSLocalizedString("profile.address.super",comment:"")
+        btnSuper = UIButton(frame: CGRect(x: 1, y: 1, width: (viewBgSelectorBtn.frame.width / 2) - 1, height: viewBgSelectorBtn.frame.height - 2))
+        btnSuper.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
+        btnSuper.setTitle(titleSupper, for: UIControlState())
+        btnSuper.setTitle(titleSupper, for: UIControlState.selected)
+        btnSuper.setTitleColor(UIColor.white, for: UIControlState.selected)
+        btnSuper.setTitleColor(WMColor.light_blue, for: UIControlState())
+        btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnSuper.isSelected = true
+        btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
+        btnSuper.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), for: UIControlEvents.touchUpInside)
+        
+        let titleTech = NSLocalizedString("profile.address.tech",comment:"")
+        btnTech = UIButton(frame: CGRect(x: btnSuper.frame.maxX, y: 1, width: viewBgSelectorBtn.frame.width / 2, height: viewBgSelectorBtn.frame.height - 2))
+        btnTech.setImage(UIImage(color: UIColor.white, size: btnSuper.frame.size), for: UIControlState())
+        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), for: UIControlState.selected)
+        btnTech.setTitleColor(UIColor.white, for: UIControlState.selected)
+        btnTech.setTitleColor(WMColor.light_blue, for: UIControlState())
+        btnTech.setTitle(titleTech, for: UIControlState())
+        btnTech.setTitle(titleTech, for: UIControlState.selected)
+        btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
+        btnTech.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), for: UIControlEvents.touchUpInside)
+        
+        viewBgSelectorBtn.clipsToBounds = true
+        viewBgSelectorBtn.backgroundColor = UIColor.white
+        viewBgSelectorBtn.addSubview(btnSuper)
+        viewBgSelectorBtn.addSubview(btnTech)
+        self.viewBgSelectorBtn.isHidden = true
+        self.view.addSubview(viewBgSelectorBtn)
+
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,6 +107,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let bounds = self.view.bounds
         
         let heightEmptyView = self.view.frame.height - 46
         var widthEmptyView = self.view.bounds.width
@@ -66,12 +115,12 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         if IS_IPAD {
             widthEmptyView = 681.5
         }
-        
+         self.viewBgSelectorBtn.frame =  CGRect(x: (bounds.width - 282) / 2  ,  y: self.header!.frame.maxY + 16, width: 282, height: 28)
         self.emptyView!.frame = CGRect(x: 0, y: self.header!.bounds.maxY, width: widthEmptyView, height: heightEmptyView)
         if IS_IPAD{
             self.emptyView!.showReturnButton = false
         }
-        self.tableOrders.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 92)
+        self.tableOrders.frame = CGRect(x: 0, y: viewBgSelectorBtn.frame.maxY + 10, width: self.view.bounds.width, height: self.view.bounds.height - 46 - viewBgSelectorBtn.frame.maxY)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
             self.facturasToolBar.frame = CGRect(x: 0, y: self.view.frame.height - 109 , width: self.view.frame.width, height: 64)
@@ -148,7 +197,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     
     func reloadPreviousOrders() {
-        self.items = []
+        self.arrayMGOrders = []
         self.emptyView.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
         self.viewLoad.frame = CGRect(x: 0, y: 46, width: self.view.frame.width, height: self.view.frame.height - 46)
         //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
@@ -164,8 +213,19 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             for orderPrev in previous {
                 var dictMGOrder = orderPrev as! [String:Any]
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
-                self.items.append(dictMGOrder)
+                self.arrayMGOrders.append(dictMGOrder)
             }
+            
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "dd/MM/yyyy"
+            self.arrayMGOrders.sort(by: {
+                let firstDate = $0["placedDate"] as! String
+                let secondDate = $1["placedDate"] as! String
+                let dateOne = dateFormat.date(from: firstDate)!
+                let dateTwo = dateFormat.date(from: secondDate)!
+                return dateOne.compare(dateTwo) == ComparisonResult.orderedDescending
+            })
+            
             self.loadGROrders()
             }, errorBlock: { (error:NSError) -> Void in
                 self.loadGROrders()
@@ -174,17 +234,19 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
 
     
     func loadGROrders() {
+        self.items = []
+        self.arrayGROrders = []
         let servicePrev = GRPreviousOrdersService()
         servicePrev.callService({ (previous:[Any]) -> Void in
             for orderPrev in previous {
                 var dictGROrder = orderPrev as! [String:Any]
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
-                self.items.append(dictGROrder)
+                self.arrayGROrders.append(dictGROrder)
             }
             
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "dd/MM/yyyy"
-            self.items.sort(by: {
+            self.arrayGROrders.sort(by: {
                 let firstDate = $0["placedDate"] as! String
                 let secondDate = $1["placedDate"] as! String
                 let dateOne = dateFormat.date(from: firstDate)!
@@ -192,20 +254,38 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 return dateOne.compare(dateTwo) == ComparisonResult.orderedDescending
             })
             
+            if self.arrayGROrders.count == 0 && self.arrayMGOrders.count > 0{
+            //self.emptyView!.descLabel.frame = CGRect(x: 0.0, y: 60, width: self.view.bounds.width, height: 16.0)
+            //self.emptyView.isHidden = false
+            self.viewBgSelectorBtn.isHidden = false
+            self.facturasToolBar.isHidden = true
+                self.btnTech.isSelected = true;
+                self.btnSuper.isSelected = false
+                self.items = self.arrayMGOrders
+                self.tableOrders.reloadData()
+                self.emptyView!.descLabel.frame = CGRect(x: 0.0, y: 60, width: self.view.bounds.width, height: 16.0)
+                self.emptyView.isHidden = self.items.count > 0
             
-            self.emptyView.isHidden = self.items.count > 0
-            self.facturasToolBar.isHidden = !(self.items.count > 0)
-            if self.items.count > 0 {
-                self.facturasToolBar.backgroundColor = UIColor.white
+            }else{
+                self.emptyView.isHidden = self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0
+                self.viewBgSelectorBtn.isHidden = !self.emptyView.isHidden
+                self.facturasToolBar.isHidden = !(self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0)
+                if self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0 {
+                    self.facturasToolBar.backgroundColor = UIColor.white
+                }
+                self.items = self.arrayGROrders
+                self.tableOrders.reloadData()
             }
-            self.tableOrders.reloadData()
+            
+            
             self.viewLoad.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 self.viewLoad.stopAnnimating()
                 self.tableOrders.reloadData()
-                self.emptyView.isHidden = self.items.count > 0
-                self.facturasToolBar.isHidden = !(self.items.count > 0)
-                if self.items.count > 0 {
+                self.emptyView.isHidden = self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0
+                self.viewBgSelectorBtn.isHidden = !self.emptyView.isHidden
+                self.facturasToolBar.isHidden = !(self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0)
+                if self.arrayGROrders.count > 0 || self.arrayMGOrders.count > 0 {
                     self.facturasToolBar.backgroundColor = UIColor.white
                 }
         })
@@ -236,7 +316,27 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
        
-    
+    //MARK: CHange Súper Tecnologia Hogar y mas
+    func changeSuperTech(_ sender:UIButton) {
+        self.items = []
+        if sender == btnSuper &&  !sender.isSelected {
+            sender.isSelected = true;
+            btnTech.isSelected = false
+            items = self.arrayGROrders
+            tableOrders.reloadData()
+             self.emptyView!.descLabel.frame = CGRect(x: 0.0, y: 60, width: self.view.bounds.width, height: 16.0)
+            self.emptyView.isHidden = items.count > 0
+        } else if sender == btnTech &&  !sender.isSelected {
+            sender.isSelected = true;
+            btnSuper.isSelected = false
+            items = self.arrayMGOrders
+            tableOrders.reloadData()
+             self.emptyView!.descLabel.frame = CGRect(x: 0.0, y: 60, width: self.view.bounds.width, height: 16.0)
+            self.emptyView.isHidden = items.count > 0
+            
+        }
+    }
+
     
     override func back() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")

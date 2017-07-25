@@ -45,7 +45,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
     var products: [Any]?
     var isEdditing = false
     var enableScrollUpdateByTabBar = true
-
+    var headerSection : UIView? = nil
+var selected: Bool! = false
     var deleteProductServiceInvoked = false
     
     var equivalenceByPiece : NSNumber! = NSNumber(value: 0 as Int32)
@@ -68,6 +69,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
     var preview: PreviewModalView? = nil
     var emptyView: UIView?
     var heightView : CGFloat = 0.0
+    var checkAll: UIButton?
     weak var detailDelegate: UserListDetailViewControllerDelegate?
     
     override func getScreenGAIName() -> String {
@@ -321,28 +323,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
                 self.reminderButton!.isHidden = false
                 	
                 self.selectedItems = []
-                self.selectedItems = NSMutableArray()
-                if self.products != nil  && self.products!.count > 0  {
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.add(i)
-                    }
-                    self.updateTotalLabel()
-                }
+               self.updateTotalLabel()
                 
                 complete?()
                 }, reloadList: false)
         }
         else {
             self.retrieveProductsLocally(false)
-            if self.products == nil  || self.products!.count == 0 {
+            
                 self.selectedItems = []
-            } else {
-                self.selectedItems = NSMutableArray()
-                for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.add(i)
-                }
-                self.updateTotalLabel()
-            }
+            
+             self.updateTotalLabel()
             complete?()
         }
     }
@@ -806,7 +797,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
      */
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
-        if selectedItems != nil {
+        if (selectedItems?.count)!>0 {
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
                 if !(idx >= self.products!.count) {
@@ -1191,17 +1182,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
     
     func didDisable(_ disaable:Bool,cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPath(for: cell)
+        self.selected = false
+        self.checkAll?.isSelected = false
         if disaable {
             self.selectedItems?.remove(indexPath!.row)
         } else {
             self.selectedItems?.add(indexPath!.row)
         }
         self.updateTotalLabel()
-        if self.selectedItems != nil {
-            //self.tableView?.reloadData()
-        }
     }
-    
     
     func buildEditNameSection() {
         
@@ -1549,143 +1538,170 @@ class UserListDetailViewController: UserListNavigationBaseViewController {
 
 //MARK: - SWTableViewCellDelegate
 extension UserListDetailViewController : SWTableViewCellDelegate {
-  
+    
   func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-    if index == 0{
-      self.deleteFromCellUtilityButton(cell)
+        if index == 0{
+            self.deleteFromCellUtilityButton(cell)
+        }
     }
-  }
-  
+    
   func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
-    if index == 0{
-      cell.rightUtilityButtons = getRightButtonOnlyDelete()
-      cell.showRightUtilityButtons(animated: true)
+        if index == 0{
+            cell.rightUtilityButtons = getRightButtonOnlyDelete()
+            cell.showRightUtilityButtons(animated: true)
+        }
     }
-  }
-  
+    
   func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
-    return !isEdditing
-  }
-  
-  func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
-    switch state {
-    case SWCellState.cellStateLeft:
-      return isEdditing
-    case SWCellState.cellStateRight:
-      return true
-    case SWCellState.cellStateCenter:
-      return !isEdditing
-      //default:
-      // return !isEdditing && !self.isSelectingProducts
-      //  return !isEdditing
+        return !isEdditing
     }
-  }
-  
+    
+  func swipeableTableViewCell(_ cell: SWTableViewCell!, canSwipeTo state: SWCellState) -> Bool {
+        switch state {
+        case SWCellState.cellStateLeft:
+            return isEdditing
+        case SWCellState.cellStateRight:
+            return true
+        case SWCellState.cellStateCenter:
+            return !isEdditing
+            //default:
+            // return !isEdditing && !self.isSelectingProducts
+            //  return !isEdditing
+        }
+    }
+    
 }
 
 
 //MARK: - UITableViewDataSource
 extension UserListDetailViewController : UITableViewDataSource {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    var size = 0
-    if self.products != nil {
-      size = self.products!.count
-      if size > 0 {
-        size += 1
-      }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var size = 0
+        if self.products != nil {
+            size = self.products!.count
+            if size > 0 {
+                size += 1
+            }
+        }
+        return size
     }
-    return size
-  }
-  
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return indexPath.row == self.products!.count ? 80 : 109.0
-  }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row == self.products!.count ? 80 : 109.0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        self.headerSection = UIView(frame:CGRect(x: 0,  y: 0 , width: self.view.frame.width, height: 40))
+        self.headerSection!.backgroundColor = UIColor.white
+        
+        self.checkAll = UIButton(frame: CGRect(x: 3, y: 0, width: self.view.frame.width, height: 40))
+        self.checkAll?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.checkAll?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.checkAll?.setTitle("Seleccionar todo", for: UIControlState())
+        self.checkAll?.setTitleColor(WMColor.light_blue, for: UIControlState())
+        self.checkAll?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.checkAll?.contentHorizontalAlignment = .left
+        //self.checkAll?.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
+        self.checkAll?.addTarget(self, action: #selector(self.checkedAll(_:)), for: UIControlEvents.touchUpInside)
+        self.checkAll?.isSelected = selected
+        self.headerSection?.addSubview(self.checkAll!)
+        return self.headerSection
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
 }
 
 
 //MARK: - UITableViewDelegate
 extension UserListDetailViewController : UITableViewDelegate{
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if indexPath.row == self.products!.count {
-      let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! GRShoppingCartTotalsTableViewCell
-      let total = self.calculateTotalAmount()
-      totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds: "")
-      return totalCell
-    }
-    
-    let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
-    listCell.productImage!.image = nil
-    listCell.productImage!.cancelImageDownloadTask()
-    listCell.defaultList = false
-    listCell.detailDelegate = self
-    listCell.delegate = self
-    
-    if let item = self.products![indexPath.row] as? [String : AnyObject] {
-      listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
-    } else if let item = self.products![indexPath.row] as? Product {
-      if item.img != "" {
-        listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
-      }else{
-        self.loadServiceItems(nil)
-      }
-    }
-    
-    if self.isEdditing {
-      listCell.rightUtilityButtons = nil
-      listCell.showLeftUtilityButtons(animated: false)
-    } else {
-      if listCell.rightUtilityButtons == nil {
-        delay(0.5, completion: {
-          listCell.setDeleteButton()
-        })
-      }
-    }
-    
-    return listCell
-  }
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath)
-    if cell!.isKind(of: DetailListViewCell.self) {
-      
-      let controller = self.getDetailController(index:indexPath)
-      self.navigationController!.pushViewController(controller!, animated: true)
-    }
-  }
-  
-  func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
-    let cell = tableView!.cellForRow(at: index)
-    if cell!.isKind(of: DetailListViewCell.self) {
-      let controller = ProductDetailPageViewController()
-      var productsToShow:[Any] = []
-      for idx in 0 ..< self.products!.count {
-        if let product = self.products![idx] as? [String:Any] {
-          let upc = product["upc"] as! String
-          let description = product["description"] as! String
-          
-          productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == self.products!.count {
+            let totalCell = tableView.dequeueReusableCell(withIdentifier: self.TOTAL_CELL_ID, for: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let total = self.calculateTotalAmount()
+            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds: "")
+            return totalCell
         }
-        else if let product = self.products![idx] as? Product {
-          productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+        
+        let listCell = tableView.dequeueReusableCell(withIdentifier: self.CELL_ID, for: indexPath) as! DetailListViewCell
+        listCell.productImage!.image = nil
+        listCell.productImage!.cancelImageDownloadTask()
+        listCell.defaultList = false
+        listCell.detailDelegate = self
+        listCell.delegate = self
+        
+        
+        
+        
+        if let item = self.products![indexPath.row] as? [String : AnyObject] {
+            listCell.setValuesDictionary(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+        } else if let item = self.products![indexPath.row] as? Product {
+            if item.img != "" {
+                listCell.setValues(item, disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.contains(indexPath.row))
+            }else{
+                self.loadServiceItems(nil)
+            }
         }
-      }
-      
-      //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
-      
-      if index.row < productsToShow.count {
-        controller.itemsToShow = productsToShow
-        controller.ixSelected = index.row
-        controller.completeDeleteItem = {() in
-          print("completeDelete")
-          self.fromDelete =  true
+        
+        if self.isEdditing {
+            listCell.rightUtilityButtons = nil
+            listCell.showLeftUtilityButtons(animated: false)
+        } else {
+            if listCell.rightUtilityButtons == nil {
+                delay(0.5, completion: {
+                    listCell.setDeleteButton()
+                })
+            }
         }
-        controller.detailOf = self.listName!
-      }
-      
-      return controller
+        
+        return listCell
     }
-    return nil
-  }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell!.isKind(of: DetailListViewCell.self) {
+            
+            let controller = self.getDetailController(index:indexPath)
+            self.navigationController!.pushViewController(controller!, animated: true)
+        }
+    }
+    
+    func getDetailController(index: IndexPath) -> ProductDetailPageViewController? {
+        let cell = tableView!.cellForRow(at: index)
+        if cell!.isKind(of: DetailListViewCell.self) {
+            let controller = ProductDetailPageViewController()
+            var productsToShow:[Any] = []
+            for idx in 0 ..< self.products!.count {
+                if let product = self.products![idx] as? [String:Any] {
+                    let upc = product["upc"] as! String
+                    let description = product["description"] as! String
+                    
+                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                }
+                else if let product = self.products![idx] as? Product {
+                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                }
+            }
+            
+            //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+            
+            if index.row < productsToShow.count {
+                controller.itemsToShow = productsToShow
+                controller.ixSelected = index.row
+                controller.completeDeleteItem = {() in
+                    print("completeDelete")
+                    self.fromDelete =  true
+                }
+                controller.detailOf = self.listName!
+            }
+            
+            return controller
+        }
+        return nil
+    }
   
 }
 
@@ -1695,7 +1711,6 @@ extension UserListDetailViewController : BarCodeViewControllerDelegate {
   func barcodeCaptured(_ value: String?) {
     print(value ?? "")
   }
-  
   
   func barcodeCapturedWithType(_ value: String?, isUpcSearch: Bool) {
     
@@ -1727,118 +1742,121 @@ extension UserListDetailViewController : CameraViewControllerDelegate {
 extension UserListDetailViewController : DetailListViewCellDelegate{
   
   func didChangeQuantity(_ cell: DetailListViewCell) {
-    if self.isEdditing {
-      return
-    }
-    if self.quantitySelector == nil {
-      
-      let indexPath = self.tableView!.indexPath(for: cell)
-      if indexPath == nil {
-        return
-      }
-      var isPesable = false
-      
-      var price: NSNumber? = nil
-      var equivalence : NSNumber = 0
-      var quantity : Int = 1
-      var orderByPiece: Int = 0
-      
-      if let item = self.products![indexPath!.row] as? [String:Any] {
-        if let pesable = item["type"] as? NSString {
-          isPesable = pesable.intValue == 1
+        if self.isEdditing {
+            return
         }
-        price = item["price"] as? NSNumber
-        quantity = (item["quantity"] as? Int)!
-        
-      }
-      else if let item = self.products![indexPath!.row] as? Product {
-        isPesable = item.type.boolValue
-        price = NSNumber(value: item.price.doubleValue as Double)
-        equivalence = item.equivalenceByPiece
-        quantity = Int(item.quantity)
-        orderByPiece = item.orderByPiece.intValue
-      }
-      
-      let width:CGFloat = self.view.frame.width
-      let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 46.0
-      
-      let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
-      
-      if isPesable {
-        self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!,isSearchProductView: false)
-      }
-      else {
-        self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
-      }
-      
-      self.quantitySelector?.isUpcInList = true
-      self.view.addSubview(self.quantitySelector!)
-      self.quantitySelector!.closeAction = { () in
-        self.removeSelector()
-      }
-      
-      if let item = self.products![indexPath!.row] as? [String:Any] {
-        // TODO: cast values from response
-        quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
-      } else if let item = self.products![indexPath!.row] as? Product {
-        quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
-      }
-      self.quantitySelector?.setQuantity(quantity: quantity, orderByPiece: orderByPiece)
-      self.quantitySelector!.isFromList =  true
-      self.quantitySelector!.addToCartAction = { (quantity:String) in
-        
-        if quantity == "00" {
-          self.deleteFromCellUtilityButton(cell)
-          return
+        if self.quantitySelector == nil {
+            
+            let indexPath = self.tableView!.indexPath(for: cell)
+            if indexPath == nil {
+                return
+            }
+            var isPesable = false
+            
+            var price: NSNumber? = nil
+            var equivalence : NSNumber = 0
+            var quantity : Int = 1
+            var orderByPiece: Int = 0
+            
+            if let item = self.products![indexPath!.row] as? [String:Any] {
+                if let pesable = item["type"] as? NSString {
+                    isPesable = pesable.intValue == 1
+                }
+                price = item["price"] as? NSNumber
+                quantity = (item["quantity"] as? Int)!
+                
+            }
+            else if let item = self.products![indexPath!.row] as? Product {
+                isPesable = item.type.boolValue
+                price = NSNumber(value: item.price.doubleValue as Double)
+                equivalence = item.equivalenceByPiece
+                quantity = Int(item.quantity)
+                orderByPiece = item.orderByPiece.intValue
+            }
+            
+            let width:CGFloat = self.view.frame.width
+            let height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 46.0
+            
+            let selectorFrame = CGRect(x: 0, y: self.view.frame.height, width: width, height: height)
+            
+            if isPesable {
+                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:equivalence == 0 ? cell.equivalenceByPiece! : equivalence ,upcProduct:cell.upcVal!,isSearchProductView: false)
+            }
+            else {
+                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
+            }
+            
+            self.quantitySelector?.isUpcInList = true
+            self.view.addSubview(self.quantitySelector!)
+            self.quantitySelector!.closeAction = { () in
+                self.removeSelector()
+            }
+            
+            if let item = self.products![indexPath!.row] as? [String:Any] {
+                // TODO: cast values from response
+                quantitySelector?.validateOrderByPiece(orderByPiece: item["baseUomcd"] as! String  == "EA", quantity:item["quantity"] as! Double, pieces: item["quantity"] as! Int)
+            } else if let item = self.products![indexPath!.row] as? Product {
+                quantitySelector?.validateOrderByPiece(orderByPiece: item.orderByPiece.boolValue, quantity: item.quantity.doubleValue, pieces: item.pieces.intValue)
+            }
+            self.quantitySelector?.setQuantity(quantity: quantity, orderByPiece: orderByPiece)
+            self.quantitySelector!.isFromList =  true
+            self.quantitySelector!.addToCartAction = { (quantity:String) in
+                
+                if quantity == "00" {
+                    self.deleteFromCellUtilityButton(cell)
+                    return
+                }
+                
+                if let item = self.products![indexPath!.row] as? [String:Any] {
+                    let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
+                    //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
+                } else if let item = self.products![indexPath!.row] as? Product {
+                    
+                    item.quantity = NSNumber(value: Int(quantity)! as Int)
+                    item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
+                    item.pieces = NSNumber(value:Int(quantity)!)
+                    
+                    if UserCurrentSession.hasLoggedUser() {
+                        self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
+                    } else {
+                        self.saveContext()
+                        self.retrieveProductsLocally(true)
+                    }
+                    
+                    self.removeSelector()
+                }
+            }
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
+            })
+            
         }
-        
-        if let item = self.products![indexPath!.row] as? [String:Any] {
-          let upc = item["upc"] as? String // TODO: Validar si se puede obtener un Product
-          //self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!,baseUomcd:self.quantitySelector!.orderByPiece ? "EA" : "GM")
-        } else if let item = self.products![indexPath!.row] as? Product {
-          
-          item.quantity = NSNumber(value: Int(quantity)! as Int)
-          item.orderByPiece = NSNumber(value: self.quantitySelector!.orderByPiece)
-          item.pieces = NSNumber(value:Int(quantity)!)
-          
-          if UserCurrentSession.hasLoggedUser() {
-            self.invokeUpdateProductFromListService(item, quantity: Int(item.quantity), baseUomcd: item.orderByPiece.boolValue ? "EA" : "GM")
-          } else {
-            self.saveContext()
-            self.retrieveProductsLocally(true)
-          }
-          
-          self.removeSelector()
+        else {
+            self.removeSelector()
         }
-      }
-      
-      UIView.animate(withDuration: 0.5, animations: { () -> Void in
-        self.quantitySelector!.frame = CGRect(x: 0.0, y: 0.0, width: width, height: height)
-      })
-      
     }
-    else {
-      self.removeSelector()
-    }
-  }
-  
+    
   func removeSelector() {
-    if   self.quantitySelector != nil {
-      UIView.animate(withDuration: 0.5,
-                     animations: { () -> Void in
-                      let width:CGFloat = self.view.frame.width
-                      let height:CGFloat = self.view.frame.height - self.header!.frame.height
-                      self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
-      },
-                     completion: { (finished:Bool) -> Void in
-                      if finished {
-                        self.quantitySelector!.removeFromSuperview()
-                        self.quantitySelector = nil
-                      }
-      }
-      )
+        if   self.quantitySelector != nil {
+            UIView.animate(withDuration: 0.5,
+                           animations: { () -> Void in
+                            let width:CGFloat = self.view.frame.width
+                            let height:CGFloat = self.view.frame.height - self.header!.frame.height
+                            self.quantitySelector!.frame = CGRect(x: 0.0, y: self.view.frame.height, width: width, height: height)
+            },
+                           completion: { (finished:Bool) -> Void in
+                            if finished {
+                                self.quantitySelector!.removeFromSuperview()
+                                self.quantitySelector = nil
+                            }
+            }
+            )
+        }
     }
-  }
+    
+    
+
 }
 
 
@@ -1957,6 +1975,31 @@ extension UserListDetailViewController: UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    
+    func checkedAll(_ sender:UIButton){
+        
+        self.selected = !sender.isSelected
+        
+        if  self.selected==false{
+            selectedItems = []
+        }
+        else{
+            selectedItems = NSMutableArray()
+            var i = 0
+            for product in self.products! {
+                if let item = product as? Product {
+                    let stock = item.stock as! Bool
+                    if stock{
+                        selectedItems?.add(i)
+                    }
+                }
+                i += 1
+            }
+        }
+        self.updateTotalLabel()
+        self.tableView?.reloadData()
+        
     }
 }
 

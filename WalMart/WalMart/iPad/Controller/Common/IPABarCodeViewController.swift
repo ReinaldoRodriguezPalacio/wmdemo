@@ -21,7 +21,7 @@ class IPABarCodeViewController: BarCodeViewController {
                 previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight
             }
             else {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeRight
+                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.landscapeLeft
             }
         }
     }
@@ -52,7 +52,7 @@ class IPABarCodeViewController: BarCodeViewController {
     override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
         let Device = UIDevice.current
         if Device.orientation == UIDeviceOrientation.landscapeRight {
-            return UIInterfaceOrientation.landscapeRight
+            return UIInterfaceOrientation.landscapeLeft
         }
         else {
             return UIInterfaceOrientation.landscapeRight

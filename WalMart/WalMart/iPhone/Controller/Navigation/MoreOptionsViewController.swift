@@ -202,13 +202,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         default :
             print("option don't exist")
         }
-         if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
+         if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind) || (indexPath.section == 1 && indexPath.row == 4 && self.showCamfind)) {
             switch (OptionsController(rawValue: srtOption)!) {
             case .Profile : image = "Profile-disable-icon"
             case .Recents : image = "Recents-disable-icon"
             case .Address : image = "Address-disable-icon"
             case .Orders : image = "Orders-disable-icon"
             case .TicketList : image = "menu_scanTicket_disable"
+            case .Invoice : image = "Factura-disable-icon"
             case .Notification : image = "menu_icon_notification"
             //case .Refered : image = "referidos_off"
             default :
@@ -231,7 +232,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance.userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind) || (indexPath.section == 1 && indexPath.row == 4 && self.showCamfind)) {
             //CAMBIO
             self.openLoginOrProfile()
             return
@@ -291,9 +292,13 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.present(cameraController, animated: true, completion: nil)
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         case .Invoice:
-            let webCtrl = IPOWebViewController()
+            /*let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
-            self.present(webCtrl,animated:true,completion:nil)
+            self.present(webCtrl,animated:true,completion:nil)*/
+            self.performSegue(withIdentifier: "invoiceController", sender: self)
+            
+            /*let controller = InvoiceViewController()
+            self.navigationController!.pushViewController(controller, animated: true)*/
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
         case .TicketList:
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_TICKET.rawValue, label: "")
@@ -392,6 +397,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     
                     UserCurrentSession.sharedInstance.userSigned = nil
                     UserCurrentSession.sharedInstance.deleteAllUsers()
+                    
+                    UserDefaults.standard.setValue(nil, forKey: "last_rfc")
+                    UserDefaults.standard.setValue(nil, forKey: "last_email")
                     
                     let shoppingService = ShoppingCartProductsService()
                     shoppingService.callCoreDataService([:], successBlock: { (result: [String:Any]) -> Void in
@@ -539,7 +547,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
         }
     }
-  
     /**
      validate number items line contains
      

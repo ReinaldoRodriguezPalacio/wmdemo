@@ -69,10 +69,10 @@ class DetailListViewCell: ProductTableViewCell {
         self.contentView.addSubview(self.separator!)
         
         self.check = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 109))
-        self.check!.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
-        self.check!.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
-        self.check!.addTarget(self, action: #selector(DetailListViewCell.checked(_:)), for: UIControlEvents.touchUpInside)
-        self.check!.isSelected = true
+        self.check?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
+        self.check?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
+        self.check?.addTarget(self, action: #selector(DetailListViewCell.checked(_:)), for: UIControlEvents.touchUpInside)
+        self.check?.isSelected = false
         self.contentView.addSubview(self.check!)
 
         var buttonDelete = UIButton(frame: CGRect(x: 0, y: 0, width: 64, height: 109))
@@ -105,9 +105,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
             self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
-            if disabled {
-                self.productImage!.image = self.imageGrayScale
-            }
+            
         }, failure: {})
         
         self.promoDescription!.text = product["promoDescription"] as? String
@@ -188,11 +186,24 @@ class DetailListViewCell: ProductTableViewCell {
             if stock.integerValue == 0 {
                 self.quantityIndicator!.isEnabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
+                self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+                self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
+                self.productImage!.image = imageGrayScale
+                self.promoDescription?.textColor = WMColor.empty_gray_btn
                 self.hasStock = false
+                self.check?.isEnabled=false
             } else {
                 self.quantityIndicator!.isEnabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
                 self.hasStock = true
+                self.productShortDescriptionLabel!.textColor = WMColor.gray
+                self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+                if imageNormal != nil {
+                    self.productImage!.image = imageNormal
+                } else {
+                    self.productImage!.image = UIImage(named:"img_default_table")
+                }
+                self.promoDescription?.textColor = WMColor.green
             }
         }
         
@@ -201,10 +212,24 @@ class DetailListViewCell: ProductTableViewCell {
                 self.quantityIndicator!.isEnabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
                 self.hasStock = true
+                self.productShortDescriptionLabel!.textColor = WMColor.gray
+                self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+                if imageNormal != nil {
+                    self.productImage!.image = imageNormal
+                } else {
+                    self.productImage!.image = UIImage(named:"img_default_table")
+                }
+                self.promoDescription?.textColor = WMColor.green
             } else {
                 self.quantityIndicator!.isEnabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
                 self.hasStock = false
+                self.productImage!.image = imageGrayScale
+                self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+                self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
+                self.quantityIndicator?.backgroundColor = WMColor.light_gray
+                self.promoDescription?.textColor = WMColor.empty_gray_btn
+
             }
         }
         
@@ -228,9 +253,10 @@ class DetailListViewCell: ProductTableViewCell {
         self.productImage!.setImage(with: URL(string: imageUrl)!, and: UIImage(named:"img_default_table"), success: { (image) in
             self.imageGrayScale = self.convertImageToGrayScale(image)
             self.imageNormal = image
-            if disabled {
+            if !self.hasStock{
                 self.productImage!.image = self.imageGrayScale
             }
+            //self.productImage!.image = self.imageNormal
         }, failure: {})
         
         self.upcVal = product.upc
@@ -288,16 +314,31 @@ class DetailListViewCell: ProductTableViewCell {
         if product.stock {
             self.quantityIndicator!.isEnabled = true
             self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.productImage!.image = imageNormal
             self.hasStock = true
+            self.productShortDescriptionLabel!.textColor = WMColor.gray
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+            if imageNormal != nil {
+                self.productImage!.image = imageNormal
+            } else {
+                self.productImage!.image = UIImage(named:"img_default_table")
+            }
+            self.promoDescription?.textColor = WMColor.green
         } else {
             self.quantityIndicator!.isEnabled = false
             self.quantityIndicator!.backgroundColor = WMColor.light_gray
+            self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
+            self.productImage!.image = imageGrayScale
+            self.quantityIndicator?.backgroundColor = WMColor.light_gray
+            self.promoDescription?.textColor = WMColor.empty_gray_btn
             self.hasStock = false
+            
         }
         
-        if disabled {
+        /*if disabled {
             self.productImage!.image = imageGrayScale
-        }
+        }*/
         
         checkDisabled(disabled)
     }
@@ -335,6 +376,7 @@ class DetailListViewCell: ProductTableViewCell {
         }
 
         self.separator!.frame = CGRect(x: x, y: 108,width: self.frame.width - 16, height: 1.0)
+    
     }
     
     /**
@@ -394,13 +436,13 @@ class DetailListViewCell: ProductTableViewCell {
      */
     func checkDisabled(_ disabled:Bool) {
         self.check!.isSelected = !disabled
-        if disabled {
+        /*if disabled {
             self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
             self.productImage!.image = imageGrayScale
             self.quantityIndicator?.backgroundColor = WMColor.light_gray
             self.promoDescription?.textColor = WMColor.empty_gray_btn
-        } else {
+        } else {*/
             self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             
@@ -409,10 +451,34 @@ class DetailListViewCell: ProductTableViewCell {
             } else {
                 self.productImage!.image = UIImage(named:"img_default_table")
             }
-             
-            self.quantityIndicator!.backgroundColor = self.hasStock ? WMColor.yellow : WMColor.light_gray
+        
+        if self.hasStock {
+            self.quantityIndicator!.isEnabled = true
+            self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.productShortDescriptionLabel!.textColor = WMColor.gray
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+            if imageNormal != nil {
+                self.productImage!.image = imageNormal
+            } else {
+                self.productImage!.image = UIImage(named:"img_default_table")
+            }
+            self.check?.isEnabled=true
             self.promoDescription?.textColor = WMColor.green
+        } else {
+            self.quantityIndicator!.isEnabled = false
+            self.quantityIndicator!.backgroundColor = WMColor.light_gray
+            self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
+            
+                self.productImage!.image = imageGrayScale
+            
+            self.check?.isEnabled=false
+            self.promoDescription?.textColor = WMColor.empty_gray_btn
+            
         }
+
+        
+        //}
     }
     
     override func showLeftUtilityButtons(animated: Bool) {

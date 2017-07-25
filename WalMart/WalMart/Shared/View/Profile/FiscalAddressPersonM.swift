@@ -31,6 +31,7 @@ class FiscalAddressPersonM: AddressView {
         self.corporateName!.minLength = 2
         self.corporateName!.maxLength = 20
         self.corporateName!.nameField = NSLocalizedString("profile.address.person.name.moral",comment:"")
+        self.corporateName!.tag=100
         
         self.rfc = FormFieldView()
         self.rfc!.isRequired = true
@@ -40,6 +41,7 @@ class FiscalAddressPersonM: AddressView {
         self.rfc!.maxLength = 12
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
+        self.rfc!.tag=101
         
         self.ieps = FormFieldView()
         self.ieps!.isRequired = false
@@ -50,6 +52,7 @@ class FiscalAddressPersonM: AddressView {
         self.ieps!.keyboardType = UIKeyboardType.numberPad
         self.ieps!.inputAccessoryView = self.keyboardBar
         self.ieps!.nameField = NSLocalizedString("profile.address.ieps",comment:"")
+        self.ieps!.tag=102
         
         self.email = FormFieldView()
         self.email!.isRequired = true
@@ -57,6 +60,7 @@ class FiscalAddressPersonM: AddressView {
         self.email!.typeField = TypeField.email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
         self.email!.maxLength = 45
+        self.email!.tag=103
         
         self.addSubview(corporateName!)
         self.addSubview(rfc!)

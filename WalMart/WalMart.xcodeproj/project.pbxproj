@@ -62,7 +62,23 @@
 		0C0DFAA91E8D614E002D873F /* IPASearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DFAA81E8D614E002D873F /* IPASearchTiresIniViewController.swift */; };
 		0C14086B1E8EC18100FB60D4 /* IPASearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */; };
 		0C3503511E8186F5006B6704 /* TiresMedidasSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */; };
+		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
+		0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */; };
+		0CDC9DA91ED75B27001F03E4 /* InvoiceFolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */; };
+		0CDC9DAA1ED75B27001F03E4 /* InvoiceResendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA41ED75B27001F03E4 /* InvoiceResendService.swift */; };
+		0CDC9DAB1ED75B27001F03E4 /* InvoiceSaveRfcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA51ED75B27001F03E4 /* InvoiceSaveRfcService.swift */; };
+		0CDC9DAC1ED75B27001F03E4 /* InvoiceUpdateRfcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA61ED75B27001F03E4 /* InvoiceUpdateRfcService.swift */; };
+		0CDC9DBC1ED75B9B001F03E4 /* InvoiceDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DB71ED75B9B001F03E4 /* InvoiceDataViewController.swift */; };
+		0CDC9DBD1ED75B9B001F03E4 /* InvoiceFiscalAddressPersonF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DB81ED75B9B001F03E4 /* InvoiceFiscalAddressPersonF.swift */; };
+		0CDC9DBE1ED75B9B001F03E4 /* InvoiceFiscalAddressPersonM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DB91ED75B9B001F03E4 /* InvoiceFiscalAddressPersonM.swift */; };
+		0CDC9DBF1ED75B9B001F03E4 /* InvoiceNewAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DBA1ED75B9B001F03E4 /* InvoiceNewAddressViewController.swift */; };
+		0CDC9DC01ED75B9B001F03E4 /* InvoiceViewControllerPpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DBB1ED75B9B001F03E4 /* InvoiceViewControllerPpal.swift */; };
+		0CDC9DC41ED75BF9001F03E4 /* IPAInvoiceDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC21ED75BF9001F03E4 /* IPAInvoiceDataViewController.swift */; };
+		0CDC9DC51ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */; };
+		0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */; };
+		0CDC9DC91ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */; };
 		0CEA425E1E71CD22009AFFEF /* SearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */; };
+		0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */; };
 		0CF9E0651E7AF1CC00B20429 /* llanta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF9E0641E7AF1CC00B20429 /* llanta.png */; };
 		0CF9E0671E7B097600B20429 /* SearchTiresBySizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */; };
 		0CF9E0691E7B53C600B20429 /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF9E0681E7B53C600B20429 /* UILabelX.swift */; };
@@ -667,7 +683,23 @@
 		0C0DFAA81E8D614E002D873F /* IPASearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASearchTiresIniViewController.swift; sourceTree = "<group>"; };
 		0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASearchCustomCell.swift; sourceTree = "<group>"; };
 		0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresMedidasSearchService.swift; sourceTree = "<group>"; };
+		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
+		0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataCPService.swift; sourceTree = "<group>"; };
+		0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceFolioService.swift; sourceTree = "<group>"; };
+		0CDC9DA41ED75B27001F03E4 /* InvoiceResendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceResendService.swift; sourceTree = "<group>"; };
+		0CDC9DA51ED75B27001F03E4 /* InvoiceSaveRfcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceSaveRfcService.swift; sourceTree = "<group>"; };
+		0CDC9DA61ED75B27001F03E4 /* InvoiceUpdateRfcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceUpdateRfcService.swift; sourceTree = "<group>"; };
+		0CDC9DB71ED75B9B001F03E4 /* InvoiceDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceDataViewController.swift; path = iPhone/Controller/Invoice/InvoiceDataViewController.swift; sourceTree = "<group>"; };
+		0CDC9DB81ED75B9B001F03E4 /* InvoiceFiscalAddressPersonF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceFiscalAddressPersonF.swift; path = iPhone/Controller/Invoice/InvoiceFiscalAddressPersonF.swift; sourceTree = "<group>"; };
+		0CDC9DB91ED75B9B001F03E4 /* InvoiceFiscalAddressPersonM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceFiscalAddressPersonM.swift; path = iPhone/Controller/Invoice/InvoiceFiscalAddressPersonM.swift; sourceTree = "<group>"; };
+		0CDC9DBA1ED75B9B001F03E4 /* InvoiceNewAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceNewAddressViewController.swift; path = iPhone/Controller/Invoice/InvoiceNewAddressViewController.swift; sourceTree = "<group>"; };
+		0CDC9DBB1ED75B9B001F03E4 /* InvoiceViewControllerPpal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewControllerPpal.swift; path = iPhone/Controller/Invoice/InvoiceViewControllerPpal.swift; sourceTree = "<group>"; };
+		0CDC9DC21ED75BF9001F03E4 /* IPAInvoiceDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAInvoiceDataViewController.swift; sourceTree = "<group>"; };
+		0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAInvoiceViewControllerPpal.swift; sourceTree = "<group>"; };
+		0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPickerViewSections.swift; sourceTree = "<group>"; };
+		0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectItemAddressTableViewCell.swift; sourceTree = "<group>"; };
 		0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresIniViewController.swift; sourceTree = "<group>"; };
+		0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceSendService.swift; path = WalMart/InvoiceSendService.swift; sourceTree = SOURCE_ROOT; };
 		0CF9E0641E7AF1CC00B20429 /* llanta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = llanta.png; sourceTree = "<group>"; };
 		0CF9E0661E7B097600B20429 /* SearchTiresBySizeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresBySizeService.swift; sourceTree = "<group>"; };
 		0CF9E0681E7B53C600B20429 /* UILabelX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelX.swift; sourceTree = "<group>"; };
@@ -1432,6 +1464,31 @@
 			name = TiresSearch;
 			sourceTree = "<group>";
 		};
+		0CDC9DA01ED75B27001F03E4 /* Invoice */ = {
+			isa = PBXGroup;
+			children = (
+				0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */,
+				0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */,
+				0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */,
+				0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */,
+				0CDC9DA41ED75B27001F03E4 /* InvoiceResendService.swift */,
+				0CDC9DA51ED75B27001F03E4 /* InvoiceSaveRfcService.swift */,
+				0CDC9DA61ED75B27001F03E4 /* InvoiceUpdateRfcService.swift */,
+			);
+			name = Invoice;
+			path = Shared/Services/Invoice;
+			sourceTree = "<group>";
+		};
+		0CDC9DC11ED75BF9001F03E4 /* Invoice */ = {
+			isa = PBXGroup;
+			children = (
+				0CDC9DC21ED75BF9001F03E4 /* IPAInvoiceDataViewController.swift */,
+				0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */,
+			);
+			name = Invoice;
+			path = iPad/Controller/Invoice;
+			sourceTree = "<group>";
+		};
 		0CF33C2E1E70B56000C0CAA3 /* TiresSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1831,6 +1888,7 @@
 		564578C219AE300D006A7152 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0CDC9DA01ED75B27001F03E4 /* Invoice */,
 				0C000E561E799078007BEFBF /* TiresSearch */,
 				6C6AC1EC1CF5197F0072FBB7 /* BackToSchool */,
 				5633AA641B5F344E008006B0 /* CamFind */,
@@ -1943,6 +2001,7 @@
 		564578C819AE306C006A7152 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0CDC9DC11ED75BF9001F03E4 /* Invoice */,
 				0C0DFAA71E8D6108002D873F /* TiresSearch */,
 				56E806AD1B4565ED007D6C6D /* DefaultList */,
 				5670232F1AB0EE7000FDCD91 /* CheckOut */,
@@ -2877,6 +2936,13 @@
 		6C3448911BDED98100092965 /* Invoice */ = {
 			isa = PBXGroup;
 			children = (
+				0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */,
+				0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */,
+				0CDC9DB71ED75B9B001F03E4 /* InvoiceDataViewController.swift */,
+				0CDC9DB81ED75B9B001F03E4 /* InvoiceFiscalAddressPersonF.swift */,
+				0CDC9DB91ED75B9B001F03E4 /* InvoiceFiscalAddressPersonM.swift */,
+				0CDC9DBA1ED75B9B001F03E4 /* InvoiceNewAddressViewController.swift */,
+				0CDC9DBB1ED75B9B001F03E4 /* InvoiceViewControllerPpal.swift */,
 				6C3448921BDED9AB00092965 /* InvoiceViewController.swift */,
 				6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */,
 			);
@@ -3377,7 +3443,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = E896UUML7L;
+						DevelopmentTeam = UDPJ785EBR;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -3551,6 +3617,7 @@
 				6C6AC2021CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift in Sources */,
 				4A5A9D521C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m in Sources */,
 				567023311AB0EE8400FDCD91 /* IPAGRCheckOutViewController.swift in Sources */,
+				0CDC9DA91ED75B27001F03E4 /* InvoiceFolioService.swift in Sources */,
 				04BA491C1A8AB556009D5272 /* GRUpdateListService.swift in Sources */,
 				6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */,
 				6C3448951BDEE29700092965 /* IPOWMAlertInfoViewController.swift in Sources */,
@@ -3560,6 +3627,7 @@
 				5614A6531A683AA70048B71A /* GRShoppingCartAddProductsService.swift in Sources */,
 				6C5AC10B1EE88DF600A8D8A3 /* OrderProviderDetailViewController.swift in Sources */,
 				6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */,
+				0CDC9DAC1ED75B27001F03E4 /* InvoiceUpdateRfcService.swift in Sources */,
 				56AE80E019D9CBBF00D5DDA4 /* ProductDetailBundleTableViewCell.swift in Sources */,
 				04D2A39D1A2FDB15008DAE37 /* Store.swift in Sources */,
 				AC37F6C119B90E9F000BB80D /* UpdateShippingAddressService.swift in Sources */,
@@ -3679,6 +3747,7 @@
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				657F8E961EDDDB120034BF81 /* RatingStarsTableViewCell.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
+				0CDC9DBF1ED75B9B001F03E4 /* InvoiceNewAddressViewController.swift in Sources */,
 				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
 				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
@@ -3703,6 +3772,7 @@
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
 				56C5B22019AE871800BB81DE /* WMFont.swift in Sources */,
 				6C31B41B1CB70EEB00AB7670 /* GRAddressViewCell.swift in Sources */,
+				0CDC9DC51ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift in Sources */,
 				569E004B19BE2DB700756B88 /* ShoppingCartViewController.swift in Sources */,
 				AC88FA6919C9FAD6003BD859 /* FormFieldView.swift in Sources */,
 				4A5A9D4B1C84A99B00A2A7F4 /* ABCalendarPickerDefaultDaysProvider.m in Sources */,
@@ -3741,6 +3811,7 @@
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
 				4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */,
 				6C5AC10D1EE894F900A8D8A3 /* ReportProblemViewController.swift in Sources */,
+				0CDC9DC41ED75BF9001F03E4 /* IPAInvoiceDataViewController.swift in Sources */,
 				04D7C0411AA63BD300A780D8 /* IPAStoreView.swift in Sources */,
 				561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */,
 				56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */,
@@ -3769,6 +3840,7 @@
 				AC536D4619DB4DB6007D2D42 /* ForgotPasswordService.swift in Sources */,
 				560BE7A51A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift in Sources */,
 				041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */,
+				0CDC9DBC1ED75B9B001F03E4 /* InvoiceDataViewController.swift in Sources */,
 				56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */,
 				56E54E4119EC3C480004161C /* IPAFamilyViewController.swift in Sources */,
 				04B640D41A8C14A300D5835E /* DetailListViewCell.swift in Sources */,
@@ -3813,6 +3885,7 @@
 				6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */,
 				6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */,
 				04448A381A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift in Sources */,
+				0CDC9DAA1ED75B27001F03E4 /* InvoiceResendService.swift in Sources */,
 				AC3B64F019BE657000564845 /* SearchSingleViewCell.swift in Sources */,
 				5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */,
 				0CEA425E1E71CD22009AFFEF /* SearchTiresIniViewController.swift in Sources */,
@@ -3842,8 +3915,10 @@
 				6C7D706C1EF2D20C005EBC30 /* IPAOrderProviderDetailViewController.swift in Sources */,
 				4A5A9D4E1C84A99B00A2A7F4 /* ABCalendarPickerDefaultSeasonedMonthsProvider.m in Sources */,
 				56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */,
+				0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */,
 				56253D8D19D21883002E128A /* PreviousDetailTableViewCell.swift in Sources */,
 				56AEBC6619F860C8002D1BB3 /* IPAShoppingCartTotalView.swift in Sources */,
+				0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */,
 				4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */,
 				5673D1361A9D500400DCD20B /* RSCode39Mod43Generator.swift in Sources */,
 				564D10AB1A6DA63D00426DD1 /* ConfigService.swift in Sources */,
@@ -3855,6 +3930,7 @@
 				ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */,
 				AC1CF41D19EC831A006F1BC6 /* IPAProfileViewController.swift in Sources */,
 				56527DE019AFC689008032C6 /* IPOBaseController.swift in Sources */,
+				0CDC9DAB1ED75B27001F03E4 /* InvoiceSaveRfcService.swift in Sources */,
 				5698842D1BE1B1A700FEF4FA /* PromotionsMgService.swift in Sources */,
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
@@ -3908,6 +3984,7 @@
 				5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */,
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
 				5608AF711A0AA24D00176CB0 /* IPASearchCatProductViewController.swift in Sources */,
+				0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */,
 				04C711CA1A856C800095090E /* NewListSelectorViewCell.swift in Sources */,
 				4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */,
 				5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */,
@@ -3938,6 +4015,7 @@
 				6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */,
 				56CCE9FE19DB0D3B0071D990 /* CheckOutViewController.swift in Sources */,
 				5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */,
+				0CDC9DBE1ED75B9B001F03E4 /* InvoiceFiscalAddressPersonM.swift in Sources */,
 				565E5A6819C0AFBF00444DF7 /* ImageDisplayCollectionViewController.swift in Sources */,
 				5614A6681A688EB60048B71A /* GRAddressUpdateService.swift in Sources */,
 				851EF5F01CF7AD2F00C37BD5 /* WMTCopyLabel.swift in Sources */,
@@ -3946,6 +4024,7 @@
 				5688470D19E87FF900D5C45D /* IPACategoryCollectionViewClass.swift in Sources */,
 				AC59118419DE0D2400EB095C /* FMResultSet.m in Sources */,
 				567676DF1A1BBFF4005C2FE5 /* IPAEmptyWishlistView.swift in Sources */,
+				0CDC9DC91ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift in Sources */,
 				6C5AC10F1EE9B51300A8D8A3 /* ProductReportProblemTableViewCell.swift in Sources */,
 				5673D1221A9D3F8700DCD20B /* OrderConfirmDetailView.swift in Sources */,
 				56EF81351A702FF600B81D09 /* GRShoppingCartViewController.swift in Sources */,
@@ -3981,6 +4060,7 @@
 				56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */,
 				56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				AC62C9B319B61F0B00FFFC74 /* ProductbySearchService.swift in Sources */,
+				0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */,
 				56AED5EA19C36F69004CAECA /* CategoryService.swift in Sources */,
 				AC296C2A1A2D476A00B8EBBB /* IPABarCodeViewController.swift in Sources */,
 				566A2CBD19B149FB00E3291E /* IPOLineTableViewCell.swift in Sources */,
@@ -4015,6 +4095,7 @@
 				56AE80DE19D9BA8800D5DDA4 /* ProductDetailTextDetailView.swift in Sources */,
 				5673D13B1A9D500400DCD20B /* RSCodeReaderViewController.swift in Sources */,
 				56527DB019AFA2C7008032C6 /* ProductCollectionViewCell.swift in Sources */,
+				0CDC9DBD1ED75B9B001F03E4 /* InvoiceFiscalAddressPersonF.swift in Sources */,
 				56D69D781A9BAD93009FFC77 /* ShoppingCartButton.swift in Sources */,
 				AC59118219DE0D2400EB095C /* FMDatabasePool.m in Sources */,
 				56BB62991A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift in Sources */,
@@ -4051,6 +4132,7 @@
 				4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */,
 				6C83F6BA1E5B7A92008FA966 /* PreviewModalView.swift in Sources */,
 				567AC2031A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift in Sources */,
+				0CDC9DC01ED75B9B001F03E4 /* InvoiceViewControllerPpal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4181,9 +4263,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				DEVELOPMENT_TEAM = UDPJ785EBR;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4221,7 +4303,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4242,9 +4324,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				DEVELOPMENT_TEAM = UDPJ785EBR;
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4282,7 +4364,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
