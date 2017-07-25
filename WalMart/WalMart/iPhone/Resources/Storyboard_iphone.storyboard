@@ -230,7 +230,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ht5-aI-xY4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708" y="-2143.5"/>
+            <point key="canvasLocation" x="2295" y="-2143.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2Xy-ed-Oja">
@@ -1210,6 +1210,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rga-00-WcB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2638" y="4454"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="17K-xj-Jxn">
+            <objects>
+                <viewController id="4RU-5Q-9BO" customClass="SESearchViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KND-ke-020"/>
+                        <viewControllerLayoutGuide type="bottom" id="DUD-Zk-7im"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Wq-2P-xRM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="505"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="M7Z-dy-hkG"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="505"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kXm-Om-VdZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1225" y="-2323"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9sc-XO-Rb4">
+            <objects>
+                <navigationController storyboardIdentifier="SuperExpressVC" navigationBarHidden="YES" id="SUE-YM-e0y" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="505"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0eJ-s9-dCA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4RU-5Q-9BO" kind="relationship" relationship="rootViewController" id="3WO-e9-Rw3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ycA-cE-tVI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="677" y="-2323"/>
         </scene>
     </scenes>
     <resources>

@@ -42,7 +42,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         self.titleLabel?.text = titleHeader
         
-        cargaProductos()
+        
         
         self.sugestedCarTableView = UITableView(frame:.zero)
         self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
@@ -80,8 +80,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        
+        cargaProductos()
         //self.invokeMultisearchService()
+        
     }
     
 
@@ -117,7 +118,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
         cell.setValues(searchWordBySection[section])
         cell.deleteItem.tag = section
-        //cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
+        cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         
         cell.backgroundColor = UIColor.white
         return cell
@@ -337,7 +338,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
     }
     
-    /*func delSection(_ sender:UIButton){
+    func delSection(_ sender:UIButton){
         sugestedCarTableView.beginUpdates()
         let indexSet = NSMutableIndexSet()
         indexSet.add(sender.tag-1)
@@ -345,5 +346,5 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         // profileTableView.deleteRowsAtIndexPaths([indexPath],  withRowAnimation: UITableViewRowAnimation.Automatic)
         sugestedCarTableView.endUpdates()
         searchWordBySection.remove(at: sender.tag)
-    }*/
+    }
 }

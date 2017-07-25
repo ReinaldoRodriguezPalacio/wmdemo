@@ -22,6 +22,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var viewBackButton: UIView!
     var lbltitle:UILabel!
     var btnCerrarModulo:UIButton!
+    var btnCancelar:UIButton!
     
     var containerView:UIView!
     var listaPalabras:UITableView!
@@ -50,8 +51,6 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var myArray : [String]! = []
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,7 +71,6 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             btnCerrarModulo.setImage(UIImage(named: "closeScan"), for: UIControlState.normal)
             btnCerrarModulo.addTarget(self, action: #selector(self.cierraModal(_:)), for: UIControlEvents.touchUpInside)
 
-            
             self.field = FormFieldSearch()
             self.field!.frame = CGRect(x: 15, y: lbltitle.frame.maxY + 10, width: self.view.bounds.width * 0.7, height: 35)
             self.field!.delegate = self
@@ -82,6 +80,13 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             self.field!.enablesReturnKeyAutomatically = true
             self.field!.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             self.field!.placeholder = NSLocalizedString("superExpress.search.field.placeholder",comment:"")
+            
+            btnCancelar = UIButton()
+            btnCancelar.frame = CGRect(x: field!.frame.maxX, y: lbltitle.frame.maxY + 10 , width: self.view.bounds.width * 0.3 - 15 , height: 35)
+            btnCancelar.setTitle("Cancelar", for: UIControlState())
+            btnCancelar.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+            btnCancelar.addTarget(self, action: #selector(self.borraTexto(_:)), for: UIControlEvents.touchUpInside)
+            viewBackButton.addSubview(btnCancelar)
             
             viewBackButton.addSubview(btnCerrarModulo)
             viewBackButton.addSubview(lbltitle)
@@ -115,6 +120,13 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             self.field!.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             self.field!.placeholder = NSLocalizedString("superExpress.search.field.placeholder",comment:"")
             
+            btnCancelar = UIButton()
+            btnCancelar.frame = CGRect(x: field!.frame.maxX, y: lbltitle.frame.maxY + 5  , width: self.view.bounds.width * 0.3 - 15 , height: 40)
+            btnCancelar.setTitle("Cancelar", for: UIControlState())
+            btnCancelar.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+            btnCancelar.addTarget(self, action: #selector(self.borraTexto(_:)), for: UIControlEvents.touchUpInside)
+            viewBackButton.addSubview(btnCancelar)
+            
             viewBackButton.addSubview(btnCerrarModulo)
             viewBackButton.addSubview(lbltitle)
             viewBackButton.addSubview(field!)
@@ -126,6 +138,8 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         containerView.tag=500
         self.view.addSubview(containerView)        // add child view controller view to container
+        
+        
         
         listaSuper = UITableView()
         listaSuper.frame = CGRect(x: 0, y: 0, width: self.containerView.frame.size.width, height: self.containerView.frame.size.height - 150)
@@ -169,6 +183,58 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SESearchViewController.dismissKeyboard))
         
         view.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    /// move scroll view up
+    func keyBoardWillShow(notification: Notification) {
+        UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
+            self.lbltitle.isHidden = true
+            self.btnCerrarModulo.isHidden = true
+            var decremento = CGFloat(0)
+            if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
+                decremento = CGFloat(40)
+            }else{
+                decremento = CGFloat(35)
+            }
+            
+            self.viewBackButton.frame = CGRect(x: 0,  y: 0, width: self.viewBackButton.frame.width, height: self.viewBackButton.frame.height - decremento)
+            self.field!.frame = CGRect(x: 15, y: self.field!.frame.origin.y - decremento, width: self.view.bounds.width * 0.7, height: 35)
+            self.containerView.frame = CGRect(x: 0,  y: self.containerView.frame.origin.y - decremento, width: self.view.bounds.width, height: self.containerView.frame.height)
+            self.btnCancelar.frame = CGRect(x: self.field!.frame.maxX, y: self.btnCancelar.frame.origin.y - decremento , width: self.view.bounds.width * 0.3 - 15 , height: 35)
+            
+            self.sugestedTerms.frame = CGRect(x: 15, y: (self.field?.frame.maxY)! + (self.viewBackButton.frame.maxY - (self.field?.frame.maxY)!) / 2 - 10, width: self.viewBackButton.frame.size.width + 200, height: 30)
+            self.viewBackButton.layoutIfNeeded()
+            
+        })
+    }
+    
+    /// move scrollview back down
+    func keyBoardWillHide(notification: Notification) {
+        UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
+            self.lbltitle.isHidden = false
+            self.btnCerrarModulo.isHidden = false
+            var aumento = CGFloat(0)
+            if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
+                aumento = CGFloat(40)
+            }else{
+                aumento = CGFloat(35)
+            }
+            
+            self.viewBackButton.frame = CGRect(x: 0,  y: 0, width: self.viewBackButton.frame.width, height: self.viewBackButton.frame.height + aumento)
+            self.field!.frame = CGRect(x: 15, y: self.field!.frame.origin.y + aumento, width: self.view.bounds.width * 0.7, height: 35)
+            self.containerView.frame = CGRect(x: 0,  y: self.containerView.frame.origin.y + aumento, width: self.view.bounds.width, height: self.containerView.frame.height)
+            self.btnCancelar.frame = CGRect(x: self.field!.frame.maxX, y: self.btnCancelar.frame.origin.y + aumento , width: self.view.bounds.width * 0.3 - 15 , height: 35)
+            
+            self.sugestedTerms.frame = CGRect(x: 15, y: (self.field?.frame.maxY)! + (self.viewBackButton.frame.maxY - (self.field?.frame.maxY)!) / 2 - 10, width: self.viewBackButton.frame.size.width + 200, height: 30)
+            self.viewBackButton.layoutIfNeeded()
+            
+        })
+
     }
     
     func viewReplaceContent(_ frame:CGRect) -> UIView! {
@@ -413,6 +479,13 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             myArray = arrayPalabras
         }
         self.cargaSugerencias()
+    }
+    
+    func borraTexto(_ sender:UIButton){
+    self.field?.text = ""
+    self.myArray = []
+    self.cargaSugerencias()
+
     }
 
 }
