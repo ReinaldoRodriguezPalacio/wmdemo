@@ -20,7 +20,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var productosData: [[String:Any]]? = nil
     var section: Int!
     var delegate: SESugestedCar?
-    var selectedItems : [Bool] = [false,false,false,false,false,false,false,false,false,]
+    var selectedItems : [Bool]! = []
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -84,7 +84,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             isSelected = true
         }
 
-        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, section: self.section, index: indexPath.row)
+        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
                 return cell
     }
     
@@ -95,21 +95,21 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let hardCodedPadding:CGFloat = 3
-        let itemWidth = ((self.superview?.frame.width)! * 0.6) - hardCodedPadding
+        let itemWidth = ((self.superview?.frame.width)! * 0.7) - hardCodedPadding
         let itemHeight = collectionView.bounds.height * 0.9 - (2 * hardCodedPadding)
         return CGSize(width: itemWidth, height: itemHeight)
     }
     
     //SESugestedCarViewCellDelegate
-    func seleccionados(seccion:Int, item:Int){
+    func seleccionados(item:Int){
         selectedItems[item] = true
-        delegate?.itemSelected(seccion: seccion, itemSelected: item)
+        delegate?.itemSelected(seccion: self.section, itemSelected: item)
         
     }
     
-    func deseleccionados(seccion:Int, item:Int){
+    func deseleccionados(item:Int){
         selectedItems[item] = false
-        delegate?.itemDeSelected(seccion: seccion, itemSelected: item)
+        delegate?.itemDeSelected(seccion: self.section, itemSelected: item)
     }
 
 }

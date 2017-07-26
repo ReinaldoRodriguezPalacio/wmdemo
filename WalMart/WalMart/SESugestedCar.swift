@@ -80,8 +80,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
         
     }
     
@@ -114,10 +114,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
-        cell.setValues(searchWordBySection[section])
+        cell.setValues(searchWordBySection[section], section: section)
         cell.deleteItem.tag = section
         cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
-        
         cell.backgroundColor = UIColor.white
         return cell
     }
@@ -138,7 +137,6 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
         cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section)
-
         return cell
     }
     
@@ -314,9 +312,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
+        sugestedCarTableView.reloadData()
     }
-
-    
     
     func addListToCart(_ sender:UIButton) {
         
@@ -342,7 +339,17 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         indexSet.add(sender.tag)
         sugestedCarTableView.deleteSections(indexSet as IndexSet, with: UITableViewRowAnimation.automatic)
         searchWordBySection.remove(at: sender.tag)
+        /*let productos = allProducts![sender.tag]["products"] as! [[String:Any]]
+        for i in 0..<itemsSelected.count{
+            let filteredData = productos.filter{
+                return $0["upc"] as! String == itemsSelected[i]["upc"] as! String
+            }
+            if filteredData.count > 0 {
+                itemsSelected.remove(at: i)
+            }
+        }*/
         allProducts?.remove(at: sender.tag)
+        
         sugestedCarTableView.endUpdates()
         sugestedCarTableView.reloadData()
         

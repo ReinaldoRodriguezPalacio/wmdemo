@@ -9,8 +9,8 @@
 import Foundation
 
 protocol SESugestedCarViewCellDelegate {
-    func seleccionados(seccion:Int, item:Int)
-    func deseleccionados(seccion:Int, item:Int)
+    func seleccionados(item:Int)
+    func deseleccionados(item:Int)
 }
 
 
@@ -20,7 +20,6 @@ class SESugestedCarViewCell : UICollectionViewCell {
     var desc : String!
     var price : String!
     var imageURL : String!
-    var section: Int!
     var leftView : UIView!
     var rightView : UIView!
     
@@ -73,27 +72,21 @@ class SESugestedCarViewCell : UICollectionViewCell {
         self.leftView.addSubview(self.check!)
         self.leftView.addSubview(self.productImage!)
 
-        self.leftView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width*0.4, height: self.contentView.frame.height)
-        self.rightView.frame = CGRect(x: self.leftView.frame.maxX, y: 0, width: self.contentView.frame.width*0.6, height: self.contentView.frame.height)
+        self.leftView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width*0.45, height: self.contentView.frame.height)
+        self.rightView.frame = CGRect(x: self.leftView.frame.maxX, y: 0, width: self.contentView.frame.width*0.55, height: self.contentView.frame.height)
         
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 0.6
         self.layer.borderColor = WMColor.light_light_gray.cgColor
         self.backgroundColor = UIColor.white
         
-        self.check?.frame = CGRect(x: 0, y: leftView.frame.size.height / 2 - (leftView.frame.size.width * 0.3)/2, width: leftView.frame.size.width * 0.3, height: leftView.frame.size.width * 0.3)
+        self.check?.frame = CGRect(x: 0, y: leftView.frame.size.height / 2 - (leftView.frame.size.width * 0.4)/2, width: leftView.frame.size.width * 0.4, height: leftView.frame.size.width * 0.4)
         
-        self.productImage!.frame = CGRect(x: (check?.frame.maxX)!, y:leftView.frame.size.height / 2 - (leftView.frame.size.width * 0.7)/2, width: leftView.frame.size.width * 0.7 , height: leftView.frame.size.width * 0.7)
+        self.productImage!.frame = CGRect(x: (check?.frame.maxX)!, y:leftView.frame.size.height / 2 - (leftView.frame.size.width * 0.6)/2, width: leftView.frame.size.width * 0.5 , height: leftView.frame.size.width * 0.5)
         
-        self.productShortDescriptionLabel!.frame = CGRect(x: 5, y: 4 , width: self.rightView.frame.size.width, height: 33)
+        self.productShortDescriptionLabel!.frame = CGRect(x: self.rightView.frame.size.width * 0.05, y: 4 , width: self.rightView.frame.size.width - self.rightView.frame.size.width * 0.1, height: 33)
         
-        if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
-        self.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        }else{
         self.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        }
-        
-        
         self.productShortDescriptionLabel!.numberOfLines = 3
         self.productShortDescriptionLabel!.textColor =  WMColor.gray
         self.productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -104,9 +97,10 @@ class SESugestedCarViewCell : UICollectionViewCell {
         self.productPriceLabel!.frame = CGRect(x: 0, y: self.productShortDescriptionLabel!.frame.maxY + 5  , width: self.rightView.frame.size.width , height: 14)
         self.productPriceLabel!.textAlignment = NSTextAlignment.center
         
+        
     }
     
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,isSelected:Bool, section:Int, index:Int) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,isSelected:Bool, index:Int) {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice as NSString)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
@@ -129,7 +123,6 @@ class SESugestedCarViewCell : UICollectionViewCell {
         self.price = productPrice
         self.check?.isSelected = isSelected
         self.check?.tag = index
-        self.section = section
     }
     
     func checked(_ sender:UIButton){
@@ -137,10 +130,10 @@ class SESugestedCarViewCell : UICollectionViewCell {
         
         if sender.isSelected{
             self.isSelected = true
-            delegate?.seleccionados(seccion: self.section, item: sender.tag)
+            delegate?.seleccionados(item: sender.tag)
         }else{
             self.isSelected = false
-            delegate?.deseleccionados(seccion: self.section, item: sender.tag)
+            delegate?.deseleccionados(item: sender.tag)
         }
     }
     
