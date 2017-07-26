@@ -104,8 +104,6 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
 
         self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 20, width: self.view.frame.size.width, height: 40)
         self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2 - self.viewFooter.frame.size.width / 4, y: 5, width: self.viewFooter.frame.size.width / 2, height: 30)
-        
-        
     }
     
     override func back(){
@@ -155,7 +153,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         do{
         let jsonString = try JSONSerialization.jsonObject(with: respuestaSESEarch.data(using: .utf8)!, options: .allowFragments) as! [String:Any]
         
-            allProducts = jsonString["responseArray"] as! [[String : Any]]
+            allProducts = jsonString["responseArray"] as? [[String : Any]]
         
             searchWordBySection = []
             
@@ -341,10 +339,12 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func delSection(_ sender:UIButton){
         sugestedCarTableView.beginUpdates()
         let indexSet = NSMutableIndexSet()
-        indexSet.add(sender.tag-1)
+        indexSet.add(sender.tag)
         sugestedCarTableView.deleteSections(indexSet as IndexSet, with: UITableViewRowAnimation.automatic)
-        // profileTableView.deleteRowsAtIndexPaths([indexPath],  withRowAnimation: UITableViewRowAnimation.Automatic)
-        sugestedCarTableView.endUpdates()
         searchWordBySection.remove(at: sender.tag)
+        allProducts?.remove(at: sender.tag)
+        sugestedCarTableView.endUpdates()
+        sugestedCarTableView.reloadData()
+        
     }
 }
