@@ -106,19 +106,6 @@ class ShoppingCartProductsService : BaseService {
                             carProductItem.department = department
                             carProductItem.saving = saving as NSString
                             
-                            if let offers = shoppingCartProduct["offers"] as? [Any] {
-                                if let offer = offers.first as? [String:Any] {
-                                    carProductItem.sellerId = offer["sellerId"] as? String
-                                    carProductItem.sellerName = offer["name"] as? String
-                                    carProductItem.offerId = offer["offerId"] as? String
-                                    carProductItem.price = offer["price"] as? NSString ?? ""
-                                    carProductItem.onHandInventory =  offer["onHandInventory"] as? String ?? ""
-                                    carProductItem.upc = offer["offerId"] as! String
-                                    carProductItem.baseprice = offer["basePrice"] as? String ?? ""
-                                    carProductItem.iva = offer["ivaAmount"] as? String ?? ""
-                                 }
-                            }
-                            
                             if let active = shoppingCartProduct["isActive"] as? String {
                                 carProductItem.isActive = active
                             }
@@ -127,6 +114,19 @@ class ShoppingCartProductsService : BaseService {
                             }
                             if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
                                 carProductItem.isPreorderable = preorderable
+                            }
+                            
+                            if let offers = shoppingCartProduct["offers"] as? [Any] {
+                                if let offer = offers.first as? [String:Any] {
+                                    carProductItem.sellerId = offer["sellerId"] as? String
+                                    carProductItem.sellerName = offer["name"] as? String
+                                    carProductItem.offerId = offer["offerId"] as? String
+                                    carProductItem.price = offer["price"] as? NSString ?? ""
+                                    carProductItem.onHandInventory =  offer["onHandInventory"] as? String ?? "1"
+                                    carProductItem.upc = offer["offerId"] as! String
+                                    carProductItem.baseprice = offer["basePrice"] as? String ?? ""
+                                    carProductItem.iva = offer["ivaAmount"] as? String ?? ""
+                                 }
                             }
                             
                             carProduct.quantity = NSNumber(value: quantity.intValue)

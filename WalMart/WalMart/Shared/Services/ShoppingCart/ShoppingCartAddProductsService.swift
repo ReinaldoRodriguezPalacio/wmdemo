@@ -155,6 +155,24 @@ class ShoppingCartAddProductsService : BaseService {
                         send = ["items": itemsSvc]
                     }
                     
+                    if (UserCurrentSession.sharedInstance.hasPreorderable()) { // is preorderable
+                        let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
+                        let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                        errorBlock?(error)
+                        return
+                    } else {
+                        for product in params {
+                            if let preorderable = product["isPreorderable"] as? String {
+                                if preorderable == "true" && !UserCurrentSession.sharedInstance.isEmptyMG() {
+                                    let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
+                                    let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                                    errorBlock?(error)
+                                    return
+                                }
+                            }
+                        }
+                    }
+                    
                     self.callPOSTService(send!, successBlock: { (resultCall:[String:Any]) -> Void in
                         
                         if self.updateShoppingCart() {
@@ -167,24 +185,6 @@ class ShoppingCartAddProductsService : BaseService {
                         }
                         
                     }) { (error: NSError) -> Void in
-                        
-                        if (UserCurrentSession.sharedInstance.hasPreorderable()) { // is preorderable
-                            let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
-                            let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
-                            errorBlock?(error)
-                            return
-                        } else {
-                            for product in params {
-                                if let preorderable = product["isPreorderable"] as? String {
-                                    if preorderable == "true" && !UserCurrentSession.sharedInstance.isEmptyMG() {
-                                        let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
-                                        let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
-                                        errorBlock?(error)
-                                        return
-                                    }
-                                }
-                            }
-                        }
                         
                         errorBlock!(error)
                     }

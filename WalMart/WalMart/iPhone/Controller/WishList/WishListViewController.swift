@@ -442,7 +442,7 @@ class WishListViewController : NavigationViewController {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    
+                        alert!.closebtn()
                         return
                     }
                     //

@@ -362,9 +362,9 @@ class DetailListViewCell: ProductTableViewCell {
         if self.quantityIndicator!.isEnabled {
             var size = self.sizeForButton(self.quantityIndicator!)
             size.width = (size.width + (sep*2))
-            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + size.width), y: bounds.height - (37.0 + 19.0), width: size.width, height: 37.0)
+            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + size.width), y: bounds.height - (37.0 + 19.0), width: size.width, height: 30.0)
         }else {
-            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 98), y: bounds.height - (37.0 + 19.0), width: 98, height: 37.0)
+            self.quantityIndicator!.frame = CGRect(x: bounds.width - (sep + 98), y: bounds.height - (37.0 + 19.0), width: 98, height: 30.0)
         }
       
         self.productPriceLabel!.frame = CGRect(x: x, y: self.quantityIndicator!.frame.minY, width: 100.0, height: 19.0)

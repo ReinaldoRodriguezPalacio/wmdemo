@@ -660,7 +660,7 @@ class ShoppingCartViewController: BaseController {
             let savingIndex = dictShoppingCartProduct.index(forKey: "saving")
             var savingVal: NSString = "0.0"
             if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as! String as NSString
+                savingVal = shoppingCartProduct["saving"]  as? NSString ?? "0.0"
                 totalSavings += (savingVal.doubleValue * quantity.doubleValue)
             }
             total +=  (price.doubleValue * quantity.doubleValue)
@@ -1494,7 +1494,7 @@ extension ShoppingCartViewController: UITableViewDataSource {
             let savingIndex = shoppingCartProduct.index(forKey: "saving")
             var savingVal = "0.0"
             if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as! String
+                savingVal = shoppingCartProduct["saving"]  as? String ?? "0.0"
             }
             
             var productDeparment = ""

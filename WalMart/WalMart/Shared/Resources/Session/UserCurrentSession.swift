@@ -742,7 +742,7 @@ class UserCurrentSession : NSObject {
     func loadMGShoppingCart(_ endLoadSC: @escaping (() -> Void)) {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:[String:Any]) -> Void in
-            print(result)
+            //print(result)
             self.itemsMG = result
             endLoadSC()
         }) { (error:NSError) -> Void in
