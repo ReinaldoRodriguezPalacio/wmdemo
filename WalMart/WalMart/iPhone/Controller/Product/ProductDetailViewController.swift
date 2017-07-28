@@ -1756,7 +1756,7 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productDeparment = self.productDeparment
-        controller.productType = "Articulo nuevo"
+        controller.productType = "Nuevo"
         controller.strisPreorderable = self.strisPreorderable
         self.navigationController?.pushViewController(controller, animated: true)
     }

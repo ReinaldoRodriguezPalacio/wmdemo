@@ -1233,8 +1233,9 @@ class ShoppingCartViewController: BaseController {
         if !visibleLabel  {
             
             visibleLabel = true
-            
-            imageView =  UIView(frame:CGRect(x: (self.view.frame.width/2) - 180 ,  y: viewFooter.frame.minY - 50, width: 190, height: 38))
+            let tooltipPosX = IS_IPHONE_5 || IS_IPHONE_4_OR_LESS ? 16.0 : (self.view.frame.width / 2) - 180
+            let imagePosX = IS_IPHONE_5 || IS_IPHONE_4_OR_LESS ? 12.0 : 24.0
+            imageView =  UIView(frame:CGRect(x: tooltipPosX ,  y: viewFooter.frame.minY - 50, width: 190, height: 38))
             viewContents = UIView(frame: imageView!.bounds)
             viewContents!.layer.cornerRadius = 5.0
             viewContents!.backgroundColor = WMColor.light_blue
@@ -1253,7 +1254,7 @@ class ShoppingCartViewController: BaseController {
             
             
             imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
-            imageIco!.frame = CGRect( x: 24 , y: viewContents!.frame.maxY - 1, width: 8, height: 6)
+            imageIco!.frame = CGRect( x: imagePosX , y: Double(viewContents!.frame.maxY - 1), width: 8.0, height: 6.0)
             self.viewContents!.addSubview(imageIco!)
             Timer.scheduledTimer(timeInterval: 1.8, target: self, selector: #selector(ShoppingCartViewController.animationClose), userInfo: nil, repeats: false)
             

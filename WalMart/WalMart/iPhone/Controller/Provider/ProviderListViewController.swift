@@ -39,7 +39,7 @@ class ProviderListViewController: NavigationViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel?.text = "Otros proveedores"
+        self.titleLabel?.text = "Proveedores"
         self.titleLabel?.textAlignment = .center
         
         if IS_IPAD {
@@ -63,7 +63,7 @@ class ProviderListViewController: NavigationViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY)
+        self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - 46)
     }
     
     func endUpdatingShoppingCart() {
@@ -289,7 +289,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
 extension ProviderListViewController: ProviderProductHeaderViewDelegate {
     func switchProviderValueChanged(showNewItems value: Bool) {
         showNewItems = value
-        headerView?.productTypeLabel.text = value ? "Artículo nuevo" : "Artículo reacondicionado"
+        headerView?.productTypeLabel.text = value ? "Nuevo" : "Reacondicionado"
         self.providerTable.reloadData()
     }
 }

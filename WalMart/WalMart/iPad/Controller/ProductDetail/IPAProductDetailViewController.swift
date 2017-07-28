@@ -1806,7 +1806,7 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productDeparment = self.productDeparment
-        controller.productType = "Articulo nuevo"
+        controller.productType = "Nuevo"
         controller.strisPreorderable = self.strisPreorderable as String
         controller.preferredContentSize = CGSize(width: 352, height: 468)
         controller.modalPresentationStyle = .formSheet
