@@ -109,12 +109,24 @@ class OrderProviderDetailViewController : NavigationViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 154)
-        self.viewFooter.frame = CGRect(x: 0, y: self.tableDetailOrder.frame.maxY , width: self.view.frame.width, height: 64)
-        let y = (self.viewFooter!.frame.height - 34.0)/2
-        self.shareButton!.frame = CGRect(x: 16.0, y: y, width: 34.0, height: 34.0)
-        self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
         self.optionsButton!.frame = CGRect(x: self.view.frame.width - 84, y: 12, width: 68, height: 22)
+        
+        if IS_IPAD {
+            self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 110)
+            
+            self.viewFooter.frame = CGRect(x: 0, y: self.view.frame.height - 64 , width: self.view.frame.width, height: 64)
+            let y = (self.viewFooter!.frame.height - 34.0)/2
+            self.shareButton!.frame = CGRect(x: (self.view.frame.width/2) - 186, y: y, width: 34.0, height: 34.0)
+            let x = self.shareButton!.frame.maxX + 16.0
+            addToCartButton?.frame = CGRect(x: x, y: y, width: 256, height: 34.0)//self.footerSection!.frame.width - (x + 16.0)
+        }else{
+            self.tableDetailOrder.frame = CGRect(x: 0, y: 46, width: self.view.bounds.width, height: self.view.bounds.height - 154)
+            self.viewFooter.frame = CGRect(x: 0, y: self.tableDetailOrder.frame.maxY , width: self.view.frame.width, height: 64)
+            let y = (self.viewFooter!.frame.height - 34.0)/2
+            self.shareButton!.frame = CGRect(x: 16.0, y: y, width: 34.0, height: 34.0)
+            self.addToCartButton!.frame = CGRect(x: self.shareButton!.frame.maxX + 16.0, y: y, width: (self.viewFooter!.frame.width - (self.shareButton!.frame.maxX + 16.0)) - 16.0, height: 34.0)
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

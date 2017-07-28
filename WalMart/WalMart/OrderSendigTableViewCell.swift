@@ -22,7 +22,7 @@ class OrderSendigTableViewCell : UITableViewCell {
     var titleSending : UILabel!
     var txtSendig : String = ""
     
-    var optionsBtns : UIButton!
+    var optionsBtn : UIButton!
     
     var statusTitle : UILabel!
     var nameTitle : UILabel!
@@ -31,8 +31,7 @@ class OrderSendigTableViewCell : UITableViewCell {
     var addressTitle : UILabel!
     var providerTitle : UILabel!
     
-    var showDetailLbl : UILabel!
-    var imageSeeMore : UIImageView!
+    var showDetailBtn : UIButton!
     var orderItem: [String:Any]?
     
     var cellDelegate: OrderSendigTableViewCellDelegate?
@@ -58,13 +57,13 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.titleSending.font = WMFont.fontMyriadProRegularOfSize(14.0)
         self.titleSending.textColor = WMColor.regular_blue
         
-        self.optionsBtns = UIButton()
-        self.optionsBtns.setTitleColor(UIColor.white, for: .normal)
-        self.optionsBtns.setTitle("opciones", for: .normal)
-        self.optionsBtns.layer.cornerRadius = 11
-        self.optionsBtns.backgroundColor = WMColor.light_blue
-        self.optionsBtns.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.optionsBtns.addTarget(self, action: #selector(showOptionsView), for: .touchUpInside)
+        self.optionsBtn = UIButton()
+        self.optionsBtn.setTitleColor(UIColor.white, for: .normal)
+        self.optionsBtn.setTitle("opciones", for: .normal)
+        self.optionsBtn.layer.cornerRadius = 11
+        self.optionsBtn.backgroundColor = WMColor.light_blue
+        self.optionsBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.optionsBtn.addTarget(self, action: #selector(showOptionsView), for: .touchUpInside)
         
         self.statusTitle = self.labelContact()
         self.nameTitle = self.labelContact()
@@ -75,27 +74,16 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.addressTitle.numberOfLines = 3
         self.providerTitle = self.labelContact()
         
-        let gestureShowDetail = UITapGestureRecognizer(target: self, action: #selector(OrderSendigTableViewCell.showDetail))
-        
-        self.showDetailLbl = UILabel()
-        self.showDetailLbl.font = WMFont.fontMyriadProRegularOfSize(12.0)
-        self.showDetailLbl.textColor = WMColor.regular_blue
-        self.showDetailLbl.text = "Ver detalle"
-        self.showDetailLbl.addGestureRecognizer(gestureShowDetail)
-        self.showDetailLbl.isUserInteractionEnabled = true
-        
-        let gestureShowDetailImage = UITapGestureRecognizer(target: self, action: #selector(OrderSendigTableViewCell.showDetail))
-        
-        self.imageSeeMore = UIImageView()
-        let image = UIImage(named: "see_more")
-        self.imageSeeMore!.image = image
-        self.imageSeeMore.addGestureRecognizer(gestureShowDetailImage)
-        self.imageSeeMore.isUserInteractionEnabled = true
-        self.addSubview(self.imageSeeMore!)
-        
-        
+        self.showDetailBtn = UIButton()
+        self.showDetailBtn.setTitleColor(UIColor.white, for: .normal)
+        self.showDetailBtn.setTitle("Ver detalle", for: .normal)
+        self.showDetailBtn.layer.cornerRadius = 11
+        self.showDetailBtn.backgroundColor = WMColor.light_blue
+        self.showDetailBtn.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.showDetailBtn.addTarget(self, action:#selector(OrderSendigTableViewCell.showDetail), for: .touchUpInside)
+
         self.addSubview(self.titleSending)
-        self.addSubview(self.optionsBtns)
+        self.addSubview(self.optionsBtn)
         
         self.addSubview(self.statusTitle)
         self.addSubview(self.nameTitle)
@@ -103,8 +91,7 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.addSubview(self.paymentTypeTitle)
         self.addSubview(self.addressTitle)
         self.addSubview(self.providerTitle)
-        
-        self.addSubview(self.showDetailLbl)
+        self.addSubview(self.showDetailBtn)
         
         self.separatorView = UIView()
         self.separatorView.backgroundColor = WMColor.light_gray
@@ -116,7 +103,6 @@ class OrderSendigTableViewCell : UITableViewCell {
         super.layoutSubviews()
         
         self.titleSending.frame = CGRect(x: 16.0, y: 20.7, width: 100.0, height: 15.0)
-        self.optionsBtns.frame = CGRect(x: self.frame.width - 68.0 - 16.0, y: 16.8, width: 68.0, height: 21.5)
         
         self.statusTitle.frame = CGRect(x: 16.0, y: 56.9, width: self.frame.width - 32.0, height: 15.0)
         self.nameTitle.frame = CGRect(x: 16.0, y: self.statusTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
@@ -124,10 +110,8 @@ class OrderSendigTableViewCell : UITableViewCell {
         self.paymentTypeTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
         self.addressTitle.frame = CGRect(x: 16.0, y: self.paymentTypeTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 45.0)
         self.providerTitle.frame = CGRect(x: 16.0, y: self.addressTitle.frame.maxY + 10.0, width: self.frame.width - 32.0, height: 15.0)
-        
-        self.showDetailLbl.frame = CGRect(x: self.frame.width - 56.0 - 41.0, y: self.providerTitle.frame.maxY + 7.5, width: 56.0, height: 12.0)
-        self.imageSeeMore!.frame = CGRect(x: self.frame.width - 16.0 - 21.0, y: self.providerTitle.frame.maxY + 5.5, width: 16.0, height: 16.0)
-        
+        self.showDetailBtn.frame = CGRect(x: self.frame.width - 97, y: self.providerTitle.frame.maxY + 7.5, width: 68.0, height: 22)
+        self.optionsBtn.frame = CGRect(x: showDetailBtn.frame.minX - 84, y: self.providerTitle.frame.maxY + 7.5, width: 68.0, height: 22)
         self.separatorView.frame = CGRect(x: 0.0, y: self.frame.height - 1.0, width: self.frame.width, height: 1.0)
     }
     
@@ -163,7 +147,7 @@ class OrderSendigTableViewCell : UITableViewCell {
         }
         
         if let sellerId = values["sellerId"] as? String {
-            self.optionsBtns.isHidden = (sellerId == "0")
+            //self.optionsBtn.isHidden = (sellerId == "0")
         }
     }
     
