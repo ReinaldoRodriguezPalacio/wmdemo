@@ -337,13 +337,13 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     func buildColorsAndSizesView(){
         let bottomSpace: CGFloat = self.hasProviders ? 124 : 54.0
-        
+        let collectionHeight: CGFloat = self.hasProviders ? 170 : 240
         if colors?.count != 0 || sizes?.count != 0{
             if colors?.count != 0 && sizes?.count != 0{
                 self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: collectionHeight)
                 self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 100), width: self.bounds.width, height: 20)
                 self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 80), width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
@@ -357,7 +357,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.items = self.colors as! [[String:Any]] as [[String : AnyObject]]!
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: collectionHeight)
                 self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 60), width: self.bounds.width, height: 20)
                 self.colorsView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 40), width: self.frame.width, height: 40.0)
                 self.colorsView.buildItemsView()
@@ -366,7 +366,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.sizesView.items = self.sizes as! [[String:Any]] as [[String : AnyObject]]!
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: 160)
+                self.collection.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: collectionHeight)
                 self.pointSection.frame = CGRect(x: 0, y: self.bounds.height - (bottomSpace + 60), width: self.bounds.width, height: 20)
                 self.sizesView.frame =  CGRect(x: 0,  y: self.bounds.height - (bottomSpace + 40), width: self.frame.width, height: 40.0)
                 self.sizesView.buildItemsView()

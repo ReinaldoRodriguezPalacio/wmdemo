@@ -109,9 +109,9 @@ class OrderSendigTableViewCell : UITableViewCell {
         //self.sendingNormalTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 30.0)
         self.paymentTypeTitle.frame = CGRect(x: 16.0, y: self.nameTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 15.0)
         self.addressTitle.frame = CGRect(x: 16.0, y: self.paymentTypeTitle.frame.maxY + 7.5, width: self.frame.width - 32.0, height: 45.0)
-        self.providerTitle.frame = CGRect(x: 16.0, y: self.addressTitle.frame.maxY + 10.0, width: self.frame.width - 32.0, height: 15.0)
-        self.showDetailBtn.frame = CGRect(x: self.frame.width - 84, y: self.providerTitle.frame.maxY + 7.5, width: 68.0, height: 22)
-        self.optionsBtn.frame = CGRect(x: showDetailBtn.frame.minX - 80, y: self.providerTitle.frame.maxY + 7.5, width: 68.0, height: 22)
+        self.providerTitle.frame = CGRect(x: 16.0, y: self.addressTitle.frame.maxY + 10.0, width: self.frame.width - 38.0, height: 15.0)
+        self.showDetailBtn.frame = CGRect(x: self.frame.width - 84, y: self.frame.height - 38, width: 68.0, height: 22)
+        self.optionsBtn.frame = CGRect(x: showDetailBtn.frame.minX - 80, y: self.frame.height - 38, width: 68.0, height: 22)
         self.separatorView.frame = CGRect(x: 0.0, y: self.frame.height - 1.0, width: self.frame.width, height: 1.0)
     }
     
@@ -147,7 +147,7 @@ class OrderSendigTableViewCell : UITableViewCell {
         }
         
         if let sellerId = values["sellerId"] as? String {
-            //self.optionsBtn.isHidden = (sellerId == "0")
+            self.optionsBtn.isHidden = (sellerId == "0")
         }
     }
     

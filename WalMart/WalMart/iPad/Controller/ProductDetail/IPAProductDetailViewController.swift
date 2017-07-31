@@ -395,22 +395,6 @@ class IPAProductDetailViewController : UIViewController {
         let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
             
-            
-            if let offers = result["offers"] as? [[String:Any]] {
-                self.hasProvider = offers.count > 0
-                self.providerArray = offers
-                for offer in offers {
-                    let offerId = offer["offerId"] as! NSString
-                    if offerId == self.upc {
-                        self.providerInfo = offer
-                        break
-                    }
-                }
-                if self.providerInfo == nil {
-                    self.providerInfo =  offers.count > 0 ? offers.first! : [:]
-                }
-                
-            }
             self.reloadViewWithData(result)
             
             if let facets = result["facets"] as? [[String:Any]] {
@@ -578,6 +562,23 @@ class IPAProductDetailViewController : UIViewController {
         ///BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
         
         //Validaciones MarketPLace
+        
+        if let offers = result["offers"] as? [[String:Any]] {
+            self.hasProvider = offers.count > 0
+            self.providerArray = offers
+            for offer in offers {
+                let offerId = offer["offerId"] as! NSString
+                if offerId == self.upc {
+                    self.providerInfo = offer
+                    break
+                }
+            }
+            if self.providerInfo == nil {
+                self.providerInfo =  offers.count > 0 ? offers.first! : [:]
+            }
+            
+        }
+        
         if self.providerInfo != nil {
             self.onHandInventory = self.providerInfo!["onHandInventory"] as? NSString ?? "0"
             self.strisActive  =  self.onHandInventory != "0" ? "true" : "false"
@@ -1131,6 +1132,7 @@ extension IPAProductDetailViewController: ProductDetailCrossSellViewDelegate {
             }
         }, errorBlock: { (error:NSError) -> Void in
             print("Termina sevicio app")
+            self.productCrossSell.viewTitle.text = ""
         })
     }
 }

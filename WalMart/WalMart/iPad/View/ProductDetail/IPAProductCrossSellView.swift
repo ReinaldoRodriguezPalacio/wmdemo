@@ -11,6 +11,7 @@ import Foundation
 class IPAProductCrossSellView : UIView {
     
     var productCrossSell : ProductDetailCrossSellView!
+    var viewTitle: UILabel!
     
     weak var delegate : ProductDetailCrossSellViewDelegate? {
         didSet {
@@ -33,7 +34,7 @@ class IPAProductCrossSellView : UIView {
         let viewSeparator = UIView(frame:CGRect(x: 0,y: 0,width: self.frame.width,height: 1))
         viewSeparator.backgroundColor = WMColor.light_gray
         
-        let viewTitle = UILabel(frame:CGRect(x: 16,y: viewSeparator.frame.maxY + 11 ,width: self.frame.width,height: 14))
+        viewTitle = UILabel(frame:CGRect(x: 16,y: viewSeparator.frame.maxY + 11 ,width: self.frame.width,height: 14))
         viewTitle.font = WMFont.fontMyriadProLightOfSize(14)
         viewTitle.textColor = WMColor.light_blue
         viewTitle.text = NSLocalizedString("productdetail.related",comment:"")

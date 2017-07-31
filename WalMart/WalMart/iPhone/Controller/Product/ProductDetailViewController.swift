@@ -445,22 +445,6 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
-            
-                if let offers = result["offers"] as? [[String:Any]] {
-                    self.hasProvider = offers.count > 0
-                    self.providerArray = offers
-                    for offer in offers {
-                        let offerId = offer["offerId"] as! NSString
-                        if offerId == self.upc {
-                            self.providerInfo = offer
-                            break
-                        }
-                    }
-                    if self.providerInfo == nil {
-                      self.providerInfo =  offers.count > 0 ? offers.first! : [:]  
-                    }
-                    
-                }
                 self.setCollectionLayout()
                 self.reloadViewWithData(result)
                 
@@ -589,8 +573,6 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         
         self.isLoading = false
         
-        self.detailCollectionView.reloadData()
-        
         self.viewLoad.stopAnnimating()
         //self.tabledetail.scrollEnabled = true
         //self.gestureCloseDetail.enabled = false
@@ -625,6 +607,23 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
        // BaseController.sendAnalyticsPush(["event": "ecommerce","ecommerce":["detail":["actionField":["list": self.detailOf],"products":[["name": self.name,"id": self.upc,"price": self.price,"brand": "", "category": self.productDeparment,"variant": "pieza","dimension21": isBundle ? self.upc : "","dimension22": "","dimension23": linea,"dimension24": "","dimension25": ""]]]]])
         
         //Validaciones MarketPLace
+        
+        if let offers = result["offers"] as? [[String:Any]] {
+            self.hasProvider = offers.count > 0
+            self.providerArray = offers
+            for offer in offers {
+                let offerId = offer["offerId"] as! NSString
+                if offerId == self.upc {
+                    self.providerInfo = offer
+                    break
+                }
+            }
+            if self.providerInfo == nil {
+                self.providerInfo =  offers.count > 0 ? offers.first! : [:]
+            }
+            
+        }
+        
         if self.providerInfo != nil {
             self.onHandInventory = self.providerInfo!["onHandInventory"] as? NSString ?? "0"
             self.strisActive  =  self.onHandInventory != "0" ? "true" : "false"
@@ -634,7 +633,10 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             self.price = providerInfo!["price"] as? NSString ?? self.price
             self.listPrice = ""
             self.saving = ""
+            self.cellProviders = nil
         }
+        
+        self.detailCollectionView.reloadData()
         
          NSLog("reloadViewWithData finish ", "ProductDetailViewController")
     }
@@ -1766,8 +1768,8 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
 extension ProductDetailViewController: ProductDetailProviderCollectionViewCellDelegate {
     func selectOffer(offer: [String:Any]) {
         self.providerInfo = offer
-        self.detailCollectionView.reloadData()
         self.upc = providerInfo!["offerId"] as! NSString
         self.price = providerInfo!["price"] as! NSString
+        self.detailCollectionView.reloadData()
     }
 }
