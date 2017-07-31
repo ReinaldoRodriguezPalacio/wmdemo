@@ -529,17 +529,6 @@ class IPAProductDetailViewController : UIViewController {
         
         self.isLoading = false
         self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
-        
-        self.tabledetail.delegate = self
-        self.tabledetail.dataSource = self
-        self.tabledetail.reloadData()
-        self.defaultLoadingImg?.isHidden = true 
-        
-        self.bannerImagesProducts.items = self.imageUrl
-        self.bannerImagesProducts.collection.reloadData()
-        
-        self.loadCrossSell()
-        
         self.titlelbl.text = self.name as String
         
         
@@ -589,7 +578,19 @@ class IPAProductDetailViewController : UIViewController {
             self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
             self.saving = ""
             self.listPrice = ""
+            self.cellProviders = nil
         }
+        
+        self.tabledetail.delegate = self
+        self.tabledetail.dataSource = self
+        self.tabledetail.reloadData()
+        self.defaultLoadingImg?.isHidden = true
+        
+        self.bannerImagesProducts.items = self.imageUrl
+        self.bannerImagesProducts.collection.reloadData()
+        
+        self.loadCrossSell()
+
     }
     
     func removeListSelector(action:(()->Void)?, closeRow: Bool ) {
@@ -805,7 +806,7 @@ extension IPAProductDetailViewController: UITableViewDelegate {
         case (1,1) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
-            if msi.count == 0 {rowChose += 2}
+            //if msi.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,2) :
             var rowChose = indexPath.row
@@ -1808,7 +1809,7 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productDeparment = self.productDeparment
-        controller.productType = "Nuevo"
+        controller.productType = "Artículo Nuevo"
         controller.strisPreorderable = self.strisPreorderable as String
         controller.preferredContentSize = CGSize(width: 352, height: 468)
         controller.modalPresentationStyle = .formSheet

@@ -92,6 +92,12 @@ class UserWishlistService : BaseService {
                         if let categoryVal  = wishlistDicProduct["department"] as? String {
                             category = categoryVal
                         }
+                        
+                        var saving = ""
+                        if let savingVal = wishlistDicProduct["saving"] as? String {
+                            saving = savingVal
+                        }
+
 
                         wishlistProduct = NSEntityDescription.insertNewObject(forEntityName: "Wishlist" as String, into: context) as! Wishlist
                         wishlistProduct.product = NSEntityDescription.insertNewObject(forEntityName: "Product" as String, into: context) as! Product
@@ -103,6 +109,7 @@ class UserWishlistService : BaseService {
                         wishlistProduct.product.isPreorderable = isPreordeable
                         wishlistProduct.product.onHandInventory = onHandInventory
                         wishlistProduct.product.department = category
+                        wishlistProduct.product.saving = saving as NSString
                         wishlistProduct.user = user!
                         
                         if let offers = wishlistDicProduct["offers"] as? [Any] {
@@ -159,7 +166,7 @@ class UserWishlistService : BaseService {
         //var subtotal : Double = 0.0
         //var totalQuantity = 0
         for itemWL in array {
-            let dictItem: [String:Any] = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department,"sellerName": itemWL.product.sellerName ?? "","sellerId": itemWL.product.sellerId ?? "","offerId": itemWL.product.offerId ?? ""]
+            let dictItem: [String:Any] = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department,"sellerName": itemWL.product.sellerName ?? "","sellerId": itemWL.product.sellerId ?? "","offerId": itemWL.product.offerId ?? "","saving":itemWL.product.saving ?? ""]
             items.append(dictItem)
         }
         

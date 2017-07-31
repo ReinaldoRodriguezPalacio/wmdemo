@@ -446,6 +446,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
             let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching,position:self.indexRowSelected)
             productService.callService(requestParams:params, successBlock: { (result: [String:Any]) -> Void in
                 self.setCollectionLayout()
+                
                 self.reloadViewWithData(result)
                 
                 if let facets = result["facets"] as? [[String:Any]] {
@@ -501,7 +502,7 @@ class ProductDetailViewController : IPOBaseController,UIGestureRecognizerDelegat
         self.detail = result["detail"] as! NSString
         self.saving = ""
         self.detail = self.detail.replacingOccurrences(of: "^", with: "\n") as NSString
-        self.upc = result["upc"] as! NSString
+        //self.upc = result["upc"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }
@@ -1758,7 +1759,7 @@ extension ProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.productImageUrl = self.imageUrl.first! as? String
         controller.productDescription = self.name as String
         controller.productDeparment = self.productDeparment
-        controller.productType = "Nuevo"
+        controller.productType = "Artículo Nuevo"
         controller.strisPreorderable = self.strisPreorderable
         self.navigationController?.pushViewController(controller, animated: true)
     }

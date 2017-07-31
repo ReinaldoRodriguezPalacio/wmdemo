@@ -39,7 +39,7 @@ class ProviderListViewController: NavigationViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel?.text = "Proveedores"
+        self.titleLabel?.text = "Otros Proveedores"
         self.titleLabel?.textAlignment = .center
         
         if IS_IPAD {
@@ -289,7 +289,7 @@ extension ProviderListViewController: ProviderProductTableViewCellDelegate {
 extension ProviderListViewController: ProviderProductHeaderViewDelegate {
     func switchProviderValueChanged(showNewItems value: Bool) {
         showNewItems = value
-        headerView?.productTypeLabel.text = value ? "Nuevo" : "Reacondicionado"
+        headerView?.productTypeLabel.text = value ? "Artículo Nuevo" : "Artículo Reacondicionado"
         self.providerTable.reloadData()
     }
 }

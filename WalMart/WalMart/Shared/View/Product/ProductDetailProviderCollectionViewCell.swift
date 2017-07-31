@@ -152,32 +152,43 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         }
         
         if providerReconditionedItems.count == 0 {
-//            self.switchBtn.isHidden = true
             segmentedControl.isHidden = false
             segmentedControl.setEnabled(false, forSegmentAt: 1)
+            segmentedControl.setEnabled(true, forSegmentAt: 0)
             segmentedControl.selectedSegmentIndex = 0
             segmentedControl.layer.borderWidth = 0
             segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
             
-            segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
+            disableSegmented(index: 0)
             self.showNewItems = true
-        }
-        
-        if providerNewItems.count == 0 {
-//            self.switchBtn.isHidden = true
+        }else if providerNewItems.count == 0 {
             segmentedControl.isHidden = false
             segmentedControl.setEnabled(false, forSegmentAt: 0)
+            segmentedControl.setEnabled(true, forSegmentAt: 1)
             segmentedControl.selectedSegmentIndex = 1
             segmentedControl.layer.borderWidth = 0
             segmentedControl.layer.borderColor = WMColor.empty_gray_btn.cgColor
             
-            segmentedControl.subviews[1].tintColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[1].backgroundColor = WMColor.empty_gray_btn
+            disableSegmented(index: 1)
             self.showNewItems = false
         }
         
          self.segmentedControl.selectedSegmentIndex = self.showNewItems ? 0 : 1
+    }
+    
+    func disableSegmented(index: Int) {
+         let enabledIndex = index == 0 ? 1 : 0
+        if segmentedControl.subviews[0].frame.origin.x == 0 {
+            segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[enabledIndex].tintColor = WMColor.light_blue
+            segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.light_blue
+        }else{
+            segmentedControl.subviews[enabledIndex].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[index].tintColor = WMColor.light_blue
+            segmentedControl.subviews[index].backgroundColor = WMColor.light_blue
+        }
     }
     
     func removeSubViews() {

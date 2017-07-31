@@ -204,7 +204,11 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         imageURL = imgLarge.replacingOccurrences(of: "s.\(pathExtention)", with: "L.\(pathExtention)")
         
         cell.imageView!.contentMode = self.contentModeOrig
-        cell.imageView!.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named:"img_default_cell"))
+        if imageURL != "" {
+           cell.imageView!.setImageWith(URL(string: imageURL)!, placeholderImage: UIImage(named:"img_default_cell"))
+        }else{
+            cell.imageView.image = UIImage(named:"img_default_cell")
+        }
         
         return cell
     }
