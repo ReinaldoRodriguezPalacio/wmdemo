@@ -93,7 +93,7 @@ class UserWishlistService : BaseService {
                             category = categoryVal
                         }
                         
-                        var saving = ""
+                        var saving = "0.0"
                         if let savingVal = wishlistDicProduct["saving"] as? String {
                             saving = savingVal
                         }
@@ -166,7 +166,7 @@ class UserWishlistService : BaseService {
         //var subtotal : Double = 0.0
         //var totalQuantity = 0
         for itemWL in array {
-            let dictItem: [String:Any] = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department,"sellerName": itemWL.product.sellerName ?? "","sellerId": itemWL.product.sellerId ?? "","offerId": itemWL.product.offerId ?? "","saving":itemWL.product.saving ?? ""]
+            let dictItem: [String:Any] = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department,"sellerName": itemWL.product.sellerName ?? "","sellerId": itemWL.product.sellerId ?? "","offerId": itemWL.product.offerId ?? "","saving":itemWL.product.saving]
             items.append(dictItem)
         }
         

@@ -65,7 +65,7 @@ class ProductTableViewCell : SWTableViewCell {
         self.productImage!.contentMode = self.contentModeOrig
         self.productImage!.setImageWith(URL(string: productImageURL)!, placeholderImage: UIImage(named:"img_default_table"))        
         productShortDescriptionLabel!.text = productShortDescription
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(16), color: WMColor.orange, interLine: false)
     }
     deinit {
         self.cellScrollView.delegate = nil

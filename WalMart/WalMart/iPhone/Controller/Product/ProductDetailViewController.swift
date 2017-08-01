@@ -1772,5 +1772,6 @@ extension ProductDetailViewController: ProductDetailProviderCollectionViewCellDe
         self.upc = providerInfo!["offerId"] as! NSString
         self.price = providerInfo!["price"] as! NSString
         self.detailCollectionView.reloadData()
+        self.selectQuantity?.closeAction()
     }
 }

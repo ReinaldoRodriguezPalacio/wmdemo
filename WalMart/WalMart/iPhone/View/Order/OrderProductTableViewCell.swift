@@ -30,7 +30,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         super.setup()
         
         
-        self.productPriceLabel!.isHidden = true
+        //self.productPriceLabel!.isHidden = true
         
         productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -50,13 +50,13 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         
         upcString = UILabel(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 18,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12))
-        
+        self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 18,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 20)
 
         
-        quantityString = UILabel(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: upcString.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12))
+        quantityString = UILabel(frame:CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12))
        
         
-        self.contentView.addSubview(upcString)
+        //self.contentView.addSubview(upcString)
         self.contentView.addSubview(quantityString)
         self.contentView.addSubview(btnShoppingCart)
         self.contentView.addSubview(separatorView)
@@ -70,9 +70,10 @@ class OrderProductTableViewCell : ProductTableViewCell {
         productImage!.frame = CGRect(x: 16, y: 0, width: 80, height: 109)
         productShortDescriptionLabel!.frame = CGRect(x: productImage!.frame.maxX + 16, y: 16, width: self.frame.width - (productImage!.frame.maxX + 16) - 16, height: 28)
         btnShoppingCart.frame = CGRect(x: self.frame.width - 16 - 32, y: productShortDescriptionLabel!.frame.maxY + 16, width: 32, height: 32)
-        separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 108,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 1)
+        separatorView.frame = CGRect(x: 0, y: 108,width: self.frame.width, height: 1)
         upcString.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productShortDescriptionLabel!.frame.maxY + 18,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12)
-        quantityString.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: upcString.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12)
+        self.productPriceLabel!.frame = CGRect(x: productImage!.frame.maxX - 16, y: productShortDescriptionLabel!.frame.maxY + 18,width: 120.0, height: 20)
+        quantityString.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + 3,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: 12)
     }
     
     func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,quantity:NSString, type:ResultObjectType, pesable:Bool, onHandInventory:String,isActive:Bool,isPreorderable:String) {
@@ -99,7 +100,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         upcString.attributedText = valuesDescItem
         
         var lblItems = NSLocalizedString("previousorder.quantity",comment:"")
-        var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
+        var attrStringLabQ = NSAttributedString(string:"\(lblItems) - ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
         var attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         if pesable {

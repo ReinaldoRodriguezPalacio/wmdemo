@@ -63,7 +63,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         trackingNumberLabel.frame = CGRect(x:16, y: 18, width: IS_IPAD ? 284 : labelWidth - 10, height: 14)
         dateLabel.frame = CGRect(x: trackingNumberLabel.frame.maxX, y: 18, width: 70, height: 14)
         statusLabel.frame = CGRect(x: dateLabel.frame.maxX, y: 18, width: IS_IPAD ? 284 : labelWidth + 10, height: 14)
-        viewSeparator.frame = CGRect(x: dateLabel.frame.minX,y: self.bounds.maxY - AppDelegate.separatorHeigth(),width: self.bounds.width - dateLabel.frame.minX,height: AppDelegate.separatorHeigth())
+        viewSeparator.frame = CGRect(x: 0,y: self.bounds.maxY - AppDelegate.separatorHeigth(),width: self.bounds.width,height: AppDelegate.separatorHeigth())
         
         
     }

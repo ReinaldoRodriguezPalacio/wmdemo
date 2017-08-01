@@ -806,36 +806,38 @@ extension IPAProductDetailViewController: UITableViewDelegate {
         case (1,1) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
-            //if msi.count == 0 {rowChose += 2}
+            if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 && msi.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,2) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 && msi.count == 0{rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,3) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
-            if bundleItems.count == 0 {rowChose += 2}
             if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,4):
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
-            if bundleItems.count == 0 {rowChose += 2}
             if msi.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,5) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 2}
-            if characteristics.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         case (1,6) :
             var rowChose = indexPath.row
             if !self.hasProvider {rowChose += 1}
             if msi.count == 0 {rowChose += 2}
-            if characteristics.count == 0 {rowChose += 2}
+            if bundleItems.count == 0 {rowChose += 2}
             return sizeForIndexPath((indexPath.section,rowChose),indexPath:indexPath)
         default :
             return 0
@@ -881,7 +883,7 @@ extension IPAProductDetailViewController: UITableViewDelegate {
             return sizeForIndexPath ((indexPath.section,2),indexPath: indexPath)
         case (1,2):
             if  msi.count != 0 {
-                return (CGFloat(msi.count) * 17) + 22.0
+                return (CGFloat(msi.count) * 20) + 22.0
             }
             return sizeForIndexPath ((indexPath.section,3),indexPath: indexPath)
         case (1,3) :
@@ -902,7 +904,7 @@ extension IPAProductDetailViewController: UITableViewDelegate {
         case (1,6) :
             if characteristics.count != 0 {
                 let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
-                return size + 126
+                return size + 120
             }
             return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
         default :
@@ -1826,6 +1828,10 @@ extension IPAProductDetailViewController: ProducDetailProviderTableViewCellDeleg
         self.price = providerInfo!["price"] as! NSString
         self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
         self.tabledetail.reloadData()
+        self.closeContainer({ () -> Void in
+            self.productDetailButton?.reloadShoppinhgButton()
+        }, completeClose: { () -> Void in
+        }, closeRow:true)
     }
 }
 

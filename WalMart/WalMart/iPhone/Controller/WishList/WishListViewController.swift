@@ -843,9 +843,9 @@ extension WishListViewController: UITableViewDataSource {
         }
         
         let savingIndex = itemWishlist.index(forKey: "saving")
-        var savingVal = "0.0"
+        var savingVal: NSString = "0.0"
         if savingIndex != nil {
-            savingVal = itemWishlist["saving"]  as! String
+            savingVal = itemWishlist["saving"]  as! NSString
         }
         
         let active  = itemWishlist["isActive"] as! String
