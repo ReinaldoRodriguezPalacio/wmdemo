@@ -446,7 +446,7 @@ class IPAProductDetailViewController : UIViewController {
         self.name = result["description"] as! String as NSString
         self.price = result["price"] as! String as NSString
         self.detail = result["detail"] as! String as NSString
-        self.upc = result["upc"] as! NSString
+        //self.upc = result["upc"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
         }

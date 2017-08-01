@@ -170,15 +170,32 @@ class OrderProviderDetailViewController : NavigationViewController {
     }
     
     func showProducDetail(_ indexPath: IndexPath){
-        let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section) as [Any]
-        controller.ixSelected = indexPath.row
-        if !showFedexGuide {
-            controller.ixSelected = indexPath.row - 2
+        if IS_IPAD {
+            
+            let controller = IPAProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems(indexPath.section)
+            controller.ixSelected = indexPath.row
+            controller.detailOf = "Order"
+            if !showFedexGuide {
+                controller.ixSelected = indexPath.row - 2
+            }
+            
+            if let navCtrl = self.navigationController!.parent as UIViewController! {
+                navCtrl.navigationController!.pushViewController(controller, animated: true)
+            }
+            
+        }else{
+            let controller = ProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems(indexPath.section) as [Any]
+            controller.ixSelected = indexPath.row
+            if !showFedexGuide {
+                controller.ixSelected = indexPath.row - 2
+            }
+            controller.detailOf = "Order"
+            self.navigationController!.delegate = nil
+            self.navigationController!.pushViewController(controller, animated: true)
         }
-        controller.detailOf = "Order"
-        self.navigationController!.delegate = nil
-        self.navigationController!.pushViewController(controller, animated: true)
+        
         
     }
     

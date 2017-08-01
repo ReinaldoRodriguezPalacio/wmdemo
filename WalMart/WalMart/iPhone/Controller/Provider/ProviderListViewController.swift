@@ -63,7 +63,8 @@ class ProviderListViewController: NavigationViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - 46)
+        let footerBar: CGFloat = IS_IPAD ? 0 : 46.0
+        self.providerTable.frame = CGRect(x: 0, y: self.header!.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - self.header!.frame.maxY - footerBar)
     }
     
     func endUpdatingShoppingCart() {
