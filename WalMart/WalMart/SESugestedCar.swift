@@ -8,7 +8,9 @@
 
 import Foundation
 
-class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate{
+
+
+class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate, SESugestedRowTitleViewCellDelegate{
 
     var alertView : IPOWMAlertViewController? = nil
     var viewLoad : WMLoadingView!
@@ -80,8 +82,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        //cargaProductos()
-        self.invokeMultisearchService()
+        cargaProductos()
+        //self.invokeMultisearchService()
         
     }
     
@@ -116,6 +118,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
         cell.setValues(searchWordBySection[section], section: section)
         cell.deleteItem.tag = section
+        cell.delegate = self
         cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         cell.backgroundColor = UIColor.white
         return cell
@@ -352,6 +355,14 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         sugestedCarTableView.endUpdates()
         sugestedCarTableView.reloadData()
+    }
+    
+    func updateSection(section:Int,newSection:String){
+        searchWordBySection[section] = newSection
+        print(searchWordBySection)
+        allProducts![section]["term"] = newSection
+        print(allProducts)
         
+        sugestedCarTableView.reloadData()
     }
 }

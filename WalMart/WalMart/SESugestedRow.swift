@@ -111,5 +111,4 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         selectedItems[item] = false
         delegate?.itemDeSelected(seccion: self.section, itemSelected: item)
     }
-
 }

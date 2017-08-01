@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol SESugestedRowTitleViewCellDelegate{
+    func updateSection(section:Int, newSection:String)
+}
+
 class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     
     
@@ -16,7 +20,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var deleteItem: UIButton!
     var editItem: UIButton!
     var section: Int!
-    
+    var delegate : SESugestedCar!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,7 +61,6 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.itemViewTxt!.autocapitalizationType = .none
         self.itemViewTxt!.autocorrectionType = .no
         self.itemViewTxt!.enablesReturnKeyAutomatically = true
-        //self.itemViewTxt!.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.addSubview(self.itemViewTxt)
         
         self.deleteItem = UIButton(frame:CGRect(x: self.frame.width - 40, y: 0,width: 30, height: self.frame.height))
@@ -68,11 +71,13 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     
     func setValues(_ itemNameList:String, section: Int) {
         self.itemView!.text = itemNameList
+        self.itemViewTxt!.text = itemNameList
         self.section = section
     }
     
     func editSection(_ sender:UIButton){
         sender.isEnabled = false
+        sender.tag = section
         self.deleteItem.isEnabled = false
         self.itemView!.isHidden = true
         self.itemViewTxt!.isHidden = false
@@ -88,25 +93,16 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
+        textField.endEditing(true)
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
-            
-            //buscaSugerencias(textField.text)
-            
-            /*selectedItems.append(textField.text!)
-            listaSuper.reloadData()
-            textField.text = ""
-            self.myArray = []
-            self.cargaSugerencias()*/
-            
-            self.editItem.isEnabled = true
             self.deleteItem.isEnabled = true
-            self.itemView!.isHidden = false
-            self.itemViewTxt!.isHidden = true
-            self.itemView!.text = self.itemViewTxt!.text
-            
+            self.itemView!.isHidden = true
+            self.itemViewTxt!.isHidden = false
+            self.itemViewTxt!.text = self.itemView!.text
+
+            delegate?.updateSection(section: self.section, newSection: textField.text!)
             return true
         }
         
