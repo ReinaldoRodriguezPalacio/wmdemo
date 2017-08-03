@@ -1152,6 +1152,21 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showSuperExpressSearch() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
+        
+        if IS_IPAD{
+            let controller = IPASearchTiresIniViewController()
+            controller.delegate = nil
+            controller.modalPresentationStyle = .overCurrentContext
+            
+            self.btnSearch!.isSelected = true
+            self.closeSearch(false, sender: nil)
+            
+            let controllernav = self.currentController as? UINavigationController
+            controllernav?.present(controller, animated: false, completion: nil)
+        
+        }
+        
+        
         let controller = SESearchViewController()
         let controllernav = self.currentController as? UINavigationController
         if (controllernav?.childViewControllers.last as? SearchViewController) != nil {

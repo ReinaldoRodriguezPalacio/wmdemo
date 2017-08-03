@@ -399,14 +399,12 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func showSuperExpressSearch(_ sender:UIButton) {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
-        let controller = SESearchViewController()
+        let controller = IPASearchTiresIniViewController()
+        controller.delegate = nil
+        controller.modalPresentationStyle = .overCurrentContext
         
         let controllernav = self.navigationController
-        let controllersInNavigation = controllernav?.viewControllers.count
-        if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
-            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-        }
-        controllernav?.pushViewController(controller, animated: true)
+        controllernav?.present(controller, animated: false, completion: nil)
         
     }
     
