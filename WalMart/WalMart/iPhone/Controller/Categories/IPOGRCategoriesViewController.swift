@@ -581,7 +581,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let controller = SESearchViewController()
         let controllernav = self.navigationController
             let controllersInNavigation = controllernav?.viewControllers.count
-            if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
+            if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
                 controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
             }
             controllernav?.pushViewController(controller, animated: true)
