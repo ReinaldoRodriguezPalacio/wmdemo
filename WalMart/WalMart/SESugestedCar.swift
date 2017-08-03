@@ -32,6 +32,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var viewFooter: UIView!
     var lblItemsCount: UILabel!
     var btnAddToCart: UIButton?
+    var btnAddItem: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SESEARCHRESULT.rawValue
@@ -73,7 +74,14 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         self.btnAddToCart?.backgroundColor = WMColor.green
         self.btnAddToCart?.layer.cornerRadius = 15
         
+        self.btnAddItem = UIButton(frame:.zero)
+        //btnAddItem!.addTarget(self, action: #selector(self.addNewItem(_:)), for: .touchUpInside)
+        self.btnAddItem?.setImage(UIImage(named: "ver_todo"), for: UIControlState())
+        self.btnAddItem?.backgroundColor = WMColor.light_gray
+        self.btnAddItem?.layer.cornerRadius = 15
+        
         self.viewFooter.addSubview(btnAddToCart!)
+        self.viewFooter.addSubview(btnAddItem!)
         self.view.addSubview(viewFooter)
         
         lblItemsCount = UILabel()
@@ -82,8 +90,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
         
     }
     
@@ -105,7 +113,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY, width: self.view.frame.size.width, height: 20)
 
         self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 20, width: self.view.frame.size.width, height: 40)
-        self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2 - self.viewFooter.frame.size.width / 4, y: 5, width: self.viewFooter.frame.size.width / 2, height: 30)
+        self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2, y: 5, width: 0.8 * self.viewFooter.frame.size.width / 2, height: 30)
+        self.btnAddItem?.frame = CGRect(x: self.viewFooter.frame.size.width / 4 - 15, y: 5, width: 30, height: 30)
     }
     
     override func back(){
@@ -233,6 +242,22 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         actualizaNumItems()
     }
     
+    func itemDeSelectedAllBySection(seccion:Int){
+        let productos = allProducts![seccion]["products"] as! [[String:Any]]
+        
+        for a in 0..<productos.count{
+            for idxVal in 0..<self.itemsSelected!.count{
+                let item = self.itemsSelected![idxVal]
+                if (productos[a]["upc"] as! String == item["upc"] as! String){
+                itemsSelected.remove(at: idxVal)
+                break
+                }
+            }
+        }
+        actualizaNumItems()
+    }
+
+    
     func actualizaNumItems(){
     lblItemsCount.text = "\(itemsSelected.count) artículos"
     }
@@ -274,6 +299,43 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
     }
     
+    func invokeEditWordMultisearchService(newWord:String, section:Int) {
+        searchWords = []
+        searchWords.append(newWord)
+        self.showLoadingView()
+        if UserCurrentSession.hasLoggedUser(){
+            
+            let multipleSearchService = SEmultipleSearchListService()
+            multipleSearchService.callService(params: searchWords,
+                                              successBlock: { (response:[String:Any]) -> Void in
+                                                print("Call multiSearchService success")
+                                                self.removeLoadingView()
+                                                self.getProductosBySearchOneProd(arrayProductos: response["responseArray"] as! [[String : Any]], section:section)
+            },
+                                              errorBlock: { (error:NSError) -> Void in
+                                                print("Call multiSearchService error \(error)")
+            }
+            )
+            
+        }else{
+            
+            let multipleSearchService = SEmultipleSearchService()
+            multipleSearchService.callService(params: searchWords,
+                                              successBlock: { (response:[String:Any]) -> Void in
+                                                print("Call multiSearchService success")
+                                                self.removeLoadingView()
+                                                self.getProductosBySearchOneProd(arrayProductos: response["responseArray"] as! [[String : Any]], section:section)
+            },
+                                              errorBlock: { (error:NSError) -> Void in
+                                                print("Call multiSearchService error \(error)")
+                                                self.removeLoadingView()
+            }
+            )
+        }
+        
+    }
+
+    
     func showLoadingView() {
         
         if self.viewLoad != nil {
@@ -295,7 +357,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func getProductosBySearch(arrayProductos:[[String:Any]]){
         allProducts = arrayProductos
-        
+    
         searchWordBySection = []
         
         for i in 0..<allProducts!.count{
@@ -317,6 +379,24 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         }
         sugestedCarTableView.reloadData()
     }
+
+    func getProductosBySearchOneProd(arrayProductos:[[String:Any]], section: Int){
+        let products = arrayProductos
+        
+        for i in 0..<products.count{
+            for (key, value) in products[i] {
+                if key == "products"{
+                    allProducts![section]["products"] = products[i]["products"] as! [[String:Any]]
+                }
+            }
+        }
+        
+        //sugestedCarTableView.reloadRows(at: [IndexPath(row: 0, section: section)], with: UITableViewRowAnimation.automatic)
+        sugestedCarTableView.reloadData()
+        
+        
+    }
+
     
     func addListToCart(_ sender:UIButton) {
         
@@ -351,18 +431,23 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                 itemsSelected.remove(at: i)
             }
         }*/
-        allProducts?.remove(at: sender.tag)
         
+        self.itemDeSelectedAllBySection(seccion: sender.tag)
+        
+        allProducts?.remove(at: sender.tag)
         sugestedCarTableView.endUpdates()
         sugestedCarTableView.reloadData()
     }
     
     func updateSection(section:Int,newSection:String){
+        self.itemDeSelectedAllBySection(seccion: section)
         searchWordBySection[section] = newSection
         print(searchWordBySection)
         allProducts![section]["term"] = newSection
         print(allProducts)
-        
-        sugestedCarTableView.reloadData()
+        sugestedCarTableView.beginUpdates()
+        self.invokeEditWordMultisearchService(newWord: newSection, section: section)
+        sugestedCarTableView.endUpdates()
+
     }
 }

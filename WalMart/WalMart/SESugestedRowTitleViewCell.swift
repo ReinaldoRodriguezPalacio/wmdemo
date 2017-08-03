@@ -12,6 +12,10 @@ protocol SESugestedRowTitleViewCellDelegate{
     func updateSection(section:Int, newSection:String)
 }
 
+protocol SESugestedRowCleanCellsDelegate{
+    func cleanCollectionView()
+}
+
 class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     
     
@@ -21,7 +25,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var editItem: UIButton!
     var section: Int!
     var delegate : SESugestedCar!
-    
+    var delegate2 : SESugestedRow!
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -85,6 +89,17 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.itemViewTxt!.becomeFirstResponder()
     }
     
+    func endEditSection(_ sender:UIButton){
+        sender.isEnabled = true
+        sender.tag = section
+        self.deleteItem.isEnabled = true
+        self.itemView!.isHidden = false
+        self.itemViewTxt!.isHidden = true
+        self.itemView!.text = self.itemViewTxt!.text
+        //self.itemViewTxt!.resignFirstResponder()
+    }
+    
+    
     func textFieldDidChange(_ textField: UITextField) {
         //myArray = []
         //myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
@@ -97,13 +112,10 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
-            self.deleteItem.isEnabled = true
-            self.itemView!.isHidden = true
-            self.itemViewTxt!.isHidden = false
-            self.itemViewTxt!.text = self.itemView!.text
+            self.endEditSection(self.editItem)
 
             delegate?.updateSection(section: self.section, newSection: textField.text!)
-            return true
+            delegate2?.cleanCollectionView()
         }
         
         return false

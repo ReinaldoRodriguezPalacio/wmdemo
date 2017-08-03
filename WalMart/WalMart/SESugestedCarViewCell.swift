@@ -16,12 +16,12 @@ protocol SESugestedCarViewCellDelegate {
 
 class SESugestedCarViewCell : UICollectionViewCell {
     
-    var upc : String!
-    var desc : String!
-    var price : String!
-    var imageURL : String!
-    var leftView : UIView!
-    var rightView : UIView!
+    var upc : String! = nil
+    var desc : String! = nil
+    var price : String! = nil
+    var imageURL : String! = nil
+    var leftView : UIView! = nil
+    var rightView : UIView! = nil
     
     var productImage : UIImageView? = nil
     var productShortDescriptionLabel : UILabel? = nil

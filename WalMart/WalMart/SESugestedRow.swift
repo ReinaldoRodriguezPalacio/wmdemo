@@ -14,7 +14,7 @@ protocol SESugestedRowDelegate {
     func itemDeSelected(seccion:Int, itemSelected: Int)
 }
 
-class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate {
+class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate,SESugestedRowCleanCellsDelegate {
     var collection: UICollectionView?
     var contenido: UIView!
     var productosData: [[String:Any]]? = nil
@@ -24,7 +24,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        //setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,6 +53,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             selectedItems.append(false)
         }
         self.section = section
+        setup()
     }
     
     func getCollectionView() -> UICollectionView {
@@ -69,7 +70,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return productosData!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -85,7 +86,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         }
 
         cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
-                return cell
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -104,11 +105,17 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     func seleccionados(item:Int){
         selectedItems[item] = true
         delegate?.itemSelected(seccion: self.section, itemSelected: item)
-        
     }
     
     func deseleccionados(item:Int){
         selectedItems[item] = false
         delegate?.itemDeSelected(seccion: self.section, itemSelected: item)
+    }
+    
+    func cleanCollectionView(){
+        for i in 0..<Int((productosData?.count)!){
+            selectedItems[i] = false
+        }
+        self.collection?.removeFromSuperview()
     }
 }

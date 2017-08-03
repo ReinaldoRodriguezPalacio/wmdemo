@@ -237,6 +237,13 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
 
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+            print("Remove NotificationCenter Deinit")
+            NotificationCenter.default.removeObserver(self)
+        
+    }
+    
     func viewReplaceContent(_ frame:CGRect) -> UIView! {
         return UIView()
     }
@@ -375,6 +382,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func createPreferedCar(_ sender:UIButton){
+        
         let controller = SESugestedCar()
         controller.titleHeader = "Súper Express"
         controller.searchWords = selectedItems

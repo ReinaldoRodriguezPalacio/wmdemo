@@ -28,7 +28,7 @@ class SEListaViewCell: UITableViewCell {
     override func layoutSubviews() {
         
         self.itemView.frame = CGRect(x: 15, y: 5, width: self.frame.width - 90, height: 30)
-        self.deleteItem.frame = CGRect(x: self.frame.width - 60, y: 5,width: 30, height: 30)
+        self.deleteItem.frame = CGRect(x: self.frame.width - 40, y: 5,width: 30, height: 30)
         self.separator!.frame = CGRect(x: self.frame.maxX, y: self.bounds.height - 1,width: self.frame.width, height: 1)
         
     }
@@ -39,7 +39,7 @@ class SEListaViewCell: UITableViewCell {
         self.itemView!.font =  WMFont.fontMyriadProLightOfSize(14) //WMFont.fontMyriadProRegularOfSize(14)
         self.addSubview(self.itemView)
         
-        self.deleteItem = UIButton(frame:CGRect(x: self.frame.width - 60, y: 5,width: 30, height: 30))
+        self.deleteItem = UIButton(frame:CGRect(x: self.frame.width - 40, y: 5,width: 30, height: 30))
         self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
         self.addSubview(self.deleteItem)
         
