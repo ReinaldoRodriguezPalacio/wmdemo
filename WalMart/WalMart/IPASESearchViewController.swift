@@ -22,6 +22,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     var viewHeader: UIView!
     var viewTitleBar: UIView!
     var lbltitle:UILabel!
+    var lblSugerencias:UILabel!
     var btnCerrarModulo:UIButton!
     var btnCancelar:UIButton!
       var clearButton: UIButton?
@@ -82,7 +83,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         lbltitle.text = "Súper en minutos"
         lbltitle.textAlignment = .center
         lbltitle.font=WMFont.fontMyriadProRegularOfSize(titlesFontSize)
-        
+
         btnCerrarModulo = UIButton(frame: CGRect.zero)
         btnCerrarModulo.setImage(UIImage(named: "delete_icon"), for: UIControlState.normal)
         btnCerrarModulo.addTarget(self, action: #selector(self.cierraSearch(_:)), for: UIControlEvents.touchUpInside)
@@ -153,7 +154,14 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         sugestedTerms?.showsHorizontalScrollIndicator = true
         sugestedTerms.autoresizingMask = UIViewAutoresizing.flexibleWidth
         
+        lblSugerencias = UILabel(frame: CGRect.zero)
+        lblSugerencias.textColor = UIColor.white
+        lblSugerencias.text = "Sugerencias"
+        lblSugerencias.textAlignment = .left
+        lblSugerencias.font=WMFont.fontMyriadProRegularOfSize(12)
+        
         viewHeader.addSubview(sugestedTerms)
+        viewHeader.addSubview(lblSugerencias)
         
         self.cargaSugerencias()
 
@@ -184,7 +192,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         viewHeader.frame = CGRect(x: 0,  y: viewTitleBar.frame.maxY, width: self.viewSearch.bounds.width, height: self.viewSearch.bounds.height * 0.12 )
         
-        //lblDescription.frame = CGRect(x: 15, y: 10, width: viewHeader.frame.size.width-50 , height: 30)
+        //
         
         self.field!.frame = CGRect(x: 15, y: viewHeader.bounds.height * 0.2, width: self.viewHeader.bounds.width * 0.4, height: viewHeader.bounds.height * 0.6)
         
@@ -196,7 +204,10 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         listaSuper.frame = CGRect(x: 0, y: 0, width: self.containerView.frame.size.width, height: self.containerView.frame.size.height - 150)
         
-        sugestedTerms.frame = CGRect(x: (self.field?.frame.maxX)! + 5, y: viewHeader.bounds.height * 0.2, width: viewHeader.frame.size.width * 0.6, height: 30)
+        sugestedTerms.frame = CGRect(x: (self.field?.frame.maxX)! + 10, y: self.field!.frame.origin.y + sugestedTerms.frame.height / 2, width: viewHeader.frame.size.width * 0.55, height: 30)
+        
+        lblSugerencias.frame = CGRect(x: sugestedTerms.frame.origin.x, y: self.field!.frame.origin.y, width: 15, height: 30)
+        lblSugerencias.sizeToFit()
         
     }
     
@@ -231,11 +242,11 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         if keyword.length() < 1 {
             keyword = ""
-            /*self.myArray = []
-            self.cargaSugerencias()*/
+            self.myArray = []
+            self.cargaSugerencias()
         }
         
-        //searchctrl.searchProductKeywords(keyword) //por peticionwm
+        //searchctrl.searchProductKqeywords(keyword) //por peticionwm
         self.showClearButtonIfNeeded(forTextValue: keyword)
 
         return true
@@ -253,18 +264,20 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     func clearSearch(){
         
         self.field!.text = ""
+        myArray = []
+        self.cargaSugerencias()
         self.showClearButtonIfNeeded(forTextValue: self.field!.text!)
     
     }
     
     func showClearButtonIfNeeded(forTextValue text:String) {
         if text.lengthOfBytes(using: String.Encoding.utf8) > 0{
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.clearButton!.alpha = 1
             })
         }
         else {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.clearButton!.alpha = 0
             })
         }
@@ -281,12 +294,12 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         cellreturn.setValues(selectedItems[indexPath.row])
         cellreturn.deleteItem.tag = indexPath.row
-       // cellreturn.deleteItem.addTarget(self, action: #selector(self.delFromList(_:)), for: UIControlEvents.touchUpInside)
+        cellreturn.deleteItem.addTarget(self, action: #selector(self.delFromList(_:)), for: UIControlEvents.touchUpInside)
         
         if (indexPath.row % 2) != 0{
-            cellreturn.backgroundColor = UIColor.white
-        }else{
             cellreturn.backgroundColor = WMColor .light_gray
+        }else{
+            cellreturn.backgroundColor = UIColor.white
             
         }
         
@@ -333,7 +346,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             button.contentEdgeInsets = UIEdgeInsetsMake(5,15,5,15)
             button.sizeToFit()
             button.tag = i
-            //button.addTarget(self, action: #selector(self.addToList(_:)), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(self.addToList(_:)), for: UIControlEvents.touchUpInside)
             widthAnt += Int(button.frame.size.width) + 15
             
             self.sugestedTerms.addSubview(button)
@@ -347,6 +360,19 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
         myArray = []
+    }
+
+    func addToList(_ sender:UIButton){
+        selectedItems.append(myArray[sender.tag])
+        listaSuper.reloadData()
+        self.field?.text = ""
+        self.myArray = []
+        self.cargaSugerencias()
+    }
+    
+    func delFromList(_ sender:UIButton){
+        selectedItems.remove(at: sender.tag)
+        listaSuper.reloadData()
     }
 
     

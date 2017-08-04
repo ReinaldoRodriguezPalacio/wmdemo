@@ -312,7 +312,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         if (indexPath.row % 2) != 0{
             cellreturn.backgroundColor = WMColor .light_gray
         }else{
-            cellreturn.backgroundColor = WMColor .light_light_gray
+            cellreturn.backgroundColor = UIColor .white
             
         }
         
