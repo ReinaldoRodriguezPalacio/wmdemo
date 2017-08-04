@@ -399,8 +399,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func showSuperExpressSearch(_ sender:UIButton) {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
-        let controller = IPASearchTiresIniViewController()
-        controller.delegate = nil
+        let controller = IPASESearchViewController()
         controller.modalPresentationStyle = .overCurrentContext
         
         let controllernav = self.navigationController

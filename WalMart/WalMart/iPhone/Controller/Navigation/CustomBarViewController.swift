@@ -1154,8 +1154,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         
         if IS_IPAD{
-            let controller = IPASearchTiresIniViewController()
-            controller.delegate = nil
+            let controller = IPASESearchViewController()
             controller.modalPresentationStyle = .overCurrentContext
             
             self.btnSearch!.isSelected = true
@@ -1164,29 +1163,32 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let controllernav = self.currentController as? UINavigationController
             controllernav?.present(controller, animated: false, completion: nil)
         
-        }
+        }else{        
         
-        
-        let controller = SESearchViewController()
-        let controllernav = self.currentController as? UINavigationController
-        if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
-            self.onCloseSearch = {
-                let navController = self.currentController as? UINavigationController
-                let controllersInNavigation = navController?.viewControllers.count
-                if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SearchTiresIniViewController != nil){
-                    navController?.viewControllers.remove(at: controllersInNavigation! - 1)
-                    self.isEditingSearch = false
+            let controller = SESearchViewController()
+            let controllernav = self.currentController as? UINavigationController
+            if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                self.onCloseSearch = {
+                    let navController = self.currentController as? UINavigationController
+                    let controllersInNavigation = navController?.viewControllers.count
+                    if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SearchTiresIniViewController != nil){
+                        navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                        self.isEditingSearch = false
+                    }
+                    navController?.pushViewController(controller, animated: true)
                 }
-                navController?.pushViewController(controller, animated: true)
+            }else{
+                let controllersInNavigation = controllernav?.viewControllers.count
+                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
+                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                    isEditingSearch = false
+                }
+                controllernav?.pushViewController(controller, animated: true)
             }
-        }else{
-            let controllersInNavigation = controllernav?.viewControllers.count
-            if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
-                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
-                isEditingSearch = false
-            }
-            controllernav?.pushViewController(controller, animated: true)
+
         }
+        
+        
         
         self.btnSearch!.isSelected = true
         self.closeSearch(false, sender: nil)
