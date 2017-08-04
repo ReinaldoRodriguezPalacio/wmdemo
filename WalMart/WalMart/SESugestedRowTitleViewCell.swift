@@ -10,6 +10,7 @@ import Foundation
 
 protocol SESugestedRowTitleViewCellDelegate{
     func updateSection(section:Int, newSection:String)
+    func scrollUp(section:Int,cell:UITableViewCell)
 }
 
 protocol SESugestedRowCleanCellsDelegate{
@@ -71,6 +72,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
         self.addSubview(self.deleteItem)
         
+        
     }
     
     func setValues(_ itemNameList:String, section: Int) {
@@ -98,13 +100,18 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.itemView!.text = self.itemViewTxt!.text
         //self.itemViewTxt!.resignFirstResponder()
     }
-    
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let cell = textField.superview as! UITableViewCell
+        delegate?.scrollUp(section: self.section, cell: cell)
+    }
     
     func textFieldDidChange(_ textField: UITextField) {
         //myArray = []
         //myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
         //self.invokeTypeAheadService()
         //self.cargaSugerencias()
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -124,6 +131,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text! as NSString
         var  keyword = strNSString.replacingCharacters(in: range, with: string)
+
         if keyword.length() > 51 {
             return false
         }

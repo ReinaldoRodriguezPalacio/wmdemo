@@ -98,7 +98,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         }else{
         
             viewBackButton = UIView(frame: CGRect(x: 0,  y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.20 ))
-            viewBackButton.backgroundColor = WMColor.dark_blue
+            viewBackButton.backgroundColor = WMColor.light_blue
             
             lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-50 , height: 30))
             lbltitle.textColor = UIColor.white
@@ -329,8 +329,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func textFieldDidChange(_ textField: UITextField) {
         myArray = []
-        //myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
-        self.invokeTypeAheadService()
+        myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+        if myArray.count == 0{
+            self.invokeTypeAheadService()
+        }
         self.cargaSugerencias()
     }
 
@@ -384,7 +386,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func createPreferedCar(_ sender:UIButton){
         
         let controller = SESugestedCar()
-        controller.titleHeader = "Súper Express"
+        controller.titleHeader = "Súper en minutos"
         controller.searchWords = selectedItems
         self.navigationController!.pushViewController(controller, animated: true)
     }

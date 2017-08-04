@@ -21,6 +21,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var section: Int!
     var delegate: SESugestedCar?
     var selectedItems : [Bool]! = []
+    var widthScreen : CGFloat!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -34,7 +35,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     func setup() {
         
         
-        contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width + 50, height: 100))
+        contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen + 50, height: 100))
         contenido.backgroundColor = UIColor.blue
         collection = getCollectionView()
         collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
@@ -47,12 +48,13 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         
     }
     
-    func setValues(_ items:[[String:Any]], section:Int) {
+    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
         self.productosData = items
         for _ in 0...Int((productosData?.count)!){
             selectedItems.append(false)
         }
         self.section = section
+        self.widthScreen = widthScreen
         setup()
     }
     
@@ -95,6 +97,12 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if IS_IPAD{
+            let hardCodedPadding:CGFloat = 3
+            let itemWidth = ((self.superview?.frame.width)! * 0.3) - hardCodedPadding
+            let itemHeight = collectionView.bounds.height * 0.9 - (2 * hardCodedPadding)
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
         let hardCodedPadding:CGFloat = 3
         let itemWidth = ((self.superview?.frame.width)! * 0.7) - hardCodedPadding
         let itemHeight = collectionView.bounds.height * 0.9 - (2 * hardCodedPadding)

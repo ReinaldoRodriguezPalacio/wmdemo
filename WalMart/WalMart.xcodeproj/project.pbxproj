@@ -69,6 +69,7 @@
 		0C6704C81F1E6DD200175C0A /* SEabcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C71F1E6DD200175C0A /* SEabcService.swift */; };
 		0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */; };
 		0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */; };
+		0C9776371F34E54400FB5F25 /* IPASESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */; };
 		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
 		0CDBDB861F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */; };
 		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
@@ -683,6 +684,7 @@
 		0C6704C71F1E6DD200175C0A /* SEabcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEabcService.swift; sourceTree = "<group>"; };
 		0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadListService.swift; sourceTree = "<group>"; };
 		0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRow.swift; sourceTree = "<group>"; };
+		0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASESugestedCar.swift; sourceTree = "<group>"; };
 		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
 		0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRowTitleViewCell.swift; sourceTree = "<group>"; };
 		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
@@ -3371,6 +3373,7 @@
 			isa = PBXGroup;
 			children = (
 				0C4EF8F91F33938200C54AAE /* IPASESearchViewController.swift */,
+				0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3824,6 +3827,7 @@
 				560BE7A51A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift in Sources */,
 				041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */,
 				0CDC9DBC1ED75B9B001F03E4 /* InvoiceDataViewController.swift in Sources */,
+				0C9776371F34E54400FB5F25 /* IPASESugestedCar.swift in Sources */,
 				56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */,
 				56E54E4119EC3C480004161C /* IPAFamilyViewController.swift in Sources */,
 				04B640D41A8C14A300D5835E /* DetailListViewCell.swift in Sources */,

@@ -90,8 +90,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        //cargaProductos()
-        self.invokeMultisearchService()
+        cargaProductos()
+        //self.invokeMultisearchService()
         
     }
     
@@ -106,9 +106,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let startPoint = self.header!.frame.maxY
         
         var heightScreen = self.view.bounds.height - startPoint
-        if !IS_IPAD {
-            heightScreen -= 44
-        }
+        
         self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen - 60)
         self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY, width: self.view.frame.size.width, height: 20)
 
@@ -148,7 +146,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
-        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section)
+        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
         return cell
     }
     
@@ -449,5 +447,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         self.invokeEditWordMultisearchService(newWord: newSection, section: section)
         sugestedCarTableView.endUpdates()
 
+    }
+    
+    func scrollUp(section:Int, cell:UITableViewCell){
+    sugestedCarTableView.scrollToRow(at: IndexPath(row: 0, section: section), at: .top, animated: true)
     }
 }

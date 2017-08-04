@@ -95,12 +95,6 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         viewHeader = UIView(frame: CGRect.zero)
         viewHeader.backgroundColor = WMColor.dark_blue
         
-        /*lblDescription = UILabel(frame: CGRect(x: 15, y: 10, width: viewHeader.frame.size.width-50 , height: 30))
-        lblDescription.textColor = UIColor.white
-        lblDescription.font = WMFont.fontMyriadProRegularOfSize(12)
-        lblDescription.text = NSLocalizedString("superExpress.info.description", comment: "")
-        lblDescription.numberOfLines = 0*/
-        
         self.field = FormFieldSearch()
         self.field!.delegate = self
         self.field!.returnKeyType = .done
@@ -155,15 +149,36 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         sugestedTerms.autoresizingMask = UIViewAutoresizing.flexibleWidth
         
         lblSugerencias = UILabel(frame: CGRect.zero)
-        lblSugerencias.textColor = UIColor.white
+        lblSugerencias.textColor = WMColor.light_light_blue
         lblSugerencias.text = "Sugerencias"
         lblSugerencias.textAlignment = .left
         lblSugerencias.font=WMFont.fontMyriadProRegularOfSize(12)
         
+        lblDescription = UILabel(frame: CGRect.zero)
+        lblDescription.textColor = WMColor.light_blue
+        lblDescription.font = WMFont.fontMyriadProRegularOfSize(12)
+        lblDescription.text = NSLocalizedString("superExpress.info.description", comment: "")
+        lblDescription.numberOfLines = 0
+        
+        okButton = UIButton()
+        okButton!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
+        okButton.tintColor = UIColor.white
+        okButton.setTitle("Listo" , for: UIControlState.normal)
+        okButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        okButton.backgroundColor = WMColor.green
+        okButton.layer.cornerRadius = 15
+        
         viewHeader.addSubview(sugestedTerms)
         viewHeader.addSubview(lblSugerencias)
         
+        containerView.addSubview(lblDescription)
+        containerView.addSubview(okButton)
+        
         self.cargaSugerencias()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SESearchViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
 
     }
     
@@ -192,8 +207,6 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         viewHeader.frame = CGRect(x: 0,  y: viewTitleBar.frame.maxY, width: self.viewSearch.bounds.width, height: self.viewSearch.bounds.height * 0.12 )
         
-        //
-        
         self.field!.frame = CGRect(x: 15, y: viewHeader.bounds.height * 0.2, width: self.viewHeader.bounds.width * 0.4, height: viewHeader.bounds.height * 0.6)
         
         self.clearButton!.frame = CGRect(x: self.field!.frame.width - viewHeader.bounds.height * 0.6, y: 0.0, width: viewHeader.bounds.height * 0.6, height: viewHeader.bounds.height * 0.6)
@@ -202,12 +215,16 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         containerView.frame = CGRect(x: 0,  y: viewHeader.frame.maxY, width: self.viewSearch.bounds.width, height: self.viewSearch.bounds.height - self.viewSearch.bounds.height * 0.12)
         
-        listaSuper.frame = CGRect(x: 0, y: 0, width: self.containerView.frame.size.width, height: self.containerView.frame.size.height - 150)
+        listaSuper.frame = CGRect(x: 0, y: 0, width: self.containerView.frame.size.width, height: self.containerView.frame.size.height - 100)
         
         sugestedTerms.frame = CGRect(x: (self.field?.frame.maxX)! + 10, y: self.field!.frame.origin.y + sugestedTerms.frame.height / 2, width: viewHeader.frame.size.width * 0.55, height: 30)
         
         lblSugerencias.frame = CGRect(x: sugestedTerms.frame.origin.x, y: self.field!.frame.origin.y, width: 15, height: 30)
         lblSugerencias.sizeToFit()
+        
+        lblDescription.frame = CGRect(x: 15, y: listaSuper.frame.maxY + 10, width: containerView.frame.size.width / 2 , height: 30)
+        
+        okButton.frame = CGRect(x: 2 * self.containerView.frame.size.width / 3 , y: listaSuper.frame.maxY + 10, width: self.containerView.frame.size.width / 4, height: 30)
         
     }
     
@@ -221,13 +238,12 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             
-            //buscaSugerencias(textField.text)
-            
-          /*  selectedItems.append(textField.text!)
+            selectedItems.append(textField.text!)
             listaSuper.reloadData()
             textField.text = ""
             self.myArray = []
-            self.cargaSugerencias()*/
+            self.cargaSugerencias()
+            self.showClearButtonIfNeeded(forTextValue: textField.text!)
         }
         
         return false
@@ -255,12 +271,12 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     func textFieldDidChange(_ textField: UITextField) {
      myArray = []
      myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
-     //self.invokeTypeAheadService()
+        if myArray.count == 0{
+            self.invokeTypeAheadService()
+        }
      self.cargaSugerencias()
      }
 
-
-    
     func clearSearch(){
         
         self.field!.text = ""
@@ -300,7 +316,6 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             cellreturn.backgroundColor = WMColor .light_gray
         }else{
             cellreturn.backgroundColor = UIColor.white
-            
         }
         
         return cellreturn
@@ -357,7 +372,6 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     func initArrays(){
         //self.invokeSEabcService()
         
-        
         allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
         myArray = []
     }
@@ -375,5 +389,99 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         listaSuper.reloadData()
     }
 
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func createPreferedCar(_ sender:UIButton){
+        
+         let controller = IPASESugestedCar()
+         controller.titleHeader = "Súper en minutos"
+         controller.searchWords = selectedItems
+         self.addChildViewController(controller)
+         self.viewSearch.addSubview(controller.view)
+         controller.didMove(toParentViewController: self)
+         controller.view.frame = self.viewSearch.bounds
+         controller.view.layer.cornerRadius = cornerRadiusValue
+         //self.navigationController?.pushViewController(controller, animated: true)
+        
+    }
     
+    func invokeTypeAheadService() {
+        
+        self.showLoadingView()
+        
+        if UserCurrentSession.hasLoggedUser(){
+            let typeaheadService = SEtypeaheadListService()
+            typeaheadService.callService(params: ["pText":field?.text],
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call TypeaheadService success")
+                                            self.removeLoadingView()
+                                            self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call TiresSizeSearchService error \(error)")
+                                            self.removeLoadingView()
+            }
+            )
+        }else{
+            let typeaheadService = SEtypeaheadService()
+            typeaheadService.callService(params: ["pText":field?.text],
+                                         successBlock: { (response:[String:Any]) -> Void in
+                                            print("Call TypeaheadService success")
+                                            self.removeLoadingView()
+                                            self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
+            },
+                                         errorBlock: { (error:NSError) -> Void in
+                                            print("Call TiresSizeSearchService error \(error)")
+                                            self.removeLoadingView()
+            }
+            )
+        }
+        
+    }
+
+    func showLoadingView() {
+        
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: viewSearch.bounds.width, height: viewSearch.bounds.height))
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+    
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+    
+    func getSugerenciasArray(arrayPalabras:[String]){
+        allItems = []
+        if arrayPalabras.count > 0 {
+            allItems = arrayPalabras
+        }
+        myArray = []
+    }
+    
+    func getSugerenciasBySearch(arrayPalabras:[String]){
+        myArray = []
+        if arrayPalabras.count > 0 {
+            myArray = arrayPalabras
+        }
+        self.cargaSugerencias()
+    }
+    
+    func borraTexto(_ sender:UIButton){
+        self.field?.text = ""
+        self.myArray = []
+        self.cargaSugerencias()
+        
+    }
+
+
 }

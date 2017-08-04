@@ -760,7 +760,7 @@
 "llantas.field.medida.aspecto" = "Relación de Aspecto";
 "llantas.field.medida.diametro" = "Diámetro";
 
-//Súper Express
+//Súper en minutos
 "superExpress.search.info.button" = "Tu súper en 10 minutos";
-"superExpress.search.field.placeholder" = "Agregar producto";
-"superExpress.info.description" = "Realiza tu súper más rápido, ingresa los productos que deseas, oprime listo cuando termines y confirma los productos.";
+"superExpress.search.field.placeholder" = "¿Qué estas buscando?";
+"superExpress.info.description" = "¡Haz tu súper en minutos!; ingresa los productos que deseas, oprime \"Listo\" cuando termines tu lista y confirma la selección.";
