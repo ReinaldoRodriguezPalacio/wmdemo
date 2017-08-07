@@ -28,7 +28,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var firstOpen  = true
     var isLoading  = false
     var hasEmptyView = false
-    
+    var isNewSection = false
     var viewFooter: UIView!
     var lblItemsCount: UILabel!
     var btnAddToCart: UIButton?
@@ -44,8 +44,6 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         self.view.backgroundColor = WMColor.light_light_gray
         
         self.titleLabel?.text = titleHeader
-        
-        
         
         self.sugestedCarTableView = UITableView(frame:.zero)
         self.sugestedCarTableView.register(SESugestedRow.self, forCellReuseIdentifier: "cell")
@@ -75,7 +73,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         self.btnAddToCart?.layer.cornerRadius = 15
         
         self.btnAddItem = UIButton(frame:.zero)
-        //btnAddItem!.addTarget(self, action: #selector(self.addNewItem(_:)), for: .touchUpInside)
+        btnAddItem!.addTarget(self, action: #selector(self.addNewItem(_:)), for: .touchUpInside)
         self.btnAddItem?.setImage(UIImage(named: "ver_todo"), for: UIControlState())
         self.btnAddItem?.backgroundColor = WMColor.light_gray
         self.btnAddItem?.layer.cornerRadius = 15
@@ -90,8 +88,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
         
     }
     
@@ -123,7 +121,11 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
-        cell.setValues(searchWordBySection[section], section: section)
+        if isNewSection && section == sugestedCarTableView.numberOfSections - 1{
+            cell.addValues(searchWordBySection[section], section: section, height: 30)
+        }else{
+            cell.setValues(searchWordBySection[section], section: section)
+        }
         cell.deleteItem.tag = section
         cell.delegate = self
         cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
@@ -146,7 +148,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
-        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
+            cell.waitFromNewSection((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        }else{
+            cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        }
+        
+        
         return cell
     }
     
@@ -196,24 +204,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         var params: [String:Any] = [:]
         
         params["upc"] = producto["upc"] as! String
-        params["desc"] = producto["displayName"] as! String
-        params["imgUrl"] = producto["url"] as! String
-        params["price"] = producto["field"] as! String
-        params["quantity"] = "1"
-        params["pesable"] = "0"
-        params["wishlist"] = false
-        params["type"] = ResultObjectType.Groceries.rawValue
+        params["quantity"] = producto["quantity"] as! String
+        params["baseUomcd"] = producto["baseUomcd"] as! String
         params["comments"] = ""
-        if let type = producto["type"] as? String {
-            if Int(type)! == 0 { //Piezas
-                params["onHandInventory"] = "99"
-            }
-            else { //Gramos
-                params["onHandInventory"] = "20000"
-            }
-        }
-        params["orderByPiece"] = "EA"
-        
         itemsSelected.append(params)
       /*  if upcs.count > 0 {
             NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
@@ -241,18 +234,21 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func itemDeSelectedAllBySection(seccion:Int){
-        let productos = allProducts![seccion]["products"] as! [[String:Any]]
-        
-        for a in 0..<productos.count{
-            for idxVal in 0..<self.itemsSelected!.count{
-                let item = self.itemsSelected![idxVal]
-                if (productos[a]["upc"] as! String == item["upc"] as! String){
-                itemsSelected.remove(at: idxVal)
-                break
+        if !isNewSection{
+            let productos = allProducts![seccion]["products"] as! [[String:Any]]
+            
+            for a in 0..<productos.count{
+                for idxVal in 0..<self.itemsSelected!.count{
+                    let item = self.itemsSelected![idxVal]
+                    if (productos[a]["upc"] as! String == item["upc"] as! String){
+                        itemsSelected.remove(at: idxVal)
+                        break
+                    }
                 }
             }
+            actualizaNumItems()
         }
-        actualizaNumItems()
+        
     }
 
     
@@ -398,15 +394,89 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func addListToCart(_ sender:UIButton) {
         
+        
         if itemsSelected.count > 0 {
-                NotificationCenter.default.post(name: .addItemsToShopingCart, object: self, userInfo: ["allitems":itemsSelected, "image":"list_alert_addToCart"])
-                //BaseController.sendAnalyticsProductsToCart(totalPrice)
-            }else{
-                self.noProductsAvailableAlert()
-                return
+            self.showLoadingView()
+            let serviceAddProduct = SEaddToCartListService()
+            var paramsitems: [[String:Any]] = []
+            var parameters: [String:Any] = [:]
+            for itemToShop in itemsSelected {
+                
+                let param = serviceAddProduct.buildParamitemsSuperMinutos(itemToShop["quantity"] as! String, upc: itemToShop["upc"] as! String, comments: itemToShop["comments"] as! String, baseUomcd: itemToShop["baseUomcd"] as! String)
+                
+                paramsitems.append(param)
             }
+            if IS_IPAD{
+                parameters = serviceAddProduct.buildParametersSuperMinutos(busqueda: "", channel: "ipad")
+            }else{
+                parameters = serviceAddProduct.buildParametersSuperMinutos(busqueda: "", channel: "iphone")
+            }
+            
+            let parametros = serviceAddProduct.buildProductObjectSuperMinutos(paramsitems, parameter: parameters) as! [String:Any]
+            
+            if UserCurrentSession.hasLoggedUser(){
+                
+                serviceAddProduct.callService(params: parametros, successBlock: { (result:[String:Any]) -> Void in
+                    BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsSelected, isAdd: true) //360 multiple add
+                    self.removeLoadingView()
+                    NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
+                    
+                }, errorBlock: { (error:NSError) -> Void in
+                    
+                    if error.code != -100 {
+                        
+                        //self.spinImage.layer.removeAllAnimations()
+                        //self.spinImage.isHidden = true
+                        //self.titleLabel.sizeToFit()
+                        //self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
+                    }
+                    
+                    if error.code == 1 || error.code == 999 {
+                        
+                        //self.titleLabel.text = error.localizedDescription
+                    } else if error.code != -100 {
+                        
+                        //self.titleLabel.text = error.localizedDescription
+                        //self.imageProduct.image = UIImage(named:"alert_ups")
+                        //self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                        //self.closeButton.isHidden = false
+                    }
+                    self.removeLoadingView()
+                    //self.closeButton.isHidden = false
+                    
+                })
+            }
+        else{
+            
+            serviceAddProduct.callCoreDataService (paramsitems, successBlock: { (result:[String:Any]) -> Void in
+                BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsSelected, isAdd: true) //360 multiple add
+                self.removeLoadingView()
+                NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
+                
+            }, errorBlock: { (error:NSError) -> Void in
+                
+                if error.code != -100 {
+                    //self.spinImage.layer.removeAllAnimations()
+                    //self.spinImage.isHidden = true
+                    //self.titleLabel.sizeToFit()
+                    //self.titleLabel.frame = CGRect(x: (self.view.frame.width / 2) - 116, y: self.titleLabel.frame.minY,  width: 232, height: 60)
+                }
+                
+                if error.code == 1 || error.code == 999 {
+                    //self.titleLabel.text = error.localizedDescription
+                } else if error.code != -100 {
+                    //self.titleLabel.text = error.localizedDescription
+                    //self.imageProduct.image = UIImage(named:"alert_ups")
+                    //self.viewBgImage.backgroundColor = WMColor.light_light_blue
+                    //self.closeButton.isHidden = false
+                }
+                //self.closeButton.isHidden = false
+                self.removeLoadingView()
+            })
+        }
+        }
     }
-    
+
     func noProductsAvailableAlert(){
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
         let msgInventory = "No existen productos disponibles para agregar al carrito"
@@ -438,18 +508,33 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func updateSection(section:Int,newSection:String){
-        self.itemDeSelectedAllBySection(seccion: section)
+        if !isNewSection{
+            self.itemDeSelectedAllBySection(seccion: section)
+        }
         searchWordBySection[section] = newSection
-        print(searchWordBySection)
         allProducts![section]["term"] = newSection
-        print(allProducts)
         sugestedCarTableView.beginUpdates()
+        isNewSection = false
         self.invokeEditWordMultisearchService(newWord: newSection, section: section)
+        
         sugestedCarTableView.endUpdates()
 
     }
     
+    func addNewItem(_ sender:UIButton){
+      
+        let indexSet = NSMutableIndexSet()
+        indexSet.add(sugestedCarTableView.numberOfSections)
+        searchWordBySection.append("nueva búsqueda")
+        allProducts!.append(["term":"nueva búsqueda","products":[[:]] as! [[String:Any]]])
+        isNewSection = true
+        sugestedCarTableView.beginUpdates()
+        sugestedCarTableView.insertSections(indexSet as IndexSet, with: .automatic)
+        sugestedCarTableView.endUpdates()
+        sugestedCarTableView.reloadData()
+    }
+    
     func scrollUp(section:Int, cell:UITableViewCell){
-    sugestedCarTableView.scrollToRow(at: IndexPath(row: 0, section: section), at: .top, animated: true)
+        sugestedCarTableView.scrollToRow(at: IndexPath(row: 0, section: section), at: .top, animated: true)
     }
 }

@@ -29,6 +29,17 @@ class IPASESugestedCar : SESugestedCar{
             self.removeFromParentViewController()
     }
     
-    
+    override func showLoadingView() {
+        
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: (self.parent?.view.frame.width)!, height: (self.parent?.view.frame.width)!))
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(true)
+    }
+
     
 }

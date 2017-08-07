@@ -51,6 +51,18 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category, "orderByPieces": orderByPieces, "pieces": pieces]
     }
     
+    func buildParamitemsSuperMinutos(_ quantity:String, upc:String, comments:String, baseUomcd:String) -> [String:Any] {
+        let quantityInt : Int = Int(quantity)!
+        //return [["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]] //new piesas[EA]/gramos[GM]
+        return ["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]
+    }
+    
+    func buildParametersSuperMinutos(busqueda:String, channel:String) -> [String:Any] {
+        //return [["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]] //new piesas[EA]/gramos[GM]
+        return ["eventtype":"addtocart","q":busqueda,"collection": "dah","channel":channel, "position":"0", "module":"tusuper"]
+    }
+
+    
     func callService(_ upc:String, quantity:String, comments:String, desc:String, price:String, imageURL:String, onHandInventory:NSString, pesable:NSString, orderByPieces: NSNumber, pieces: NSNumber, parameter:[String:Any]?, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callService(requestParams: builParams(upc, quantity: quantity, comments: comments, desc: desc, price: price, imageURL: imageURL, onHandInventory: onHandInventory, pesable: pesable, orderByPieces: orderByPieces, pieces: pieces, parameter: parameter), successBlock: successBlock, errorBlock: errorBlock)
     }
@@ -80,7 +92,14 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return upcsParams as Any
     }
     
-    
+    func buildProductObjectSuperMinutos(_ upcsParams:[[String:Any]], parameter:[String:Any], useSignalsSM:Bool) -> Any {
+        useSignals = useSignalsSM
+        if useSignals {
+            
+            return   ["items":upcsParams,"parameter":parameter]
+        }
+        return upcsParams as Any
+    }
     
     
     func callService(requestParams params:Any, successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)?) {

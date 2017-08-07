@@ -22,6 +22,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var delegate: SESugestedCar?
     var selectedItems : [Bool]! = []
     var widthScreen : CGFloat!
+    var isNewItem = false
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,13 +38,16 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         
         contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen + 50, height: 100))
         contenido.backgroundColor = UIColor.blue
-        collection = getCollectionView()
-        collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
-        collection?.allowsMultipleSelection = false
-        collection!.dataSource = self
-        collection!.delegate = self
-        collection!.backgroundColor = WMColor.light_light_gray
-        self.contenido.addSubview(collection!)
+        if !isNewItem{
+            collection = getCollectionView()
+            collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
+            collection?.allowsMultipleSelection = false
+            collection!.dataSource = self
+            collection!.delegate = self
+            collection!.backgroundColor = WMColor.light_light_gray
+            self.contenido.addSubview(collection!)
+        }
+        self.isNewItem = false
         self.addSubview(self.contenido)
         
     }
@@ -57,7 +61,18 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         self.widthScreen = widthScreen
         setup()
     }
-    
+
+    func waitFromNewSection(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
+        self.productosData = items
+        for _ in 0...Int((productosData?.count)!){
+            selectedItems.append(false)
+        }
+        self.section = section
+        self.widthScreen = widthScreen
+        self.isNewItem = true
+        setup()
+    }
+
     func getCollectionView() -> UICollectionView {
         let customlayout = UICollectionViewFlowLayout()
         customlayout.scrollDirection = .horizontal

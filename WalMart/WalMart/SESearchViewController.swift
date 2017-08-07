@@ -384,7 +384,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func createPreferedCar(_ sender:UIButton){
-        
+        NotificationCenter.default.post(name: .UIKeyboardWillHide, object: nil, userInfo: nil)
         let controller = SESugestedCar()
         controller.titleHeader = "Súper en minutos"
         controller.searchWords = selectedItems

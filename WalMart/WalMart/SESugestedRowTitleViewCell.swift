@@ -72,13 +72,25 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
         self.addSubview(self.deleteItem)
         
-        
     }
     
     func setValues(_ itemNameList:String, section: Int) {
         self.itemView!.text = itemNameList
         self.itemViewTxt!.text = itemNameList
         self.section = section
+    }
+    
+    func addValues(_ addItem:String, section: Int, height: Int) {
+        self.itemView!.text = addItem
+        self.itemViewTxt!.text = addItem
+        self.section = section
+        self.editItem?.tag = section
+        self.deleteItem?.isEnabled = false
+        self.itemView!.isHidden = true
+        self.itemViewTxt!.isHidden = false
+        self.itemViewTxt!.text = self.itemView!.text
+        self.itemViewTxt!.becomeFirstResponder()
+        
     }
     
     func editSection(_ sender:UIButton){

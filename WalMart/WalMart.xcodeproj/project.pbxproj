@@ -68,6 +68,7 @@
 		0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */; };
 		0C6704C81F1E6DD200175C0A /* SEabcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C71F1E6DD200175C0A /* SEabcService.swift */; };
 		0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */; };
+		0C88FC551F3927C7001BA20B /* SEaddToCartListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */; };
 		0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */; };
 		0C9776371F34E54400FB5F25 /* IPASESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */; };
 		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
@@ -683,6 +684,7 @@
 		0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCar.swift; sourceTree = "<group>"; };
 		0C6704C71F1E6DD200175C0A /* SEabcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEabcService.swift; sourceTree = "<group>"; };
 		0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadListService.swift; sourceTree = "<group>"; };
+		0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEaddToCartListService.swift; sourceTree = "<group>"; };
 		0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRow.swift; sourceTree = "<group>"; };
 		0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASESugestedCar.swift; sourceTree = "<group>"; };
 		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
@@ -1459,6 +1461,7 @@
 				0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */,
 				0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */,
 				0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */,
+				0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */,
 			);
 			name = SuperExpress;
 			sourceTree = "<group>";
@@ -3852,6 +3855,7 @@
 				04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */,
 				56684B311A02A57800DB2570 /* ReviewShoppingCartService.swift in Sources */,
 				F1B8F9D21E7E2A3A00A0CC22 /* TiresAniosService.swift in Sources */,
+				0C88FC551F3927C7001BA20B /* SEaddToCartListService.swift in Sources */,
 				569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */,
 				6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */,
 				56DFE4D219D057C9001811F5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,

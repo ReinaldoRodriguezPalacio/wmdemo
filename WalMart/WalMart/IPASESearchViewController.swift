@@ -71,7 +71,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         self.view.addSubview(viewBG)
         
         viewSearch = UIView(frame: CGRect.zero)
-        viewSearch.layer.cornerRadius=cornerRadiusValue
+        //viewSearch.layer.cornerRadius=cornerRadiusValue
         viewSearch.backgroundColor=UIColor.white
         self.viewBG.addSubview(viewSearch)
         
