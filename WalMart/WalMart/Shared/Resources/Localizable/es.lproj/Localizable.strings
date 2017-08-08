@@ -761,3 +761,9 @@
 "superExpress.search.info.button" = "Tu súper en 10 minutos";
 "superExpress.search.field.placeholder" = "¿Qué estas buscando?";
 "superExpress.info.description" = "¡Haz tu súper en minutos!; ingresa los productos que deseas, oprime \"Listo\" cuando termines tu lista y confirma la selección.";
+"superExpress.message.createSugestedCart" = "Buscando sugerencias";
+"superExpress.message.updateSugestedCart" = "Actualizando sugerencias";
+"superExpress.message.updateSugestedCart.error" = "Ocurrió un error al actualizar el carrito sugerido";
+"superExpress.message.createSugestedCart.error" = "Ocurrió un error al crear el carrito sugerido";
+"superExpress.message.add.ok" = "Los productos fueron agregados correctamente al carrito";
+"superExpress.message.add.error" = "Ocurrió un error al agregar los productos al carrito";

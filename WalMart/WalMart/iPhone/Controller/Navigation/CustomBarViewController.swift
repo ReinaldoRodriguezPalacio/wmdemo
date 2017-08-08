@@ -1157,9 +1157,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let controller = IPASESearchViewController()
             controller.modalPresentationStyle = .overCurrentContext
             
-            self.btnSearch!.isSelected = true
-            self.closeSearch(false, sender: nil)
-            
             let controllernav = self.currentController as? UINavigationController
             controllernav?.present(controller, animated: false, completion: nil)
         

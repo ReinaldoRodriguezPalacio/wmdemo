@@ -10,7 +10,6 @@ import Foundation
 
 protocol SESugestedRowTitleViewCellDelegate{
     func updateSection(section:Int, newSection:String)
-    func scrollUp(section:Int,cell:UITableViewCell)
 }
 
 protocol SESugestedRowCleanCellsDelegate{
@@ -27,6 +26,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var section: Int!
     var delegate : SESugestedCar!
     var delegate2 : SESugestedRow!
+    var isNewSection : Bool! = false
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -74,18 +74,20 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         
     }
     
-    func setValues(_ itemNameList:String, section: Int) {
+    func setValues(_ itemNameList:String, section: Int, isNewSection:Bool) {
         self.itemView!.text = itemNameList
         self.itemViewTxt!.text = itemNameList
         self.section = section
+        self.isNewSection = isNewSection
+        if isNewSection{
+            self.addValues(itemNameList, section: section, height: 30)
+        }
     }
     
     func addValues(_ addItem:String, section: Int, height: Int) {
-        self.itemView!.text = addItem
-        self.itemViewTxt!.text = addItem
-        self.section = section
         self.editItem?.tag = section
-        self.deleteItem?.isEnabled = false
+        self.editItem?.isSelected = true
+        self.deleteItem?.isEnabled = true
         self.itemView!.isHidden = true
         self.itemViewTxt!.isHidden = false
         self.itemViewTxt!.text = self.itemView!.text
@@ -114,8 +116,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        let cell = textField.superview as! UITableViewCell
-        delegate?.scrollUp(section: self.section, cell: cell)
+        
     }
     
     func textFieldDidChange(_ textField: UITextField) {

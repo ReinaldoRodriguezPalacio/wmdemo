@@ -8,9 +8,13 @@
 
 import Foundation
 
+protocol IPASESugestedCarDelegate{
+    func closeView()
+}
 
 class IPASESugestedCar : SESugestedCar{
 
+    var delegateIPA : IPASESearchViewController!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,8 +41,12 @@ class IPASESugestedCar : SESugestedCar{
         }
         
         self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: (self.parent?.view.frame.width)!, height: (self.parent?.view.frame.width)!))
-        self.view.addSubview(self.viewLoad!)
+        self.parent?.view.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(true)
+    }
+    
+    override func cierraModal() {
+        self.delegateIPA?.closeView()
     }
 
     

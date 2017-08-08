@@ -8,6 +8,9 @@
 
 import Foundation
 
+protocol SESugestedCarDelegate{
+    func closeViewController()
+}
 
 
 class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate, SESugestedRowTitleViewCellDelegate{
@@ -33,7 +36,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var lblItemsCount: UILabel!
     var btnAddToCart: UIButton?
     var btnAddItem: UIButton?
-    
+    var delegate : SESearchViewController!
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SESEARCHRESULT.rawValue
     }
@@ -88,12 +91,27 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.sugestedCarTableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight, 0)
+            })
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.sugestedCarTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        })
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -121,12 +139,20 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        print("Remove NotificationCenter Deinit")
+        NotificationCenter.default.removeObserver(self)
+        
+    }
+
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
         if isNewSection && section == sugestedCarTableView.numberOfSections - 1{
-            cell.addValues(searchWordBySection[section], section: section, height: 30)
+            cell.setValues(searchWordBySection[section], section: section, isNewSection:true)
         }else{
-            cell.setValues(searchWordBySection[section], section: section)
+            cell.setValues(searchWordBySection[section], section: section, isNewSection:false)
         }
         cell.deleteItem.tag = section
         cell.delegate = self
@@ -150,11 +176,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
+        //if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
+          //  cell.waitFromNewSection((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        //}else{
         if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
-            cell.waitFromNewSection((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: true)
         }else{
-            cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: false)
         }
+        //}
         
         
         return cell
@@ -205,12 +235,12 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         
         var params: [String:Any] = [:]
         
-        params["upc"] = producto["upc"] as! String
-        params["quantity"] = producto["quantity"] as! String
-        params["baseUomcd"] = producto["baseUomcd"] as! String
-        params["desc"] = producto["displayName"] as! String
-        params["imgUrl"] = producto["url"] as! String
-        params["price"] = producto["field"] as! String
+        params["upc"] = producto["upc"] as? String
+        params["quantity"] = producto["quantity"] as? String
+        params["baseUomcd"] = producto["baseUomcd"] as? String
+        params["desc"] = producto["displayName"] as? String
+        params["imgUrl"] = producto["url"] as? String
+        params["price"] = producto["field"] as? String
         params["pesable"] = "0"
         params["type"] = ResultObjectType.Groceries.rawValue
         params["comments"] = ""
@@ -267,8 +297,10 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func invokeMultisearchService() {
-        
-        self.showLoadingView()
+        view.endEditing(true)
+        //self.showLoadingView()
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"superExpress"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("superExpress.message.createSugestedCart", comment:""))
         
         if UserCurrentSession.hasLoggedUser(){
             
@@ -276,12 +308,14 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             multipleSearchService.callService(params: searchWords,
                                          successBlock: { (response:[String:Any]) -> Void in
                                             print("Call multiSearchService success")
-                                            self.removeLoadingView()
+                                            alertView!.setMessage("Listo")
+                                            alertView!.showDoneIcon()
                                             self.getProductosBySearch(arrayProductos: response["responseArray"] as! [[String : Any]])
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call multiSearchService error \(error)")
-                                            self.removeLoadingView()
+                                            alertView!.setMessage(NSLocalizedString("superExpress.message.createSugestedCart.error", comment:""))
+                                            alertView!.showErrorIcon("Ok")
             }
             )
             
@@ -291,12 +325,14 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             multipleSearchService.callService(params: searchWords,
                                          successBlock: { (response:[String:Any]) -> Void in
                                             print("Call multiSearchService success")
-                                            self.removeLoadingView()
+                                            alertView!.setMessage("Listo")
+                                            alertView!.showDoneIcon()
                                             self.getProductosBySearch(arrayProductos: response["responseArray"] as! [[String : Any]])
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call multiSearchService error \(error)")
-                                            self.removeLoadingView()
+                                            alertView!.setMessage(NSLocalizedString("superExpress.message.createSugestedCart.error", comment:""))
+                                            alertView!.showErrorIcon("Ok")
             }
             )
         }
@@ -306,18 +342,22 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func invokeEditWordMultisearchService(newWord:String, section:Int) {
         searchWords = []
         searchWords.append(newWord)
-        self.showLoadingView()
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"superExpress"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart", comment:""))
         if UserCurrentSession.hasLoggedUser(){
             
             let multipleSearchService = SEmultipleSearchListService()
             multipleSearchService.callService(params: searchWords,
                                               successBlock: { (response:[String:Any]) -> Void in
                                                 print("Call multiSearchService success")
-                                                self.removeLoadingView()
+                                                alertView!.setMessage("Listo")
+                                                alertView!.showDoneIcon()
                                                 self.getProductosBySearchOneProd(arrayProductos: response["responseArray"] as! [[String : Any]], section:section)
             },
                                               errorBlock: { (error:NSError) -> Void in
                                                 print("Call multiSearchService error \(error)")
+                                                alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
+                                                alertView!.showErrorIcon("Ok")
             }
             )
             
@@ -327,12 +367,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             multipleSearchService.callService(params: searchWords,
                                               successBlock: { (response:[String:Any]) -> Void in
                                                 print("Call multiSearchService success")
-                                                self.removeLoadingView()
+                                                alertView!.setMessage("Listo")
+                                                alertView!.showDoneIcon()
                                                 self.getProductosBySearchOneProd(arrayProductos: response["responseArray"] as! [[String : Any]], section:section)
             },
                                               errorBlock: { (error:NSError) -> Void in
                                                 print("Call multiSearchService error \(error)")
-                                                self.removeLoadingView()
+                                                alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
+                                                alertView!.showErrorIcon("Ok")
+
             }
             )
         }
@@ -432,17 +475,29 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
 
                 serviceAddProduct.callService(params: parametros, successBlock: { (result:[String:Any]) -> Void in
                     BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsSelected, isAdd: true) //360 multiple add
-                    alertView!.setMessage(NSLocalizedString("shoppingcart.alreadyincart", comment:""))
+                    alertView!.setMessage(NSLocalizedString("superExpress.message.add.ok", comment:""))
                     alertView!.showDoneIcon()
                     NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                     NotificationCenter.default.post(name: .reloadWishList, object: nil)
                     
-                    UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
-                        UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
-                    })
+                    
+                    alertView?.afterRemove = {
+                        UserCurrentSession.sharedInstance.loadGRShoppingCart({ () -> Void in
+                            UserCurrentSession.sharedInstance.updateTotalItemsInCarts()
+                        })
+                        if IS_IPAD{
+                            //self.showShoppingCart()
+                            self.cierraModal()
+                            
+                        }else{
+                                self.back()
+                               self.delegate?.closeViewController()
+                        }
+
+                    }
 
                 }, errorBlock: { (error:NSError) -> Void in
-                    alertView!.setMessage("No se pudo agregar al carrito. Intente nuevamente")
+                    alertView!.setMessage(NSLocalizedString("superExpress.message.add.error", comment:""))
                     alertView!.showErrorIcon("Ok")
                     if error.code != -100 {
                         
@@ -462,8 +517,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                         //self.viewBgImage.backgroundColor = WMColor.light_light_blue
                         //self.closeButton.isHidden = false
                     }
-                    self.removeLoadingView()
-                    //self.closeButton.isHidden = false
+                        //self.closeButton.isHidden = false
                     
                 })
             }
@@ -481,13 +535,23 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             serviceAddProduct.callCoreDataService (paramsitems, successBlock: { (result:[String:Any]) -> Void in
                 BaseController.sendAnalyticsAddOrRemovetoCart(self.itemsSelected, isAdd: true) //360 multiple add
                 delay(0.5, completion: {
-                    alertView!.setMessage(NSLocalizedString("shoppingcart.alreadyincart", comment:""))
+                    alertView!.setMessage(NSLocalizedString("superExpress.message.add.ok", comment:""))
                     alertView!.showDoneIcon()
+                    alertView?.afterRemove = {
+                        if IS_IPAD{
+                            
+                            self.cierraModal()
+                            
+                        }else{
+                            self.back()
+                            self.delegate?.closeViewController()
+                        }
+                        
+                    }
                 })
-                //NotificationCenter.default.post(name: .successUpdateItemsInShoppingCart, object: nil)
                 
             }, errorBlock: { (error:NSError) -> Void in
-                alertView!.setMessage("No se pudo agregar al carrito. Intente nuevamente")
+                alertView!.setMessage(NSLocalizedString("superExpress.message.add.error", comment:""))
                 alertView!.showErrorIcon("Ok")
                 if error.code != -100 {
                     //self.spinImage.layer.removeAllAnimations()
@@ -505,7 +569,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                     //self.closeButton.isHidden = false
                 }
                 //self.closeButton.isHidden = false
-                self.removeLoadingView()
+                
             })
         }
         }
@@ -534,11 +598,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             }
         }*/
         
-        self.itemDeSelectedAllBySection(seccion: sender.tag)
-        
+        if !isNewSection{
+            self.itemDeSelectedAllBySection(seccion: sender.tag)
+        }
+        isNewSection = false
         allProducts?.remove(at: sender.tag)
         sugestedCarTableView.endUpdates()
+        
         sugestedCarTableView.reloadData()
+        
     }
     
     func updateSection(section:Int,newSection:String){
@@ -566,9 +634,11 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         sugestedCarTableView.insertSections(indexSet as IndexSet, with: .automatic)
         sugestedCarTableView.endUpdates()
         sugestedCarTableView.reloadData()
+        
     }
     
-    func scrollUp(section:Int, cell:UITableViewCell){
-        sugestedCarTableView.scrollToRow(at: IndexPath(row: 0, section: section), at: .top, animated: true)
+    func cierraModal(){
+    
     }
+    
 }

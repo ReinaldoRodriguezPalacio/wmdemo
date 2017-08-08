@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource{
+class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, SESugestedCarDelegate{
     
     var alertView : IPOWMAlertViewController? = nil
     var viewLoad : WMLoadingView!
@@ -279,6 +279,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             widthAnt += Int(button.frame.size.width) + 15
             
             self.sugestedTerms.addSubview(button)
+            if (i == 3){ break }
         }
         sugestedTerms?.contentSize = CGSize(width: CGFloat(widthAnt) + 200 , height: sugestedTerms.frame.size.height)
     }
@@ -384,10 +385,11 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func createPreferedCar(_ sender:UIButton){
-        NotificationCenter.default.post(name: .UIKeyboardWillHide, object: nil, userInfo: nil)
+        
         let controller = SESugestedCar()
         controller.titleHeader = "Súper en minutos"
         controller.searchWords = selectedItems
+        controller.delegate = self
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
@@ -496,6 +498,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     self.myArray = []
     self.cargaSugerencias()
 
+    }
+    
+    func closeViewController(){
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
 }

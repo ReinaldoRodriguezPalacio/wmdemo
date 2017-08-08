@@ -365,6 +365,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             widthAnt += Int(button.frame.size.width) + 15
             
             self.sugestedTerms.addSubview(button)
+            if (i == 3){ break }
         }
         sugestedTerms?.contentSize = CGSize(width: CGFloat(widthAnt) + 200 , height: sugestedTerms.frame.size.height)
     }
@@ -382,6 +383,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         self.field?.text = ""
         self.myArray = []
         self.cargaSugerencias()
+        self.showClearButtonIfNeeded(forTextValue: self.field!.text!)
     }
     
     func delFromList(_ sender:UIButton){
@@ -398,6 +400,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
          let controller = IPASESugestedCar()
          controller.titleHeader = "Súper en minutos"
          controller.searchWords = selectedItems
+         controller.delegateIPA = self
          self.addChildViewController(controller)
          self.viewSearch.addSubview(controller.view)
          controller.didMove(toParentViewController: self)
@@ -448,8 +451,8 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             self.viewLoad = nil
         }
         
-        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: viewSearch.bounds.width, height: viewSearch.bounds.height))
-        self.view.addSubview(self.viewLoad!)
+        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: viewSearch.frame.size.width, height: viewSearch.frame.size.height))
+        self.viewSearch.addSubview(self.viewLoad!)
         self.viewLoad!.startAnnimating(true)
     }
     
@@ -480,8 +483,12 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         self.field?.text = ""
         self.myArray = []
         self.cargaSugerencias()
+        self.showClearButtonIfNeeded(forTextValue: self.field!.text!)
         
     }
 
+    func closeView(){
+        dismiss(animated: true, completion: nil)
+    }
 
 }

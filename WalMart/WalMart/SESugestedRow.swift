@@ -18,7 +18,6 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var collection: UICollectionView?
     var contenido: UIView!
     var productosData: [[String:Any]]? = nil
-    var viewLoad : WMLoadingView!
     var section: Int!
     var delegate: SESugestedCar?
     var selectedItems : [Bool]! = []
@@ -38,7 +37,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         
         
         contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen + 50, height: 100))
-        contenido.backgroundColor = UIColor.blue
+        contenido.backgroundColor = WMColor.light_light_gray
         if !isNewItem{
             collection = getCollectionView()
             collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
@@ -47,22 +46,19 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             collection!.delegate = self
             collection!.backgroundColor = WMColor.light_light_gray
             self.contenido.addSubview(collection!)
-            self.removeLoadingView()
-        }else{
-            self.showLoadingView()
         }
-        self.isNewItem = false
         self.addSubview(self.contenido)
         
     }
     
-    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
+    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat, isNewSection:Bool) {
         self.productosData = items
         for _ in 0...Int((productosData?.count)!){
             selectedItems.append(false)
         }
         self.section = section
         self.widthScreen = widthScreen
+        self.isNewItem = isNewSection
         setup()
     }
 
@@ -145,24 +141,4 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         }
         self.collection?.removeFromSuperview()
     }
-    
-    func showLoadingView() {
-        
-        if self.viewLoad != nil {
-            self.viewLoad!.removeFromSuperview()
-            self.viewLoad = nil
-        }
-        
-        self.viewLoad = WMLoadingView(frame: CGRect(x: 0, y: 0, width: self.contenido.frame.size.width, height: self.contenido.frame.size.height))
-        self.contenido.addSubview(self.viewLoad!)
-        self.viewLoad!.startAnnimating(true)
-    }
-    
-    func removeLoadingView() {
-        if self.viewLoad != nil {
-            self.viewLoad!.stopAnnimating()
-            self.viewLoad = nil
-        }
-    }
-
 }
