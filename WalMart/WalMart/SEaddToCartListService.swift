@@ -26,6 +26,10 @@ class SEaddToCartListService : GRBaseService {
         return ["eventtype":"addtocart","q":busqueda,"collection": "dah","channel":channel, "position":"0", "module":"tusuper"]
     }
     
+    func builParamsCoreData(_ upc:String, quantity:String, comments:String, desc:String, price:String, imageURL:String, onHandInventory:String, pesable:String, orderByPieces: String, pieces: String) -> [String:Any] {
+            return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable, "orderByPieces": orderByPieces, "pieces": pieces]
+    }
+    
     func buildProductObjectSuperMinutos(_ upcsParams:[[String:Any]], parameter:[String:Any]) -> [String:Any] {
         
         return   ["items":upcsParams,"parameter":parameter]

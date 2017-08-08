@@ -98,7 +98,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         }else{
         
             viewBackButton = UIView(frame: CGRect(x: 0,  y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.20 ))
-            viewBackButton.backgroundColor = WMColor.light_blue
+            viewBackButton.backgroundColor = WMColor.dark_blue
             
             lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-50 , height: 30))
             lbltitle.textColor = UIColor.white
