@@ -274,7 +274,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func itemDeSelectedAllBySection(seccion:Int){
-        if !isNewSection{
+        
             let productos = allProducts![seccion]["products"] as! [[String:Any]]
             
             for a in 0..<productos.count{
@@ -287,7 +287,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                 }
             }
             actualizaNumItems()
-        }
+        
         
     }
 
