@@ -101,8 +101,12 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         if selectedItems[indexPath.row] == true{
             isSelected = true
         }
-
+        if isNewItem{
+        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: false, index: indexPath.row)
+        }else{
         cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
+        }
+        
         return cell
     }
     
@@ -140,5 +144,6 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             selectedItems[i] = false
         }
         self.collection?.removeFromSuperview()
+        isNewItem = false
     }
 }

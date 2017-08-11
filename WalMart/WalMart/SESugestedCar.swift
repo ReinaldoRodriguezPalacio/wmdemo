@@ -32,6 +32,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var isLoading  = false
     var hasEmptyView = false
     var isNewSection = false
+    var numberOfNewSection : Int! = -1
     var viewFooter: UIView!
     var lblItemsCount: UILabel!
     var btnAddToCart: UIButton?
@@ -149,7 +150,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
-        if isNewSection && section == sugestedCarTableView.numberOfSections - 1{
+        if isNewSection && section == numberOfNewSection{
             cell.setValues(searchWordBySection[section], section: section, isNewSection:true)
         }else{
             cell.setValues(searchWordBySection[section], section: section, isNewSection:false)
@@ -179,7 +180,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         //if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
           //  cell.waitFromNewSection((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
         //}else{
-        if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
+        if isNewSection && indexPath.section == numberOfNewSection{
         cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: true)
         }else{
         cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: false)
@@ -287,7 +288,6 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                 }
             }
             actualizaNumItems()
-        
         
     }
 
@@ -586,23 +586,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         sugestedCarTableView.beginUpdates()
         let indexSet = NSMutableIndexSet()
         indexSet.add(sender.tag)
+        sugestedCarTableView.deleteRows(at: [IndexPath.init(row: 0, section: sender.tag)], with: UITableViewRowAnimation.automatic)
         sugestedCarTableView.deleteSections(indexSet as IndexSet, with: UITableViewRowAnimation.automatic)
+        self.itemDeSelectedAllBySection(seccion: sender.tag)
         searchWordBySection.remove(at: sender.tag)
-        /*let productos = allProducts![sender.tag]["products"] as! [[String:Any]]
-        for i in 0..<itemsSelected.count{
-            let filteredData = productos.filter{
-                return $0["upc"] as! String == itemsSelected[i]["upc"] as! String
-            }
-            if filteredData.count > 0 {
-                itemsSelected.remove(at: i)
-            }
-        }*/
-        
-        if !isNewSection{
-            self.itemDeSelectedAllBySection(seccion: sender.tag)
-        }
-        isNewSection = false
         allProducts?.remove(at: sender.tag)
+        isNewSection = false
+        numberOfNewSection = -1
         sugestedCarTableView.endUpdates()
         
         sugestedCarTableView.reloadData()
@@ -616,9 +606,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         searchWordBySection[section] = newSection
         allProducts![section]["term"] = newSection
         sugestedCarTableView.beginUpdates()
-        isNewSection = false
         self.invokeEditWordMultisearchService(newWord: newSection, section: section)
-        
+        isNewSection = false
+        numberOfNewSection = -1
         sugestedCarTableView.endUpdates()
 
     }
@@ -629,8 +619,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         indexSet.add(sugestedCarTableView.numberOfSections)
         searchWordBySection.append("nueva búsqueda")
         allProducts!.append(["term":"nueva búsqueda","products":[[:]] as! [[String:Any]]])
-        isNewSection = true
         sugestedCarTableView.beginUpdates()
+        isNewSection = true
+        numberOfNewSection = sugestedCarTableView.numberOfSections
         sugestedCarTableView.insertSections(indexSet as IndexSet, with: .automatic)
         sugestedCarTableView.endUpdates()
         sugestedCarTableView.reloadData()

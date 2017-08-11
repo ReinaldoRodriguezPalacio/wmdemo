@@ -385,12 +385,14 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func createPreferedCar(_ sender:UIButton){
+        if selectedItems.count > 0{
+            let controller = SESugestedCar()
+            controller.titleHeader = "Súper en minutos"
+            controller.searchWords = selectedItems
+            controller.delegate = self
+            self.navigationController!.pushViewController(controller, animated: true)
+        }
         
-        let controller = SESugestedCar()
-        controller.titleHeader = "Súper en minutos"
-        controller.searchWords = selectedItems
-        controller.delegate = self
-        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     func invokeSEabcService() {

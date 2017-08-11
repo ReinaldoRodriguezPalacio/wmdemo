@@ -18,7 +18,6 @@ protocol SESugestedRowCleanCellsDelegate{
 
 class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     
-    
     var itemView : UILabel!
     var itemViewTxt : UITextField!
     var deleteItem: UIButton!
@@ -133,9 +132,10 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             self.endEditSection(self.editItem)
-
-            delegate?.updateSection(section: self.section, newSection: textField.text!)
+            
             delegate2?.cleanCollectionView()
+            delegate?.updateSection(section: self.section, newSection: textField.text!)
+            
         }
         
         return false
