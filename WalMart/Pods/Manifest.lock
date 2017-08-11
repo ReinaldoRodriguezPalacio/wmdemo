@@ -55,6 +55,7 @@ PODS:
   - PayPal-iOS-SDK/CardIO (2.16.3):
     - CardIO (~> 5.4.1)
   - PayPal-iOS-SDK/Core (2.16.3)
+  - TTRangeSlider (1.0.5)
 
 DEPENDENCIES:
   - AFNetworkActivityLogger (from `https://github.com/AFNetworking/AFNetworkActivityLogger.git`, branch `3_0_0`)
@@ -67,6 +68,7 @@ DEPENDENCIES:
   - FBNotifications
   - GoogleTagManager (~> 3.15.0)
   - PayPal-iOS-SDK (= 2.16.3)
+  - TTRangeSlider
 
 EXTERNAL SOURCES:
   AFNetworkActivityLogger:
@@ -95,7 +97,8 @@ SPEC CHECKSUMS:
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleTagManager: 43b61f634e42e4b9566ab41e9fd6aa0f6adf47a5
   PayPal-iOS-SDK: db237a752c0b388b93a0b9915b30e26878732bdb
+  TTRangeSlider: 2f2ce4a33b32bb323c6575b9f5161c4664459c58
 
-PODFILE CHECKSUM: d7b525c4efd5ce2bec52ad8b1b8014a73a14c068
+PODFILE CHECKSUM: c2a7f52f56f951b5412bc874192eec184697809f
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1

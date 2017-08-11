@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DDBCFDE490CDFDABF6F16A26F346932D'
-               BlueprintName = 'FacebookCore'
+               BlueprintIdentifier = '1582FCAE2CC5A9A8F7E86865DB8CB51F'
+               BlueprintName = 'TTRangeSlider'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'FacebookCore.framework'>
+               BuildableName = 'TTRangeSlider.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

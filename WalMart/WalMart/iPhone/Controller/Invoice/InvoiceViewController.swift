@@ -93,8 +93,9 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.rfc = FormFieldView(frame: CGRect(x: margin, y: self.sectionUserInfo!.frame.maxY + 10.0, width: width, height: fheight))
         self.rfc!.isRequired = true
         self.rfc!.setCustomPlaceholder(NSLocalizedString("invoice.field.rfc",comment:""))
-        self.rfc!.typeField = TypeField.string
+        self.rfc!.typeField = TypeField.rfc
         self.rfc!.nameField = "rfc"
+        self.rfc!.minLength = 13
         self.rfc!.maxLength = 13
         self.content.addSubview(self.rfc!)
         self.zipCode = FormFieldView(frame: CGRect(x: margin, y: self.rfc!.frame.maxY + 5.0, width: width, height: fheight))

@@ -63,7 +63,7 @@
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 //Slider
-#import "NMRangeSlider.h"
+#import <TTRangeSlider/TTRangeSlider.h>
 
 //SwitchView
 #import "CMSwitchView.h"

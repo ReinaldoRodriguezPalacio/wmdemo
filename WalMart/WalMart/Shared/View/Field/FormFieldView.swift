@@ -282,7 +282,7 @@ class FormFieldView : UIEdgeTextField {
     }
     
     func validateName() -> String{
-        let regString : String = "^[A-Za-zñÑÁáÉéÍíÓóÚú \\@]{0,100}[._-]{0,2}$";
+        let regString : String = "^[A-Za-zñÑÁáÉéÍíÓóÚú ]{0,100}[._-]{0,2}$";
         return  regString
     }
     
@@ -301,12 +301,12 @@ class FormFieldView : UIEdgeTextField {
         return regString as NSString
     }
 
-    func validateRFC ()-> String{
+    func validateRFC()-> String{
         let regString : String = "^[a-zA-Z&]{4}(\\d{6})([A-Z0-9a-z]{3})?$"
         return  regString
     }
     
-    func validateRFCM ()-> String{
+    func validateRFCM()-> String{
         let regString : String = "^[a-zA-Z&]{3}(\\d{6})([A-Z0-9a-z]{3})?$"
         return  regString
     }

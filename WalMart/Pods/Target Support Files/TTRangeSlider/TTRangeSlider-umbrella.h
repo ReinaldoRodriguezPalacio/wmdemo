@@ -10,7 +10,9 @@
 #endif
 #endif
 
+#import "TTRangeSlider.h"
+#import "TTRangeSliderDelegate.h"
 
-FOUNDATION_EXPORT double FacebookLoginVersionNumber;
-FOUNDATION_EXPORT const unsigned char FacebookLoginVersionString[];
+FOUNDATION_EXPORT double TTRangeSliderVersionNumber;
+FOUNDATION_EXPORT const unsigned char TTRangeSliderVersionString[];
 

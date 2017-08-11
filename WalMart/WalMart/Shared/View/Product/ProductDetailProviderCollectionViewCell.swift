@@ -237,7 +237,7 @@ extension ProductDetailProviderCollectionViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let provider = showNewItems ? self.providerNewItems[indexPath.row] : self.providerReconditionedItems[indexPath.row]
         self.selectedOfferId = provider["offerId"] as! String
-        collection.reloadItems(at: [self.selectedIndex!])
+        collection.reloadData()
         delegate?.selectOffer(offer: provider)
     }
 }

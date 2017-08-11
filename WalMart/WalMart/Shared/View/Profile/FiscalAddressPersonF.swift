@@ -57,7 +57,7 @@ class FiscalAddressPersonF: AddressView {
         self.rfc!.isRequired = true
         self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.typeField = TypeField.rfc
-        self.rfc!.minLength = 10
+        self.rfc!.minLength = 13
         self.rfc!.maxLength = 13
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")

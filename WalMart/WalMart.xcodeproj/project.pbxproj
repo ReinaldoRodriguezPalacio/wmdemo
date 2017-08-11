@@ -385,7 +385,6 @@
 		56DFE4D519D0AA5E001811F5 /* ShoppingCartCrossSellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DFE4D419D0AA5E001811F5 /* ShoppingCartCrossSellCollectionViewCell.swift */; };
 		56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DFE4D619D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift */; };
 		56E1DFA41B5560EC001F42DF /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E1DFA31B5560EC001F42DF /* SliderTableViewCell.swift */; };
-		56E1DFA81B5561A6001F42DF /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E1DFA71B5561A6001F42DF /* NMRangeSlider.m */; };
 		56E54E4119EC3C480004161C /* IPAFamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E54E4019EC3C480004161C /* IPAFamilyViewController.swift */; };
 		56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E54E4219EC42B70004161C /* IPAFamilyTableViewCell.swift */; };
 		56E54E4619EC4E360004161C /* IPACategoriesResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E54E4519EC4E360004161C /* IPACategoriesResultViewController.swift */; };
@@ -1054,8 +1053,6 @@
 		56DFE4D419D0AA5E001811F5 /* ShoppingCartCrossSellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartCrossSellCollectionViewCell.swift; path = iPhone/View/ShoppingCart/ShoppingCartCrossSellCollectionViewCell.swift; sourceTree = "<group>"; };
 		56DFE4D619D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartCrossSellItemCollectionViewCell.swift; path = iPhone/View/ShoppingCart/ShoppingCartCrossSellItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		56E1DFA31B5560EC001F42DF /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SliderTableViewCell.swift; path = Shared/View/Filter/SliderTableViewCell.swift; sourceTree = "<group>"; };
-		56E1DFA61B5561A6001F42DF /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NMRangeSlider.h; path = Shared/Library/NMRangeSlider/NMRangeSlider.h; sourceTree = "<group>"; };
-		56E1DFA71B5561A6001F42DF /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NMRangeSlider.m; path = Shared/Library/NMRangeSlider/NMRangeSlider.m; sourceTree = "<group>"; };
 		56E54E4019EC3C480004161C /* IPAFamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAFamilyViewController.swift; path = iPad/Controller/Categories/IPAFamilyViewController.swift; sourceTree = "<group>"; };
 		56E54E4219EC42B70004161C /* IPAFamilyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAFamilyTableViewCell.swift; path = iPad/View/Categories/IPAFamilyTableViewCell.swift; sourceTree = "<group>"; };
 		56E54E4519EC4E360004161C /* IPACategoriesResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPACategoriesResultViewController.swift; path = iPad/Controller/Categories/IPACategoriesResultViewController.swift; sourceTree = "<group>"; };
@@ -1829,7 +1826,6 @@
 		564578BF19AE2F9C006A7152 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				56E1DFA51B556171001F42DF /* NMRangeSlider */,
 				569BB30F1B06350D00E8A657 /* CustomPhoto */,
 				5673D1231A9D4FA400DCD20B /* BarcodeGenerator */,
 				5608AF741A0AADE600176CB0 /* StickyHeaderLayout */,
@@ -2768,15 +2764,6 @@
 			name = Filter;
 			sourceTree = "<group>";
 		};
-		56E1DFA51B556171001F42DF /* NMRangeSlider */ = {
-			isa = PBXGroup;
-			children = (
-				56E1DFA61B5561A6001F42DF /* NMRangeSlider.h */,
-				56E1DFA71B5561A6001F42DF /* NMRangeSlider.m */,
-			);
-			name = NMRangeSlider;
-			sourceTree = "<group>";
-		};
 		56E54E4419EC45440004161C /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -3565,7 +3552,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7C66112085360B2D590BA7A9 /* [CP] Embed Pods Frameworks */ = {
@@ -3751,7 +3738,6 @@
 				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
 				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
-				56E1DFA81B5561A6001F42DF /* NMRangeSlider.m in Sources */,
 				04B538A11A8D2B6200B9F340 /* GRUpdateItemListService.swift in Sources */,
 				AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */,
