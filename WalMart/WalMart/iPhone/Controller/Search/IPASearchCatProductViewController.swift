@@ -140,7 +140,7 @@ class IPASearchCatProductViewController: IPASearchProductViewController {
         self.filterButton?.alpha = 0
         self.loading?.stopAnnimating()
         
-        let maxY: CGFloat = 0
+        let maxY: CGFloat = self.collection!.frame.height - 260
         
         if self.emptyMGGR == nil {
             
@@ -160,9 +160,15 @@ class IPASearchCatProductViewController: IPASearchProductViewController {
         } else {
             self.emptyMGGR.descLabel.text = NSLocalizedString("mg.category.message.noTechnology", comment: "")
         }
+        emptyMGGR.descLabel.frame = CGRect(x: 50, y: 28, width: emptyMGGR.bounds.width - 100, height: 42)
+        emptyMGGR.bgImageView.contentMode = .scaleAspectFill
         
-        self.view.addSubview(self.emptyMGGR)
+        self.view!.addSubview(self.emptyMGGR)
         NotificationCenter.default.post(name: .clearSearch, object: nil)
+        
+    }
+    
+    override func showEmptyView(){
         
     }
     

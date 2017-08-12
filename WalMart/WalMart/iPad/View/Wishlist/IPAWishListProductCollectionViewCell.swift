@@ -101,7 +101,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     }
 
 
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,sellerId:String, sellerName:String, offerId: String) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:NSString,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,sellerId:String, sellerName:String, offerId: String) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         if (productPriceThrough as NSString).doubleValue > 0 {

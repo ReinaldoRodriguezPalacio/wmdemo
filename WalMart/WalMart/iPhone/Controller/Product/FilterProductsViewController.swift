@@ -934,9 +934,13 @@ extension FilterProductsViewController:  FilterOrderViewCellDelegate {
 //MARK: SliderTableViewCellDelegate
 extension FilterProductsViewController: SliderTableViewCellDelegate {
     
-    func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
-        self.lowPrice = "\(self.prices![low])"
-        self.higtPrice = "\(self.prices![high])"
+    func rangerSliderDidChangeValues(forLowPrice low:Float, andHighPrice high:Float) {
+//        self.lowPrice = "\(self.prices![low])"
+//        self.higtPrice = "\(self.prices![high])"
+        
+        self.lowPrice = "\(low)"
+        self.higtPrice = "\(high)"
+        
         ////BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
     }
 }

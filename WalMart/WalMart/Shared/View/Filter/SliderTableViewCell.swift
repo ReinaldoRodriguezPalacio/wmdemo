@@ -10,7 +10,7 @@ import UIKit
 import TTRangeSlider
 
 protocol SliderTableViewCellDelegate: class {
-    func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int)
+    func rangerSliderDidChangeValues(forLowPrice low:Float, andHighPrice high:Float)
 }
 
 class SliderTableViewCell: UITableViewCell {
@@ -46,17 +46,32 @@ class SliderTableViewCell: UITableViewCell {
 
         self.minLabel = CurrencyCustomLabel(frame: CGRect.zero)
         self.minLabel!.backgroundColor = UIColor.clear
+        self.minLabel?.isHidden = true
         self.contentView.addSubview(self.minLabel!)
 
         self.maxLabel = CurrencyCustomLabel(frame: CGRect.zero)
         self.maxLabel!.backgroundColor = UIColor.clear
+        self.maxLabel!.isHidden = true
         self.contentView.addSubview(self.maxLabel!)
         
-        self.slider = TTRangeSlider(frame: CGRect(x: 15.0, y: 0.0, width: 290.0, height: 35.0))
-        self.slider!.step = 0.2
-        self.slider!.minValue = 0.0
-        self.slider!.maxValue = 1.0
-        self.slider!.enableStep = true
+        self.slider = TTRangeSlider()
+        self.slider!.selectedHandleDiameterMultiplier = 1.0
+        self.slider!.minDistance = 200
+        self.slider!.tintColor = WMColor.empty_gray
+        self.slider!.handleColor = self.labelColor
+        self.slider!.tintColorBetweenHandles = self.labelColor
+        self.slider!.handleDiameter = 20
+        self.slider!.maxLabelColour = self.labelColor
+        self.slider!.minLabelColour = self.labelColor
+        self.slider!.maxLabelFont = self.numFont
+        self.slider!.minLabelFont = self.numFont
+        let formatter = NumberFormatter()
+        if #available(iOS 9.0, *) {
+            formatter.numberStyle = .currencyAccounting
+        } else {
+            formatter.numberStyle = .currency
+        }
+        self.slider!.numberFormatterOverride = formatter
         self.slider!.delegate = self
         self.contentView.addSubview(self.slider!)
         
@@ -68,28 +83,20 @@ class SliderTableViewCell: UITableViewCell {
     }
     
     func setValuesSlider(_ priceValues:[Any]) {
+        
         if  self.minValue == 0 && self.maxValue == 0 {
             self.minValue = priceValues.first as! Double
             self.maxValue = priceValues.last as! Double
             self.values = priceValues
             self.minSelected = 0
             self.maxSelected = self.values!.count - 1
-        
-            self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
+            //self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
         }
         
-        self.slider!.step = 1
-        self.slider!.minValue = 0
-        self.slider!.selectedHandleDiameterMultiplier = 1.5
-        self.slider!.minDistance = 1
-        self.slider!.tintColor = WMColor.empty_gray
-        self.slider!.handleColor = self.labelColor
-        self.slider!.tintColorBetweenHandles = self.labelColor
-        self.slider!.maxValue = Float(self.values!.count - 1)
-        self.slider!.enableStep = true
-        self.slider!.selectedMinimum = 0.0
-        self.slider!.selectedMaximum = Float(self.values!.count - 1)
-        self.slider!.hideLabels = true
+        self.slider!.minValue = Float(values!.first! as! Double)
+        self.slider!.maxValue = Float(values!.last! as! Double)
+        self.slider!.selectedMinimum = Float(priceValues.first! as! Double)
+        self.slider!.selectedMaximum = Float(priceValues.last! as! Double)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -107,17 +114,17 @@ class SliderTableViewCell: UITableViewCell {
     
     func layoutMounts() {
         
-        let step = CGFloat(1.0/CGFloat(self.values!.count - 1))
-        let stepSize = step * self.slider!.frame.width
-    
-        let sizeMin = self.minLabel!.sizeOfLabel()
-        let minX = (stepSize * CGFloat(self.minSelected)) == 0 ? 15 :  (stepSize * CGFloat(self.minSelected)) + 8
-        
-        self.minLabel!.frame = CGRect(x: minX, y: 18.0, width: sizeMin.width, height: sizeMin.height)
-        //self.minLabel!.frame.origin.x = (stepSize * CGFloat(self.minValue)) + 15
-
-        let sizeMax = self.maxLabel!.sizeOfLabel()
-        self.maxLabel!.frame = CGRect(x: (stepSize * CGFloat(self.maxSelected)) - 20, y:  18.0, width: sizeMax.width, height: sizeMax.height)
+//        let step = CGFloat(1.0/CGFloat(self.values!.count - 1))
+//        let stepSize = step * self.slider!.frame.width
+//    
+//        let sizeMin = self.minLabel!.sizeOfLabel()
+//        let minX = (stepSize * CGFloat(self.minSelected)) == 0 ? 15 :  (stepSize * CGFloat(self.minSelected)) + 8
+//        
+//        self.minLabel!.frame = CGRect(x: minX, y: 18.0, width: sizeMin.width, height: sizeMin.height)
+//        //self.minLabel!.frame.origin.x = (stepSize * CGFloat(self.minValue)) + 15
+//
+//        let sizeMax = self.maxLabel!.sizeOfLabel()
+//        self.maxLabel!.frame = CGRect(x: (stepSize * CGFloat(self.maxSelected)) - 20, y:  18.0, width: sizeMax.width, height: sizeMax.height)
     }
     
     func setAmountLabels(forMinAmount min:Double, andMaxAmount max:Double) {
@@ -141,11 +148,11 @@ extension SliderTableViewCell: TTRangeSliderDelegate {
     
     func rangeSlider(_ sender: TTRangeSlider!, didChangeSelectedMinimumValue selectedMinimum: Float, andMaximumValue selectedMaximum: Float) {
         
-        self.setAmountLabels(forMinAmount: self.values![Int(selectedMinimum)] as! Double, andMaxAmount: self.values![Int(selectedMaximum)] as! Double)
-        self.layoutMounts()
-        self.minSelected = Int(selectedMinimum)
-        self.maxSelected = Int(selectedMaximum)
-        self.delegate?.rangerSliderDidChangeValues(forLowPrice: Int(selectedMinimum), andHighPrice: Int(selectedMaximum))
+//        self.setAmountLabels(forMinAmount: self.values![Int(selectedMinimum)] as! Double, andMaxAmount: self.values![Int(selectedMaximum)] as! Double)
+//        self.layoutMounts()
+//        self.minSelected = Int(selectedMinimum)
+//        self.maxSelected = Int(selectedMaximum)
+        self.delegate?.rangerSliderDidChangeValues(forLowPrice: selectedMinimum, andHighPrice: selectedMaximum)
     }
     
 //    func report(){

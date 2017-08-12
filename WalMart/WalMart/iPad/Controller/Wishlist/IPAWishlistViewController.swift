@@ -649,9 +649,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         
         let savingIndex = itemWishlist.index(forKey: "saving")
-        var savingVal = "0.0"
+        var savingVal: NSString = "0.0"
         if savingIndex != nil {
-            savingVal = itemWishlist["saving"]  as! String
+            savingVal = itemWishlist["saving"]  as! NSString
         }
         
         let active  = itemWishlist["isActive"] as! String
@@ -685,7 +685,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             offerId = offerIdVal
         }
         
-        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,sellerId: sellerId, sellerName: sellerName, offerId: offerId)
+        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal as NSString,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,sellerId: sellerId, sellerName: sellerName, offerId: offerId)
         
     }
     

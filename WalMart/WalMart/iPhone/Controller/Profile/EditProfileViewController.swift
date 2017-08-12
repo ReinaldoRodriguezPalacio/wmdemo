@@ -75,7 +75,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
-        self.lastName!.typeField = TypeField.string
+        self.lastName!.typeField = TypeField.name
         self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")

@@ -147,11 +147,12 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
     scrollContact.addSubview(viewGral)
     self.view.addSubview(scrollContact)
     
-    self.invokeServiceProviderDetail()
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.invokeServiceProviderDetail()
     showLoadingView()
   }
   
@@ -267,9 +268,11 @@ class ContactProviderViewController: NavigationViewController, TPKeyboardAvoidin
       self.emailBtn.isSelected = false
       print("Selected call", terminator: "")
       if IS_IPHONE == true {
-        let strTel = "telprompt://(\(self.numberPhoneProvider))"
-        if UIApplication.shared.canOpenURL(URL(string: strTel)!) {
-          UIApplication.shared.openURL(URL(string: strTel)!)
+        guard let number = URL(string: "tel://" + self.numberPhoneProvider) else { return }
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(number)
+        } else {
+            UIApplication.shared.openURL(number)
         }
       }
       

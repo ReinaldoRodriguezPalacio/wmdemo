@@ -555,17 +555,20 @@ class IPAProductDetailViewController : UIViewController {
         if let offers = result["offers"] as? [[String:Any]] {
             self.hasProvider = offers.count > 0
             self.providerArray = offers
-            for offer in offers {
-                let offerId = offer["offerId"] as! NSString
-                if offerId == self.upc {
-                    self.providerInfo = offer
-                    break
+            
+            if self.upc.contains("&") {
+                for offer in offers {
+                    let offerId = offer["offerId"] as! NSString
+                    if offerId == self.upc {
+                        self.providerInfo = offer
+                        break
+                    }
                 }
             }
+            
             if self.providerInfo == nil {
                 self.providerInfo =  offers.count > 0 ? offers.first! : [:]
             }
-            
         }
         
         if self.providerInfo != nil {
@@ -702,7 +705,7 @@ class IPAProductDetailViewController : UIViewController {
                 if cellProviders == nil {
                     let cellProvider = tabledetail.dequeueReusableCell(withIdentifier: "producDetailProviderTableViewCell", for: indexPath) as? ProducDetailProviderTableViewCell
                     cellProvider!.selectedOfferId = self.providerInfo!["offerId"] as! String
-                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "0")
+                    cellProvider!.showNewItems = ((self.providerInfo!["condition"]as! String) == "1")
                     cellProvider!.itemsProvider = self.providerArray!
                     cellProviders = cellProvider
                     cellProvider?.delegate = self
@@ -1828,10 +1831,11 @@ extension IPAProductDetailViewController: ProducDetailProviderTableViewCellDeleg
         self.price = providerInfo!["price"] as! NSString
         self.isInWishList = UserCurrentSession.sharedInstance.userHasUPCWishlist(self.upc as String)
         self.tabledetail.reloadData()
-        self.closeContainer({ () -> Void in
-            self.productDetailButton?.reloadShoppinhgButton()
-        }, completeClose: { () -> Void in
-        }, closeRow:true)
+        
+//        self.closeContainer({ () -> Void in
+//            self.productDetailButton?.reloadShoppinhgButton()
+//        }, completeClose: { () -> Void in
+//        }, closeRow:true)
     }
 }
 

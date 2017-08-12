@@ -14,9 +14,10 @@ class IPOSearchResultEmptyView : IPOEmptyView {
     
     override func setup() {
         super.setup()
-        
+        self.clipsToBounds = true
         bgImageView.image = UIImage(named:"not_found_bg")
         descLabel.numberOfLines = 3
+        bgImageView.clipsToBounds = true 
         
     }
     
