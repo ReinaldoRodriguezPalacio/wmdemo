@@ -22,7 +22,6 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var delegate: SESugestedCar?
     var selectedItems : [Bool]! = []
     var widthScreen : CGFloat!
-    var isNewItem = false
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,7 +37,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         
         contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen + 50, height: 100))
         contenido.backgroundColor = WMColor.light_light_gray
-        if !isNewItem{
+        
             collection = getCollectionView()
             collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
             collection?.allowsMultipleSelection = false
@@ -46,30 +45,18 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             collection!.delegate = self
             collection!.backgroundColor = WMColor.light_light_gray
             self.contenido.addSubview(collection!)
-        }
+        
         self.addSubview(self.contenido)
         
     }
     
-    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat, isNewSection:Bool) {
+    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
         self.productosData = items
         for _ in 0...Int((productosData?.count)!){
             selectedItems.append(false)
         }
         self.section = section
         self.widthScreen = widthScreen
-        self.isNewItem = isNewSection
-        setup()
-    }
-
-    func waitFromNewSection(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
-        self.productosData = items
-        for _ in 0...Int((productosData?.count)!){
-            selectedItems.append(false)
-        }
-        self.section = section
-        self.widthScreen = widthScreen
-        self.isNewItem = true
         setup()
     }
 
@@ -101,11 +88,9 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         if selectedItems[indexPath.row] == true{
             isSelected = true
         }
-        if isNewItem{
-        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: false, index: indexPath.row)
-        }else{
+        
         cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
-        }
+        
         
         return cell
     }
@@ -144,6 +129,5 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             selectedItems[i] = false
         }
         self.collection?.removeFromSuperview()
-        isNewItem = false
     }
 }

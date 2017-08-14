@@ -67,7 +67,7 @@ class SESugestedCarViewCell : UICollectionViewCell {
         self.check?.setImage(UIImage(named: "list_check_empty"), for: UIControlState())
         self.check?.setImage(UIImage(named: "list_check_full"), for: UIControlState.selected)
         self.check?.addTarget(self, action: #selector(self.checked(_:)), for: UIControlEvents.touchUpInside)
-        self.check?.isSelected = true
+        self.check?.isSelected = false
         
         self.leftView.addSubview(self.check!)
         self.leftView.addSubview(self.productImage!)

@@ -92,8 +92,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        //cargaProductos()
-        self.invokeMultisearchService()
+        cargaProductos()
+        //self.invokeMultisearchService()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -177,17 +177,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
-        //if isNewSection && indexPath.section == sugestedCarTableView.numberOfSections - 1{
-          //  cell.waitFromNewSection((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
-        //}else{
-        if isNewSection && indexPath.section == numberOfNewSection{
-        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: true)
-        }else{
-        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSection: false)
+        if !isNewSection{
+        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
         }
-        //}
-        
-        
         return cell
     }
     
@@ -358,6 +350,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                                                 print("Call multiSearchService error \(error)")
                                                 alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
                                                 alertView!.showErrorIcon("Ok")
+                                                if self.isNewSection{
+                                                    self.searchWordBySection.remove(at: section)
+                                                    self.allProducts?.remove(at: section)
+                                                    self.isNewSection = false
+                                                    self.numberOfNewSection = -1
+                                                    self.sugestedCarTableView.reloadData()
+                                                }
             }
             )
             
@@ -375,11 +374,16 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                                                 print("Call multiSearchService error \(error)")
                                                 alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
                                                 alertView!.showErrorIcon("Ok")
-
+                                                if self.isNewSection{
+                                                    self.searchWordBySection.remove(at: section)
+                                                    self.allProducts?.remove(at: section)
+                                                    self.isNewSection = false
+                                                    self.numberOfNewSection = -1
+                                                    self.sugestedCarTableView.reloadData()
+                                                }
             }
             )
         }
-        
     }
 
     
@@ -438,9 +442,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             }
         }
         
-        //sugestedCarTableView.reloadRows(at: [IndexPath(row: 0, section: section)], with: UITableViewRowAnimation.automatic)
+        isNewSection = false
+        numberOfNewSection = -1
         sugestedCarTableView.reloadData()
-        
         
     }
 
@@ -490,8 +494,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                             self.cierraModal()
                             
                         }else{
-                                self.back()
-                               self.delegate?.closeViewController()
+                            self.back()
+                            self.delegate?.closeViewController()
                         }
 
                     }
@@ -607,24 +611,21 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         allProducts![section]["term"] = newSection
         sugestedCarTableView.beginUpdates()
         self.invokeEditWordMultisearchService(newWord: newSection, section: section)
-        isNewSection = false
-        numberOfNewSection = -1
         sugestedCarTableView.endUpdates()
 
     }
     
     func addNewItem(_ sender:UIButton){
-      
         let indexSet = NSMutableIndexSet()
         indexSet.add(sugestedCarTableView.numberOfSections)
         searchWordBySection.append("nueva búsqueda")
-        allProducts!.append(["term":"nueva búsqueda","products":[[:]] as! [[String:Any]]])
+        allProducts?.append(["term":"nueva búsqueda", "products": ""])
         sugestedCarTableView.beginUpdates()
         isNewSection = true
         numberOfNewSection = sugestedCarTableView.numberOfSections
         sugestedCarTableView.insertSections(indexSet as IndexSet, with: .automatic)
         sugestedCarTableView.endUpdates()
-        sugestedCarTableView.reloadData()
+        //sugestedCarTableView.reloadData()
         
     }
     
