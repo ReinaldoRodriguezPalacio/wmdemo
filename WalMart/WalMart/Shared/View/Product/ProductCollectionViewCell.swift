@@ -37,7 +37,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         super.init(frame: frame)
         setup()
     }
-  
+    
     func setup() {
         productImage = UIImageView()
         

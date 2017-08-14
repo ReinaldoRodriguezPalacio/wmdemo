@@ -59,9 +59,20 @@
 		0C000E5E1E79FCBC007BEFBF /* TiresModelsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C000E5D1E79FCBC007BEFBF /* TiresModelsService.swift */; };
 		0C05A82F1E73383A003D82B9 /* FilterTiresTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C05A82E1E73383A003D82B9 /* FilterTiresTableViewCell.swift */; };
 		0C0ABCCE1E89C0A100B9E624 /* CrossSellingGRProductService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0ABCCD1E89C0A100B9E624 /* CrossSellingGRProductService.swift */; };
+		0C0B84BC1F1592B5006A5E05 /* SESugestedViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B84BB1F1592B5006A5E05 /* SESugestedViewCell.swift */; };
 		0C0DFAA91E8D614E002D873F /* IPASearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0DFAA81E8D614E002D873F /* IPASearchTiresIniViewController.swift */; };
 		0C14086B1E8EC18100FB60D4 /* IPASearchCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */; };
 		0C3503511E8186F5006B6704 /* TiresMedidasSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */; };
+		0C4A08C21F17E8130018FB13 /* SEListaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */; };
+		0C4EF8FA1F33938200C54AAE /* IPASESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4EF8F91F33938200C54AAE /* IPASESearchViewController.swift */; };
+		0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */; };
+		0C6704C81F1E6DD200175C0A /* SEabcService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C71F1E6DD200175C0A /* SEabcService.swift */; };
+		0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */; };
+		0C88FC551F3927C7001BA20B /* SEaddToCartListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */; };
+		0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */; };
+		0C9776371F34E54400FB5F25 /* IPASESugestedCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */; };
+		0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */; };
+		0CDBDB861F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */; };
 		0CDC9DA71ED75B27001F03E4 /* InvoiceDataClientService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */; };
 		0CDC9DA81ED75B27001F03E4 /* InvoiceDataCPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */; };
 		0CDC9DA91ED75B27001F03E4 /* InvoiceFolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */; };
@@ -77,6 +88,9 @@
 		0CDC9DC51ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */; };
 		0CDC9DC71ED75C6E001F03E4 /* AlertPickerViewSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */; };
 		0CDC9DC91ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */; };
+		0CE307A11F26713E00C6914E /* SEtypeaheadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */; };
+		0CE307A31F26A68E00C6914E /* SEmultipleSearchListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */; };
+		0CE307A51F26A6E300C6914E /* SEmultipleSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */; };
 		0CEA425E1E71CD22009AFFEF /* SearchTiresIniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */; };
 		0CF78CE01F0D3314005262C2 /* InvoiceSendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */; };
 		0CF9E0651E7AF1CC00B20429 /* llanta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CF9E0641E7AF1CC00B20429 /* llanta.png */; };
@@ -609,6 +623,7 @@
 		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
 		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
 		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
+		F1B5ECD31F1F742C001BE02E /* SESugestedCarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */; };
 		F1B8F9D21E7E2A3A00A0CC22 /* TiresAniosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B8F9D11E7E2A3A00A0CC22 /* TiresAniosService.swift */; };
 		F1F0CF871E811F8600C97261 /* TiresVersionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F0CF861E811F8600C97261 /* TiresVersionsService.swift */; };
 		F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFABDB1DE7415300310B60 /* AuthorizationService.swift */; };
@@ -679,9 +694,20 @@
 		0C000E5D1E79FCBC007BEFBF /* TiresModelsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresModelsService.swift; sourceTree = "<group>"; };
 		0C05A82E1E73383A003D82B9 /* FilterTiresTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTiresTableViewCell.swift; sourceTree = "<group>"; };
 		0C0ABCCD1E89C0A100B9E624 /* CrossSellingGRProductService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossSellingGRProductService.swift; sourceTree = "<group>"; };
+		0C0B84BB1F1592B5006A5E05 /* SESugestedViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedViewCell.swift; sourceTree = "<group>"; };
 		0C0DFAA81E8D614E002D873F /* IPASearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASearchTiresIniViewController.swift; sourceTree = "<group>"; };
 		0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASearchCustomCell.swift; sourceTree = "<group>"; };
 		0C3503501E8186F5006B6704 /* TiresMedidasSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresMedidasSearchService.swift; sourceTree = "<group>"; };
+		0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEListaViewCell.swift; sourceTree = "<group>"; };
+		0C4EF8F91F33938200C54AAE /* IPASESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASESearchViewController.swift; sourceTree = "<group>"; };
+		0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCar.swift; sourceTree = "<group>"; };
+		0C6704C71F1E6DD200175C0A /* SEabcService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEabcService.swift; sourceTree = "<group>"; };
+		0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadListService.swift; sourceTree = "<group>"; };
+		0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEaddToCartListService.swift; sourceTree = "<group>"; };
+		0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRow.swift; sourceTree = "<group>"; };
+		0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASESugestedCar.swift; sourceTree = "<group>"; };
+		0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESearchViewController.swift; sourceTree = "<group>"; };
+		0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedRowTitleViewCell.swift; sourceTree = "<group>"; };
 		0CDC9DA11ED75B27001F03E4 /* InvoiceDataClientService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataClientService.swift; sourceTree = "<group>"; };
 		0CDC9DA21ED75B27001F03E4 /* InvoiceDataCPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceDataCPService.swift; sourceTree = "<group>"; };
 		0CDC9DA31ED75B27001F03E4 /* InvoiceFolioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceFolioService.swift; sourceTree = "<group>"; };
@@ -697,6 +723,9 @@
 		0CDC9DC31ED75BF9001F03E4 /* IPAInvoiceViewControllerPpal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAInvoiceViewControllerPpal.swift; sourceTree = "<group>"; };
 		0CDC9DC61ED75C6E001F03E4 /* AlertPickerViewSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPickerViewSections.swift; sourceTree = "<group>"; };
 		0CDC9DC81ED75CFC001F03E4 /* SelectItemAddressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectItemAddressTableViewCell.swift; sourceTree = "<group>"; };
+		0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEtypeaheadService.swift; sourceTree = "<group>"; };
+		0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEmultipleSearchListService.swift; sourceTree = "<group>"; };
+		0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEmultipleSearchService.swift; sourceTree = "<group>"; };
 		0CEA425D1E71CD22009AFFEF /* SearchTiresIniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTiresIniViewController.swift; sourceTree = "<group>"; };
 		0CF78CDF1F0D3314005262C2 /* InvoiceSendService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceSendService.swift; path = WalMart/InvoiceSendService.swift; sourceTree = SOURCE_ROOT; };
 		0CF9E0641E7AF1CC00B20429 /* llanta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = llanta.png; sourceTree = "<group>"; };
@@ -1294,6 +1323,7 @@
 		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B1E826D94D9403C079F1B1FA /* Pods_WalMart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WalMart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SESugestedCarViewCell.swift; sourceTree = "<group>"; };
 		F1B8F9D11E7E2A3A00A0CC22 /* TiresAniosService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresAniosService.swift; sourceTree = "<group>"; };
 		F1F0CF861E811F8600C97261 /* TiresVersionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiresVersionsService.swift; sourceTree = "<group>"; };
 		F713F4E31DF63B2E0050211F /* WalmartMG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WalmartMG.entitlements; sourceTree = "<group>"; };
@@ -1459,6 +1489,33 @@
 				0C14086A1E8EC18100FB60D4 /* IPASearchCustomCell.swift */,
 			);
 			name = TiresSearch;
+			sourceTree = "<group>";
+		};
+		0C6704C61F1E6D8600175C0A /* SuperExpress */ = {
+			isa = PBXGroup;
+			children = (
+				0C6704C71F1E6DD200175C0A /* SEabcService.swift */,
+				0C6704C91F1E8F5100175C0A /* SEtypeaheadListService.swift */,
+				0CE307A01F26713E00C6914E /* SEtypeaheadService.swift */,
+				0CE307A21F26A68E00C6914E /* SEmultipleSearchListService.swift */,
+				0CE307A41F26A6E300C6914E /* SEmultipleSearchService.swift */,
+				0C88FC541F3927C7001BA20B /* SEaddToCartListService.swift */,
+			);
+			name = SuperExpress;
+			sourceTree = "<group>";
+		};
+		0CBF76C71F1438D000E8A33F /* SuperExpress */ = {
+			isa = PBXGroup;
+			children = (
+				0CBF76C81F14390A00E8A33F /* SESearchViewController.swift */,
+				0C0B84BB1F1592B5006A5E05 /* SESugestedViewCell.swift */,
+				0C4A08C11F17E8130018FB13 /* SEListaViewCell.swift */,
+				0C628C941F1D20D400CAA0DC /* SESugestedCar.swift */,
+				F1B5ECD21F1F742C001BE02E /* SESugestedCarViewCell.swift */,
+				0C94DE181F1FE04500A11BA8 /* SESugestedRow.swift */,
+				0CDBDB851F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift */,
+			);
+			name = SuperExpress;
 			sourceTree = "<group>";
 		};
 		0CDC9DA01ED75B27001F03E4 /* Invoice */ = {
@@ -1884,6 +1941,7 @@
 		564578C219AE300D006A7152 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0C6704C61F1E6D8600175C0A /* SuperExpress */,
 				0CDC9DA01ED75B27001F03E4 /* Invoice */,
 				0C000E561E799078007BEFBF /* TiresSearch */,
 				6C6AC1EC1CF5197F0072FBB7 /* BackToSchool */,
@@ -1943,6 +2001,7 @@
 			isa = PBXGroup;
 			children = (
 				6CA167231ED88CDF00801824 /* Provider */,
+				0CBF76C71F1438D000E8A33F /* SuperExpress */,
 				0CF33C2E1E70B56000C0CAA3 /* TiresSearch */,
 				6CBCCFA81C84C284002D7717 /* Reminder */,
 				6C8D5C251BF250DD0020962E /* Refered */,
@@ -1997,6 +2056,7 @@
 		564578C819AE306C006A7152 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F123DB821F330013008C7DAA /* SuperExpress */,
 				0CDC9DC11ED75BF9001F03E4 /* Invoice */,
 				0C0DFAA71E8D6108002D873F /* TiresSearch */,
 				56E806AD1B4565ED007D6C6D /* DefaultList */,
@@ -3376,6 +3436,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F123DB821F330013008C7DAA /* SuperExpress */ = {
+			isa = PBXGroup;
+			children = (
+				0C4EF8F91F33938200C54AAE /* IPASESearchViewController.swift */,
+				0C9776361F34E54400FB5F25 /* IPASESugestedCar.swift */,
+			);
+			name = SuperExpress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3430,7 +3499,7 @@
 				TargetAttributes = {
 					5645789519AE2E00006A7152 = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = E896UUML7L;
+						DevelopmentTeam = UDPJ785EBR;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -3625,6 +3694,7 @@
 				5614A6661A688CDC0048B71A /* GRUpdateUserProfileService.swift in Sources */,
 				4A5A9D511C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m in Sources */,
 				22E5DC311E6A453C00F4C9E0 /* IPOUserListEmptyView.swift in Sources */,
+				0C6704CA1F1E8F5100175C0A /* SEtypeaheadListService.swift in Sources */,
 				04D88CAD1A4B27CD00DB836B /* GRProductBySearchService.swift in Sources */,
 				5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */,
 				5696079D19B4F4CA005D20DC /* ProductDetailLabelCollectionView.swift in Sources */,
@@ -3637,6 +3707,7 @@
 				AC59116019DDEFCB00EB095C /* PreviewHelpViewController.swift in Sources */,
 				564578FA19AE3718006A7152 /* CustomBarViewController.swift in Sources */,
 				F1F0CF871E811F8600C97261 /* TiresVersionsService.swift in Sources */,
+				0CDBDB861F211E3B00EDF9BB /* SESugestedRowTitleViewCell.swift in Sources */,
 				6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */,
 				566902311A9431B7000D6FA6 /* GRRecentProductsService.swift in Sources */,
 				56253D8F19D21A4D002E128A /* PreviousOrderDetailService.swift in Sources */,
@@ -3644,6 +3715,7 @@
 				56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */,
 				567023331AB255D300FDCD91 /* IPOWebViewController.swift in Sources */,
 				5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */,
+				F1B5ECD31F1F742C001BE02E /* SESugestedCarViewCell.swift in Sources */,
 				AC7A0BEE19D9D99B004ED6CC /* AddPreferedAddress.swift in Sources */,
 				5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */,
 				0C000E5A1E7991DE007BEFBF /* TiresSizeSearchService.swift in Sources */,
@@ -3684,6 +3756,7 @@
 				AC59118019DE0D2400EB095C /* FMDatabase.m in Sources */,
 				AC5479F71AB21785009DC7AB /* IPAShoppingCartEmptyView.swift in Sources */,
 				6C8977841DA7F1D900BABE85 /* IPALandingPageViewController.swift in Sources */,
+				0CE307A51F26A6E300C6914E /* SEmultipleSearchService.swift in Sources */,
 				ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */,
 				5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */,
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
@@ -3741,6 +3814,7 @@
 				04B538A11A8D2B6200B9F340 /* GRUpdateItemListService.swift in Sources */,
 				AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */,
+				0C4A08C21F17E8130018FB13 /* SEListaViewCell.swift in Sources */,
 				56527DB319AFA2F2008032C6 /* BannerCollectionViewCell.swift in Sources */,
 				5670232E1AB0C91700FDCD91 /* IPAGRShoppingCartViewController.swift in Sources */,
 				6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */,
@@ -3751,6 +3825,7 @@
 				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
+				0C0B84BC1F1592B5006A5E05 /* SESugestedViewCell.swift in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
 				5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */,
 				657743C11F0FCFCE00EBAED3 /* OrderSendingViewController.swift in Sources */,
@@ -3766,11 +3841,13 @@
 				5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */,
 				56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */,
 				5608AF731A0AA7BE00176CB0 /* IPASectionHeaderSearchReusable.swift in Sources */,
+				0CE307A11F26713E00C6914E /* SEtypeaheadService.swift in Sources */,
 				6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */,
 				5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */,
 				8BCA19721AAA619100065072 /* AlertButtomView.swift in Sources */,
 				56DFE4CF19D057C9001811F5 /* SWCellScrollView.m in Sources */,
 				5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */,
+				0CBF76C91F14390A00E8A33F /* SESearchViewController.swift in Sources */,
 				56BB62971A5F05DD0008BD1F /* ProductDetailMSICollectionViewCell.swift in Sources */,
 				563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */,
 				6CA167281ED8A2DA00801824 /* ProviderProductHeaderView.swift in Sources */,
@@ -3827,6 +3904,7 @@
 				560BE7A51A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift in Sources */,
 				041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */,
 				0CDC9DBC1ED75B9B001F03E4 /* InvoiceDataViewController.swift in Sources */,
+				0C9776371F34E54400FB5F25 /* IPASESugestedCar.swift in Sources */,
 				56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */,
 				56E54E4119EC3C480004161C /* IPAFamilyViewController.swift in Sources */,
 				04B640D41A8C14A300D5835E /* DetailListViewCell.swift in Sources */,
@@ -3852,6 +3930,7 @@
 				04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */,
 				56684B311A02A57800DB2570 /* ReviewShoppingCartService.swift in Sources */,
 				F1B8F9D21E7E2A3A00A0CC22 /* TiresAniosService.swift in Sources */,
+				0C88FC551F3927C7001BA20B /* SEaddToCartListService.swift in Sources */,
 				569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */,
 				6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */,
 				56DFE4D219D057C9001811F5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
@@ -3883,6 +3962,7 @@
 				6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */,
 				5696078F19B4D955005D20DC /* BannerService.swift in Sources */,
 				5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */,
+				0C4EF8FA1F33938200C54AAE /* IPASESearchViewController.swift in Sources */,
 				04D605A21A9F9DFB006B36D5 /* IPAListTableViewCell.swift in Sources */,
 				0CF9E0671E7B097600B20429 /* SearchTiresBySizeService.swift in Sources */,
 				565E5B5A19C0BF2F00444DF7 /* UserCurrentSession.swift in Sources */,
@@ -3954,7 +4034,10 @@
 				569AB9F31AAA226D0036D5AB /* GRFormAddressAlertView.swift in Sources */,
 				566E547219F572850007C75A /* IPAShoppingCartViewController.swift in Sources */,
 				56E54E4C19EC7C920004161C /* IPASearchProductCollectionViewCell.swift in Sources */,
+				0C94DE191F1FE04500A11BA8 /* SESugestedRow.swift in Sources */,
 				F7AFABDC1DE7415300310B60 /* AuthorizationService.swift in Sources */,
+				0CE307A31F26A68E00C6914E /* SEmultipleSearchListService.swift in Sources */,
+				0C628C951F1D20D400CAA0DC /* SESugestedCar.swift in Sources */,
 				AC34D80F19B4F37600801906 /* NavigationViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,
 				6CA591A11E76F43800216A38 /* SetDeliveryTypesService.swift in Sources */,
@@ -4006,6 +4089,7 @@
 				5614A6681A688EB60048B71A /* GRAddressUpdateService.swift in Sources */,
 				851EF5F01CF7AD2F00C37BD5 /* WMTCopyLabel.swift in Sources */,
 				04312C991A6EDEB40009A940 /* ListTableViewCell.swift in Sources */,
+				0C6704C81F1E6DD200175C0A /* SEabcService.swift in Sources */,
 				56940AC91A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift in Sources */,
 				5688470D19E87FF900D5C45D /* IPACategoryCollectionViewClass.swift in Sources */,
 				AC59118419DE0D2400EB095C /* FMResultSet.m in Sources */,
@@ -4195,7 +4279,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "08938a9e-503b-4cde-8551-3e6b00dc75a1";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4234,7 +4318,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "08938a9e-503b-4cde-8551-3e6b00dc75a1";
+				PROVISIONING_PROFILE = "cf274c61-4f25-496a-8664-445ef7a0ddf0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4249,9 +4333,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				DEVELOPMENT_TEAM = "";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4289,7 +4373,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4310,9 +4394,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = WalMart/WalmartMG.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wal-Mart de Mexico S.A.B de C.V. (UDPJ785EBR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = E896UUML7L;
+				DEVELOPMENT_TEAM = "";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4350,7 +4434,7 @@
 					"$(DT_LDFLAGS)",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartmexico.WalmartMG;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

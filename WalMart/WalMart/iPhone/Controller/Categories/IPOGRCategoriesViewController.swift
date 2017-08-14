@@ -12,6 +12,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
+    var superExpressView: UIView!
+    var btnSuperExpress: UIButton! = nil
+    var newHeader: UIView!
     var landingItem : [String:String]? = nil
 
     @IBOutlet var categoriesTable : UITableView!
@@ -21,6 +24,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var canfigData : [String:Any]! = [:]
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
@@ -67,6 +71,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         buttonCollapse.imageEdgeInsets = UIEdgeInsetsMake(2.0,40, 0.0, 0.0);
         buttonCollapse.layer.cornerRadius = 2
         
+        self.superExpressView = UIView()
+        
         self.header?.addSubview(buttonCollapse)
         
         self.titleLabel?.text = "Súper"
@@ -75,11 +81,32 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         self.viewFamily = UIView()
         self.viewFamily.backgroundColor = UIColor.white
         
+        self.superExpressView = UIView()
+        self.superExpressView.backgroundColor = WMColor.light_light_gray
+        
+        self.newHeader = UIView()
+        self.newHeader.backgroundColor = WMColor.light_light_gray
+        
+        
+        self.btnSuperExpress = UIButton()
+        btnSuperExpress.setTitle(NSLocalizedString("superExpress.search.info.button",comment:""), for:UIControlState())
+        btnSuperExpress.titleLabel!.textColor = UIColor.white
+        btnSuperExpress.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        btnSuperExpress.backgroundColor = WMColor.green
+        btnSuperExpress.layer.cornerRadius = 15
+        self.btnSuperExpress!.addTarget(self, action: #selector(self.showSuperExpressSearch(_:)), for: UIControlEvents.touchUpInside)
+        self.superExpressView.addSubview(btnSuperExpress)
+
+        
         self.familyController = FamilyViewController()
         self.familyController.categoriesType = .categoryForGR
         self.addChildViewController(self.familyController)
         self.viewFamily.addSubview(self.familyController.view)
         self.header?.removeFromSuperview()
+
+        self.newHeader.addSubview(self.superExpressView!)
+        self.newHeader.addSubview(self.header!)
+        
         
         let _ = loadDepartments()
 
@@ -97,6 +124,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        newHeader.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 76)
+        superExpressView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+        btnSuperExpress.frame = CGRect(x: 0, y: 0, width: self.newHeader.frame.size.width, height: 30)
+        self.header?.frame = CGRect(x: 0, y: 30, width: self.view.bounds.width, height: 46)
         viewFamily.frame = CGRect(x: 0, y: CELL_HEIGHT, width: self.view.bounds.width, height: self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
         self.titleLabel!.frame.origin = CGPoint(x: 10, y: 0)
@@ -119,18 +150,18 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if landingItem != nil && section == 1 {
-            return self.header
+            return self.newHeader
         }else if landingItem == nil && section == 0 {
-            return self.header
+            return self.newHeader
         }
         return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if landingItem != nil && section == 1 {
-            return 46.0
+            return 76.0
         }else if landingItem == nil && section == 0 {
-            return 46.0
+            return 76.0
         }
         return 0.0
     }
@@ -374,7 +405,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                             newView.imageIcon.alpha = 1
                             newView.buttonClose.alpha = 1
                             newView.alpha = 1
-                            
                         })
                     }
                     //EVENT
@@ -384,7 +414,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     print("End")
                     self.view.addSubview(newView)
                 }
-                
         }) 
         
     }
@@ -545,4 +574,18 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         }
         
     }
+    
+    func showSuperExpressSearch(_ sender:UIButton) {
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
+        
+        let controller = SESearchViewController()
+        let controllernav = self.navigationController
+            let controllersInNavigation = controllernav?.viewControllers.count
+            if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
+                controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+            }
+            controllernav?.pushViewController(controller, animated: true)
+        
+    }
+
 }

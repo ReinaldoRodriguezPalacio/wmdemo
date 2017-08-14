@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.75</string>
+	<string>3.77</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>Fabric</key>
@@ -584,6 +584,16 @@
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewCartToShop</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/typeahead</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -723,6 +733,16 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -887,7 +907,9 @@
 			<key>WalmartMG.GetStoreByZipCodeColonyService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
-			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<string>http://192.168.43.192:8096/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SEaddToCartListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>http://10.30.13.213:9084/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -989,6 +1011,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SEaddToCartListService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -1160,6 +1184,16 @@
 			<string>http://10.30.13.213:9084/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.30.13.213:9084/walmartmg/list/marketplace/reviewCartToShop</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://192.168.43.192:8096/walmartmg/list/typeahead</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://192.168.43.192:8096/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.30.13.213:9084/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -1301,6 +1335,16 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
