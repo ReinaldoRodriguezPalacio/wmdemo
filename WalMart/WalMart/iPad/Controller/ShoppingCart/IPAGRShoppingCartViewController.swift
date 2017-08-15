@@ -278,6 +278,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     if self.itemsInCart.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
                             self.beforeLeave?.itemsUPC = self.itemsUPC
+                            self.beforeLeave?.isForGroceries = true
                             self.beforeLeave?.collection.reloadData()
                         }
                     }

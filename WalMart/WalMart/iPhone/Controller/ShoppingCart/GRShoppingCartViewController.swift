@@ -925,9 +925,9 @@ extension GRShoppingCartViewController: UITableViewDataSource {
             
             let cellPromotion = tableShoppingCart.dequeueReusableCell(withIdentifier: "crossSellCell", for: indexPath) as? ShoppingCartCrossSellCollectionViewCell
             //cellPromotion!.delegate = self
+            cellPromotion!.isForGroceries = true
             cellPromotion!.itemsUPC = itemsUPC
             cellPromotion!.collection.reloadData()
-            cellPromotion?.isForGroceries = true
             cell = cellPromotion
             
             return cell!
