@@ -91,7 +91,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         
         collection.dataSource = self
         collection.delegate = self
-        collection.isPagingEnabled = true
+        collection.isPagingEnabled = false
         collection.backgroundColor = UIColor.white
         self.addSubview(collection)
         

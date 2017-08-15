@@ -71,7 +71,9 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             }
         }
         
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
+        let disabled = price.toDouble() == 0  || UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
+        
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: disabled)
         
         return cell
     }
