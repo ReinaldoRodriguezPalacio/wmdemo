@@ -39,7 +39,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
 
         let desc = itemUPC["description"] as! String
         var price : String! = ""
-        var imageArray : [Any] = []
+        var _ : [Any] = []
         var imageUrl = ""
         
         if let priceString = itemUPC["price"] as? String {
