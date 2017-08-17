@@ -14,7 +14,7 @@ protocol SESugestedRowDelegate {
     func itemDeSelected(seccion:Int, itemSelected: Int)
 }
 
-class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate,SESugestedRowCleanCellsDelegate {
+class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SESugestedCarViewCellDelegate {
     var collection: UICollectionView?
     var contenido: UIView!
     var productosData: [[String:Any]]? = nil
@@ -22,6 +22,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     var delegate: SESugestedCar?
     var selectedItems : [Bool]! = []
     var widthScreen : CGFloat!
+    var isNewSection : Bool! = false
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,8 +36,9 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     func setup() {
         
         
-        contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen + 50, height: 100))
+        contenido = UIView(frame: CGRect(x: 0, y: 0, width: self.widthScreen, height: 100))
         contenido.backgroundColor = WMColor.light_light_gray
+        if !isNewSection{
         
             collection = getCollectionView()
             collection?.register(SESugestedCarViewCell.self, forCellWithReuseIdentifier: "sugestedCarViewCell")
@@ -45,18 +47,18 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
             collection!.delegate = self
             collection!.backgroundColor = WMColor.light_light_gray
             self.contenido.addSubview(collection!)
+        }
         
         self.addSubview(self.contenido)
         
     }
     
-    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat) {
+    func setValues(_ items:[[String:Any]], section:Int, widthScreen: CGFloat, isNewSect: Bool, selectedItems: [Bool]) {
         self.productosData = items
-        for _ in 0...Int((productosData?.count)!){
-            selectedItems.append(false)
-        }
+        self.selectedItems = selectedItems
         self.section = section
         self.widthScreen = widthScreen
+        isNewSection = isNewSect
         setup()
     }
 
@@ -80,16 +82,14 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sugestedCarViewCell", for: indexPath) as! SESugestedCarViewCell
         cell.delegate = self
-        let upc = productosData![indexPath.row]["upc"] as! String
+        let upc = productosData![indexPath.row]["upc"] as? String
         let imagen = productosData![indexPath.row]["url"] as! String
         let descripcion = productosData![indexPath.row]["displayName"] as! String
         let precio = productosData![indexPath.row]["field"] as! String
-        var isSelected = false
-        if selectedItems[indexPath.row] == true{
-            isSelected = true
-        }
+        let isSelected = selectedItems[indexPath.row]
         
-        cell.setValues(upc, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
+        
+        cell.setValues(upc!, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
         
         
         return cell
@@ -124,10 +124,4 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         delegate?.itemDeSelected(seccion: self.section, itemSelected: item)
     }
     
-    func cleanCollectionView(){
-        for i in 0..<Int((productosData?.count)!){
-            selectedItems[i] = false
-        }
-        self.collection?.removeFromSuperview()
-    }
 }

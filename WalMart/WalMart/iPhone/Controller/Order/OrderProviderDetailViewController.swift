@@ -241,12 +241,14 @@ class OrderProviderDetailViewController : NavigationViewController {
         let deliveryType = itemDetail["deliveryType"] as? String ?? ""
         let name = itemDetail["name"] as! String
         let address = itemDetail["address"] as! String
+        let paymentType = itemDetail["PaymentType"] as! String
         
         let statusLbl = NSLocalizedString("previousorder.status",comment:"")
         let dateLbl = NSLocalizedString("previousorder.date",comment:"")
         let nameLbl = NSLocalizedString("previousorder.name",comment:"")
         let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-        let addressLbl = NSLocalizedString("previousorder.address",comment:"")
+        let addressLbl = "Mi casa"//NSLocalizedString("previousorder.address",comment:"")
+        let paymentTypeLbl = NSLocalizedString("previousorder.paymentType",comment:"")
         //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
         
         let resultsProducts =  itemDetail["guideItems"] as! [[String:Any]]
@@ -254,7 +256,6 @@ class OrderProviderDetailViewController : NavigationViewController {
         self.status = itemDetail["status"] as? String ?? ""
         let guide = itemDetail["fedexGuide"] as! String
         let urlGuide = itemDetail["urlfedexGuide"] as! String
-        
         for itemProduct in resultsProducts {
 
             if let offers = itemProduct["offers"] as? [[String:Any]] {
@@ -284,6 +285,7 @@ class OrderProviderDetailViewController : NavigationViewController {
         details.append(["label":statusLbl,"value":self.status])
         details.append(["label":nameLbl,"value":name])
         details.append(["label":deliveryTypeLbl,"value":deliveryType])
+        details.append(["label":paymentTypeLbl,"value":paymentType])
         details.append(["label":addressLbl,"value":address])
         
         if self.date != "" {
@@ -294,6 +296,7 @@ class OrderProviderDetailViewController : NavigationViewController {
             details.append(["label":"Proveedor","value":self.sellerName])
             self.optionsButton?.isHidden = false
         }else{
+            details.append(["label":"Proveedor","value":"Walmart"])
             self.optionsButton?.isHidden = true
         }
         //details.append(["label":fedexLbl,"value":guide])

@@ -219,7 +219,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.email?.frame = CGRect(x: horSpace, y: self.lastName!.frame.maxY + topSpace, width: fieldWidth, height: fieldHeight)
         
         self.birthDate?.frame = CGRect(x: horSpace,  y: self.email!.frame.maxY + 8, width: self.view.bounds.width - (horSpace*2), height: fieldHeight)
-        self.femaleButton!.frame = CGRect(x: 90,  y: birthDate!.frame.maxY + 8,  width: 76 , height: fieldHeight)
+        self.femaleButton!.frame = CGRect(x: (self.view.frame.width / 2) - 70.0,  y: birthDate!.frame.maxY + 8,  width: 76 , height: fieldHeight)
         self.maleButton!.frame = CGRect(x: self.femaleButton!.frame.maxX,  y: birthDate!.frame.maxY + 8, width: 76 , height: fieldHeight)
         let distance: CGFloat = IS_IPHONE_4_OR_LESS ? 10 : 74
         //self.birthDate?.frame = CGRectMake(horSpace, self.email!.frame.maxY + topSpace, fieldWidth, fieldHeight)

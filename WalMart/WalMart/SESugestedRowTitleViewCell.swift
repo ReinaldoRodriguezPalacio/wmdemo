@@ -10,10 +10,7 @@ import Foundation
 
 protocol SESugestedRowTitleViewCellDelegate{
     func updateSection(section:Int, newSection:String)
-}
-
-protocol SESugestedRowCleanCellsDelegate{
-    func cleanCollectionView()
+    func delSection(section:Int)
 }
 
 class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
@@ -24,7 +21,6 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var editItem: UIButton!
     var section: Int!
     var delegate : SESugestedCar!
-    var delegate2 : SESugestedRow!
     var isNewSection : Bool! = false
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -69,30 +65,16 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         
         self.deleteItem = UIButton(frame:CGRect(x: self.frame.width - 40, y: 0,width: 30, height: self.frame.height))
         self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
+        self.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         self.addSubview(self.deleteItem)
         
 
     }
     
-    func setValues(_ itemNameList:String, section: Int, isNewSection:Bool) {
+    func setValues(_ itemNameList:String, section: Int) {
         self.itemView!.text = itemNameList
         self.itemViewTxt!.text = itemNameList
         self.section = section
-        self.isNewSection = isNewSection
-        if isNewSection{
-            self.addValues(itemNameList, section: section, height: 30)
-        }
-    }
-    
-    func addValues(_ addItem:String, section: Int, height: Int) {
-        self.editItem?.tag = section
-        self.editItem?.isSelected = true
-        self.deleteItem?.isEnabled = true
-        self.itemView!.isHidden = true
-        self.itemViewTxt!.isHidden = false
-        self.itemViewTxt!.text = self.itemView!.text
-        self.itemViewTxt!.becomeFirstResponder()
-        
     }
     
     func editSection(_ sender:UIButton){
@@ -104,6 +86,12 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.itemViewTxt!.text = self.itemView!.text
         self.itemViewTxt!.becomeFirstResponder()
     }
+    
+    func delSection(_ sender:UIButton){
+        sender.tag = section
+        delegate?.delSection(section: section)
+    }
+
     
     func endEditSection(_ sender:UIButton){
         sender.isEnabled = true
@@ -134,7 +122,6 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             self.endEditSection(self.editItem)
             
-            delegate2?.cleanCollectionView()
             delegate?.updateSection(section: self.section, newSection: textField.text!)
             
         }
@@ -157,5 +144,6 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         return true
     }
 
+    
     
 }

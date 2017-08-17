@@ -749,9 +749,9 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         
         if (!isUpcInShoppingCart && !isFromList ) || (isFromList && !isUpcInList) {
             
-            if result == 0.0 || result == 0 {
-                return
-            }
+//            if result == 0.0 || result == 0 {
+//                return
+//            }
             
             btnOkAdd?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
             btnOkAddN?.setTitle("\(strAdddToSC) \(strPrice)", for: UIControlState())
@@ -908,7 +908,7 @@ class GRShoppingCartWeightSelectorView: GRShoppingCartQuantitySelectorView {
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.containerView.frame = CGRect(x: 0, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height)
             }, completion: { (complete:Bool) -> Void in
-                
+              self.updateShoppButton()  
         }) 
     }
     

@@ -13,7 +13,7 @@ protocol SESugestedCarDelegate{
 }
 
 
-class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate, SESugestedRowTitleViewCellDelegate{
+class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableViewDelegate, SESugestedRowDelegate{
 
     var alertView : IPOWMAlertViewController? = nil
     var viewLoad : WMLoadingView!
@@ -25,6 +25,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     var searchWordBySection : [String]! = []
     var params: [String:Any] = [:]
     var itemsSelected: [[String:Any]]! = []
+    var selectedItemsbyRow : [Bool]! = []
     var searchWords: [String]! = []
     var titleHeader: String?
     
@@ -92,8 +93,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -150,14 +151,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SESugestedRowTitleViewCell
-        if isNewSection && section == numberOfNewSection{
-            cell.setValues(searchWordBySection[section], section: section, isNewSection:true)
-        }else{
-            cell.setValues(searchWordBySection[section], section: section, isNewSection:false)
-        }
-        cell.deleteItem.tag = section
+        cell.setValues(searchWordBySection[section], section: section)
         cell.delegate = self
-        cell.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         cell.backgroundColor = UIColor.white
         return cell
     }
@@ -175,11 +170,15 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        self.obtainSelectedItemsByRow(section: indexPath.section)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
-        if !isNewSection{
-        cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width)
+        if isNewSection && indexPath.section == numberOfNewSection{
+            cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSect: true,selectedItems: selectedItemsbyRow)
+        }else{
+            cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSect: false,selectedItems: selectedItemsbyRow)
         }
+        
         return cell
     }
     
@@ -586,19 +585,23 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
     }
     
-    func delSection(_ sender:UIButton){
-        sugestedCarTableView.beginUpdates()
-        let indexSet = NSMutableIndexSet()
-        indexSet.add(sender.tag)
-        sugestedCarTableView.deleteRows(at: [IndexPath.init(row: 0, section: sender.tag)], with: UITableViewRowAnimation.automatic)
-        sugestedCarTableView.deleteSections(indexSet as IndexSet, with: UITableViewRowAnimation.automatic)
-        self.itemDeSelectedAllBySection(seccion: sender.tag)
-        searchWordBySection.remove(at: sender.tag)
-        allProducts?.remove(at: sender.tag)
+    func delSection(section:Int){
+        
+        
+        if !isNewSection{
+            self.itemDeSelectedAllBySection(seccion: section)
+        }
+        print(searchWordBySection)
+        searchWordBySection.remove(at: section)
+        print(searchWordBySection)
+        print(allProducts)
+        allProducts?.remove(at: section)
+        print(allProducts)
         isNewSection = false
         numberOfNewSection = -1
-        sugestedCarTableView.endUpdates()
-        
+        let indexSet = NSMutableIndexSet()
+        indexSet.add(section)
+        sugestedCarTableView.deleteSections(indexSet as IndexSet, with: .automatic)
         sugestedCarTableView.reloadData()
         
     }
@@ -619,18 +622,37 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let indexSet = NSMutableIndexSet()
         indexSet.add(sugestedCarTableView.numberOfSections)
         searchWordBySection.append("nueva búsqueda")
-        allProducts?.append(["term":"nueva búsqueda", "products": ""])
-        sugestedCarTableView.beginUpdates()
+        allProducts?.append(["term":"nueva búsqueda", "products": [[:]]])
         isNewSection = true
-        numberOfNewSection = sugestedCarTableView.numberOfSections
-        sugestedCarTableView.insertSections(indexSet as IndexSet, with: .automatic)
-        sugestedCarTableView.endUpdates()
-        //sugestedCarTableView.reloadData()
-        
+        numberOfNewSection = searchWordBySection.count - 1
+        sugestedCarTableView.reloadData()
     }
     
     func cierraModal(){
     
+    }
+    
+    func obtainSelectedItemsByRow(section:Int){
+    
+        self.selectedItemsbyRow = []
+        let productos = allProducts![section]["products"] as! [[String:Any]]
+        if isNewSection || self.itemsSelected!.count == 0{
+            for _ in 0..<productos.count{
+                    selectedItemsbyRow.append(false)
+                }
+            }else{
+            for a in 0..<productos.count{
+                for idxVal in 0..<self.itemsSelected!.count{
+                    let item = self.itemsSelected![idxVal]
+                    if (productos[a]["upc"] as! String == item["upc"] as! String){
+                        selectedItemsbyRow.append(true)
+                    }else{
+                        selectedItemsbyRow.append(false)
+                    }
+                }
+            }
+        }
+        
     }
     
 }

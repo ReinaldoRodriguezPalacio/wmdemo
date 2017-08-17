@@ -10,8 +10,6 @@ import UIKit
 
 class SearchTiresIniViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,AlertPickerViewDelegate,UITextFieldDelegate, UIScrollViewDelegate {
     
-
-
     var contentCollectionOffset: CGPoint?
     var collection: UICollectionView?
     var loading: WMLoadingView?

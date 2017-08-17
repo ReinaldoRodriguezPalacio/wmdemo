@@ -270,7 +270,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             button.backgroundColor = WMColor.light_light_blue
             button.titleLabel!.textColor = UIColor.white
             button.frame = CGRect(x: (widthAnt), y: 0, width: 30, height: 30)
-            button.setTitle(myArray[i], for: UIControlState())
+            button.setTitle(myArray[i].lowercased(), for: UIControlState())
             button.layer.cornerRadius = 10
             button.contentEdgeInsets = UIEdgeInsetsMake(5,15,5,15)
             button.sizeToFit()
@@ -285,8 +285,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func addToList(_ sender:UIButton){
-        selectedItems.append(myArray[sender.tag])
-        listaSuper.reloadData()
+        if !selectedItems.contains(myArray[sender.tag].lowercased()){
+            selectedItems.append(myArray[sender.tag].lowercased())
+            listaSuper.reloadData()
+        }
         self.field?.text = ""
         self.myArray = []
         self.cargaSugerencias()
@@ -314,7 +316,6 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             cellreturn.backgroundColor = WMColor .light_gray
         }else{
             cellreturn.backgroundColor = UIColor .white
-            
         }
         
         return cellreturn
@@ -330,7 +331,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func textFieldDidChange(_ textField: UITextField) {
         myArray = []
-        myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+        myArray = allItems.filter { $0.lowercased().hasPrefix(textField.text!.lowercased()) }
         if myArray.count == 0{
             self.invokeTypeAheadService()
         }
@@ -344,9 +345,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             
             //buscaSugerencias(textField.text)
-            
-            selectedItems.append(textField.text!)
-            listaSuper.reloadData()
+            if !selectedItems.contains(textField.text!.lowercased()){
+                selectedItems.append(textField.text!.lowercased())
+                listaSuper.reloadData()
+            }
             textField.text = ""
             self.myArray = []
             self.cargaSugerencias()
@@ -364,6 +366,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         if keyword.length() < 1 {
             keyword = ""
+            textField.text = ""
             self.myArray = []
             self.cargaSugerencias()
         }
@@ -428,7 +431,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func invokeTypeAheadService() {
         
-        self.showLoadingView()
+        //self.showLoadingView()
         
         if UserCurrentSession.hasLoggedUser(){
             let typeaheadService = SEtypeaheadListService()
@@ -440,7 +443,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call TiresSizeSearchService error \(error)")
-                                            self.removeLoadingView()
+                                            //self.removeLoadingView()
             }
             )
         }else{
@@ -453,7 +456,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call TiresSizeSearchService error \(error)")
-                                            self.removeLoadingView()
+                                           // self.removeLoadingView()
             }
             )
         }

@@ -238,8 +238,10 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             
-            selectedItems.append(textField.text!)
-            listaSuper.reloadData()
+            if !selectedItems.contains(textField.text!.lowercased()){
+                selectedItems.append(textField.text!.lowercased())
+                listaSuper.reloadData()
+            }
             textField.text = ""
             self.myArray = []
             self.cargaSugerencias()
@@ -258,6 +260,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         if keyword.length() < 1 {
             keyword = ""
+            textField.text = ""
             self.myArray = []
             self.cargaSugerencias()
         }
@@ -270,7 +273,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
 
     func textFieldDidChange(_ textField: UITextField) {
      myArray = []
-     myArray = allItems.filter { $0.lowercased().contains(textField.text!.lowercased()) }
+     myArray = allItems.filter { $0.lowercased().hasPrefix(textField.text!.lowercased()) }
         if myArray.count == 0{
             self.invokeTypeAheadService()
         }
@@ -356,7 +359,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             button.backgroundColor = WMColor.light_light_blue
             button.titleLabel!.textColor = UIColor.white
             button.frame = CGRect(x: (widthAnt), y: 0, width: 30, height: 30)
-            button.setTitle(myArray[i], for: UIControlState())
+            button.setTitle(myArray[i].lowercased(), for: UIControlState())
             button.layer.cornerRadius = 10
             button.contentEdgeInsets = UIEdgeInsetsMake(5,15,5,15)
             button.sizeToFit()
@@ -378,8 +381,10 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
 
     func addToList(_ sender:UIButton){
-        selectedItems.append(myArray[sender.tag])
-        listaSuper.reloadData()
+        if !selectedItems.contains(myArray[sender.tag].lowercased()){
+            selectedItems.append(myArray[sender.tag].lowercased())
+            listaSuper.reloadData()
+        }
         self.field?.text = ""
         self.myArray = []
         self.cargaSugerencias()
@@ -396,7 +401,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
 
     func createPreferedCar(_ sender:UIButton){
-        
+        if selectedItems.count > 0{
          let controller = IPASESugestedCar()
          controller.titleHeader = "Súper en minutos"
          controller.searchWords = selectedItems
@@ -407,24 +412,24 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
          controller.view.frame = self.viewSearch.bounds
          controller.view.layer.cornerRadius = cornerRadiusValue
          //self.navigationController?.pushViewController(controller, animated: true)
-        
+        }
     }
     
     func invokeTypeAheadService() {
         
-        self.showLoadingView()
+        //self.showLoadingView()
         
         if UserCurrentSession.hasLoggedUser(){
             let typeaheadService = SEtypeaheadListService()
             typeaheadService.callService(params: ["pText":field?.text],
                                          successBlock: { (response:[String:Any]) -> Void in
                                             print("Call TypeaheadService success")
-                                            self.removeLoadingView()
+                                            //self.removeLoadingView()
                                             self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call TiresSizeSearchService error \(error)")
-                                            self.removeLoadingView()
+                                            //self.removeLoadingView()
             }
             )
         }else{
@@ -432,12 +437,12 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             typeaheadService.callService(params: ["pText":field?.text],
                                          successBlock: { (response:[String:Any]) -> Void in
                                             print("Call TypeaheadService success")
-                                            self.removeLoadingView()
+                                            //self.removeLoadingView()
                                             self.getSugerenciasBySearch(arrayPalabras: response["searchTerms"] as! [String])
             },
                                          errorBlock: { (error:NSError) -> Void in
                                             print("Call TiresSizeSearchService error \(error)")
-                                            self.removeLoadingView()
+                                            //self.removeLoadingView()
             }
             )
         }

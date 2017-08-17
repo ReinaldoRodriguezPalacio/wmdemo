@@ -39,7 +39,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
 
         let desc = itemUPC["description"] as! String
         var price : String! = ""
-        var imageArray : [Any] = []
+        var _ : [Any] = []
         var imageUrl = ""
         
         if let priceString = itemUPC["price"] as? String {
@@ -71,7 +71,9 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
             }
         }
         
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc))
+        let disabled = price.toDouble() == 0  || UserCurrentSession.sharedInstance.userHasUPCShoppingCart(upc)
+        
+        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price as String,grayScale: disabled)
         
         return cell
     }
