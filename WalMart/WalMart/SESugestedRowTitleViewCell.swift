@@ -10,6 +10,7 @@ import Foundation
 
 protocol SESugestedRowTitleViewCellDelegate{
     func updateSection(section:Int, newSection:String)
+    func editSection(section:Int)
     func delSection(section:Int)
 }
 
@@ -22,6 +23,10 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var section: Int!
     var delegate : SESugestedCar!
     var isNewSection : Bool! = false
+    var isEditSection : Bool! = false
+    var numberOfNewSection: Int!
+    var numberOfEditSection: Int!
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -68,28 +73,51 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         self.addSubview(self.deleteItem)
         
-
     }
     
-    func setValues(_ itemNameList:String, section: Int) {
+    func setValues(_ itemNameList:String, section: Int, newSect: Bool, newSectNumber:Int, editSect:Bool, editSectNumber:Int) {
         self.itemView!.text = itemNameList
         self.itemViewTxt!.text = itemNameList
         self.section = section
+        isNewSection = newSect
+        numberOfNewSection = newSectNumber
+        isEditSection = editSect
+        numberOfEditSection = editSectNumber
+        if isNewSection{
+            if numberOfNewSection == section{
+               self.enableEditOnSection()
+            }else{
+                self.deleteItem.isEnabled = false
+                self.editItem.isEnabled = false
+            }
+        }else if isEditSection{
+            if numberOfEditSection == section{
+                self.enableEditOnSection()
+            }else{
+                self.deleteItem.isEnabled = false
+                self.editItem.isEnabled = false
+            }
+        }
+        
     }
     
-    func editSection(_ sender:UIButton){
-        sender.isEnabled = false
-        sender.tag = section
-        self.deleteItem.isEnabled = false
+    func enableEditOnSection(){
+        //self.deleteItem.isEnabled = false
         self.itemView!.isHidden = true
         self.itemViewTxt!.isHidden = false
         self.itemViewTxt!.text = self.itemView!.text
         self.itemViewTxt!.becomeFirstResponder()
     }
     
+    func editSection(_ sender:UIButton){
+        sender.isEnabled = false
+        delegate?.editSection(section: section)
+    }
+    
     func delSection(_ sender:UIButton){
         sender.tag = section
         delegate?.delSection(section: section)
+        
     }
 
     

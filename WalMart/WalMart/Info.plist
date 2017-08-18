@@ -736,13 +736,13 @@
 			<key>WalmartMG.SEabcService</key>
 			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
-			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
-			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/login/multiplesearch</string>
 			<key>WalmartMG.SEtypeaheadListService</key>
-			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.SEtypeaheadService</key>
-			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -1338,13 +1338,13 @@
 			<key>WalmartMG.SEabcService</key>
 			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
-			<string>http://www.walmart.com.mx/walmartmg/list/multiplesearch</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
-			<string>http://www.walmart.com.mx/walmartmg/login/multiplesearch</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/login/multiplesearch</string>
 			<key>WalmartMG.SEtypeaheadListService</key>
-			<string>http://www.walmart.com.mx/walmartmg/list/typeahead</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.SEtypeaheadService</key>
-			<string>http://www.walmart.com.mx/walmartmg/login/typeahead</string>
+			<string>http://www.walmartmobile.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
