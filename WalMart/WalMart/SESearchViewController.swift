@@ -30,7 +30,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     let cellReuseIdendifier = "cell"
     var selectedItems:[String]! = []
     var allItems:[String]! = []
-    
+    var errorView : FormFieldErrorView? = nil
     var fieldHeight  : CGFloat = CGFloat(30)
     var filterHeight :  CGFloat = CGFloat(40)
     var lblTitle:UILabel!
@@ -344,6 +344,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
             
+            if !validateSearch(textField.text!)  {
+                showMessageValidation(NSLocalizedString("field.validate.text",comment:""))
+                return true
+            }
             //buscaSugerencias(textField.text)
             if !selectedItems.contains(textField.text!.lowercased()){
                 selectedItems.append(textField.text!.lowercased())
@@ -369,8 +373,11 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             textField.text = ""
             self.myArray = []
             self.cargaSugerencias()
+            
         }
-        
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         return true
     }
     
@@ -502,11 +509,64 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     self.field?.text = ""
     self.myArray = []
     self.cargaSugerencias()
-
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
     }
     
     func closeViewController(){
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func showMessageValidation(_ message:String){
+        if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+        }
+        
+        self.errorView!.frame = CGRect(x: self.field!.frame.minX - 5, y: 0, width: self.field!.frame.width, height: self.field!.frame.height )
+        self.errorView!.focusError = self.field!
+        if self.field!.frame.minX < 20 {
+            self.errorView!.setValues(280, strLabel:"Buscar", strValue: message)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5, y: self.field!.frame.minY , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
+        }
+        else{
+            self.errorView!.setValues(field!.frame.width, strLabel:"Buscar", strValue: message)
+            self.errorView!.frame =  CGRect(x: field!.frame.minX - 5, y: field!.frame.minY, width: errorView!.frame.width , height: errorView!.frame.height)
+        }
+        let contentView = self.field!.superview!
+        contentView.addSubview(self.errorView!)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
+            
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5 , y: self.field!.frame.minY - self.errorView!.frame.height , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
+            
+        }, completion: {(bool : Bool) in
+            if bool {
+                self.field!.becomeFirstResponder()
+            }
+        })
+    }
+
+
+    func validateSearch(_ toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú& /]{0,100}[._-]{0,2}$";
+        return validateRegEx(regString,toValidate:toValidate)
+    }
+    
+    func validateRegEx(_ pattern:String,toValidate:String) -> Bool {
+        
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatches(in: toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        
+        if matches > 0 {
+            return true
+        }
+        return false
     }
 
 }
