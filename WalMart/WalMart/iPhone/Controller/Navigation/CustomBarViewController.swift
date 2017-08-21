@@ -1208,7 +1208,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.onCloseSearch = {
                     let navController = self.currentController as? UINavigationController
                     let controllersInNavigation = navController?.viewControllers.count
-                    if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SearchTiresIniViewController != nil){
+                    if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SESearchViewController != nil){
                         navController?.viewControllers.remove(at: controllersInNavigation! - 1)
                         self.isEditingSearch = false
                     }
@@ -1216,7 +1216,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 }
             }else{
                 let controllersInNavigation = controllernav?.viewControllers.count
-                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchTiresIniViewController != nil){
+                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
                     controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
                     isEditingSearch = false
                 }

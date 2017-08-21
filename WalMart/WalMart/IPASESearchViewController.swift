@@ -42,7 +42,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     var instruccionesView:UIView!
     var lblInstrucciones:UILabel!
     var imageLlanta:UIImageView!
-    
+    var errorView : FormFieldErrorView? = nil
     var firstOpen  = true
     var isLoading  = false
     var hasEmptyView = false
@@ -126,7 +126,6 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         containerView.translatesAutoresizingMaskIntoConstraints = false
         self.viewSearch.addSubview(containerView)
         
-        self.initArrays()
         
         listaSuper = UITableView()
         listaSuper.delegate = self
@@ -136,7 +135,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         listaSuper.allowsSelection = false
         containerView.addSubview(listaSuper)
         
-        //self.initArrays()
+        self.initArrays()
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -229,6 +228,9 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
     
     func cierraSearch(_ sender:UIButton){
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         dismiss(animated: true, completion: nil)
     }
 
@@ -237,6 +239,11 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         
         if textField.text != nil && textField.text!.lengthOfBytes(using: String.Encoding.utf8) > 2 {
+            
+            if !validateSearch(textField.text!)  {
+                showMessageValidation(NSLocalizedString("field.validate.text",comment:""))
+                return true
+            }
             
             if !selectedItems.contains(textField.text!.lowercased()){
                 selectedItems.append(textField.text!.lowercased())
@@ -267,7 +274,9 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         //searchctrl.searchProductKqeywords(keyword) //por peticionwm
         self.showClearButtonIfNeeded(forTextValue: keyword)
-
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         return true
     }
 
@@ -286,7 +295,9 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         myArray = []
         self.cargaSugerencias()
         self.showClearButtonIfNeeded(forTextValue: self.field!.text!)
-    
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
     }
     
     func showClearButtonIfNeeded(forTextValue text:String) {
@@ -374,9 +385,9 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
 
     func initArrays(){
-        //self.invokeSEabcService()
+        self.invokeSEabcService()
         
-        allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
+        /*allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]*/
         myArray = []
     }
 
@@ -397,7 +408,11 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
 
     func dismissKeyboard() {
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         view.endEditing(true)
+        
     }
 
     func createPreferedCar(_ sender:UIButton){
@@ -414,6 +429,36 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
          //self.navigationController?.pushViewController(controller, animated: true)
         }
     }
+    
+    func invokeSEabcService() {
+        
+        self.showLoadingView()
+        
+        let abcService = SEabcService()
+        abcService.callService([:] as! [String:Any], successBlock: { (response:[String:Any]) -> Void in
+            print("Call TypeaheadService success")
+            self.removeLoadingView()
+            self.getSugerenciasArray(arrayPalabras: response["abclist"] as! [String])
+        },
+                               errorBlock: { (error:NSError) -> Void in
+                                print("Call TiresSizeSearchService error \(error)")
+                                self.removeLoadingView()
+        }
+        )
+        /*let url = URL(string: "http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json")
+         let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)
+         if let usableUrl = url {
+         let task = session.dataTask(with: usableUrl, completionHandler: { (data, response, error) in
+         if let data = data {
+         if let stringData = String(data: data, encoding: String.Encoding.utf8) {
+         print(stringData) //JSONSerialization
+         }
+         }
+         })
+         task.resume()
+         }*/
+    }
+
     
     func invokeTypeAheadService() {
         
@@ -470,9 +515,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     
     func getSugerenciasArray(arrayPalabras:[String]){
         allItems = []
-        if arrayPalabras.count > 0 {
-            allItems = arrayPalabras
-        }
+        allItems = arrayPalabras
         myArray = []
     }
     
@@ -493,7 +536,61 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
     }
 
     func closeView(){
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         dismiss(animated: true, completion: nil)
     }
+    
+    func showMessageValidation(_ message:String){
+        if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+        }
+        
+        self.errorView!.frame = CGRect(x: self.field!.frame.minX - 5, y: 0, width: self.field!.frame.width, height: self.field!.frame.height )
+        self.errorView!.focusError = self.field!
+        if self.field!.frame.minX < 20 {
+            self.errorView!.setValues(280, strLabel:"", strValue: message)
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5, y: self.field!.frame.minY , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
+        }
+        else{
+            self.errorView!.setValues(field!.frame.width, strLabel:"", strValue: message)
+            self.errorView!.frame =  CGRect(x: field!.frame.minX - 5, y: field!.frame.minY, width: errorView!.frame.width , height: errorView!.frame.height)
+        }
+        let contentView = self.field!.superview!
+        contentView.addSubview(self.errorView!)
+        UIView.animate(withDuration: 0.2, animations: {
+            
+            
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5 , y: self.field!.frame.minY - self.errorView!.frame.height / 2, width: self.errorView!.frame.width , height: self.errorView!.frame.height)
+            
+        }, completion: {(bool : Bool) in
+            if bool {
+                self.field!.becomeFirstResponder()
+            }
+        })
+    }
 
+    func validateSearch(_ toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú& /]{0,100}[._-]{0,2}$";
+        return validateRegEx(regString,toValidate:toValidate)
+    }
+    
+    func validateRegEx(_ pattern:String,toValidate:String) -> Bool {
+        
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatches(in: toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        
+        if matches > 0 {
+            return true
+        }
+        return false
+    }
+    
 }
+

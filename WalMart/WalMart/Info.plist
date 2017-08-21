@@ -202,7 +202,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -585,7 +585,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8096/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SEabcService</key>
-			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
 			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
@@ -734,7 +734,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SEabcService</key>
-			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
 			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
@@ -1185,7 +1185,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://192.168.43.192:8096/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SEabcService</key>
-			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
 			<string>http://192.168.43.192:8096/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
@@ -1336,7 +1336,7 @@
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/marketplace/reviewCartToShop</string>
 			<key>WalmartMG.SEabcService</key>
-			<string>http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
 			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>

@@ -254,7 +254,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func cierraModal(_ sender:UIButton) {
-        
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         _ = self.navigationController?.popViewController(animated: true)
         
     }
@@ -382,15 +384,18 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     func initArrays(){
-        //self.invokeSEabcService()
+        self.invokeSEabcService()
         
         
-       allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]
+       /*allItems = ["Aceite", "Aceite De Oliva", "Aceitunas", "Agua", "Aguacate", "Ajo", "Apio", "Arroz", "Atun", "Avena", "Azucar", "Brocoli", "Café", "Calabaza", "Camarón", "Carne", "Carne Molida", "Catsup", "Cebolla", "Cereal", "Cerveza", "Cilantro", "Cloro", "Crema", "Detergente", "Elote", "Endulzante", "Ensalada", "Espinacas", "Frijoles", "Galletas", "Gelatina", "Harina", "Jamón", "Jicama", "Jitomate", "Leche", "Lechuga", "Limon", "Limpiador", "Mango", "Mantequilla", "Manzana", "Mayonesa", "Melon", "Naranja", "Nopal", "Nuez", "Nutella", "Pan", "Pan Molido", "Pañales", "Papa", "Papaya", "Papel De Baño", "Papel Higiénico", "Pechuga De Pavo", "Pechuga De Pollo", "Pepino", "Pera", "Perejil", "Pescado", "Pimienta", "Pimiento", "Piña", "Platano", "Pollo", "Puré De Tomate", "Queso", "Queso Crema", "Queso De Cabra", "Queso Manchego", "Queso Oaxaca", "Queso Panela", "Refresco", "Repelente", "Sal", "Salchichas", "Salmón", "Servilletas", "Shampoo", "Suavizante", "Te", "Tocino", "Tomate", "Tortillas", "Vainilla", "Vinagre", "Zanahoria"]*/
         myArray = []
     }
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
         view.endEditing(true)
     }
     
@@ -409,31 +414,18 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         self.showLoadingView()
         
-        /*let storeService = SEabcService()
-        storeService.callService(
-            { (response:[String:Any]) -> Void in
-                print("Call SEabcService success")
-                self.removeLoadingView()
-                self.getSugerenciasArray(arrayPalabras: response["abclist"] as! [String])
-        },
-            errorBlock: { (error:NSError) -> Void in
-                print("Call SEabcService error \(error)")
-                self.removeLoadingView()
-        }
-        )*/
-        
-        let url = URL(string: "http://a9.g.akamai.net/f/9/303455/1m/walmartmx.download.akamai.com/303455/resources/abc.json")
-        let session = URLSession.shared // or let session = URLSession(configuration: URLSessionConfiguration.default)
-        if let usableUrl = url {
-            let task = session.dataTask(with: usableUrl, completionHandler: { (data, response, error) in
-                if let data = data {
-                    if let stringData = String(data: data, encoding: String.Encoding.utf8) {
-                        print(stringData) //JSONSerialization
-                    }
-                }
-            })
-            task.resume()
-        }
+        let abcService = SEabcService()
+        abcService.callService([:] as! [String:Any], successBlock: { (response:[String:Any]) -> Void in
+                                    print("Call TypeaheadService success")
+                                    self.removeLoadingView()
+                                    self.getSugerenciasArray(arrayPalabras: response["abclist"] as! [String])
+            },
+                                    errorBlock: { (error:NSError) -> Void in
+                                    print("Call TiresSizeSearchService error \(error)")
+                                    self.removeLoadingView()
+                                    self.getSugerenciasArray(arrayPalabras: [] as! [String])
+            }
+        )
     }
     
     func invokeTypeAheadService() {
@@ -491,9 +483,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
 
     func getSugerenciasArray(arrayPalabras:[String]){
     allItems = []
-    if arrayPalabras.count > 0 {
-        allItems = arrayPalabras
-    }
+    allItems = arrayPalabras
     myArray = []
     }
     
@@ -526,19 +516,19 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.errorView!.frame = CGRect(x: self.field!.frame.minX - 5, y: 0, width: self.field!.frame.width, height: self.field!.frame.height )
         self.errorView!.focusError = self.field!
         if self.field!.frame.minX < 20 {
-            self.errorView!.setValues(280, strLabel:"Buscar", strValue: message)
+            self.errorView!.setValues(280, strLabel:"", strValue: message)
             self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5, y: self.field!.frame.minY , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
         }
         else{
-            self.errorView!.setValues(field!.frame.width, strLabel:"Buscar", strValue: message)
+            self.errorView!.setValues(field!.frame.width, strLabel:"", strValue: message)
             self.errorView!.frame =  CGRect(x: field!.frame.minX - 5, y: field!.frame.minY, width: errorView!.frame.width , height: errorView!.frame.height)
         }
         let contentView = self.field!.superview!
         contentView.addSubview(self.errorView!)
         UIView.animate(withDuration: 0.2, animations: {
-            self.field!.frame = CGRect(x: 16.0, y: 15, width: 225, height: 40.0)
             
-            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5 , y: self.field!.frame.minY - self.errorView!.frame.height , width: self.errorView!.frame.width , height: self.errorView!.frame.height)
+            
+            self.errorView!.frame =  CGRect(x: self.field!.frame.minX - 5 , y: self.field!.frame.minY - self.errorView!.frame.height / 2, width: self.errorView!.frame.width , height: self.errorView!.frame.height)
             
         }, completion: {(bool : Bool) in
             if bool {
