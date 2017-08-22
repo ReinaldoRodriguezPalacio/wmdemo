@@ -64,8 +64,8 @@ class ShoppingCartAddProductsService : BaseService {
         return [params]
     }
     
-    func builParamSvc(_ upc:String,quantity:String,comments:String) -> [String:Any] {
-        return ["comments":comments,"quantity":quantity,"upc":upc]
+    func builParamSvc(_ upc:String,quantity:String,comments:String,price:String) -> [String:Any] {
+        return ["comments":comments,"quantity":quantity,"upc":upc,"price":price]
     }
     
     func builParam(_ upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:Any] {
@@ -101,7 +101,8 @@ class ShoppingCartAddProductsService : BaseService {
                 let upc = itemSvc["upc"] as! String
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
-                itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:""))
+                let price = itemSvc["price"] as! String
+                itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:"",price:price ))
                 
                 if  let _ = itemSvc["wishlist"] as? Bool {
                     itemsWishList.append(upc)
