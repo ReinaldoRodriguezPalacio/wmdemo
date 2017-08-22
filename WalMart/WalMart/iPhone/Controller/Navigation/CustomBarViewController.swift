@@ -826,20 +826,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     })
                 }
             }else{
-                if self.SEsearchController != nil{
+                let controllernav = self.currentController as? UINavigationController
+                if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
                 self.clearSESearch()
                 }else{
                     self.clearSearch()
                     self.contextSearch = .withText
                     self.openSearchProduct()
                 }
-                
-                
             }
         }
         else{
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
-            if self.SEsearchController != nil{
+            let controllernav = self.currentController as? UINavigationController
+            if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
                 self.closeSESearch(false, sender: nil)
             }else{
                 self.closeSearch(false, sender: nil)
@@ -1057,7 +1057,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.view.bringSubview(toFront: headerView!)
         container!.clipsToBounds = true
         let controllernav = self.currentController as? UINavigationController
-        
+        let sugestedCar = controllernav?.childViewControllers.last as? SESugestedCar
         if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
             self.btnSearch!.isEnabled = false
             self.btnShopping!.isEnabled = false
@@ -1066,7 +1066,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             UIView.animate(withDuration: 0.6,
                            animations: {
                             self.helpView?.alpha = 0.0
-                            self.SEsearchController!.view.frame = CGRect(x: self.container!.frame.minX, y: -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), width: self.container!.frame.width, height: self.container!.frame.height + self.buttonContainer!.frame.height)
+                            if self.SEsearchController != nil{
+                                self.SEsearchController!.view.frame = CGRect(x: self.container!.frame.minX, y: -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), width: self.container!.frame.width, height: self.container!.frame.height + self.buttonContainer!.frame.height)
+                            }
+                            if sugestedCar != nil{
+                                sugestedCar?.view.frame = CGRect(x: self.container!.frame.minX, y: -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), width: self.container!.frame.width, height: self.container!.frame.height + self.buttonContainer!.frame.height)
+                            }
                             self.btnSearch?.setImage(UIImage(named: "navBar_search"), for:  UIControlState())
                             
             },
@@ -1289,8 +1294,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
 
             }}
         
-        
-        
         self.btnSearch!.isSelected = true
         self.closeSESearch(false, sender: nil)
     }
@@ -1395,13 +1398,28 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func clearSESearch() {
         self.view.bringSubview(toFront: headerView!)
         container!.clipsToBounds = true
+        let controllernav = self.currentController as? UINavigationController
+        var sugestedCar = controllernav?.childViewControllers.last as? SESugestedCar
         if self.SEsearchController != nil{
-            self.closeSearch(false, sender: nil)
+            self.closeSESearch(false, sender: nil)
             
             self.SEsearchController!.willMove(toParentViewController: nil)
             self.SEsearchController!.view.removeFromSuperview()
             self.SEsearchController!.removeFromParentViewController()
             self.SEsearchController = nil
+            self.btnSearch!.isEnabled = true
+            self.btnShopping!.isEnabled = true
+            self.btnSearch!.isSelected = false
+            self.onCloseSearch?()
+            self.onCloseSearch = nil
+        }
+        if sugestedCar != nil{
+            self.closeSESearch(false, sender: nil)
+            
+            sugestedCar!.willMove(toParentViewController: nil)
+            sugestedCar!.view.removeFromSuperview()
+            sugestedCar!.removeFromParentViewController()
+            sugestedCar = nil
             self.btnSearch!.isEnabled = true
             self.btnShopping!.isEnabled = true
             self.btnSearch!.isSelected = false

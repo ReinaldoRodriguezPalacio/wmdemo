@@ -95,8 +95,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount.text = "0 artículos"
         
         self.view.addSubview(lblItemsCount)
-        cargaProductos()
-        //self.invokeMultisearchService()
+        //cargaProductos()
+        self.invokeMultisearchService()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -130,9 +130,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             heightScreen -= 44
         }
         self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen - 60)
-        self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY, width: self.view.frame.size.width, height: 20)
+        self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY + 40, width: self.view.frame.size.width, height: 20)
         
-        self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 20, width: self.view.frame.size.width, height: 40)
+        self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 60, width: self.view.frame.size.width, height: 40)
         self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2, y: 5, width: 0.8 * self.viewFooter.frame.size.width / 2, height: 30)
         self.btnAddItem?.frame = CGRect(x: self.viewFooter.frame.size.width / 4 - 15, y: 5, width: 30, height: 30)
     }
@@ -351,11 +351,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                                                 print("Call multiSearchService error \(error)")
                                                 alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
                                                 alertView!.showErrorIcon("Ok")
-                                                if self.isNewSection{
+                                                if self.isNewSection || self.isEditSection{
                                                     self.searchWordBySection.remove(at: section)
                                                     self.allProducts?.remove(at: section)
                                                     self.isNewSection = false
                                                     self.numberOfNewSection = -1
+                                                    self.isEditSection = false
+                                                    self.numberOfEditSection = -1
                                                     self.sugestedCarTableView.reloadData()
                                                 }
             }
@@ -375,11 +377,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                                                 print("Call multiSearchService error \(error)")
                                                 alertView!.setMessage(NSLocalizedString("superExpress.message.updateSugestedCart.error", comment:""))
                                                 alertView!.showErrorIcon("Ok")
-                                                if self.isNewSection{
+                                                if self.isNewSection || self.isEditSection{
                                                     self.searchWordBySection.remove(at: section)
                                                     self.allProducts?.remove(at: section)
                                                     self.isNewSection = false
                                                     self.numberOfNewSection = -1
+                                                    self.isEditSection = false
+                                                    self.numberOfEditSection = -1
                                                     self.sugestedCarTableView.reloadData()
                                                 }
             }
