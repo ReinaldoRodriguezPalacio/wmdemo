@@ -578,13 +578,52 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func showSuperExpressSearch(_ sender:UIButton) {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
-        let controller = SESearchViewController()
+       /* let controller = SESearchViewController()
         let controllernav = self.navigationController
             let controllersInNavigation = controllernav?.viewControllers.count
             if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
                 controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
             }
-            controllernav?.pushViewController(controller, animated: true)
+            controllernav?.pushViewController(controller, animated: true)*/
+        let window = UIApplication.shared.keyWindow
+
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+            
+                customBar.btnSearch!.isEnabled = false
+                customBar.btnShopping!.isEnabled = false
+                
+                let current = customBar
+                let SEsearchController = SESearchViewController()
+                current.addChildViewController(SEsearchController)
+                SEsearchController.didMove(toParentViewController: current)
+            //SEsearchController.delegate = self
+                //            self.searchController!.view.frame = CGRectMake(0,-90, current.view.frame.width, current.view.frame.height)
+                SEsearchController.view.frame = CGRect(x: 0,y: current.view.frame.height * -1, width: current.view.frame.width, height: current.view.frame.height)
+                //self.SEsearchController!.clearSearch()
+                //self.imageBlurView = self.searchController?.generateBlurImage()
+                //current.view.addSubview(self.imageBlurView!)
+                current.view.addSubview(SEsearchController.view)
+                
+                UIView.animate(withDuration: 0.6, animations: {() in
+                    SEsearchController.view.frame = CGRect(x: 0,y: 0, width: current.view.frame.width, height: current.view.frame.height)
+                    current.btnSearch?.setImage(UIImage(named: "close"), for:  UIControlState())
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        current.btnSearch!.isEnabled = true
+                        current.btnShopping!.isEnabled = false
+                        current.btnSearch!.isSelected = true
+                        current.buttonContainer!.alpha = 0
+                        //self.SEsearchController?.field!.becomeFirstResponder()
+                        //                        self.showHelpViewForSearchIfNeeded(current)
+                        
+                        self.view.sendSubview(toBack: current.headerView!)
+                        current.container!.clipsToBounds = false
+                    }
+                })
+                //navController?.pushViewController(controller, animated: true)
+            
+        }
+
         
     }
 

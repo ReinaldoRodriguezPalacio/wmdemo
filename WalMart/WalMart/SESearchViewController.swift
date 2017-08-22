@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol SESearchViewControllerDelegate: class {
+    func closeSESearch(_ addShoping:Bool, sender:UIButton?)
+}
+
+
 class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, SESugestedCarDelegate{
     
     var alertView : IPOWMAlertViewController? = nil
@@ -18,7 +23,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var textToSearch:String?
     var maxResult: Int = 20
     var brandText: String? = ""
-    
+    weak var delegate:SESearchViewControllerDelegate?
     var viewBackButton: UIView!
     var lbltitle:UILabel!
     var btnCerrarModulo:UIButton!
@@ -301,8 +306,8 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         listaSuper.reloadData()
     }
     
-    //UITableDelegate
     
+    //UITableDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.selectedItems.count
     }
@@ -558,5 +563,23 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         }
         return false
     }
+    
+    func generateBlurImage() -> UIImageView {
+        var blurredImage : UIImage? = nil
+        autoreleasepool {
+            UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
+            self.parent!.view.layer.render(in: UIGraphicsGetCurrentContext()!)
+            let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+            UIGraphicsEndImageContext();
+            blurredImage = cloneImage.applyLightEffect()
+        }
+        
+        let imageView = UIImageView()
+        imageView.frame = self.view.bounds
+        imageView.clipsToBounds = true
+        imageView.image = blurredImage
+        return imageView
+    }
+
 
 }
