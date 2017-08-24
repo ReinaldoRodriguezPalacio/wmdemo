@@ -60,7 +60,13 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
             //var valuesValues = [String:Any]()
             let dicVal = dicValue
             let strLabel = dicVal["label"] as! String
-            let strValue = dicVal["value"] as! String
+            var strValue = dicVal["value"] as! String
+            
+            if strLabel.lowercased() == "upc"{
+                if strValue.contains("&") {
+                    strValue = strValue.findIndex(value: "&")
+                }
+            }
                 
             let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
             let rectSize = attrString.boundingRect(with: CGSize(width: self.frame.width - 32, height: CGFloat.greatestFiniteMagnitude), options:NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)

@@ -179,16 +179,17 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     
     func disableSegmented(index: Int) {
          let enabledIndex = index == 0 ? 0 : 1
+         let disableIndex = enabledIndex == 1 ? 0: 1
         if segmentedControl.subviews[0].frame.origin.x == 0 {
-            segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[disableIndex].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[disableIndex].backgroundColor = WMColor.empty_gray_btn
             segmentedControl.subviews[enabledIndex].tintColor = WMColor.light_blue
             segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.light_blue
         }else{
             segmentedControl.subviews[enabledIndex].tintColor = WMColor.empty_gray_btn
             segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[index].tintColor = WMColor.light_blue
-            segmentedControl.subviews[index].backgroundColor = WMColor.light_blue
+            segmentedControl.subviews[disableIndex].tintColor = WMColor.light_blue
+            segmentedControl.subviews[disableIndex].backgroundColor = WMColor.light_blue
         }
     }
     
