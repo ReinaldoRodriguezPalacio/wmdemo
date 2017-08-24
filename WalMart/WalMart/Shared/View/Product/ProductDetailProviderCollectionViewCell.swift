@@ -66,6 +66,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
 //        self.addSubview(switchBtn)
         
         let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:UIColor.white] as [String : Any]
+          let segmentedTitleAttributesDis = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
         let segmentedTitleAttributesNormal = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
         
         segmentedControl = UISegmentedControl(items: ["Nuevos", "Reacondicionados"])
@@ -80,7 +81,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributesNormal, for: UIControlState())
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
-        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .disabled)
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributesDis, for: .disabled)
         self.addSubview(segmentedControl)
         
         let collectionLayout = UICollectionViewFlowLayout()
@@ -177,7 +178,7 @@ class ProductDetailProviderCollectionViewCell : UICollectionViewCell {
     }
     
     func disableSegmented(index: Int) {
-         let enabledIndex = index == 0 ? 1 : 0
+         let enabledIndex = index == 0 ? 0 : 1
         if segmentedControl.subviews[0].frame.origin.x == 0 {
             segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
             segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn

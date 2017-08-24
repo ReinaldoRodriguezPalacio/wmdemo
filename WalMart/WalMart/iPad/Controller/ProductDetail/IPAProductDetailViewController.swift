@@ -1115,7 +1115,11 @@ extension IPAProductDetailViewController: ProductDetailCrossSellViewDelegate {
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(self.upc as String, successBlock: { (result:[[String:Any]]?) -> Void in
+        var param = self.upc as String
+        if self.upc.contains("&"){
+            param = param.findIndex(value: "&")
+        }
+        crossService.callService(param, successBlock: { (result:[[String:Any]]?) -> Void in
             if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0{
@@ -1785,6 +1789,10 @@ extension IPAProductDetailViewController: ProductDetailColorSizeDelegate {
     }
 }
 
+extension IPAProductDetailViewController : ProviderDetailViewControllerDelegate {
+    
+}
+
 extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
     func buildProviderInfoView(_ width: CGFloat) {
         if self.providerInfoCell != nil {
@@ -1804,6 +1812,8 @@ extension IPAProductDetailViewController: ProductDetailProviderViewDelegate {
         controller.sellerId = self.providerInfo!["sellerId"] as! String
         controller.preferredContentSize = CGSize(width: 352, height: 525)
         controller.modalPresentationStyle = .formSheet
+        controller.delegate =  self
+        controller.prodUpc = self.upc as String!
         self.navigationController?.present(controller, animated: true, completion: nil)
     }
     

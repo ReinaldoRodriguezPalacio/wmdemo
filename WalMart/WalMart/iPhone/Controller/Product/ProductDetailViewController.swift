@@ -1387,7 +1387,11 @@ extension ProductDetailViewController: ProductDetailCrossSellViewDelegate {
     func loadCrossSell() {
         NSLog("loadCrossSell", "ProductDetailViewController")
         let crossService = CrossSellingProductService()
-        crossService.callService(requestParams:self.upc, successBlock: { (result:[[String:Any]]?) -> Void in
+        var param = self.upc as String
+        if self.upc.contains("&"){
+            param = param.findIndex(value: "&")
+        }
+        crossService.callService(requestParams:param, successBlock: { (result:[[String:Any]]?) -> Void in
             NSLog("CrossSellingProductService successBlock", "ProductDetailViewController")
             if result != nil {
                 
