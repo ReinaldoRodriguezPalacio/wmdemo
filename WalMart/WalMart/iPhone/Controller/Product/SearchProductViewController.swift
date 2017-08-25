@@ -2205,13 +2205,17 @@ class SearchProductViewController: NavigationViewController {
             self.applyOrder(order: order)
         }
         
-        self.mgResults!.resultsInResponse = 0
+        /*self.mgResults!.resultsInResponse = 0
         self.mgResults!.totalResults = 1
-        self.mgResults!.products = []
+        self.mgResults!.products = []*/
+        self.allProducts = []
+        self.mgResults!.resetResult()
+        self.grResults!.resetResult()
         
         self.lowPrice = price
         self.highPrice = toPrice
         self.brands = brand
+        self.idSort = order
         self.invokeProductbySearchService(lowPrice: price, highPrice: toPrice, brands: brand,startOffset: 0,actionSuccess: succesBlock, actionError: nil)
     }
  

@@ -154,7 +154,9 @@ class ProviderDetailViewController : BaseController {
   }
   
   func buyAction() {
+    
     delegate?.addProductToShoppingCart(self.prodUpc, desc: self.prodDescription, price:self.prodPrice, imageURL: self.prodImageUrl, comments:"")
+    self.back()
     self.reloadBtnShop()
   }
   
