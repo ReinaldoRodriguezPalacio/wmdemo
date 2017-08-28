@@ -65,8 +65,9 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
 //        self.bringSubview(toFront: switchBtn)
 //        self.addSubview(switchBtn)
         
-        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:UIColor.white] as [String : Any]
-        let segmentedTitleAttributesNormal = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
+        let segmentedTitleAttributes = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(11),NSForegroundColorAttributeName:UIColor.white] as [String : Any]
+        let segmentedTitleAttributesDis = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(11),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
+        let segmentedTitleAttributesNormal = [NSFontAttributeName:WMFont.fontMyriadProLightOfSize(11),NSForegroundColorAttributeName:WMColor.light_blue] as [String : Any]
         
         segmentedControl = UISegmentedControl(items: ["Nuevos", "Reacondicionados"])
         segmentedControl.backgroundColor = UIColor.white
@@ -80,7 +81,7 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributesNormal, for: UIControlState())
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .selected)
         segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .highlighted)
-        segmentedControl.setTitleTextAttributes(segmentedTitleAttributes, for: .disabled)
+        segmentedControl.setTitleTextAttributes(segmentedTitleAttributesDis, for: .disabled)
         self.addSubview(segmentedControl)
         
         let collectionLayout = UICollectionViewFlowLayout()
@@ -177,17 +178,18 @@ class ProducDetailProviderTableViewCell : UITableViewCell {
     }
     
     func disableSegmented(index: Int) {
-        let enabledIndex = index == 0 ? 1 : 0
+        let enabledIndex = index == 0 ? 0 : 1
+        let disableIndex = enabledIndex == 1 ? 0: 1
         if segmentedControl.subviews[0].frame.origin.x == 0 {
-            segmentedControl.subviews[index].tintColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[index].backgroundColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[disableIndex].tintColor = WMColor.empty_gray_btn
+            segmentedControl.subviews[disableIndex].backgroundColor = WMColor.empty_gray_btn
             segmentedControl.subviews[enabledIndex].tintColor = WMColor.light_blue
             segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.light_blue
         }else{
             segmentedControl.subviews[enabledIndex].tintColor = WMColor.empty_gray_btn
             segmentedControl.subviews[enabledIndex].backgroundColor = WMColor.empty_gray_btn
-            segmentedControl.subviews[index].tintColor = WMColor.light_blue
-            segmentedControl.subviews[index].backgroundColor = WMColor.light_blue
+            segmentedControl.subviews[disableIndex].tintColor = WMColor.light_blue
+            segmentedControl.subviews[disableIndex].backgroundColor = WMColor.light_blue
         }
     }
     

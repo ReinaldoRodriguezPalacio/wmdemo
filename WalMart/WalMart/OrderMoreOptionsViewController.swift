@@ -63,7 +63,7 @@ class OrderMoreOptionsViewController: NavigationViewController {
     self.alertView?.showicon(UIImage(named: "alert_returnItems"))
     self.alertView?.setMessage("Para solicitar la devolución de tus artículos ponte en contacto con el vendedor.")
     
-    self.alertView?.addActionButtonsWithCustomText("Contactar vendedor", leftAction: {(void) in
+    self.alertView?.addActionButtonsWithCustomText("Contactar", leftAction: {(void) in
       self.alertView?.close()
       let controller = ContactProviderViewController()
         controller.sellerId = self.sellerId
@@ -124,11 +124,13 @@ extension OrderMoreOptionsViewController: UITableViewDataSource {
   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableOptions.dequeueReusableCell(withIdentifier: "optionsOrder") as! OrderOptionsTableViewCell
+        cell.frame = CGRect(x:0, y:0 , width:self.view.frame.width , height: 46)
         cell.selectionStyle = .none
         cell.setValues(self.itemsOptions[indexPath.row])
         
         return cell
     }
+    
     
 }
 

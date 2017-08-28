@@ -281,7 +281,7 @@ class ShoppingCartProductsService : BaseService {
             var arrayUpcsUpdate : [[String:Any]] = []
             
             for itemUpdated in updated {
-                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
+                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: "",price:itemUpdated.product.price as String))
             }
             serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:[String:Any]) -> Void in
                 self.synchronizeAddedWebShoppingCartFromCoreData(successBlock,errorBlock: errorBlock)
@@ -307,7 +307,7 @@ class ShoppingCartProductsService : BaseService {
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             for itemUpdated in updated {
-                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
+                arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: "",price: itemUpdated.product.price as String))
                 itemUpdated.status = NSNumber(value: CartStatus.synchronized.rawValue)
             }
             do {
