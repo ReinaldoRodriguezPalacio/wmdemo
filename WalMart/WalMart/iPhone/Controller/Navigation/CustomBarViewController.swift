@@ -71,7 +71,7 @@ struct TabBarHidden {
     func customBarDidAnimate(_ hide:Bool, offset:CGFloat)
 }
 
-class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartViewControllerDelegate, SearchViewControllerDelegate, UINavigationControllerDelegate, SESearchViewControllerDelegate {
+class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartViewControllerDelegate, SearchViewControllerDelegate, UINavigationControllerDelegate {
     
     var buttonContainer: UIView? = nil
     @IBOutlet var container: UIView? = nil
@@ -92,7 +92,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     var currentController: UIViewController? = nil
     var searchController: SearchViewController? = nil
-    var SEsearchController: SESearchViewController? = nil
     var viewControllers: [UIViewController] = []
     var buttonList: [UIButton] = []
     var isTabBarHidden = false
@@ -826,25 +825,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     })
                 }
             }else{
-                let controllernav = self.currentController as? UINavigationController
-                if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
-                self.clearSESearch()
-                }else{
-                    self.clearSearch()
-                    self.contextSearch = .withText
-                    self.openSearchProduct()
-                }
+                self.clearSearch()
+                self.contextSearch = .withText
+                self.openSearchProduct()
+                
             }
         }
         else{
             //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
-            let controllernav = self.currentController as? UINavigationController
-            if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
-                self.closeSESearch(false, sender: nil)
-            }else{
-                self.closeSearch(false, sender: nil)
-            }
-            
+            self.closeSearch(false, sender: nil)
         }
     }
     
@@ -1052,48 +1041,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    //MARK: - SESearchViewControllerDelegate
-    func closeSESearch(_ addShoping:Bool, sender:UIButton?) {
-        self.view.bringSubview(toFront: headerView!)
-        container!.clipsToBounds = true
-        let controllernav = self.currentController as? UINavigationController
-        let sugestedCar = controllernav?.childViewControllers.last as? SESugestedCar
-        if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
-            self.btnSearch!.isEnabled = false
-            self.btnShopping!.isEnabled = false
-            self.buttonContainer!.alpha = 1
-            
-            UIView.animate(withDuration: 0.6,
-                           animations: {
-                            self.helpView?.alpha = 0.0
-                            if self.SEsearchController != nil{
-                                self.SEsearchController!.view.frame = CGRect(x: self.container!.frame.minX, y: -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), width: self.container!.frame.width, height: self.container!.frame.height + self.buttonContainer!.frame.height)
-                            }
-                            if sugestedCar != nil{
-                                sugestedCar?.view.frame = CGRect(x: self.container!.frame.minX, y: -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), width: self.container!.frame.width, height: self.container!.frame.height + self.buttonContainer!.frame.height)
-                            }
-                            self.btnSearch?.setImage(UIImage(named: "navBar_search"), for:  UIControlState())
-                            
-            },
-                           completion: {(bool : Bool) in
-                            if bool {
-                                self.helpView?.removeFromSuperview()
-                                self.helpView = nil
-                                self.clearSESearch()
-                                if addShoping {
-                                    self.addtoShopingCar()
-                                }
-                                if sender != nil {
-                                    self.buttonSelected(sender!)
-                                }
-                            }
-            }
-            )
-        }
-    }
-
-    
-    func selectKeyWord(_ keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
+ 
+   func selectKeyWord(_ keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
             let controller = ProductDetailPageViewController()
             controller.idListSeleted  = self.idListSelected
@@ -1251,53 +1200,37 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             
             let controllernav = self.currentController as? UINavigationController
             controllernav?.present(controller, animated: false, completion: nil)
-        
-        }else{        
-        self.closeSearch(false, sender: nil)
-            self.onCloseSearch = {
-            if let _ = self.currentController! as? UINavigationController {
-                if self.SEsearchController == nil  {
-                    self.btnSearch!.isEnabled = false
-                    self.btnShopping!.isEnabled = false
-                    
-                    let current = self.currentController!
-                    self.SEsearchController = SESearchViewController()
-                    current.addChildViewController(self.SEsearchController!)
-                    self.SEsearchController!.didMove(toParentViewController: current)
-                    self.SEsearchController!.delegate = self
-                    //            self.searchController!.view.frame = CGRectMake(0,-90, current.view.frame.width, current.view.frame.height)
-                    self.SEsearchController!.view.frame = CGRect(x: 0,y: current.view.frame.height * -1, width: current.view.frame.width, height: current.view.frame.height)
-                    //self.SEsearchController!.clearSearch()
-                    //self.imageBlurView = self.searchController?.generateBlurImage()
-                    //current.view.addSubview(self.imageBlurView!)
-                    current.view.addSubview(self.SEsearchController!.view)
-                    
-                    UIView.animate(withDuration: 0.6, animations: {() in
-                        self.SEsearchController!.view.frame = CGRect(x: 0,y: 0, width: current.view.frame.width, height: current.view.frame.height)
-                        self.btnSearch?.setImage(UIImage(named: "close"), for:  UIControlState())
-                    }, completion: {(bool : Bool) in
-                        if bool {
-                            self.btnSearch!.isEnabled = true
-                            self.btnShopping!.isEnabled = false
-                            self.btnSearch!.isSelected = true
-                            self.buttonContainer!.alpha = 0
-                            //self.SEsearchController?.field!.becomeFirstResponder()
-                            //                        self.showHelpViewForSearchIfNeeded(current)
-                            
-                            self.view.sendSubview(toBack: self.headerView!)
-                            self.container!.clipsToBounds = false
-                        }
-                    })
-                    //navController?.pushViewController(controller, animated: true)
+            
+        }else{
+            
+            let controller = SESearchViewController()
+            let controllernav = self.currentController as? UINavigationController
+            if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
+                self.onCloseSearch = {
+                    let navController = self.currentController as? UINavigationController
+                    let controllersInNavigation = navController?.viewControllers.count
+                    if controllersInNavigation > 1 && (navController?.viewControllers[controllersInNavigation! - 1] as? SESearchViewController != nil){
+                        navController?.viewControllers.remove(at: controllersInNavigation! - 1)
+                        self.isEditingSearch = false
+                    }
+                    navController?.pushViewController(controller, animated: true)
                 }
+            }else{
+                let controllersInNavigation = controllernav?.viewControllers.count
+                if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
+                    controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
+                    isEditingSearch = false
+                }
+                controllernav?.pushViewController(controller, animated: true)
             }
-
-            }}
+            
+        }
+        
+        
         
         self.btnSearch!.isSelected = true
-        self.closeSESearch(false, sender: nil)
+        self.closeSearch(false, sender: nil)
     }
-
     
     
     
@@ -1387,39 +1320,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.searchController!.view.removeFromSuperview()
             self.searchController!.removeFromParentViewController()
             self.searchController = nil
-            self.btnSearch!.isEnabled = true
-            self.btnShopping!.isEnabled = true
-            self.btnSearch!.isSelected = false
-            self.onCloseSearch?()
-            self.onCloseSearch = nil
-        }
-    }
-
-    func clearSESearch() {
-        self.view.bringSubview(toFront: headerView!)
-        container!.clipsToBounds = true
-        let controllernav = self.currentController as? UINavigationController
-        var sugestedCar = controllernav?.childViewControllers.last as? SESugestedCar
-        if self.SEsearchController != nil{
-            self.closeSESearch(false, sender: nil)
-            
-            self.SEsearchController!.willMove(toParentViewController: nil)
-            self.SEsearchController!.view.removeFromSuperview()
-            self.SEsearchController!.removeFromParentViewController()
-            self.SEsearchController = nil
-            self.btnSearch!.isEnabled = true
-            self.btnShopping!.isEnabled = true
-            self.btnSearch!.isSelected = false
-            self.onCloseSearch?()
-            self.onCloseSearch = nil
-        }
-        if sugestedCar != nil{
-            self.closeSESearch(false, sender: nil)
-            
-            sugestedCar!.willMove(toParentViewController: nil)
-            sugestedCar!.view.removeFromSuperview()
-            sugestedCar!.removeFromParentViewController()
-            sugestedCar = nil
             self.btnSearch!.isEnabled = true
             self.btnShopping!.isEnabled = true
             self.btnSearch!.isSelected = false

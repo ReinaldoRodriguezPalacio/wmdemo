@@ -130,9 +130,9 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
             heightScreen -= 44
         }
         self.sugestedCarTableView!.frame = CGRect(x: 0, y:startPoint, width:self.view.bounds.width, height: heightScreen - 60)
-        self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY + 40, width: self.view.frame.size.width, height: 20)
+        self.lblItemsCount.frame = CGRect(x: 15, y: sugestedCarTableView.frame.maxY, width: self.view.frame.size.width, height: 20)
         
-        self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 60, width: self.view.frame.size.width, height: 40)
+        self.viewFooter.frame = CGRect(x: 0, y: sugestedCarTableView.frame.maxY + 20, width: self.view.frame.size.width, height: 40)
         self.btnAddToCart?.frame = CGRect(x: self.viewFooter.frame.size.width / 2, y: 5, width: 0.8 * self.viewFooter.frame.size.width / 2, height: 30)
         self.btnAddItem?.frame = CGRect(x: self.viewFooter.frame.size.width / 4 - 15, y: 5, width: 30, height: 30)
     }
@@ -176,6 +176,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SESugestedRow
         cell.delegate = self
         if isNewSection && indexPath.section == numberOfNewSection{
+            
             cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSect: true,selectedItems: selectedItemsbyRow)
         }else{
             cell.setValues((allProducts![indexPath.section]["products"] as? [[String:Any]])!, section: indexPath.section, widthScreen: self.view.frame.width, isNewSect: false,selectedItems: selectedItemsbyRow)
@@ -656,10 +657,12 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func addNewItem(_ sender:UIButton){
         let indexSet = NSMutableIndexSet()
         indexSet.add(sugestedCarTableView.numberOfSections)
-        searchWordBySection.append("nueva búsqueda")
-        allProducts?.append(["term":"nueva búsqueda", "products": [[:]]])
+        searchWordBySection.insert("", at: 0)
+        //searchWordBySection.append("")
+        //allProducts?.append(["term":"", "products": [[:]]])
+        allProducts?.insert(["term":"", "products": [[:]]], at: 0)
         isNewSection = true
-        numberOfNewSection = searchWordBySection.count - 1
+        numberOfNewSection = 0
         isEditSection = false
         numberOfEditSection = -1
         
@@ -673,7 +676,11 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
     func obtainSelectedItemsByRow(section:Int){
     
         self.selectedItemsbyRow = []
+        
         let productos = allProducts![section]["products"] as! [[String:Any]]
+        for _ in 0..<productos.count{
+            selectedItemsbyRow.append(false)
+        }
         if (isNewSection && section == numberOfNewSection) || self.itemsSelected!.count == 0{
             for _ in 0..<productos.count{
                     selectedItemsbyRow.append(false)
@@ -683,9 +690,8 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
                 for idxVal in 0..<self.itemsSelected!.count{
                     let item = self.itemsSelected![idxVal]
                     if (productos[a]["upc"] as! String == item["upc"] as! String){
-                        selectedItemsbyRow.append(true)
-                    }else{
-                        selectedItemsbyRow.append(false)
+                        selectedItemsbyRow[a] = true
+                        break;
                     }
                 }
             }

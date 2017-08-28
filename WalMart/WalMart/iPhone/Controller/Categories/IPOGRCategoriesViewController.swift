@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate,SESearchViewControllerDelegate {
+class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate {
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
@@ -24,9 +24,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var canfigData : [String:Any]! = [:]
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
-    var currentController: UIViewController? = nil
-
-    var SEsearchController: SESearchViewController? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
@@ -578,85 +575,15 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func showSuperExpressSearch(_ sender:UIButton) {
-        let window = UIApplication.shared.keyWindow
+        //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
-            let customBar = window!.rootViewController as? CustomBarViewController
-            if self.SEsearchController == nil  {
-                customBar?.btnSearch!.isEnabled = false
-                customBar?.btnShopping!.isEnabled = false
-                
-                let current = customBar?.currentController as? UINavigationController
-                self.SEsearchController = SESearchViewController()
-                self.SEsearchController?.delegate = self
-                current?.addChildViewController(self.SEsearchController!)
-                self.SEsearchController!.didMove(toParentViewController: current)
-                self.SEsearchController!.view.frame = CGRect(x: 0,y: (current?.view.frame.height)! * -1, width: (current?.view.frame.width)!, height: (current?.view.frame.height)!)
-                current?.view.addSubview(self.SEsearchController!.view)
-                
-                UIView.animate(withDuration: 0.6, animations: {() in
-                    self.SEsearchController!.view.frame = CGRect(x: 0,y:0, width: (current?.view.frame.width)!, height: (current?.view.frame.height)!)
-                    customBar?.btnSearch?.setImage(UIImage(named: "close"), for:  UIControlState())
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        customBar?.btnSearch!.isEnabled = true
-                        customBar?.btnShopping!.isEnabled = false
-                        customBar?.btnSearch!.isSelected = true
-                        customBar?.buttonContainer!.alpha = 0
-                        //self.SEsearchController?.field!.becomeFirstResponder()
-                        //customBar.showHelpViewForSearchIfNeeded(current)
-                        
-                        customBar?.view.sendSubview(toBack: (customBar?.headerView!)!)
-                        customBar?.container!.clipsToBounds = false
-                    }
-                })
-                //navController?.pushViewController(controller, animated: true)
+        let controller = SESearchViewController()
+        let controllernav = self.navigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){
+            controllernav?.viewControllers.remove(at: controllersInNavigation! - 2)
         }
-        customBar?.btnSearch!.isSelected = true
-        customBar?.closeSESearch(false, sender: nil)
-
-    }
-
-    //MARK: - SESearchViewControllerDelegate
-    func closeSESearch(_ addShoping:Bool, sender:UIButton?) {
-        let window = UIApplication.shared.keyWindow
+        controllernav?.pushViewController(controller, animated: true)
         
-        let customBar = window!.rootViewController as? CustomBarViewController
-        customBar?.view.bringSubview(toFront: (customBar?.headerView!)!)
-        customBar?.container!.clipsToBounds = true
-        let controllernav = customBar?.currentController as? UINavigationController
-        let sugestedCar = controllernav?.childViewControllers.last as? SESugestedCar
-        if self.SEsearchController != nil || (controllernav?.childViewControllers.last as? SESugestedCar) != nil {
-            customBar?.btnSearch!.isEnabled = false
-            customBar?.btnShopping!.isEnabled = false
-            customBar?.buttonContainer!.alpha = 1
-            
-            UIView.animate(withDuration: 0.6,
-                           animations: {
-                            customBar?.helpView?.alpha = 0.0
-                            if self.SEsearchController != nil{
-                                self.SEsearchController!.view.frame = CGRect(x: (customBar?.container!.frame.minX)!, y: -1 * ((customBar?.container!.frame.height)! + (customBar?.buttonContainer!.frame.height)!), width: (customBar?.container!.frame.width)!, height: (customBar?.container!.frame.height)! + (customBar?.buttonContainer!.frame.height)!)
-                            }
-                            if sugestedCar != nil{
-                                sugestedCar?.view.frame = CGRect(x: (customBar?.container!.frame.minX)!, y: -1 * ((customBar?.container!.frame.height)! + (customBar?.buttonContainer!.frame.height)!), width: (customBar?.container!.frame.width)!, height: (customBar?.container!.frame.height)! + (customBar?.buttonContainer!.frame.height)!)
-                            }
-                            customBar?.btnSearch?.setImage(UIImage(named: "navBar_search"), for:  UIControlState())
-                            
-            },
-                           completion: {(bool : Bool) in
-                            if bool {
-                                customBar?.helpView?.removeFromSuperview()
-                                customBar?.helpView = nil
-                                customBar?.clearSESearch()
-                                if addShoping {
-                                    customBar?.addtoShopingCar()
-                                }
-                                if sender != nil {
-                                    customBar?.buttonSelected(sender!)
-                                }
-                            }
-            }
-            )
-        }
     }
-
 }

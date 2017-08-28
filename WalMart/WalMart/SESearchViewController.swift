@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol SESearchViewControllerDelegate: class {
-    func closeSESearch(_ addShoping:Bool, sender:UIButton?)
-}
-
-
 class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, SESugestedCarDelegate{
     
     var alertView : IPOWMAlertViewController? = nil
@@ -23,10 +18,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var textToSearch:String?
     var maxResult: Int = 20
     var brandText: String? = ""
-    weak var delegate:SESearchViewControllerDelegate?
+    
     var viewBackButton: UIView!
     var lbltitle:UILabel!
-    //var btnCerrarModulo:UIButton!
+    var btnCerrarModulo:UIButton!
     var btnCancelar:UIButton!
     
     var containerView:UIView!
@@ -66,15 +61,15 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             viewBackButton = UIView(frame: CGRect(x: 0,  y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.25 ))
             viewBackButton.backgroundColor = WMColor.dark_blue
             
-            lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-15 , height: 40))
+            lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-50 , height: 40))
             lbltitle.textColor = UIColor.white
             lbltitle.font = WMFont.fontMyriadProRegularOfSize(11)
             lbltitle.text = NSLocalizedString("superExpress.info.description", comment: "")
             lbltitle.numberOfLines = 0
             
-           /* btnCerrarModulo = UIButton(frame: CGRect(x: viewBackButton.frame.size.width-40, y: 10, width: 30, height: 30))
+            btnCerrarModulo = UIButton(frame: CGRect(x: viewBackButton.frame.size.width-40, y: 10, width: 30, height: 30))
             btnCerrarModulo.setImage(UIImage(named: "closeScan"), for: UIControlState.normal)
-            btnCerrarModulo.addTarget(self, action: #selector(self.cierraModal(_:)), for: UIControlEvents.touchUpInside)*/
+            btnCerrarModulo.addTarget(self, action: #selector(self.cierraModal(_:)), for: UIControlEvents.touchUpInside)
 
             self.field = FormFieldSearch()
             self.field!.frame = CGRect(x: 15, y: lbltitle.frame.maxY + 10, width: self.view.bounds.width * 0.7, height: 35)
@@ -93,7 +88,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             btnCancelar.addTarget(self, action: #selector(self.borraTexto(_:)), for: UIControlEvents.touchUpInside)
             viewBackButton.addSubview(btnCancelar)
             
-            //viewBackButton.addSubview(btnCerrarModulo)
+            viewBackButton.addSubview(btnCerrarModulo)
             viewBackButton.addSubview(lbltitle)
             viewBackButton.addSubview(field!)
             self.view.addSubview(viewBackButton)
@@ -105,15 +100,15 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             viewBackButton = UIView(frame: CGRect(x: 0,  y: 0, width: self.view.bounds.width, height: self.view.bounds.height * 0.20 ))
             viewBackButton.backgroundColor = WMColor.dark_blue
             
-            lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-15 , height: 30))
+            lbltitle = UILabel(frame: CGRect(x: 15, y: 10, width: viewBackButton.frame.size.width-50 , height: 30))
             lbltitle.textColor = UIColor.white
             lbltitle.font = WMFont.fontMyriadProRegularOfSize(12)
             lbltitle.text = NSLocalizedString("superExpress.info.description", comment: "")
             lbltitle.numberOfLines = 0
             
-           /* btnCerrarModulo = UIButton(frame: CGRect(x: viewBackButton.frame.size.width-40, y: 10, width: 30, height: 30))
+            btnCerrarModulo = UIButton(frame: CGRect(x: viewBackButton.frame.size.width-40, y: 10, width: 30, height: 30))
             btnCerrarModulo.setImage(UIImage(named: "closeScan"), for: UIControlState.normal)
-            btnCerrarModulo.addTarget(self, action: #selector(self.cierraModal(_:)), for: UIControlEvents.touchUpInside)*/
+            btnCerrarModulo.addTarget(self, action: #selector(self.cierraModal(_:)), for: UIControlEvents.touchUpInside)
             
             self.field = FormFieldSearch()
             self.field!.frame = CGRect(x: 15, y: lbltitle.frame.maxY + 5, width: self.view.bounds.width * 0.7, height: 40)
@@ -132,7 +127,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             btnCancelar.addTarget(self, action: #selector(self.borraTexto(_:)), for: UIControlEvents.touchUpInside)
             viewBackButton.addSubview(btnCancelar)
             
-           // viewBackButton.addSubview(btnCerrarModulo)
+            viewBackButton.addSubview(btnCerrarModulo)
             viewBackButton.addSubview(lbltitle)
             viewBackButton.addSubview(field!)
             self.view.addSubview(viewBackButton)
@@ -156,7 +151,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         containerView.addSubview(listaSuper)
         
         okButton = UIButton()
-        okButton.frame = CGRect(x: self.containerView.frame.size.width / 2 - self.containerView.frame.size.width / 4, y: listaSuper.frame.maxY + 20, width: self.containerView.frame.size.width / 2, height: 30)
+        okButton.frame = CGRect(x: self.containerView.frame.size.width / 2 - self.containerView.frame.size.width / 4, y: listaSuper.frame.maxY + 5, width: self.containerView.frame.size.width / 2, height: 30)
         okButton!.addTarget(self, action: #selector(self.createPreferedCar(_:)), for: .touchUpInside)
         okButton.tintColor = UIColor.white
         okButton.setTitle("Listo" , for: UIControlState.normal)
@@ -199,7 +194,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func keyBoardWillShow(notification: Notification) {
         UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
             self.lbltitle.isHidden = true
-            //self.btnCerrarModulo.isHidden = true
+            self.btnCerrarModulo.isHidden = true
             var decremento = CGFloat(0)
             if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
                 decremento = CGFloat(40)
@@ -222,7 +217,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     func keyBoardWillHide(notification: Notification) {
         UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
             self.lbltitle.isHidden = false
-           // self.btnCerrarModulo.isHidden = false
+            self.btnCerrarModulo.isHidden = false
             var aumento = CGFloat(0)
             if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
                 aumento = CGFloat(40)
@@ -239,7 +234,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             self.viewBackButton.layoutIfNeeded()
             
         })
-
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -563,23 +558,5 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         }
         return false
     }
-    
-    func generateBlurImage() -> UIImageView {
-        var blurredImage : UIImage? = nil
-        autoreleasepool {
-            UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parent!.view.layer.render(in: UIGraphicsGetCurrentContext()!)
-            let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
-            UIGraphicsEndImageContext();
-            blurredImage = cloneImage.applyLightEffect()
-        }
-        
-        let imageView = UIImageView()
-        imageView.frame = self.view.bounds
-        imageView.clipsToBounds = true
-        imageView.image = blurredImage
-        return imageView
-    }
-
 
 }

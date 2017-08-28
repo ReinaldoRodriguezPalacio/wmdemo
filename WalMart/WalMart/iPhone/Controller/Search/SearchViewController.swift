@@ -505,8 +505,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             UIView.animate(withDuration: 1.0, animations: {
                 self.camButton!.alpha = 1;
                 self.scanButton!.alpha = 1;
+                self.superExpressButton!.alpha = 1;
                 self.camLabel!.alpha = 1;
                 self.scanLabel!.alpha = 1;
+                self.superExpressLabel!.alpha = 1;
                 self.tiresBarView!.alpha = self.tiresBarView!.tiresSearch ? 1.0 : 0.0
             })
         }
@@ -649,8 +651,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.clearButton!.alpha = 1
                 self.camButton!.alpha = 0
                 self.scanButton!.alpha = 0
+                self.superExpressButton!.alpha = 0
                 self.camLabel!.alpha = 0
                 self.scanLabel!.alpha = 0
+                self.superExpressLabel!.alpha = 0
                 self.viewBackground!.alpha = 0
                 self.tiresBarView!.alpha =  0.0
             })
@@ -659,8 +663,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.clearButton!.alpha = 0
                 self.camButton!.alpha = 1
                 self.scanButton!.alpha = 1
+                self.superExpressButton!.alpha = 1
                 self.camLabel!.alpha = 1
                 self.scanLabel!.alpha = 1
+                self.superExpressLabel!.alpha = 1
                 self.viewBackground!.alpha = 1
                 self.tiresBarView!.alpha = self.tiresBarView!.tiresSearch ? 1.0 : 0.0
             })
