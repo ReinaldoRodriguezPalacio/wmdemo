@@ -493,8 +493,8 @@ class IPACustomBarViewController :  CustomBarViewController, IPASearchTiresIniCo
         }
 
     }
-
-
+    
+    
     override func searchControllerScanButtonClicked() {
         let barCodeController = IPABarCodeViewController()
         barCodeController.searchProduct = true

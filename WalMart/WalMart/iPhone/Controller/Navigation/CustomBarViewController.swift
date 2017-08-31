@@ -1193,7 +1193,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showSuperExpressSearch() {
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
-        
         if IS_IPAD{
             let controller = IPASESearchViewController()
             controller.modalPresentationStyle = .overCurrentContext
@@ -1223,16 +1222,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 }
                 controllernav?.pushViewController(controller, animated: true)
             }
-            
         }
-        
-        
-        
         self.btnSearch!.isSelected = true
         self.closeSearch(false, sender: nil)
     }
-    
-    
     
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
         let controller = SearchProductViewController()

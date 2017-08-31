@@ -100,19 +100,21 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         let heightPopover = 500
         
         if showCamFind {
-            self.camButton!.frame = CGRect(x: (widthPopover / 4) - 60, y: heightPopover/4 - 32, width: 64, height: 64)
-            self.scanButton!.frame = CGRect(x: (widthPopover / 2) - 28 , y: heightPopover/4 - 32, width: 64, height: 64)
-            self.superExpressButton!.frame = CGRect(x: 3 * (widthPopover / 4), y: heightPopover/4 - 32, width: 64, height: 64)
             
+            self.superExpressButton!.frame = CGRect(x: (widthPopover / 4) - 60, y: heightPopover/4 - 32, width: 64, height: 64)
+            self.camButton!.frame = CGRect(x: (widthPopover / 2) - 28 , y: heightPopover/4 - 32, width: 64, height: 64)
+            self.scanButton!.frame = CGRect(x: 3 * (widthPopover / 4), y: heightPopover/4 - 32, width: 64, height: 64)
+            
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
             self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
-            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }else{
-            self.camButton!.frame = CGRect(x: (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
-            self.superExpressButton!.frame = CGRect(x: 2 * (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
             
-            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressButton!.frame = CGRect(x: (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
+            self.camButton!.frame = CGRect(x: 2 * (widthPopover / 3) - 32, y: heightPopover/4 - 32, width: 64, height: 64)
+            
             self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
         }
         
         self.tiresBarView!.frame = CGRect(x: 0, y: self.scanLabel!.frame.maxY + 13, width: 474, height: 46)
@@ -547,9 +549,12 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     
     
     func showSuperExpressSearch(_ sender: UIButton){
-        delegate?.showSuperExpressSearch()
+        if self.field!.isFirstResponder {
+            self.field!.resignFirstResponder()
+        }
         self.closeSearch()
         closePopOver()
+        self.delegate?.showSuperExpressSearch()
     }
 }
 

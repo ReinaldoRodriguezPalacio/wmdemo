@@ -242,19 +242,22 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.camLabel!.isHidden = !showCamFind
         
         if showCamFind {
-            self.camButton!.frame = CGRect(x: (self.view!.frame.width / 4) - 60, y: self.header!.frame.height + 38, width: 64, height: 64)
-            self.scanButton!.frame = CGRect(x: (self.view!.frame.width / 2) - 28 , y: self.header!.frame.height + 38, width: 64, height: 64)
-            self.superExpressButton!.frame = CGRect(x: 3 * (self.view!.frame.width / 4), y: self.header!.frame.height + 38, width: 64, height: 64)
+            
+            self.superExpressButton!.frame = CGRect(x: (self.view!.frame.width / 4) - 60, y: self.header!.frame.height + 38, width: 64, height: 64)
+            self.camButton!.frame  = CGRect(x: (self.view!.frame.width / 2) - 28 , y: self.header!.frame.height + 38, width: 64, height: 64)
+            self.scanButton!.frame = CGRect(x: 3 * (self.view!.frame.width / 4), y: self.header!.frame.height + 38, width: 64, height: 64)
         
+            
+            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
             self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
             self.scanLabel!.frame = CGRect(x: self.scanButton!.frame.origin.x - 28, y: self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, width: 120, height: 34)
-            self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
         }else{
-            self.camButton!.frame = CGRect(x: (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
-            self.superExpressButton!.frame = CGRect(x: 2 * (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
             
-            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
+            self.superExpressButton!.frame = CGRect(x: (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
+            self.camButton!.frame = CGRect(x: 2 * (self.view!.frame.width / 3) - 32, y: self.header!.frame.height + 38, width: 64, height: 64)
+            
             self.superExpressLabel!.frame = CGRect(x: self.superExpressButton!.frame.origin.x - 28, y: self.superExpressButton!.frame.origin.y + self.superExpressButton!.frame.height + 16, width: 120, height: 34)
+            self.camLabel!.frame = CGRect(x: self.camButton!.frame.origin.x - 28, y: self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, width: 120, height: 34)
         }
         
         self.tiresBarView!.frame = CGRect(x: 0, y: self.view!.frame.height - (keyboardHeight + 46), width: self.view.frame.width, height: 46)
