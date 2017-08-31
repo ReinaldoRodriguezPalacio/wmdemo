@@ -16,7 +16,7 @@ class SEaddToCartListService : GRBaseService {
     }
     
     func buildParamitemsSuperMinutos(_ quantity:String, upc:String, comments:String, baseUomcd:String) -> [String:Any] {
-        let quantityInt : Int = Int(quantity)!
+        let quantityInt : Int = quantity.toIntNoDecimals()!
         //return [["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]] //new piesas[EA]/gramos[GM]
         return ["quantity":quantityInt,"upc":upc,"comments":comments,"baseUomcd":baseUomcd]
     }
@@ -38,7 +38,7 @@ class SEaddToCartListService : GRBaseService {
     
     
     func callService(params: [String:Any], successBlock:(([String:Any]) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.setManagerTempHeader()
+        //self.setManagerTempHeader()
         self.callPOSTService(params,
                              successBlock: { (resultCall:[String:Any]) -> Void in
                                 if let values = resultCall["responseArray"] as? [Any] {

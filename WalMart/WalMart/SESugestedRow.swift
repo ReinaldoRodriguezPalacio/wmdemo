@@ -88,9 +88,7 @@ class SESugestedRow : UITableViewCell, UICollectionViewDataSource,UICollectionVi
         let precio = productosData![indexPath.row]["field"] as! String
         let isSelected = selectedItems[indexPath.row]
         
-        
         cell.setValues(upc!, productImageURL: imagen, productShortDescription: descripcion, productPrice: precio, isSelected: isSelected, index: indexPath.row)
-        
         
         return cell
     }

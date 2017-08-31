@@ -202,7 +202,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -303,6 +303,8 @@
 			<string>http://10.138.143.36:8081/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://10.138.143.36:8081/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SEaddToCartListService</key>
+			<string>http://10.138.143.36:8081//walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>http://10.138.143.36:8081/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -404,6 +406,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getStoreByZipCodeColony</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.SEaddToCartListService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.SetDeliveryTypeService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/setDeliveryTypes</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -584,16 +588,16 @@
 			<string>http://10.138.143.36:8081/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.138.143.36:8081/walmartmg/list/marketplace/reviewCartToShop</string>
-			<key>WalmartMG.SEabcService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
-			<key>WalmartMG.SEmultipleSearchListService</key>
-			<string>http://10.138.143.36:8081/walmartmg/list/multiplesearch</string>
-			<key>WalmartMG.SEmultipleSearchService</key>
-			<string>http://10.138.143.36:8081/walmartmg/login/multiplesearch</string>
-			<key>WalmartMG.SEtypeaheadListService</key>
-			<string>http://10.138.143.36:8081/walmartmg/list/typeahead</string>
-			<key>WalmartMG.SEtypeaheadService</key>
-			<string>http://10.138.143.36:8081/walmartmg/login/typeahead</string>
+            <key>WalmartMG.SEabcService</key>
+            <string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
+            <key>WalmartMG.SEmultipleSearchListService</key>
+            <string>http://10.138.143.36:8081/walmartmg/list/multiplesearch</string>
+            <key>WalmartMG.SEmultipleSearchService</key>
+            <string>http://10.138.143.36:8081/walmartmg/login/multiplesearch</string>
+            <key>WalmartMG.SEtypeaheadListService</key>
+            <string>http://10.138.143.36:8081/walmartmg/list/typeahead</string>
+            <key>WalmartMG.SEtypeaheadService</key>
+            <string>http://10.138.143.36:8081/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.138.143.36:8081/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -736,13 +740,13 @@
 			<key>WalmartMG.SEabcService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/login/multiplesearch</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/multiplesearch</string>
 			<key>WalmartMG.SEtypeaheadListService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/list/typeahead</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.SEtypeaheadService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/login/typeahead</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>
@@ -1338,13 +1342,13 @@
 			<key>WalmartMG.SEabcService</key>
 			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
 			<key>WalmartMG.SEmultipleSearchListService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/multiplesearch</string>
 			<key>WalmartMG.SEmultipleSearchService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/login/multiplesearch</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/multiplesearch</string>
 			<key>WalmartMG.SEtypeaheadListService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/list/typeahead</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/typeahead</string>
 			<key>WalmartMG.SEtypeaheadService</key>
-			<string>http://www.walmartmobile.com.mx/walmartmg/login/typeahead</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>

@@ -92,15 +92,17 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         lblItemsCount = UILabel()
         lblItemsCount.font = WMFont.fontMyriadProRegularOfSize(12)
         lblItemsCount.textColor = WMColor.dark_gray
-        lblItemsCount.text = "0 artículos"
+        lblItemsCount.text = "0 artículos seleccionados"
         
         self.view.addSubview(lblItemsCount)
         //cargaProductos()
         self.invokeMultisearchService()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+     //   NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
     }
+    
     
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
@@ -114,6 +116,13 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
         UIView.animate(withDuration: 0.2, animations: {
             self.sugestedCarTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         })
+        if isEditSection{
+            self.delSection(section: numberOfEditSection)
+        }
+        if isNewSection{
+            self.delSection(section: numberOfNewSection)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -287,7 +296,7 @@ class SESugestedCar: NavigationViewController, UITableViewDataSource, UITableVie
 
     
     func actualizaNumItems(){
-    lblItemsCount.text = "\(itemsSelected.count) artículos"
+    lblItemsCount.text = "\(itemsSelected.count) artículos seleccionados"
     }
     
     func invokeMultisearchService() {

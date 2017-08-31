@@ -24,6 +24,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
     var delegate : SESugestedCar!
     var isNewSection : Bool! = false
     var isEditSection : Bool! = false
+    var isDeleteSection : Bool! = false
     var numberOfNewSection: Int!
     var numberOfEditSection: Int!
     
@@ -72,7 +73,7 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         self.deleteItem.setImage(UIImage(named: "termsClose"), for: UIControlState())
         self.deleteItem.addTarget(self, action: #selector(self.delSection(_:)), for: UIControlEvents.touchUpInside)
         self.addSubview(self.deleteItem)
-        
+      //  NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
     }
     
     func setValues(_ itemNameList:String, section: Int, newSect: Bool, newSectNumber:Int, editSect:Bool, editSectNumber:Int) {
@@ -97,6 +98,9 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
                 self.deleteItem.isEnabled = false
                 self.editItem.isEnabled = false
             }
+        }else{
+            self.deleteItem.isEnabled = true
+            self.editItem.isEnabled = true
         }
         
     }
@@ -120,7 +124,6 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         
     }
 
-    
     func endEditSection(_ sender:UIButton){
         sender.isEnabled = true
         sender.tag = section
@@ -171,6 +174,15 @@ class SESugestedRowTitleViewCell: UITableViewCell,UITextFieldDelegate {
         
         return true
     }
+
+    /* func keyboardWillHide(notification: NSNotification) {
+        if isEditSection || isNewSection{
+            delegate?.delSection(section: section)
+        isEditSection = false
+            isNewSection = false
+        }
+        
+    }*/
 
     
     

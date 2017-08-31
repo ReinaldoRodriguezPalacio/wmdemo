@@ -17,7 +17,6 @@ class IPASESugestedCar : SESugestedCar{
     var delegateIPA : IPASESearchViewController!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.layer.cornerRadius = 20
 
     }
@@ -48,6 +47,5 @@ class IPASESugestedCar : SESugestedCar{
     override func cierraModal() {
         self.delegateIPA?.closeView()
     }
-
     
 }

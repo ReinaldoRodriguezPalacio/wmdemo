@@ -14,7 +14,6 @@ class FieldInputView: UIInputView {
     var textField : UITextField? = nil
     
     var titleSave : String? = nil
-    
     var saveBlock : ((_ field:UITextField?) -> Void)? = nil
     
     required init?(coder aDecoder: NSCoder) {

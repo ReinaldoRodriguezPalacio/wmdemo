@@ -49,7 +49,10 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var listaSuper: UITableView!
     var field: UITextField?
     var myArray : [String]! = []
-    
+    var keyboardBar: FieldInputView? {
+        didSet {
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,6 +191,24 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.tintColor = WMColor.blue
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Listo", style: .plain, target: self, action: #selector(self.doneKeyboard(_:)))
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: Selector("Flexible Space"))
+        
+        toolBar.setItems([flexibleSpaceItem, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+         self.field?.inputAccessoryView = toolBar
+        
+    }
+    
+    func doneKeyboard(_ sender:UIButton){
+        self.view.endEditing(true)
     }
     
     /// move scroll view up
