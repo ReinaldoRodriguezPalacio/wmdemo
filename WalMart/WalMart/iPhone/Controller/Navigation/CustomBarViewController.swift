@@ -71,7 +71,7 @@ struct TabBarHidden {
     func customBarDidAnimate(_ hide:Bool, offset:CGFloat)
 }
 
-class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartViewControllerDelegate, SearchViewControllerDelegate, UINavigationControllerDelegate {
+class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartViewControllerDelegate, SearchViewControllerDelegate, UINavigationControllerDelegate, IPASESearchViewControllerDelegate, SESearchViewControllerDelegate {
     
     var buttonContainer: UIView? = nil
     @IBOutlet var container: UIView? = nil
@@ -1196,13 +1196,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if IS_IPAD{
             let controller = IPASESearchViewController()
             controller.modalPresentationStyle = .overCurrentContext
-            
+            controller.delegate = self
             let controllernav = self.currentController as? UINavigationController
             controllernav?.present(controller, animated: false, completion: nil)
             
         }else{
             
             let controller = SESearchViewController()
+            controller.delegate = self
             let controllernav = self.currentController as? UINavigationController
             if (controllernav?.childViewControllers.last as? SearchViewController) != nil {
                 self.onCloseSearch = {
@@ -1830,5 +1831,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showHelp() {
         let _ = reviewHelp(true)
+    }
+    
+    func openShoppingCart(){
+        self.showShoppingCart()
     }
 }

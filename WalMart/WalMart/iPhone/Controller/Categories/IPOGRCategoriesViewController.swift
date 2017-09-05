@@ -578,6 +578,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         //BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         
         let controller = SESearchViewController()
+        controller.delegate = self.parent?.parent as! CustomBarViewController
         let controllernav = self.navigationController
         let controllersInNavigation = controllernav?.viewControllers.count
         if controllersInNavigation! > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SESearchViewController != nil){

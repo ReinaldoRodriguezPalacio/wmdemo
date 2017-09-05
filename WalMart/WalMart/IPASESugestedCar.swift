@@ -10,11 +10,13 @@ import Foundation
 
 protocol IPASESugestedCarDelegate{
     func closeView()
+    func closeViewandShowCart()
 }
 
 class IPASESugestedCar : SESugestedCar{
 
     var delegateIPA : IPASESearchViewController!
+    var isFromCustom: Bool! = true
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.layer.cornerRadius = 20
@@ -46,6 +48,10 @@ class IPASESugestedCar : SESugestedCar{
     
     override func cierraModal() {
         self.delegateIPA?.closeView()
+    }
+    
+    override func showShoppingCart() {
+        delegateIPA.closeViewandShowCart()
     }
     
 }

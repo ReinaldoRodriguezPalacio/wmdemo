@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SESearchViewControllerDelegate{
+    func openShoppingCart()
+}
+
 class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, SESugestedCarDelegate{
     
     var alertView : IPOWMAlertViewController? = nil
@@ -38,7 +42,7 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var instruccionesView:UIView!
     var lblInstrucciones:UILabel!
     var imageLlanta:UIImageView!
-    
+    var delegate: CustomBarViewController!
     var firstOpen  = true
     var isLoading  = false
     var hasEmptyView = false
@@ -53,6 +57,8 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         didSet {
         }
     }
+    
+    var toolBar: UIView! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,18 +198,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyBoardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.tintColor = WMColor.blue
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Listo", style: .plain, target: self, action: #selector(self.doneKeyboard(_:)))
-        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: Selector("Flexible Space"))
-        
-        toolBar.setItems([flexibleSpaceItem, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        
-         self.field?.inputAccessoryView = toolBar
+        toolBar = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width , height: 40))
+        toolBar.backgroundColor = UIColor.white
+        self.field?.inputAccessoryView = toolBar
         
     }
     
@@ -213,9 +210,14 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     /// move scroll view up
     func keyBoardWillShow(notification: Notification) {
+        
         UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
+            self.okButton.removeFromSuperview()
+            self.okButton.frame = CGRect(x: self.toolBar.frame.size.width / 2 - self.toolBar.frame.size.width / 4, y: 5, width: self.toolBar.frame.size.width / 2, height: 30)
+            self.toolBar.addSubview(self.okButton)
             self.lbltitle.isHidden = true
             self.btnCerrarModulo.isHidden = true
+            
             var decremento = CGFloat(0)
             if IS_IPHONE_4_OR_LESS || IS_IPHONE_5{
                 decremento = CGFloat(40)
@@ -237,6 +239,9 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     /// move scrollview back down
     func keyBoardWillHide(notification: Notification) {
         UIView.animate(withDuration: 1.0, animations: { // 3.0 are the seconds
+            self.okButton.removeFromSuperview()
+            self.okButton.frame = CGRect(x: self.containerView.frame.size.width / 2 - self.containerView.frame.size.width / 4, y: self.listaSuper.frame.maxY + 5, width: self.containerView.frame.size.width / 2, height: 30)
+            self.containerView.addSubview(self.okButton)
             self.lbltitle.isHidden = false
             self.btnCerrarModulo.isHidden = false
             var aumento = CGFloat(0)
@@ -527,6 +532,12 @@ class SESearchViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func closeViewController(){
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func closeViewandShowCart(){
+        _ = self.navigationController?.popViewController(animated: true)
+        delegate?.openShoppingCart()
+        
     }
     
     func showMessageValidation(_ message:String){

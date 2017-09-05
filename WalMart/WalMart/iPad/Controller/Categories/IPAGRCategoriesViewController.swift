@@ -401,13 +401,12 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         let controller = IPASESearchViewController()
         controller.modalPresentationStyle = .overCurrentContext
-        
+        controller.delegate = self.parent?.parent as! CustomBarViewController
         let controllernav = self.navigationController
         controllernav?.present(controller, animated: false, completion: nil)
         
+        
+        
     }
-    
-
-
 
 }

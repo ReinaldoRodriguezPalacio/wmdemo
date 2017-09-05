@@ -124,7 +124,7 @@
 "shoppingcart.deleteProductAlert" = "Eliminando artículo del carrito";
 "shoppingcart.deleteProductDone" = "¡Listo!";
 "shoppingcart.subjectToAvailability" = "Los productos están sujetos a disponibilidad y su precio puede variar.";
-
+"shoppingcart.marketplace.refurbish" = "Reacondicionado";
 
 //WishList
 "wishlist.title" = "Wishlist";

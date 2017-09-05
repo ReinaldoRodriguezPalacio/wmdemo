@@ -33,6 +33,7 @@ class Product : NSManagedObject {
     @NSManaged var offerId : String?
     @NSManaged var sellerId : String?
     @NSManaged var sellerName:String?
+    @NSManaged var condition:String?
     
     @NSManaged var cart : Cart
     @NSManaged var list: List

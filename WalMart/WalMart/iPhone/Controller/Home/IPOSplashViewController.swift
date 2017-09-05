@@ -244,7 +244,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     func serviceUrl(_ serviceName:String) -> String {
-       //DynatraceUEM.startup(withApplicationName:"Walmart MG Movil", serverURL: "https://www.walmartmobile.com.mx/walmartmg/dynaTraceMonitor", allowAnyCert: true, certificatePath: nil)
+       DynatraceUEM.startup(withApplicationName:"Walmart MG Movil", serverURL: "https://www.walmartmobile.com.mx/walmartmg/dynaTraceMonitor", allowAnyCert: true, certificatePath: nil)
         let environment =  Bundle.main.object(forInfoDictionaryKey: "WMEnvironment") as! String
         let services = Bundle.main.object(forInfoDictionaryKey: "WMURLServices") as! [String:Any]
         let environmentServices = services[environment] as! [String:Any]

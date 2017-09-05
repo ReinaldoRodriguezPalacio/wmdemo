@@ -8,25 +8,27 @@
 
 import Foundation
 
+protocol IPASESearchViewControllerDelegate{
+    func openShoppingCart()
+}
+
 class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
 
     var alertView : IPOWMAlertViewController? = nil
     var viewLoad : WMLoadingView!
     var okButton: UIButton!
-    
     var titleHeader: String?
     var textToSearch:String?
     var maxResult: Int = 20
     var brandText: String? = ""
-    
     var viewHeader: UIView!
     var viewTitleBar: UIView!
     var lbltitle:UILabel!
-    var lblSugerencias:UILabel!
+    //var lblSugerencias:UILabel!
     var btnCerrarModulo:UIButton!
     var btnCancelar:UIButton!
       var clearButton: UIButton?
-
+    var delegate: CustomBarViewController!
     var containerView:UIView!
     var listaPalabras:UITableView!
     var viewBuscaLlanta:UIView!
@@ -147,11 +149,11 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         sugestedTerms?.showsHorizontalScrollIndicator = true
         sugestedTerms.autoresizingMask = UIViewAutoresizing.flexibleWidth
         
-        lblSugerencias = UILabel(frame: CGRect.zero)
+       /* lblSugerencias = UILabel(frame: CGRect.zero)
         lblSugerencias.textColor = WMColor.light_light_blue
         lblSugerencias.text = "Sugerencias"
         lblSugerencias.textAlignment = .left
-        lblSugerencias.font=WMFont.fontMyriadProRegularOfSize(12)
+        lblSugerencias.font=WMFont.fontMyriadProRegularOfSize(12)*/
         
         lblDescription = UILabel(frame: CGRect.zero)
         lblDescription.textColor = WMColor.light_blue
@@ -168,7 +170,7 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         okButton.layer.cornerRadius = 15
         
         viewHeader.addSubview(sugestedTerms)
-        viewHeader.addSubview(lblSugerencias)
+        //viewHeader.addSubview(lblSugerencias)
         
         containerView.addSubview(lblDescription)
         containerView.addSubview(okButton)
@@ -218,8 +220,8 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
         
         sugestedTerms.frame = CGRect(x: (self.field?.frame.maxX)! + 10, y: self.field!.frame.origin.y + sugestedTerms.frame.height / 2, width: viewHeader.frame.size.width * 0.55, height: 30)
         
-        lblSugerencias.frame = CGRect(x: sugestedTerms.frame.origin.x, y: self.field!.frame.origin.y, width: 15, height: 30)
-        lblSugerencias.sizeToFit()
+       // lblSugerencias.frame = CGRect(x: sugestedTerms.frame.origin.x, y: self.field!.frame.origin.y, width: 15, height: 30)
+       // lblSugerencias.sizeToFit()
         
         lblDescription.frame = CGRect(x: 15, y: listaSuper.frame.maxY + 10, width: containerView.frame.size.width / 2 , height: 30)
         
@@ -540,6 +542,11 @@ class IPASESearchViewController : UIViewController,UIScrollViewDelegate, UITextF
             self.errorView?.removeFromSuperview()
         }
         dismiss(animated: true, completion: nil)
+    }
+    
+    func closeViewandShowCart(){
+            delegate?.openShoppingCart()
+            self.dismiss(animated: true, completion: nil)
     }
     
     func showMessageValidation(_ message:String){

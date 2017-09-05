@@ -451,6 +451,8 @@ class ShoppingCartViewController: BaseController {
                 var offerId: String? = nil
                 var sellerId: String? = nil
                 var sellerName: String? = nil
+                var condition: String? = nil
+                
                 
                 if let valueOfferId = shoppingCartProduct["offerId"] as? String {
                     offerId = valueOfferId
@@ -469,6 +471,7 @@ class ShoppingCartViewController: BaseController {
                         offerId = offer["offerId"] as? String
                         sellerId = offer["sellerId"] as? String
                         sellerName = offer["sellerName"] as? String
+                        condition = offer["condition"] as? String
                     }
                 }
                 
@@ -1508,9 +1511,14 @@ extension ShoppingCartViewController: UITableViewDataSource {
               providerTxt = providerName
             }
             
+            var conditionTxt = ""
+            if let condition = shoppingCartProduct["condition"] as? String {
+                conditionTxt = condition
+            }
+            
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment, provider: providerTxt)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price as NSString, saving: savingVal as NSString,quantity:quantity.integerValue,onHandInventory:onHandInventory as NSString,isPreorderable: isPreorderable, category:productDeparment, provider: providerTxt,condition:conditionTxt)
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()

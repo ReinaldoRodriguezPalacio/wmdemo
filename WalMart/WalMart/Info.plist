@@ -588,16 +588,16 @@
 			<string>http://10.138.143.36:8081/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>http://10.138.143.36:8081/walmartmg/list/marketplace/reviewCartToShop</string>
-            <key>WalmartMG.SEabcService</key>
-            <string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
-            <key>WalmartMG.SEmultipleSearchListService</key>
-            <string>http://10.138.143.36:8081/walmartmg/list/multiplesearch</string>
-            <key>WalmartMG.SEmultipleSearchService</key>
-            <string>http://10.138.143.36:8081/walmartmg/login/multiplesearch</string>
-            <key>WalmartMG.SEtypeaheadListService</key>
-            <string>http://10.138.143.36:8081/walmartmg/list/typeahead</string>
-            <key>WalmartMG.SEtypeaheadService</key>
-            <string>http://10.138.143.36:8081/walmartmg/login/typeahead</string>
+			<key>WalmartMG.SEabcService</key>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/abc.json</string>
+			<key>WalmartMG.SEmultipleSearchListService</key>
+			<string>http://10.138.143.36:8081/walmartmg/list/multiplesearch</string>
+			<key>WalmartMG.SEmultipleSearchService</key>
+			<string>http://10.138.143.36:8081/walmartmg/login/multiplesearch</string>
+			<key>WalmartMG.SEtypeaheadListService</key>
+			<string>http://10.138.143.36:8081/walmartmg/list/typeahead</string>
+			<key>WalmartMG.SEtypeaheadService</key>
+			<string>http://10.138.143.36:8081/walmartmg/login/typeahead</string>
 			<key>WalmartMG.SearchItemsByUPCService</key>
 			<string>http://10.138.143.36:8081/walmartmg/login/marketplace/getSearchingByUpcs</string>
 			<key>WalmartMG.SearchTiresBySizeService</key>

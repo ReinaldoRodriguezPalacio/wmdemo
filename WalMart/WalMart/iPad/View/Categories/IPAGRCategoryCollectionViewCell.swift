@@ -28,6 +28,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     var moreLabel: UILabel?
     var index: IndexPath?
 
+    var unaVez: Bool! = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -157,50 +158,55 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             }
         }
         
-        let jsonLines = JSON(products)
-        var currentX : CGFloat = 0.0
-        for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:self.frame.height))
-            let imageProd =  lineToShow["imageUrl"].stringValue
-            let descProd =  lineToShow["name"].stringValue
-            product.jsonItemSelected = lineToShow
-            product.setValues(imageProd,
-                productShortDescription: descProd,
-                productPrice: "")
-            product.productImage!.frame = CGRect(x:16, y:0, width:106, height:110)
-            product.productShortDescriptionLabel!.frame = CGRect(x:16, y:product.productImage!.frame.maxY + 14 , width:product.frame.width - 32, height:33)
-            product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.addSubview(product)
-            
-            let tapOnProdut =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.productTap(_:)))
-            product.addGestureRecognizer(tapOnProdut)
-            
-            currentX = currentX + width
-            
-        }
-        self.moreButton?.frame = CGRect(x: currentX + 51, y: 195, width: 22, height: 22)
-        self.moreLabel?.frame = CGRect(x: currentX + 25, y: self.moreButton!.frame.maxY + 66, width: 64, height: 14)
         
-        let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap))
-        descLabel!.addGestureRecognizer(tapOnMore)
-//        var currentX : CGFloat = 0.0
-//        for  prod in products {
-//            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
-//            let imageProd =  prod["imageUrl"] as! String
-//            let descProd =  prod["description"] as! String
-//            let priceProd =  prod["price"] as! NSNumber
-//            let upcProd =  prod["upc"] as! String
-//            
-//            product.upcProduct = upcProd
-//            product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
-//            self.addSubview(product)
-//            
-//            let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
-//            product.addGestureRecognizer(tapOnProdut)
-//            
-//            currentX = currentX + width
-//            
-//        }
+            let jsonLines = JSON(products)
+            var currentX : CGFloat = 0.0
+            for  lineToShow in jsonLines.arrayValue {
+                let product = GRProductSpecialCollectionViewCell(frame: CGRect(x:currentX, y:151, width:width, height:self.frame.height))
+                let imageProd =  lineToShow["imageUrl"].stringValue
+                let descProd =  lineToShow["name"].stringValue
+                product.jsonItemSelected = lineToShow
+                product.setValues(imageProd,
+                                  productShortDescription: descProd,
+                                  productPrice: "")
+                product.productImage!.frame = CGRect(x:16, y:0, width:106, height:110)
+                product.productShortDescriptionLabel!.frame = CGRect(x:16, y:product.productImage!.frame.maxY + 14 , width:product.frame.width - 32, height:33)
+                product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+                self.addSubview(product)
+                
+                let tapOnProdut =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.productTap(_:)))
+                product.addGestureRecognizer(tapOnProdut)
+                
+                currentX = currentX + width
+                
+            }
+            self.moreButton?.frame = CGRect(x: currentX + 51, y: 195, width: 22, height: 22)
+            self.moreLabel?.frame = CGRect(x: currentX + 25, y: self.moreButton!.frame.maxY + 66, width: 64, height: 14)
+            
+            let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap))
+            descLabel!.addGestureRecognizer(tapOnMore)
+            //        var currentX : CGFloat = 0.0
+            //        for  prod in products {
+            //            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
+            //            let imageProd =  prod["imageUrl"] as! String
+            //            let descProd =  prod["description"] as! String
+            //            let priceProd =  prod["price"] as! NSNumber
+            //            let upcProd =  prod["upc"] as! String
+            //
+            //            product.upcProduct = upcProd
+            //            product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
+            //            self.addSubview(product)
+            //            
+            //            let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
+            //            product.addGestureRecognizer(tapOnProdut)
+            //            
+            //            currentX = currentX + width
+            //            
+            //        }
+        
+        
+        
+    
         
     }
 

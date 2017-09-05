@@ -87,8 +87,6 @@ class IPACustomBarViewController :  CustomBarViewController, IPASearchTiresIniCo
         return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad",  "list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
-   
-    
     override func layoutButtons() {
         let space = (320 - (5 * TABBAR_HEIGHT))/7
         var x: CGFloat = ((self.view.bounds.width / 2) - (435 / 2))  + CGFloat(space)

@@ -34,6 +34,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var imagePresale : UIImageView!
     var productDeparment: String = ""
     var providerLBL : UILabel!
+    var lblRefurbish : UILabel!
+    var condition: String!
     
     override func setup() {
         super.setup()
@@ -66,6 +68,12 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         productPriceSavingLabel = CurrencyCustomLabel(frame: CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY  , width: 100 , height: 19))
         productPriceSavingLabel!.textAlignment = NSTextAlignment.left
         
+        lblRefurbish = UILabel()
+        lblRefurbish!.font = WMFont.fontMyriadProSemiboldOfSize(11)
+        lblRefurbish!.numberOfLines = 1
+        lblRefurbish!.textColor =  WMColor.green
+        self.contentView.addSubview(lblRefurbish)
+        
         priceSelector = ShoppingCartButton(frame: CGRect.zero)
         priceSelector.addTarget(self, action: #selector(ProductShoppingCartTableViewCell.choseQuantity), for: UIControlEvents.touchUpInside)
         
@@ -87,6 +95,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productPriceLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.providerLBL.isHidden ? (productShortDescriptionLabel!.frame.maxY + 16) :  (self.providerLBL!.frame.maxY + 7.0) , width: 100 , height: 19)
         self.separatorView.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: 109,width: self.frame.width - productShortDescriptionLabel!.frame.minX, height: AppDelegate.separatorHeigth())
         self.productPriceSavingLabel!.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: productPriceLabel!.frame.maxY + (self.providerLBL.isHidden ? 0 : 4.0), width: 100 , height: self.providerLBL.isHidden ? 19 : 10)
+        self.lblRefurbish.frame = CGRect(x: productShortDescriptionLabel!.frame.minX, y: self.contentView.frame.maxY - productPriceSavingLabel.frame.height, width: self.productPriceSavingLabel.frame.width, height: self.productPriceSavingLabel.frame.height)
       
         self.priceSelector.frame = CGRect(x: (self.frame.width - 16) -  98.0, y: self.productPriceLabel!.frame.minY, width: 98.0, height: 30)
     }
@@ -100,7 +109,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
     }
     
-    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, provider:String) {
+    func setValues(_ upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String, category: String, provider:String, condition:String) {
         imagePresale.isHidden = isPreorderable == "true" ? false : true
         
         self.priceProduct = productPrice.doubleValue
@@ -112,12 +121,17 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.quantity = quantity
         self.productDeparment = category
         self.isPreorderable = isPreorderable
-        
+        self.condition = condition
         priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
       
         self.providerLBL.text = NSLocalizedString("provider.for",comment:"") + provider
         self.providerLBL.isHidden = provider != "" ? false : true
         self.providerFrame()
+        
+        if self.condition == "0"{
+        self.lblRefurbish.text = NSLocalizedString("shoppingcart.marketplace.refurbish",comment:"")
+        }
+        
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
