@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src * 'unsafe-inline' 'unsafe-eval'"/>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+  
+      <title>Add Product</title>
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="css/animate.css"/>  
+      <link type="text/css" rel="stylesheet" href="css/addProduct.css"  media="screen,projection"/>
+      <link rel="stylesheet" type="text/css" href="css/select2.css">
+      <link rel="stylesheet" href="css/materialize.css" type="text/css">
+      <link rel="stylesheet" type="text/css" href="css/fonts.css" />
+    </head>
+    <body>
+        <!-- Cargando Datos -->
+        <div class="loading">
+            <div id="fondo"></div>
+            <div id="logoCentro">
+                <img src="img/puroLogoCS.png">
+                <div class="progress">
+                    <div class="indeterminate">L O A D I N G</div>
+                </div>
+            </div>
+        </div>
+  <nav>
+    <div class="nav-wrapper orange darken-2">
+      <a href="#!" class="brand-logo">Add Product</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="side-nav grey lighten-3 " id="mobile-demo">
+          <li><div class="logoMenu center">
+            <div class="background">
+                <img src="img/puroLogoCS.png">
+            </div></div> </li>
+            <li><a href="#" class="activeMnu">Add Products</a></li>
+            <li><a href="inventoryStatus.html">Inventory Status</a></li>
+            <li><a href="recipes.html">Cook</a></li>
+            <li><a href="tips.html">Information</a></li>
+      </ul>
+    </div>
+  </nav>
+    <div class="row">
+      <div class="col s12 m5">
+        <div class="card-panel amber lighten-4">
+          <span class="black-text">Please select if you want to scan the barcode or select your product from the list
+          </span>
+        
+          <div class="card-tabs">
+                  <ul class="tabs tabs-fixed-width orange darken-2">
+                    <li class="tab"><a class="active white-text" href="#barcod">Barcode</a></li>
+                    <li class="tab"><a class="white-text" href="#manual">Manual</a></li>
+                  </ul>
+          </div>
+          <div class="card-content">
+              <div id="barcod">
+                  <p>
+                    <button class="waves-effect waves-light btn green btn-block" onclick="leeCodigo()" type="button"><i class="material-icons">crop_free</i> Scan Barcode
+                    </button>
+                  </p>
+              </div>
+              <div id="manual">
+                  
+                  <div class="col s9 m3">
+                      
+                    <select class="select2 browser-default col s8" style="width: 100%" id="txtTextoProducto" name="idProducto"> </select>
+                  
+                  </div>
+                  
+                  <p>
+                    <button class="waves-effect waves-light btn green" data-target="modal1" type="button"><i class="material-icons">add</i></button>
+                  </p>
+             </div>
+              <div >
+          <label for="txtDetalles" class="black-text">Description</label>
+          <textarea id="txtDetalles" class="materialize-textarea"></textarea>
+        </div> 
+        <div>
+                <label for="txtFechaExpira" class="black-text">Expiration date</label>
+          <input type="date" class="datepicker" id="txtFechaExpira" name="FechaExpira" required="">
+        </div>
+        <div>
+          <label for="txtCantidad" class="black-text">Quantity</label>
+          <input type="number" id="txtFechaCompra" name="FechaCompra" required="">
+        </div> 
+          </div>
+            
+        </div>
+      </div>
+        
+        <div class="card-panel grey lighten-2" style="text-align: center;">
+            <a class="waves-effect waves-light btn orange" href="index.html" id="btnCancel">Cancel</a>
+            <a class="waves-effect waves-light btn green" href="javascript:{}" onclick="guardaProd()" id="btnAdd">Save</a>
+        </div>
+    </div>    
+       <!-- Modal Structure -->
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <p>Product to Search</p>
+            <div class="row">
+                <div class="col s9">
+                    <input type="text" id="search_query" name="SearchProd" required="">
+                </div>
+                <div class="col s3">
+                    <button class="btn-floating waves-effect waves-light red" onclick="buscaProd()"><i class="material-icons">search</i></button>
+                </div>
+            </div>
+    </div>
+  </div>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/select2.js"></script>
+    <script type="text/javascript" src="js/foodessentials.js"></script>
+    <script type="text/javascript">
+        var producto = null;
+        $( document ).ready(function(){
+          
+            $(".button-collapse").sideNav();
+            $('select').material_select();
+            $('.modal').modal();
+            $('#txtTextoProducto').select2({
+                placeholder: "Select a product",
+                allowClear: true
+            });
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                formatSubmit: 'dd-mm-yyyy',
+                dateFormat: 'yy-mm-dd',
+                hiddenName: true
+  });
+  
+  $("#txtTextoProducto").on("select2:select",function(evt){
+        $("#txtDetalles").text('');
+        var selected = $(this).find('option:selected');
+        var marca = selected.data('brand');
+        var nombre = selected.text();
+        producto = selected.text();
+        var descripcion = selected.data('description');
+        var empresa = selected.data('manufacturer');
+        var presentacion = selected.data('size');
+        
+       // $("#txtDetalles").html(nombre + '\n' + descripcion + '\n' + marca + '\n' + empresa + '\n' + presentacion);
+       
+       if (empresa.toString() === ""){
+            $('#txtDetalles').val(nombre + '\n' + descripcion + '\n' + marca + '\n' + presentacion);
+        }else{
+           $('#txtDetalles').val(nombre + '\n' + descripcion + '\n' + marca + '\n' + empresa + '\n' + presentacion);
+           
+       }
+        $('#txtDetalles').trigger('autoresize');
+    });
+        });
+        
+        function guardaProd(){
+            //okRegCompra();
+            registerPermission();
+            scheduleMinutely();
+        }
+        
+     function buscaProd(){
+          search();
+          $('#modal1').modal('close');
+         
+     }
+        
+        
+            registerPermission = function () {
+                cordova.plugins.notification.local.registerPermission(function (granted) {
+                    showToast(granted ? 'Yes' : 'No');
+                });
+            };
+   
+   
+    scheduleMinutely = function () {
+                var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
+                cordova.plugins.notification.local.schedule({
+                    id: 1001,
+                    text: 'Notificacion x minuto',
+                    every: 'minute',
+                    sound: sound
+                });
+        alert("Producto guardado");
+            };
+            
+    function schedule() {
+            var sound = device.platform == 'Android' ? 'file://sound.mp3' : 'file://beep.caf';
+            alert("aca");
+            var year = $('.datepicker').pickadate('picker').get('highlight', 'yyyy');
+            var day = $('.datepicker').pickadate('picker').get('highlight', 'dd');
+            var month = $('.datepicker').pickadate('picker').get('highlight', 'mm');
+            var fecha = year + "/" + month + "/" + day;
+            var myDate = new Date(fecha + ' 03:30:00');
+            var myDate2 = new Date(fecha + ' 19:00:00');
+            var dayOfMonth = myDate.getDate();
+            var dayOfMonth2 = myDate2.getDate();
+            myDate.setDate(dayOfMonth);
+            myDate2.setDate(dayOfMonth2 - 3);
+            var newID = parseInt(1) + 1000;
+            cordova.plugins.notification.local.schedule({
+                id: 1001,
+                title: 'IMPORTANT!!! - ' + myDate,
+                text: 'The product : ' + producto + ', is next to expire  ',
+                firstAt: myDate,
+                every: 'day'
+            });
+
+            cordova.plugins.notification.local.schedule({
+                id: 1002,
+                title: 'IMPORTANT!!! - ' + myDate2,
+                text: 'The product : ' + producto + ', is next to expire  ',
+                firstAt: myDate2,
+                every: 'day'
+            });
+            
+        };
+
+            
+           
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,69 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    width:100%;
+    background-color: lightgray;
+}
+
+.container{
+padding-top: 100px;
+width: 100%;
+}
+
+.contListado{
+  width: 96%;
+}
+
+#contReceta{
+    width: 96%;
+}
+
+.navbar .navbar-header{
+background-color:#007ea0;
+width: 100%;
+height: 67px;
+}
+
+.navbar-text{
+    color: aliceblue;
+    font-size: 14px;
+    white-space: normal;
+}
+
+#msgAhorro{
+    text-align: center;
+}
+
+.loading{
+    display: none;
+    width: 100%;
+    position: relative; 
+    z-index: 100;
+    height: 100%;
+   top: 0px;
+   left: 0px;
+   position: fixed;
+}
+
+
+#fondo{
+    background-color: #000; 
+    position:fixed; 
+    z-index:98; 
+    top:0; 
+    left:0; 
+    right:0; 
+    bottom:0; 
+    opacity:0.6;
+}

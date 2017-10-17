@@ -1,0 +1,197 @@
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/configNoti.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+</head>
+
+<body>
+    <!-- Cargando Datos -->
+    <div class="loading">
+        <div id="fondo"></div>
+        <div id="logoCentro">
+            <img src="img/logoTitCS.png">
+            <div id="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empieza la página -->
+    <div class="container" style="margin-top: 6px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+
+        <header id="top" class="header">
+
+            <div class="text-vertical-center">
+                <button class="btn btn-success btn-lg btn-block transition" role="button" onclick="getAll()">REFRESH</button>
+                <div class="list-group" id="listaNotif">
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /*    document.addEventListener('backbutton', function(){
+            
+            if($.mobile.activePage.is('index.html')){
+                    navigator.app.exitApp();
+            }
+            else {
+                   regresaAnt();
+            }
+            
+        }, false);*/
+
+        });
+
+        var callbackOpts = function(notifications) {
+            console.log(notifications);
+            var textos = '';
+            var item = '';
+            var boton = '';
+
+            for (i = 0; i < notifications.length; i++) {
+                item = '';
+                boton = '';
+                item = "<div class='list-group-item'>";
+                item += "<table style='text-align: left; width: 100%;' cellpadding='2' cellspacing='2'><tbody><tr><td colspan='1' rowspan='2' style='vertical-align: top; text-align: left; width:80%'><h6><b>" + notifications[i].text + "</b>" + notifications[i].title + "</h6></td><td style='vertical-align: top; text-align: center;'><button type='button' class='btn btn-sm btn-success' onCLick='verifId(" + notifications[i].id + ")'><span class='glyphicon glyphicon-hourglass'/></button></td></tr><tr align='center'><td style='vertical-align: top;'><button type='button' class='btn btn-sm btn-danger' onCLick='confirma(" + notifications[i].id + ")'><span class='glyphicon glyphicon-remove-circle'/></button></td></tr></tbody></table></div>";
+
+                $("#listaNotif").append(item);
+            }
+            //showToast(notifications.length === 0 ? '- none -' : textos);
+        }
+
+        getAll = function() {
+            $('#listaNotif').empty();
+            cordova.plugins.notification.local.getAll(callbackOpts);
+        };
+
+        confirma = function(id) {
+            localStorage.setItem('NotiBorra', id);
+            // navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+            navigator.notification.confirm(
+                'Are you sure to delete this notification?. THIS ACTION CAN NOT BE UNDONE!!', //message
+                cancel, //confirmCallback 
+                'Cancel Notification', //[title] 
+                ['Sí', 'No'] //[buttonLabels])
+            );
+        };
+
+        verifId = function(id) {
+            alert("Notification number: " + id);
+        };
+
+        cancel = function(buttonIndex) {
+            if (buttonIndex == 1) {
+                cordova.plugins.notification.local.cancel(localStorage.getItem('NotiBorra'), callback);
+            }
+        };
+
+        callback = function() {
+            navigator.notification.alert(
+                'Notification canceled!!', // message
+                alertDismissed, // callback
+                '', // title
+                'Done' // buttonName
+            );
+        };
+
+        getIds = function() {
+            cordova.plugins.notification.local.getIds(callbackIds);
+        };
+
+        function alertDismissed() {
+            window.location = 'configNoti.html';
+        }
+
+        function regresaAnt() {
+            window.location = 'estatus.html';
+        }
+    </script>
+
+    <!-- VENTANA MODAL PARA MOSTRAR LA DESCRIPCION DE LA RECOMENDACION-->
+    <div class="modal fade" id="recomendaciones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="tituloModal"></h4>
+                </div>
+                <div class="col-xs-12">
+                    <div class="modal-body">
+                        <div class="text-align-center">
+                            <img alt="recomend" class="img-responsive" id="imgRecomendacion">
+                            <pre class="pre-scrollable">                                    <p id="txtdescripRecomendacion"></p>
+                              </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina ventana modal-->
+
+</body>

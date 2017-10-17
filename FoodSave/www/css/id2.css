@@ -1,0 +1,28 @@
+body{
+display: flex;
+min-height: 100vh;
+margin: 0;
+ }
+
+.loading{
+    display: flex;
+    width: 100%;
+    position: relative; 
+    z-index: 10;
+}
+
+#logoCentro{
+    margin: auto;
+}
+
+#fondo{
+    background-color: #000; 
+    position:absolute; 
+    z-index:-1; 
+    top:0; 
+    left:0; 
+    right:0; 
+    bottom:0; 
+    opacity:0.2;
+}
+

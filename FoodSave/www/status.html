@@ -1,0 +1,422 @@
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/status.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+
+    <!-- Cargando Datos -->
+    <div class="loading">
+        <div id="fondo"></div>
+        <div id="logoCentro">
+            <img src="img/logoTitCS.png">
+            <div id="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empieza la página -->
+
+
+    <div class="container" style="margin-top: 6px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+        <div class="panel">
+            <div class="panel-heading">
+                <h5><b>STATUS of the products</b></h5>
+                <select id="cmbFiltraStatus" class="select2" style="width: 100%">
+                    <optgroup label="By Freshness"></optgroup>
+                    <option value="0">Closest to expire</option>
+                    <optgroup label="By product group"></optgroup>
+                    <option value="1">Fresh vegetables</option>
+                    <option value="2">Condiments / Sauces</option>
+                    <option value="3">Dairy</option>
+                    <option value="4">Baked goods</option>
+                    <option value="5">Cheese</option>
+                    <option value="6">Baking</option>
+                    <option value="7">Fresh fruits</option>
+                    <option value="8">Various groceries</option>
+                    <option value="9">Meat</option>
+                    <option value="10">Snacks</option>
+                    <option value="11">Refrigerated items</option>
+                    <option value="12">Canned foods</option>
+                    <option value="13">Seafood</option>
+                    <option value="14">Themed meals</option>
+                    <option value="15">Baby stuff</option>
+                    <option value="16">Spices and herbs</option>
+                    <option value="17">Beverages</option>
+                    <option value="18">Pets</option>
+                    <option value="19">Frozen</option>
+                </select>
+            </div>
+            <div class="panel-body">
+                <div class="list-group" id="listaStatus">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var db = window.openDatabase("localDB", "1.0", "CookSaveBD", 200000);
+        var idProd;
+        $(document).ready(function() {
+
+            $(document).ajaxStart(function() {
+                $('.loading').css('display', 'flex');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('.loading').css('display', 'none');
+            });
+
+            $('.select2').select2({
+                allowClear: true
+            });
+            document.addEventListener("offline", function() {
+                networkState = navigator.connection && navigator.connection.type;
+                navigator.notification.alert(
+                    'No internet connection state: ' + networkState, // message
+                    alertDismissed, // callback
+                    'the network is not avaliable', // title
+                    'Done' // buttonName
+                );
+            }, false);
+
+
+            db.transaction(cargaStatus, errorCB, successStatusCB);
+
+            $('#cmbFiltraStatus').on('change', function() {
+                $("#listaStatus").empty();
+                var selected = $(this).find("option:selected").val();
+                if (selected == 0) {
+                    db.transaction(cargaStatus, errorCB, successStatusCB);
+                } else {
+                    cargaFiltrosProd(selected);
+                }
+            });
+
+        });
+
+        function cargaStatus(tx) {
+
+            tx.executeSql('select idRegCompra, tblRegCompra.idProducto, nombreProducto, FechaCompra, FechaExpira from tblRegCompra, tblProductos WHERE tblRegCompra.idProducto=tblProductos.idProducto AND statusFinal=0 ORDER BY FechaExpira ASC LIMIT 10', [], okCargaStatus, errorSelect);
+
+        }
+
+        function okCargaStatus(tx, results) {
+            var now = new Date();
+            var len = results.rows.length;
+            console.log("tblRegCompra: " + len + " rows found.");
+            for (var i = 0; i < len; i++) {
+                var FE = new Date(results.rows.item(i).FechaExpira);
+                var FC = new Date(results.rows.item(i).FechaCompra);
+                var vB = (((FE - FC) - (FE - now)) * 100 / (FE - FC));
+                var item = '';
+                item += "<div class='list-group-item' onClick='infoDetalleProd(" + results.rows.item(i).idRegCompra + "," + results.rows.item(i).idProducto + ")'><h6><b>" + results.rows.item(i).nombreProducto + "</b></h6>";
+                item += "<div class='progress'>";
+                if (vB.toFixed() <= 40) {
+                    item += "<div class='progress-bar progress-bar-success' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100' style='min-width: 2em;'>" + vB.toFixed() + "%</div>";
+                } else if (vB.toFixed() <= 60) {
+                    item += "<div class='progress-bar progress-bar-amarilla' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                } else if (vB.toFixed() <= 80) {
+                    item += "<div class='progress-bar progress-bar-warning' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                } else if (vB.toFixed() <= 100) {
+                    item += "<div class='progress-bar progress-bar-danger' style='width: " + vB.toFixed() + "%'aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                } else {
+                    item += "<div class='progress-bar progress-bar-danger' style='width: 100%' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'>100%</div>";
+                }
+
+                item += "</div><div id='FExpira'><b>Exp: " + FE.toDateString() + "</b></div></div>";
+
+
+                $("#listaStatus").append(item);
+
+            }
+
+        }
+
+
+        function errorSelect(error) {
+            console.log("Error processing SQL: " + error.code);
+        }
+
+        // Transaction error callback
+        //
+        function errorCB(err) {
+            console.log("Error processing SQL: " + err.code);
+        }
+
+        // Transaction success callback
+        //
+        function successStatusCB() {
+            console.log("LISTA DE STATUS, OK");
+            //var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+        }
+
+        function cargaFiltrosProd(sel) {
+
+            db.transaction(function(tx) {
+                tx.executeSql('select idRegCompra, tblRegCompra.idProducto, nombreProducto, FechaCompra, FechaExpira from tblRegCompra, tblProductos WHERE tblRegCompra.idProducto=tblProductos.idProducto AND statusFinal=0 AND idGrupoProductos=' + sel + ' ORDER BY FechaExpira ASC LIMIT 10', [], okCargaStatusFil, errorSelect);
+
+            }, errorCB, successStatusCB);
+        }
+
+        function okCargaStatusFil(tx, results) {
+            var now = new Date();
+            var len = results.rows.length;
+            console.log("tblRegCompra: " + len + " rows found.");
+            for (var i = 0; i < len; i++) {
+                var FE = new Date(results.rows.item(i).FechaExpira);
+                var FC = new Date(results.rows.item(i).FechaCompra);
+                var vB = (((FE - FC) - (FE - now)) * 100 / (FE - FC));
+                var item = '';
+                item += "<div class='list-group-item' onClick='infoDetalleProd(" + results.rows.item(i).idRegCompra + "," + results.rows.item(i).idProducto + ")'><h6><b>" + results.rows.item(i).nombreProducto + "</b></h6>";
+                item += "<div class='progress'>";
+                if (vB.toFixed() < 40) {
+                    item += "<div class='progress-bar progress-bar-success' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100' style='min-width: 2em;'>" + vB.toFixed() + "%</div>";
+                } else if (vB.toFixed() < 60) {
+                    item += "<div class='progress-bar progress-bar-amarilla' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                } else if (vB.toFixed() < 80) {
+                    item += "<div class='progress-bar progress-bar-warning' style='width: " + vB.toFixed() + "%' aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                } else {
+                    item += "<div class='progress-bar progress-bar-danger' style='width: " + vB.toFixed() + "%'aria-valuenow=" + vB.toFixed() + " aria-valuemin='0' aria-valuemax='100'>" + vB.toFixed() + "%</div>";
+                }
+
+                item += "</div><div id='FExpira'><b>Exp: " + FE.toDateString() + "</b></div></div>";
+
+
+                $("#listaStatus").append(item);
+
+            }
+
+        }
+
+        function utilizaProd(idCompra) {
+            db.transaction(function(tx) {
+
+                tx.executeSql('UPDATE tblRegCompra SET statusFinal = 1 WHERE idRegCompra = ' + idCompra, [], okActualizaStatusUtil, errorSelect);
+
+            }, errorCB, successUpdateCB);
+        }
+
+        function okActualizaStatusUtil(tx, results) {
+            var otro = parseInt(idProd) + 1000;
+            cordova.plugins.notification.local.cancel(idProd, callback);
+            cordova.plugins.notification.local.cancel(otro, callback3);
+        }
+
+        function alertDismissed() {
+
+        }
+
+        function successUpdateCB() {
+            console.log("ACTUALIZACION OK");
+            window.location = "status.html";
+        }
+
+        function infoDetalleProd(idCompra, idProducto) {
+            idProd = idProducto;
+            networkState = navigator.connection && navigator.connection.type;
+
+            if (networkState != Connection.NONE) {
+
+                var accion = "idProducto=" + idProducto;
+                $.ajax({
+                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaProdsBenef.php",
+                    type: "POST",
+                    data: accion,
+                    success: function(data) {
+
+                        $("#infoProd #lblProducto").html(data[0].PRODUCTO);
+                        $("#infoProd #txtBeneficios").html(data[0].BENEFPRODUCTO);
+
+                    }
+                });
+
+                $("#btnDesechar").prop('disabled', false);
+                $("#btnReutilizar").prop('disabled', false);
+                $("#btnReceta").prop('disabled', false);
+                $("#btnDesechar").attr('onClick', 'desechaProd(' + idCompra + ')');
+                $("#btnReutilizar").attr('onClick', 'utilizaProd(' + idCompra + ')');
+                $("#btnReceta").attr('onClick', 'buscaReceta(' + idProd + ')');
+            } else {
+                $("#infoProd #txtBeneficios").html("Offline , please try again later");
+
+                $("#btnDesechar").prop('disabled', true);
+                $("#btnReutilizar").prop('disabled', true);
+                $("#btnReceta").prop('disabled', true);
+            }
+
+            $("#infoProd").modal('show');
+
+            //alert("Detalle del producto con id: " + idProd + " de la compra num :" + idCompra);
+        }
+
+        function desechaProd(idCompra) {
+            db.transaction(function(tx) {
+                tx.executeSql('UPDATE tblRegCompra SET statusFinal = 2 WHERE idRegCompra = ' + idCompra, [], okActualizaStatusDes, errorSelect);
+
+            }, errorCB, successUpdateCB);
+
+        }
+
+        function okActualizaStatusDes(tx, results) {
+            var otro = parseInt(idProd) + 1000;
+            cordova.plugins.notification.local.cancel(idProd, callback);
+            cordova.plugins.notification.local.cancel(otro, callback2);
+
+        }
+
+        function callback() {
+
+
+        }
+
+        function callback2() {
+            navigator.notification.alert(
+                'You just wasted a product that perhaps could have been used', // message
+                alertDismissed, // callback
+                'Product discarded!!', // title
+                'Done' // buttonName
+            );
+        }
+        
+        function callback3(){
+            navigator.notification.alert(
+                'Thank you for using this product', // message
+                alertDismissed, // callback
+                'Product updated !!', // title
+                'Done' // buttonName
+            );
+        }
+
+        function buscaReceta(id) {
+
+            localStorage.setItem('ProdRec', id);
+            redirectPage();
+
+        }
+
+        function redirectPage() {
+            window.location = "recetas.html";
+        }
+
+        function regresaAnt() {
+            window.location = 'index.html';
+        }
+    </script>
+
+    <!-- VENTANA MODAL PARA AGREGAR NUEVO USUARIO-->
+    <div class="modal fade" id="infoProd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Product details</h4>
+                </div>
+                <div class="col-xs-12">
+                    <div class="modal-body">
+                        <ul class="nav nav-tabs" id="tabContent">
+                            <li class="active"><a href="#detalles" data-toggle="tab">Benefits</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="detalles">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Product</label>
+                                    <div class="col-sm-10">
+                                        <p id="lblProducto" class="form-control-static"></p>
+                                    </div>
+                                    <label for="txtBeneficios" class="col-sm-2 control-label">Benefits</label>
+                                    <div class="col-sm-10">
+                                        <pre class="pre-scrollable">                                            <p id="txtBeneficios"></p>
+                              </pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-xs-12 text-center well well-sm">
+                        <p>
+                            <button id="btnDesechar" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign"></span> Toss</button>
+                            <button id="btnReutilizar" type="button" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Use</button>
+                        </p>
+                        <p>
+                            <button id="btnReceta" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-cutlery"></span> View recipes</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina ventana modal-->
+
+
+
+</body>

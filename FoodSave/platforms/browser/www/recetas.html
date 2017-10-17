@@ -1,0 +1,184 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/recetas.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+    
+     <!-- Cargando Datos -->
+    <div class="loading">
+        <div id="fondo"></div>
+        <div id="logoCentro">
+            <img src="img/logoTitCS.png">
+            <div id="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="container" style="margin-top: 6px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        <header id="top" class="header">
+            <div class="text-vertical-center">
+                <select id="cmbFiltraStatus" class="select2" style="width: 100%">
+                    <optgroup label="By Freshness"></optgroup>
+                    <option value="0">Closest to expire</option>
+                    <optgroup label="By product group"></optgroup>
+                    <option value="1">Fresh vegetables</option>
+                    <option value="2">Condiments / Sauces</option>
+                    <option value="3">Dairy</option>
+                    <option value="4">Baked goods</option>
+                    <option value="5">Cheese</option>
+                    <option value="6">Baking</option>
+                     <option value="7">Fresh fruits</option>
+                    <option value="8">Various groceries</option>
+                    <option value="9">Meat</option>
+                    <option value="10">Snacks</option>
+                    <option value="11">Refrigerated items</option>
+                    <option value="12">Canned foods</option>
+                    <option value="13">Seafood</option>
+                    <option value="14">Themed meals</option>
+                    <option value="15">Baby stuff</option>
+                    <option value="16">Spices and herbs</option>
+                    <option value="17">Beverages</option>
+                    <!--option value="18">Pets</option-->
+                    <option value="19">Frozen</option>
+                </select>
+                <br>
+                <div class="panel-group center-block" id="lista_accordion"></div>
+            </div>
+        </header>
+        </nav>
+        <div class="list-group" id="contReceta">
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            document.addEventListener("offline", function() {
+                networkState = navigator.connection && navigator.connection.type;
+                navigator.notification.alert(
+                    'No internet connection state: ' + networkState, // message
+                    alertDismissed, // callback
+                    'the network is not avaliable', // title
+                    'Done' // buttonName
+                );
+            }, false);
+
+            $(document).ajaxStart(function() {
+                $('.loading').css('display', 'flex');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('.loading').css('display', 'none');
+            });
+            
+             $('.select2').select2({
+                placeholder: "Select a product",
+                allowClear: true
+            });
+            
+            $('#cmbFiltraStatus').on('change', function() {
+                $("#contReceta").empty();
+                var selected = $(this).find("option:selected").val();
+                if (selected == 0) {
+                    cargaRecetasExp();
+                } else {
+                    cargaFiltrosRecetas(selected);
+                }
+            });
+            
+            cargaRecetasExp();
+            
+            function alertDismissed() {
+
+            };
+            
+        });
+
+        function regresaAnt() {
+            window.location = 'index.html';
+        }
+        
+        function cargaRecetasExp() {
+                $.ajax({
+                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetasExp.php",
+                    type: "POST",
+                    success: function(data) {
+                    $(data).each(function(index, data) {
+                    var item = '';
+                    item="<div class='panel panel-primary list-group-item' id='panel"+index+"'><div class='panel-heading'><h3 class='panel-title' id='txtTitulo'>"+data.tituloReceta+"</h3></div><div class='panel-body' id='txtDescrip'>"+data.descripcionReceta+"</div><div class='panel-footer' id='txtLink'><button id='btnShare' class='btn btn-xm btn-success' onclick='share("+index+")'><span class='glyphicon glyphicon-share'></span> SHARE</button></div>";
+                    
+                    $("#contReceta").append(item);
+                });
+                }
+            });
+        }
+        
+        function cargaFiltrosRecetas(idGrupo){
+            $.ajax({
+                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetasGrupo.php",
+                    type: "POST",
+                    data: 'idGrupo='+idGrupo,
+                    success: function(data) {
+                    $(data).each(function(index, data) {
+                    var item = '';
+                    item="<div class='panel panel-primary list-group-item' id='panel"+index+"'><div class='panel-heading'><h3 class='panel-title' id='txtTitulo'>"+data.tituloReceta+"</h3></div><div class='panel-body' id='txtDescrip'>"+data.descripcionReceta+"</div><div class='panel-footer' id='txtLink'><button id='btnShare' class='btn btn-xm btn-success' onclick='share("+index+")'><span class='glyphicon glyphicon-share'></span> SHARE</button></div>";
+                    
+                    $("#contReceta").append(item);
+                });
+                }
+            });
+        }
+              
+        function share(index) {       window.plugins.socialsharing.share($("#panel"+index+" #txtDescrip").text(), $("#panel"+index+" #txtTitulo").text());
+
+            }
+    </script>
+
+
+
+
+</body>

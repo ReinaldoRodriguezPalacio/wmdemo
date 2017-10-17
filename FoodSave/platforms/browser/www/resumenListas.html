@@ -1,0 +1,201 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/resumenListas.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+    <!-- Cargando Datos -->
+    <div class="loading">
+        <div id="fondo"></div>
+        <div id="logoCentro">
+            <img src="img/logoTitCS.png">
+            <div id="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empieza la página -->
+    <div class="container" style="margin-top: 2px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+        <div class="panel">
+            <div class="panel-heading">
+                <h5><b>Shopping list</b></h5>
+                <div class="panel-body">
+                    <!-- Formulario -->
+                    <form id="frmListaCompra" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="selectProd" class="control-label col-xs-3">Date</label>
+                            <div class="col-xs-9">
+                                <select class="select2" style="width: 100%" id="selectFecha">
+                                    <option val="0">--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="10" name="descripcion_compra" id="txtlistaCompra" disabled=""></textarea>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button id="btnShare" class="btn btn-xm btn-success" onclick="share()"><span class="glyphicon glyphicon-share"></span> SHARE</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var db = window.openDatabase("localDB", "1.0", "CookSaveBD", 200000);
+            $(document).ready(function() {
+                $(document).ajaxStart(function() {
+                    $('.loading').css('display', 'flex');
+                });
+
+                $(document).ajaxComplete(function() {
+                    $('.loading').css('display', 'none');
+                });
+                /*  document.addEventListener('backbutton', function(){
+            
+            if($.mobile.activePage.is('index.html')){
+                    navigator.app.exitApp();
+            }
+            else {
+                   reresaAnt();
+            }
+            
+        }, false);*/
+                $('#btnShare').attr('disabled', true);
+                $('.select2').select2({
+                    placeholder: "Selecciona una fecha",
+                    allowClear: true,
+                    minimumResultsForSearch: Infinity
+                });
+
+
+                db.transaction(cargaListas, errorCL, successCL);
+
+                document.addEventListener("offline", function() {
+                    networkState = navigator.connection && navigator.connection.type;
+                    navigator.notification.alert(
+                        'No internet connection state: ' + networkState, // message
+                        alertDismissed, // callback
+                        'the network is not avaliable', // title
+                        'Done' // buttonName
+                    );
+                }, false);
+
+                function alertDismissed() {
+
+                };
+
+                function cargaListas(tx) {
+                    tx.executeSql('SELECT idListaCompra, fecha FROM tblListaCompra order by fecha desc', [], okCarga, errorSelect);
+
+                };
+
+                // Query the success callback
+                function okCarga(tx, results) {
+                    var len = results.rows.length;
+                    console.log("tblListasCompra: " + len + " rows found.");
+                    for (var i = 0; i < len; i++) {
+                        var item = '';
+                        item = "<option value=" + results.rows.item(i).idListaCompra + ">" + results.rows.item(i).fecha + "</option>";
+                        $("#selectFecha").append(item);
+                    }
+                }
+
+                function errorSelect(error) {
+                    console.log("Error processing SQL: " + error.code);
+                }
+
+                // Transaction error callback
+                function errorCL(err) {
+                    console.log("Error processing SQL: " + err.code);
+                };
+
+                // Transaction success callback
+                function successCL() {
+                    console.log("PRODUCTOS CARGADOS CORRECTAMENTE");
+                    //var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+                };
+
+                $("#selectFecha").focus();
+
+                $('#selectFecha').on('change', function() {
+                    $("#txtlistaCompra").empty();
+                    var selected = $(this).find("option:selected").val();
+                    if (selected > 0) {
+                        cargaFiltrosCompra(selected);
+                        $('#btnShare').attr('disabled', false);
+                    } else {
+                        $('#btnShare').attr('disabled', true);
+                    }
+                });
+
+                function cargaFiltrosCompra(sel) {
+                    db.transaction(function(tx) {
+                        tx.executeSql("SELECT descripcion_compra FROM tblListaCompra where idListaCompra=" + sel, [], okCargaDescr, errorSelect);
+                    }, errorCL, successCL);
+                };
+
+            });
+
+            function regresaAnt() {
+                window.location = 'listaCompraSelect.html';
+            }
+
+
+            function okCargaDescr(tx, results) {
+                var len = results.rows.length;
+                console.log("tblListasCompra: " + len + " rows found.");
+                $("#txtlistaCompra").html(results.rows.item(0).descripcion_compra);
+            }
+
+            function share() {
+                window.plugins.socialsharing.share($("#txtlistaCompra").html(), 'LISTA DE COMPRA DEL ' + $("#selectFecha").select2('data')[0].text);
+
+            }
+        </script>
+
+    </div>
+</body>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+    <!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="icon-fonts/font-awesome-4.3.0/css/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="icon-fonts/elusive-icons-2.0.0/css/elusive-icons.css">
+        <link rel="stylesheet" type="text/css" href="media_button_bar/css/media_button_bar.css">
+        <link rel="stylesheet" type="text/css" href="simplex/css/simplex.min.css" class="uib-framework-theme">
+        <meta charset="UTF-8">
+        <title>Blank App Designer Cordova Web App Project Template</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+        <!--
+  * The "meta viewport" tag (below) helps your app size appropriately to a device's ideal viewport.
+  * Note that Windows device viewports work better when initialized using the @viewport CSS rule.
+  * For a quick overview of "meta viewport" and @viewport, see this article:
+  *   http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag
+  * To see how it works, try your app on a real device with and without a "meta viewport" tag.
+  * Additional useful references include:
+  *   http://www.quirksmode.org/mobile/viewports.html
+  *   http://www.quirksmode.org/mobile/metaviewport/devices.html
+  *   https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
+-->
+
+        <!-- <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1"> -->
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=2"> -->
+
+        <style>
+            /* following three (cascaded) are equivalent to above three meta viewport statements */
+            /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html */
+            /* see http://dev.w3.org/csswg/css-device-adapt/ */
+                @-ms-viewport { width: 100vw ; min-zoom: 100% ; zoom: 100% ; }          @viewport { width: 100vw ; min-zoom: 100% zoom: 100% ; }
+                @-ms-viewport { user-zoom: fixed ; min-zoom: 100% ; }                   @viewport { user-zoom: fixed ; min-zoom: 100% ; }
+                /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+        </style>
+        <link rel="stylesheet" type="text/css" href="css/select2.css">
+        <link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+        <link rel="stylesheet" href="css/app.css">
+
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work below -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+
+        <!-- Recommended location for your JavaScript libraries -->
+        <!-- These library references (below) are just examples to give you the general idea... -->
+        <!-- <script src="lib/mc/hammer.js"></script> -->
+        <!-- <script src="lib/ft/fastclick.js"></script> -->
+
+        <!--
+  * cordova.js is a phantom lib for "Cordova HTML5 web app," it does nothing in a "Standard HTML5 web app"
+  * Seeing a "Failed to load resource: net::ERR_FILE_NOT_FOUND" message caused by this "cordova.js" script?
+  * The cordova.js script is required if you convert your "Standard HTML5" project into a "Cordova" project.
+  * You can safely ignore the error or comment out this line if you will not be developing a Cordova app.
+-->
+        <script src="cordova.js" id="xdkJScordova_"></script>
+
+        <script src="js/app.js"></script>
+        <!-- for your event code, see README and file comments for details -->
+        <script src="js/init-app.js"></script>
+        <!-- for your init code, see README and file comments for details -->
+
+        <script src="xdk/init-dev.js"></script>
+        <!-- normalizes device and document ready events, see file for details -->
+        <script type="application/javascript" src="lib/jquery.min.js"></script>
+        <script type="application/javascript" src="xdk/appdesigner/js/rest-of-space.js"></script>
+        <script type="application/javascript" src="marginal/marginal-position.min.js"></script>
+        <script type="application/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+        <script type="application/javascript" src="sidebar/js/hammer.js"></script>
+        <script type="application/javascript" src="sidebar/js/jquery.hammer.js"></script>
+        <script type="application/javascript" src="sidebar/js/swipe-hammer.js"></script>
+        <script type="application/javascript" src="sidebar/js/sidebar.js"></script>
+<script type="application/javascript" src="js/index_user_scripts.js"></script>
+        <script type="application/javascript" src="xdk/ad/bs_subpage.js"></script>
+        <script type="application/javascript" src="js/select2.js"></script>
+
+    </head>
+
+    <body>
+        <!-- Cargando Datos -->
+        <div class="loading">
+            <div id="fondo"></div>
+            <div id="logoCentro">
+                <img src="images/puroLogoCS.png">
+                <div id="progress">
+                    <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+                </div>
+            </div>
+
+        </div>
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+        <div class="upage vertical-col fondoPpal" id="mainpage">
+            <div class="grid grid-pad urow uib_row_1 row-height-1" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_1 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area wrapping-col left">
+                        <div class="widget uib_w_1 d-margins" data-uib="media/img" data-ver="0">
+                            <figure class="figure-align">
+                                <img src="images/logoPpalCS.png">
+
+                                <figcaption data-position="bottom"></figcaption>
+                            </figure>
+                        </div>
+                        <span class="uib_shim"></span>
+                    </div>
+                </div>
+                <span class="uib_shim"></span>
+            </div>
+            <div class="grid grid-pad urow uib_row_3 row-height-3" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_5 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col center">
+                        <button class="btn widget uib_w_4 d-margins anchoBtnPpal btn-lg btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-barcode button-icon-top" data-position="top"></i>Add your product</button>
+                        <button class="btn widget uib_w_5 d-margins anchoBtnPpal btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-list-alt button-icon-top" data-position="top"></i>Inventory Status</button><span class="uib_shim"></span>
+                    </div>
+                </div>
+                <span class="uib_shim"></span>
+            </div>
+
+            <div class="grid grid-pad urow uib_row_2 row-height-2" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_4 col-0_6-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col center">
+                        <button class="btn widget uib_w_6 d-margins anchoBtnPpal btn-lg btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="el el-fire button-icon-top" data-position="top"></i>Cook</button>
+                        <button class="btn widget uib_w_8 d-margins anchoBtnPpal btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-shopping-cart button-icon-top" data-position="top"></i>Shopping</button><span class="uib_shim"></span>
+                    </div>
+                </div>
+                <div class="col uib_col_2 col-0_6-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col center">
+
+                        <button class="btn widget uib_w_7 d-margins anchoBtnPpal btn-lg btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-leaf button-icon-top" data-position="top"></i>Save</button>
+
+                        <button class="btn widget uib_w_9 d-margins anchoBtnPpal btn-lg btn-success" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-info-sign button-icon-top" data-position="top"></i>Information</button><span class="uib_shim"></span>
+                    </div>
+                </div>
+                <span class="uib_shim"></span>
+            </div>
+        </div>
+        <div class="upage hidden fondoPpal" id="addProduct">
+            <div class="upage-outer">
+                <div class="uib-header header-bg container-group inner-element uib_w_10" data-uib="layout/header" data-ver="0">
+                    <h2>Add Product</h2>
+                    <div class="widget-container wrapping-col single-centered"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col left">
+                        <button class="btn widget uib_w_31 d-margins btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-chevron-left button-icon-left" data-position="left"></i>Back</button>
+                    </div>
+                    <div class="widget-container content-area horiz-area wrapping-col right">
+
+                    </div>
+                </div>
+                <div class="upage-content ac0 content-area vertical-col left" id="page_20_98">
+                    <div class="panel widget uib_w_13 d-margins panel-default" data-uib="twitter%20bootstrap/panel" data-ver="1">
+
+                        <div class="col uib_col_6 single-col" data-uib="layout/col" data-ver="0">
+                            <div class="widget-container content-area vertical-col left">
+                                <ul class="nav widget uib_w_24 nav-tabs d-margins" role="tablist" data-uib="twitter%20bootstrap/tab_bar" data-ver="1">
+                                    <li role="presentation" class="widget uib_w_25 active" data-uib="twitter%20bootstrap/tab_item" data-ver="1" id="tabBarcode" style="cursor: pointer;"><a role="tab" data-toggle="tab">From BarCode</a>
+                                    </li>
+                                    <li role="presentation" class="widget uib_w_26" data-uib="twitter%20bootstrap/tab_item" data-ver="1" id="tabManual" style="cursor: pointer;"><a role="tab" data-toggle="tab">Manual search</a>
+                                    </li>
+                                </ul>
+                                <div class="panel-body">
+                                    <!-- Formulario -->
+                                    <form id="frmCompra" class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="selectProd" class="control-label col-xs-4">Product</label>
+                                            <div class="col-xs-8">
+                                                <div id="selectProd">
+                                                    <div id="selectProdMan">
+                                                        <div class="input-group input-group-sm">
+                                                            <select class="select2" style="width: 150px" id="txtTextoProducto" name="idProducto"></select>
+                                                            <button class="btn btn-default" id="btnAddProd" type="button"><span class="glyphicon glyphicon-plus"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="selectProdCode">
+                                                    <div class="input-group input-group-sm">
+                                                        <button class="btn btn-default" onclick="leeCodigo()" type="button"><span class="glyphicon glyphicon-barcode"></span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- /input-group -->
+                                                </div>
+                                            </div>
+                                            <label class="control-label col-xs-12" id="txtTextoCodigo"></label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtDetalles" class="control-label col-xs-4" style="padding-top:10px;">Quantity</label>
+                                            <div class="col-xs-8">
+                                                <textarea class="form-control" placeholder="More details" id="txtDetalles" name="detalles" cols="2" rows="2" disabled=""></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtFechaExpira" class="control-label col-xs-4">Expiration date</label>
+                                            <div class="col-xs-8">
+                                                <input type="date" class="form-control" id="txtFechaExpira" name="FechaExpira" required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtCantidad" class="control-label col-xs-4" style="padding-top:10px;">Quantity</label>
+                                            <div class="col-xs-8">
+                                                <input type="number" class="form-control" placeholder="0" id="txtCantidad" name="Cantidad">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txtPrecio" class="control-label col-xs-4" style="padding-top:10px;">Price</label>
+                                            <div class="col-xs-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">$</div>
+                                                    <input type="number" class="form-control" id="txtPrecio" name="Precio">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group btn-group-sm btn-group-justified">
+                                            <a role="button" id="btnAdd" class="btn btn-success" href="javascript:{}" onclick="$('#frmCompra').submit()">Add</a>
+                                            <a role="button" id="btnCancel" class="btn btn-danger" href="index.html">Cancel</a>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal outer-element uib_w_23" data-uib="twitter%20bootstrap/modal" data-ver="1" data-backdrop="true" id="modalSearch">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">Write the product name</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="col uib_col_8 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <div class="well no_wrap  widget uib_w_22 d-margins well-lg" data-uib="twitter%20bootstrap/well" data-ver="1" id="searchBox">
+                                        <div class="col uib_col_7 single-col" data-uib="layout/col" data-ver="0">
+                                            <div class="widget-container content-area vertical-col">
+                                                <div class="input-group stylish-input-group">
+                                                    <input type="text" class="form-control" placeholder="Search" id="search_query">
+                                                    <span class="input-group-addon">
+                                            <button id="btnBusca">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                                    </button>
+                                                    </span>
+                                                </div>
+                                                <span class="uib_shim"></span>
+                                            </div>
+                                        </div>
+                                    </div><span class="uib_shim">
+                                    
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="upage hidden fondoPpal" id="cook">
+            <div class="upage-outer">
+                <div class="uib-header header-bg container-group inner-element uib_w_15" data-uib="layout/header" data-ver="0">
+                    <h2>COOK</h2>
+                    <div class="widget-container wrapping-col single-centered"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col left">
+                        <button class="btn widget uib_w_30 d-margins btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-chevron-left button-icon-left" data-position="left"></i>Back</button>
+                    </div>
+                    <div class="widget-container content-area horiz-area wrapping-col right"></div>
+                </div>
+                <div class="upage-content ac0 content-area vertical-col left" id="page_2_14">
+                    <div class="card_grid widget uib_w_27 wrapping-col d-margins flex-basis-27" data-uib="layout/card_grid" data-ver="0" id="listaRecetas">
+                        <!--div class="widget widget-container content-area vertical-col uib-card uib_w_28 centerCard section-dimension-32 cpad-0" data-uib="layout/card" data-ver="0">
+                            <div id="tituloReceta" style="position:absolute; z-index:1; background-color:rgba(0,0,0,0.7); color:white; width:100%; height:50px; margin-top:100px;text-align:center;">Titulo Receta 1</div>
+                            <div class="widget uib_w_40 d-margins scale-image" style="z-index:0;" data-uib="media/img" data-ver="0">
+                                <figure class="figure-align">
+                                    <img src="images/Strabburg.jpg">
+                                    <figcaption data-position="bottom"></figcaption>
+                                </figure>
+                            </div>
+                        </div-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal outer-element uib_w_54" data-uib="twitter%20bootstrap/modal" data-ver="1" data-backdrop="true" id="modalReceta">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title" id="recTitle">Heading</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="col uib_col_10 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <span class="uib_shim"></span>
+                                    <div class="col uib_col_9 single-col" data-uib="layout/col" data-ver="0">
+                                        <div class="widget-container content-area vertical-col left">
+                                            <div class="tarea widget uib_w_53 d-margins" data-uib="media/text" data-ver="0" name="uib_w_53">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div class="text-container" id="recContent">
+                                                    <h3><strong>Ingredients:</strong></h3>
+                                                </div>
+                                            </div>
+                                            <span class="uib_shim"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="upage hidden fondoPpal" id="tips">
+            <div class="upage-outer">
+                <div class="uib-header header-bg container-group inner-element uib_w_28" data-uib="layout/header" data-ver="0">
+                    <h2>TIPS</h2>
+                    <div class="widget-container wrapping-col single-centered"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col left">
+                        <button class="btn widget uib_w_48 d-margins btn-danger" data-uib="twitter%20bootstrap/button" data-ver="1"><i class="glyphicon glyphicon-chevron-left button-icon-left" data-position="left"></i>Back</button>
+                    </div>
+                    <div class="widget-container content-area horiz-area wrapping-col right"></div>
+                </div>
+                <div class="upage-content ac0 content-area vertical-col left" id="page_66_94">
+                    <div class="card_grid widget uib_w_27 wrapping-col d-margins flex-basis-27" data-uib="layout/card_grid" data-ver="0" id="listaTips">
+                        <!--div class="widget widget-container content-area vertical-col uib-card uib_w_28 centerCard section-dimension-32 cpad-0" data-uib="layout/card" data-ver="0">
+                            <div id="tituloReceta" style="position:absolute; z-index:1; background-color:rgba(0,0,0,0.7); color:white; width:100%; height:50px; margin-top:100px;text-align:center;">Titulo Receta 1</div>
+                            <div class="widget uib_w_40 d-margins scale-image" style="z-index:0;" data-uib="media/img" data-ver="0">
+                                <figure class="figure-align">
+                                    <img src="images/Strabburg.jpg">
+                                    <figcaption data-position="bottom"></figcaption>
+                                </figure>
+                            </div>
+                        </div-->
+                    </div>
+                </div>
+                <div class="uib-footer uib-footer-fixed footer-bg container-group inner-element uib_w_29" data-uib="layout/footer" data-ver="0">
+                    <h2></h2>
+                    <div class="widget-container wrapping-col single-centered"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col left"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col right"></div>
+                </div>
+
+            </div>
+
+            <div class="modal outer-element uib_w_55" data-uib="twitter%20bootstrap/modal" data-ver="1" data-backdrop="true" id="modalTip">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title" id="tipTitle">Heading</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="col uib_col_11 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <span class="uib_shim"></span>
+                                    <div class="col uib_col_9 single-col" data-uib="layout/col" data-ver="0">
+                                        <div class="widget-container content-area vertical-col left">
+                                            <div class="tarea widget uib_w_53 d-margins" data-uib="media/text" data-ver="0" name="uib_w_53">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div class="text-container" id="tipContent">
+                                                    <h3><strong>Ingredients:</strong></h3>
+                                                </div>
+                                            </div>
+                                            <span class="uib_shim"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

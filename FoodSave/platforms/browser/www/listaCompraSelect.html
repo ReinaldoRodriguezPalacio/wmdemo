@@ -1,0 +1,73 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/estatus.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+    <div class="container" style="margin-top: 6px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+        <header id="top" class="header">
+            <div class="text-vertical-center">
+                <br>
+                <a href="listaCompra.html" class="btn btn-naranja btn-lg btn-block transition" role="button">ADD SHOPPING LIST</a>
+                <br>
+                <a href="resumenListas.html" class="btn btn-azul btn-lg btn-block transition" role="button">VIEW SHOPPING LIST</a>
+                <br>
+            </div>
+        </header>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+
+        function regresaAnt() {
+            window.location = 'index.html';
+        }
+    </script>
+
+
+
+
+</body>

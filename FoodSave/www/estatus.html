@@ -1,0 +1,226 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/estatus.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+    <div class="container" style="margin-top: 6px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+        <header id="top" class="header">
+            <div class="text-vertical-center">
+                <br>
+                <button class="btn btn-naranja btn-lg btn-block transition" role="button" onclick="mess()">SAVINGS</button>
+                <a href="configNoti.html" class="btn btn-azul btn-lg btn-block transition" role="button">NOTIFICATIONS</a>
+                <a href="verInfo.html" class="btn btn-naranja btn-lg btn-block transition" role="button">TIPS</a>
+            </div>
+        </header>
+    </div>
+
+    <script type="text/javascript">
+        var db = window.openDatabase("localDB", "1.0", "CookSaveBD", 200000);
+        $(document).ready(function() {
+
+            $(document).ajaxStart(function() {
+                $('.loading').css('display', 'flex');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('.loading').css('display', 'none');
+            });
+
+        });
+
+
+
+        var callbackOpts = function(notifications) {
+            console.log(notifications);
+            var textos = '';
+            for (i = 0; i < notifications.length; i++) {
+                textos += notifications[i].text + ' ';
+
+            }
+            showToast(notifications.length === 0 ? '- none -' : textos);
+        };
+
+        getAll = function() {
+            cordova.plugins.notification.local.getAll(callbackOpts);
+        };
+
+        var callbackSingleOpts = function(notification) {
+            console.log(notification);
+            showToast(notification.toString());
+        };
+
+        get = function() {
+            cordova.plugins.notification.local.get(5, callbackSingleOpts);
+        };
+
+        function showToast(text) {
+            window.plugins.toast.showShortTop(text, function(a) {
+                console.log('toast success: ' + a)
+            }, function(b) {
+                alert('toast error: ' + b)
+            });
+        }
+
+        function regresaAnt() {
+            window.location = 'index.html';
+        }
+
+        function mess() {
+
+            db.transaction(cargaAhorro, errorCB, successCB);
+        }
+
+        function cargaAhorro(tx) {
+            tx.executeSql('SELECT "a",count(statusFinal) as productos FROM tblRegCompra where statusFinal=0 union SELECT "b",count(statusFinal) as productos FROM tblRegCompra where statusFinal=1 union SELECT "c",count(statusFinal) as productos FROM tblRegCompra where statusFinal=2 union select "d",count(statusFinal) as productos from tblRegCompra', [], okCarga, errorSelect);
+
+        }
+
+        function okCarga(tx, results) {
+
+            $('#Ahorro #pendiente').html(results.rows.item(0).productos);
+            $('#Ahorro #utilizado').html(results.rows.item(1).productos);
+            $('#Ahorro #desechado').html(results.rows.item(2).productos);
+            $('#Ahorro #total').html('<b>' + results.rows.item(3).productos + '</b>');
+            var util = results.rows.item(1).productos;
+            var desech = results.rows.item(2).productos;
+            var pend = results.rows.item(0).productos;
+            var tot = results.rows.item(3).productos;
+
+            if (desech == 0) {
+                $('#Ahorro #msgAhorro').html('<b>EXCELLENT!! DO NOT WASTE FOOD</b>');
+            } else if (desech < util) {
+                $('#Ahorro #msgAhorro').html('<b>YOUR LEVEL OF SAVINGS CAN IMPROVE</b>');
+            } else if (desech >= util) {
+                $('#Ahorro #msgAhorro').html('<b>You HAVE A HIGH LEVEL OF FOOD WASTE</b>');
+            };
+
+            $('#Ahorro #progB #pbUtilizado').attr('style', 'width:' + (util * 100 / tot).toFixed() + '%');
+            $('#Ahorro #progB #pbDesechado').attr('style', 'width:' + (desech * 100 / tot).toFixed() + '%');
+            $('#Ahorro #progB #pbPendiente').attr('style', 'width:' + (100 - (util * 100 / tot).toFixed() + (desech * 100 / tot).toFixed()) + '%');
+
+            $('#Ahorro').modal('show');
+        }
+
+        function errorSelect(error) {
+            console.log("Error processing SQL: " + error.code);
+        }
+
+        function errorCB(err) {
+            console.log("Error processing SQL: " + err.code);
+        }
+
+        // Transaction success callback
+        //
+        function successCB() {
+            console.log("AHORRO CARGADO CORRECTAMENTE");
+            //var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+        }
+    </script>
+
+
+
+    <!-- VENTANA MODAL PARA MOSTRAR LA DESCRIPCION DE LA RECOMENDACION-->
+    <div class="modal fade" id="Ahorro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="tituloModal">SAVINGS</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-align-center">
+                        <div class="table-responsive">
+                            <table class="table table-borderer">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Products</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="success">
+                                        <td>Use</td>
+                                        <td id="utilizado"></td>
+                                    </tr>
+                                    <tr class="danger">
+                                        <td>Toss</td>
+                                        <td id="desechado"></td>
+                                    </tr>
+                                    <tr class="warning">
+                                        <td>Pending</td>
+                                        <td id="pendiente"></td>
+                                    </tr>
+                                    <tr class="default">
+                                        <td><b>TOTAL</b>
+                                        </td>
+                                        <td id="total"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer well">
+                    <p id="msgAhorro"></p>
+                    <div class="progress" id="progB">
+                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" id="pbUtilizado">
+                            Use
+                        </div>
+                        <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" id="pbDesechado">
+                            Toss
+                        </div>
+                        <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" id="pbPendiente">
+                            Pending
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina ventana modal-->
+
+
+</body>

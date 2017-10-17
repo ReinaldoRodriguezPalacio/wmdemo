@@ -1,0 +1,322 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/cook.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link href="css/animate.css" rel="stylesheet" type="text/css">
+    <link href="css/fileinput.css" rel="stylesheet">
+    <title>Food Save the World</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fileinput.min.js"></script>
+
+    <script src="js/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/select2.css">
+</head>
+
+<body>
+    <!-- Cargando Datos -->
+    <div class="loading">
+        <div id="fondo"></div>
+        <div id="logoCentro">
+            <img src="img/logoTitCS.png">
+            <div id="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width:100%">L O A D I N G</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empieza la página -->
+
+
+    <div class="container" style="margin-top: 5px;">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+            <div class="navbar-header">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0);" class="btn btn-naranja btn-lg pull-left" onclick="regresaAnt()"><span class="glyphicon glyphicon-chevron-left"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="index.html"><img src="img/CS_fondoAzul.png" width="150px">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+        </nav>
+        <header id="top" class="header">
+            <div class="text-vertical-center">
+                <select class="select2" style="width: 100%" id="selectProd" name="idProducto"></select>
+                <br>
+                <div class="panel-group center-block" id="lista_accordion"></div>
+            </div>
+        </header>
+    </div>
+
+    <script type="text/javascript">
+        var db = window.openDatabase("localDB", "1.0", "CookSaveBD", 200000);
+        $(document).ready(function() {
+
+            $(document).ajaxStart(function() {
+                $('.loading').css('display', 'flex');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('.loading').css('display', 'none');
+            });
+
+            $("#lista_accordion").empty();
+            $('.select2').select2({
+                placeholder: "Select a product",
+                allowClear: true
+            });
+
+            document.addEventListener("offline", function() {
+                networkState = navigator.connection && navigator.connection.type;
+                navigator.notification.alert(
+                    'No internet connection state: ' + networkState, // message
+                    alertDismissed, // callback
+                    'the network is not avaliable', // title
+                    'Done' // buttonName
+                );
+            }, false);
+            /* document.addEventListener("online", function() {
+        networkState = navigator.connection && navigator.connection.type;
+        navigator.notification.alert(
+                    'Connection type : ' + networkState,  // message
+                    alertDismissed,             // callback
+                    'the network is connected', // title
+                    'Done'                      // buttonName
+                );
+    }, false);*/
+
+            db.transaction(cargaProd, errorCB, successCB);
+            checkConnection();
+
+            function cargaProd(tx) {
+                tx.executeSql('SELECT idProducto, nombreProducto FROM tblProductos', [], okCarga, errorSelect);
+            }
+
+            // Query the success callback
+            //
+            function okCarga(tx, results) {
+                var len = results.rows.length;
+                console.log("tblProductos: " + len + " rows found.");
+                for (var i = 0; i < len; i++) {
+                    var item = '';
+                    item = "<option value=" + results.rows.item(i).idProducto + ">" + results.rows.item(i).nombreProducto + "</option>";
+                    $("#selectProd").append(item);
+                }
+            }
+
+            function errorSelect(error) {
+                console.log("Error processing SQL: " + error.code);
+            }
+
+            // Transaction error callback
+            //
+            function errorCB(err) {
+                console.log("Error processing SQL: " + err.code);
+            }
+
+            // Transaction success callback
+            //
+            function successCB() {
+                console.log("PRODUCTOS CARGADOS CORRECTAMENTE");
+                //var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
+            }
+
+            $('#selectProd').on('change', function() {
+                $("#lista_accordion").empty();
+                var selected = $(this).find("option:selected").val();
+                localStorage.setItem('ProdRec', selected);
+                cargaRecetas();
+            });
+
+        });
+
+        function alertDismissed() {}
+
+        function checkConnection() {
+            networkState = navigator.connection && navigator.connection.type;
+
+            setTimeout(function() {
+                networkState = navigator.connection && navigator.connection.type;
+
+                var states = {};
+                states[Connection.UNKNOWN] = 'Unknown connection';
+                states[Connection.ETHERNET] = 'Ethernet connection';
+                states[Connection.WIFI] = 'WiFi connection';
+                states[Connection.CELL_2G] = 'Cell 2G connection';
+                states[Connection.CELL_3G] = 'Cell 3G connection';
+                states[Connection.CELL_4G] = 'Cell 4G connection';
+                states[Connection.NONE] = 'No network connection';
+
+                //alert('Connection type: ' + states[networkState] + ' idState: '+ networkState + ' idProd: ' + localStorage.getItem('ProdRec'));
+
+                if (networkState != Connection.NONE) {
+                    cargaRecetas();
+                } else {
+                    navigator.notification.alert(
+                        'Connection unavailable , try again later', // message
+                        alertDismissed, // callback
+                        'the network is not avaliable', // title
+                        'Done' // buttonName
+                    );
+
+                }
+
+
+
+            }, 500);
+        }
+
+
+
+        function cargaRecetas() {
+
+            if (localStorage.getItem("ProdRec") == 'null') {
+                $.ajax({
+                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetas.php",
+                    type: "POST",
+                    data: accion,
+                    success: function(data) {
+
+                        $(data).each(function(index, data) {
+
+                            var item = '';
+                            item += "<div class='panel panel-default'><a data-toggle='collapse' data-parent='#lista_accordion' href='#panelDetalle" + data.idTipoReceta + "'><div class='panel-heading'><h4 class='panel-title'><b>" + data.TipoReceta + "</b><span class='badge pull-right'>" + data.Total + "</span></h4></div></a>";
+                            item += "<div id='panelDetalle" + data.idTipoReceta + "' class='panel-collapse collapse'><div class='panel-body'></div></div>"
+                            item += "</div>";
+
+                            $(function() {
+
+                                $('#panelDetalle' + data.idTipoReceta).collapse('hide');
+                                var idTR = data.idTipoReceta;
+                                var accion = "idTipoReceta=" + idTR;
+                                $.ajax({
+                                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetasDetalle.php",
+                                    type: "POST",
+                                    data: accion,
+                                    success: function(data) {
+                                        item2 = '';
+                                        item2 += "<div class='list-group'>";
+                                        $(data).each(function(index, data) {
+
+                                            item2 += "<a class='list-group-item' href='javascript:void(0);' onclick='muestraReceta(\"" + data.tituloReceta + "\",\"" + data.descripcionReceta + "\"); return false;'><h6>" + data.tituloReceta + "</h6></a>";
+
+                                        });
+                                        item2 += "</div>";
+                                        $("#panelDetalle" + idTR).append(item2);
+                                    }
+                                });
+                            });
+
+                            $("#lista_accordion").append(item);
+                        });
+                    }
+
+                });
+
+
+            } else {
+
+                var accion = "idProducto=" + localStorage.getItem('ProdRec');
+                $.ajax({
+                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetasProd.php",
+                    type: "POST",
+                    data: accion,
+                    success: function(data) {
+
+                        $(data).each(function(index, data) {
+
+                            var item = '';
+                            item += "<div class='panel panel-default'><a data-toggle='collapse' data-parent='#lista_accordion' href='#panelDetalle" + data.idTipoReceta + "'><div class='panel-heading'><h4 class='panel-title'><b>" + data.TipoReceta + "</b><span class='badge pull-right'>" + data.Total + "</span></h4></div></a>";
+                            item += "<div id='panelDetalle" + data.idTipoReceta + "' class='panel-collapse collapse'><div class='panel-body'></div></div>"
+                            item += "</div>";
+
+                            $(function() {
+
+                                $('#panelDetalle' + data.idTipoReceta).collapse('hide');
+                                var idTR = data.idTipoReceta;
+                                var accion = "idTipoReceta=" + idTR + "&idProducto=" + localStorage.getItem('ProdRec');
+                                $.ajax({
+                                    url: "http://" + localStorage.getItem('IPSERVER') + "/Foodsave_php/listaRecetasDetalleProd.php",
+                                    type: "POST",
+                                    data: accion,
+                                    success: function(data) {
+                                        item2 = '';
+                                        item2 += "<div class='list-group'>";
+                                        $(data).each(function(index, data) {
+
+                                            item2 += "<a class='list-group-item' href='javascript:void(0);' onclick='muestraReceta(\"" + data.tituloReceta + "\",\"" + data.descripcionReceta + "\")'><h6>" + data.tituloReceta + "</h6></a>";
+
+                                        });
+                                        item2 += "</div>";
+                                        $("#panelDetalle" + idTR).append(item2);
+                                    }
+                                });
+                            });
+
+                            $("#lista_accordion").append(item);
+                        });
+                    }
+
+                });
+
+            }
+
+
+        }
+
+        function muestraReceta(titulo, descripcion) {
+            $('#receta #tituloModal').html(titulo);
+            $('#receta #txtdescripReceta').html(descripcion);
+            $('#receta').modal('show');
+        }
+
+        function regresaAnt() {
+            window.location = 'index.html';
+        }
+    </script>
+    <!-- VENTANA MODAL PARA MOSTRAR LA RECETA-->
+    <div class="modal fade" id="receta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="tituloModal"></h4>
+                </div>
+                <div class="col-xs-12">
+                    <div class="modal-body">
+                        <pre class="pre-scrollable"><p id="txtdescripReceta"></p>
+                              </pre>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina ventana modal-->
+
+</body>

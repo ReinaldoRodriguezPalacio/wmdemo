@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/06/2017, 06:28:37 AM
+    Author     : rey
+*/
+
+
+
+.img-responsive{
+margin: 0 auto;
+}
+
+.navbar-text{
+    color: aliceblue;
+    font-size: 14px;
+    white-space: normal;
+}
+
+.loading{
+    display: none;
+    width: 100%;
+    position: relative; 
+    z-index: 100;
+    height: 100%;
+   top: 0px;
+   left: 0px;
+   position: fixed;
+}
+
+#logoCentro{
+    margin: auto;
+    z-index: 100;
+}
+
+#fondo{
+    background-color: #000; 
+    position:fixed; 
+    z-index:98; 
+    top:0; 
+    left:0; 
+    right:0; 
+    bottom:0; 
+    opacity:0.6;
+}
+
+.section {
+    margin: 15px 0 5px 10px;
+    border-bottom: 2px solid;
+}
+.container {
+    display: -webkit-flex;
+    display: flex;
+    margin: 0px 10px;
+}
+.container div {
+    -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+    box-shadow:inset 0px 1px 0px 0px #caefab;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+    background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+    background-color:#77d42a;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    text-indent:0px;
+    border:1px solid #268a16;
+    display:inline-block;
+    color:#244906;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    min-height:30px;
+    max-height:42px;
+    line-height:30px;
+    width:100%;
+    margin:5px;
+    text-transform:none;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0px #aade7c;
+}
+.container div:active {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
+    background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
+    background-color:#5cb811;
+}
+.container div span {
+    font-size:10px;
+    position:relative;
+    top:-15px;
+}
+.copyright {
+    text-align:right;
+    padding:10px 15px 5px 0;
+}

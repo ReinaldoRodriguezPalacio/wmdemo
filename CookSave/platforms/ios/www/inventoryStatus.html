@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    
+      <title>TIPS</title>
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="css/animate.css"/>  
+      <link type="text/css" rel="stylesheet" href="css/cook.css"  media="screen,projection"/>
+      <link rel="stylesheet" type="text/css" href="css/select2.css">
+      <link rel="stylesheet" href="css/materialize.css" type="text/css">
+      <link rel="stylesheet" type="text/css" href="css/fonts.css" />
+    </head>
+    <body>
+        <!-- Cargando Datos -->
+        <div class="loading">
+            <div id="fondo"></div>
+            <div id="logoCentro">
+                <img src="img/puroLogoCS.png">
+                <div class="progress">
+                    <div class="indeterminate">L O A D I N G</div>
+                </div>
+            </div>
+        </div>
+  <nav>
+    <div class="nav-wrapper orange darken-2">
+      <a href="#!" class="brand-logo">Cook</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="side-nav grey lighten-3 " id="mobile-demo">
+          <li><div class="logoMenu center">
+            <div class="background">
+                <img src="img/puroLogoCS.png">
+            </div></div> </li>
+            <li><a href="addProduct.html">Add Products</a></li>
+            <li><a href="#"  class="activeMnu">Inventory Status</a></li>
+            <li><a href="recipes.html">Cook</a></li>
+            <li><a href="tips.html">Information</a></li>
+      </ul>
+    </div>
+  </nav>
+
+        <button class="btn btn-success btn-lg btn-block transition" role="button" onclick="getAll()">REFRESH</button>
+        <div class="list-group" id="listaNotif"></div>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/select2.js"></script>
+    <script type="text/javascript" src="js/foodessentials.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function(){
+            $(".button-collapse").sideNav();
+            $('select').material_select();
+            
+  $(document).ajaxStart(function() {
+                $('.loading').css('display', 'flex');
+            });
+
+            $(document).ajaxComplete(function() {
+                $('.loading').css('display', 'none');
+            });
+        });
+
+        var callbackOpts = function(notifications) {
+            console.log(notifications);
+            var textos = '';
+            var item = '';
+            var boton = '';
+
+            for (i = 0; i < notifications.length; i++) {
+                item = '';
+                boton = '';
+                item = "<div class='list-group-item'>";
+                item += "<table style='text-align: left; width: 100%;' cellpadding='2' cellspacing='2'><tbody><tr><td colspan='1' rowspan='2' style='vertical-align: top; text-align: left; width:80%'><h6><b>" + notifications[i].text + "</b>" + notifications[i].title + "</h6></td><td style='vertical-align: top; text-align: center;'><button type='button' class='btn btn-sm btn-success' onCLick='verifId(" + notifications[i].id + ")'><span class='glyphicon glyphicon-hourglass'/></button></td></tr><tr align='center'><td style='vertical-align: top;'><button type='button' class='btn btn-sm btn-danger' onCLick='confirma(" + notifications[i].id + ")'><span class='glyphicon glyphicon-remove-circle'/></button></td></tr></tbody></table></div>";
+
+                $("#listaNotif").append(item);
+            }
+            //showToast(notifications.length === 0 ? '- none -' : textos);
+        };
+
+        getAll = function() {
+            $('#listaNotif').empty();
+            cordova.plugins.notification.local.getAll(callbackOpts);
+        };
+
+        confirma = function(id) {
+            localStorage.setItem('NotiBorra', id);
+            // navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+            navigator.notification.confirm(
+                'Are you sure to delete this notification?. THIS ACTION CAN NOT BE UNDONE!!', //message
+                cancel, //confirmCallback 
+                'Cancel Notification', //[title] 
+                ['Sí', 'No'] //[buttonLabels])
+            );
+        };
+
+        verifId = function(id) {
+            alert("Notification number: " + id);
+        };
+
+        cancel = function(buttonIndex) {
+            if (buttonIndex == 1) {
+                cordova.plugins.notification.local.cancel(localStorage.getItem('NotiBorra'), callback);
+            }
+        };
+
+        callback = function() {
+            navigator.notification.alert(
+                'Notification canceled!!', // message
+                alertDismissed, // callback
+                '', // title
+                'Done' // buttonName
+            );
+        };
+
+        getIds = function() {
+            cordova.plugins.notification.local.getIds(callbackIds);
+        };
+
+        function alertDismissed() {
+            window.location = 'configNoti.html';
+        }
+
+        function regresaAnt() {
+            window.location = 'estatus.html';
+        }
+    </script>
+
+    <!-- VENTANA MODAL PARA MOSTRAR LA DESCRIPCION DE LA RECOMENDACION-->
+    <div class="modal fade" id="recomendaciones" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="tituloModal"></h4>
+                </div>
+                <div class="col-xs-12">
+                    <div class="modal-body">
+                        <div class="text-align-center">
+                            <img alt="recomend" class="img-responsive" id="imgRecomendacion">
+                            <pre class="pre-scrollable">                                    <p id="txtdescripRecomendacion"></p>
+                              </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina ventana modal-->
+</body>
+</html>
